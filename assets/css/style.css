@@ -7,10 +7,10 @@
 
 :root {
     /* Colors */
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
+    --primary-color: #065f46;
+    --primary-dark: #064e3b;
     --secondary-color: #f59e0b;
-    --accent-color: #10b981;
+    --accent-color: #059669;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #9ca3af;
@@ -394,7 +394,7 @@ body {
 
 .our-project-card.active {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.1);
 }
 
 .our-project-card.coming-soon {
@@ -995,7 +995,7 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(6, 95, 70, 0.1);
 }
 
 .form-group textarea {
