@@ -364,18 +364,18 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <form name="contact" method="POST" data-netlify="true">
                         <div class="form-group">
-                            <input type="text" placeholder="Nom complet" required>
+                            <input type="text" name="nom" placeholder="Nom complet" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" placeholder="Email" required>
+                            <input type="email" name="email" placeholder="Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Sujet" required>
+                            <input type="text" name="sujet" placeholder="Sujet" required>
                         </div>
                         <div class="form-group">
-                            <select required>
+                            <select name="territoire" required>
                                 <option value="">Sélectionnez votre territoire</option>
                                 <option value="guadeloupe">Guadeloupe</option>
                                 <option value="martinique">Martinique</option>
@@ -392,7 +392,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select required>
+                            <select name="type" required>
                                 <option value="">Type de demande</option>
                                 <option value="information">Demande d'information</option>
                                 <option value="partenariat">Partenariat</option>
@@ -401,7 +401,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <textarea placeholder="Votre message" rows="4"></textarea>
+                            <textarea name="message" placeholder="Votre message" rows="4"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer le message</button>
                     </form>
