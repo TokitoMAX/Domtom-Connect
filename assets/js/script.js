@@ -97,10 +97,18 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     };
     
+    // Disable animations on mobile to prevent jitter
+    const isMobile = window.innerWidth <= 768;
+    
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in-up');
+                if (!isMobile) {
+                    entry.target.classList.add('animate-fade-in-up');
+                } else {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'none';
+                }
                 observer.unobserve(entry.target);
             }
         });

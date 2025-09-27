@@ -165,8 +165,7 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    position: relative;
 }
 
 .hero-container {
@@ -1265,6 +1264,15 @@ body {
     animation: fadeInUp 0.6s ease-out;
 }
 
+/* Disable animations on mobile */
+@media (max-width: 768px) {
+    .animate-fade-in-up {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
 .animate-fade-in-left {
     animation: fadeInLeft 0.6s ease-out;
 }
@@ -1293,19 +1301,18 @@ body.menu-open {
     }
     
     .hero {
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        will-change: transform;
+        transform: none !important;
+        -webkit-transform: none !important;
     }
     
     .section {
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
+        transform: none !important;
+        -webkit-transform: none !important;
     }
     
     .container {
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
+        transform: none !important;
+        -webkit-transform: none !important;
     }
 }
 
