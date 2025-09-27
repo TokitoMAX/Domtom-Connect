@@ -5,20 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
-    console.log('Hamburger:', hamburger);
-    console.log('Nav Menu:', navMenu);
-    
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Hamburger clicked');
             
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            
-            console.log('Hamburger active:', hamburger.classList.contains('active'));
-            console.log('Nav menu active:', navMenu.classList.contains('active'));
         });
         
         // Close mobile menu when clicking on a link
@@ -44,8 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 navMenu.classList.remove('active');
             }
         });
-    } else {
-        console.log('Hamburger or nav menu not found');
     }
     
     // Smooth scrolling for navigation links
@@ -282,12 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.animationDelay = `${index * 0.1}s`;
     });
     
-    // Service cards stagger animation
-    const serviceCards = document.querySelectorAll('.services-grid .service-card');
-    serviceCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-    });
-    
     // Lazy loading for images (if any are added later)
     const images = document.querySelectorAll('img[data-src]');
     const imageObserver = new IntersectionObserver(function(entries) {
@@ -504,7 +489,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Territory card click functionality
-    const territoryCards = document.querySelectorAll('.territory-card');
     territoryCards.forEach(card => {
         card.addEventListener('click', function() {
             const territoryName = this.querySelector('h3').textContent;
