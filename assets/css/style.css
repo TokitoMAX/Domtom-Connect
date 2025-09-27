@@ -1118,6 +1118,8 @@ body {
         box-shadow: var(--shadow-medium);
         padding: var(--spacing-lg) 0;
         z-index: 1000;
+        height: calc(100vh - 70px);
+        overflow-y: auto;
     }
     
     .nav-menu.active {
@@ -1126,6 +1128,20 @@ body {
     
     .nav-menu li {
         margin: var(--spacing-md) 0;
+    }
+    
+    .nav-menu li a {
+        display: block;
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: var(--font-size-lg);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: var(--transition-fast);
+    }
+    
+    .nav-menu li a:hover {
+        background-color: var(--bg-secondary);
+        color: var(--primary-color);
     }
     
     .hero-container {
