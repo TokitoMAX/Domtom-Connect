@@ -130,12 +130,13 @@ body {
     color: white;
 }
 
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    z-index: 1001;
-}
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        z-index: 1001;
+        position: relative;
+    }
 
 .hamburger .bar {
     width: 25px;
@@ -1114,7 +1115,7 @@ body {
         background-color: white;
         width: 100%;
         text-align: center;
-        transition: var(--transition-normal);
+        transition: left 0.3s ease;
         box-shadow: var(--shadow-medium);
         padding: var(--spacing-lg) 0;
         z-index: 1000;
@@ -1123,7 +1124,7 @@ body {
     }
     
     .nav-menu.active {
-        left: 0;
+        left: 0 !important;
     }
     
     .nav-menu li {
