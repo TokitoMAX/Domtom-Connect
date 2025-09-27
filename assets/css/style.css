@@ -165,6 +165,8 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .hero-container {
@@ -1281,6 +1283,30 @@ body.menu-open {
     overflow: hidden;
     position: fixed;
     width: 100%;
+}
+
+/* Fix mobile scroll jitter */
+@media (max-width: 768px) {
+    body {
+        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden;
+    }
+    
+    .hero {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+    }
+    
+    .section {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .container {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
 }
 
 /* Loading states */
