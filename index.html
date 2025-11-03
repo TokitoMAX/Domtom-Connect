@@ -3,102 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domtom Connect - Valorisation des Projets des Îles</title>
-    <meta name="description" content="Domtom Connect met en avant les projets économiques, culturels, environnementaux et sociaux des îles françaises et indépendantes. Découvrez, soutenez et investissez dans l'avenir des territoires insulaires.">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- CSS -->
+    <title>Domtom Connect - Rejoignez le mouvement des îles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
+        <div class="container">
+            <div class="nav-brand">
                 <h2>Domtom Connect</h2>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#accueil" class="nav-link">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#nos-projets" class="nav-link">Nos projets</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#territoires" class="nav-link">Territoires</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#apropos" class="nav-link">À propos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link cta-button">Soumettre un projet</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="nav-actions">
+                <button class="nav-button" onclick="scrollToForm()">Rejoindre</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="accueil" class="hero">
-        <div class="hero-container">
+    <!-- BLOC 1 - Haut de page -->
+    <section class="hero-section">
+        <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">
-                    Valorisons les <span class="highlight">projets des îles</span> françaises et indépendantes
-                </h1>
-                <p class="hero-description">
-                    Domtom Connect est la première plateforme dédiée à la mise en avant des projets économiques, culturels, 
-                    environnementaux et sociaux des territoires insulaires. Découvrez, soutenez et investissez dans l'avenir des îles.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#nos-projets" class="btn btn-primary">Découvrir nos projets</a>
-                    <a href="#contact" class="btn btn-secondary">Nous contacter</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <h3>100%</h3>
-                        <p>Authentique</p>
-                    </div>
-                    <div class="stat">
-                        <h3>0</h3>
-                        <p>Données fictives</p>
-                    </div>
-                    <div class="stat">
-                        <h3>∞</h3>
-                        <p>Potentiel</p>
+                <div class="hero-text">
+                    <h1 class="hero-title">Connectons les talents et les projets des îles</h1>
+                    <p class="hero-subtitle">
+                        Rejoignez Domtom Connect, le réseau qui relie porteurs de projets, entrepreneurs et investisseurs des territoires insulaires et ultramarins.
+                    </p>
+                    <p class="hero-description">
+                        Ensemble, faisons émerger une économie unie, créative et indépendante.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="cta-button primary" onclick="scrollToForm()">Rejoindre le mouvement</button>
+                        <button class="cta-button secondary" onclick="scrollToFeatures()">Découvrir</button>
                     </div>
                 </div>
-            </div>
-            <div class="hero-image">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="app-preview">
-                            <div class="app-header">
-                                <div class="app-logo">DC</div>
-                                <h4>Domtom Connect</h4>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <div class="card-header">
+                            <div class="card-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
-                            <div class="app-content">
-                                <div class="feature-card">
-                                    <i class="fas fa-lightbulb"></i>
-                                    <h5>Projets Innovants</h5>
-                                </div>
-                                <div class="feature-card">
-                                    <i class="fas fa-map-marked-alt"></i>
-                                    <h5>Territoires Insulaires</h5>
-                                </div>
-                                <div class="feature-card">
-                                    <i class="fas fa-handshake"></i>
-                                    <h5>Partenariats</h5>
-                                </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-item">
+                                <div class="stat-number">🚀</div>
+                                <div class="stat-label">Phase de lancement</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">🌱</div>
+                                <div class="stat-label">Communauté en croissance</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">🎯</div>
+                                <div class="stat-label">Impact local</div>
                             </div>
                         </div>
                     </div>
@@ -107,77 +68,96 @@
         </div>
     </section>
 
-    <!-- Our Projects Section -->
-    <section id="nos-projets" class="our-projects">
+    <!-- BLOC 2 - 3 caractéristiques -->
+    <section class="features-section" id="features">
         <div class="container">
             <div class="section-header">
-                <h2>Nos projets</h2>
-                <p>Découvrez les initiatives que nous développons pour les territoires insulaires</p>
+                <h2>Nos piliers</h2>
+                <p>Trois valeurs fondamentales qui guident notre mission</p>
             </div>
-            <div class="our-projects-grid">
-                <div class="our-project-card active">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                            <path d="M19 15L20.09 21.26L27 22L20.09 22.74L19 29L17.91 22.74L11 22L17.91 21.26L19 15Z" fill="currentColor"/>
+                        </svg>
                     </div>
-                    <div class="project-content">
-                        <div class="project-status">En développement</div>
-                        <h3>Île Libre</h3>
-                        <p>Système de troc innovant pour les territoires insulaires. Une plateforme qui facilite les échanges locaux et renforce la solidarité communautaire.</p>
-                        <div class="project-details">
-                            <span class="project-type"><i class="fas fa-tag"></i> Économie collaborative</span>
-                            <span class="project-stage"><i class="fas fa-cog"></i> En amélioration</span>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 70%"></div>
-                            </div>
-                            <span>70% développé</span>
-                        </div>
+                    <h3>Connecter</h3>
+                    <p>Mettre en lien les talents des îles et de la diaspora pour créer des synergies durables.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Valoriser</h3>
+                    <p>Donner de la visibilité aux initiatives locales et promouvoir l'excellence insulaire.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                            <path d="M19 15L20.09 21.26L27 22L20.09 22.74L19 29L17.91 22.74L11 22L17.91 21.26L19 15Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Investir</h3>
+                    <p>Soutenir des projets concrets à fort impact humain et territorial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOC 3 - Grand encart -->
+    <section class="vision-section">
+        <div class="container">
+            <div class="vision-content">
+                <div class="vision-text">
+                    <h2>Ensemble, faisons grandir les projets des îles</h2>
+                    <p class="vision-description">
+                        Les territoires insulaires et ultramarins regorgent d'idées innovantes, de créativité entrepreneuriale et de courage. Ce qui manque aux projets des îles, ce n'est pas le potentiel économique ou humain : c'est le réseau et le lien entre les talents.
+                    </p>
+                    <p class="vision-subtitle">
+                        Domtom Connect est la plateforme qui crée ce pont entre les porteurs de projets, les entrepreneurs, les créateurs d'entreprises et les investisseurs des DOM-TOM. Rejoignez le réseau qui fait grandir les projets des territoires insulaires français.
+                    </p>
+                    <div class="vision-button-container">
+                        <button class="cta-button primary" onclick="scrollToForm()">Je rejoins la vision</button>
                     </div>
                 </div>
-                <div class="our-project-card coming-soon">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-status">Bientôt</div>
-                        <h3>Projet #2</h3>
-                        <p>Un nouveau projet innovant pour les territoires insulaires. Plus d'informations à venir prochainement.</p>
-                        <div class="project-details">
-                            <span class="project-type"><i class="fas fa-tag"></i> À définir</span>
-                            <span class="project-stage"><i class="fas fa-clock"></i> En préparation</span>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 20%"></div>
+                <div class="vision-visual">
+                    <div class="vision-graphic">
+                        <div class="island-illustration">
+                            <div class="island-group">
+                                <div class="island island-1">🏝️</div>
+                                <div class="island island-2">🏝️</div>
+                                <div class="island island-3">🏝️</div>
                             </div>
-                            <span>En préparation</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="our-project-card coming-soon">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-status">Bientôt</div>
-                        <h3>Projet #3</h3>
-                        <p>Un troisième projet ambitieux pour les territoires insulaires. Détails à annoncer prochainement.</p>
-                        <div class="project-details">
-                            <span class="project-type"><i class="fas fa-tag"></i> À définir</span>
-                            <span class="project-stage"><i class="fas fa-clock"></i> En préparation</span>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 15%"></div>
+                            <div class="connection-lines">
+                                <div class="line line-1"></div>
+                                <div class="line line-2"></div>
+                                <div class="line line-3"></div>
                             </div>
-                            <span>En préparation</span>
+                            <div class="network-center">
+                                <div class="center-icon">🌊</div>
+                                <div class="center-text">Domtom Connect</div>
+                            </div>
+                        </div>
+                        <div class="vision-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">💡</span>
+                                <span class="stat-text">Idées créatives</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">🤝</span>
+                                <span class="stat-text">Collaboration</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">🚀</span>
+                                <span class="stat-text">Innovation</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -185,278 +165,253 @@
         </div>
     </section>
 
-    <!-- Territories Section -->
-    <section id="territoires" class="territories">
+    <!-- BLOC 4 - Citation/Témoignage -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="testimonial-content">
+                <div class="testimonial-quote">
+                    <div class="quote-mark">"</div>
+                    <blockquote>
+                        Quand les îles s'unissent, elles cessent d'être isolées. Elles deviennent une force.
+                    </blockquote>
+                    <cite>— Domtom Connect</cite>
+                </div>
+                <div class="testimonial-visual">
+                    <div class="testimonial-card">
+                        <div class="card-header">
+                            <div class="avatar-group">
+                                <div class="avatar"></div>
+                                <div class="avatar"></div>
+                                <div class="avatar"></div>
+                                <div class="avatar-more">+</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h4>Communauté en construction</h4>
+                            <p>Rejoignez les premiers membres qui croient au potentiel des territoires insulaires</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOC 5 - Services/Comment ça marche -->
+    <section class="services-section">
         <div class="container">
             <div class="section-header">
-                <h2>Territoires représentés</h2>
-                <p>Découvrez les îles françaises et indépendantes de notre réseau</p>
+                <h2>Comment ça marche ?</h2>
+                <p>Quatre étapes simples pour rejoindre notre écosystème</p>
             </div>
-            <div class="territories-grid">
-                <div class="territory-card">
-                    <div class="territory-flag">🇬🇵</div>
-                    <h3>Guadeloupe</h3>
-                    <p>Antilles françaises</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-number">01</div>
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <h3>Remplissez le formulaire d'inscription</h3>
+                    <p>Partagez vos informations et présentez votre projet ou vos motivations pour rejoindre la communauté Domtom Connect.</p>
                 </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇲🇶</div>
-                    <h3>Martinique</h3>
-                    <p>Antilles françaises</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
+                <div class="service-card">
+                    <div class="service-number">02</div>
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 16.92V19.92C22.0011 20.1985 21.9441 20.4742 21.8325 20.7292C21.7209 20.9842 21.5573 21.2131 21.352 21.4014C21.1467 21.5896 20.9044 21.7331 20.6397 21.8225C20.375 21.9119 20.0941 21.9452 19.816 21.92C16.7428 21.5857 13.787 20.5342 11.19 18.85C8.77382 17.3148 6.72533 15.2663 5.19 12.85C3.49997 10.2412 2.44824 7.27099 2.12 4.18C2.09477 3.90347 2.12787 3.62377 2.21666 3.35976C2.30545 3.09575 2.44785 2.85361 2.63465 2.64838C2.82145 2.44315 3.04851 2.27921 3.3015 2.16684C3.5545 2.05447 3.82803 1.99609 4.106 2H7.106C7.68151 1.99522 8.23698 2.16708 8.69348 2.48953C9.14999 2.81198 9.48374 3.26895 9.646 3.79L10.826 7.29C10.9569 7.73026 10.9823 8.20201 10.8998 8.65506C10.8173 9.10811 10.6294 9.52709 10.356 9.87L8.536 12.15C9.93358 14.1992 11.7909 15.9284 13.986 17.2L16.266 15.38C16.6086 15.1075 17.0267 14.9201 17.4789 14.8377C17.9312 14.7553 18.4022 14.7805 18.846 14.91L22.316 16.09C22.8375 16.2533 23.2949 16.5876 23.6178 17.0443C23.9407 17.501 24.1131 18.0564 24.108 18.632L22.108 18.632Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <h3>Un appel pour échanger</h3>
+                    <p>Nous prenons contact avec vous pour un échange personnalisé. Cet appel nous permet de mieux comprendre vos projets, vos motivations et d'établir une connexion authentique avant la validation.</p>
                 </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇬🇫</div>
-                    <h3>Guyane</h3>
-                    <p>Amérique du Sud</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
+                <div class="service-card">
+                    <div class="service-number">03</div>
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <h3>Validation de votre profil</h3>
+                    <p>Notre équipe examine chaque candidature pour s'assurer de la qualité et de la pertinence des membres. Nous privilégions les profils viables et engagés.</p>
                 </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇷🇪</div>
-                    <h3>La Réunion</h3>
-                    <p>Océan Indien</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
+                <div class="service-card">
+                    <div class="service-number">04</div>
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <h3>Accès au groupe WhatsApp privé</h3>
+                    <p>Une fois accepté, vous recevrez l'invitation pour rejoindre notre groupe WhatsApp privé, où vous pourrez échanger avec la communauté et découvrir les opportunités.</p>
                 </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇾🇹</div>
-                    <h3>Mayotte</h3>
-                    <p>Océan Indien</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇳🇨</div>
-                    <h3>Nouvelle-Calédonie</h3>
-                    <p>Pacifique Sud</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇵🇫</div>
-                    <h3>Polynésie française</h3>
-                    <p>Pacifique Sud</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇼🇫</div>
-                    <h3>Wallis-et-Futuna</h3>
-                    <p>Pacifique Sud</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇵🇲</div>
-                    <h3>Saint-Pierre-et-Miquelon</h3>
-                    <p>Amérique du Nord</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇲🇫</div>
-                    <h3>Saint-Martin</h3>
-                    <p>Antilles</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🇧🇱</div>
-                    <h3>Saint-Barthélemy</h3>
-                    <p>Antilles</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
-                <div class="territory-card">
-                    <div class="territory-flag">🌴</div>
-                    <h3>Îles Indépendantes</h3>
-                    <p>Caraïbes & Pacifique</p>
-                    <div class="territory-stats">
-                        <span>En attente</span>
-                        <span>Projets futurs</span>
-                    </div>
-                </div>
+            </div>
+            <div class="services-cta">
+                <button class="cta-button primary" onclick="scrollToForm()">Rejoindre la communauté</button>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="apropos" class="about">
+    <!-- BLOC 6 - Transformation personnelle -->
+    <section class="transformation-section">
         <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Notre mission</h2>
-                    <p>
-                        Domtom Connect naît de la conviction que les territoires insulaires regorgent de projets innovants 
-                        qui méritent d'être valorisés et soutenus. Notre mission est de créer un écosystème qui facilite 
-                        la découverte, le financement et la réalisation des initiatives locales.
+            <div class="transformation-content">
+                <div class="transformation-text">
+                    <h2>Deviens un acteur du changement insulaire</h2>
+                    <p class="transformation-description">
+                        Domtom Connect est bien plus qu'une plateforme de networking professionnel : c'est un mouvement entrepreneurial porté par les pionniers qui croient au potentiel des territoires insulaires et ultramarins avant les autres.
                     </p>
-                    <p>
-                        Nous connectons les porteurs de projets, les investisseurs, les partenaires et les institutions 
-                        pour créer un réseau solidaire qui dynamise l'économie et la culture des îles françaises et indépendantes.
+                    <p class="transformation-subtitle">
+                        Si vous faites partie de cette première vague de membres, vous participerez activement à écrire une nouvelle histoire économique et sociale pour les territoires insulaires. Rejoignez la communauté des acteurs du changement insulaire.
                     </p>
-                    <div class="about-features">
-                        <div class="about-feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Valorisation des projets locaux</span>
-                        </div>
-                        <div class="about-feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Respect de la diversité culturelle</span>
-                        </div>
-                        <div class="about-feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Développement durable</span>
-                        </div>
+                    <div class="transformation-button-container">
+                        <button class="cta-button primary" onclick="scrollToForm()">Rejoindre la première vague</button>
                     </div>
                 </div>
-                <div class="about-image">
-                    <div class="image-placeholder">
-                        <i class="fas fa-globe-americas"></i>
-                        <p>Îles Connectées</p>
+                <div class="transformation-visual">
+                    <div class="transformation-card">
+                        <div class="card-content">
+                            <h4>Rejoignez les pionniers</h4>
+                            <div class="pioneer-stats">
+                                <div class="pioneer-item">
+                                    <span class="pioneer-number">🚀</span>
+                                    <span class="pioneer-label">Phase de lancement</span>
+                                </div>
+                                <div class="pioneer-item">
+                                    <span class="pioneer-number">🌱</span>
+                                    <span class="pioneer-label">Communauté en croissance</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- BLOC 7 - FAQ -->
+    <section class="faq-section">
         <div class="container">
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h2>Intéressé par nos projets ?</h2>
-                    <p>
-                        Découvrez nos initiatives pour les territoires insulaires et contactez-nous pour en savoir plus. 
-                        Nous développons des solutions innovantes pour dynamiser les îles françaises et indépendantes.
-                    </p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>domtomconnect@gmail.com</span>
-                        </div>
+            <div class="section-header">
+                <h2>Questions fréquentes</h2>
+                <p>Tout ce que vous devez savoir sur Domtom Connect</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Qui peut rejoindre ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Toute personne liée aux territoires insulaires : porteurs de projets, entrepreneurs, investisseurs, étudiants, ou membres de la diaspora.</p>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form action="https://formspree.io/f/xdkwanvy" method="POST">
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Nom complet" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="subject" placeholder="Sujet" required>
-                        </div>
-                        <div class="form-group">
-                            <select name="territory" required>
-                                <option value="">Sélectionnez votre territoire</option>
-                                <option value="guadeloupe">Guadeloupe</option>
-                                <option value="martinique">Martinique</option>
-                                <option value="guyane">Guyane</option>
-                                <option value="reunion">La Réunion</option>
-                                <option value="mayotte">Mayotte</option>
-                                <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
-                                <option value="polynesie">Polynésie française</option>
-                                <option value="wallis-futuna">Wallis-et-Futuna</option>
-                                <option value="saint-pierre-miquelon">Saint-Pierre-et-Miquelon</option>
-                                <option value="saint-martin">Saint-Martin</option>
-                                <option value="saint-barthelemy">Saint-Barthélemy</option>
-                                <option value="iles-independantes">Îles indépendantes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select name="type" required>
-                                <option value="">Type de demande</option>
-                                <option value="information">Demande d'information</option>
-                                <option value="partenariat">Partenariat</option>
-                                <option value="collaboration">Collaboration</option>
-                                <option value="autre">Autre</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" placeholder="Votre message" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Envoyer le message</button>
-                    </form>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>L'adhésion est-elle payante ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Non. L'inscription est gratuite pour les pionniers de la première vague.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment participer ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>En rejoignant notre groupe WhatsApp privé après inscription.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quels types de projets ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Économie, culture, environnement, innovation sociale, tourisme durable, etc.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- BLOC 8 - Formulaire final -->
+    <section class="final-form-section" id="inscription-form">
+        <div class="container">
+            <div class="form-content">
+                <div class="form-header">
+                    <h2>Prêt à rejoindre le mouvement ?</h2>
+                    <p>Fais partie des premiers à croire au potentiel des îles. L'avenir commence maintenant.</p>
+                </div>
+                
+                <form class="inscription-form" id="inscription-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <input type="text" name="prenom" placeholder="Prénom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="telephone" placeholder="Téléphone" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="ile" required>
+                            <option value="">Sélectionnez votre île/territoire</option>
+                            <option value="martinique">Martinique</option>
+                            <option value="guadeloupe">Guadeloupe</option>
+                            <option value="guyane">Guyane</option>
+                            <option value="reunion">La Réunion</option>
+                            <option value="mayotte">Mayotte</option>
+                            <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                            <option value="polynesie">Polynésie française</option>
+                            <option value="wallis-futuna">Wallis-et-Futuna</option>
+                            <option value="saint-pierre-miquelon">Saint-Pierre-et-Miquelon</option>
+                            <option value="diaspora">Diaspora</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="profil" required>
+                            <option value="">Votre profil</option>
+                            <option value="porteur-projet">Porteur de projet</option>
+                            <option value="entrepreneur">Entrepreneur</option>
+                            <option value="investisseur">Investisseur</option>
+                            <option value="etudiant">Étudiant</option>
+                            <option value="professionnel">Professionnel</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Parlez-nous de votre projet ou de vos motivations (optionnel)" rows="4"></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" name="newsletter" checked>
+                            Je souhaite recevoir les actualités de Domtom Connect
+                        </label>
+                    </div>
+                    <button type="submit" class="cta-button primary large">Je rejoins Domtom Connect</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Domtom Connect</h3>
-                    <p>La plateforme qui valorise les projets des îles françaises et indépendantes.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Plateforme</h4>
-                    <ul>
-                        <li><a href="#nos-projets">Nos projets</a></li>
-                        <li><a href="#territoires">Territoires</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:domtomconnect@gmail.com">domtomconnect@gmail.com</a></li>
-                        <li><a href="#contact">Nous contacter</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="#accueil">Accueil</a></li>
-                        <li><a href="#nos-projets">Nos projets</a></li>
-                        <li><a href="#territoires">Territoires</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Domtom Connect. Tous droits réservés.</p>
-            </div>
+            <p>&copy; 2024 Domtom Connect. Tous droits réservés.</p>
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
 </body>
 </html>
