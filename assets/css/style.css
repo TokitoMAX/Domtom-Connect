@@ -205,11 +205,27 @@ p {
     background-color: transparent;
 }
 
+.nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .nav-brand-name {
-    color: var(--primary-color);
-    font-size: 1.35rem;
+    font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.01em;
+    background: linear-gradient(120deg, #00BFA6 0%, #0F3D2E 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.nav-brand-tagline {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(15, 61, 46, 0.6);
 }
 
 .nav-content {
@@ -238,6 +254,17 @@ p {
     transition: color 0.2s ease;
 }
 
+.nav-links a::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00BFA6 0%, #009E8A 100%);
+    opacity: 0;
+    transform: translateX(-8px) scale(0.5);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -261,6 +288,11 @@ p {
     transform: scaleX(1);
 }
 
+.nav-links a:hover::before {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
@@ -282,10 +314,28 @@ p {
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
+.nav-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.9rem;
+    transform: translateX(0);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
 .nav-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 28px -12px rgba(0, 168, 150, 0.85);
     filter: brightness(1.02);
+}
+
+.nav-button:hover .nav-button-icon {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .nav-toggle {
@@ -394,7 +444,11 @@ p {
 
 @media (max-width: 640px) {
     .nav-brand-name {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
+    }
+
+    .nav-brand-tagline {
+        font-size: 0.7rem;
     }
 
     .nav-logo {
