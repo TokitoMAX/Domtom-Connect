@@ -75,8 +75,20 @@
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </div>
-            <div class="nav-actions">
-                <button class="nav-button" onclick="scrollToForm()">Rejoindre</button>
+            <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="#about">À propos</a>
+                    <a href="#features">Piliers</a>
+                    <a href="#inscription-form">Inscription</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="nav-button" onclick="scrollToForm()">Rejoindre</button>
+                </div>
             </div>
         </div>
     </nav>

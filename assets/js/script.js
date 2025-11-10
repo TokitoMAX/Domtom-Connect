@@ -191,6 +191,70 @@ function redirectToThankYou() {
     window.location.href = 'merci.html';
 }
 
+// Navigation moderne (menu burger + état collant)
+function initNavigation() {
+    const navbar = document.querySelector('.navbar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navContent = document.querySelector('.nav-content');
+
+    if (!navbar || !navToggle || !navContent) {
+        return;
+    }
+
+    const closeMenu = () => {
+        navContent.classList.remove('is-open');
+        navToggle.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const toggleMenu = () => {
+        const isOpen = navContent.classList.toggle('is-open');
+        navToggle.classList.toggle('is-open', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    navToggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggleMenu();
+    });
+
+    navContent.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        const clickedOutsideMenu = !navContent.contains(event.target) && !navToggle.contains(event.target);
+        if (clickedOutsideMenu && navContent.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navContent.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+
+    const handleScroll = () => {
+        if (window.scrollY > 32) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 960) {
+            closeMenu();
+        }
+    });
+}
+
 // Fonction pour ajouter des animations au scroll
 function initScrollAnimations() {
     const observerOptions = {
@@ -289,6 +353,7 @@ function init() {
     }
     
     // Initialiser toutes les fonctionnalités
+    initNavigation();
     initScrollAnimations();
     initCTAButtons();
     initEmailSignup();
