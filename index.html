@@ -18,17 +18,18 @@
     <meta property="og:url" content="https://domtomconnect.com/">
     <meta property="og:title" content="Domtom Connect – Relier les territoires ultramarins et le monde">
     <meta property="og:description" content="Domtom Connect facilite les échanges, les connexions et les opportunités entre les DOM-TOM et le reste du monde.">
-    <meta property="og:image" content="https://domtomconnect.com/assets/images/og-image.jpg">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://domtomconnect.com/">
     <meta property="twitter:title" content="Domtom Connect – Relier les territoires ultramarins et le monde">
     <meta property="twitter:description" content="Domtom Connect facilite les échanges, les connexions et les opportunités entre les DOM-TOM et le reste du monde.">
-    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/og-image.jpg">
+    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo-domtomconnect.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +52,12 @@
       "name": "Domtom Connect",
       "description": "Réseau entrepreneurial connectant les porteurs de projets, entrepreneurs et investisseurs des territoires insulaires français",
       "url": "https://domtomconnect.com",
-      "logo": "https://domtomconnect.com/assets/images/logo.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
+        "width": 512,
+        "height": 512
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "email": "domtomconnect@gmail.com",
@@ -66,7 +72,8 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h2>Domtom Connect</h2>
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
             </div>
             <div class="nav-actions">
                 <button class="nav-button" onclick="scrollToForm()">Rejoindre</button>
