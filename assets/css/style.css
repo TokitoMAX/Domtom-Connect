@@ -181,11 +181,27 @@ p {
     justify-content: space-between;
 }
 
-.nav-brand h2 {
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: var(--shadow-sm);
+    padding: 4px;
+}
+
+.nav-brand-name {
     color: var(--primary-color);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    margin: 0;
+    letter-spacing: -0.01em;
 }
 
 .nav-button {
