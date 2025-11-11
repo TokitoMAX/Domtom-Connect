@@ -313,36 +313,9 @@ function initParallaxEffects() {
         return;
     }
 
-    const speed = 0.15;
-    const maxTranslate = 80;
-    let ticking = false;
-
-    const updateParallax = () => {
-        parallaxElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const elementCenter = rect.top + rect.height / 2;
-            const viewportCenter = window.innerHeight / 2;
-            const distanceFromCenter = elementCenter - viewportCenter;
-            const translate = Math.max(
-                Math.min(distanceFromCenter * -speed, maxTranslate),
-                -maxTranslate
-            );
-
-            element.style.transform = `translateY(${translate}px)`;
-        });
-        ticking = false;
-    };
-
-    const requestTick = () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    };
-
-    updateParallax();
-    window.addEventListener('scroll', requestTick, { passive: true });
-    window.addEventListener('resize', requestTick);
+    parallaxElements.forEach(element => {
+        element.style.transform = '';
+    });
 }
 
 // Fonction pour gérer les FAQ (expand/collapse)
