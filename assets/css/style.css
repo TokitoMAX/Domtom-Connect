@@ -529,6 +529,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: none !important;
 }
 
 .hero-card {
@@ -772,6 +773,7 @@ p {
     justify-content: center;
     align-items: center;
     width: 100%;
+    transform: none !important;
 }
 
 .vision-graphic {
@@ -1011,6 +1013,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: none !important;
 }
 
 .testimonial-card {
@@ -1231,6 +1234,7 @@ p {
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+    transform: none !important;
 }
 
 .transformation-card {
