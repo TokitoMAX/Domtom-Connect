@@ -307,15 +307,42 @@ function initEmailSignup() {
 
 // Fonction pour ajouter des effets de parallaxe subtils
 function initParallaxEffects() {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.hero-visual, .vision-visual, .testimonial-visual, .transformation-visual');
-        
+    const parallaxElements = document.querySelectorAll('.hero-visual, .vision-visual, .testimonial-visual, .transformation-visual');
+
+    if (!parallaxElements.length) {
+        return;
+    }
+
+    const speed = 0.15;
+    const maxTranslate = 80;
+    let ticking = false;
+
+    const updateParallax = () => {
         parallaxElements.forEach(element => {
-            const speed = 0.3;
-            element.style.transform = `translateY(${scrolled * speed}px)`;
+            const rect = element.getBoundingClientRect();
+            const elementCenter = rect.top + rect.height / 2;
+            const viewportCenter = window.innerHeight / 2;
+            const distanceFromCenter = elementCenter - viewportCenter;
+            const translate = Math.max(
+                Math.min(distanceFromCenter * -speed, maxTranslate),
+                -maxTranslate
+            );
+
+            element.style.transform = `translateY(${translate}px)`;
         });
-    });
+        ticking = false;
+    };
+
+    const requestTick = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    };
+
+    updateParallax();
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', requestTick);
 }
 
 // Fonction pour gérer les FAQ (expand/collapse)
