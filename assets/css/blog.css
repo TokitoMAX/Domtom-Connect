@@ -428,25 +428,15 @@
 
 .article-featured-image {
     width: 100%;
-    height: auto;
-    background: transparent !important;
     border-radius: var(--border-radius-lg);
     margin-bottom: 3rem;
     overflow: hidden;
-    min-height: 0;
 }
 
 .article-featured-image img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: contain;
-    background: transparent;
-}
-
-/* Masquer le fond si l'image n'existe pas */
-.article-featured-image:has(img[src=""]) {
-    display: none;
 }
 
 .article-content {
