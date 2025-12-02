@@ -1,5 +1,18 @@
 /* Blog Styles */
 
+/* Navigation adjustments for blog pages */
+.navbar .nav-brand {
+    pointer-events: none;
+}
+
+.navbar a[href*="index.html"] {
+    pointer-events: auto;
+}
+
+.navbar a[href*="index.html"]:hover .nav-brand-name {
+    opacity: 0.8;
+}
+
 .blog-section {
     padding: 140px 0 80px;
     background: var(--gray-50);
