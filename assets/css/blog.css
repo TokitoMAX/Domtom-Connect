@@ -210,10 +210,86 @@
 }
 
 .podcast-player {
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
-    border-radius: var(--border-radius);
-    overflow: hidden;
+}
+
+.podcast-card {
+    background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
+    border-radius: var(--border-radius-lg);
+    padding: 3rem;
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.podcast-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px -12px rgba(29, 185, 84, 0.4);
+}
+
+.podcast-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.podcast-icon {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+.podcast-info h3 {
+    color: var(--white);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.podcast-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.podcast-card-content {
+    margin-bottom: 2rem;
+}
+
+.podcast-description {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.podcast-episode-count {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+}
+
+.podcast-card-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.podcast-card-actions .cta-button {
+    background: var(--white);
+    color: #1DB954;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+}
+
+.podcast-card-actions .cta-button:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 /* Article Page Styles */
@@ -490,6 +566,24 @@
     
     .blog-filter-btn {
         white-space: nowrap;
+    }
+    
+    .podcast-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .podcast-card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .podcast-icon {
+        font-size: 3rem;
+    }
+    
+    .podcast-info h3 {
+        font-size: 1.5rem;
     }
 }
 
