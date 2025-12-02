@@ -31,8 +31,12 @@
     
     <!-- Article Meta - À MODIFIER -->
     <meta property="article:published_time" content="[[DATE_PUBLICATION]]">
+    <meta property="article:modified_time" content="[[DATE_MODIFICATION]]">
     <meta property="article:author" content="[[AUTEUR]]">
     <meta property="article:section" content="[[CATEGORIE]]">
+    <meta property="article:tag" content="[[TAG1]]">
+    <meta property="article:tag" content="[[TAG2]]">
+    <meta property="article:tag" content="[[TAG3]]">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
@@ -47,8 +51,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
-    <link rel="stylesheet" href="../assets/css/blog.css?v=1.0">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../../assets/css/blog.css?v=1.0">
     
     <!-- Structured Data - À MODIFIER -->
     <script type="application/ld+json">
@@ -60,9 +64,12 @@
       "image": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
       "datePublished": "[[DATE_PUBLICATION]]",
       "dateModified": "[[DATE_MODIFICATION]]",
+      "articleSection": "[[CATEGORIE]]",
+      "keywords": "[[MOTS_CLES]]",
       "author": {
         "@type": "Person",
-        "name": "[[AUTEUR]]"
+        "name": "[[AUTEUR]]",
+        "jobTitle": "Fondateur de Domtom Connect"
       },
       "publisher": {
         "@type": "Organization",
@@ -75,6 +82,29 @@
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "https://domtomconnect.com/blog/[[URL_ARTICLE]]"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://domtomconnect.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://domtomconnect.com/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "[[TITRE_ARTICLE]]",
+            "item": "https://domtomconnect.com/blog/[[URL_ARTICLE]]"
+          }
+        ]
       }
     }
     </script>
@@ -84,11 +114,11 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <a href="../index.html">
-                    <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <a href="../../index.html">
+                    <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 </a>
                 <div class="nav-brand-text">
-                    <a href="../index.html" style="text-decoration: none;">
+                    <a href="../../index.html" style="text-decoration: none;">
                         <span class="nav-brand-name">Domtom Connect</span>
                         <span class="nav-brand-tagline">Relier les territoires ultramarins</span>
                     </a>
@@ -101,13 +131,13 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
-                    <a href="../index.html#about">À propos</a>
-                    <a href="../index.html#features">Piliers</a>
-                    <a href="../blog.html">Blog</a>
-                    <a href="../index.html#inscription-form">Inscription</a>
+                    <a href="../../index.html#about">À propos</a>
+                    <a href="../../index.html#features">Piliers</a>
+                    <a href="../index.html">Blog</a>
+                    <a href="../../index.html#inscription-form">Inscription</a>
                 </div>
                 <div class="nav-actions">
-                    <a href="../index.html#inscription-form">
+                    <a href="../../index.html#inscription-form">
                         <button class="nav-button">
                             <span>Rejoindre</span>
                         </button>
@@ -121,6 +151,17 @@
     <article class="article-page">
         <div class="container">
             <div class="article-container">
+                <!-- Breadcrumbs -->
+                <nav aria-label="Fil d'Ariane" style="margin-bottom: 2rem; font-size: 0.9rem;">
+                    <ol style="display: flex; list-style: none; padding: 0; margin: 0; gap: 0.5rem; align-items: center;">
+                        <li><a href="../../index.html" style="color: var(--text-secondary); text-decoration: none;">Accueil</a></li>
+                        <li style="color: var(--text-muted);">/</li>
+                        <li><a href="../index.html" style="color: var(--text-secondary); text-decoration: none;">Blog</a></li>
+                        <li style="color: var(--text-muted);">/</li>
+                        <li style="color: var(--text-primary);">[[TITRE_ARTICLE]]</li>
+                    </ol>
+                </nav>
+                
                 <!-- Article Header -->
                 <header class="article-header">
                     <span class="article-category">[[CATEGORIE]]</span>
@@ -177,7 +218,7 @@
                 <div class="article-cta">
                     <h3>Prêt à rejoindre le mouvement ?</h3>
                     <p>Fais partie des premiers à croire au potentiel des îles. L'avenir commence maintenant.</p>
-                    <a href="../index.html#inscription-form" class="cta-button primary">Rejoindre Domtom Connect</a>
+                    <a href="../../index.html#inscription-form" class="cta-button primary">Rejoindre Domtom Connect</a>
                 </div>
 
                 <!-- Share Buttons -->
@@ -210,7 +251,7 @@
 
                 <!-- Navigation -->
                 <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--gray-200);">
-                    <a href="../blog.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">
+                    <a href="../index.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">
                         ← Retour au blog
                     </a>
                 </div>
@@ -229,8 +270,8 @@
         </div>
     </footer>
 
-    <script src="../assets/js/script.js?v=2"></script>
-    <script src="../assets/js/blog.js?v=1.0"></script>
+    <script src="../../assets/js/script.js?v=2"></script>
+    <script src="../../assets/js/blog.js?v=1.0"></script>
 </body>
 </html>
 
