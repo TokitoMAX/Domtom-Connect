@@ -181,6 +181,7 @@ p {
     justify-content: space-between;
     gap: 24px;
     position: relative;
+    width: 100%;
 }
 
 .navbar.scrolled {
@@ -195,6 +196,7 @@ p {
     align-items: center;
     gap: 12px;
     min-height: 48px;
+    flex-shrink: 0;
 }
 
 .nav-logo {
@@ -233,12 +235,14 @@ p {
     align-items: center;
     gap: 32px;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     gap: 24px;
+    flex-shrink: 0;
 }
 
 .nav-links a {
@@ -252,6 +256,7 @@ p {
     color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 .nav-links a::before {
@@ -296,11 +301,13 @@ p {
 .nav-actions {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .nav-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background: linear-gradient(135deg, #00BFA6 0%, #009E8A 100%);
     color: var(--white);
@@ -310,6 +317,7 @@ p {
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
+    white-space: nowrap;
     box-shadow: 0 12px 18px -12px rgba(0, 168, 150, 0.8);
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
