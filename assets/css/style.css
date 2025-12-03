@@ -769,7 +769,6 @@ p {
     margin-bottom: 3rem;
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.4;
-    white-space: nowrap;
 }
 
 .vision-description {
