@@ -210,7 +210,14 @@ p {
 .nav-brand-text {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    line-height: 1.2;
+}
+
+.nav-brand-text a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .nav-brand-name {
@@ -220,6 +227,8 @@ p {
     background: linear-gradient(120deg, #00BFA6 0%, #0F3D2E 100%);
     -webkit-background-clip: text;
     color: transparent;
+    display: block;
+    line-height: 1.2;
 }
 
 .nav-brand-tagline {
@@ -228,6 +237,9 @@ p {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(15, 61, 46, 0.6);
+    display: block;
+    line-height: 1.2;
+    margin-top: 2px;
 }
 
 .nav-content {
