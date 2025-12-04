@@ -117,307 +117,160 @@
         </div>
     </nav>
 
-    <!-- BLOC 1 - Haut de page -->
-    <section class="hero-section">
+    <!-- BLOC 1 - Hero avec formulaire -->
+    <section class="hero-section" id="inscription-form">
         <div class="container">
-            <div class="hero-content">
+            <div class="hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
                 <div class="hero-text">
                     <h1 class="hero-title">Deviens un acteur du changement ultramarin</h1>
-                    <p class="hero-subtitle">
-                        Réseau entrepreneurial qui connecte porteurs de projets, entreprises et prestataires des territoires ultramarins. Ensemble, transformons les défis en opportunités.
+                    <p class="hero-subtitle" style="font-size: 1.25rem; margin-bottom: 1.5rem;">
+                        <strong>Le problème :</strong> Trop de projets meurent car on avance seul.
                     </p>
-                    <div class="hero-actions">
-                        <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
-                        <button class="cta-button secondary" onclick="scrollToForm()">Commencer</button>
+                    <p class="hero-subtitle" style="font-size: 1.25rem; margin-bottom: 2rem;">
+                        <strong>La solution :</strong> Domtom Connect crée le pont entre porteurs de projets, entreprises et prestataires des territoires ultramarins.
+                    </p>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                        <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">✅ Inscription gratuite pour les pionniers</p>
+                        <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">✅ Accès au groupe WhatsApp privé</p>
+                        <p style="color: var(--text-primary); font-weight: 600;">✅ Mise en relation avec prestataires validés</p>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="hero-card">
-                        <div class="card-header">
-                            <div class="card-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+                <div class="form-content" style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <h2 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Rejoins maintenant</h2>
+                    <form class="inscription-form" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <input type="text" name="prenom" placeholder="Prénom" required>
                         </div>
-                        <div class="card-content">
-                            <div class="stat-item">
-                                <div class="stat-number">🚀</div>
-                                <div class="stat-label">Phase de lancement</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">🌱</div>
-                                <div class="stat-label">Communauté en croissance</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">🎯</div>
-                                <div class="stat-label">Impact local</div>
-                            </div>
+                        <div class="form-group">
+                            <input type="text" name="nom" placeholder="Nom" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="telephone" placeholder="Téléphone" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="ile" required>
+                                <option value="">Sélectionnez votre île/territoire</option>
+                                <option value="martinique">Martinique</option>
+                                <option value="guadeloupe">Guadeloupe</option>
+                                <option value="guyane">Guyane</option>
+                                <option value="reunion">La Réunion</option>
+                                <option value="mayotte">Mayotte</option>
+                                <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                                <option value="polynesie">Polynésie française</option>
+                                <option value="wallis-futuna">Wallis-et-Futuna</option>
+                                <option value="saint-pierre-miquelon">Saint-Pierre-et-Miquelon</option>
+                                <option value="diaspora">Diaspora</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="profil" required>
+                                <option value="">Votre profil</option>
+                                <option value="porteur-projet">Porteur de projet</option>
+                                <option value="entrepreneur">Entrepreneur</option>
+                                <option value="investisseur">Investisseur</option>
+                                <option value="etudiant">Étudiant</option>
+                                <option value="professionnel">Professionnel</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Parlez-nous de votre projet (optionnel)" rows="3"></textarea>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" name="newsletter" checked>
+                                <span style="color: var(--text-primary);">Je souhaite recevoir les actualités</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="cta-button primary large" style="width: 100%;">Je rejoins maintenant</button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- BLOC 8 - Formulaire (déplacé en haut pour conversion rapide) -->
-    <section class="final-form-section" id="inscription-form">
-        <div class="container">
-            <div class="form-content">
-                <div class="form-header">
-                    <h2>Rejoins le mouvement maintenant</h2>
-                    <p>Deviens un acteur du changement ultramarin en 2 minutes</p>
-                </div>
-                
-                <form class="inscription-form" id="inscription-form" onsubmit="handleFormSubmit(event)">
-                    <div class="form-group">
-                        <input type="text" name="prenom" placeholder="Prénom" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="nom" placeholder="Nom" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" name="telephone" placeholder="Téléphone" required>
-                    </div>
-                    <div class="form-group">
-                        <select name="ile" required>
-                            <option value="">Sélectionnez votre île/territoire</option>
-                            <option value="martinique">Martinique</option>
-                            <option value="guadeloupe">Guadeloupe</option>
-                            <option value="guyane">Guyane</option>
-                            <option value="reunion">La Réunion</option>
-                            <option value="mayotte">Mayotte</option>
-                            <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
-                            <option value="polynesie">Polynésie française</option>
-                            <option value="wallis-futuna">Wallis-et-Futuna</option>
-                            <option value="saint-pierre-miquelon">Saint-Pierre-et-Miquelon</option>
-                            <option value="diaspora">Diaspora</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="profil" required>
-                            <option value="">Votre profil</option>
-                            <option value="porteur-projet">Porteur de projet</option>
-                            <option value="entrepreneur">Entrepreneur</option>
-                            <option value="investisseur">Investisseur</option>
-                            <option value="etudiant">Étudiant</option>
-                            <option value="professionnel">Professionnel</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="message" placeholder="Parlez-nous de votre projet ou de vos motivations (optionnel)" rows="4"></textarea>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <label>
-                            <input type="checkbox" name="newsletter" checked>
-                            Je souhaite recevoir les actualités de Domtom Connect
-                        </label>
-                    </div>
-                    <button type="submit" class="cta-button primary large">Je rejoins maintenant</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOC 1bis - À propos -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="section-header">
-                <h2>À propos de Domtom Connect</h2>
-            </div>
-            <div class="about-content">
-                <p>
-                    Trop de projets meurent car on avance seul. Domtom Connect crée le <strong>pont entre les porteurs de projets, les entreprises et les prestataires</strong> des territoires ultramarins pour transformer les défis en opportunités.
-                </p>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <button class="cta-button primary" onclick="scrollToForm()">Rejoindre maintenant</button>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOC 2 - 3 caractéristiques -->
+    <!-- BLOC 2 - Bénéfices clairs -->
     <section class="features-section" id="features">
         <div class="container">
             <div class="section-header">
-                <h2>Nos piliers</h2>
-                <p>Trois valeurs fondamentales qui guident notre mission</p>
+                <h2>Ce que tu obtiens</h2>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
-                            <path d="M19 15L20.09 21.26L27 22L20.09 22.74L19 29L17.91 22.74L11 22L17.91 21.26L19 15Z" fill="currentColor"/>
                         </svg>
                     </div>
-                    <h3>Connecter</h3>
-                    <p>Mise en relation entre porteurs de projets, entreprises et prestataires validés des territoires ultramarins. <a href="/services">En savoir plus</a></p>
+                    <h3>Accès à la communauté</h3>
+                    <p>Groupe WhatsApp privé avec porteurs de projets, entreprises et prestataires des territoires ultramarins.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Valoriser</h3>
-                    <p>Donner de la visibilité aux initiatives locales et promouvoir l'excellence insulaire.</p>
+                    <h3>Prestataires validés</h3>
+                    <p>Nous trouvons les prestataires adaptés à ton projet et à ton budget. <a href="/services">En savoir plus</a></p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
-                            <path d="M19 15L20.09 21.26L27 22L20.09 22.74L19 29L17.91 22.74L11 22L17.91 21.26L19 15Z" fill="currentColor"/>
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Investir</h3>
-                    <p>Soutenir des projets concrets à fort impact humain et territorial.</p>
+                    <h3>Accompagnement concret</h3>
+                    <p>Stratégie claire, suivi du projet, validation des prestataires. On ne te laisse pas seul.</p>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
             </div>
         </div>
     </section>
 
-    <!-- BLOC 3 - Grand encart -->
-    <section class="vision-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Ensemble, transformons les territoires ultramarins</h2>
-            </div>
-            <div class="vision-content">
-                    <p class="vision-description">
-                    Les territoires ultramarins regorgent de talents et d'idées. Ce qui manque ? Le réseau et le lien entre les talents qui veulent agir.
-                    </p>
-                    <p class="vision-subtitle">
-                    <strong>Rejoins le réseau des acteurs du changement ultramarin</strong> et participe à la transformation de nos territoires.
-                </p>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOC 4 - Citation/Témoignage -->
-    <section class="testimonial-section">
-        <div class="container">
-            <div class="testimonial-content">
-                <div class="testimonial-quote">
-                    <div class="quote-mark">"</div>
-                    <blockquote>
-                        Quand les îles s'unissent, elles cessent d'être isolées. Elles deviennent une force de changement.
-                    </blockquote>
-                    <cite>— Domtom Connect</cite>
-                </div>
-                <div class="testimonial-visual">
-                    <div class="testimonial-card">
-                        <div class="card-header">
-                            <div class="avatar-group">
-                                <div class="avatar"></div>
-                                <div class="avatar"></div>
-                                <div class="avatar"></div>
-                                <div class="avatar-more">+</div>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <h4>Communauté en construction</h4>
-                            <p>Rejoignez les premiers membres qui croient au potentiel des territoires insulaires</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BLOC 5 - Services/Comment ça marche -->
+    <!-- BLOC 3 - Comment ça marche -->
     <section class="services-section">
         <div class="container">
             <div class="section-header">
                 <h2>Comment ça marche ?</h2>
-                <p>Quatre étapes simples pour rejoindre notre écosystème</p>
+                <p>4 étapes simples</p>
             </div>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-number">01</div>
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Remplissez le formulaire</h3>
-                    <p>Présentez votre projet en quelques minutes.</p>
+                    <h3>Tu remplis le formulaire</h3>
+                    <p>Présente ton projet en quelques minutes.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">02</div>
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22 16.92V19.92C22.0011 20.1985 21.9441 20.4742 21.8325 20.7292C21.7209 20.9842 21.5573 21.2131 21.352 21.4014C21.1467 21.5896 20.9044 21.7331 20.6397 21.8225C20.375 21.9119 20.0941 21.9452 19.816 21.92C16.7428 21.5857 13.787 20.5342 11.19 18.85C8.77382 17.3148 6.72533 15.2663 5.19 12.85C3.49997 10.2412 2.44824 7.27099 2.12 4.18C2.09477 3.90347 2.12787 3.62377 2.21666 3.35976C2.30545 3.09575 2.44785 2.85361 2.63465 2.64838C2.82145 2.44315 3.04851 2.27921 3.3015 2.16684C3.5545 2.05447 3.82803 1.99609 4.106 2H7.106C7.68151 1.99522 8.23698 2.16708 8.69348 2.48953C9.14999 2.81198 9.48374 3.26895 9.646 3.79L10.826 7.29C10.9569 7.73026 10.9823 8.20201 10.8998 8.65506C10.8173 9.10811 10.6294 9.52709 10.356 9.87L8.536 12.15C9.93358 14.1992 11.7909 15.9284 13.986 17.2L16.266 15.38C16.6086 15.1075 17.0267 14.9201 17.4789 14.8377C17.9312 14.7553 18.4022 14.7805 18.846 14.91L22.316 16.09C22.8375 16.2533 23.2949 16.5876 23.6178 17.0443C23.9407 17.501 24.1131 18.0564 24.108 18.632L22.108 18.632Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Un appel d'échange</h3>
-                    <p>15-30 minutes pour comprendre vos besoins.</p>
+                    <h3>On échange ensemble</h3>
+                    <p>Appel de 15-30 minutes pour comprendre tes besoins.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">03</div>
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Validation du profil</h3>
-                    <p>Vérification de la viabilité de votre projet.</p>
+                    <h3>On valide ton profil</h3>
+                    <p>Vérification de la viabilité de ton projet.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">04</div>
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Accès au groupe WhatsApp</h3>
-                    <p>Rejoins la communauté privée et découvre les opportunités.</p>
+                    <h3>Tu rejoins l'écosystème</h3>
+                    <p>Accès au groupe WhatsApp privé et mise en relation avec les prestataires.</p>
                 </div>
             </div>
-            <div class="services-cta">
+            <div style="text-align: center; margin-top: 3rem;">
                 <button class="cta-button primary" onclick="scrollToForm()">Je commence maintenant</button>
             </div>
         </div>
     </section>
 
-    <!-- BLOC 6 - Transformation personnelle -->
-    <section class="transformation-section">
-        <div class="container">
-            <div class="transformation-content">
-                <div class="transformation-text">
-                    <h2>Deviens un acteur du changement ultramarin</h2>
-                    <p class="transformation-description">
-                        <strong>C'est un mouvement entrepreneurial</strong> qui transforme les défis en opportunités pour les territoires ultramarins.
-                    </p>
-                    <p class="transformation-subtitle" style="margin-top: 1.5rem; font-weight: 600;">
-                        L'avenir des territoires ultramarins se construit maintenant. Et tu en fais partie.
-                    </p>
-                    <div class="transformation-button-container">
-                        <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- BLOC 7 - FAQ (simplifié) -->
+    <!-- BLOC 4 - FAQ rapide -->
     <section class="faq-section">
         <div class="container">
             <div class="section-header">
@@ -443,18 +296,15 @@
                     </div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
-            </div>
         </div>
     </section>
 
-    <!-- BLOC 8 - Formulaire final (dupliqué pour conversion) -->
+    <!-- BLOC 5 - Formulaire final -->
     <section class="final-form-section">
         <div class="container">
             <div class="form-content">
                 <div class="form-header">
-                    <h2>Prêt à devenir un acteur du changement ultramarin ?</h2>
+                    <h2>Prêt à rejoindre ?</h2>
                     <p>Rejoins les pionniers qui transforment les territoires ultramarins.</p>
                 </div>
                 
@@ -499,7 +349,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" placeholder="Parlez-nous de votre projet ou de vos motivations (optionnel)" rows="4"></textarea>
+                        <textarea name="message" placeholder="Parlez-nous de votre projet (optionnel)" rows="3"></textarea>
                     </div>
                     <div class="form-group checkbox-group">
                         <label>
