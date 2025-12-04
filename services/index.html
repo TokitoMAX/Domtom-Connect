@@ -44,6 +44,34 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../assets/css/blog.css?v=1.0">
+    <style>
+        @media (max-width: 1024px) {
+            .features-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 2rem !important;
+            }
+            .services-grid[style*="repeat(2, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .features-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            .services-grid[style*="repeat(2, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            .feature-card[style*="padding: 3rem"] {
+                padding: 2rem 1.5rem !important;
+            }
+            .service-card[style*="padding: 3rem"] {
+                padding: 2rem 1.5rem !important;
+            }
+        }
+    </style>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -131,12 +159,14 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section" style="padding: 120px 0 80px;">
+    <section class="hero-section" style="padding: 160px 0 100px; min-height: 70vh;">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text" style="text-align: center; max-width: 900px; margin: 0 auto;">
-                    <h1 class="hero-title">Trouvez les prestataires qu'il vous faut pour avancer dans votre projet</h1>
-                    <p class="hero-subtitle" style="font-size: 1.3rem; margin-top: 1.5rem;">
+            <div class="hero-content" style="grid-template-columns: 1fr; gap: 3rem;">
+                <div class="hero-text" style="text-align: left; max-width: 900px; margin: 0 auto;">
+                    <h1 class="hero-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem;">
+                        Trouvez les prestataires qu'il vous faut pour avancer dans votre projet
+                    </h1>
+                    <p class="hero-subtitle" style="font-size: 1.4rem; line-height: 1.7; color: var(--text-secondary); max-width: 800px;">
                         Quel que soit votre besoin, nous recherchons activement les prestataires adaptés à votre projet et à votre budget
                     </p>
                 </div>
@@ -145,55 +175,67 @@
     </section>
 
     <!-- Message Principal -->
-    <section class="vision-section">
+    <section class="vision-section" style="padding: 120px 0;">
         <div class="container">
-            <div class="section-header">
-                <h2>Quel que soit le besoin, on trouve les prestataires</h2>
+            <div class="section-header" style="margin-bottom: 4rem;">
+                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Quel que soit le besoin, on trouve les prestataires</h2>
             </div>
-            <div class="vision-content">
-                <p class="vision-description" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem;">
-                    Nous recherchons activement les prestataires en fonction de chaque besoin spécifique.
-                </p>
-                <p class="vision-subtitle">
+            <div class="vision-content" style="max-width: 1000px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.08) 100%); padding: 3rem; border-radius: 24px; margin-bottom: 2rem; border-left: 4px solid var(--primary-color);">
+                    <p class="vision-description" style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-primary);">
+                        Nous recherchons activement les prestataires en fonction de chaque besoin spécifique.
+                    </p>
+                </div>
+                <p class="vision-subtitle" style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
                     Chez Domtom Connect, nous comprenons que <strong>chaque projet a des besoins uniques</strong>. C'est pourquoi <strong>nous recherchons des prestataires spécifiquement adaptés à VOTRE besoin, à VOTRE projet et à VOTRE budget</strong>. Nous ne proposons pas un catalogue figé : nous construisons notre réseau de prestataires validés en fonction de vos besoins réels.
                 </p>
-                <p class="vision-subtitle" style="margin-top: 1.5rem;">
+                <p class="vision-subtitle" style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
                     Que vous ayez besoin de développement web ou mobile, de design graphique, de marketing digital, de comptabilité, de services juridiques, de communication, de traduction, ou de tout autre service professionnel, <strong>nous allons chercher les prestataires qui correspondent exactement à votre besoin</strong>. Si nous ne les avons pas encore dans notre réseau, nous les recherchons activement pour vous. Chaque demande nous permet d'étoffer notre réseau et de mieux servir tous nos membres.
                 </p>
-                <p class="vision-subtitle" style="margin-top: 1.5rem; font-weight: 600; color: var(--primary-color);">
-                    💡 Notre promesse : Quel que soit votre besoin, nous le trouvons. Pas de limite de type de prestataire, tant que vous avez le budget nécessaire.
-                </p>
+                <div style="background: var(--gradient-primary); padding: 2rem; border-radius: 16px; margin-top: 2rem;">
+                    <p style="font-size: 1.2rem; font-weight: 600; color: var(--white); margin: 0; text-align: center;">
+                        💡 Notre promesse : Quel que soit votre besoin, nous le trouvons. Pas de limite de type de prestataire, tant que vous avez le budget nécessaire.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Section Acompte -->
-    <section class="services-section" style="background: var(--gray-50);">
+    <section class="services-section" style="background: var(--gray-50); padding: 120px 0;">
         <div class="container">
-            <div class="section-header">
-                <h2>Le principal : avoir un budget</h2>
-                <p>Un acompte est requis avant toute recherche de prestataire</p>
+            <div class="section-header" style="margin-bottom: 4rem;">
+                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Le principal : avoir un budget</h2>
+                <p style="font-size: 1.2rem; color: var(--text-secondary);">Un acompte est requis avant toute recherche de prestataire</p>
             </div>
-            <div class="vision-content" style="max-width: 800px; margin: 0 auto;">
-                <p class="vision-description">
-                    Pour garantir un service de qualité et un accompagnement personnalisé, <strong>un acompte est requis avant toute recherche de prestataire</strong>. Cet acompte nous permet de nous investir pleinement dans votre projet et de vous proposer les meilleurs prestataires correspondant à votre budget.
-                </p>
-                <p class="vision-subtitle">
-                    Le budget est la clé. Il n'y a pas de limite de type de prestataire si vous avez le budget nécessaire. Nous travaillons avec transparence sur les tarifs et nous nous assurons que chaque prestataire proposé correspond à votre budget et à vos besoins en termes de compétences.
-                </p>
+            <div class="vision-content" style="max-width: 900px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2rem;">
+                    <div style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">💰 Acompte requis</h3>
+                        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
+                            Pour garantir un service de qualité et un accompagnement personnalisé, <strong>un acompte est requis avant toute recherche de prestataire</strong>. Cet acompte nous permet de nous investir pleinement dans votre projet.
+                        </p>
+                    </div>
+                    <div style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">🎯 Budget = Clé</h3>
+                        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
+                            Le budget est la clé. Il n'y a pas de limite de type de prestataire si vous avez le budget nécessaire. Nous travaillons avec transparence sur les tarifs.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Types de Prestataires -->
-    <section class="features-section">
+    <section class="features-section" style="padding: 120px 0;">
         <div class="container">
-            <div class="section-header">
-                <h2>Nous recherchons tous types de prestataires selon vos besoins</h2>
-                <p>Notre réseau se construit en fonction de vos besoins réels</p>
+            <div class="section-header" style="margin-bottom: 4rem;">
+                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Nous recherchons tous types de prestataires selon vos besoins</h2>
+                <p style="font-size: 1.2rem; color: var(--text-secondary);">Notre réseau se construit en fonction de vos besoins réels</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
+            <div class="features-grid" style="grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1400px; margin: 0 auto;">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
@@ -204,7 +246,7 @@
                     <h3>Développement</h3>
                     <p>Développement web, applications mobiles, e-commerce, systèmes de gestion. <strong>Nous recherchons les développeurs adaptés à votre projet spécifique</strong>.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
@@ -213,7 +255,7 @@
                     <h3>Design</h3>
                     <p>Design graphique, identité visuelle, UI/UX, création de logos, chartes graphiques. <strong>Nous trouvons les designers qui correspondent à votre style et votre budget</strong>.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -223,7 +265,7 @@
                     <h3>Marketing Digital</h3>
                     <p>Stratégie marketing, réseaux sociaux, référencement SEO, publicité en ligne, email marketing. <strong>Nous recherchons les experts adaptés à votre secteur et vos objectifs</strong>.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -233,7 +275,7 @@
                     <h3>Comptabilité & Juridique</h3>
                     <p>Expertise comptable, conseil fiscal, création d'entreprise, protection juridique. <strong>Nous trouvons les professionnels adaptés à votre territoire et votre activité</strong>.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -242,7 +284,7 @@
                     <h3>Communication</h3>
                     <p>Rédaction, traduction, relations presse, événementiel, community management. <strong>Nous recherchons les communicants qui comprennent votre public et votre territoire</strong>.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
                     <div class="feature-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
@@ -258,14 +300,14 @@
     </section>
 
     <!-- Comment ça marche -->
-    <section class="services-section">
+    <section class="services-section" style="padding: 120px 0; background: var(--gray-50);">
         <div class="container">
-            <div class="section-header">
-                <h2>Comment ça marche ?</h2>
-                <p>Processus simple pour trouver vos prestataires</p>
+            <div class="section-header" style="margin-bottom: 4rem;">
+                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Comment ça marche ?</h2>
+                <p style="font-size: 1.2rem; color: var(--text-secondary);">Processus simple pour trouver vos prestataires</p>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
+            <div class="services-grid" style="grid-template-columns: repeat(2, 1fr); gap: 3rem; max-width: 1200px; margin: 0 auto;">
+                <div class="service-card" style="padding: 3rem; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); border-radius: 20px;">
                     <div class="service-number">01</div>
                     <div class="service-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -276,7 +318,7 @@
                     <h3>Effectuer l'acompte</h3>
                     <p>Un acompte est requis avant toute recherche de prestataire. Cela nous permet de nous investir pleinement dans votre projet.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" style="padding: 3rem; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); border-radius: 20px;">
                     <div class="service-number">02</div>
                     <div class="service-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,7 +328,7 @@
                     <h3>Recherche de prestataires selon votre besoin</h3>
                     <p><strong>Nous recherchons activement des prestataires spécifiquement adaptés à VOTRE besoin</strong>. Chaque projet est unique, c'est pourquoi nous analysons votre demande en détail et nous allons chercher les prestataires qui correspondent exactement à votre projet, votre budget et vos besoins en compétences. <strong>Même si nous ne les avons pas encore dans notre réseau, nous les trouvons pour vous</strong>. Chaque recherche enrichit notre base de prestataires validés.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" style="padding: 3rem; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); border-radius: 20px;">
                     <div class="service-number">03</div>
                     <div class="service-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -296,7 +338,7 @@
                     <h3>Mise en relation</h3>
                     <p>Nous vous mettons en relation avec les prestataires validés qui correspondent à vos besoins. Nous assurons un suivi pour garantir la qualité de la collaboration.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" style="padding: 3rem; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); border-radius: 20px;">
                     <div class="service-number">04</div>
                     <div class="service-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -312,15 +354,15 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="vision-section" style="background: var(--gradient-primary); color: var(--white);">
+    <section class="vision-section" style="background: var(--gradient-primary); color: var(--white); padding: 120px 0;">
         <div class="container">
-            <div class="section-header" style="color: var(--white);">
-                <h2 style="color: var(--white);">Prêt à trouver vos prestataires ?</h2>
-                <p style="color: rgba(255, 255, 255, 0.9);">Rejoignez Domtom Connect et accédez à notre réseau de prestataires validés</p>
+            <div class="section-header" style="color: var(--white); margin-bottom: 3rem;">
+                <h2 style="color: var(--white); font-size: clamp(2rem, 4vw, 3rem);">Prêt à trouver vos prestataires ?</h2>
+                <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.3rem; margin-top: 1rem;">Rejoignez Domtom Connect et accédez à notre réseau de prestataires validés</p>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="/#inscription-form" style="text-decoration: none;">
-                    <button class="cta-button" style="background: var(--white); color: var(--primary-color); border: none; padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer; transition: transform 0.2s ease;">
+                    <button class="cta-button" style="background: var(--white); color: var(--primary-color); border: none; padding: 1.25rem 3rem; font-size: 1.2rem; font-weight: 700; border-radius: 16px; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);">
                         Rejoindre pour trouver mes prestataires
                     </button>
                 </a>
