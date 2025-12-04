@@ -468,27 +468,57 @@ function updateFormFields2() {
         secteurField.style.display = 'block';
         besoinField.style.display = 'block';
         detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de ton projet (optionnel)';
-        detailHint.textContent = 'Ex: idée, stade du projet, besoins spécifiques...';
+        detailTextarea.placeholder = 'Parle-nous de ton projet en quelques lignes (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Quelle est ton idée ? À quel stade es-tu ? Quels sont tes besoins spécifiques ? Budget estimé ?';
+        detailTextarea.rows = 4;
     } else if (profil === 'prestataire') {
         servicesField.style.display = 'block';
         detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes services et ton expérience (optionnel)';
-        detailHint.textContent = 'Ex: années d\'expérience, projets réalisés, tarifs...';
+        detailTextarea.placeholder = 'Décris tes services, ton expérience et tes tarifs (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Années d\'expérience, projets réalisés, tarifs indicatifs, disponibilité, territoires couverts...';
+        detailTextarea.rows = 4;
     } else if (profil === 'investisseur') {
         investissementField.style.display = 'block';
         detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
-        detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
+        detailTextarea.placeholder = 'Décris tes critères d\'investissement et tes attentes (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
+        detailTextarea.rows = 4;
     } else if (profil === 'etudiant' || profil === 'professionnel') {
         besoinField.style.display = 'block';
         detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
-        detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
+        detailTextarea.placeholder = 'Parle-nous de tes motivations et de ce que tu cherches (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Objectifs professionnels, intérêts, ce que tu cherches dans la communauté, projets futurs...';
+        detailTextarea.rows = 4;
     } else if (profil === 'autre') {
         detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
-        detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
+        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches dans la communauté (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Ton profil, tes besoins, tes attentes, comment tu peux contribuer...';
+        detailTextarea.rows = 4;
+    }
+    
+    // Ajouter un listener pour mettre à jour le hint selon le besoin sélectionné
+    const besoinSelect = besoinField.querySelector('select');
+    if (besoinSelect && besoinField.style.display === 'block') {
+        besoinSelect.addEventListener('change', function() {
+            updateDetailHintBasedOnBesoin(detailTextarea, detailHint, besoinSelect.value, profil);
+        });
+    }
+}
+
+// Fonction pour mettre à jour le hint du champ détail selon le besoin sélectionné
+function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
+    if (!besoin) return;
+    
+    const hints = {
+        'trouver-prestataires': '💡 Détaille : Quels types de prestataires ? Pour quel projet ? Budget disponible ? Délais ?',
+        'rejoindre-communaute': '💡 Détaille : Pourquoi rejoindre ? Que cherches-tu ? Comment veux-tu contribuer ?',
+        'developper-projet': '💡 Détaille : Stade actuel du projet ? Besoins spécifiques ? Obstacles rencontrés ?',
+        'trouver-partenaires': '💡 Détaille : Type de partenaires recherchés ? Secteur ? Objectifs du partenariat ?',
+        'autre-besoin': '💡 Détaille : Explique ton besoin spécifique et comment on peut t\'aider.'
+    };
+    
+    if (hints[besoin]) {
+        hint.textContent = hints[besoin];
     }
 }
 

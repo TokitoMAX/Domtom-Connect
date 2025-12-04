@@ -1494,6 +1494,16 @@ p {
     font-family: inherit;
     transition: all 0.3s ease;
     background: var(--white);
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .form-group input:focus,
