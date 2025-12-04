@@ -120,23 +120,23 @@
     <!-- BLOC 1 - Hero avec formulaire -->
     <section class="hero-section" id="inscription-form">
         <div class="container">
-            <div class="hero-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+            <div class="hero-content hero-content-with-form">
                 <div class="hero-text">
                     <h1 class="hero-title">Deviens un acteur du changement ultramarin</h1>
-                    <p class="hero-subtitle" style="font-size: 1.25rem; margin-bottom: 1.5rem;">
+                    <p class="hero-subtitle hero-problem">
                         <strong>Le problème :</strong> Trop de projets meurent car on avance seul.
                     </p>
-                    <p class="hero-subtitle" style="font-size: 1.25rem; margin-bottom: 2rem;">
+                    <p class="hero-subtitle hero-solution">
                         <strong>La solution :</strong> Domtom Connect crée le pont entre porteurs de projets, entreprises et prestataires des territoires ultramarins.
                     </p>
-                    <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
-                        <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">✅ Inscription gratuite pour les pionniers</p>
-                        <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">✅ Accès au groupe WhatsApp privé</p>
-                        <p style="color: var(--text-primary); font-weight: 600;">✅ Mise en relation avec prestataires validés</p>
+                    <div class="hero-benefits">
+                        <p>✅ Inscription gratuite pour les pionniers</p>
+                        <p>✅ Accès au groupe WhatsApp privé</p>
+                        <p>✅ Mise en relation avec prestataires validés</p>
                     </div>
                 </div>
-                <div class="form-content" style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Rejoins maintenant</h2>
+                <div class="form-content hero-form">
+                    <h2 class="hero-form-title">Rejoins maintenant</h2>
                     <form class="inscription-form" onsubmit="handleFormSubmit(event)">
                         <div class="form-group">
                             <input type="text" name="prenom" placeholder="Prénom" required>
@@ -183,10 +183,10 @@
                         <div class="form-group checkbox-group">
                             <label>
                                 <input type="checkbox" name="newsletter" checked>
-                                <span style="color: var(--text-primary);">Je souhaite recevoir les actualités</span>
+                                <span>Je souhaite recevoir les actualités</span>
                             </label>
                         </div>
-                        <button type="submit" class="cta-button primary large" style="width: 100%;">Je rejoins maintenant</button>
+                        <button type="submit" class="cta-button primary large hero-form-button">Je rejoins maintenant</button>
                     </form>
                 </div>
             </div>
