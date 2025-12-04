@@ -1460,6 +1460,29 @@ p {
     margin-bottom: 1.5rem;
 }
 
+.conditional-field {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-hint {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: block;
+    line-height: 1.4;
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {

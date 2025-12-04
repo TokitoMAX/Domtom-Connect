@@ -168,7 +168,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="profil" required>
+                            <select name="profil" id="profil-select" required onchange="updateFormFields()">
                                 <option value="">Votre profil</option>
                                 <option value="porteur-projet">Porteur de projet</option>
                                 <option value="entrepreneur">Entrepreneur</option>
@@ -179,9 +179,11 @@
                                 <option value="autre">Autre</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <select name="secteur" required>
-                                <option value="">Secteur d'activité (actuel ou souhaité)</option>
+                        
+                        <!-- Champs conditionnels pour Porteur de projet / Entrepreneur -->
+                        <div class="form-group conditional-field" id="secteur-field" style="display: none;">
+                            <select name="secteur">
+                                <option value="">Secteur d'activité souhaité</option>
                                 <option value="developpement">Développement web/mobile</option>
                                 <option value="design">Design graphique / UI/UX</option>
                                 <option value="marketing">Marketing digital / Communication</option>
@@ -199,17 +201,52 @@
                                 <option value="autre-secteur">Autre secteur</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <select name="besoin" required>
+                        
+                        <!-- Champs conditionnels pour Prestataire -->
+                        <div class="form-group conditional-field" id="services-field" style="display: none;">
+                            <select name="services">
+                                <option value="">Services que tu proposes</option>
+                                <option value="developpement">Développement web/mobile</option>
+                                <option value="design">Design graphique / UI/UX</option>
+                                <option value="marketing">Marketing digital / Communication</option>
+                                <option value="comptabilite">Comptabilité / Fiscalité</option>
+                                <option value="juridique">Juridique / Conseil</option>
+                                <option value="coaching">Coaching / Formation</option>
+                                <option value="traduction">Traduction</option>
+                                <option value="autre-service">Autre service</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Champs conditionnels pour Investisseur -->
+                        <div class="form-group conditional-field" id="investissement-field" style="display: none;">
+                            <select name="type-investissement">
+                                <option value="">Type d'investissement recherché</option>
+                                <option value="startup">Startups / Early stage</option>
+                                <option value="croissance">Croissance / Scale-up</option>
+                                <option value="immobilier">Immobilier</option>
+                                <option value="tourisme">Tourisme / Hôtellerie</option>
+                                <option value="agroalimentaire">Agroalimentaire</option>
+                                <option value="energie">Énergie / Environnement</option>
+                                <option value="tous">Tous secteurs</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Besoin principal (conditionnel selon profil) -->
+                        <div class="form-group conditional-field" id="besoin-field" style="display: none;">
+                            <select name="besoin">
                                 <option value="">Ton besoin principal</option>
                                 <option value="trouver-prestataires">Trouver des prestataires</option>
                                 <option value="rejoindre-communaute">Rejoindre la communauté</option>
                                 <option value="developper-projet">Développer mon projet</option>
                                 <option value="trouver-partenaires">Trouver des partenaires</option>
-                                <option value="investir">Investir dans des projets</option>
-                                <option value="offrir-services">Offrir mes services</option>
                                 <option value="autre-besoin">Autre besoin</option>
                             </select>
+                        </div>
+                        
+                        <!-- Champ de détail (conditionnel) -->
+                        <div class="form-group conditional-field" id="detail-field" style="display: none;">
+                            <textarea name="detail" id="detail-textarea" rows="3" placeholder="Détaille un peu (optionnel)"></textarea>
+                            <small class="form-hint" id="detail-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.5rem;"></small>
                         </div>
                         <div class="form-group checkbox-group">
                             <label>
@@ -373,7 +410,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <select name="profil" required>
+                        <select name="profil" id="profil-select-2" required onchange="updateFormFields2()">
                             <option value="">Votre profil</option>
                             <option value="porteur-projet">Porteur de projet</option>
                             <option value="entrepreneur">Entrepreneur</option>
@@ -384,9 +421,11 @@
                             <option value="autre">Autre</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <select name="secteur" required>
-                            <option value="">Secteur d'activité (actuel ou souhaité)</option>
+                    
+                    <!-- Champs conditionnels pour Porteur de projet / Entrepreneur -->
+                    <div class="form-group conditional-field" id="secteur-field-2" style="display: none;">
+                        <select name="secteur">
+                            <option value="">Secteur d'activité souhaité</option>
                             <option value="developpement">Développement web/mobile</option>
                             <option value="design">Design graphique / UI/UX</option>
                             <option value="marketing">Marketing digital / Communication</option>
@@ -404,17 +443,52 @@
                             <option value="autre-secteur">Autre secteur</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <select name="besoin" required>
+                    
+                    <!-- Champs conditionnels pour Prestataire -->
+                    <div class="form-group conditional-field" id="services-field-2" style="display: none;">
+                        <select name="services">
+                            <option value="">Services que tu proposes</option>
+                            <option value="developpement">Développement web/mobile</option>
+                            <option value="design">Design graphique / UI/UX</option>
+                            <option value="marketing">Marketing digital / Communication</option>
+                            <option value="comptabilite">Comptabilité / Fiscalité</option>
+                            <option value="juridique">Juridique / Conseil</option>
+                            <option value="coaching">Coaching / Formation</option>
+                            <option value="traduction">Traduction</option>
+                            <option value="autre-service">Autre service</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Champs conditionnels pour Investisseur -->
+                    <div class="form-group conditional-field" id="investissement-field-2" style="display: none;">
+                        <select name="type-investissement">
+                            <option value="">Type d'investissement recherché</option>
+                            <option value="startup">Startups / Early stage</option>
+                            <option value="croissance">Croissance / Scale-up</option>
+                            <option value="immobilier">Immobilier</option>
+                            <option value="tourisme">Tourisme / Hôtellerie</option>
+                            <option value="agroalimentaire">Agroalimentaire</option>
+                            <option value="energie">Énergie / Environnement</option>
+                            <option value="tous">Tous secteurs</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Besoin principal (conditionnel selon profil) -->
+                    <div class="form-group conditional-field" id="besoin-field-2" style="display: none;">
+                        <select name="besoin">
                             <option value="">Ton besoin principal</option>
                             <option value="trouver-prestataires">Trouver des prestataires</option>
                             <option value="rejoindre-communaute">Rejoindre la communauté</option>
                             <option value="developper-projet">Développer mon projet</option>
                             <option value="trouver-partenaires">Trouver des partenaires</option>
-                            <option value="investir">Investir dans des projets</option>
-                            <option value="offrir-services">Offrir mes services</option>
                             <option value="autre-besoin">Autre besoin</option>
                         </select>
+                    </div>
+                    
+                    <!-- Champ de détail (conditionnel) -->
+                    <div class="form-group conditional-field" id="detail-field-2" style="display: none;">
+                        <textarea name="detail" id="detail-textarea-2" rows="3" placeholder="Détaille un peu (optionnel)"></textarea>
+                        <small class="form-hint" id="detail-hint-2" style="color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; display: block; margin-top: 0.5rem;"></small>
                     </div>
                     <div class="form-group checkbox-group">
                         <label>

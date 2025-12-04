@@ -55,6 +55,25 @@ function handleFormSubmit(event) {
     formDataToSend.append('_subject', `🆕 Nouvelle inscription - ${data.prenom} ${data.nom} (${data.profil})`);
     formDataToSend.append('_replyto', data.email);
     
+    // Construire le message avec les champs conditionnels
+    let detailsSection = '';
+    
+    if (data.secteur) {
+        detailsSection += `🏢 Secteur d'activité: ${data.secteur}\n`;
+    }
+    if (data.services) {
+        detailsSection += `💼 Services proposés: ${data.services}\n`;
+    }
+    if (data['type-investissement']) {
+        detailsSection += `💰 Type d'investissement: ${data['type-investissement']}\n`;
+    }
+    if (data.besoin) {
+        detailsSection += `🎯 Besoin principal: ${data.besoin}\n`;
+    }
+    if (data.detail) {
+        detailsSection += `\n📝 Détails:\n${data.detail}\n`;
+    }
+    
     // Format du message pour un email lisible et actionnable
     let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 NOUVELLE INSCRIPTION DOMTOM CONNECT
@@ -68,12 +87,10 @@ function handleFormSubmit(event) {
 🏝️  Île/Territoire: ${data.ile}
 💼 Profil: ${data.profil}
 
-${data.message ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💬 MESSAGE / PROJET
+${detailsSection ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 INFORMATIONS COMPLÉMENTAIRES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${data.message}
-
-` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${detailsSection}` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 OPTIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
@@ -96,8 +113,20 @@ Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
     formDataToSend.append('Téléphone', data.telephone);
     formDataToSend.append('Île/Territoire', data.ile);
     formDataToSend.append('Profil', data.profil);
-    if (data.message) {
-        formDataToSend.append('Message/Projet', data.message);
+    if (data.secteur) {
+        formDataToSend.append('Secteur', data.secteur);
+    }
+    if (data.services) {
+        formDataToSend.append('Services', data.services);
+    }
+    if (data['type-investissement']) {
+        formDataToSend.append('Type investissement', data['type-investissement']);
+    }
+    if (data.besoin) {
+        formDataToSend.append('Besoin', data.besoin);
+    }
+    if (data.detail) {
+        formDataToSend.append('Détails', data.detail);
     }
     formDataToSend.append('Newsletter', data.newsletter ? 'Oui' : 'Non');
     
@@ -363,7 +392,125 @@ function init() {
     // Pré-remplir l'email si disponible (fonctionnalité supprimée du nouveau design)
     // L'inscription se fait uniquement via le formulaire principal
     
+    // Initialiser les formulaires dynamiques
+    initDynamicForms();
+    
     console.log('Domtom Connect - Page d\'adhésion initialisée');
+}
+
+// Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 1)
+function updateFormFields() {
+    const profil = document.getElementById('profil-select').value;
+    const secteurField = document.getElementById('secteur-field');
+    const servicesField = document.getElementById('services-field');
+    const investissementField = document.getElementById('investissement-field');
+    const besoinField = document.getElementById('besoin-field');
+    const detailField = document.getElementById('detail-field');
+    const detailTextarea = document.getElementById('detail-textarea');
+    const detailHint = document.getElementById('detail-hint');
+    
+    // Masquer tous les champs conditionnels
+    secteurField.style.display = 'none';
+    servicesField.style.display = 'none';
+    investissementField.style.display = 'none';
+    besoinField.style.display = 'none';
+    detailField.style.display = 'none';
+    
+    // Afficher les champs pertinents selon le profil
+    if (profil === 'porteur-projet' || profil === 'entrepreneur') {
+        secteurField.style.display = 'block';
+        besoinField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Parle-nous de ton projet (optionnel)';
+        detailHint.textContent = 'Ex: idée, stade du projet, besoins spécifiques...';
+    } else if (profil === 'prestataire') {
+        servicesField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Décris tes services et ton expérience (optionnel)';
+        detailHint.textContent = 'Ex: années d\'expérience, projets réalisés, tarifs...';
+    } else if (profil === 'investisseur') {
+        investissementField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
+        detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
+    } else if (profil === 'etudiant' || profil === 'professionnel') {
+        besoinField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
+        detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
+    } else if (profil === 'autre') {
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
+        detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
+    }
+}
+
+// Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 2)
+function updateFormFields2() {
+    const profil = document.getElementById('profil-select-2').value;
+    const secteurField = document.getElementById('secteur-field-2');
+    const servicesField = document.getElementById('services-field-2');
+    const investissementField = document.getElementById('investissement-field-2');
+    const besoinField = document.getElementById('besoin-field-2');
+    const detailField = document.getElementById('detail-field-2');
+    const detailTextarea = document.getElementById('detail-textarea-2');
+    const detailHint = document.getElementById('detail-hint-2');
+    
+    // Masquer tous les champs conditionnels
+    secteurField.style.display = 'none';
+    servicesField.style.display = 'none';
+    investissementField.style.display = 'none';
+    besoinField.style.display = 'none';
+    detailField.style.display = 'none';
+    
+    // Afficher les champs pertinents selon le profil
+    if (profil === 'porteur-projet' || profil === 'entrepreneur') {
+        secteurField.style.display = 'block';
+        besoinField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Parle-nous de ton projet (optionnel)';
+        detailHint.textContent = 'Ex: idée, stade du projet, besoins spécifiques...';
+    } else if (profil === 'prestataire') {
+        servicesField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Décris tes services et ton expérience (optionnel)';
+        detailHint.textContent = 'Ex: années d\'expérience, projets réalisés, tarifs...';
+    } else if (profil === 'investisseur') {
+        investissementField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
+        detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
+    } else if (profil === 'etudiant' || profil === 'professionnel') {
+        besoinField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
+        detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
+    } else if (profil === 'autre') {
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
+        detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
+    }
+}
+
+// Initialiser les formulaires dynamiques
+function initDynamicForms() {
+    // Vérifier si les formulaires existent
+    const profilSelect1 = document.getElementById('profil-select');
+    const profilSelect2 = document.getElementById('profil-select-2');
+    
+    if (profilSelect1) {
+        // Déclencher l'update au chargement si une valeur est déjà sélectionnée
+        if (profilSelect1.value) {
+            updateFormFields();
+        }
+    }
+    
+    if (profilSelect2) {
+        // Déclencher l'update au chargement si une valeur est déjà sélectionnée
+        if (profilSelect2.value) {
+            updateFormFields2();
+        }
+    }
 }
 
 // Démarrer l'application
