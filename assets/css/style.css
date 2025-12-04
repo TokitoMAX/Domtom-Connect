@@ -197,14 +197,15 @@ p {
     gap: 12px;
     min-height: 48px;
     flex-shrink: 0;
-    cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    text-decoration: none;
 }
 
-.nav-brand:hover {
+.nav-brand a {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.nav-brand a:hover {
     opacity: 0.8;
-    transform: scale(1.02);
 }
 
 .nav-logo {
@@ -213,6 +214,8 @@ p {
     object-fit: contain;
     border-radius: 12px;
     background-color: transparent;
+    display: block;
+    cursor: pointer;
 }
 
 .nav-brand-text {
@@ -222,7 +225,17 @@ p {
     line-height: 1.2;
 }
 
-/* .nav-brand-text a is no longer needed as nav-brand is now the link */
+.nav-brand-text a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.nav-brand-text a:hover {
+    opacity: 0.8;
+}
 
 .nav-brand-name {
     font-size: 1.4rem;
