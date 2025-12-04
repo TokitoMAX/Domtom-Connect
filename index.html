@@ -124,14 +124,11 @@
                 <div class="hero-text">
                     <h1 class="hero-title">Deviens un acteur du changement ultramarin</h1>
                     <p class="hero-subtitle">
-                        Rejoins Domtom Connect et participe à l'émergence d'une nouvelle économie pour les territoires ultramarins. Ensemble, transformons les défis en opportunités et créons un avenir meilleur pour nos îles.
-                    </p>
-                    <p class="hero-description">
-                        Porteurs de projets, entreprises, prestataires : unis, nous construisons un écosystème entrepreneurial fort qui valorise nos territoires et fait rayonner nos talents.
+                        Réseau entrepreneurial qui connecte porteurs de projets, entreprises et prestataires des territoires ultramarins. Ensemble, transformons les défis en opportunités.
                     </p>
                     <div class="hero-actions">
-                        <button class="cta-button primary" onclick="scrollToForm()">Rejoins le mouvement</button>
-                        <button class="cta-button secondary" onclick="scrollToFeatures()">Découvre comment</button>
+                        <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
+                        <button class="cta-button secondary" onclick="scrollToForm()">Commencer</button>
                     </div>
                 </div>
                 <div class="hero-visual">
@@ -163,6 +160,70 @@
         </div>
     </section>
 
+    <!-- BLOC 8 - Formulaire (déplacé en haut pour conversion rapide) -->
+    <section class="final-form-section" id="inscription-form">
+        <div class="container">
+            <div class="form-content">
+                <div class="form-header">
+                    <h2>Rejoins le mouvement maintenant</h2>
+                    <p>Deviens un acteur du changement ultramarin en 2 minutes</p>
+                </div>
+                
+                <form class="inscription-form" id="inscription-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <input type="text" name="prenom" placeholder="Prénom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="telephone" placeholder="Téléphone" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="ile" required>
+                            <option value="">Sélectionnez votre île/territoire</option>
+                            <option value="martinique">Martinique</option>
+                            <option value="guadeloupe">Guadeloupe</option>
+                            <option value="guyane">Guyane</option>
+                            <option value="reunion">La Réunion</option>
+                            <option value="mayotte">Mayotte</option>
+                            <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                            <option value="polynesie">Polynésie française</option>
+                            <option value="wallis-futuna">Wallis-et-Futuna</option>
+                            <option value="saint-pierre-miquelon">Saint-Pierre-et-Miquelon</option>
+                            <option value="diaspora">Diaspora</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="profil" required>
+                            <option value="">Votre profil</option>
+                            <option value="porteur-projet">Porteur de projet</option>
+                            <option value="entrepreneur">Entrepreneur</option>
+                            <option value="investisseur">Investisseur</option>
+                            <option value="etudiant">Étudiant</option>
+                            <option value="professionnel">Professionnel</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Parlez-nous de votre projet ou de vos motivations (optionnel)" rows="4"></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" name="newsletter" checked>
+                            Je souhaite recevoir les actualités de Domtom Connect
+                        </label>
+                    </div>
+                    <button type="submit" class="cta-button primary large">Je rejoins maintenant</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- BLOC 1bis - À propos -->
     <section class="about-section" id="about">
         <div class="container">
@@ -171,21 +232,10 @@
             </div>
             <div class="about-content">
                 <p>
-                    Domtom Connect est né d'une conviction simple : les <strong>territoires ultramarins</strong> regorgent de talents, d'idées
-                    audacieuses et d'une énergie entrepreneuriale qui mérite d'être unie. Trop de projets meurent car on avance seul.
-                    Notre mission est de créer une <strong>connexion entre territoires</strong> qui transforme les défis en opportunités,
-                    afin que chaque projet ultramarin devienne un acteur du changement positif pour nos îles.
+                    Trop de projets meurent car on avance seul. Domtom Connect crée le <strong>pont entre les porteurs de projets, les entreprises et les prestataires</strong> des territoires ultramarins pour transformer les défis en opportunités.
                 </p>
-                <p>
-                    Nous facilitons les <strong>échanges entre îles</strong> en proposant un espace où chaque entrepreneur, investisseur ou porteur de projet
-                    peut trouver des partenaires, des prestataires validés et un accompagnement concret. Cet
-                    <strong>entrepreneuriat ultramarin</strong> repose sur des valeurs de solidarité, de créativité et
-                    d'action, qui sont au cœur de toutes nos actions.
-                </p>
-                <p>
-                    Rejoindre Domtom Connect, c'est devenir un <strong>acteur du changement ultramarin</strong>. C'est faire partie d'une communauté qui valorise l'innovation insulaire,
-                    qui transforme les idées en projets concrets et qui fait rayonner nos territoires. Découvre comment nous accompagnons les projets et comment tu peux contribuer à cette dynamique
-                    en visitant notre <a href="/merci.html">page de remerciements</a>, point d'entrée vers les prochains rendez-vous et ressources.
+                <p style="text-align: center; margin-top: 2rem;">
+                    <button class="cta-button primary" onclick="scrollToForm()">Rejoindre maintenant</button>
                 </p>
             </div>
         </div>
@@ -207,7 +257,7 @@
                         </svg>
                     </div>
                     <h3>Connecter</h3>
-                    <p>Mettre en lien les porteurs de projets, les entreprises et les prestataires des territoires ultramarins français (Martinique, Guadeloupe, Réunion, Guyane, Mayotte, Nouvelle-Calédonie, Polynésie française), des îles indépendantes (Comores, Haïti), des îles liées à l'Afrique et de l'océan Indien (Madagascar, Maurice, Seychelles, Cap-Vert, São Tomé-et-Príncipe) et de la diaspora ultramarine à travers le monde pour créer des synergies durables. <a href="/services">Découvrez comment nous trouvons vos prestataires</a>.</p>
+                    <p>Mise en relation entre porteurs de projets, entreprises et prestataires validés des territoires ultramarins. <a href="/services">En savoir plus</a></p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -242,10 +292,13 @@
             </div>
             <div class="vision-content">
                     <p class="vision-description">
-                    Que tu sois dans les territoires ultramarins français (Martinique, Guadeloupe, Réunion, Guyane, Mayotte, Nouvelle-Calédonie, Polynésie française), dans une île indépendante (Comores, Haïti), dans une île liée à l'Afrique (Madagascar, Maurice, Seychelles, Cap-Vert, São Tomé-et-Príncipe) ou dans la diaspora ultramarine à travers le monde, les territoires ultramarins et les îles regorgent d'idées innovantes, de créativité entrepreneuriale et de courage. Ce qui manque aux projets, ce n'est pas le potentiel économique ou humain. C'est le réseau et le lien entre les talents qui veulent agir.
+                    Les territoires ultramarins regorgent de talents et d'idées. Ce qui manque ? Le réseau et le lien entre les talents qui veulent agir.
                     </p>
                     <p class="vision-subtitle">
-                    Domtom Connect est le pont entre les porteurs de projets, les entreprises et les prestataires des territoires ultramarins français, des îles indépendantes, des îles liées à l'Afrique et de l'océan Indien, et de la diaspora ultramarine. <strong>Rejoins le réseau des acteurs du changement ultramarin</strong> et participe à la transformation de nos territoires, où que tu soies dans le monde.
+                    <strong>Rejoins le réseau des acteurs du changement ultramarin</strong> et participe à la transformation de nos territoires.
+                </p>
+                <p style="text-align: center; margin-top: 2rem;">
+                    <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
                 </p>
             </div>
         </div>
@@ -301,8 +354,8 @@
                             <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Remplissez le formulaire d'inscription</h3>
-                    <p>Partagez vos informations et présentez votre projet ou vos motivations pour rejoindre la communauté Domtom Connect.</p>
+                    <h3>Remplissez le formulaire</h3>
+                    <p>Présentez votre projet en quelques minutes.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">02</div>
@@ -311,8 +364,8 @@
                             <path d="M22 16.92V19.92C22.0011 20.1985 21.9441 20.4742 21.8325 20.7292C21.7209 20.9842 21.5573 21.2131 21.352 21.4014C21.1467 21.5896 20.9044 21.7331 20.6397 21.8225C20.375 21.9119 20.0941 21.9452 19.816 21.92C16.7428 21.5857 13.787 20.5342 11.19 18.85C8.77382 17.3148 6.72533 15.2663 5.19 12.85C3.49997 10.2412 2.44824 7.27099 2.12 4.18C2.09477 3.90347 2.12787 3.62377 2.21666 3.35976C2.30545 3.09575 2.44785 2.85361 2.63465 2.64838C2.82145 2.44315 3.04851 2.27921 3.3015 2.16684C3.5545 2.05447 3.82803 1.99609 4.106 2H7.106C7.68151 1.99522 8.23698 2.16708 8.69348 2.48953C9.14999 2.81198 9.48374 3.26895 9.646 3.79L10.826 7.29C10.9569 7.73026 10.9823 8.20201 10.8998 8.65506C10.8173 9.10811 10.6294 9.52709 10.356 9.87L8.536 12.15C9.93358 14.1992 11.7909 15.9284 13.986 17.2L16.266 15.38C16.6086 15.1075 17.0267 14.9201 17.4789 14.8377C17.9312 14.7553 18.4022 14.7805 18.846 14.91L22.316 16.09C22.8375 16.2533 23.2949 16.5876 23.6178 17.0443C23.9407 17.501 24.1131 18.0564 24.108 18.632L22.108 18.632Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Un appel pour échanger</h3>
-                    <p>Nous prenons contact avec vous pour un échange personnalisé. Cet appel nous permet de mieux comprendre vos projets, vos motivations et d'établir une connexion authentique avant la validation.</p>
+                    <h3>Un appel d'échange</h3>
+                    <p>15-30 minutes pour comprendre vos besoins.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">03</div>
@@ -323,8 +376,8 @@
                             <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Validation de votre profil</h3>
-                    <p>Notre équipe examine chaque candidature pour s'assurer de la qualité et de la pertinence des membres. Nous privilégions les profils viables et engagés.</p>
+                    <h3>Validation du profil</h3>
+                    <p>Vérification de la viabilité de votre projet.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">04</div>
@@ -333,15 +386,12 @@
                             <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3>Accès au groupe WhatsApp privé</h3>
-                    <p>Une fois accepté, vous recevrez l'invitation pour rejoindre notre groupe WhatsApp privé, où vous pourrez échanger avec la communauté et découvrir les opportunités.</p>
+                    <h3>Accès au groupe WhatsApp</h3>
+                    <p>Rejoins la communauté privée et découvre les opportunités.</p>
                 </div>
             </div>
             <div class="services-cta">
-                <button class="cta-button primary" onclick="scrollToForm()">Je deviens acteur du changement</button>
-                <p style="margin-top: 1.5rem; text-align: center;">
-                    <a href="/services" style="color: var(--primary-color); text-decoration: underline;">En savoir plus sur nos services de mise en relation avec prestataires</a>
-                </p>
+                <button class="cta-button primary" onclick="scrollToForm()">Je commence maintenant</button>
             </div>
         </div>
     </section>
@@ -353,72 +403,25 @@
                 <div class="transformation-text">
                     <h2>Deviens un acteur du changement ultramarin</h2>
                     <p class="transformation-description">
-                        Domtom Connect est bien plus qu'une plateforme de networking professionnel. <strong>C'est un mouvement entrepreneurial</strong> porté par des pionniers qui croient au potentiel des territoires ultramarins français, des îles indépendantes, des îles liées à l'Afrique et de l'océan Indien, et de la diaspora ultramarine. C'est une communauté d'acteurs qui transforment les défis en opportunités et qui construisent l'avenir de nos îles.
-                    </p>
-                    <p class="transformation-subtitle">
-                        Que tu sois entrepreneur local dans les Antilles, l'océan Indien, le Pacifique ou la Guyane, porteur de projet dans une île indépendante ou dans une île liée à l'Afrique comme Madagascar, Maurice, Seychelles, Cap-Vert ou São Tomé-et-Príncipe, ou membre de la diaspora ultramarine en métropole ou ailleurs dans le monde, <strong>tu as le pouvoir de changer les choses</strong>. En rejoignant cette première vague de membres, tu participes activement à écrire une nouvelle histoire économique et sociale pour les territoires ultramarins et les îles. Tu deviens un acteur du changement qui fait la différence.
+                        <strong>C'est un mouvement entrepreneurial</strong> qui transforme les défis en opportunités pour les territoires ultramarins.
                     </p>
                     <p class="transformation-subtitle" style="margin-top: 1.5rem; font-weight: 600;">
                         L'avenir des territoires ultramarins se construit maintenant. Et tu en fais partie.
                     </p>
                     <div class="transformation-button-container">
-                        <button class="cta-button primary" onclick="scrollToForm()">Je deviens acteur du changement</button>
+                        <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- BLOC 6.5 - Articles récents -->
-    <section class="recent-articles-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Derniers articles</h2>
-                <p>Découvrez nos contenus pour faire grandir vos projets</p>
-            </div>
-            <div class="recent-articles-grid">
-                <article class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-category">Podcast</div>
-                    </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 2V6M16 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                30 Nov 2025
-                            </span>
-                        </div>
-                        <h3 class="blog-card-title">
-                            <a href="blog/pourquoi-j-ai-cree-domtom-connect-episode-1.html">Pourquoi j'ai créé Domtom Connect ? - Episode 1 Insulink</a>
-                        </h3>
-                        <p class="blog-card-excerpt">
-                            Dans ce premier épisode d'Insulink, je t'explique pourquoi j'ai créé cet écosystème, comment il fonctionne et comment il peut t'aider à avancer plus vite dans ton projet.
-                        </p>
-                        <div class="blog-card-footer">
-                            <a href="blog/pourquoi-j-ai-cree-domtom-connect-episode-1.html" class="blog-card-link">
-                                Lire la suite
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="blog" class="cta-button secondary">Voir tous les articles</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- BLOC 7 - FAQ -->
+    <!-- BLOC 7 - FAQ (simplifié) -->
     <section class="faq-section">
         <div class="container">
             <div class="section-header">
                 <h2>Questions fréquentes</h2>
-                <p>Tout ce que vous devez savoir sur Domtom Connect</p>
             </div>
             <div class="faq-list">
                 <div class="faq-item">
@@ -427,7 +430,7 @@
                         <span class="faq-icon">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Toute personne liée aux territoires insulaires. Porteurs de projets, entreprises, prestataires, étudiants, ou membres de la diaspora.</p>
+                        <p>Porteurs de projets, entreprises, prestataires, étudiants, ou membres de la diaspora ultramarine.</p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -439,38 +442,23 @@
                         <p>Non. L'inscription est gratuite pour les pionniers de la première vague.</p>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Comment participer ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>En rejoignant notre groupe WhatsApp privé après inscription.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Quels types de projets ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Économie, culture, environnement, innovation sociale, tourisme durable, etc.</p>
-                    </div>
-                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
             </div>
         </div>
     </section>
 
-    <!-- BLOC 8 - Formulaire final -->
-    <section class="final-form-section" id="inscription-form">
+    <!-- BLOC 8 - Formulaire final (dupliqué pour conversion) -->
+    <section class="final-form-section">
         <div class="container">
             <div class="form-content">
                 <div class="form-header">
                     <h2>Prêt à devenir un acteur du changement ultramarin ?</h2>
-                    <p>Rejoins les pionniers qui transforment les territoires ultramarins. L'avenir se construit maintenant, et tu en fais partie.</p>
+                    <p>Rejoins les pionniers qui transforment les territoires ultramarins.</p>
                 </div>
                 
-                <form class="inscription-form" id="inscription-form" onsubmit="handleFormSubmit(event)">
+                <form class="inscription-form" onsubmit="handleFormSubmit(event)">
                     <div class="form-group">
                         <input type="text" name="prenom" placeholder="Prénom" required>
                     </div>
@@ -519,7 +507,7 @@
                             Je souhaite recevoir les actualités de Domtom Connect
                         </label>
                     </div>
-                    <button type="submit" class="cta-button primary large">Je deviens acteur du changement</button>
+                    <button type="submit" class="cta-button primary large">Je rejoins maintenant</button>
                 </form>
             </div>
         </div>
