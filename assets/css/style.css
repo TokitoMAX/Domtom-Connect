@@ -197,6 +197,14 @@ p {
     gap: 12px;
     min-height: 48px;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.nav-brand:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
 }
 
 .nav-logo {
@@ -214,11 +222,7 @@ p {
     line-height: 1.2;
 }
 
-.nav-brand-text a {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+/* .nav-brand-text a is no longer needed as nav-brand is now the link */
 
 .nav-brand-name {
     font-size: 1.4rem;
