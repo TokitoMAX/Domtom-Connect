@@ -1497,8 +1497,9 @@ p {
     border: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
     width: 100%;
+    row-gap: 1.5rem;
 }
 
 .form-group {
@@ -1547,7 +1548,19 @@ p {
 }
 
 .form-group input,
-.form-group select,
+.form-group select {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: var(--white);
+    min-height: 48px;
+    box-sizing: border-box;
+}
+
 .form-group textarea {
     width: 100%;
     padding: 1rem 1.25rem;
@@ -1558,7 +1571,8 @@ p {
     transition: all 0.3s ease;
     background: var(--white);
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
+    box-sizing: border-box;
 }
 
 .form-group label {
@@ -1575,11 +1589,6 @@ p {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.1);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 120px;
 }
 
 .checkbox-group {
