@@ -526,13 +526,16 @@ p {
 }
 
 .hero-content-with-form {
-    gap: 3rem;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 4rem;
+    align-items: start;
 }
 
 .hero-problem,
 .hero-solution {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     margin-bottom: 1.5rem;
+    line-height: 1.6;
 }
 
 .hero-solution {
@@ -540,10 +543,11 @@ p {
 }
 
 .hero-benefits {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 2rem;
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.08) 100%);
+    padding: 1.75rem;
+    border-radius: 12px;
+    margin-top: 2.5rem;
+    border-left: 4px solid var(--primary-color);
 }
 
 .hero-benefits p {
@@ -559,16 +563,20 @@ p {
 
 .hero-form {
     background: var(--white);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     max-width: 100%;
+    position: sticky;
+    top: 120px;
 }
 
 .hero-form-title {
     color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
 }
 
 .hero-form-button {
@@ -577,6 +585,8 @@ p {
 
 .hero-text {
     text-align: left;
+    max-width: 100%;
+    padding-right: 1rem;
 }
 
 .hero-title {
@@ -1679,10 +1689,16 @@ p {
     
     .hero-form {
         order: 2;
+        position: relative;
+        top: auto;
     }
     
     .hero-text {
         order: 1;
+    }
+    
+    .hero-content-with-form {
+        grid-template-columns: 1fr;
     }
     
     .vision-stats-grid {
