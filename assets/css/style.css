@@ -526,22 +526,20 @@ p {
 }
 
 .hero-content-with-form {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
     align-items: center;
-    max-width: 900px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .hero-problem,
 .hero-solution {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 1.15rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.7;
+    text-align: left;
+    color: var(--text-secondary);
 }
 
 .hero-solution {
@@ -549,14 +547,12 @@ p {
 }
 
 .hero-benefits {
-    background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.08) 100%);
-    padding: 1.75rem;
-    border-radius: 12px;
-    margin-top: 2.5rem;
-    border-left: 4px solid var(--primary-color);
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.06) 0%, rgba(0, 168, 150, 0.06) 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-top: 3rem;
+    border: 1px solid rgba(0, 191, 166, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .hero-benefits p {
@@ -572,21 +568,27 @@ p {
 
 .hero-form {
     background: var(--white);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-    top: auto;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    max-width: 100%;
+    position: sticky;
+    top: 100px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
 .hero-form-title {
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.875rem;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
+    letter-spacing: -0.01em;
 }
 
 .hero-form-button {
@@ -594,19 +596,19 @@ p {
 }
 
 .hero-text {
-    text-align: center;
+    text-align: left;
     max-width: 100%;
-    padding: 0;
+    padding-right: 2rem;
 }
 
 .hero-title {
     color: var(--text-primary);
-    margin-bottom: 2rem;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    line-height: 1.1;
+    margin-bottom: 2.5rem;
+    font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+    line-height: 1.15;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    text-align: center;
+    letter-spacing: -0.03em;
+    text-align: left;
 }
 
 .hero-subtitle {
@@ -1706,10 +1708,26 @@ p {
     
     .hero-text {
         order: 1;
+        padding-right: 0;
     }
     
     .hero-content-with-form {
         grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .hero-title {
+        text-align: center;
+    }
+    
+    .hero-problem,
+    .hero-solution {
+        text-align: center;
+    }
+    
+    .hero-benefits {
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .vision-stats-grid {
