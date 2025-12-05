@@ -252,37 +252,26 @@ function initNavigation() {
             closeMenu();
         });
     });
+}
 
-    document.addEventListener('click', (event) => {
-        const clickedOutsideMenu = !navContent.contains(event.target) && !navToggle.contains(event.target);
-        if (clickedOutsideMenu && navContent.classList.contains('is-open')) {
-            closeMenu();
-        }
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && navContent.classList.contains('is-open')) {
-            closeMenu();
-        }
-    });
-
-    const handleScroll = () => {
-        if (window.scrollY > 32) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 960) {
-            closeMenu();
-        }
+// Gérer les clics sur le logo et le nom pour revenir à l'accueil
+function initLogoLinks() {
+    const navBrandLinks = document.querySelectorAll('.nav-brand a, .nav-brand-text a');
+    navBrandLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            // Si on est déjà sur la page d'accueil, faire défiler vers le haut
+            if (href === 'index.html' || href === './' || href === '/') {
+                const currentPath = window.location.pathname;
+                if (currentPath === '/' || currentPath.endsWith('index.html') || currentPath.endsWith('/index.html')) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        });
     });
 }
+
 
 // Fonction pour ajouter des animations au scroll
 function initScrollAnimations() {
@@ -388,6 +377,7 @@ function init() {
     initEmailSignup();
     initParallaxEffects();
     initFAQ();
+    initLogoLinks();
     
     // Pré-remplir l'email si disponible (fonctionnalité supprimée du nouveau design)
     // L'inscription se fait uniquement via le formulaire principal
