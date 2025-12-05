@@ -1509,9 +1509,8 @@ p {
     grid-column: 1 / -1;
 }
 
+.form-group.full-width,
 .form-group textarea,
-.form-group select[name="ile"],
-.form-group select[name="profil"],
 .form-group.conditional-field,
 .form-group.checkbox-group,
 .hero-form-button,
