@@ -378,6 +378,7 @@ function init() {
     initParallaxEffects();
     initFAQ();
     initLogoLinks();
+    initTerritories();
     
     // Pré-remplir l'email si disponible (fonctionnalité supprimée du nouveau design)
     // L'inscription se fait uniquement via le formulaire principal
@@ -531,6 +532,76 @@ function initDynamicForms() {
             updateFormFields2();
         }
     }
+}
+
+// Initialiser les cartes de territoires
+function initTerritories() {
+    const territoryCards = document.querySelectorAll('.territory-card');
+    
+    territoryCards.forEach(card => {
+        // Effet au survol avec animation
+        card.addEventListener('mouseenter', function() {
+            this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+        
+        // Effet au clic - scroll vers le formulaire avec pré-remplissage
+        card.addEventListener('click', function() {
+            const territory = this.getAttribute('data-territory');
+            const territoryName = this.querySelector('h3').textContent;
+            
+            // Pré-remplir le formulaire avec le territoire sélectionné
+            const ileSelect = document.querySelector('select[name="ile"]');
+            if (ileSelect) {
+                // Mapper les noms de territoires aux valeurs du select
+                const territoryMap = {
+                    'martinique': 'martinique',
+                    'guadeloupe': 'guadeloupe',
+                    'reunion': 'reunion',
+                    'guyane': 'guyane',
+                    'mayotte': 'mayotte',
+                    'haiti': 'autre', // Haïti n'est pas dans la liste, utiliser "autre"
+                    'madagascar': 'autre',
+                    'maurice': 'autre',
+                    'diaspora': 'diaspora'
+                };
+                
+                const selectValue = territoryMap[territory] || 'autre';
+                ileSelect.value = selectValue;
+                
+                // Déclencher l'événement change pour mettre à jour le formulaire
+                ileSelect.dispatchEvent(new Event('change'));
+            }
+            
+            // Scroll vers le formulaire
+            scrollToForm();
+            
+            // Animation de feedback
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+        
+        // Animation au chargement
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
 }
 
 // Démarrer l'application

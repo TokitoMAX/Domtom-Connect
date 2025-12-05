@@ -1377,6 +1377,307 @@ p {
     font-weight: 500;
 }
 
+/* Territories Section */
+.territories-section {
+    padding: 140px 0;
+    background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.territories-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.island-shape {
+    position: absolute;
+    border-radius: 50% 40% 50% 40%;
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.05) 100%);
+    animation: float 6s ease-in-out infinite;
+}
+
+.island-shape-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.island-shape-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 8%;
+    animation-delay: 2s;
+}
+
+.island-shape-3 {
+    width: 120px;
+    height: 120px;
+    bottom: 15%;
+    left: 15%;
+    animation-delay: 4s;
+}
+
+.connection-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 191, 166, 0.3), transparent);
+    animation: pulse-line 3s ease-in-out infinite;
+}
+
+.connection-line-1 {
+    top: 20%;
+    left: 20%;
+    width: 300px;
+    transform: rotate(25deg);
+    animation-delay: 0s;
+}
+
+.connection-line-2 {
+    top: 50%;
+    right: 25%;
+    width: 250px;
+    transform: rotate(-15deg);
+    animation-delay: 1s;
+}
+
+.connection-line-3 {
+    bottom: 25%;
+    left: 30%;
+    width: 280px;
+    transform: rotate(45deg);
+    animation-delay: 2s;
+}
+
+@keyframes pulse-line {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scaleX(0.8);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scaleX(1);
+    }
+}
+
+.territories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.territory-card {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.territory-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.15);
+    border-color: var(--primary-color);
+}
+
+.territory-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    z-index: 2;
+}
+
+.territory-card:hover::before {
+    transform: scaleX(1);
+}
+
+.territory-flag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2.5rem;
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.territory-card:hover .territory-flag {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.territory-image {
+    width: 100%;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+}
+
+.territory-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+.territory-card:hover .territory-overlay {
+    opacity: 0.2;
+}
+
+.diaspora-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 2px, transparent 2px);
+    background-size: 40px 40px, 50px 50px, 60px 60px;
+    opacity: 0.6;
+    animation: pattern-move 20s linear infinite;
+}
+
+@keyframes pattern-move {
+    0% {
+        background-position: 0 0, 0 0, 0 0;
+    }
+    100% {
+        background-position: 40px 40px, -50px 50px, 60px -60px;
+    }
+}
+
+.territory-content {
+    padding: 1.75rem;
+}
+
+.territory-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.territory-type {
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+}
+
+.territory-stats {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.territory-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.territory-stats .stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.territory-stats .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.territory-card-special {
+    border: 2px solid var(--primary-color);
+}
+
+.territory-card-special::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-dark), var(--primary-color));
+    border-radius: var(--border-radius-lg);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.territory-card-special:hover::after {
+    opacity: 0.1;
+}
+
+/* Responsive Territories */
+@media (max-width: 1024px) {
+    .territories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .island-shape-1,
+    .island-shape-2,
+    .island-shape-3 {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .territories-section {
+        padding: 100px 0;
+    }
+    
+    .territories-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .territory-image {
+        height: 160px;
+    }
+    
+    .territory-flag {
+        font-size: 2rem;
+    }
+    
+    .connection-line {
+        display: none;
+    }
+}
+
 /* FAQ Section */
 .faq-section {
     padding: 140px 0;
