@@ -526,9 +526,11 @@ p {
 }
 
 .hero-content-with-form {
-    grid-template-columns: 1.3fr 1fr;
-    gap: 4rem;
-    align-items: start;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .hero-problem,
@@ -536,6 +538,10 @@ p {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
     line-height: 1.6;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-solution {
@@ -548,6 +554,9 @@ p {
     border-radius: 12px;
     margin-top: 2.5rem;
     border-left: 4px solid var(--primary-color);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-benefits p {
@@ -566,9 +575,10 @@ p {
     padding: 2.5rem;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    max-width: 100%;
-    position: sticky;
-    top: 120px;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    top: auto;
 }
 
 .hero-form-title {
@@ -584,9 +594,9 @@ p {
 }
 
 .hero-text {
-    text-align: left;
+    text-align: center;
     max-width: 100%;
-    padding-right: 1rem;
+    padding: 0;
 }
 
 .hero-title {
@@ -596,6 +606,7 @@ p {
     line-height: 1.1;
     font-weight: 800;
     letter-spacing: -0.02em;
+    text-align: center;
 }
 
 .hero-subtitle {
