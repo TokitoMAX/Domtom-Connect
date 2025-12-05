@@ -571,6 +571,7 @@ p {
     padding: 3rem;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    width: 100%;
     max-width: 100%;
     position: sticky;
     top: 100px;
@@ -1489,14 +1490,15 @@ p {
 }
 
 .inscription-form {
-    background: var(--white);
-    padding: 3rem;
-    border-radius: var(--border-radius-xl);
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--gray-200);
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
+    width: 100%;
 }
 
 .form-group {
