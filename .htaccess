@@ -1,9 +1,16 @@
-# Redirection de index.html vers la racine
+# Masquer index.html de toutes les URLs
 RewriteEngine On
-RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
+
+# Redirection générale : supprimer index.html de toutes les URLs
+# Cette règle fonctionne pour tous les dossiers (racine et sous-dossiers)
+RewriteCond %{THE_REQUEST} \s/+(.+/)index\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Redirection pour la racine uniquement
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
 RewriteRule ^index\.html$ / [R=301,L]
 
-# Servir index.html pour la racine
+# Servir index.html pour tous les dossiers sans l'afficher dans l'URL
 DirectoryIndex index.html
 
 # Redirections pour éviter le contenu dupliqué
