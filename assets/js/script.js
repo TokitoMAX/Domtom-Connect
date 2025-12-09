@@ -256,19 +256,33 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    const navBrandLinks = document.querySelectorAll('.nav-brand a, .nav-brand-text a');
+    // Sélectionner tous les liens de navigation (logo et texte) - .nav-brand peut être directement un <a>
+    const navBrandLinks = document.querySelectorAll('a.nav-brand, .nav-brand a, .nav-brand-text a');
     navBrandLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            // Si on est déjà sur la page d'accueil, faire défiler vers le haut
-            if (href === 'index.html' || href === './' || href === '/') {
-                const currentPath = window.location.pathname;
-                if (currentPath === '/' || currentPath.endsWith('index.html') || currentPath.endsWith('/index.html')) {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+        // S'assurer que c'est bien un élément <a>
+        if (link.tagName === 'A') {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                // Si le lien pointe vers la page d'accueil
+                if (href === '/' || href === 'index.html' || href === './' || href === '../index.html' || href === '../../index.html') {
+                    const currentPath = window.location.pathname;
+                    // Si on est déjà sur la page d'accueil, faire défiler vers le haut au lieu de recharger
+                    if (currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html')) {
+                        e.preventDefault();
+                        // Forcer l'URL à être propre (sans index.html)
+                        if (window.location.pathname !== '/') {
+                            window.history.replaceState({}, '', '/');
+                        }
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        // Si on est sur une autre page, laisser la navigation normale se faire
+                        // mais s'assurer que l'URL sera propre
+                        e.preventDefault();
+                        window.location.href = '/';
+                    }
                 }
+            });
         }
-    });
     });
 }
 

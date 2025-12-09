@@ -4,8 +4,8 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/index.html",
-      "destination": "/"
+      "source": "/",
+      "destination": "/index.html"
     }
   ],
   "redirects": [
@@ -15,8 +15,8 @@
       "permanent": true
     },
     {
-      "source": "/:path*/index.html",
-      "destination": "/:path*",
+      "source": "/(.*)/index.html",
+      "destination": "/$1",
       "permanent": true
     },
     {
