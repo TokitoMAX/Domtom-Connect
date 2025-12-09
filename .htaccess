@@ -6,6 +6,15 @@ RewriteRule ^index\.html$ / [R=301,L]
 # Servir index.html pour la racine
 DirectoryIndex index.html
 
+# Redirections pour éviter le contenu dupliqué
+# Redirection blog.html vers /blog
+RewriteCond %{THE_REQUEST} /blog\.html[\s?] [NC]
+RewriteRule ^blog\.html$ /blog [R=301,L]
+
+# Redirection pourquoi-j-ai-cree-domtom-connect-episode-1 vers /blog/pourquoi-j-ai-cree-domtom-connect-episode-1
+RewriteCond %{THE_REQUEST} /pourquoi-j-ai-cree-domtom-connect-episode-1[\s?] [NC]
+RewriteRule ^pourquoi-j-ai-cree-domtom-connect-episode-1/?$ /blog/pourquoi-j-ai-cree-domtom-connect-episode-1 [R=301,L]
+
 # Forcer HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

@@ -14,13 +14,19 @@
   </url>
   <url>
     <loc>https://domtomconnect.com/blog</loc>
-    <lastmod>2025-12-02</lastmod>
+    <lastmod>2025-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/blog/pourquoi-j-ai-cree-domtom-connect-episode-1</loc>
     <lastmod>2025-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://domtomconnect.com/blog/insulink-episode-2</loc>
+    <lastmod>2025-12-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
