@@ -256,8 +256,12 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    // Désactivé : laisser le navigateur gérer la navigation naturellement pour tous les liens nav-brand
-    // Tous les liens vers domtomconnect.com fonctionnent maintenant directement via HTML
+    const logoLink = document.getElementById('logo-home-link');
+    if (logoLink) {
+        logoLink.addEventListener('click', function() {
+            window.location.href = '/';
+        });
+    }
 }
 
 
