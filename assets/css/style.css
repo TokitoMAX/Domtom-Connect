@@ -197,10 +197,21 @@ p {
     gap: 12px;
     min-height: 48px;
     flex-shrink: 0;
-    cursor: pointer;
-    text-decoration: none;
+    cursor: pointer !important;
+    text-decoration: none !important;
     position: relative;
-    z-index: 1;
+    z-index: 10;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-brand:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+.nav-brand:active {
+    transform: scale(0.98);
 }
 
 .nav-brand a {
@@ -219,7 +230,8 @@ p {
     border-radius: 12px;
     background-color: transparent;
     display: block;
-    cursor: pointer;
+    pointer-events: none;
+    user-select: none;
 }
 
 .nav-brand-text {
@@ -227,6 +239,7 @@ p {
     flex-direction: column;
     gap: 2px;
     line-height: 1.2;
+    pointer-events: none;
 }
 
 .nav-brand-text a {

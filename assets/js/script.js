@@ -256,37 +256,8 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    // Sélectionner tous les liens de navigation (logo et texte)
-    const navBrandLinks = document.querySelectorAll('a.nav-brand');
-    navBrandLinks.forEach(link => {
-        if (link.tagName === 'A') {
-            const href = link.getAttribute('href');
-            
-            // Si le lien pointe vers domtomconnect.com ou vers la racine, laisser le navigateur gérer naturellement
-            // Ne pas ajouter d'event listener pour ces liens
-            if (href && (href.includes('domtomconnect.com') || href === '/' || href === 'https://domtomconnect.com/')) {
-                // Laisser le navigateur gérer la navigation naturellement - pas d'interception JavaScript
-                return;
-            }
-            
-            // Pour les autres cas, gérer le comportement
-            link.addEventListener('click', (e) => {
-                const currentPath = window.location.pathname;
-                const currentHost = window.location.hostname;
-                
-                // Si on est déjà sur la page d'accueil, faire défiler vers le haut au lieu de recharger
-                if ((currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html')) && 
-                    (currentHost === 'domtomconnect.com' || currentHost === 'www.domtomconnect.com' || currentHost === 'localhost')) {
-                    e.preventDefault();
-                    // Forcer l'URL à être propre (sans index.html)
-                    if (window.location.pathname !== '/') {
-                        window.history.replaceState({}, '', '/');
-                    }
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-        }
-    });
+    // Désactivé : laisser le navigateur gérer la navigation naturellement pour tous les liens nav-brand
+    // Tous les liens vers domtomconnect.com fonctionnent maintenant directement via HTML
 }
 
 
