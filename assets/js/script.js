@@ -256,12 +256,7 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    const logoLink = document.getElementById('logo-home-link');
-    if (logoLink) {
-        logoLink.addEventListener('click', function() {
-            window.location.href = '/';
-        });
-    }
+    // Fonction désactivée - le lien HTML fonctionne directement
 }
 
 
