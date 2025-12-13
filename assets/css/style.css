@@ -260,9 +260,13 @@ p {
     letter-spacing: -0.01em;
     background: linear-gradient(120deg, #00BFA6 0%, #0F3D2E 100%);
     -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     color: transparent;
-    display: block;
+    display: inline-block;
     line-height: 1.2;
+    margin-left: 12px;
+    transition: opacity 0.2s ease;
 }
 
 .nav-brand-tagline {
