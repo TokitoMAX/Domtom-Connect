@@ -256,7 +256,35 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    // Fonction désactivée - le lien HTML fonctionne directement
+    const navBrand = document.querySelector('#logo-home, .nav-brand');
+    if (navBrand) {
+        navBrand.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = '/';
+            return false;
+        }, true);
+        
+        // Ajouter aussi sur les éléments enfants
+        const logoImg = navBrand.querySelector('.nav-logo');
+        const logoText = navBrand.querySelector('.nav-brand-name');
+        
+        if (logoImg) {
+            logoImg.style.cursor = 'pointer';
+            logoImg.addEventListener('click', function(e) {
+                e.stopPropagation();
+                window.location.href = '/';
+            });
+        }
+        
+        if (logoText) {
+            logoText.style.cursor = 'pointer';
+            logoText.addEventListener('click', function(e) {
+                e.stopPropagation();
+                window.location.href = '/';
+            });
+        }
+    }
 }
 
 
