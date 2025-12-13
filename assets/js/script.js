@@ -264,7 +264,7 @@ function initLogoLinks() {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
                 // Si le lien pointe vers la page d'accueil
-                if (href === '/' || href === 'index.html' || href === './' || href === '../index.html' || href === '../../index.html') {
+                if (href === '/' || href === 'https://domtomconnect.com/' || href === 'index.html' || href === './' || href === '../index.html' || href === '../../index.html') {
                     const currentPath = window.location.pathname;
                     // Si on est déjà sur la page d'accueil, faire défiler vers le haut au lieu de recharger
                     if (currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html')) {
@@ -275,10 +275,9 @@ function initLogoLinks() {
                         }
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     } else {
-                        // Si on est sur une autre page, laisser la navigation normale se faire
-                        // mais s'assurer que l'URL sera propre
+                        // Si on est sur une autre page, rediriger vers l'accueil
                         e.preventDefault();
-                        window.location.href = '/';
+                        window.location.href = 'https://domtomconnect.com/';
                     }
                 }
             });
