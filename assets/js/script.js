@@ -256,30 +256,26 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    // Sélectionner tous les liens de navigation (logo et texte) - .nav-brand peut être directement un <a>
-    const navBrandLinks = document.querySelectorAll('a.nav-brand, .nav-brand a, .nav-brand-text a');
+    // Sélectionner tous les liens de navigation (logo et texte)
+    const navBrandLinks = document.querySelectorAll('a.nav-brand');
     navBrandLinks.forEach(link => {
-        // S'assurer que c'est bien un élément <a>
         if (link.tagName === 'A') {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
-                // Si le lien pointe vers la page d'accueil
-                if (href === '/' || href === 'https://domtomconnect.com/' || href === 'index.html' || href === './' || href === '../index.html' || href === '../../index.html') {
-                    const currentPath = window.location.pathname;
-                    // Si on est déjà sur la page d'accueil, faire défiler vers le haut au lieu de recharger
-                    if (currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html')) {
-                        e.preventDefault();
-                        // Forcer l'URL à être propre (sans index.html)
-                        if (window.location.pathname !== '/') {
-                            window.history.replaceState({}, '', '/');
-                        }
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    } else {
-                        // Si on est sur une autre page, rediriger vers l'accueil
-                        e.preventDefault();
-                        window.location.href = 'https://domtomconnect.com/';
+                const currentPath = window.location.pathname;
+                const currentHost = window.location.hostname;
+                
+                // Si on est déjà sur la page d'accueil, faire défiler vers le haut au lieu de recharger
+                if ((currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/index.html')) && 
+                    (currentHost === 'domtomconnect.com' || currentHost === 'www.domtomconnect.com' || currentHost === 'localhost')) {
+                    e.preventDefault();
+                    // Forcer l'URL à être propre (sans index.html)
+                    if (window.location.pathname !== '/') {
+                        window.history.replaceState({}, '', '/');
                     }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
+                // Sinon, laisser le lien fonctionner naturellement (pas de preventDefault)
             });
         }
     });

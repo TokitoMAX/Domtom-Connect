@@ -197,6 +197,10 @@ p {
     gap: 12px;
     min-height: 48px;
     flex-shrink: 0;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
 }
 
 .nav-brand a {
