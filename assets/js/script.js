@@ -256,35 +256,26 @@ function initNavigation() {
 
 // Gérer les clics sur le logo et le nom pour revenir à l'accueil
 function initLogoLinks() {
-    const navBrand = document.querySelector('#logo-home, .nav-brand');
-    if (navBrand) {
-        navBrand.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.location.href = '/';
-            return false;
-        }, true);
-        
-        // Ajouter aussi sur les éléments enfants
-        const logoImg = navBrand.querySelector('.nav-logo');
-        const logoText = navBrand.querySelector('.nav-brand-name');
-        
-        if (logoImg) {
-            logoImg.style.cursor = 'pointer';
-            logoImg.addEventListener('click', function(e) {
+    // Utiliser un délai pour s'assurer que le DOM est complètement chargé
+    setTimeout(function() {
+        const navBrand = document.getElementById('logo-home') || document.querySelector('.nav-brand');
+        if (navBrand) {
+            // Supprimer tous les event listeners existants et en ajouter un nouveau
+            navBrand.onclick = function(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
                 window.location.href = '/';
-            });
+                return false;
+            };
+            
+            // Forcer le style pour être sûr que c'est cliquable
+            navBrand.style.cursor = 'pointer';
+            navBrand.style.pointerEvents = 'auto';
+            navBrand.style.zIndex = '9999';
+            navBrand.style.position = 'relative';
         }
-        
-        if (logoText) {
-            logoText.style.cursor = 'pointer';
-            logoText.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.location.href = '/';
-            });
-        }
-    }
+    }, 100);
 }
 
 
