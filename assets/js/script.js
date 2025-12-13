@@ -260,8 +260,17 @@ function initLogoLinks() {
     const navBrandLinks = document.querySelectorAll('a.nav-brand');
     navBrandLinks.forEach(link => {
         if (link.tagName === 'A') {
+            const href = link.getAttribute('href');
+            
+            // Si le lien pointe vers domtomconnect.com ou vers la racine, laisser le navigateur gérer naturellement
+            // Ne pas ajouter d'event listener pour ces liens
+            if (href && (href.includes('domtomconnect.com') || href === '/' || href === 'https://domtomconnect.com/')) {
+                // Laisser le navigateur gérer la navigation naturellement - pas d'interception JavaScript
+                return;
+            }
+            
+            // Pour les autres cas, gérer le comportement
             link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
                 const currentPath = window.location.pathname;
                 const currentHost = window.location.hostname;
                 
@@ -275,7 +284,6 @@ function initLogoLinks() {
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-                // Sinon, laisser le lien fonctionner naturellement (pas de preventDefault)
             });
         }
     });
