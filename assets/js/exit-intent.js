@@ -2,6 +2,9 @@
 
 let exitIntentShown = false;
 let mouseY = 0;
+let timeOnPage = 0;
+let scrollPercentage = 0;
+let pageLoadTime = Date.now();
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if popup was already shown (cookie)
@@ -9,24 +12,60 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Track mouse movement
+    // Track mouse movement for exit intent
     document.addEventListener('mouseout', handleMouseOut);
     document.addEventListener('mousemove', handleMouseMove);
     
+    // Track scroll percentage
+    document.addEventListener('scroll', handleScroll);
+    
+    // Track time on page
+    setInterval(() => {
+        timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // seconds
+    }, 1000);
+    
     initExitIntentPopup();
+    
+    // Show popup after user has been on page for 30 seconds AND scrolled at least 50%
+    setTimeout(() => {
+        if (!exitIntentShown && scrollPercentage >= 50) {
+            showExitIntentPopup();
+            exitIntentShown = true;
+            setCookie('exit_intent_shown', 'true', 24);
+        }
+    }, 30000); // 30 seconds
 });
 
 function handleMouseMove(e) {
     mouseY = e.clientY;
 }
 
+function handleScroll() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    scrollPercentage = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
+}
+
 function handleMouseOut(e) {
-    // Only trigger if mouse is moving upward (toward top of page)
+    // Only trigger if mouse is moving upward (toward top of page) - exit intent
+    // This detects when user tries to leave the page
     if (!e.toElement && !e.relatedTarget && mouseY < 10) {
         if (!exitIntentShown) {
             showExitIntentPopup();
             exitIntentShown = true;
             setCookie('exit_intent_shown', 'true', 24); // 24 hours
+            
+            // Track exit intent trigger
+            if (window.trackLead) {
+                window.trackLead({
+                    source: 'exit-intent-popup',
+                    action: 'triggered',
+                    trigger: 'exit-intent',
+                    timeOnPage: timeOnPage,
+                    scrollPercentage: scrollPercentage
+                });
+            }
         }
     }
 }
