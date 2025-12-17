@@ -125,6 +125,13 @@
                         <p>✅ Accès au groupe WhatsApp privé</p>
                         <p>✅ Recherche active de prestataires selon tes besoins</p>
                     </div>
+                    <!-- Option quiz discrète pour ceux qui doutent - stratégie : réduire la friction avant le formulaire -->
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);">
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+                            <strong style="color: var(--primary-color);">💡 Pas sûr si ton projet est prêt ?</strong> 
+                            <a href="/quiz" style="color: var(--primary-color); text-decoration: underline; font-weight: 600; margin-left: 0.25rem;">Teste-le en 2 min</a>
+                        </p>
+                    </div>
                 </div>
                 <div class="form-content hero-form">
                     <div style="margin-bottom: 1.75rem;">
@@ -296,6 +303,31 @@
                     <p>Nous construisons notre réseau de prestataires selon tes besoins. Chaque demande nous permet d'étoffer notre base et de mieux te servir.</p>
                 </div>
             </div>
+            
+            <!-- SECTION QUIZ STRATÉGIQUE : Après avoir vu la valeur, avant de comprendre le processus -->
+            <!-- Moment psychologique optimal : l'utilisateur a compris ce qu'il obtient, se demande maintenant s'il est prêt -->
+            <div style="max-width: 900px; margin: 4rem auto 0; padding: 3rem; background: linear-gradient(135deg, #00BFA6 0%, #0F3D2E 100%); border-radius: var(--border-radius-lg); text-align: center; color: var(--white); box-shadow: 0 8px 32px rgba(0, 191, 166, 0.2);">
+                <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: var(--white);">
+                    🎯 Votre projet est-il prêt à avancer ?
+                </h3>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9); line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Avant de rejoindre, testez en 2 minutes si votre projet est bien préparé. Recevez un score de préparation et des recommandations personnalisées pour maximiser vos chances de réussite.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                    <a href="/quiz" class="cta-button" style="background: var(--white); color: var(--primary-color); padding: 1.25rem 3rem; font-size: 1.125rem; font-weight: 700; border-radius: 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); transition: transform 0.2s ease;">
+                        <span>Commencer le quiz gratuit</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <div style="display: flex; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">
+                        <span>✓ 5 questions</span>
+                        <span>✓ 2 minutes</span>
+                        <span>✓ Résultats instantanés</span>
+                    </div>
+                </div>
+            </div>
+            
             <div style="text-align: center; margin-top: 3rem;">
                 <button class="cta-button primary" onclick="scrollToForm()">Je rejoins maintenant</button>
             </div>
@@ -336,9 +368,6 @@
                 <div class="service-card">
                     <div class="service-number">01</div>
                     <h3>Tu remplis le formulaire</h3>
-                    <p style="margin-top: 1rem; color: var(--text-secondary);">
-                        <a href="/quiz" style="color: var(--primary-color); text-decoration: underline; font-weight: 600;">Ou teste d'abord si ton projet est prêt avec notre quiz gratuit →</a>
-                    </p>
                     <p>Présente ton projet en quelques minutes.</p>
                 </div>
                 <div class="service-card">
