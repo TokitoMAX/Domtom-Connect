@@ -103,7 +103,7 @@ function initExitIntentPopup() {
     const popupHTML = `
         <div class="exit-intent-overlay" id="exit-intent-overlay">
             <div class="exit-intent-popup">
-                <button class="exit-intent-close" onclick="closeExitIntentPopup()" aria-label="Fermer">×</button>
+                <button class="exit-intent-close" onclick="window.closeExitIntentPopup()" aria-label="Fermer" style="cursor: pointer;">×</button>
                 <div class="exit-intent-header">
                     <span class="exit-intent-badge">Offre limitée</span>
                     <h2>${offer.title}</h2>
@@ -188,6 +188,8 @@ function closeExitIntentPopup() {
     const overlay = document.getElementById('exit-intent-overlay');
     if (overlay) {
         overlay.classList.remove('show');
+        overlay.style.display = 'none';
+        overlay.style.opacity = '0';
         
         // Track popup closed
         if (window.trackLead) {
@@ -196,6 +198,10 @@ function closeExitIntentPopup() {
                 action: 'closed'
             });
         }
+        
+        console.log('Popup fermée'); // Debug
+    } else {
+        console.error('Overlay non trouvé pour fermeture'); // Debug
     }
 }
 
@@ -269,7 +275,7 @@ function handleExitIntentSubmit(event) {
                         <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Demande enregistrée !</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 1rem;">Merci ! Nous vous contacterons dans les 24h pour planifier votre appel découverte gratuit.</p>
                         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Vérifiez votre email pour les détails.</p>
-                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                        <button type="button" class="cta-button primary" onclick="window.closeExitIntentPopup()" style="margin-top: 1rem; cursor: pointer;">
                             Parfait, merci !
                         </button>
                     </div>
@@ -280,7 +286,7 @@ function handleExitIntentSubmit(event) {
                         <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Consultation réservée !</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 1rem;">Excellent ! Nous vous contacterons rapidement pour planifier votre consultation gratuite.</p>
                         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Un email de confirmation vous a été envoyé.</p>
-                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                        <button type="button" class="cta-button primary" onclick="window.closeExitIntentPopup()" style="margin-top: 1rem; cursor: pointer;">
                             Parfait !
                         </button>
                     </div>
@@ -291,7 +297,7 @@ function handleExitIntentSubmit(event) {
                         <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription réussie !</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 1rem;">Bienvenue dans la communauté ! Nous vous contacterons très prochainement.</p>
                         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Vérifiez votre email pour les prochaines étapes.</p>
-                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                        <button type="button" class="cta-button primary" onclick="window.closeExitIntentPopup()" style="margin-top: 1rem; cursor: pointer;">
                             Parfait !
                         </button>
                     </div>
@@ -300,10 +306,10 @@ function handleExitIntentSubmit(event) {
             
             form.innerHTML = successMessage;
             
-            // Close popup after 5 seconds
-            setTimeout(() => {
-                closeExitIntentPopup();
-            }, 5000);
+            // Close popup after 5 seconds (optionnel, commenté pour laisser l'utilisateur fermer manuellement)
+            // setTimeout(() => {
+            //     window.closeExitIntentPopup();
+            // }, 5000);
         } else {
             return response.json().then(errData => {
                 throw new Error(errData.error || 'Erreur lors de l\'envoi');
@@ -342,13 +348,19 @@ function getCookie(name) {
 document.addEventListener('click', function(e) {
     const overlay = document.getElementById('exit-intent-overlay');
     if (overlay && e.target === overlay) {
-        closeExitIntentPopup();
+        window.closeExitIntentPopup();
     }
 });
 
 // Close on ESC key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        closeExitIntentPopup();
+        const overlay = document.getElementById('exit-intent-overlay');
+        if (overlay && overlay.classList.contains('show')) {
+            window.closeExitIntentPopup();
+        }
     }
 });
+
+// Exposer la fonction globalement pour qu'elle soit accessible depuis onclick
+window.closeExitIntentPopup = closeExitIntentPopup;
