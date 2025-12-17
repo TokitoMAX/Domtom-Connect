@@ -1,5 +1,7 @@
 // Exit Intent Popup functionality
 
+console.log('Exit Intent Popup script chargé'); // Debug
+
 let exitIntentShown = false;
 let mouseY = 0;
 let timeOnPage = 0;
@@ -7,10 +9,10 @@ let scrollPercentage = 0;
 let pageLoadTime = Date.now();
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if popup was already shown (cookie)
-    if (getCookie('exit_intent_shown') === 'true') {
-        return;
-    }
+    // Check if popup was already shown (cookie) - commenté pour test
+    // if (getCookie('exit_intent_shown') === 'true') {
+    //     return;
+    // }
     
     // Track mouse movement for exit intent
     document.addEventListener('mouseout', handleMouseOut);
@@ -26,14 +28,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initExitIntentPopup();
     
-    // Show popup after user has been on page for 30 seconds AND scrolled at least 50%
+    // Show popup after user has been on page for 10 seconds (réduit pour test)
     setTimeout(() => {
-        if (!exitIntentShown && scrollPercentage >= 50) {
+        if (!exitIntentShown) {
             showExitIntentPopup();
             exitIntentShown = true;
             setCookie('exit_intent_shown', 'true', 24);
+            
+            // Track time-based trigger
+            if (window.trackLead) {
+                window.trackLead({
+                    source: 'exit-intent-popup',
+                    action: 'triggered',
+                    trigger: 'time-based',
+                    timeOnPage: timeOnPage,
+                    scrollPercentage: scrollPercentage
+                });
+            }
         }
-    }, 30000); // 30 seconds
+    }, 10000); // 10 seconds pour test (normalement 30s)
+    
+    // Mode test : appuyez sur 'T' pour forcer l'affichage
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 't' || e.key === 'T') {
+            if (!exitIntentShown) {
+                showExitIntentPopup();
+                exitIntentShown = true;
+                console.log('Popup forcée via touche T');
+            }
+        }
+    });
 });
 
 function handleMouseMove(e) {
@@ -50,7 +74,8 @@ function handleScroll() {
 function handleMouseOut(e) {
     // Only trigger if mouse is moving upward (toward top of page) - exit intent
     // This detects when user tries to leave the page
-    if (!e.toElement && !e.relatedTarget && mouseY < 10) {
+    // Amélioration de la détection pour être plus sensible
+    if (e.clientY < 0 || (!e.toElement && !e.relatedTarget && mouseY < 50)) {
         if (!exitIntentShown) {
             showExitIntentPopup();
             exitIntentShown = true;
@@ -140,6 +165,11 @@ function showExitIntentPopup() {
     const overlay = document.getElementById('exit-intent-overlay');
     if (overlay) {
         overlay.classList.add('show');
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        overlay.style.zIndex = '99999';
+        
+        console.log('Popup affichée'); // Debug
         
         // Track popup shown
         if (window.trackLead) {
@@ -149,6 +179,8 @@ function showExitIntentPopup() {
                 page: window.location.pathname
             });
         }
+    } else {
+        console.error('Overlay non trouvé - popup non initialisée'); // Debug
     }
 }
 
