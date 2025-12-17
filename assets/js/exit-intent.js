@@ -110,21 +110,37 @@ function initExitIntentPopup() {
                     <p>${offer.description}</p>
                 </div>
                 <form class="exit-intent-form" id="exit-intent-form" onsubmit="handleExitIntentSubmit(event)">
-                    <input type="text" name="prenom" placeholder="Prénom" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="tel" name="telephone" placeholder="Téléphone" required>
+                    <input type="text" name="prenom" placeholder="Prénom *" required>
+                    <input type="text" name="nom" placeholder="Nom *" required>
+                    <input type="email" name="email" placeholder="Email *" required>
+                    <input type="tel" name="telephone" placeholder="Téléphone *" required>
                     <select name="profil" required>
-                        <option value="">Votre profil</option>
+                        <option value="">Votre profil *</option>
                         <option value="porteur-projet">Porteur de projet</option>
                         <option value="entrepreneur">Entrepreneur</option>
                         <option value="entreprise">Entreprise</option>
                         <option value="prestataire">Prestataire</option>
+                    </select>
+                    <select name="ile" required>
+                        <option value="">Votre territoire *</option>
+                        <option value="martinique">Martinique</option>
+                        <option value="guadeloupe">Guadeloupe</option>
+                        <option value="reunion">La Réunion</option>
+                        <option value="guyane">Guyane</option>
+                        <option value="mayotte">Mayotte</option>
+                        <option value="polynesie">Polynésie française</option>
+                        <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                        <option value="diaspora">Diaspora</option>
+                        <option value="autre">Autre</option>
                     </select>
                     <button type="submit" class="cta-button primary large">
                         ${offer.buttonText}
                     </button>
                     <p class="exit-intent-privacy">
                         🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.
+                    </p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center;">
+                        * Champs obligatoires
                     </p>
                 </form>
             </div>
@@ -215,6 +231,25 @@ function handleExitIntentSubmit(event) {
     // Get offer type
     const offer = getPageSpecificOffer();
     
+    // Validation : vérifier que tous les champs obligatoires sont remplis
+    if (!data.prenom || !data.nom || !data.email || !data.telephone || !data.profil || !data.ile) {
+        alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *).');
+        return;
+    }
+    
+    // Validation email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        alert('Veuillez entrer une adresse email valide.');
+        return;
+    }
+    
+    // Validation téléphone (au moins 10 caractères)
+    if (data.telephone.replace(/\s/g, '').length < 10) {
+        alert('Veuillez entrer un numéro de téléphone valide.');
+        return;
+    }
+    
     // Add tracking data
     data.lead_source = 'exit-intent-popup';
     data.offer_type = offer.offerType;
@@ -241,22 +276,41 @@ function handleExitIntentSubmit(event) {
     // Send to Formspree (même endpoint que le formulaire principal)
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
-    formDataToSend.append('_subject', `🆕 Popup Exit-Intent - ${data.prenom} ${data.email}`);
+    formDataToSend.append('_subject', `🆕 Popup Exit-Intent - ${data.prenom} ${data.nom} (${data.profil})`);
     formDataToSend.append('_replyto', data.email);
     
-    let messageBody = `Nouvelle inscription via popup exit-intent\n\n`;
-    messageBody += `Prénom: ${data.prenom}\n`;
-    messageBody += `Email: ${data.email}\n`;
-    messageBody += `Téléphone: ${data.telephone || 'Non renseigné'}\n`;
-    messageBody += `Profil: ${data.profil}\n`;
-    messageBody += `Type d'offre: ${data.offer_type}\n`;
-    messageBody += `Page: ${data.page_url}\n`;
+    let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 NOUVELLE INSCRIPTION - POPUP EXIT-INTENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Type d'offre: ${data.offer_type}
+Page: ${data.page_url}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 INFORMATIONS PERSONNELLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${data.prenom}
+Nom: ${data.nom}
+Email: ${data.email}
+Téléphone: ${data.telephone}
+Profil: ${data.profil}
+Territoire: ${data.ile}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Contacter la personne pour un appel
+2. Après l'appel, décider (oui/non)
+3. Si oui, ajouter à l'écosystème WhatsApp
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     
     formDataToSend.append('message', messageBody);
     formDataToSend.append('Prénom', data.prenom);
+    formDataToSend.append('Nom', data.nom);
     formDataToSend.append('Email', data.email);
-    formDataToSend.append('Téléphone', data.telephone || '');
+    formDataToSend.append('Téléphone', data.telephone);
     formDataToSend.append('Profil', data.profil);
+    formDataToSend.append('Territoire', data.ile);
     
     fetch('https://formspree.io/f/myzbqepy', {
         method: 'POST',
