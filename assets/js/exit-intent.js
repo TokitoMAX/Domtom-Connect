@@ -232,13 +232,32 @@ function handleExitIntentSubmit(event) {
     submitButton.disabled = true;
     submitButton.textContent = 'Envoi en cours...';
     
-    // Send to Formspree
-    fetch('https://formspree.io/f/xpwnqgqg', {
+    // Send to Formspree (même endpoint que le formulaire principal)
+    const formDataToSend = new FormData();
+    formDataToSend.append('_to', 'domtomconnect@gmail.com');
+    formDataToSend.append('_subject', `🆕 Popup Exit-Intent - ${data.prenom} ${data.email}`);
+    formDataToSend.append('_replyto', data.email);
+    
+    let messageBody = `Nouvelle inscription via popup exit-intent\n\n`;
+    messageBody += `Prénom: ${data.prenom}\n`;
+    messageBody += `Email: ${data.email}\n`;
+    messageBody += `Téléphone: ${data.telephone || 'Non renseigné'}\n`;
+    messageBody += `Profil: ${data.profil}\n`;
+    messageBody += `Type d'offre: ${data.offer_type}\n`;
+    messageBody += `Page: ${data.page_url}\n`;
+    
+    formDataToSend.append('message', messageBody);
+    formDataToSend.append('Prénom', data.prenom);
+    formDataToSend.append('Email', data.email);
+    formDataToSend.append('Téléphone', data.telephone || '');
+    formDataToSend.append('Profil', data.profil);
+    
+    fetch('https://formspree.io/f/myzbqepy', {
         method: 'POST',
+        body: formDataToSend,
         headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+            'Accept': 'application/json'
+        }
     })
     .then(response => {
         if (response.ok) {
@@ -286,12 +305,15 @@ function handleExitIntentSubmit(event) {
                 closeExitIntentPopup();
             }, 5000);
         } else {
-            throw new Error('Erreur lors de l\'envoi');
+            return response.json().then(errData => {
+                throw new Error(errData.error || 'Erreur lors de l\'envoi');
+            });
         }
     })
     .catch(error => {
-        console.error('Erreur:', error);
-        alert('Une erreur est survenue. Veuillez réessayer ou nous contacter directement.');
+        console.error('Erreur détaillée:', error);
+        const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
+        alert(errorMessage);
         submitButton.disabled = false;
         submitButton.textContent = originalText;
     });

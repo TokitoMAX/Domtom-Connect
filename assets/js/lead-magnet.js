@@ -38,15 +38,31 @@ function handleLeadMagnetSubmit(event) {
     submitButton.disabled = true;
     submitButton.textContent = 'Téléchargement...';
     
-    // Send to Formspree
-    const formspreeUrl = 'https://formspree.io/f/xpwnqgqg';
+    // Send to Formspree (même endpoint que le formulaire principal)
+    const formDataToSend = new FormData();
+    formDataToSend.append('_to', 'domtomconnect@gmail.com');
+    formDataToSend.append('_subject', `🆕 Lead Magnet - ${data.prenom} ${data.nom}`);
+    formDataToSend.append('_replyto', data.email);
     
-    fetch(formspreeUrl, {
+    let messageBody = `Nouvelle demande de lead magnet\n\n`;
+    messageBody += `Type: ${pageType}\n`;
+    messageBody += `Prénom: ${data.prenom}\n`;
+    messageBody += `Nom: ${data.nom}\n`;
+    messageBody += `Email: ${data.email}\n`;
+    messageBody += `Profil: ${data.profil}\n`;
+    
+    formDataToSend.append('message', messageBody);
+    formDataToSend.append('Prénom', data.prenom);
+    formDataToSend.append('Nom', data.nom);
+    formDataToSend.append('Email', data.email);
+    formDataToSend.append('Profil', data.profil);
+    
+    fetch('https://formspree.io/f/myzbqepy', {
         method: 'POST',
+        body: formDataToSend,
         headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+            'Accept': 'application/json'
+        }
     })
     .then(response => {
         if (response.ok) {

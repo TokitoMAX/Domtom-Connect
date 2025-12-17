@@ -32,15 +32,81 @@ function handleLandingFormSubmit(event) {
     submitButton.disabled = true;
     submitButton.textContent = 'Envoi en cours...';
     
-    // Send to Formspree
-    const formspreeUrl = 'https://formspree.io/f/xpwnqgqg';
+    // Send to Formspree (même endpoint que le formulaire principal)
+    const formspreeUrl = 'https://formspree.io/f/myzbqepy';
+    
+    // Préparer les données au format FormData (comme le formulaire principal)
+    const formDataToSend = new FormData();
+    formDataToSend.append('_to', 'domtomconnect@gmail.com');
+    formDataToSend.append('_subject', `🆕 Nouvelle inscription Landing - ${data.prenom} ${data.nom} (${data.profil || pageType})`);
+    formDataToSend.append('_replyto', data.email);
+    
+    // Construire le message
+    let messageBody = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 NOUVELLE INSCRIPTION - LANDING PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Page: ${pageType}
+Source: ${data.lead_source}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 INFORMATIONS PERSONNELLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${data.prenom}
+Nom: ${data.nom}
+Email: ${data.email}
+Téléphone: ${data.telephone || 'Non renseigné'}
+Profil: ${data.profil || pageType}
+`;
+    
+    if (data.services) {
+        messageBody += `Services: ${data.services}\n`;
+    }
+    if (data.secteur) {
+        messageBody += `Secteur: ${data.secteur}\n`;
+    }
+    if (data.besoin) {
+        messageBody += `Besoin: ${data.besoin}\n`;
+    }
+    if (data.entreprise) {
+        messageBody += `Entreprise: ${data.entreprise}\n`;
+    }
+    if (data.ile) {
+        messageBody += `Territoire: ${data.ile}\n`;
+    }
+    if (data.besoin && typeof data.besoin === 'string') {
+        messageBody += `\nDétails:\n${data.besoin}\n`;
+    }
+    
+    messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Contacter la personne pour un appel
+2. Après l'appel, décider (oui/non)
+3. Si oui, ajouter à l'écosystème WhatsApp
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+    
+    formDataToSend.append('message', messageBody);
+    
+    // Données structurées
+    formDataToSend.append('Prénom', data.prenom);
+    formDataToSend.append('Nom', data.nom);
+    formDataToSend.append('Email', data.email);
+    formDataToSend.append('Téléphone', data.telephone || '');
+    formDataToSend.append('Profil', data.profil || pageType);
+    if (data.services) formDataToSend.append('Services', data.services);
+    if (data.secteur) formDataToSend.append('Secteur', data.secteur);
+    if (data.ile) formDataToSend.append('Territoire', data.ile);
+    if (data.entreprise) formDataToSend.append('Entreprise', data.entreprise);
     
     fetch(formspreeUrl, {
         method: 'POST',
+        body: formDataToSend,
         headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+            'Accept': 'application/json'
+        }
     })
     .then(response => {
         if (response.ok) {
@@ -53,12 +119,16 @@ function handleLandingFormSubmit(event) {
                 </div>
             `;
         } else {
-            throw new Error('Erreur lors de l\'envoi');
+            return response.json().then(errData => {
+                throw new Error(errData.error || 'Erreur lors de l\'envoi');
+            });
         }
     })
     .catch(error => {
-        console.error('Erreur:', error);
-        alert('Une erreur est survenue. Veuillez réessayer.');
+        console.error('Erreur détaillée:', error);
+        // Message d'erreur plus informatif
+        const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
+        alert(errorMessage);
         submitButton.disabled = false;
         submitButton.textContent = originalText;
     });

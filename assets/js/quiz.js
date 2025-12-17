@@ -302,20 +302,21 @@ function showResults() {
 }
 
 function sendQuizResults(score, percentage, answers) {
-    const data = {
-        lead_source: 'quiz',
-        qualification_score: score,
-        quiz_percentage: percentage,
-        quiz_answers: JSON.stringify(answers),
-        timestamp: new Date().toISOString()
-    };
+    // Send results to Formspree (même endpoint que le formulaire principal)
+    const formDataToSend = new FormData();
+    formDataToSend.append('_to', 'domtomconnect@gmail.com');
+    formDataToSend.append('_subject', `🆕 Quiz Complété - Score: ${score}/10`);
+    formDataToSend.append('message', `Résultats du quiz\n\nScore: ${score}/10 (${percentage}%)\n\nRéponses:\n${JSON.stringify(answers, null, 2)}`);
+    formDataToSend.append('Score', score);
+    formDataToSend.append('Pourcentage', percentage);
+    formDataToSend.append('Source', 'quiz');
     
-    fetch('https://formspree.io/f/xpwnqgqg', {
+    fetch('https://formspree.io/f/myzbqepy', {
         method: 'POST',
+        body: formDataToSend,
         headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+            'Accept': 'application/json'
+        }
     }).catch(error => {
         console.error('Erreur lors de l\'envoi des résultats:', error);
     });
