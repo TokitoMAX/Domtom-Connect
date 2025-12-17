@@ -396,7 +396,14 @@ function init() {
 
 // Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 1)
 function updateFormFields() {
-    const profil = document.getElementById('profil-select').value;
+    const profilSelect = document.getElementById('profil-select');
+    if (!profilSelect) return;
+    
+    const profil = profilSelect.value;
+    
+    // Suggérer la landing page appropriée
+    suggestLandingPage(profil);
+    
     const secteurField = document.getElementById('secteur-field');
     const servicesField = document.getElementById('services-field');
     const investissementField = document.getElementById('investissement-field');
@@ -518,6 +525,44 @@ function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
     }
 }
 
+// Suggérer la landing page appropriée selon le profil
+function suggestLandingPage(profil) {
+    // Retirer l'ancienne suggestion si elle existe
+    const existingSuggestion = document.getElementById('landing-page-suggestion');
+    if (existingSuggestion) {
+        existingSuggestion.remove();
+    }
+    
+    if (!profil) return;
+    
+    const landingPages = {
+        'prestataire': { url: '/landing/prestataires', text: 'prestataires' },
+        'porteur-projet': { url: '/landing/porteurs-projets', text: 'porteurs de projets' },
+        'entrepreneur': { url: '/landing/porteurs-projets', text: 'porteurs de projets' },
+        'entreprise': { url: '/landing/entreprises', text: 'entreprises' }
+    };
+    
+    const landing = landingPages[profil];
+    if (!landing) return;
+    
+    // Trouver le champ profil pour insérer après
+    const profilField = document.getElementById('profil-select').closest('.form-group');
+    if (!profilField) return;
+    
+    // Créer la suggestion
+    const suggestionDiv = document.createElement('div');
+    suggestionDiv.id = 'landing-page-suggestion';
+    suggestionDiv.style.cssText = 'margin-top: 1rem; padding: 1rem; background: rgba(0, 191, 166, 0.1); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);';
+    suggestionDiv.innerHTML = `
+        <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+            <strong style="color: var(--primary-color);">💡 Astuce :</strong> Pour une expérience optimisée, visitez notre 
+            <a href="${landing.url}" style="color: var(--primary-color); text-decoration: underline; font-weight: 600;">page dédiée aux ${landing.text}</a>
+        </p>
+    `;
+    
+    profilField.insertAdjacentElement('afterend', suggestionDiv);
+}
+
 // Initialiser les formulaires dynamiques
 function initDynamicForms() {
     // Vérifier si les formulaires existent
@@ -525,6 +570,7 @@ function initDynamicForms() {
     const profilSelect2 = document.getElementById('profil-select-2');
     
     if (profilSelect1) {
+        profilSelect1.addEventListener('change', updateFormFields);
         // Déclencher l'update au chargement si une valeur est déjà sélectionnée
         if (profilSelect1.value) {
             updateFormFields();
@@ -532,6 +578,7 @@ function initDynamicForms() {
     }
     
     if (profilSelect2) {
+        profilSelect2.addEventListener('change', updateFormFields2);
         // Déclencher l'update au chargement si une valeur est déjà sélectionnée
         if (profilSelect2.value) {
             updateFormFields2();
