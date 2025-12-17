@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devenez Prestataire Domtom Connect - Rejoignez notre réseau</title>
+    <meta name="description" content="Rejoignez le réseau de prestataires Domtom Connect et travaillez avec des porteurs de projets des territoires ultramarins. Opportunités de collaboration qualifiées.">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../assets/css/landing.css?v=1.0">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="landing-hero">
+        <div class="container">
+            <div class="landing-content">
+                <h1>Devenez Prestataire Domtom Connect</h1>
+                <p class="landing-subtitle">Rejoignez un réseau de prestataires qualifiés et travaillez avec des porteurs de projets engagés</p>
+                
+                <div class="landing-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Projets qualifiés et préparés</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Cadre de travail clair dès le départ</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Accompagnement et suivi</span>
+                    </div>
+                </div>
+
+                <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
+                    <input type="hidden" name="profil" value="prestataire">
+                    <input type="hidden" name="lead_source" value="landing-prestataires">
+                    <div class="form-row">
+                        <input type="text" name="prenom" placeholder="Prénom" required>
+                        <input type="text" name="nom" placeholder="Nom" required>
+                    </div>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="telephone" placeholder="Téléphone" required>
+                    <select name="services" required>
+                        <option value="">Services que vous proposez</option>
+                        <option value="developpement">Développement web/mobile</option>
+                        <option value="design">Design graphique / UI/UX</option>
+                        <option value="marketing">Marketing digital / Communication</option>
+                        <option value="comptabilite">Comptabilité / Fiscalité</option>
+                        <option value="juridique">Juridique / Conseil</option>
+                        <option value="coaching">Coaching / Formation</option>
+                        <option value="autre">Autre service</option>
+                    </select>
+                    <select name="ile" required>
+                        <option value="">Votre territoire</option>
+                        <option value="martinique">Martinique</option>
+                        <option value="guadeloupe">Guadeloupe</option>
+                        <option value="reunion">La Réunion</option>
+                        <option value="guyane">Guyane</option>
+                        <option value="diaspora">Diaspora</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                    <button type="submit" class="cta-button primary large">Rejoindre le réseau de prestataires</button>
+                    <p class="form-privacy">🔒 Vos données sont sécurisées. Inscription gratuite pour les pionniers.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../assets/js/landing.js?v=1.0"></script>
+    <script src="../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>
+

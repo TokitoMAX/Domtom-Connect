@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz : Votre projet est-il prêt ? - Domtom Connect</title>
+    <meta name="description" content="Testez en 2 minutes si votre projet est prêt à être lancé et recevez des recommandations personnalisées.">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../assets/css/quiz.css?v=1.0">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="quiz-page">
+        <div class="container">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h1>Votre projet est-il prêt ?</h1>
+                    <p>Répondez à 5 questions rapides et recevez une évaluation personnalisée</p>
+                </div>
+
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+                    <span class="quiz-progress-text" id="quiz-progress-text">Question 1 sur 5</span>
+                </div>
+
+                <div class="quiz-content" id="quiz-content">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <div class="quiz-results" id="quiz-results" style="display: none;">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/quiz.js?v=1.0"></script>
+    <script src="../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>

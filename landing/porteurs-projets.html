@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porteurs de Projets - Trouvez vos Prestataires - Domtom Connect</title>
+    <meta name="description" content="Trouvez les meilleurs prestataires pour votre projet dans les territoires ultramarins. Accompagnement personnalisé et cadre de travail clair.">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../assets/css/landing.css?v=1.0">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="landing-hero">
+        <div class="container">
+            <div class="landing-content">
+                <h1>Trouvez les Meilleurs Prestataires pour Votre Projet</h1>
+                <p class="landing-subtitle">Nous vous accompagnons pour trouver les prestataires qualifiés qui correspondent à vos besoins</p>
+                
+                <div class="landing-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Prestataires vérifiés et qualifiés</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Accompagnement personnalisé</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Cadre de travail clair dès le départ</span>
+                    </div>
+                </div>
+
+                <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
+                    <input type="hidden" name="profil" value="porteur-projet">
+                    <input type="hidden" name="lead_source" value="landing-porteurs-projets">
+                    <div class="form-row">
+                        <input type="text" name="prenom" placeholder="Prénom" required>
+                        <input type="text" name="nom" placeholder="Nom" required>
+                    </div>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="telephone" placeholder="Téléphone" required>
+                    <select name="secteur" required>
+                        <option value="">Secteur de votre projet</option>
+                        <option value="developpement">Développement web/mobile</option>
+                        <option value="design">Design graphique / UI/UX</option>
+                        <option value="marketing">Marketing digital</option>
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="tourisme">Tourisme</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                    <select name="ile" required>
+                        <option value="">Votre territoire</option>
+                        <option value="martinique">Martinique</option>
+                        <option value="guadeloupe">Guadeloupe</option>
+                        <option value="reunion">La Réunion</option>
+                        <option value="guyane">Guyane</option>
+                        <option value="diaspora">Diaspora</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                    <textarea name="besoin" rows="3" placeholder="Décrivez brièvement votre projet et vos besoins"></textarea>
+                    <button type="submit" class="cta-button primary large">Trouver mes prestataires</button>
+                    <p class="form-privacy">🔒 Vos données sont sécurisées. Inscription gratuite pour les pionniers.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../assets/js/landing.js?v=1.0"></script>
+    <script src="../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>
+
