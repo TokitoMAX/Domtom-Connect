@@ -3,6 +3,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     initBlogFilters();
     initArticleShare();
+    initArticlesCarousel();
+    sortArticlesByDate();
 });
 
 // Blog filters functionality
@@ -104,5 +106,184 @@ function initBlogAnimations() {
 // Initialize animations if on blog page
 if (document.querySelector('.blog-section')) {
     initBlogAnimations();
+}
+
+// Articles Carousel functionality
+function initArticlesCarousel() {
+    const carousel = document.querySelector('.articles-carousel-track');
+    const cards = document.querySelectorAll('.carousel-card');
+    const prevBtn = document.querySelector('.carousel-btn-prev');
+    const nextBtn = document.querySelector('.carousel-btn-next');
+    const indicatorsContainer = document.querySelector('.carousel-indicators');
+    
+    if (!carousel || cards.length === 0) return;
+    
+    let currentIndex = 0;
+    const totalCards = cards.length;
+    
+    // Create indicators
+    if (indicatorsContainer) {
+        cards.forEach((_, index) => {
+            const indicator = document.createElement('button');
+            indicator.classList.add('carousel-indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.setAttribute('aria-label', `Aller à l'article ${index + 1}`);
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+    }
+    
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    
+    // Set initial active card
+    updateCarousel();
+    
+    // Previous button
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            updateCarousel();
+        });
+    }
+    
+    // Next button
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateCarousel();
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (document.querySelector('.articles-carousel-wrapper')) {
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+                updateCarousel();
+            } else if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % totalCards;
+                updateCarousel();
+            }
+        }
+    });
+    
+    // Touch/swipe support
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+    
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+    });
+    
+    carousel.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const diffX = startX - currentX;
+        const threshold = 50;
+        
+        if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                // Swipe left - next
+                currentIndex = (currentIndex + 1) % totalCards;
+            } else {
+                // Swipe right - previous
+                currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            }
+            updateCarousel();
+        }
+    });
+    
+    // Auto-play (optional - can be disabled)
+    let autoPlayInterval = null;
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateCarousel();
+        }, 5000); // Change slide every 5 seconds
+    }
+    
+    function stopAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+    }
+    
+    // Pause on hover
+    const carouselWrapper = document.querySelector('.articles-carousel-wrapper');
+    if (carouselWrapper) {
+        carouselWrapper.addEventListener('mouseenter', stopAutoPlay);
+        carouselWrapper.addEventListener('mouseleave', startAutoPlay);
+        // Start auto-play after 3 seconds
+        setTimeout(startAutoPlay, 3000);
+    }
+    
+    function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+    }
+    
+    function updateCarousel() {
+        // Update transform
+        const translateX = -currentIndex * 100;
+        carousel.style.transform = `translateX(${translateX}%)`;
+        
+        // Update active card
+        cards.forEach((card, index) => {
+            if (index === currentIndex) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+        
+        // Update button states
+        if (prevBtn) {
+            prevBtn.disabled = currentIndex === 0 && totalCards <= 1;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = currentIndex === totalCards - 1 && totalCards <= 1;
+        }
+    }
+}
+
+// Sort articles by date (most recent first)
+function sortArticlesByDate() {
+    const blogGrid = document.querySelector('.blog-grid');
+    if (!blogGrid) return;
+    
+    const articles = Array.from(blogGrid.querySelectorAll('.blog-card'));
+    
+    // Sort by data-date attribute (most recent first)
+    articles.sort((a, b) => {
+        const dateA = a.getAttribute('data-date');
+        const dateB = b.getAttribute('data-date');
+        
+        if (!dateA || !dateB) return 0;
+        
+        return new Date(dateB) - new Date(dateA);
+    });
+    
+    // Re-append sorted articles
+    articles.forEach(article => {
+        blogGrid.appendChild(article);
+    });
 }
 
