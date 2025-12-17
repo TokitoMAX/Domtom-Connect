@@ -6,6 +6,18 @@
     {
       "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/landing/prestataires",
+      "destination": "/landing/prestataires/index.html"
+    },
+    {
+      "source": "/landing/porteurs-projets",
+      "destination": "/landing/porteurs-projets/index.html"
+    },
+    {
+      "source": "/landing/entreprises",
+      "destination": "/landing/entreprises/index.html"
     }
   ],
   "redirects": [
