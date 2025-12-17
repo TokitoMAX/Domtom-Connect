@@ -32,19 +32,23 @@ function handleMouseOut(e) {
 }
 
 function initExitIntentPopup() {
+    // Get page-specific offer
+    const offer = getPageSpecificOffer();
+    
     // Create popup HTML
     const popupHTML = `
         <div class="exit-intent-overlay" id="exit-intent-overlay">
             <div class="exit-intent-popup">
                 <button class="exit-intent-close" onclick="closeExitIntentPopup()" aria-label="Fermer">×</button>
                 <div class="exit-intent-header">
-                    <span class="exit-intent-badge">Gratuit</span>
-                    <h2>Ne partez pas sans votre guide !</h2>
-                    <p>Recevez gratuitement notre guide complet pour trouver le bon prestataire</p>
+                    <span class="exit-intent-badge">Offre limitée</span>
+                    <h2>${offer.title}</h2>
+                    <p>${offer.description}</p>
                 </div>
                 <form class="exit-intent-form" id="exit-intent-form" onsubmit="handleExitIntentSubmit(event)">
                     <input type="text" name="prenom" placeholder="Prénom" required>
                     <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="telephone" placeholder="Téléphone" required>
                     <select name="profil" required>
                         <option value="">Votre profil</option>
                         <option value="porteur-projet">Porteur de projet</option>
@@ -53,10 +57,10 @@ function initExitIntentPopup() {
                         <option value="prestataire">Prestataire</option>
                     </select>
                     <button type="submit" class="cta-button primary large">
-                        Télécharger le guide gratuitement
+                        ${offer.buttonText}
                     </button>
                     <p class="exit-intent-privacy">
-                        🔒 Vos données sont sécurisées. Pas de spam.
+                        🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.
                     </p>
                 </form>
             </div>
@@ -64,6 +68,33 @@ function initExitIntentPopup() {
     `;
     
     document.body.insertAdjacentHTML('beforeend', popupHTML);
+}
+
+function getPageSpecificOffer() {
+    const path = window.location.pathname;
+    
+    if (path.includes('blog')) {
+        return {
+            title: 'Besoin d\'aide pour votre projet ?',
+            description: 'Réservez un appel découverte gratuit de 30 minutes avec notre équipe. On discute de votre projet et on vous donne des conseils personnalisés.',
+            buttonText: 'Réserver mon appel gratuit',
+            offerType: 'appel-decouverte'
+        };
+    } else if (path.includes('services')) {
+        return {
+            title: 'Trouvez le bon prestataire dès maintenant',
+            description: 'Réservez une consultation gratuite pour identifier vos besoins et trouver les prestataires adaptés à votre projet.',
+            buttonText: 'Réserver ma consultation gratuite',
+            offerType: 'consultation-gratuite'
+        };
+    } else {
+        return {
+            title: 'Rejoignez les pionniers gratuitement',
+            description: 'Inscrivez-vous maintenant et bénéficiez d\'un accompagnement personnalisé pour faire avancer votre projet. Inscription gratuite pour les premiers membres.',
+            buttonText: 'Rejoindre maintenant (gratuit)',
+            offerType: 'inscription-prioritaire'
+        };
+    }
 }
 
 function showExitIntentPopup() {
@@ -104,16 +135,22 @@ function handleExitIntentSubmit(event) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
+    // Get offer type
+    const offer = getPageSpecificOffer();
+    
     // Add tracking data
     data.lead_source = 'exit-intent-popup';
+    data.offer_type = offer.offerType;
     data.page_url = window.location.href;
     data.timestamp = new Date().toISOString();
+    data.priority = 'high'; // Mark as high priority lead
     
     // Track the lead
     if (window.trackLead) {
         window.trackLead({
             source: 'exit-intent-popup',
             action: 'submitted',
+            offerType: offer.offerType,
             email: data.email
         });
     }
@@ -122,7 +159,7 @@ function handleExitIntentSubmit(event) {
     const submitButton = form.querySelector('button[type="submit"]');
     const originalText = submitButton.textContent;
     submitButton.disabled = true;
-    submitButton.textContent = 'Téléchargement...';
+    submitButton.textContent = 'Envoi en cours...';
     
     // Send to Formspree
     fetch('https://formspree.io/f/xpwnqgqg', {
@@ -134,28 +171,56 @@ function handleExitIntentSubmit(event) {
     })
     .then(response => {
         if (response.ok) {
-            // Show success message
-            form.innerHTML = `
-                <div style="text-align: center; padding: 2rem 0;">
-                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">✓ Merci !</h3>
-                    <p style="color: var(--text-secondary);">Vérifiez votre email, le guide vous a été envoyé.</p>
-                    <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1.5rem;">
-                        Fermer
-                    </button>
-                </div>
-            `;
+            // Show success message based on offer type
+            let successMessage = '';
+            if (offer.offerType === 'appel-decouverte') {
+                successMessage = `
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Demande enregistrée !</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Merci ! Nous vous contacterons dans les 24h pour planifier votre appel découverte gratuit.</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Vérifiez votre email pour les détails.</p>
+                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                            Parfait, merci !
+                        </button>
+                    </div>
+                `;
+            } else if (offer.offerType === 'consultation-gratuite') {
+                successMessage = `
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Consultation réservée !</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Excellent ! Nous vous contacterons rapidement pour planifier votre consultation gratuite.</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Un email de confirmation vous a été envoyé.</p>
+                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                            Parfait !
+                        </button>
+                    </div>
+                `;
+            } else {
+                successMessage = `
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription réussie !</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Bienvenue dans la communauté ! Nous vous contacterons très prochainement.</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Vérifiez votre email pour les prochaines étapes.</p>
+                        <button type="button" class="cta-button primary" onclick="closeExitIntentPopup()" style="margin-top: 1rem;">
+                            Parfait !
+                        </button>
+                    </div>
+                `;
+            }
             
-            // Redirect to lead magnet page after 2 seconds
+            form.innerHTML = successMessage;
+            
+            // Close popup after 5 seconds
             setTimeout(() => {
-                window.location.href = '/lead-magnets/guide-prestataires.html';
-            }, 2000);
+                closeExitIntentPopup();
+            }, 5000);
         } else {
             throw new Error('Erreur lors de l\'envoi');
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        alert('Une erreur est survenue. Veuillez réessayer.');
+        alert('Une erreur est survenue. Veuillez réessayer ou nous contacter directement.');
         submitButton.disabled = false;
         submitButton.textContent = originalText;
     });
