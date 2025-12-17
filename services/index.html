@@ -170,42 +170,6 @@
         </div>
     </section>
 
-    <!-- Landing Pages Section -->
-    <section class="landing-pages-section" style="padding: 80px 0; background: var(--gray-50);">
-        <div class="container">
-            <div class="section-header" style="margin-bottom: 3rem;">
-                <h2 style="font-size: clamp(1.75rem, 3vw, 2.5rem);">Pages dédiées selon votre profil</h2>
-                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 1rem;">Découvrez nos pages optimisées pour chaque type de profil</p>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
-                <div class="landing-card" style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.08)'">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">💼</div>
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Prestataires</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">Rejoignez notre réseau de prestataires qualifiés et travaillez avec des projets préparés et encadrés.</p>
-                    <a href="/landing/prestataires" class="cta-button primary" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
-                        Rejoindre en tant que prestataire
-                    </a>
-                </div>
-                <div class="landing-card" style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.08)'">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Porteurs de projets</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">Trouvez les meilleurs prestataires pour votre projet avec un accompagnement personnalisé.</p>
-                    <a href="/landing/porteurs-projets" class="cta-button primary" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
-                        Trouver mes prestataires
-                    </a>
-                </div>
-                <div class="landing-card" style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.08)'">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Entreprises</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">Solutions sur mesure pour développer votre activité avec des prestataires vérifiés.</p>
-                    <a href="/landing/entreprises" class="cta-button primary" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
-                        Rejoindre en tant qu'entreprise
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Message Principal -->
     <section class="vision-section" style="padding: 120px 0;">
         <div class="container">
@@ -241,6 +205,15 @@
                 <p style="font-size: 1.2rem; color: var(--text-secondary);">Un acompte est requis avant toute recherche de prestataire</p>
             </div>
             <div class="vision-content" style="max-width: 900px; margin: 0 auto;">
+                <!-- CTA stratégique pour prestataires -->
+                <div style="background: linear-gradient(135deg, #00BFA6 0%, #0F3D2E 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; text-align: center; color: var(--white);">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--white);">💼 Vous êtes prestataire ?</h3>
+                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.9);">Rejoignez notre réseau et travaillez avec des projets qualifiés et préparés</p>
+                    <a href="/landing/prestataires" class="cta-button" style="background: var(--white); color: var(--primary-color); padding: 1rem 2rem; font-weight: 700; border-radius: 12px; text-decoration: none; display: inline-block;">
+                        Rejoindre en tant que prestataire
+                    </a>
+                </div>
+                
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2rem;">
                     <div style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
                         <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">💰 Acompte requis</h3>

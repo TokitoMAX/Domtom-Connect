@@ -401,8 +401,8 @@ function updateFormFields() {
     
     const profil = profilSelect.value;
     
-    // Suggérer la landing page appropriée
-    suggestLandingPage(profil);
+    // Afficher/masquer le CTA vers landing page
+    updateLandingPageCTA(profil);
     
     const secteurField = document.getElementById('secteur-field');
     const servicesField = document.getElementById('services-field');
@@ -525,42 +525,45 @@ function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
     }
 }
 
-// Suggérer la landing page appropriée selon le profil
-function suggestLandingPage(profil) {
-    // Retirer l'ancienne suggestion si elle existe
-    const existingSuggestion = document.getElementById('landing-page-suggestion');
-    if (existingSuggestion) {
-        existingSuggestion.remove();
-    }
+// Afficher le CTA vers landing page selon le profil sélectionné
+function updateLandingPageCTA(profil) {
+    const landingCTAField = document.getElementById('landing-cta-field');
+    const landingCTALink = document.getElementById('landing-cta-link');
     
-    if (!profil) return;
+    if (!landingCTAField || !landingCTALink) return;
     
     const landingPages = {
-        'prestataire': { url: '/landing/prestataires', text: 'prestataires' },
-        'porteur-projet': { url: '/landing/porteurs-projets', text: 'porteurs de projets' },
-        'entrepreneur': { url: '/landing/porteurs-projets', text: 'porteurs de projets' },
-        'entreprise': { url: '/landing/entreprises', text: 'entreprises' }
+        'prestataire': { 
+            url: '/landing/prestataires', 
+            text: 'Rejoindre en tant que prestataire',
+            description: 'Page dédiée aux prestataires'
+        },
+        'porteur-projet': { 
+            url: '/landing/porteurs-projets', 
+            text: 'Trouver mes prestataires',
+            description: 'Page dédiée aux porteurs de projets'
+        },
+        'entrepreneur': { 
+            url: '/landing/porteurs-projets', 
+            text: 'Trouver mes prestataires',
+            description: 'Page dédiée aux porteurs de projets'
+        },
+        'entreprise': { 
+            url: '/landing/entreprises', 
+            text: 'Rejoindre en tant qu\'entreprise',
+            description: 'Page dédiée aux entreprises'
+        }
     };
     
     const landing = landingPages[profil];
-    if (!landing) return;
     
-    // Trouver le champ profil pour insérer après
-    const profilField = document.getElementById('profil-select').closest('.form-group');
-    if (!profilField) return;
-    
-    // Créer la suggestion
-    const suggestionDiv = document.createElement('div');
-    suggestionDiv.id = 'landing-page-suggestion';
-    suggestionDiv.style.cssText = 'margin-top: 1rem; padding: 1rem; background: rgba(0, 191, 166, 0.1); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);';
-    suggestionDiv.innerHTML = `
-        <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
-            <strong style="color: var(--primary-color);">💡 Astuce :</strong> Pour une expérience optimisée, visitez notre 
-            <a href="${landing.url}" style="color: var(--primary-color); text-decoration: underline; font-weight: 600;">page dédiée aux ${landing.text}</a>
-        </p>
-    `;
-    
-    profilField.insertAdjacentElement('afterend', suggestionDiv);
+    if (landing) {
+        landingCTALink.href = landing.url;
+        landingCTALink.textContent = landing.text;
+        landingCTAField.style.display = 'block';
+    } else {
+        landingCTAField.style.display = 'none';
+    }
 }
 
 // Initialiser les formulaires dynamiques

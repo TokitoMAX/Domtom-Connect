@@ -251,6 +251,19 @@
                             <textarea name="detail" id="detail-textarea" rows="4" placeholder="Détaille un peu (optionnel)"></textarea>
                             <small class="form-hint" id="detail-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.5rem; line-height: 1.4;"></small>
                         </div>
+                        
+                        <!-- CTA vers landing page selon profil (affiché après sélection du profil) -->
+                        <div class="form-group conditional-field" id="landing-cta-field" style="display: none; margin-top: 1rem;">
+                            <div style="padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 168, 150, 0.1) 100%); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);">
+                                <p style="margin: 0 0 0.75rem 0; font-size: 0.95rem; color: var(--text-primary); font-weight: 600;">
+                                    💡 Pour une expérience optimisée, visitez notre page dédiée :
+                                </p>
+                                <a id="landing-cta-link" href="#" class="cta-button primary" style="display: inline-block; text-decoration: none; width: 100%; text-align: center; padding: 0.75rem 1.5rem; font-size: 0.95rem;">
+                                    Chargement...
+                                </a>
+                            </div>
+                        </div>
+                        
                         <div class="form-group checkbox-group">
                             <label>
                                 <input type="checkbox" name="newsletter" checked>
@@ -423,24 +436,6 @@
 
     <footer class="footer">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Pages dédiées</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 0.5rem;"><a href="/landing/prestataires" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Prestataires</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/landing/porteurs-projets" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Porteurs de projets</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/landing/entreprises" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Entreprises</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Ressources</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 0.5rem;"><a href="/blog" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Blog</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/services" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Services</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/quiz" style="color: var(--text-secondary); text-decoration: none; transition: color 0.2s;">Quiz</a></li>
-                    </ul>
-                </div>
-            </div>
             <p>&copy; 2025 Domtom Connect. Tous droits réservés.</p>
             <div class="footer-social">
                 <span>Suivez-nous :</span>
