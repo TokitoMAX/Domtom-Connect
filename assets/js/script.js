@@ -262,10 +262,10 @@ function initLogoLinks() {
         if (navBrand) {
             // Supprimer tous les event listeners existants et en ajouter un nouveau
             navBrand.onclick = function(e) {
-                e.preventDefault();
+                        e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-                window.location.href = '/';
+                        window.location.href = '/';
                 return false;
             };
             

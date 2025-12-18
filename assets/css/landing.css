@@ -125,5 +125,28 @@
     .landing-form {
         padding: 2rem 1.5rem;
     }
+
+    .benefits-detail-section {
+        padding: 60px 0;
+    }
+
+    .benefits-detail-section .section-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .benefits-detail-section .section-header p {
+        font-size: 1.125rem;
+    }
+
+    .benefits-detail-section [style*="grid-template-columns: 80px 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        padding: 1.5rem !important;
+    }
+
+    .benefits-detail-section [style*="font-size: 3rem"] {
+        font-size: 2.5rem !important;
+        text-align: center;
+    }
 }
 

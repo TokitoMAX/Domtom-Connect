@@ -825,6 +825,57 @@ p {
     line-height: 1.75;
 }
 
+/* Why Collaborate Section */
+.why-collaborate-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.collaborate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+
+.collaborate-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.collaborate-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.collaborate-card-prestataires {
+    border-top: 4px solid #00BFA6;
+}
+
+.collaborate-card-prestataires:hover {
+    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.25);
+}
+
+.collaborate-card-porteurs {
+    border-top: 4px solid #3B82F6;
+}
+
+.collaborate-card-porteurs:hover {
+    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.25);
+}
+
+.collaborate-card-entreprises {
+    border-top: 4px solid #8B5CF6;
+}
+
+.collaborate-card-entreprises:hover {
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
+}
+
 /* Vision Section */
 .vision-section {
     padding: 140px 0;
@@ -1825,7 +1876,8 @@ p {
     }
     
     .features-grid,
-    .services-grid {
+    .services-grid,
+    .collaborate-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
     }
