@@ -164,6 +164,47 @@ p {
     font-size: 1.125rem;
 }
 
+/* Amélioration de la lisibilité responsive des boutons */
+@media (max-width: 768px) {
+    .cta-button {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        min-height: 48px; /* Taille minimale pour le touch */
+    }
+    
+    .cta-button.large {
+        padding: 16px 32px;
+        font-size: 1rem;
+        min-height: 52px;
+    }
+    
+    .cta-button span {
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 100%;
+        min-height: 48px;
+    }
+    
+    .cta-button.large {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        min-height: 50px;
+    }
+    
+    /* Permettre le retour à la ligne sur mobile si nécessaire */
+    .cta-button {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -1923,6 +1964,15 @@ p {
     .cta-button {
         width: 100%;
         justify-content: center;
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        min-height: 48px;
+    }
+    
+    .cta-button.large {
+        padding: 16px 32px;
+        font-size: 1rem;
+        min-height: 52px;
     }
     
     .features-grid,

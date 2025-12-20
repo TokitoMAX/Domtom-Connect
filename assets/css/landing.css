@@ -131,6 +131,19 @@
     .landing-form {
         padding: 2rem 1.5rem;
     }
+    
+    .cta-button {
+        width: 100%;
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        min-height: 48px;
+    }
+    
+    .cta-button.large {
+        padding: 16px 32px;
+        font-size: 1rem;
+        min-height: 52px;
+    }
 
     .benefits-detail-section {
         padding: 60px 0 !important;
@@ -176,6 +189,22 @@
 
     .landing-form {
         padding: 1.5rem 1rem;
+    }
+    
+    .cta-button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        min-height: 48px;
+    }
+    
+    .cta-button.large {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        min-height: 50px;
+    }
+    
+    .benefit-item {
+        font-size: 0.9rem;
     }
 
     .benefits-detail-section {
