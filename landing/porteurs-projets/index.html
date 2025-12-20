@@ -38,51 +38,159 @@
                 </div>
 
                 <!-- Formulaire court - Étape 1 -->
-                <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
+                <form class="landing-form premium-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
                     <input type="hidden" name="profil" value="porteur-projet">
                     <input type="hidden" name="lead_source" value="landing-porteurs-projets">
                     <input type="hidden" name="form_step" value="1">
                     <!-- Honeypot field - caché pour attraper les bots -->
                     <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
                     
-                    <!-- Indicateur de progression -->
-                    <div class="form-progress" style="margin-bottom: 2rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                            <span style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.9); font-weight: 600;">Étape 1 sur 2</span>
-                            <span style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7);">50%</span>
+                    <!-- Indicateur de progression amélioré -->
+                    <div class="form-progress-enhanced" style="margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="step-indicator active" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #60A5FA); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.9); font-weight: 700; display: block;">Étape 1 sur 2</span>
+                                    <span style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.7);">Informations de contact</span>
+                                </div>
+                            </div>
+                            <div class="progress-percentage" style="font-size: 1.25rem; font-weight: 800; color: rgba(255, 255, 255, 0.95);">50%</div>
                         </div>
-                        <div style="width: 100%; height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; overflow: hidden;">
-                            <div class="progress-bar" style="width: 50%; height: 100%; background: linear-gradient(90deg, #3B82F6, #60A5FA); border-radius: 10px; transition: width 0.3s ease;"></div>
+                        <div style="width: 100%; height: 8px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; overflow: hidden; position: relative;">
+                            <div class="progress-bar-enhanced" style="width: 50%; height: 100%; background: linear-gradient(90deg, #3B82F6, #60A5FA, #3B82F6); background-size: 200% 100%; border-radius: 10px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); animation: progressShimmer 2s ease infinite; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);"></div>
                         </div>
                     </div>
                     
-                    <div style="text-align: center; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 12px; backdrop-filter: blur(10px);">
-                        <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.95); margin-bottom: 0.5rem; font-weight: 600;">📞 Demandez votre appel gratuit de diagnostic</p>
-                        <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.85);">Réponse garantie sous 48h • Appel de 20-30 min</p>
+                    <!-- Header du formulaire amélioré -->
+                    <div class="form-header-enhanced" style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(96, 165, 250, 0.1)); border-radius: 20px; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2); position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); animation: rotate 20s linear infinite;"></div>
+                        <div style="position: relative; z-index: 1;">
+                            <div style="font-size: 2rem; margin-bottom: 0.75rem; animation: bounce 2s ease-in-out infinite;">📞</div>
+                            <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.95); margin-bottom: 0.5rem; font-weight: 700; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">Demandez votre appel gratuit</p>
+                            <p style="font-size: 0.95rem; color: rgba(255, 255, 255, 0.85); display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                                <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                    Réponse sous 48h
+                                </span>
+                                <span>•</span>
+                                <span>Appel de 20-30 min</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Compteur de progression amélioré -->
+                    <div class="form-completion-counter-enhanced" id="completion-counter" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); border-radius: 50px; margin-bottom: 1.5rem; border: 2px solid rgba(16, 185, 129, 0.2); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); flex-shrink: 0;">
+                            <span id="completion-number" style="font-size: 1rem;">0</span>
+                        </div>
+                        <div style="flex: 1; text-align: left;">
+                            <div style="font-size: 0.875rem; font-weight: 700; color: #059669; margin-bottom: 0.125rem;">Progression</div>
+                            <div id="completion-text" style="font-size: 0.75rem; color: #047857; font-weight: 600;">0 sur 6 champs remplis</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="flex-shrink: 0; opacity: 0.7;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Message d'encouragement -->
+                    <div class="encouragement-message" id="encouragement-msg" style="display: none;">
+                        <p id="encouragement-text"></p>
                     </div>
 
                     <div class="form-row">
-                        <input type="text" name="prenom" placeholder="Prénom *" required>
-                        <input type="text" name="nom" placeholder="Nom *" required>
+                        <div class="field-wrapper">
+                            <input type="text" name="prenom" placeholder="Prénom *" required autocomplete="given-name">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="field-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" name="nom" placeholder="Nom *" required autocomplete="family-name">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="field-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-                    <input type="email" name="email" placeholder="E-mail de contact *" required>
-                    <input type="tel" name="telephone" placeholder="Téléphone *" required>
-                    <select name="ile" required>
-                        <option value="">Pays / territoire où tu es basé actuellement *</option>
-                        <option value="martinique">Martinique</option>
-                        <option value="guadeloupe">Guadeloupe</option>
-                        <option value="reunion">La Réunion</option>
-                        <option value="guyane">Guyane</option>
-                        <option value="mayotte">Mayotte</option>
-                        <option value="saint-martin">Saint-Martin</option>
-                        <option value="saint-barthelemy">Saint-Barthélemy</option>
-                        <option value="saint-pierre-et-miquelon">Saint-Pierre-et-Miquelon</option>
-                        <option value="wallis-et-futuna">Wallis-et-Futuna</option>
-                        <option value="polynesie">Polynésie française</option>
-                        <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
-                        <option value="diaspora">Diaspora</option>
-                        <option value="autre">Autre</option>
-                    </select>
+                    <div class="field-wrapper">
+                        <input type="email" name="email" placeholder="E-mail de contact *" required autocomplete="email">
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <input type="tel" name="telephone" placeholder="Téléphone *" required autocomplete="tel">
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <select name="ile" required style="padding-left: 3rem; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'><path fill=\'%23333\' d=\'M6 9L1 4h10z\'/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;">
+                            <option value="">Pays / territoire où tu es basé actuellement *</option>
+                            <option value="martinique">Martinique</option>
+                            <option value="guadeloupe">Guadeloupe</option>
+                            <option value="reunion">La Réunion</option>
+                            <option value="guyane">Guyane</option>
+                            <option value="mayotte">Mayotte</option>
+                            <option value="saint-martin">Saint-Martin</option>
+                            <option value="saint-barthelemy">Saint-Barthélemy</option>
+                            <option value="saint-pierre-et-miquelon">Saint-Pierre-et-Miquelon</option>
+                            <option value="wallis-et-futuna">Wallis-et-Futuna</option>
+                            <option value="polynesie">Polynésie française</option>
+                            <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                            <option value="diaspora">Diaspora</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="form-label" style="color: var(--text-primary); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quel est ton lien avec les territoires insulaires (DOM-TOM / îles / diaspora) ? *</label>
                         <div class="radio-group">
@@ -106,38 +214,74 @@
                         <input type="text" name="lien_territoires_autre" placeholder="Précisez votre lien avec les territoires insulaires" class="conditional-field" style="display: none; margin-top: 0.5rem;">
                     </div>
 
-                    <button type="submit" class="cta-button primary large" id="submit-btn-step1" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                        <span class="button-text" style="position: relative; z-index: 2;">Demander mon appel gratuit</span>
+                    <button type="submit" class="cta-button premium-button" id="submit-btn-step1" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4), 0 4px 16px rgba(59, 130, 246, 0.2); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: none; cursor: pointer; padding: 1.25rem 2.5rem; font-size: 1.125rem; font-weight: 700; letter-spacing: 0.5px; border-radius: 16px; margin-top: 1.5rem;">
+                        <span class="button-bg" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); transition: left 0.6s ease;"></span>
+                        <span class="button-ripple" style="position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.6); transform: scale(0); animation: ripple 0.6s ease-out; pointer-events: none;"></span>
+                        <span class="button-text" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            Demander mon appel gratuit
+                        </span>
                         <span class="button-loader" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 1s linear infinite;">
                                 <path d="M21 12a9 9 0 11-6.219-8.56"/>
                             </svg>
                         </span>
                     </button>
+                    <style>
+                        #submit-btn-step1:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
+                        }
+                        #submit-btn-step1:hover .button-bg {
+                            left: 100%;
+                        }
+                        #submit-btn-step1:active {
+                            transform: translateY(0);
+                        }
+                    </style>
+
                     <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 0.75rem; background: rgba(255, 255, 255, 0.1); border-radius: var(--border-radius); backdrop-filter: blur(10px);">
-                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9);">✓ Sans engagement</span>
-                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9);">✓ Réponse sous 48h</span>
-                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9);">✓ Données sécurisées</span>
+                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; gap: 0.25rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Sans engagement
+                        </span>
+                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; gap: 0.25rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Réponse sous 48h
+                        </span>
+                        <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.9); display: flex; align-items: center; gap: 0.25rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Données sécurisées
+                        </span>
                     </div>
                     <p style="text-align: center; font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); margin-top: 0.75rem; line-height: 1.5;">
                         Après votre demande, vous serez automatiquement redirigé vers un formulaire de qualification pour mieux nous faire connaître votre projet.
                     </p>
                     
                     <!-- Overlay de chargement -->
-                    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 9999; backdrop-filter: blur(8px); align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.3s ease;">
-                        <div style="background: white; padding: 3rem 2.5rem; border-radius: 24px; text-align: center; max-width: 420px; margin: 0 1rem; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4); transform: scale(0.95); transition: transform 0.3s ease;">
-                            <div style="width: 70px; height: 70px; margin: 0 auto 1.5rem; position: relative; display: flex; align-items: center; justify-content: center;">
-                                <div style="position: absolute; width: 70px; height: 70px; border: 4px solid rgba(59, 130, 246, 0.2); border-top-color: #3B82F6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" style="position: relative; z-index: 1;">
+                    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; backdrop-filter: blur(12px); align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 3.5rem 3rem; border-radius: 28px; text-align: center; max-width: 450px; margin: 0 1rem; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1); transform: scale(0.9) translateY(20px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                            <div style="width: 80px; height: 80px; margin: 0 auto 2rem; position: relative; display: flex; align-items: center; justify-content: center;">
+                                <div style="position: absolute; width: 80px; height: 80px; border: 5px solid rgba(59, 130, 246, 0.15); border-top-color: #3B82F6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <div style="position: absolute; width: 60px; height: 60px; border: 3px solid rgba(59, 130, 246, 0.2); border-top-color: #60A5FA; border-radius: 50%; animation: spin 1.5s linear infinite reverse;"></div>
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" style="position: relative; z-index: 1;">
                                     <path d="M21 12a9 9 0 11-6.219-8.56"/>
                                 </svg>
                             </div>
-                            <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; line-height: 1.3;">Enregistrement en cours...</h3>
-                            <p style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5;">Redirection automatique vers le formulaire de qualification</p>
-                            <div style="width: 100%; height: 6px; background: #e5e7eb; border-radius: 10px; overflow: hidden; margin-bottom: 0.5rem;">
-                                <div id="redirect-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3B82F6, #60A5FA); border-radius: 10px; transition: width 0.15s ease; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);"></div>
+                            <h3 style="font-size: 1.75rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; line-height: 1.3; background: linear-gradient(135deg, #1e40af, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Enregistrement en cours...</h3>
+                            <p style="font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; font-weight: 500;">Redirection automatique vers le formulaire de qualification</p>
+                            <div style="width: 100%; height: 8px; background: #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+                                <div id="redirect-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3B82F6, #60A5FA, #3B82F6); background-size: 200% 100%; border-radius: 12px; transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5); animation: progressGlow 2s ease-in-out infinite;"></div>
                             </div>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Ne fermez pas cette page</p>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; font-weight: 500;">Ne fermez pas cette page</p>
                         </div>
                     </div>
                     
@@ -145,12 +289,6 @@
                         @keyframes spin {
                             from { transform: rotate(0deg); }
                             to { transform: rotate(360deg); }
-                        }
-                        #loading-overlay {
-                            animation: fadeIn 0.3s ease-out;
-                        }
-                        #loading-overlay > div {
-                            animation: scaleIn 0.4s ease-out;
                         }
                         @keyframes fadeIn {
                             from { opacity: 0; }
@@ -166,12 +304,54 @@
                                 transform: scale(1);
                             }
                         }
-                        .form-progress .progress-bar {
-                            animation: progressPulse 2s ease-in-out infinite;
-                        }
                         @keyframes progressPulse {
                             0%, 100% { opacity: 1; }
                             50% { opacity: 0.7; }
+                        }
+                        @keyframes ripple {
+                            0% {
+                                transform: scale(0);
+                                opacity: 1;
+                            }
+                            100% {
+                                transform: scale(2);
+                                opacity: 0;
+                            }
+                        }
+                        @keyframes bounce {
+                            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                            40% { transform: translateY(-10px); }
+                            60% { transform: translateY(-5px); }
+                        }
+                        @keyframes rotate {
+                            from { transform: rotate(0deg); }
+                            to { transform: rotate(360deg); }
+                        }
+                        @keyframes successPulse {
+                            0%, 100% { transform: scale(1); }
+                            50% { transform: scale(1.02); }
+                        }
+                        #loading-overlay {
+                            animation: fadeIn 0.3s ease-out;
+                        }
+                        #loading-overlay > div {
+                            animation: scaleIn 0.4s ease-out;
+                        }
+                        .form-progress .progress-bar-enhanced {
+                            animation: progressPulse 2s ease-in-out infinite;
+                        }
+                        .premium-form {
+                            animation: formFadeIn 0.6s ease-out;
+                        }
+                        @keyframes formFadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(20px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
                         }
                     </style>
                 </form>

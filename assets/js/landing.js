@@ -18,7 +18,326 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Pré-remplir le formulaire de qualification si des données sont stockées
     prefillQualificationForm();
+    
+    // Initialiser l'expérience premium du formulaire
+    if (landingForm) {
+        initPremiumFormExperience(landingForm);
+    }
+    if (qualificationForm) {
+        initPremiumFormExperience(qualificationForm);
+    }
 });
+
+// Initialiser l'expérience premium du formulaire
+function initPremiumFormExperience(form) {
+    if (!form) return;
+    
+    // Compteur de progression en temps réel
+    updateCompletionCounter(form);
+    
+    // Écouter les changements sur tous les champs
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach((input, index) => {
+        // Animation d'entrée progressive
+        input.style.animationDelay = `${index * 0.05}s`;
+        input.style.animation = 'slideIn 0.4s ease-out';
+        input.style.animationFillMode = 'both';
+        
+        // Événement sur le focus
+        input.addEventListener('focus', function() {
+            const wrapper = this.closest('.field-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('field-focused');
+                wrapper.style.transform = 'translateY(-2px)';
+                wrapper.style.boxShadow = '0 8px 24px rgba(59, 130, 246, 0.15)';
+            }
+            animateFieldFocus(this);
+        });
+        
+        // Événement sur le blur
+        input.addEventListener('blur', function() {
+            const wrapper = this.closest('.field-wrapper');
+            if (wrapper) {
+                wrapper.classList.remove('field-focused');
+                wrapper.style.transform = 'translateY(0)';
+                wrapper.style.boxShadow = 'none';
+            }
+            updateCompletionCounter(form);
+            validateField(this);
+        });
+        
+        // Événement sur le changement
+        input.addEventListener('input', function() {
+            updateCompletionCounter(form);
+            validateField(this);
+            showEncouragement(form);
+        });
+        
+        // Événement sur le changement pour les selects
+        if (input.tagName === 'SELECT') {
+            input.addEventListener('change', function() {
+                updateCompletionCounter(form);
+                validateField(this);
+                showEncouragement(form);
+            });
+        }
+    });
+    
+    // Gérer les radio buttons avec animations
+    const radios = form.querySelectorAll('input[type="radio"]');
+    radios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            updateCompletionCounter(form);
+            showEncouragement(form);
+            animateRadioSelection(this);
+        });
+    });
+    
+    // Effet ripple sur le bouton
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) {
+        submitButton.addEventListener('click', function(e) {
+            createRippleEffect(e, this);
+        });
+        
+        // Effet hover sur le bouton avec animation
+        submitButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.5)';
+            const buttonBg = this.querySelector('.button-bg');
+            if (buttonBg) {
+                buttonBg.style.left = '100%';
+                setTimeout(() => {
+                    buttonBg.style.left = '-100%';
+                }, 600);
+            }
+        });
+        
+        submitButton.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+        });
+    }
+    
+    // Initialiser le compteur
+    updateCompletionCounter(form);
+}
+
+// Mettre à jour le compteur de progression
+function updateCompletionCounter(form) {
+    const counter = document.getElementById('completion-counter');
+    const counterNumber = document.getElementById('completion-number');
+    const counterText = document.getElementById('completion-text');
+    const progressBar = form?.querySelector('.progress-bar-enhanced');
+    const progressPercentage = form?.querySelector('.progress-percentage');
+    
+    if (!counter || !form) return;
+    
+    // Compter les champs remplis (éviter de compter plusieurs fois les groupes radio)
+    const allRequired = Array.from(form.querySelectorAll('input[required], select[required], textarea[required]'));
+    const uniqueFields = new Set();
+    
+    allRequired.forEach(field => {
+        if (field.type === 'radio') {
+            uniqueFields.add(field.name);
+        } else {
+            uniqueFields.add(field.name || field.id);
+        }
+    });
+    
+    const totalFields = uniqueFields.size;
+    let filledCount = 0;
+    
+    uniqueFields.forEach(fieldName => {
+        const field = form.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            if (field.type === 'radio') {
+                const radioGroup = form.querySelectorAll(`input[name="${fieldName}"]`);
+                if (Array.from(radioGroup).some(radio => radio.checked)) filledCount++;
+            } else if (field.tagName === 'SELECT') {
+                if (field.value && field.value !== '') filledCount++;
+            } else {
+                if (field.value && field.value.trim() !== '') filledCount++;
+            }
+        }
+    });
+    
+    const percentage = totalFields > 0 ? Math.round((filledCount / totalFields) * 100) : 0;
+    
+    // Mettre à jour l'affichage avec animation
+    if (counterNumber) {
+        const oldValue = parseInt(counterNumber.textContent) || 0;
+        if (oldValue !== filledCount) {
+            counterNumber.textContent = filledCount;
+            counterNumber.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            counterNumber.style.transform = 'scale(1.3) rotate(5deg)';
+            counterNumber.style.color = '#10b981';
+            setTimeout(() => {
+                counterNumber.style.transform = 'scale(1) rotate(0deg)';
+                counterNumber.style.color = '';
+            }, 300);
+        }
+    }
+    
+    if (counterText) {
+        counterText.textContent = `${filledCount} sur ${totalFields} champs remplis`;
+    }
+    
+    // Mettre à jour la barre de progression (pour étape 1, on reste à 50% max)
+    if (progressBar && form.id === 'landing-form') {
+        const currentStepProgress = (percentage / 100) * 50;
+        progressBar.style.width = currentStepProgress + '%';
+    }
+    
+    if (progressPercentage && form.id === 'landing-form') {
+        const finalPercentage = Math.round(50 + (percentage / 100) * 50);
+        progressPercentage.textContent = finalPercentage + '%';
+    }
+    
+    // Animation du compteur
+    if (counter) {
+        counter.style.transition = 'all 0.3s ease';
+        counter.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            counter.style.transform = 'scale(1)';
+        }, 200);
+    }
+}
+
+// Valider un champ individuel avec animation
+function validateField(field) {
+    const wrapper = field.closest('.field-wrapper');
+    if (!wrapper) return;
+    
+    const isValid = field.checkValidity() && (field.value && field.value.trim() !== '');
+    const checkIcon = wrapper.querySelector('.field-check');
+    
+    if (isValid && checkIcon) {
+        checkIcon.style.opacity = '1';
+        checkIcon.style.transform = 'scale(1)';
+        field.style.borderColor = '#10b981';
+        field.style.background = 'linear-gradient(to right, #f0fdf4 0%, #ffffff 5%)';
+        
+        // Animation de succès
+        wrapper.style.animation = 'successPulse 0.5s ease';
+        setTimeout(() => {
+            wrapper.style.animation = '';
+        }, 500);
+    } else if (checkIcon) {
+        checkIcon.style.opacity = '0';
+        checkIcon.style.transform = 'scale(0)';
+    }
+}
+
+// Afficher des messages d'encouragement dynamiques
+function showEncouragement(form) {
+    const encouragementMsg = document.getElementById('encouragement-msg');
+    const encouragementText = document.getElementById('encouragement-text');
+    
+    if (!encouragementMsg || !encouragementText || form.id !== 'landing-form') return;
+    
+    const allRequired = Array.from(form.querySelectorAll('input[required], select[required], textarea[required]'));
+    const uniqueFields = new Set();
+    
+    allRequired.forEach(field => {
+        if (field.type === 'radio') {
+            uniqueFields.add(field.name);
+        } else {
+            uniqueFields.add(field.name || field.id);
+        }
+    });
+    
+    let filledCount = 0;
+    uniqueFields.forEach(fieldName => {
+        const field = form.querySelector(`[name="${fieldName}"]`);
+        if (field) {
+            if (field.type === 'radio') {
+                const radioGroup = form.querySelectorAll(`input[name="${fieldName}"]`);
+                if (Array.from(radioGroup).some(radio => radio.checked)) filledCount++;
+            } else if (field.tagName === 'SELECT') {
+                if (field.value && field.value !== '') filledCount++;
+            } else {
+                if (field.value && field.value.trim() !== '') filledCount++;
+            }
+        }
+    });
+    
+    const totalFields = uniqueFields.size;
+    const percentage = totalFields > 0 ? (filledCount / totalFields) * 100 : 0;
+    
+    const messages = [
+        { threshold: 0, text: '🚀 Commencez par remplir vos informations de contact' },
+        { threshold: 25, text: '✨ Excellent début ! Continuez comme ça' },
+        { threshold: 50, text: '💪 Vous y êtes presque ! Encore quelques champs' },
+        { threshold: 75, text: '🎉 Presque terminé ! Plus qu\'un dernier effort' },
+        { threshold: 100, text: '✅ Parfait ! Vous pouvez maintenant envoyer votre demande' }
+    ];
+    
+    const message = messages.slice().reverse().find(m => percentage >= m.threshold) || messages[0];
+    
+    if (percentage > 0 && percentage < 100) {
+        encouragementText.textContent = message.text;
+        encouragementMsg.style.display = 'block';
+        setTimeout(() => {
+            encouragementMsg.classList.add('show');
+        }, 10);
+    } else if (percentage === 100) {
+        encouragementText.textContent = message.text;
+        encouragementMsg.style.display = 'block';
+        encouragementMsg.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))';
+        encouragementMsg.style.border = '2px solid rgba(16, 185, 129, 0.3)';
+        setTimeout(() => {
+            encouragementMsg.classList.add('show');
+        }, 10);
+    } else {
+        encouragementMsg.classList.remove('show');
+        setTimeout(() => {
+            encouragementMsg.style.display = 'none';
+        }, 400);
+    }
+}
+
+// Animer le focus d'un champ
+function animateFieldFocus(field) {
+    const wrapper = field.closest('.field-wrapper');
+    if (wrapper) {
+        wrapper.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    }
+}
+
+// Animer la sélection d'un radio
+function animateRadioSelection(radio) {
+    const label = radio.closest('.radio-label');
+    if (label) {
+        label.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        label.style.transform = 'scale(1.03) translateX(4px)';
+        label.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.2)';
+        setTimeout(() => {
+            label.style.transform = 'scale(1) translateX(0)';
+            label.style.boxShadow = '';
+        }, 300);
+    }
+}
+
+// Créer un effet ripple sur le bouton
+function createRippleEffect(event, button) {
+    const ripple = button.querySelector('.button-ripple');
+    if (!ripple) return;
+    
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.animation = 'none';
+    
+    setTimeout(() => {
+        ripple.style.animation = 'ripple 0.6s ease-out';
+    }, 10);
+}
 
 // Gérer l'affichage des champs conditionnels "Autre"
 function initConditionalFields() {
