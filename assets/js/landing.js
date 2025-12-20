@@ -557,9 +557,22 @@ function handleLandingFormSubmit(event) {
     const isStep1 = data.form_step === '1' || !data.nom_projet;
     
     // Get landing page type
-    const pageType = window.location.pathname.includes('prestataires') ? 'prestataires' :
-                     window.location.pathname.includes('porteurs-projets') ? 'porteurs-projets' :
-                     'entreprises';
+    let pageType = 'porteurs-projets'; // default
+    if (window.location.pathname.includes('prestataires')) {
+        pageType = 'prestataires';
+    } else if (window.location.pathname.includes('porteurs-projets')) {
+        pageType = 'porteurs-projets';
+    } else if (window.location.pathname.includes('entreprises')) {
+        pageType = 'entreprises';
+    } else if (window.location.pathname.includes('investisseurs')) {
+        pageType = 'investisseurs';
+    } else if (window.location.pathname.includes('etudiants')) {
+        pageType = 'etudiants';
+    } else if (window.location.pathname.includes('professionnels')) {
+        pageType = 'professionnels';
+    } else if (window.location.pathname.includes('/autre')) {
+        pageType = 'autre';
+    }
     
     // Si étape 1 (formulaire court), rediriger automatiquement vers la page de qualification correspondante
     if (isStep1) {
@@ -642,6 +655,14 @@ function handleLandingFormSubmit(event) {
         profilLabel = '💼 PRESTATAIRE';
     } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets') {
         profilLabel = '🚀 PORTEUR DE PROJET';
+    } else if (profil === 'investisseur' || pageType === 'investisseurs') {
+        profilLabel = '💰 INVESTISSEUR';
+    } else if (profil === 'etudiant' || pageType === 'etudiants') {
+        profilLabel = '🎓 ÉTUDIANT';
+    } else if (profil === 'professionnel' || pageType === 'professionnels') {
+        profilLabel = '👔 PROFESSIONNEL';
+    } else if (profil === 'autre' || pageType === 'autre') {
+        profilLabel = '👤 AUTRE';
     } else {
         profilLabel = '👤 ' + profil.toUpperCase();
     }
@@ -861,6 +882,14 @@ async function sendStep1Data(data, pageType) {
         profilLabel = '💼 PRESTATAIRE - ÉTAPE 1';
     } else if (pageType === 'entreprises') {
         profilLabel = '🏢 ENTREPRISE - ÉTAPE 1';
+    } else if (pageType === 'investisseurs') {
+        profilLabel = '💰 INVESTISSEUR - ÉTAPE 1';
+    } else if (pageType === 'etudiants') {
+        profilLabel = '🎓 ÉTUDIANT - ÉTAPE 1';
+    } else if (pageType === 'professionnels') {
+        profilLabel = '👔 PROFESSIONNEL - ÉTAPE 1';
+    } else if (pageType === 'autre') {
+        profilLabel = '👤 AUTRE - ÉTAPE 1';
     }
     
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
