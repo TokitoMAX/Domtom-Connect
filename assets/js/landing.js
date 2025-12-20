@@ -440,53 +440,6 @@ function getEngagementLabel(value) {
     return labels[value] || value || 'Non renseigné';
 }
 
-// Afficher l'overlay de chargement
-function showLoadingOverlay() {
-    const overlay = document.getElementById('loading-overlay');
-    const submitButton = document.getElementById('submit-btn-step1');
-    
-    if (overlay) {
-        overlay.style.display = 'flex';
-    }
-    
-    if (submitButton) {
-        const buttonText = submitButton.querySelector('.button-text');
-        const buttonLoader = submitButton.querySelector('.button-loader');
-        
-        if (buttonText) buttonText.style.opacity = '0';
-        if (buttonLoader) buttonLoader.style.display = 'block';
-        submitButton.disabled = true;
-    }
-}
-
-// Redirection avec barre de progression
-function redirectWithProgress(url, duration = 1500) {
-    const progressBar = document.getElementById('redirect-progress');
-    
-    if (progressBar) {
-        let progress = 0;
-        const interval = 30; // Mise à jour toutes les 30ms
-        const increment = (100 / (duration / interval));
-        
-        const progressInterval = setInterval(() => {
-            progress += increment;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(progressInterval);
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 200);
-            }
-            progressBar.style.width = progress + '%';
-        }, interval);
-    } else {
-        // Fallback si la barre de progression n'existe pas
-        setTimeout(() => {
-            window.location.href = url;
-        }, duration);
-    }
-}
-
 // Pré-remplir le formulaire de qualification avec les données de l'étape 1
 function prefillQualificationForm() {
     const qualificationForm = document.getElementById('qualification-form');
@@ -503,61 +456,6 @@ function prefillQualificationForm() {
             console.error('Erreur lors de la récupération des données:', e);
         }
     }
-}
-
-// Afficher l'overlay de chargement avec animation
-function showLoadingOverlay() {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const submitButton = document.querySelector('#submit-btn-step1');
-    const buttonText = submitButton ? submitButton.querySelector('.button-text') : null;
-    const buttonLoader = submitButton ? submitButton.querySelector('.button-loader') : null;
-    
-    if (loadingOverlay) {
-        loadingOverlay.style.display = 'flex';
-        // Animation d'apparition
-        setTimeout(() => {
-            loadingOverlay.style.opacity = '1';
-            const overlayContent = loadingOverlay.querySelector('div > div');
-            if (overlayContent) {
-                overlayContent.style.transform = 'scale(1)';
-            }
-        }, 10);
-    }
-    
-    if (submitButton) {
-        submitButton.disabled = true;
-        if (buttonText) {
-            buttonText.style.opacity = '0';
-        }
-        if (buttonLoader) {
-            buttonLoader.style.display = 'block';
-        }
-    }
-}
-
-// Redirection avec barre de progression animée
-function redirectWithProgress(url, delay = 1500) {
-    const redirectProgress = document.getElementById('redirect-progress');
-    
-    if (redirectProgress) {
-        let progress = 0;
-        const interval = 50; // Mise à jour toutes les 50ms
-        const increment = 100 / (delay / interval);
-        
-        const progressInterval = setInterval(() => {
-            progress += increment;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(progressInterval);
-            }
-            redirectProgress.style.width = progress + '%';
-        }, interval);
-    }
-    
-    // Redirection après le délai
-    setTimeout(() => {
-        window.location.href = url;
-    }, delay);
 }
 
 function handleLandingFormSubmit(event) {
@@ -586,19 +484,40 @@ function handleLandingFormSubmit(event) {
                      window.location.pathname.includes('porteurs-projets') ? 'porteurs-projets' :
                      'entreprises';
     
-    // Si étape 1 (formulaire court), rediriger vers la page de qualification
+    // Si étape 1 (formulaire court), rediriger automatiquement vers la page de qualification correspondante
     if (isStep1) {
         // Stocker les données de l'étape 1
         sessionStorage.setItem('domtomConnectStep1', JSON.stringify(data));
         
-        // Afficher l'overlay de chargement
-        showLoadingOverlay();
+        // Déterminer l'URL de redirection selon le type de page
+        let qualificationUrl = '/landing/porteurs-projets/qualification.html';
+        if (pageType === 'prestataires') {
+            qualificationUrl = '/landing/prestataires/qualification.html';
+        } else if (pageType === 'entreprises') {
+            qualificationUrl = '/landing/entreprises/qualification.html';
+        }
         
-        // Envoyer les données de l'étape 1 en arrière-plan
-        sendStep1Data(data, pageType);
+        // Envoyer les données de l'étape 1 en arrière-plan (ne pas attendre)
+        sendStep1Data(data, pageType).catch(err => {
+            console.error('Erreur envoi étape 1:', err);
+        });
         
-        // Redirection automatique avec animation de progression
-        redirectWithProgress('/landing/porteurs-projets/qualification.html', 1500);
+        // Redirection automatique immédiate (pas besoin d'attendre)
+        // Afficher un message de redirection rapide
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) {
+            const buttonText = submitButton.querySelector('.button-text');
+            if (buttonText) {
+                buttonText.innerHTML = '<span style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg> Redirection...</span>';
+            }
+            submitButton.disabled = true;
+        }
+        
+        // Redirection automatique après un court délai pour permettre l'enregistrement
+        setTimeout(() => {
+            window.location.href = qualificationUrl;
+        }, 300);
+        
         return;
     }
     
@@ -855,11 +774,17 @@ ${data.besoin}
 }
 
 // Fonction pour envoyer les données de l'étape 1 en arrière-plan
-function sendStep1Data(data, pageType) {
+async function sendStep1Data(data, pageType) {
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
     const formDataToSend = new FormData();
     
-    const profilLabel = '🚀 PORTEUR DE PROJET - ÉTAPE 1';
+    // Déterminer le label selon le type de page
+    let profilLabel = '🚀 PORTEUR DE PROJET - ÉTAPE 1';
+    if (pageType === 'prestataires') {
+        profilLabel = '💼 PRESTATAIRE - ÉTAPE 1';
+    } else if (pageType === 'entreprises') {
+        profilLabel = '🏢 ENTREPRISE - ÉTAPE 1';
+    }
     
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     formDataToSend.append('_subject', `${profilLabel} - ${data.prenom} ${data.nom}`);
@@ -902,7 +827,7 @@ Lien avec territoires: ${getLienTerritoiresLabel(data.lien_territoires, data.lie
     if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre));
     
     // Envoyer en arrière-plan (ne pas attendre la réponse)
-    fetch(formspreeUrl, {
+    return fetch(formspreeUrl, {
         method: 'POST',
         body: formDataToSend,
         headers: {
@@ -910,6 +835,7 @@ Lien avec territoires: ${getLienTerritoiresLabel(data.lien_territoires, data.lie
         }
     }).catch(error => {
         console.error('Erreur lors de l\'envoi de l\'étape 1:', error);
+        throw error;
     });
 }
 
