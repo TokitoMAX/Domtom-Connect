@@ -59,16 +59,17 @@
 }
 
 .landing-form {
-    background: var(--white);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     padding: 2.5rem;
     border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.2);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .landing-form::before {
@@ -190,13 +191,17 @@
     align-items: center;
     gap: 1rem;
     padding: 1.125rem 1.25rem;
-    border: 2px solid var(--gray-200);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
+}
+
+.radio-label span {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .radio-label::before {
@@ -261,15 +266,15 @@
 
 .radio-label input[type="radio"]:checked + span {
     font-weight: 700;
-    color: #3B82F6;
+    color: #60A5FA;
     transform: translateX(4px);
     transition: all 0.3s ease;
 }
 
 .radio-label:has(input[type="radio"]:checked) {
     border-color: #3B82F6;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(96, 165, 250, 0.25));
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
     transform: translateX(4px);
 }
 
@@ -315,13 +320,30 @@
 .landing-form textarea {
     width: 100%;
     padding: 1rem;
-    border: 2px solid var(--gray-200);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
     position: relative;
     font-family: inherit;
+}
+
+.landing-form input::placeholder,
+.landing-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.landing-form select {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.landing-form select option {
+    background: #1e293b;
+    color: #ffffff;
 }
 
 .landing-form .field-wrapper {
@@ -347,7 +369,8 @@
 .landing-form textarea:focus {
     outline: none;
     border-color: #3B82F6;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(59, 130, 246, 0.15);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), 0 4px 12px rgba(59, 130, 246, 0.3);
     transform: translateY(-2px);
 }
 
@@ -355,7 +378,7 @@
 .landing-form select:valid:not([value=""]),
 .landing-form textarea:valid:not(:placeholder-shown) {
     border-color: #10b981;
-    background: linear-gradient(to right, #f0fdf4 0%, #ffffff 5%);
+    background: rgba(16, 185, 129, 0.15);
 }
 
 .landing-form input:invalid:not(:placeholder-shown):not(:focus) {
@@ -389,7 +412,7 @@
 .field-icon svg {
     width: 100%;
     height: 100%;
-    stroke: var(--gray-400);
+    stroke: rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
 }
 
@@ -400,13 +423,13 @@
 
 .landing-form input:focus ~ .field-icon svg,
 .landing-form select:focus ~ .field-icon svg {
-    stroke: #3B82F6;
-    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+    stroke: #60A5FA;
+    filter: drop-shadow(0 2px 4px rgba(96, 165, 250, 0.5));
 }
 
 .landing-form input:valid:not(:placeholder-shown) ~ .field-icon svg,
 .landing-form select:valid:not([value=""]) ~ .field-icon svg {
-    stroke: #10b981;
+    stroke: #34d399;
     animation: iconSuccess 0.4s ease;
 }
 
@@ -432,6 +455,7 @@
 .landing-form select:valid:not([value=""]) ~ .field-check {
     opacity: 1;
     transform: translateY(-50%) scale(1);
+    background: #10b981;
 }
 
 .field-check svg {

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professionnels - Domtom Connect</title>
+    <meta name="description" content="Rejoignez la communauté Domtom Connect en tant que professionnel. Opportunités de collaboration et connexions dans les territoires ultramarins.">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="landing-hero">
+        <div class="container">
+            <div class="landing-content">
+                <h1>Professionnels : Rejoignez la Communauté</h1>
+                <p class="landing-subtitle">Connectez-vous avec des projets et des opportunités dans les territoires ultramarins</p>
+                
+                <div class="landing-benefits">
+                    <div class="benefit-item">
+                        <span>Réseau professionnel</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span>Opportunités de collaboration</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span>Communauté engagée</span>
+                    </div>
+                </div>
+
+                <form class="landing-form premium-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
+                    <input type="hidden" name="profil" value="professionnel">
+                    <input type="hidden" name="lead_source" value="landing-professionnels">
+                    <input type="hidden" name="form_step" value="1">
+                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
+                    
+                    <div class="form-row">
+                        <div class="field-wrapper">
+                            <input type="text" name="prenom" placeholder="Prénom *" required autocomplete="given-name">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="field-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" name="nom" placeholder="Nom *" required autocomplete="family-name">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="field-check">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <input type="email" name="email" placeholder="E-mail de contact *" required autocomplete="email">
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <input type="tel" name="telephone" placeholder="Téléphone *" required autocomplete="tel">
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <select name="ile" required style="padding-left: 3rem; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'><path fill=\'%23fff\' d=\'M6 9L1 4h10z\'/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;">
+                            <option value="">Pays / territoire où vous êtes basé *</option>
+                            <option value="martinique">Martinique</option>
+                            <option value="guadeloupe">Guadeloupe</option>
+                            <option value="reunion">La Réunion</option>
+                            <option value="guyane">Guyane</option>
+                            <option value="diaspora">Diaspora</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cta-button premium-button" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4); padding: 1.25rem 2.5rem; font-size: 1.125rem; font-weight: 700; border-radius: 16px; margin-top: 1.5rem; border: none; cursor: pointer; color: white;">
+                        Rejoindre la communauté
+                    </button>
+                    <p style="text-align: center; font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); margin-top: 0.75rem; line-height: 1.5;">
+                        Après votre demande, vous serez automatiquement redirigé vers un formulaire de qualification.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../../assets/js/form-security.js?v=1.0"></script>
+    <script src="../../assets/js/landing.js?v=1.0"></script>
+    <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>
+

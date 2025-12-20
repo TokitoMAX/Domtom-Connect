@@ -454,7 +454,7 @@ function init() {
 // Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 1)
 function updateFormFields() {
     const profilSelect = document.getElementById('profil-select');
-    if (!profilSelect) return;
+    if (!profilSelect || !profilSelect.value) return;
     
     const profil = profilSelect.value;
     
@@ -463,46 +463,17 @@ function updateFormFields() {
         'porteur-projet': '/landing/porteurs-projets',
         'entrepreneur': '/landing/porteurs-projets',
         'prestataire': '/landing/prestataires',
-        'entreprise': '/landing/entreprises'
+        'entreprise': '/landing/entreprises',
+        'investisseur': '/landing/investisseurs',
+        'etudiant': '/landing/etudiants',
+        'professionnel': '/landing/professionnels',
+        'autre': '/landing/autre'
     };
     
     if (landingPages[profil]) {
         // Redirection automatique immédiate
         window.location.href = landingPages[profil];
         return;
-    }
-    
-    // Si pas de redirection, continuer avec l'affichage des champs conditionnels
-    const secteurField = document.getElementById('secteur-field');
-    const servicesField = document.getElementById('services-field');
-    const investissementField = document.getElementById('investissement-field');
-    const besoinField = document.getElementById('besoin-field');
-    const detailField = document.getElementById('detail-field');
-    const detailTextarea = document.getElementById('detail-textarea');
-    const detailHint = document.getElementById('detail-hint');
-    
-    // Masquer tous les champs conditionnels
-    if (secteurField) secteurField.style.display = 'none';
-    if (servicesField) servicesField.style.display = 'none';
-    if (investissementField) investissementField.style.display = 'none';
-    if (besoinField) besoinField.style.display = 'none';
-    if (detailField) detailField.style.display = 'none';
-    
-    // Afficher les champs pertinents selon le profil (pour les profils sans landing page dédiée)
-    if (profil === 'investisseur') {
-        if (investissementField) investissementField.style.display = 'block';
-        if (detailField) detailField.style.display = 'block';
-        if (detailTextarea) detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
-        if (detailHint) detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
-    } else if (profil === 'etudiant' || profil === 'professionnel') {
-        if (besoinField) besoinField.style.display = 'block';
-        if (detailField) detailField.style.display = 'block';
-        if (detailTextarea) detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
-        if (detailHint) detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
-    } else if (profil === 'autre') {
-        if (detailField) detailField.style.display = 'block';
-        if (detailTextarea) detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
-        if (detailHint) detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
     }
 }
 
