@@ -50,47 +50,101 @@ function handleFormSubmit(event) {
     // Préparer les données pour Formspree avec un format clair pour l'email
     const formDataToSend = new FormData();
     
+    // Déterminer le profil clairement
+    let profilLabel = '';
+    if (data.profil === 'entreprise') {
+        profilLabel = '🏢 ENTREPRISE';
+    } else if (data.profil === 'prestataire') {
+        profilLabel = '💼 PRESTATAIRE';
+    } else if (data.profil === 'porteur-projet') {
+        profilLabel = '🚀 PORTEUR DE PROJET';
+    } else if (data.profil === 'investisseur') {
+        profilLabel = '💰 INVESTISSEUR';
+    } else {
+        profilLabel = '👤 ' + (data.profil || 'AUTRE').toUpperCase();
+    }
+    
     // Configuration email
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
-    formDataToSend.append('_subject', `🆕 Nouvelle inscription - ${data.prenom} ${data.nom} (${data.profil})`);
+    formDataToSend.append('_subject', `${profilLabel} - ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''}`);
     formDataToSend.append('_replyto', data.email);
     
-    // Construire le message avec les champs conditionnels
-    let detailsSection = '';
+    // Construire le message de manière claire selon le profil
+    let messageBody = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${profilLabel} - NOUVELLE INSCRIPTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source: Formulaire principal
+Date: ${new Date().toLocaleString('fr-FR')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 CONTACT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${data.prenom}
+Nom: ${data.nom}
+Email: ${data.email}
+Téléphone: ${data.telephone}
+Territoire: ${data.ile}
+Profil: ${data.profil}
+`;
+    
+    // Informations spécifiques selon le profil
+    if (data.entreprise) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 ENTREPRISE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nom de l'entreprise: ${data.entreprise}
+`;
+    }
+    
+    if (data.services) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💼 SERVICES PROPOSÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.services}
+`;
+    }
     
     if (data.secteur) {
-        detailsSection += `🏢 Secteur d'activité: ${data.secteur}\n`;
-    }
-    if (data.services) {
-        detailsSection += `💼 Services proposés: ${data.services}\n`;
-    }
-    if (data['type-investissement']) {
-        detailsSection += `💰 Type d'investissement: ${data['type-investissement']}\n`;
-    }
-    if (data.besoin) {
-        detailsSection += `🎯 Besoin principal: ${data.besoin}\n`;
-    }
-    if (data.detail) {
-        detailsSection += `\n📝 Détails:\n${data.detail}\n`;
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏭 SECTEUR D'ACTIVITÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.secteur}
+`;
     }
     
-    // Format du message pour un email lisible et actionnable
-    let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 NOUVELLE INSCRIPTION DOMTOM CONNECT
+    if (data['type-investissement']) {
+        messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 INFORMATIONS CONTACT
+💰 TYPE D'INVESTISSEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Nom complet: ${data.prenom} ${data.nom}
-📧 Email: ${data.email}
-📱 Téléphone: ${data.telephone}
-🏝️  Île/Territoire: ${data.ile}
-💼 Profil: ${data.profil}
-
-${detailsSection ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📊 INFORMATIONS COMPLÉMENTAIRES
+${data['type-investissement']}
+`;
+    }
+    
+    if (data.besoin) {
+        messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${detailsSection}` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 BESOIN PRINCIPAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.besoin}
+`;
+    }
+    
+    if (data.detail) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 DÉTAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.detail}
+`;
+    }
+    
+    messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 OPTIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
@@ -98,7 +152,7 @@ Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Contacter la personne pour un appel
+1. Contacter ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''} pour un appel
 2. Après l'appel, décider (oui/non)
 3. Si oui, ajouter à l'écosystème WhatsApp
 
@@ -113,6 +167,9 @@ Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
     formDataToSend.append('Téléphone', data.telephone);
     formDataToSend.append('Île/Territoire', data.ile);
     formDataToSend.append('Profil', data.profil);
+    if (data.entreprise) {
+        formDataToSend.append('Entreprise', data.entreprise);
+    }
     if (data.secteur) {
         formDataToSend.append('Secteur', data.secteur);
     }

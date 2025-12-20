@@ -54,54 +54,94 @@ function handleLandingFormSubmit(event) {
     // Send to Formspree (même endpoint que le formulaire principal)
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
     
+    // Déterminer le profil clairement
+    const profil = data.profil || pageType;
+    let profilLabel = '';
+    if (profil === 'entreprise' || pageType === 'entreprises') {
+        profilLabel = '🏢 ENTREPRISE';
+    } else if (profil === 'prestataire' || pageType === 'prestataires') {
+        profilLabel = '💼 PRESTATAIRE';
+    } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets') {
+        profilLabel = '🚀 PORTEUR DE PROJET';
+    } else {
+        profilLabel = '👤 ' + profil.toUpperCase();
+    }
+    
     // Préparer les données au format FormData (comme le formulaire principal)
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
-    formDataToSend.append('_subject', `🆕 Nouvelle inscription Landing - ${data.prenom} ${data.nom} (${data.profil || pageType})`);
+    formDataToSend.append('_subject', `${profilLabel} - ${data.entreprise ? data.entreprise + ' - ' : ''}${data.prenom} ${data.nom}`);
     formDataToSend.append('_replyto', data.email);
     
-    // Construire le message
+    // Construire le message de manière claire selon le profil
     let messageBody = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 NOUVELLE INSCRIPTION - LANDING PAGE
+${profilLabel} - NOUVELLE INSCRIPTION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Page: ${pageType}
-Source: ${data.lead_source}
+Source: Landing Page ${pageType}
+Date: ${new Date().toLocaleString('fr-FR')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 INFORMATIONS PERSONNELLES
+👤 CONTACT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Prénom: ${data.prenom}
 Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone || 'Non renseigné'}
-Profil: ${data.profil || pageType}
+Territoire: ${data.ile || 'Non renseigné'}
 `;
     
-    if (data.services) {
-        messageBody += `Services: ${data.services}\n`;
-    }
-    if (data.secteur) {
-        messageBody += `Secteur: ${data.secteur}\n`;
-    }
-    if (data.besoin) {
-        messageBody += `Besoin: ${data.besoin}\n`;
-    }
+    // Informations spécifiques selon le profil
     if (data.entreprise) {
-        messageBody += `Entreprise: ${data.entreprise}\n`;
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 ENTREPRISE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nom de l'entreprise: ${data.entreprise}
+`;
     }
-    if (data.ile) {
-        messageBody += `Territoire: ${data.ile}\n`;
+    
+    if (data.services) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💼 SERVICES PROPOSÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.services}
+`;
     }
-    if (data.besoin && typeof data.besoin === 'string') {
-        messageBody += `\nDétails:\n${data.besoin}\n`;
+    
+    if (data.secteur) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏭 SECTEUR D'ACTIVITÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.secteur}
+`;
+    }
+    
+    if (data.besoin) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 BESOIN PRINCIPAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.besoin}
+`;
+    }
+    
+    if (data.besoin && typeof data.besoin === 'string' && data.besoin.length > 50) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 DÉTAILS DU PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.besoin}
+`;
     }
     
     messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Contacter la personne pour un appel
+1. Contacter ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''} pour un appel
 2. Après l'appel, décider (oui/non)
 3. Si oui, ajouter à l'écosystème WhatsApp
 

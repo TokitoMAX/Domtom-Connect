@@ -295,32 +295,48 @@ function handleExitIntentSubmit(event) {
     submitButton.disabled = true;
     submitButton.textContent = 'Envoi en cours...';
     
+    // Déterminer le profil clairement
+    let profilLabel = '';
+    if (data.profil === 'entreprise') {
+        profilLabel = '🏢 ENTREPRISE';
+    } else if (data.profil === 'prestataire') {
+        profilLabel = '💼 PRESTATAIRE';
+    } else if (data.profil === 'porteur-projet') {
+        profilLabel = '🚀 PORTEUR DE PROJET';
+    } else if (data.profil === 'entrepreneur') {
+        profilLabel = '🚀 ENTREPRENEUR';
+    } else {
+        profilLabel = '👤 ' + (data.profil || 'AUTRE').toUpperCase();
+    }
+    
     // Send to Formspree (même endpoint que le formulaire principal)
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
-    formDataToSend.append('_subject', `🆕 Popup Exit-Intent - ${data.prenom} ${data.nom} (${data.profil})`);
+    formDataToSend.append('_subject', `${profilLabel} - Popup Exit-Intent - ${data.prenom} ${data.nom}`);
     formDataToSend.append('_replyto', data.email);
     
     let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 NOUVELLE INSCRIPTION - POPUP EXIT-INTENT
+${profilLabel} - NOUVELLE INSCRIPTION (POPUP)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Type d'offre: ${data.offer_type}
+Source: Popup Exit-Intent
+Type d'offre: ${data.offer_type || 'N/A'}
 Page: ${data.page_url}
+Date: ${new Date().toLocaleString('fr-FR')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 INFORMATIONS PERSONNELLES
+👤 CONTACT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Prénom: ${data.prenom}
 Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone}
+Territoire: ${data.ile || 'Non renseigné'}
 Profil: ${data.profil}
-Territoire: ${data.ile}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Contacter la personne pour un appel
+1. Contacter ${data.prenom} ${data.nom} pour un appel
 2. Après l'appel, décider (oui/non)
 3. Si oui, ajouter à l'écosystème WhatsApp
 
