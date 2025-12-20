@@ -67,34 +67,34 @@
                     </div>
                     
                     <!-- Header du formulaire amélioré -->
-                    <div class="form-header-enhanced" style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(96, 165, 250, 0.2)); border-radius: 20px; backdrop-filter: blur(10px); border: 2px solid rgba(59, 130, 246, 0.3); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.25); position: relative; overflow: hidden;">
-                        <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%); animation: rotate 20s linear infinite;"></div>
+                    <div class="form-header-enhanced" style="text-align: center; margin-bottom: 2rem; padding: 2rem 1.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(96, 165, 250, 0.3)); border-radius: 20px; backdrop-filter: blur(10px); border: 2px solid rgba(59, 130, 246, 0.4); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%); animation: rotate 20s linear infinite;"></div>
                         <div style="position: relative; z-index: 1;">
-                            <div style="font-size: 2rem; margin-bottom: 0.75rem; animation: bounce 2s ease-in-out infinite;">📞</div>
-                            <p style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);">Demandez votre appel gratuit</p>
-                            <p style="font-size: 0.95rem; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);">
-                                <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem; animation: bounce 2s ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));">📞</div>
+                            <p style="font-size: 1.5rem; color: #ffffff; margin-bottom: 0.75rem; font-weight: 800; text-shadow: 0 3px 16px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.2); letter-spacing: -0.5px;">Demandez votre appel gratuit</p>
+                            <p style="font-size: 1rem; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); font-weight: 600;">
+                                <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                         <polyline points="20 6 9 17 4 12"/>
                                     </svg>
                                     Réponse sous 48h
                                 </span>
-                                <span>•</span>
+                                <span style="opacity: 0.8;">•</span>
                                 <span>Appel de 20-30 min</span>
                             </p>
                         </div>
                     </div>
 
                     <!-- Compteur de progression amélioré -->
-                    <div class="form-completion-counter-enhanced" id="completion-counter" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.12)); border-radius: 50px; margin-bottom: 1.5rem; border: 2px solid rgba(16, 185, 129, 0.3); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
-                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); flex-shrink: 0;">
-                            <span id="completion-number" style="font-size: 1rem;">0</span>
+                    <div class="form-completion-counter-enhanced" id="completion-counter" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.125rem 1.5rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.18)); border-radius: 50px; margin-bottom: 1.5rem; border: 2px solid rgba(16, 185, 129, 0.4); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+                        <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2); flex-shrink: 0;">
+                            <span id="completion-number" style="font-size: 1.1rem;">0</span>
                         </div>
                         <div style="flex: 1; text-align: left;">
-                            <div style="font-size: 0.875rem; font-weight: 700; color: #065f46; margin-bottom: 0.125rem;">Progression</div>
-                            <div id="completion-text" style="font-size: 0.75rem; color: #047857; font-weight: 600;">0 sur 6 champs remplis</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: #064e3b; margin-bottom: 0.125rem; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);">Progression</div>
+                            <div id="completion-text" style="font-size: 0.8rem; color: #047857; font-weight: 600;">0 sur 6 champs remplis</div>
                         </div>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="flex-shrink: 0; opacity: 0.8;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="flex-shrink: 0; opacity: 0.85; filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));">
                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                             <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>
@@ -242,28 +242,28 @@
                         }
                     </style>
 
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 0.75rem; background: rgba(255, 255, 255, 0.15); border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                        <span style="font-size: 0.85rem; color: #ffffff; display: flex; align-items: center; gap: 0.25rem; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); font-weight: 500;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 1rem; background: rgba(255, 255, 255, 0.2); border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+                        <span style="font-size: 0.875rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); font-weight: 600;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <polyline points="20 6 9 17 4 12"/>
                             </svg>
                             Sans engagement
                         </span>
-                        <span style="font-size: 0.85rem; color: #ffffff; display: flex; align-items: center; gap: 0.25rem; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); font-weight: 500;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <span style="font-size: 0.875rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); font-weight: 600;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <polyline points="20 6 9 17 4 12"/>
                             </svg>
                             Réponse sous 48h
                         </span>
-                        <span style="font-size: 0.85rem; color: #ffffff; display: flex; align-items: center; gap: 0.25rem; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); font-weight: 500;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <span style="font-size: 0.875rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); font-weight: 600;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <polyline points="20 6 9 17 4 12"/>
                             </svg>
                             Données sécurisées
                         </span>
                     </div>
-                    <p style="text-align: center; font-size: 0.85rem; color: #ffffff; margin-top: 0.75rem; line-height: 1.6; font-weight: 500; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); padding: 0 1rem;">
-                        Après votre demande, vous serez <strong>automatiquement redirigé</strong> vers un formulaire de qualification pour mieux nous faire connaître votre projet.
+                    <p style="text-align: center; font-size: 0.9rem; color: #ffffff; margin-top: 1rem; line-height: 1.7; font-weight: 600; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); padding: 0 1rem;">
+                        Après votre demande, vous serez <strong style="font-weight: 700; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);">automatiquement redirigé</strong> vers un formulaire de qualification pour mieux nous faire connaître votre projet.
                     </p>
                     
                     <style>

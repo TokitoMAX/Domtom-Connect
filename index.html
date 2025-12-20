@@ -272,16 +272,20 @@
                             </div>
                         </div>
                         
-                        <div class="form-group checkbox-group">
+                        <div class="form-group checkbox-group" id="newsletter-field">
                             <label>
                                 <input type="checkbox" name="newsletter" checked>
                                 <span>Je souhaite recevoir les actualités</span>
                             </label>
                     </div>
-                        <button type="submit" class="cta-button primary large hero-form-button" style="position: relative; overflow: hidden; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); box-shadow: 0 8px 25px rgba(0, 191, 166, 0.4); transition: all 0.3s ease;">
+                        <button type="submit" class="cta-button primary large hero-form-button" id="submit-button" style="position: relative; overflow: hidden; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); box-shadow: 0 8px 25px rgba(0, 191, 166, 0.4); transition: all 0.3s ease;">
                             <span style="position: relative; z-index: 2;">Je rejoins maintenant - C'est gratuit</span>
                             <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s ease;"></span>
                         </button>
+                        
+                        <p id="redirection-info" style="display: none; text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; padding: 0.75rem; background: rgba(0, 191, 166, 0.1); border-radius: var(--border-radius);">
+                            ⚡ Redirection automatique vers la page dédiée à votre profil...
+                        </p>
                         
                         <!-- Trust signals -->
                         <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 1rem; background: rgba(0, 191, 166, 0.05); border-radius: var(--border-radius);">

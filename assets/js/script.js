@@ -458,9 +458,21 @@ function updateFormFields() {
     
     const profil = profilSelect.value;
     
-    // Afficher/masquer le CTA vers landing page
-    updateLandingPageCTA(profil);
+    // Redirection automatique vers la landing page correspondante
+    const landingPages = {
+        'porteur-projet': '/landing/porteurs-projets',
+        'entrepreneur': '/landing/porteurs-projets',
+        'prestataire': '/landing/prestataires',
+        'entreprise': '/landing/entreprises'
+    };
     
+    if (landingPages[profil]) {
+        // Redirection automatique immédiate
+        window.location.href = landingPages[profil];
+        return;
+    }
+    
+    // Si pas de redirection, continuer avec l'affichage des champs conditionnels
     const secteurField = document.getElementById('secteur-field');
     const servicesField = document.getElementById('services-field');
     const investissementField = document.getElementById('investissement-field');
@@ -470,38 +482,27 @@ function updateFormFields() {
     const detailHint = document.getElementById('detail-hint');
     
     // Masquer tous les champs conditionnels
-    secteurField.style.display = 'none';
-    servicesField.style.display = 'none';
-    investissementField.style.display = 'none';
-    besoinField.style.display = 'none';
-    detailField.style.display = 'none';
+    if (secteurField) secteurField.style.display = 'none';
+    if (servicesField) servicesField.style.display = 'none';
+    if (investissementField) investissementField.style.display = 'none';
+    if (besoinField) besoinField.style.display = 'none';
+    if (detailField) detailField.style.display = 'none';
     
-    // Afficher les champs pertinents selon le profil
-    if (profil === 'porteur-projet' || profil === 'entrepreneur') {
-        secteurField.style.display = 'block';
-        besoinField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de ton projet (optionnel)';
-        detailHint.textContent = 'Ex: idée, stade du projet, besoins spécifiques...';
-    } else if (profil === 'prestataire') {
-        servicesField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes services et ton expérience (optionnel)';
-        detailHint.textContent = 'Ex: années d\'expérience, projets réalisés, tarifs...';
-    } else if (profil === 'investisseur') {
-        investissementField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
-        detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
+    // Afficher les champs pertinents selon le profil (pour les profils sans landing page dédiée)
+    if (profil === 'investisseur') {
+        if (investissementField) investissementField.style.display = 'block';
+        if (detailField) detailField.style.display = 'block';
+        if (detailTextarea) detailTextarea.placeholder = 'Décris tes critères d\'investissement (optionnel)';
+        if (detailHint) detailHint.textContent = 'Ex: montants, secteurs privilégiés, stade des projets...';
     } else if (profil === 'etudiant' || profil === 'professionnel') {
-        besoinField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
-        detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
+        if (besoinField) besoinField.style.display = 'block';
+        if (detailField) detailField.style.display = 'block';
+        if (detailTextarea) detailTextarea.placeholder = 'Parle-nous de tes motivations (optionnel)';
+        if (detailHint) detailHint.textContent = 'Ex: objectifs, intérêts, ce que tu cherches...';
     } else if (profil === 'autre') {
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
-        detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
+        if (detailField) detailField.style.display = 'block';
+        if (detailTextarea) detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches (optionnel)';
+        if (detailHint) detailHint.textContent = 'Ex: ton profil, tes besoins, tes attentes...';
     }
 }
 
@@ -582,45 +583,9 @@ function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
     }
 }
 
-// Afficher le CTA vers landing page selon le profil sélectionné
+// Cette fonction n'est plus nécessaire car la redirection est automatique
 function updateLandingPageCTA(profil) {
-    const landingCTAField = document.getElementById('landing-cta-field');
-    const landingCTALink = document.getElementById('landing-cta-link');
-    
-    if (!landingCTAField || !landingCTALink) return;
-    
-    const landingPages = {
-        'prestataire': { 
-            url: '/landing/prestataires', 
-            text: 'Rejoindre en tant que prestataire',
-            description: 'Page dédiée aux prestataires'
-        },
-        'porteur-projet': { 
-            url: '/landing/porteurs-projets', 
-            text: 'Trouver mes prestataires',
-            description: 'Page dédiée aux porteurs de projets'
-        },
-        'entrepreneur': { 
-            url: '/landing/porteurs-projets', 
-            text: 'Trouver mes prestataires',
-            description: 'Page dédiée aux porteurs de projets'
-        },
-        'entreprise': { 
-            url: '/landing/entreprises', 
-            text: 'Rejoindre en tant qu\'entreprise',
-            description: 'Page dédiée aux entreprises'
-        }
-    };
-    
-    const landing = landingPages[profil];
-    
-    if (landing) {
-        landingCTALink.href = landing.url;
-        landingCTALink.textContent = landing.text;
-        landingCTAField.style.display = 'block';
-    } else {
-        landingCTAField.style.display = 'none';
-    }
+    // Fonction conservée pour compatibilité mais non utilisée (redirection automatique dans updateFormFields)
 }
 
 // Initialiser les formulaires dynamiques
