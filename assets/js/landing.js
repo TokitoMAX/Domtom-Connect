@@ -121,6 +121,53 @@ function getEngagementLabel(value) {
     return labels[value] || value || 'Non renseigné';
 }
 
+// Afficher l'overlay de chargement
+function showLoadingOverlay() {
+    const overlay = document.getElementById('loading-overlay');
+    const submitButton = document.getElementById('submit-btn-step1');
+    
+    if (overlay) {
+        overlay.style.display = 'flex';
+    }
+    
+    if (submitButton) {
+        const buttonText = submitButton.querySelector('.button-text');
+        const buttonLoader = submitButton.querySelector('.button-loader');
+        
+        if (buttonText) buttonText.style.opacity = '0';
+        if (buttonLoader) buttonLoader.style.display = 'block';
+        submitButton.disabled = true;
+    }
+}
+
+// Redirection avec barre de progression
+function redirectWithProgress(url, duration = 1500) {
+    const progressBar = document.getElementById('redirect-progress');
+    
+    if (progressBar) {
+        let progress = 0;
+        const interval = 30; // Mise à jour toutes les 30ms
+        const increment = (100 / (duration / interval));
+        
+        const progressInterval = setInterval(() => {
+            progress += increment;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(progressInterval);
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 200);
+            }
+            progressBar.style.width = progress + '%';
+        }, interval);
+    } else {
+        // Fallback si la barre de progression n'existe pas
+        setTimeout(() => {
+            window.location.href = url;
+        }, duration);
+    }
+}
+
 // Pré-remplir le formulaire de qualification avec les données de l'étape 1
 function prefillQualificationForm() {
     const qualificationForm = document.getElementById('qualification-form');
@@ -137,6 +184,61 @@ function prefillQualificationForm() {
             console.error('Erreur lors de la récupération des données:', e);
         }
     }
+}
+
+// Afficher l'overlay de chargement avec animation
+function showLoadingOverlay() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const submitButton = document.querySelector('#submit-btn-step1');
+    const buttonText = submitButton ? submitButton.querySelector('.button-text') : null;
+    const buttonLoader = submitButton ? submitButton.querySelector('.button-loader') : null;
+    
+    if (loadingOverlay) {
+        loadingOverlay.style.display = 'flex';
+        // Animation d'apparition
+        setTimeout(() => {
+            loadingOverlay.style.opacity = '1';
+            const overlayContent = loadingOverlay.querySelector('div > div');
+            if (overlayContent) {
+                overlayContent.style.transform = 'scale(1)';
+            }
+        }, 10);
+    }
+    
+    if (submitButton) {
+        submitButton.disabled = true;
+        if (buttonText) {
+            buttonText.style.opacity = '0';
+        }
+        if (buttonLoader) {
+            buttonLoader.style.display = 'block';
+        }
+    }
+}
+
+// Redirection avec barre de progression animée
+function redirectWithProgress(url, delay = 1500) {
+    const redirectProgress = document.getElementById('redirect-progress');
+    
+    if (redirectProgress) {
+        let progress = 0;
+        const interval = 50; // Mise à jour toutes les 50ms
+        const increment = 100 / (delay / interval);
+        
+        const progressInterval = setInterval(() => {
+            progress += increment;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(progressInterval);
+            }
+            redirectProgress.style.width = progress + '%';
+        }, interval);
+    }
+    
+    // Redirection après le délai
+    setTimeout(() => {
+        window.location.href = url;
+    }, delay);
 }
 
 function handleLandingFormSubmit(event) {
@@ -170,11 +272,14 @@ function handleLandingFormSubmit(event) {
         // Stocker les données de l'étape 1
         sessionStorage.setItem('domtomConnectStep1', JSON.stringify(data));
         
+        // Afficher l'overlay de chargement
+        showLoadingOverlay();
+        
         // Envoyer les données de l'étape 1 en arrière-plan
         sendStep1Data(data, pageType);
         
-        // Rediriger vers la page de qualification
-        window.location.href = '/landing/porteurs-projets/qualification.html';
+        // Redirection automatique avec animation de progression
+        redirectWithProgress('/landing/porteurs-projets/qualification.html', 1500);
         return;
     }
     
@@ -194,9 +299,21 @@ function handleLandingFormSubmit(event) {
     
     // Show loading state
     const submitButton = form.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.disabled = true;
-    submitButton.textContent = 'Envoi en cours...';
+    const buttonText = submitButton ? submitButton.querySelector('.button-text') : null;
+    const buttonLoader = submitButton ? submitButton.querySelector('.button-loader') : null;
+    const originalText = buttonText ? buttonText.textContent : submitButton ? submitButton.textContent : '';
+    
+    if (submitButton) {
+        submitButton.disabled = true;
+        if (buttonText) {
+            buttonText.style.opacity = '0';
+        } else {
+            submitButton.textContent = 'Envoi en cours...';
+        }
+        if (buttonLoader) {
+            buttonLoader.style.display = 'block';
+        }
+    }
     
     // Send to Formspree (même endpoint que le formulaire principal)
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
@@ -400,8 +517,20 @@ ${data.besoin}
         const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
         alert(errorMessage);
         if (submitButton) {
+            const buttonText = submitButton.querySelector('.button-text');
+            const buttonLoader = submitButton.querySelector('.button-loader');
+            
+            if (buttonText) {
+                buttonText.style.opacity = '1';
+            }
+            if (buttonLoader) {
+                buttonLoader.style.display = 'none';
+            }
             submitButton.disabled = false;
-            submitButton.textContent = originalText;
+            
+            if (!buttonText && !buttonLoader) {
+                submitButton.textContent = originalText;
+            }
         }
     });
 }
@@ -509,10 +638,25 @@ function handleQualificationFormSubmit(event) {
     }
     
     // Show loading state
-    const submitButton = form.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.disabled = true;
-    submitButton.textContent = 'Envoi en cours...';
+    const submitButton = form.querySelector('button[type="submit"]') || document.getElementById('submit-btn-step2');
+    const originalText = submitButton ? submitButton.textContent : '';
+    
+    if (submitButton) {
+        const buttonText = submitButton.querySelector('.button-text');
+        const buttonLoader = submitButton.querySelector('.button-loader');
+        
+        if (buttonText) {
+            buttonText.style.opacity = '0.5';
+        }
+        if (buttonLoader) {
+            buttonLoader.style.display = 'block';
+        }
+        submitButton.disabled = true;
+        
+        if (!buttonText && !buttonLoader) {
+            submitButton.textContent = 'Envoi en cours...';
+        }
+    }
     
     // Send to Formspree
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
@@ -644,8 +788,23 @@ Commentaires additionnels: ${completeData.commentaires}
         console.error('Erreur détaillée:', error);
         const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
         alert(errorMessage);
-        submitButton.disabled = false;
-        submitButton.textContent = originalText;
+        
+        if (submitButton) {
+            const buttonText = submitButton.querySelector('.button-text');
+            const buttonLoader = submitButton.querySelector('.button-loader');
+            
+            if (buttonText) {
+                buttonText.style.opacity = '1';
+            }
+            if (buttonLoader) {
+                buttonLoader.style.display = 'none';
+            }
+            submitButton.disabled = false;
+            
+            if (!buttonText && !buttonLoader) {
+                submitButton.textContent = originalText;
+            }
+        }
     });
 }
 
