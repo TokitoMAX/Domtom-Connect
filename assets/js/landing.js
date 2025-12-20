@@ -1,11 +1,30 @@
 // Landing Pages functionality
 
+// Initialiser le suivi du temps de remplissage pour tous les formulaires de landing
+document.addEventListener('DOMContentLoaded', function() {
+    const landingForm = document.getElementById('landing-form');
+    if (landingForm && window.formSecurity) {
+        window.formSecurity.initFillTimeTracking(landingForm);
+    }
+});
+
 function handleLandingFormSubmit(event) {
     event.preventDefault();
     
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
+    
+    // Vérification de sécurité (anti-bot)
+    if (window.formSecurity) {
+        const securityCheck = window.formSecurity.secureFormSubmission(form, data);
+        if (!securityCheck.success) {
+            // Afficher les erreurs de sécurité
+            const errorMessage = securityCheck.errors.join('\n');
+            alert(errorMessage);
+            return;
+        }
+    }
     
     // Get landing page type
     const pageType = window.location.pathname.includes('prestataires') ? 'prestataires' :

@@ -110,6 +110,8 @@ function initExitIntentPopup() {
                     <p>${offer.description}</p>
                 </div>
                 <form class="exit-intent-form" id="exit-intent-form" onsubmit="handleExitIntentSubmit(event)">
+                    <!-- Honeypot field - caché pour attraper les bots -->
+                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
                     <input type="text" name="prenom" placeholder="Prénom *" required>
                     <input type="text" name="nom" placeholder="Nom *" required>
                     <input type="email" name="email" placeholder="Email *" required>
@@ -148,6 +150,14 @@ function initExitIntentPopup() {
     `;
     
     document.body.insertAdjacentHTML('beforeend', popupHTML);
+    
+    // Initialiser le suivi du temps de remplissage pour le formulaire du popup
+    setTimeout(() => {
+        const popupForm = document.getElementById('exit-intent-form');
+        if (popupForm && window.formSecurity) {
+            window.formSecurity.initFillTimeTracking(popupForm);
+        }
+    }, 100);
 }
 
 function getPageSpecificOffer() {
@@ -237,17 +247,29 @@ function handleExitIntentSubmit(event) {
         return;
     }
     
-    // Validation email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        alert('Veuillez entrer une adresse email valide.');
-        return;
-    }
-    
-    // Validation téléphone (au moins 10 caractères)
-    if (data.telephone.replace(/\s/g, '').length < 10) {
-        alert('Veuillez entrer un numéro de téléphone valide.');
-        return;
+    // Vérification de sécurité (anti-bot)
+    if (window.formSecurity) {
+        const securityCheck = window.formSecurity.secureFormSubmission(form, data);
+        if (!securityCheck.success) {
+            // Afficher les erreurs de sécurité
+            const errorMessage = securityCheck.errors.join('\n');
+            alert(errorMessage);
+            return;
+        }
+    } else {
+        // Fallback si le module de sécurité n'est pas chargé
+        // Validation email basique
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            alert('Veuillez entrer une adresse email valide.');
+            return;
+        }
+        
+        // Validation téléphone (au moins 10 caractères)
+        if (data.telephone.replace(/\s/g, '').length < 10) {
+            alert('Veuillez entrer un numéro de téléphone valide.');
+            return;
+        }
     }
     
     // Add tracking data

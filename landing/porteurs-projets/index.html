@@ -43,6 +43,8 @@
                 <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
                     <input type="hidden" name="profil" value="porteur-projet">
                     <input type="hidden" name="lead_source" value="landing-porteurs-projets">
+                    <!-- Honeypot field - caché pour attraper les bots -->
+                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
                     <div class="form-row">
                         <input type="text" name="prenom" placeholder="Prénom" required>
                         <input type="text" name="nom" placeholder="Nom" required>
@@ -68,8 +70,14 @@
                         <option value="autre">Autre</option>
                     </select>
                     <textarea name="besoin" rows="3" placeholder="Décrivez brièvement votre projet et vos besoins"></textarea>
-                    <button type="submit" class="cta-button primary large">Trouver mes prestataires</button>
-                    <p class="form-privacy">🔒 Vos données sont sécurisées. Inscription gratuite pour les pionniers.</p>
+                    <button type="submit" class="cta-button primary large" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <span style="position: relative; z-index: 2;">🚀 Trouver mes prestataires - Gratuit</span>
+                    </button>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 0.75rem; background: rgba(59, 130, 246, 0.05); border-radius: var(--border-radius);">
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">🔒 Données sécurisées</span>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">✅ Gratuit pionniers</span>
+                    </div>
+                    <p class="form-privacy">Inscription gratuite pour les pionniers. On en parlera ensemble lors de l'appel.</p>
                 </form>
             </div>
         </div>
@@ -144,6 +152,7 @@
         </div>
     </section>
 
+    <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
 </body>
