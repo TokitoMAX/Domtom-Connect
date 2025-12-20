@@ -454,60 +454,66 @@ function prefillLandingForm(form) {
     if (storedData) {
         try {
             const data = JSON.parse(storedData);
+            console.log('Données récupérées pour préremplissage:', data);
             
             // Préremplir les champs correspondants
             if (data.prenom) {
                 const prenomField = form.querySelector('input[name="prenom"]');
-                if (prenomField && !prenomField.value) {
+                if (prenomField) {
                     prenomField.value = data.prenom;
                     prenomField.dispatchEvent(new Event('input', { bubbles: true }));
+                    prenomField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
             
             if (data.nom) {
                 const nomField = form.querySelector('input[name="nom"]');
-                if (nomField && !nomField.value) {
+                if (nomField) {
                     nomField.value = data.nom;
                     nomField.dispatchEvent(new Event('input', { bubbles: true }));
+                    nomField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
             
             if (data.email) {
                 const emailField = form.querySelector('input[name="email"]');
-                if (emailField && !emailField.value) {
+                if (emailField) {
                     emailField.value = data.email;
                     emailField.dispatchEvent(new Event('input', { bubbles: true }));
+                    emailField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
             
             if (data.telephone) {
                 const telField = form.querySelector('input[name="telephone"]');
-                if (telField && !telField.value) {
+                if (telField) {
                     telField.value = data.telephone;
                     telField.dispatchEvent(new Event('input', { bubbles: true }));
+                    telField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
             
             if (data.ile) {
                 const ileField = form.querySelector('select[name="ile"]');
-                if (ileField && !ileField.value) {
+                if (ileField) {
                     ileField.value = data.ile;
                     ileField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
             
             // Mettre à jour le compteur de progression après préremplissage
-            if (window.initPremiumFormExperience) {
-                setTimeout(() => {
+            setTimeout(() => {
+                if (typeof updateCompletionCounter === 'function') {
                     updateCompletionCounter(form);
-                }, 100);
-            }
+                }
+            }, 200);
             
-            // Supprimer les données après préremplissage (optionnel)
-            // sessionStorage.removeItem('domtomConnectHomepageData');
+            console.log('Préremplissage terminé');
         } catch (e) {
             console.error('Erreur lors de la récupération des données de la page d\'accueil:', e);
         }
+    } else {
+        console.log('Aucune donnée trouvée dans sessionStorage pour préremplissage');
     }
 }
 

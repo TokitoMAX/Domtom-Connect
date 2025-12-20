@@ -59,17 +59,17 @@
 }
 
 .landing-form {
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
     padding: 2.5rem;
     border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(59, 130, 246, 0.2);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    border: 2px solid rgba(59, 130, 246, 0.15);
 }
 
 .landing-form::before {
@@ -191,17 +191,17 @@
     align-items: center;
     gap: 1rem;
     padding: 1.125rem 1.25rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid #e2e8f0;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(255, 255, 255, 0.15);
+    background: #ffffff;
     position: relative;
     overflow: hidden;
 }
 
 .radio-label span {
-    color: rgba(255, 255, 255, 0.95);
+    color: #1e293b;
 }
 
 .radio-label::before {
@@ -231,9 +231,9 @@
 
 .radio-label:hover {
     border-color: #3B82F6;
-    background: rgba(59, 130, 246, 0.05);
+    background: #f1f5f9;
     transform: translateX(6px) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.1);
 }
 
 .radio-label:hover::after {
@@ -273,8 +273,8 @@
 
 .radio-label:has(input[type="radio"]:checked) {
     border-color: #3B82F6;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(96, 165, 250, 0.25));
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
     transform: translateX(4px);
 }
 
@@ -320,30 +320,30 @@
 .landing-form textarea {
     width: 100%;
     padding: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    border: 2px solid #e2e8f0;
     border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: #ffffff;
+    color: #1e293b;
     position: relative;
     font-family: inherit;
 }
 
 .landing-form input::placeholder,
 .landing-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #94a3b8;
 }
 
 .landing-form select {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    color: #1e293b;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
 }
 
 .landing-form select option {
-    background: #2d3748;
-    color: #ffffff;
+    background: #ffffff;
+    color: #1e293b;
     padding: 0.5rem;
 }
 
@@ -370,8 +370,8 @@
 .landing-form textarea:focus {
     outline: none;
     border-color: #3B82F6;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25), 0 4px 12px rgba(59, 130, 246, 0.4);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(59, 130, 246, 0.15);
     transform: translateY(-2px);
 }
 
@@ -413,7 +413,7 @@
 .field-icon svg {
     width: 100%;
     height: 100%;
-    stroke: rgba(255, 255, 255, 0.65);
+    stroke: #64748b;
     transition: all 0.3s ease;
 }
 
