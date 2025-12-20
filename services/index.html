@@ -70,6 +70,10 @@
             .service-card[style*="padding: 3rem"] {
                 padding: 2rem 1.5rem !important;
             }
+            .acompte-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
         }
     </style>
     
@@ -155,14 +159,14 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section" style="padding: 160px 0 100px; min-height: 70vh;">
+    <section class="hero-section" style="min-height: 70vh;">
         <div class="container">
             <div class="hero-content" style="grid-template-columns: 1fr; gap: 3rem;">
                 <div class="hero-text" style="text-align: left; max-width: 900px; margin: 0 auto;">
-                    <h1 class="hero-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem;">
+                    <h1 class="hero-title" style="font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem;">
                         Trouvez les prestataires qu'il vous faut pour avancer dans votre projet
                     </h1>
-                    <p class="hero-subtitle" style="font-size: 1.4rem; line-height: 1.7; color: var(--text-secondary); max-width: 800px;">
+                    <p class="hero-subtitle" style="font-size: clamp(1.125rem, 3vw, 1.4rem); line-height: 1.7; color: var(--text-secondary); max-width: 800px;">
                         Quel que soit votre besoin, nous recherchons activement les prestataires adaptés à votre projet et à votre budget
                     </p>
                 </div>
@@ -171,25 +175,25 @@
     </section>
 
     <!-- Message Principal -->
-    <section class="vision-section" style="padding: 120px 0;">
+    <section class="vision-section">
         <div class="container">
             <div class="section-header" style="margin-bottom: 4rem;">
                 <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Quel que soit le besoin, on trouve les prestataires</h2>
             </div>
             <div class="vision-content" style="max-width: 1000px; margin: 0 auto;">
-                <div style="background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.08) 100%); padding: 3rem; border-radius: 24px; margin-bottom: 2rem; border-left: 4px solid var(--primary-color);">
-                    <p class="vision-description" style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-primary);">
+                <div style="background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.08) 100%); padding: clamp(1.5rem, 4vw, 3rem); border-radius: 24px; margin-bottom: 2rem; border-left: 4px solid var(--primary-color);">
+                    <p class="vision-description" style="font-size: clamp(1.125rem, 3vw, 1.4rem); font-weight: 700; margin-bottom: 1.5rem; color: var(--text-primary);">
                         Nous recherchons activement les prestataires en fonction de chaque besoin spécifique.
                     </p>
                 </div>
-                <p class="vision-subtitle" style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                <p class="vision-subtitle" style="font-size: clamp(1rem, 2.5vw, 1.15rem); line-height: 1.8; margin-bottom: 1.5rem;">
                     Chez Domtom Connect, nous comprenons que <strong>chaque projet a des besoins uniques</strong>. C'est pourquoi <strong>nous recherchons des prestataires spécifiquement adaptés à VOTRE besoin, à VOTRE projet et à VOTRE budget</strong>. Nous ne proposons pas un catalogue figé : nous construisons notre réseau de prestataires validés en fonction de vos besoins réels.
                 </p>
                 <p class="vision-subtitle" style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
                     Que vous ayez besoin de développement web ou mobile, de design graphique, de marketing digital, de comptabilité, de services juridiques, de communication, de traduction, ou de tout autre service professionnel, <strong>nous allons chercher les prestataires qui correspondent exactement à votre besoin</strong>. Si nous ne les avons pas encore dans notre réseau, nous les recherchons activement pour vous. Chaque demande nous permet d'étoffer notre réseau et de mieux servir tous nos membres.
                 </p>
-                <div style="background: var(--gradient-primary); padding: 2rem; border-radius: 16px; margin-top: 2rem;">
-                    <p style="font-size: 1.2rem; font-weight: 600; color: var(--white); margin: 0; text-align: center;">
+                <div style="background: var(--gradient-primary); padding: clamp(1.5rem, 3vw, 2rem); border-radius: 16px; margin-top: 2rem;">
+                    <p style="font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 600; color: var(--white); margin: 0; text-align: center;">
                         💡 Notre promesse : Quel que soit votre besoin, nous le trouvons. Pas de limite de type de prestataire, tant que vous avez le budget nécessaire.
                     </p>
                 </div>
@@ -198,32 +202,32 @@
     </section>
 
     <!-- Section Acompte -->
-    <section class="services-section" style="background: var(--gray-50); padding: 120px 0;">
+    <section class="services-section" style="background: var(--gray-50);">
         <div class="container">
-            <div class="section-header" style="margin-bottom: 4rem;">
-                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Le principal : avoir un budget</h2>
-                <p style="font-size: 1.2rem; color: var(--text-secondary);">Un acompte est requis avant toute recherche de prestataire</p>
+            <div class="section-header">
+                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem);">Le principal : avoir un budget</h2>
+                <p style="font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--text-secondary);">Un acompte est requis avant toute recherche de prestataire</p>
             </div>
             <div class="vision-content" style="max-width: 900px; margin: 0 auto;">
                 <!-- CTA stratégique pour prestataires -->
-                <div style="background: linear-gradient(135deg, #00BFA6 0%, #0F3D2E 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; text-align: center; color: var(--white);">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--white);">💼 Vous êtes prestataire ?</h3>
-                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.9);">Rejoignez notre réseau et travaillez avec des projets qualifiés et préparés</p>
+                <div style="background: linear-gradient(135deg, #00BFA6 0%, #0F3D2E 100%); padding: clamp(1.5rem, 3vw, 2rem); border-radius: 20px; margin-bottom: 2rem; text-align: center; color: var(--white);">
+                    <h3 style="font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--white);">💼 Vous êtes prestataire ?</h3>
+                    <p style="font-size: clamp(1rem, 2.5vw, 1.1rem); margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.9);">Rejoignez notre réseau et travaillez avec des projets qualifiés et préparés</p>
                     <a href="/landing/prestataires" class="cta-button" style="background: var(--white); color: var(--primary-color); padding: 1rem 2rem; font-weight: 700; border-radius: 12px; text-decoration: none; display: inline-block;">
                         Rejoindre en tant que prestataire
                     </a>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2rem;">
-                    <div style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">💰 Acompte requis</h3>
-                        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2rem;" class="acompte-grid">
+                    <div style="background: var(--white); padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
+                        <h3 style="font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">💰 Acompte requis</h3>
+                        <p style="font-size: clamp(0.95rem, 2.5vw, 1.05rem); line-height: 1.7; color: var(--text-primary);">
                             Pour garantir un service de qualité et un accompagnement personnalisé, <strong>un acompte est requis avant toute recherche de prestataire</strong>. Cet acompte nous permet de nous investir pleinement dans votre projet.
                         </p>
                     </div>
-                    <div style="background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">🎯 Budget = Clé</h3>
-                        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
+                    <div style="background: var(--white); padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
+                        <h3 style="font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--primary-color);">🎯 Budget = Clé</h3>
+                        <p style="font-size: clamp(0.95rem, 2.5vw, 1.05rem); line-height: 1.7; color: var(--text-primary);">
                             Le budget est la clé. Il n'y a pas de limite de type de prestataire si vous avez le budget nécessaire. Nous travaillons avec transparence sur les tarifs.
                         </p>
                     </div>
@@ -233,11 +237,11 @@
     </section>
 
     <!-- Types de Prestataires -->
-    <section class="features-section" style="padding: 120px 0;">
+    <section class="features-section">
         <div class="container">
-            <div class="section-header" style="margin-bottom: 4rem;">
-                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Nous recherchons tous types de prestataires selon vos besoins</h2>
-                <p style="font-size: 1.2rem; color: var(--text-secondary);">Notre réseau se construit en fonction de vos besoins réels</p>
+            <div class="section-header">
+                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem);">Nous recherchons tous types de prestataires selon vos besoins</h2>
+                <p style="font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--text-secondary);">Notre réseau se construit en fonction de vos besoins réels</p>
             </div>
             <div class="features-grid" style="grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1400px; margin: 0 auto;">
                 <div class="feature-card" style="padding: 3rem 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);">
@@ -305,11 +309,11 @@
     </section>
 
     <!-- Comment ça marche -->
-    <section class="services-section" style="padding: 120px 0; background: var(--gray-50);">
+    <section class="services-section" style="background: var(--gray-50);">
         <div class="container">
-            <div class="section-header" style="margin-bottom: 4rem;">
-                <h2 style="font-size: clamp(2rem, 4vw, 3rem);">Comment ça marche ?</h2>
-                <p style="font-size: 1.2rem; color: var(--text-secondary);">Processus simple pour trouver vos prestataires</p>
+            <div class="section-header">
+                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem);">Comment ça marche ?</h2>
+                <p style="font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--text-secondary);">Processus simple pour trouver vos prestataires</p>
             </div>
             
             <!-- Vidéo Explicative -->
@@ -380,11 +384,11 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="vision-section" style="background: var(--gradient-primary); color: var(--white); padding: 120px 0;">
+    <section class="vision-section" style="background: var(--gradient-primary); color: var(--white);">
         <div class="container">
-            <div class="section-header" style="color: var(--white); margin-bottom: 3rem;">
-                <h2 style="color: var(--white); font-size: clamp(2rem, 4vw, 3rem);">Prêt à trouver vos prestataires ?</h2>
-                <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.3rem; margin-top: 1rem;">Rejoignez Domtom Connect et accédez à notre réseau de prestataires validés</p>
+            <div class="section-header" style="color: var(--white);">
+                <h2 style="color: var(--white); font-size: clamp(1.75rem, 4vw, 3rem);">Prêt à trouver vos prestataires ?</h2>
+                <p style="color: rgba(255, 255, 255, 0.95); font-size: clamp(1.125rem, 3vw, 1.3rem); margin-top: 1rem;">Rejoignez Domtom Connect et accédez à notre réseau de prestataires validés</p>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="/#inscription-form" style="text-decoration: none;">

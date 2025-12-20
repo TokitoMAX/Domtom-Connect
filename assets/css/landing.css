@@ -105,17 +105,23 @@
 }
 
 @media (max-width: 768px) {
+    .landing-hero {
+        padding: 100px 0 60px;
+        min-height: auto;
+    }
+
     .landing-content h1 {
-        font-size: 2rem;
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
     }
 
     .landing-subtitle {
-        font-size: 1.125rem;
+        font-size: clamp(1rem, 3vw, 1.125rem);
     }
 
     .landing-benefits {
         flex-direction: column;
         gap: 1rem;
+        margin-bottom: 2rem;
     }
 
     .form-row {
@@ -127,26 +133,58 @@
     }
 
     .benefits-detail-section {
-        padding: 60px 0;
+        padding: 60px 0 !important;
+    }
+
+    .benefits-detail-section .section-header {
+        margin-bottom: 2.5rem !important;
     }
 
     .benefits-detail-section .section-header h2 {
-        font-size: 1.75rem;
+        font-size: clamp(1.5rem, 4vw, 2rem) !important;
     }
 
     .benefits-detail-section .section-header p {
-        font-size: 1.125rem;
+        font-size: clamp(1rem, 3vw, 1.125rem) !important;
     }
 
     .benefits-detail-section [style*="grid-template-columns: 80px 1fr"] {
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
         padding: 1.5rem !important;
+        text-align: center;
     }
 
     .benefits-detail-section [style*="font-size: 3rem"] {
-        font-size: 2.5rem !important;
-        text-align: center;
+        font-size: clamp(2rem, 5vw, 2.5rem) !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .benefits-detail-section h3 {
+        font-size: clamp(1.125rem, 3vw, 1.5rem) !important;
+    }
+
+    .benefits-detail-section p {
+        font-size: clamp(0.95rem, 2.5vw, 1.125rem) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-hero {
+        padding: 80px 0 40px;
+    }
+
+    .landing-form {
+        padding: 1.5rem 1rem;
+    }
+
+    .benefits-detail-section {
+        padding: 40px 0 !important;
+    }
+
+    .benefits-detail-section [style*="grid-template-columns: 80px 1fr"] {
+        padding: 1.25rem !important;
+        gap: 1rem !important;
     }
 }
 
