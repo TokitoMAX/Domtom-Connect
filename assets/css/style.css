@@ -1921,14 +1921,17 @@ p {
     }
     
     .features-grid,
-    .services-grid {
+    .services-grid,
+    .collaborate-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
+        margin-top: 2.5rem !important;
     }
     
     .feature-card,
-    .service-card {
-        padding: 2.5rem 2rem;
+    .service-card,
+    .collaborate-card {
+        padding: 2rem 1.5rem;
     }
     
     .features-section,
@@ -1937,7 +1940,8 @@ p {
     .transformation-section,
     .testimonial-section,
     .faq-section,
-    .final-form-section {
+    .final-form-section,
+    .why-collaborate-section {
         padding: 80px 0;
     }
     
@@ -2024,7 +2028,8 @@ p {
     .transformation-section,
     .testimonial-section,
     .faq-section,
-    .final-form-section {
+    .final-form-section,
+    .why-collaborate-section {
         padding: 60px 0;
     }
     
@@ -2037,8 +2042,19 @@ p {
     }
     
     .features-grid,
-    .services-grid {
+    .services-grid,
+    .collaborate-grid {
         gap: 1.5rem;
+        margin-top: 2rem !important;
+    }
+    
+    .collaborate-card {
+        padding: 1.5rem 1.25rem;
+    }
+    
+    .collaborate-card .cta-button {
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        padding: 0.875rem 1.5rem;
     }
     
     .hero-title {
