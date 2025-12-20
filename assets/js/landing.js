@@ -365,7 +365,7 @@ function initConditionalFields() {
         });
     }
     
-    // Objectif principal
+    // Objectif principal (porteurs-projets)
     const objectifRadios = document.querySelectorAll('input[name="objectif_principal"]');
     const objectifAutre = document.querySelector('input[name="objectif_principal_autre"]');
     
@@ -379,6 +379,44 @@ function initConditionalFields() {
                     objectifAutre.style.display = 'none';
                     objectifAutre.required = false;
                     objectifAutre.value = '';
+                }
+            });
+        });
+    }
+    
+    // Objectif (investisseurs, étudiants, professionnels)
+    const objectifRadiosGeneric = document.querySelectorAll('input[name="objectif"]');
+    const objectifAutreGeneric = document.querySelector('input[name="objectif_autre"]');
+    
+    if (objectifRadiosGeneric.length && objectifAutreGeneric) {
+        objectifRadiosGeneric.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    objectifAutreGeneric.style.display = 'block';
+                    objectifAutreGeneric.required = true;
+                } else {
+                    objectifAutreGeneric.style.display = 'none';
+                    objectifAutreGeneric.required = false;
+                    objectifAutreGeneric.value = '';
+                }
+            });
+        });
+    }
+    
+    // Besoin (professionnels)
+    const besoinRadios = document.querySelectorAll('input[name="besoin"]');
+    const besoinAutre = document.querySelector('input[name="besoin_autre"]');
+    
+    if (besoinRadios.length && besoinAutre) {
+        besoinRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    besoinAutre.style.display = 'block';
+                    besoinAutre.required = true;
+                } else {
+                    besoinAutre.style.display = 'none';
+                    besoinAutre.required = false;
+                    besoinAutre.value = '';
                 }
             });
         });
@@ -690,7 +728,7 @@ Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone || 'Non renseigné'}
 Pays/Territoire: ${data.ile || 'Non renseigné'}
-Lien avec territoires insulaires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}
+${data.lien_territoires ? `Lien avec territoires insulaires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}` : ''}
 `;
 
     // Bloc 2 - Projet
@@ -770,6 +808,56 @@ ${data.besoin}
 `;
     }
     
+    // Informations spécifiques pour Investisseurs
+    if (pageType === 'investisseurs') {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 INVESTISSEUR - INFORMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Type d'investissement: ${data.type_investissement || 'Non renseigné'}
+Montant potentiel: ${data.montant_investissement || 'Non renseigné'}
+Secteurs d'intérêt: ${data.secteurs_interet || 'Non renseigné'}
+Expérience: ${data.experience_investissement || 'Non renseigné'}
+Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data.objectif || 'Non renseigné')}
+`;
+    }
+    
+    // Informations spécifiques pour Étudiants
+    if (pageType === 'etudiants') {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎓 ÉTUDIANT - INFORMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Niveau d'études: ${data.niveau_etudes || 'Non renseigné'}
+Domaine d'études: ${data.domaine_etudes || 'Non renseigné'}
+Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data.objectif || 'Non renseigné')}
+`;
+    }
+    
+    // Informations spécifiques pour Professionnels
+    if (pageType === 'professionnels') {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👔 PROFESSIONNEL - INFORMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Entreprise: ${data.entreprise || 'Non renseigné'}
+Secteur d'activité: ${data.secteur_activite || 'Non renseigné'}
+Poste/Fonction: ${data.poste || 'Non renseigné'}
+Besoin: ${data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : (data.besoin || 'Non renseigné')}
+`;
+    }
+    
+    // Informations spécifiques pour Autre
+    if (pageType === 'autre') {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 AUTRE - INFORMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Rôle/Profil: ${data.role_profil || 'Non renseigné'}
+Besoin: ${data.besoin || 'Non renseigné'}
+`;
+    }
+    
     // Construire les prochaines étapes selon l'étape
     if (isStep1) {
         messageBody += `
@@ -817,6 +905,19 @@ ${data.besoin}
     if (data.services) formDataToSend.append('Services', data.services);
     if (data.secteur) formDataToSend.append('Secteur', data.secteur);
     if (data.entreprise) formDataToSend.append('Entreprise', data.entreprise);
+    
+    // Nouvelles données selon profil
+    if (data.type_investissement) formDataToSend.append('Type investissement', data.type_investissement);
+    if (data.montant_investissement) formDataToSend.append('Montant investissement', data.montant_investissement);
+    if (data.secteurs_interet) formDataToSend.append('Secteurs intérêt', data.secteurs_interet);
+    if (data.experience_investissement) formDataToSend.append('Expérience investissement', data.experience_investissement);
+    if (data.niveau_etudes) formDataToSend.append('Niveau études', data.niveau_etudes);
+    if (data.domaine_etudes) formDataToSend.append('Domaine études', data.domaine_etudes);
+    if (data.secteur_activite) formDataToSend.append('Secteur activité', data.secteur_activite);
+    if (data.poste) formDataToSend.append('Poste', data.poste);
+    if (data.role_profil) formDataToSend.append('Rôle/Profil', data.role_profil);
+    if (data.objectif) formDataToSend.append('Objectif', data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : data.objectif);
+    if (data.besoin && typeof data.besoin === 'string' && data.besoin.length > 50) formDataToSend.append('Besoin', data.besoin);
     
     fetch(formspreeUrl, {
         method: 'POST',
@@ -911,7 +1012,7 @@ Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone || 'Non renseigné'}
 Territoire: ${data.ile || 'Non renseigné'}
-Lien avec territoires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}
+${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
@@ -1035,7 +1136,7 @@ Nom: ${completeData.nom}
 Email: ${completeData.email}
 Téléphone: ${completeData.telephone || 'Non renseigné'}
 Pays/Territoire: ${completeData.ile || 'Non renseigné'}
-Lien avec territoires insulaires: ${getLienTerritoiresLabel(completeData.lien_territoires, completeData.lien_territoires_autre)}
+${completeData.lien_territoires ? `Lien avec territoires insulaires: ${getLienTerritoiresLabel(completeData.lien_territoires, completeData.lien_territoires_autre)}` : ''}
 `;
 
     // Bloc 2 - Projet

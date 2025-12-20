@@ -121,6 +121,89 @@
                             </svg>
                         </div>
                     </div>
+                    <div class="field-wrapper">
+                        <input type="text" name="entreprise" placeholder="Nom de l'entreprise (si applicable)" autocomplete="organization">
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <select name="secteur_activite" required style="padding-left: 3rem; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'><path fill=\'%23333\' d=\'M6 9L1 4h10z\'/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;">
+                            <option value="">Secteur d'activité *</option>
+                            <option value="tech">Technologie / Digital</option>
+                            <option value="commerce">Commerce</option>
+                            <option value="services">Services</option>
+                            <option value="sante">Santé</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="field-wrapper">
+                        <select name="poste" required style="padding-left: 3rem; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'><path fill=\'%23333\' d=\'M6 9L1 4h10z\'/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;">
+                            <option value="">Poste / Fonction *</option>
+                            <option value="dirigeant">Dirigeant</option>
+                            <option value="manager">Manager</option>
+                            <option value="employe">Employé</option>
+                            <option value="consultant">Consultant</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <div class="field-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="field-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="color: #1e293b; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quel est votre besoin avec Domtom Connect ? *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="besoin" value="conseil" required>
+                                <span>Conseil stratégique</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="besoin" value="reseau" required>
+                                <span>Rejoindre un réseau professionnel</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="besoin" value="developpement" required>
+                                <span>Développement business</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="besoin" value="prestations" required>
+                                <span>Besoin de prestations</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="besoin" value="autre" required>
+                                <span>Autre (à préciser)</span>
+                            </label>
+                        </div>
+                        <input type="text" name="besoin_autre" placeholder="Précisez votre besoin" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                    </div>
 
                     <button type="submit" class="cta-button premium-button" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4); padding: 1.25rem 2.5rem; font-size: 1.125rem; font-weight: 700; border-radius: 16px; margin-top: 1.5rem; border: none; cursor: pointer; color: white;">
                         Rejoindre la communauté
