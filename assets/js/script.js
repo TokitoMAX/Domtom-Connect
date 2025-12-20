@@ -458,6 +458,23 @@ function updateFormFields() {
     
     const profil = profilSelect.value;
     
+    // Récupérer les données du formulaire de la page d'accueil
+    const form = profilSelect.closest('form');
+    if (form) {
+        const formData = new FormData(form);
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+            if (value) {
+                data[key] = value;
+            }
+        }
+        
+        // Stocker les données dans sessionStorage pour préremplir la landing page
+        if (Object.keys(data).length > 0) {
+            sessionStorage.setItem('domtomConnectHomepageData', JSON.stringify(data));
+        }
+    }
+    
     // Redirection automatique vers la landing page correspondante
     const landingPages = {
         'porteur-projet': '/landing/porteurs-projets',

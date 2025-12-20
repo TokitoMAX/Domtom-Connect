@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
         window.formSecurity.initFillTimeTracking(qualificationForm);
     }
     
+    // Pré-remplir le formulaire de la landing page avec les données de la page d'accueil
+    if (landingForm) {
+        prefillLandingForm(landingForm);
+    }
+    
     // Gérer les champs conditionnels pour "Autre"
     initConditionalFields();
     
@@ -438,6 +443,72 @@ function getEngagementLabel(value) {
         'non': 'Non, je veux juste des informations'
     };
     return labels[value] || value || 'Non renseigné';
+}
+
+// Pré-remplir le formulaire de la landing page avec les données de la page d'accueil
+function prefillLandingForm(form) {
+    if (!form) return;
+    
+    // Récupérer les données stockées de la page d'accueil
+    const storedData = sessionStorage.getItem('domtomConnectHomepageData');
+    if (storedData) {
+        try {
+            const data = JSON.parse(storedData);
+            
+            // Préremplir les champs correspondants
+            if (data.prenom) {
+                const prenomField = form.querySelector('input[name="prenom"]');
+                if (prenomField && !prenomField.value) {
+                    prenomField.value = data.prenom;
+                    prenomField.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }
+            
+            if (data.nom) {
+                const nomField = form.querySelector('input[name="nom"]');
+                if (nomField && !nomField.value) {
+                    nomField.value = data.nom;
+                    nomField.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }
+            
+            if (data.email) {
+                const emailField = form.querySelector('input[name="email"]');
+                if (emailField && !emailField.value) {
+                    emailField.value = data.email;
+                    emailField.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }
+            
+            if (data.telephone) {
+                const telField = form.querySelector('input[name="telephone"]');
+                if (telField && !telField.value) {
+                    telField.value = data.telephone;
+                    telField.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }
+            
+            if (data.ile) {
+                const ileField = form.querySelector('select[name="ile"]');
+                if (ileField && !ileField.value) {
+                    ileField.value = data.ile;
+                    ileField.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+            
+            // Mettre à jour le compteur de progression après préremplissage
+            if (window.initPremiumFormExperience) {
+                setTimeout(() => {
+                    updateCompletionCounter(form);
+                }, 100);
+            }
+            
+            // Supprimer les données après préremplissage (optionnel)
+            // sessionStorage.removeItem('domtomConnectHomepageData');
+        } catch (e) {
+            console.error('Erreur lors de la récupération des données de la page d\'accueil:', e);
+        }
+    }
 }
 
 // Pré-remplir le formulaire de qualification avec les données de l'étape 1
