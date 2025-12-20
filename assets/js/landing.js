@@ -384,7 +384,7 @@ function initConditionalFields() {
         });
     }
     
-    // Objectif (investisseurs, étudiants, professionnels)
+    // Objectif (investisseurs, professionnels)
     const objectifRadiosGeneric = document.querySelectorAll('input[name="objectif"]');
     const objectifAutreGeneric = document.querySelector('input[name="objectif_autre"]');
     
@@ -604,8 +604,6 @@ function handleLandingFormSubmit(event) {
         pageType = 'entreprises';
     } else if (window.location.pathname.includes('investisseurs')) {
         pageType = 'investisseurs';
-    } else if (window.location.pathname.includes('etudiants')) {
-        pageType = 'etudiants';
     } else if (window.location.pathname.includes('professionnels')) {
         pageType = 'professionnels';
     } else if (window.location.pathname.includes('/autre')) {
@@ -695,8 +693,6 @@ function handleLandingFormSubmit(event) {
         profilLabel = '🚀 PORTEUR DE PROJET';
     } else if (profil === 'investisseur' || pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR';
-    } else if (profil === 'etudiant' || pageType === 'etudiants') {
-        profilLabel = '🎓 ÉTUDIANT';
     } else if (profil === 'professionnel' || pageType === 'professionnels') {
         profilLabel = '👔 PROFESSIONNEL';
     } else if (profil === 'autre' || pageType === 'autre') {
@@ -822,18 +818,6 @@ Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data
 `;
     }
     
-    // Informations spécifiques pour Étudiants
-    if (pageType === 'etudiants') {
-        messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎓 ÉTUDIANT - INFORMATIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Niveau d'études: ${data.niveau_etudes || 'Non renseigné'}
-Domaine d'études: ${data.domaine_etudes || 'Non renseigné'}
-Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data.objectif || 'Non renseigné')}
-`;
-    }
-    
     // Informations spécifiques pour Professionnels
     if (pageType === 'professionnels') {
         messageBody += `
@@ -911,8 +895,6 @@ Besoin: ${data.besoin || 'Non renseigné'}
     if (data.montant_investissement) formDataToSend.append('Montant investissement', data.montant_investissement);
     if (data.secteurs_interet) formDataToSend.append('Secteurs intérêt', data.secteurs_interet);
     if (data.experience_investissement) formDataToSend.append('Expérience investissement', data.experience_investissement);
-    if (data.niveau_etudes) formDataToSend.append('Niveau études', data.niveau_etudes);
-    if (data.domaine_etudes) formDataToSend.append('Domaine études', data.domaine_etudes);
     if (data.secteur_activite) formDataToSend.append('Secteur activité', data.secteur_activite);
     if (data.poste) formDataToSend.append('Poste', data.poste);
     if (data.role_profil) formDataToSend.append('Rôle/Profil', data.role_profil);
@@ -985,8 +967,6 @@ async function sendStep1Data(data, pageType) {
         profilLabel = '🏢 ENTREPRISE - ÉTAPE 1';
     } else if (pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR - ÉTAPE 1';
-    } else if (pageType === 'etudiants') {
-        profilLabel = '🎓 ÉTUDIANT - ÉTAPE 1';
     } else if (pageType === 'professionnels') {
         profilLabel = '👔 PROFESSIONNEL - ÉTAPE 1';
     } else if (pageType === 'autre') {

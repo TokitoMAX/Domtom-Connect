@@ -482,7 +482,6 @@ function updateFormFields() {
         'prestataire': '/landing/prestataires',
         'entreprise': '/landing/entreprises',
         'investisseur': '/landing/investisseurs',
-        'etudiant': '/landing/etudiants',
         'professionnel': '/landing/professionnels',
         'autre': '/landing/autre'
     };
@@ -532,7 +531,7 @@ function updateFormFields2() {
         detailTextarea.placeholder = 'Décris tes critères d\'investissement et tes attentes (optionnel mais recommandé)';
         detailHint.textContent = '💡 Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
         detailTextarea.rows = 4;
-    } else if (profil === 'etudiant' || profil === 'professionnel') {
+    } else if (profil === 'professionnel') {
         besoinField.style.display = 'block';
         detailField.style.display = 'block';
         detailTextarea.placeholder = 'Parle-nous de tes motivations et de ce que tu cherches (optionnel mais recommandé)';
