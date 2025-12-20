@@ -37,44 +37,75 @@
                     </div>
                 </div>
 
+                <!-- Formulaire court - Étape 1 -->
                 <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
                     <input type="hidden" name="profil" value="porteur-projet">
                     <input type="hidden" name="lead_source" value="landing-porteurs-projets">
+                    <input type="hidden" name="form_step" value="1">
                     <!-- Honeypot field - caché pour attraper les bots -->
                     <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
-                    <div class="form-row">
-                        <input type="text" name="prenom" placeholder="Prénom" required>
-                        <input type="text" name="nom" placeholder="Nom" required>
+                    
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <p style="font-size: 0.95rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 0.5rem;">📞 Demandez votre appel gratuit de diagnostic</p>
+                        <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.8);">Réponse garantie sous 48h</p>
                     </div>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="tel" name="telephone" placeholder="Téléphone" required>
-                    <select name="secteur" required>
-                        <option value="">Secteur de votre projet</option>
-                        <option value="developpement">Développement web/mobile</option>
-                        <option value="design">Design graphique / UI/UX</option>
-                        <option value="marketing">Marketing digital</option>
-                        <option value="ecommerce">E-commerce</option>
-                        <option value="tourisme">Tourisme</option>
-                        <option value="autre">Autre</option>
-                    </select>
+
+                    <div class="form-row">
+                        <input type="text" name="prenom" placeholder="Prénom *" required>
+                        <input type="text" name="nom" placeholder="Nom *" required>
+                    </div>
+                    <input type="email" name="email" placeholder="E-mail de contact *" required>
+                    <input type="tel" name="telephone" placeholder="Téléphone *" required>
                     <select name="ile" required>
-                        <option value="">Votre territoire</option>
+                        <option value="">Pays / territoire où tu es basé actuellement *</option>
                         <option value="martinique">Martinique</option>
                         <option value="guadeloupe">Guadeloupe</option>
                         <option value="reunion">La Réunion</option>
                         <option value="guyane">Guyane</option>
+                        <option value="mayotte">Mayotte</option>
+                        <option value="saint-martin">Saint-Martin</option>
+                        <option value="saint-barthelemy">Saint-Barthélemy</option>
+                        <option value="saint-pierre-et-miquelon">Saint-Pierre-et-Miquelon</option>
+                        <option value="wallis-et-futuna">Wallis-et-Futuna</option>
+                        <option value="polynesie">Polynésie française</option>
+                        <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
                         <option value="diaspora">Diaspora</option>
                         <option value="autre">Autre</option>
                     </select>
-                    <textarea name="besoin" rows="3" placeholder="Décrivez brièvement votre projet et vos besoins"></textarea>
+                    <div class="form-group">
+                        <label class="form-label" style="color: var(--text-primary); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quel est ton lien avec les territoires insulaires (DOM-TOM / îles / diaspora) ? *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="lien_territoires" value="vis-territoire" required>
+                                <span>Je vis dans un territoire insulaire</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="lien_territoires" value="diaspora" required>
+                                <span>Je fais partie de la diaspora</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="lien_territoires" value="projet-cible" required>
+                                <span>Mon projet cible un territoire insulaire</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="lien_territoires" value="autre" required>
+                                <span>Autre (à préciser)</span>
+                            </label>
+                        </div>
+                        <input type="text" name="lien_territoires_autre" placeholder="Précisez votre lien avec les territoires insulaires" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                    </div>
+
                     <button type="submit" class="cta-button primary large" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                        <span style="position: relative; z-index: 2;">Trouver mes prestataires - Gratuit</span>
+                        <span style="position: relative; z-index: 2;">Demander mon appel gratuit</span>
                     </button>
                     <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 0.75rem; background: rgba(59, 130, 246, 0.05); border-radius: var(--border-radius);">
-                        <span style="font-size: 0.85rem; color: var(--text-secondary);">Données sécurisées</span>
-                        <span style="font-size: 0.85rem; color: var(--text-secondary);">Gratuit pour les pionniers</span>
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">✓ Sans engagement</span>
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">✓ Réponse sous 48h</span>
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">✓ Données sécurisées</span>
                     </div>
-                    <p class="form-privacy">Inscription gratuite pour les pionniers. On en parlera ensemble lors de l'appel.</p>
+                    <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Après votre demande, vous pourrez compléter un formulaire de qualification détaillé pour mieux nous faire connaître votre projet.
+                    </p>
                 </form>
             </div>
         </div>

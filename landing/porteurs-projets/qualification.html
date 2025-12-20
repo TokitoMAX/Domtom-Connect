@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Qualification - Domtom Connect</title>
+    <meta name="description" content="Complétez votre profil pour mieux nous faire connaître votre projet et vos besoins.">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto;">
+        <div class="container">
+            <div class="landing-content" style="max-width: 900px;">
+                <h1 style="color: var(--white); margin-bottom: 1rem;">Formulaire de Qualification</h1>
+                <p class="landing-subtitle" style="margin-bottom: 2rem;">Aidez-nous à mieux comprendre votre projet pour vous proposer un accompagnement personnalisé</p>
+                
+                <form class="landing-form" id="qualification-form" onsubmit="handleQualificationFormSubmit(event)">
+                    <input type="hidden" name="profil" value="porteur-projet">
+                    <input type="hidden" name="lead_source" value="qualification-porteurs-projets">
+                    <input type="hidden" name="form_step" value="2">
+                    <!-- Honeypot field -->
+                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
+                    
+                    <!-- Bloc 2 – Projet -->
+                    <div class="form-block">
+                        <h3 class="form-block-title">🚀 Projet</h3>
+                        <input type="text" name="nom_projet" placeholder="Quel est le nom de ton projet / entreprise (s'il y en a un) ?">
+                        <textarea name="description_projet" rows="4" placeholder="En 3-5 phrases, décris ton projet ou ton activité *" required></textarea>
+                        <select name="stade_projet" required>
+                            <option value="">Ton projet est à quel stade ? *</option>
+                            <option value="idee-clarifiee">Idée clarifiée mais pas encore lancée</option>
+                            <option value="lancement">Projet en cours de lancement</option>
+                            <option value="lance">Activité déjà lancée (clients / utilisateurs)</option>
+                            <option value="developpement">Projet en phase de développement / structuration</option>
+                        </select>
+                    </div>
+
+                    <!-- Bloc 3 – Objectifs & horizon -->
+                    <div class="form-block">
+                        <h3 class="form-block-title">🎯 Objectifs & horizon</h3>
+                        <div class="form-group">
+                            <label class="form-label">Quel est ton objectif principal avec Domtom Connect ? *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="objectif_principal" value="structurer" required>
+                                    <span>Structurer mon projet</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="objectif_principal" value="prestataires" required>
+                                    <span>Trouver des prestataires fiables</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="objectif_principal" value="visibilite" required>
+                                    <span>Gagner en visibilité</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="objectif_principal" value="reseau" required>
+                                    <span>Me connecter à un réseau insulaire / diaspora</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="objectif_principal" value="autre" required>
+                                    <span>Autre (à préciser)</span>
+                                </label>
+                            </div>
+                            <input type="text" name="objectif_principal_autre" placeholder="Précisez votre objectif" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tu vois ton projet sur quel horizon ? *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="horizon" value="court" required>
+                                    <span>Court terme (0-6 mois)</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="horizon" value="moyen" required>
+                                    <span>Moyen terme (6-24 mois)</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="horizon" value="long" required>
+                                    <span>Long terme (2 ans et +)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 4 – Budget & engagement -->
+                    <div class="form-block">
+                        <h3 class="form-block-title">💰 Budget & engagement</h3>
+                        <select name="budget" required>
+                            <option value="">Quel budget es-tu prêt à investir dans l'accompagnement et les prestations pour les prochains mois ? *</option>
+                            <option value="moins-300">Moins de 300 €</option>
+                            <option value="300-1000">300-1 000 €</option>
+                            <option value="1000-3000">1 000-3 000 €</option>
+                            <option value="plus-3000">Plus de 3 000 €</option>
+                        </select>
+                        <div class="form-group">
+                            <label class="form-label">Es-tu prêt à t'engager (temps + budget) si le pack Domtom Connect correspond à tes besoins ? *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="engagement" value="oui" required>
+                                    <span>Oui, je suis prêt à m'engager</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="engagement" value="pas-sure" required>
+                                    <span>Pas encore sûr</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="engagement" value="non" required>
+                                    <span>Non, je veux juste des informations</span>
+                                </label>
+                            </div>
+                        </div>
+                        <textarea name="commentaires" rows="3" placeholder="Y a-t-il autre chose que tu veux préciser sur ta situation ou tes besoins ?"></textarea>
+                    </div>
+
+                    <p class="form-disclaimer" style="font-size: 0.875rem; color: var(--text-secondary); text-align: center; margin: 1rem 0; padding: 1rem; background: rgba(59, 130, 246, 0.05); border-radius: var(--border-radius);">
+                        <strong>Domtom Connect sélectionne les projets alignés avec sa mission.</strong> Tous les formulaires ne débouchent pas automatiquement sur un accompagnement.
+                    </p>
+
+                    <button type="submit" class="cta-button primary large" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <span style="position: relative; z-index: 2;">Envoyer ma qualification</span>
+                    </button>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; padding: 0.75rem; background: rgba(59, 130, 246, 0.05); border-radius: var(--border-radius);">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">Données sécurisées</span>
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">Réponse sous 48h</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../../assets/js/form-security.js?v=1.0"></script>
+    <script src="../../assets/js/landing.js?v=1.0"></script>
+    <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>
+
