@@ -547,6 +547,17 @@ function initConditionalFields() {
 }
 
 // Fonctions helper pour formater les labels
+function getNatureProjetLabel(value) {
+    if (!value) return 'Non renseigné';
+    const labels = {
+        'physique': 'Projet physique (boutique, restaurant, atelier, local, etc.)',
+        'virtuel': 'Projet virtuel/digital (site web, app, service en ligne, etc.)',
+        'hybride': 'Projet hybride (combine physique et digital)',
+        'autre': 'Autre type de projet'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
 function getLienTerritoiresLabel(value, autre) {
     const labels = {
         'vis-territoire': 'Je vis dans un territoire insulaire',
@@ -842,6 +853,22 @@ function prefillLandingForm(form) {
                 }
             }
             
+            // Gérer les nouveaux champs pour porteurs-projets
+            if (data.origine) {
+                const origineField = form.querySelector('select[name="origine"]');
+                if (origineField) {
+                    origineField.value = data.origine;
+                    origineField.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+            if (data.lieu_actuel) {
+                const lieuActuelField = form.querySelector('select[name="lieu_actuel"]');
+                if (lieuActuelField) {
+                    lieuActuelField.value = data.lieu_actuel;
+                    lieuActuelField.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+            // Compatibilité avec ancien champ ile
             if (data.ile) {
                 const ileField = form.querySelector('select[name="ile"]');
                 if (ileField) {
@@ -1017,25 +1044,30 @@ Source: Landing Page ${pageType}
 Date: ${new Date().toLocaleString('fr-FR')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 BLOC 1 - PROFIL & LIEN AVEC LES TERRITOIRES
+👤 BLOC 1 - PROFIL & ORIGINE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Prénom: ${data.prenom}
 Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone || 'Non renseigné'}
-Pays/Territoire: ${data.ile || 'Non renseigné'}
-${data.lien_territoires ? `Lien avec territoires insulaires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}` : ''}
+Origine/Territoire d'origine: ${data.origine || data.ile || 'Non renseigné'}
+Lieu actuel: ${data.lieu_actuel || 'Non renseigné'}
 `;
 
     // Bloc 2 - Projet
-    if (data.nom_projet || data.description_projet || data.stade_projet) {
+    if (data.nom_projet || data.description_projet || data.stade_projet || data.nature_projet) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 BLOC 2 - PROJET
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Nom du projet/entreprise: ${data.nom_projet || 'Non renseigné'}
 Description du projet: ${data.description_projet || 'Non renseigné'}
+Nature du projet: ${getNatureProjetLabel(data.nature_projet) || 'Non renseigné'}
+Localisation du projet: ${data.localisation_projet || 'Non renseigné'}
 Stade du projet: ${getStadeProjetLabel(data.stade_projet)}
+${data.besoins_physique ? `Besoins spécifiques (physique): ${data.besoins_physique}` : ''}
+${data.besoins_virtuel ? `Besoins spécifiques (digital): ${data.besoins_virtuel}` : ''}
+${data.besoins_hybride ? `Besoins spécifiques (hybride): ${data.besoins_hybride}` : ''}
 `;
     }
     
@@ -1212,10 +1244,17 @@ Besoin: ${data.besoin || 'Non renseigné'}
     formDataToSend.append('Email', data.email);
     formDataToSend.append('Téléphone', data.telephone || '');
     formDataToSend.append('Profil', data.profil || pageType);
-    if (data.ile) formDataToSend.append('Territoire', data.ile);
-    if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre));
+    if (data.origine) formDataToSend.append('Origine', data.origine);
+    if (data.lieu_actuel) formDataToSend.append('Lieu actuel', data.lieu_actuel);
+    if (data.ile) formDataToSend.append('Territoire', data.ile); // Compatibilité ancien formulaire
+    if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)); // Compatibilité ancien formulaire
     if (data.nom_projet) formDataToSend.append('Nom projet', data.nom_projet);
     if (data.description_projet) formDataToSend.append('Description projet', data.description_projet);
+    if (data.nature_projet) formDataToSend.append('Nature projet', getNatureProjetLabel(data.nature_projet));
+    if (data.localisation_projet) formDataToSend.append('Localisation projet', data.localisation_projet);
+    if (data.besoins_physique) formDataToSend.append('Besoins physique', data.besoins_physique);
+    if (data.besoins_virtuel) formDataToSend.append('Besoins digital', data.besoins_virtuel);
+    if (data.besoins_hybride) formDataToSend.append('Besoins hybride', data.besoins_hybride);
     if (data.stade_projet) formDataToSend.append('Stade projet', getStadeProjetLabel(data.stade_projet));
     if (data.objectif_principal) formDataToSend.append('Objectif principal', getObjectifPrincipalLabel(data.objectif_principal, data.objectif_principal_autre));
     if (data.horizon) formDataToSend.append('Horizon', getHorizonLabel(data.horizon));
@@ -1368,7 +1407,8 @@ Prénom: ${data.prenom}
 Nom: ${data.nom}
 Email: ${data.email}
 Téléphone: ${data.telephone || 'Non renseigné'}
-Territoire: ${data.ile || 'Non renseigné'}
+Origine/Territoire d'origine: ${data.origine || data.ile || 'Non renseigné'}
+Lieu actuel: ${data.lieu_actuel || 'Non renseigné'}
 ${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)}` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1387,8 +1427,10 @@ ${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data
     formDataToSend.append('Téléphone', data.telephone || '');
     formDataToSend.append('Profil', data.profil || pageType);
     formDataToSend.append('Étape', '1 - Formulaire court');
-    if (data.ile) formDataToSend.append('Territoire', data.ile);
-    if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre));
+    if (data.origine) formDataToSend.append('Origine', data.origine);
+    if (data.lieu_actuel) formDataToSend.append('Lieu actuel', data.lieu_actuel);
+    if (data.ile) formDataToSend.append('Territoire', data.ile); // Compatibilité ancien formulaire
+    if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)); // Compatibilité ancien formulaire
     
     // Envoyer en arrière-plan (ne pas attendre la réponse)
     return fetch(formspreeUrl, {
@@ -1492,19 +1534,25 @@ Prénom: ${completeData.prenom}
 Nom: ${completeData.nom}
 Email: ${completeData.email}
 Téléphone: ${completeData.telephone || 'Non renseigné'}
-Pays/Territoire: ${completeData.ile || 'Non renseigné'}
+Origine/Territoire d'origine: ${completeData.origine || completeData.ile || 'Non renseigné'}
+Lieu actuel: ${completeData.lieu_actuel || 'Non renseigné'}
 ${completeData.lien_territoires ? `Lien avec territoires insulaires: ${getLienTerritoiresLabel(completeData.lien_territoires, completeData.lien_territoires_autre)}` : ''}
 `;
 
     // Bloc 2 - Projet
-    if (completeData.nom_projet || completeData.description_projet || completeData.stade_projet) {
+    if (completeData.nom_projet || completeData.description_projet || completeData.stade_projet || completeData.nature_projet) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 BLOC 2 - PROJET
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Nom du projet/entreprise: ${completeData.nom_projet || 'Non renseigné'}
 Description du projet: ${completeData.description_projet || 'Non renseigné'}
+Nature du projet: ${getNatureProjetLabel(completeData.nature_projet) || 'Non renseigné'}
+Localisation du projet: ${completeData.localisation_projet || 'Non renseigné'}
 Stade du projet: ${getStadeProjetLabel(completeData.stade_projet)}
+${completeData.besoins_physique ? `Besoins spécifiques (physique): ${completeData.besoins_physique}` : ''}
+${completeData.besoins_virtuel ? `Besoins spécifiques (digital): ${completeData.besoins_virtuel}` : ''}
+${completeData.besoins_hybride ? `Besoins spécifiques (hybride): ${completeData.besoins_hybride}` : ''}
 `;
     }
     
@@ -1556,10 +1604,17 @@ Commentaires additionnels: ${completeData.commentaires}
     formDataToSend.append('Téléphone', completeData.telephone || '');
     formDataToSend.append('Profil', completeData.profil || pageType);
     formDataToSend.append('Étape', '2 - Qualification complète');
-    if (completeData.ile) formDataToSend.append('Territoire', completeData.ile);
-    if (completeData.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(completeData.lien_territoires, completeData.lien_territoires_autre));
+    if (completeData.origine) formDataToSend.append('Origine', completeData.origine);
+    if (completeData.lieu_actuel) formDataToSend.append('Lieu actuel', completeData.lieu_actuel);
+    if (completeData.ile) formDataToSend.append('Territoire', completeData.ile); // Compatibilité ancien formulaire
+    if (completeData.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(completeData.lien_territoires, completeData.lien_territoires_autre)); // Compatibilité ancien formulaire
     if (completeData.nom_projet) formDataToSend.append('Nom projet', completeData.nom_projet);
     if (completeData.description_projet) formDataToSend.append('Description projet', completeData.description_projet);
+    if (completeData.nature_projet) formDataToSend.append('Nature projet', getNatureProjetLabel(completeData.nature_projet));
+    if (completeData.localisation_projet) formDataToSend.append('Localisation projet', completeData.localisation_projet);
+    if (completeData.besoins_physique) formDataToSend.append('Besoins physique', completeData.besoins_physique);
+    if (completeData.besoins_virtuel) formDataToSend.append('Besoins digital', completeData.besoins_virtuel);
+    if (completeData.besoins_hybride) formDataToSend.append('Besoins hybride', completeData.besoins_hybride);
     if (completeData.stade_projet) formDataToSend.append('Stade projet', getStadeProjetLabel(completeData.stade_projet));
     if (completeData.objectif_principal) formDataToSend.append('Objectif principal', getObjectifPrincipalLabel(completeData.objectif_principal, completeData.objectif_principal_autre));
     if (completeData.horizon) formDataToSend.append('Horizon', getHorizonLabel(completeData.horizon));

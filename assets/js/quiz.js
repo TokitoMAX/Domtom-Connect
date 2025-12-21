@@ -18,17 +18,91 @@ const adaptiveQuestions = {
     "porteur-projet": [
     {
         id: 2,
-        question: "À quel stade est votre projet ?",
-        type: "radio",
+        question: "D'où venez-vous ? (Votre origine ou territoire d'origine)",
+        type: "select",
         options: [
-                { value: "idee-clarifiee", label: "Idée clarifiée mais pas encore lancée", score: 2 },
-                { value: "lancement", label: "Projet en cours de lancement", score: 3 },
-                { value: "lance", label: "Activité déjà lancée (clients / utilisateurs)", score: 4 },
-                { value: "developpement", label: "Projet en phase de développement / structuration", score: 4 }
+            { value: "martinique", label: "Martinique", score: 2 },
+            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
+            { value: "reunion", label: "La Réunion", score: 2 },
+            { value: "guyane", label: "Guyane", score: 2 },
+            { value: "mayotte", label: "Mayotte", score: 2 },
+            { value: "saint-martin", label: "Saint-Martin", score: 2 },
+            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
+            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
+            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
+            { value: "polynesie", label: "Polynésie française", score: 2 },
+            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+            { value: "diaspora", label: "Diaspora (originaire mais vivant ailleurs)", score: 2 },
+            { value: "metropole", label: "Métropole française", score: 1 },
+            { value: "autre", label: "Autre", score: 1 }
         ]
     },
     {
         id: 3,
+        question: "Où êtes-vous basé actuellement ?",
+        type: "select",
+        options: [
+            { value: "martinique", label: "Martinique", score: 2 },
+            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
+            { value: "reunion", label: "La Réunion", score: 2 },
+            { value: "guyane", label: "Guyane", score: 2 },
+            { value: "mayotte", label: "Mayotte", score: 2 },
+            { value: "saint-martin", label: "Saint-Martin", score: 2 },
+            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
+            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
+            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
+            { value: "polynesie", label: "Polynésie française", score: 2 },
+            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+            { value: "metropole", label: "Métropole française", score: 1 },
+            { value: "etranger", label: "Étranger", score: 1 },
+            { value: "autre", label: "Autre", score: 1 }
+        ]
+    },
+    {
+        id: 4,
+        question: "Quelle est la nature de votre projet ?",
+        type: "radio",
+        options: [
+            { value: "physique", label: "Projet physique (boutique, restaurant, atelier, local, etc.)", score: 2 },
+            { value: "virtuel", label: "Projet virtuel/digital (site web, app, service en ligne, etc.)", score: 3 },
+            { value: "hybride", label: "Projet hybride (combine physique et digital)", score: 3 },
+            { value: "autre", label: "Autre type de projet", score: 2 }
+        ]
+    },
+    {
+        id: 5,
+        question: "Où sera localisé votre projet ?",
+        type: "select",
+        options: [
+            { value: "martinique", label: "Martinique", score: 2 },
+            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
+            { value: "reunion", label: "La Réunion", score: 2 },
+            { value: "guyane", label: "Guyane", score: 2 },
+            { value: "mayotte", label: "Mayotte", score: 2 },
+            { value: "saint-martin", label: "Saint-Martin", score: 2 },
+            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
+            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
+            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
+            { value: "polynesie", label: "Polynésie française", score: 2 },
+            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+            { value: "metropole", label: "Métropole française", score: 1 },
+            { value: "international", label: "International / Multi-territoires", score: 3 },
+            { value: "autre", label: "Autre", score: 1 }
+        ]
+    },
+    {
+        id: 6,
+        question: "À quel stade est votre projet ?",
+        type: "radio",
+        options: [
+            { value: "idee-clarifiee", label: "Idée clarifiée mais pas encore lancée", score: 2 },
+            { value: "lancement", label: "Projet en cours de lancement", score: 3 },
+            { value: "lance", label: "Activité déjà lancée (clients / utilisateurs)", score: 4 },
+            { value: "developpement", label: "Projet en phase de développement / structuration", score: 4 }
+        ]
+    },
+    {
+        id: 7,
         question: "Avez-vous clarifié votre vision et vos objectifs ?",
         type: "radio",
         options: [
@@ -38,82 +112,66 @@ const adaptiveQuestions = {
         ]
     },
     {
-        id: 4,
-            question: "Combien de prestataires souhaitez-vous trouver ?",
-            type: "radio",
-            options: [
-                { value: "1", label: "1 prestataire", score: 2 },
-                { value: "2", label: "2 prestataires", score: 3 },
-                { value: "3", label: "3 prestataires", score: 4 },
-                { value: "3-plus", label: "Plus de 3 prestataires", score: 4 },
-                { value: "non-defini", label: "Je ne sais pas encore", score: 1 }
-            ]
-        },
+        id: 8,
+        question: "Quel est votre objectif principal ?",
+        type: "radio",
+        options: [
+            { value: "structurer", label: "Structurer mon projet", score: 3 },
+            { value: "prestataires", label: "Trouver des prestataires fiables", score: 3 },
+            { value: "visibilite", label: "Gagner en visibilité", score: 2 },
+            { value: "reseau", label: "Me connecter à un réseau insulaire / diaspora", score: 2 },
+            { value: "autre", label: "Autre", score: 1 }
+        ]
+    },
+    {
+        id: 9,
+        question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
+        type: "radio",
+        options: [
+            { value: "moins-300", label: "Moins de 300 €", score: 1 },
+            { value: "300-1000", label: "300-1 000 €", score: 2 },
+            { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
+            { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
+            { value: "non-defini", label: "Pas encore défini", score: 1 }
+        ],
+        clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
+    },
+    {
+        id: 10,
+        question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
+        type: "radio",
+        options: [
+            { value: "moins-1000", label: "Moins de 1 000 €", score: 1 },
+            { value: "1000-3000", label: "1 000 - 3 000 €", score: 2 },
+            { value: "3000-5000", label: "3 000 - 5 000 €", score: 3 },
+            { value: "5000-10000", label: "5 000 - 10 000 €", score: 4 },
+            { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
+            { value: "non-defini", label: "Pas encore défini", score: 1 }
+        ],
+        clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
+    },
+    {
+        id: 11,
+        question: "Quel est votre horizon temporel ?",
+        type: "radio",
+        options: [
+            { value: "court", label: "Court terme (0-6 mois)", score: 3 },
+            { value: "moyen", label: "Moyen terme (6-24 mois)", score: 3 },
+            { value: "long", label: "Long terme (2 ans et +)", score: 2 }
+        ]
+    }
+    ],
+    "investisseur": [
         {
-            id: 5,
-            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
-            type: "radio",
-            options: [
-                { value: "moins-300", label: "Moins de 300 €", score: 1 },
-                { value: "300-1000", label: "300-1 000 €", score: 2 },
-                { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
-                { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
-                { value: "non-defini", label: "Pas encore défini", score: 1 }
-            ],
-            clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
-        },
-        {
-            id: 6,
-            question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
-            type: "radio",
-            options: [
-                { value: "moins-1000", label: "Moins de 1 000 €", score: 1 },
-                { value: "1000-3000", label: "1 000 - 3 000 €", score: 2 },
-                { value: "3000-5000", label: "3 000 - 5 000 €", score: 3 },
-                { value: "5000-10000", label: "5 000 - 10 000 €", score: 4 },
-                { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
-                { value: "non-defini", label: "Pas encore défini", score: 1 }
-            ],
-            clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
-        },
-        {
-            id: 7,
-            question: "Quel est votre lien avec les territoires insulaires (DOM-TOM / îles / diaspora) ?",
-            type: "radio",
-            options: [
-                { value: "vis-territoire", label: "Je vis dans un territoire insulaire", score: 2 },
-                { value: "diaspora", label: "Je fais partie de la diaspora", score: 2 },
-                { value: "projet-cible", label: "Mon projet cible un territoire insulaire", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 8,
-            question: "Quel est votre territoire principal ?",
+            id: 2,
+            question: "Dans quel territoire êtes-vous basé ?",
             type: "select",
             options: [
                 { value: "martinique", label: "Martinique", score: 2 },
                 { value: "guadeloupe", label: "Guadeloupe", score: 2 },
                 { value: "reunion", label: "La Réunion", score: 2 },
                 { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
                 { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        }
-    ],
-    "investisseur": [
-        {
-            id: 2,
-            question: "Qu'est-ce qui vous pousse à investir dans les territoires ultramarins ?",
-            type: "radio",
-            options: [
-                { value: "retour-territoire", label: "Retour aux sources / Lien avec mon territoire d'origine", score: 3 },
-                { value: "opportunite-croissance", label: "Opportunités de croissance dans des marchés émergents", score: 3 },
-                { value: "impact-social", label: "Impact social et développement local", score: 3 },
-                { value: "diversification", label: "Diversification de mon portefeuille d'investissement", score: 2 },
                 { value: "autre", label: "Autre", score: 1 }
             ]
         },
@@ -131,7 +189,7 @@ const adaptiveQuestions = {
         },
         {
             id: 4,
-            question: "Quel est votre montant d'investissement potentiel ?",
+            question: "Quel est le montant d'investissement potentiel ?",
             type: "radio",
             options: [
                 { value: "moins-10k", label: "Moins de 10 000 €", score: 1 },
@@ -142,18 +200,6 @@ const adaptiveQuestions = {
         },
         {
             id: 5,
-            question: "Quelles sont vos attentes principales avec Domtom Connect ?",
-            type: "radio",
-            options: [
-                { value: "decouvrir-projets", label: "Découvrir des projets à financer", score: 3 },
-                { value: "reseau-investisseurs", label: "Rejoindre un réseau d'investisseurs", score: 2 },
-                { value: "mentorat", label: "Proposer du mentorat aux porteurs de projets", score: 2 },
-                { value: "comprendre-ecosysteme", label: "Comprendre l'écosystème entrepreneurial ultramarin", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 6,
             question: "Quels sont vos secteurs d'intérêt ?",
             type: "radio",
             options: [
@@ -166,28 +212,48 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 7,
+            id: 6,
             question: "Quelle est votre expérience en investissement ?",
             type: "radio",
             options: [
-                { value: "debutant", label: "Débutant", score: 2 },
+                { value: "debutant", label: "Débutant (je découvre l'investissement)", score: 2 },
                 { value: "quelques-investissements", label: "Quelques investissements", score: 3 },
-                { value: "expert", label: "Expert", score: 4 }
+                { value: "expert", label: "Expert (investisseur régulier)", score: 4 }
+            ]
+        },
+        {
+            id: 7,
+            question: "Qu'est-ce qui vous pousse à investir dans les territoires ultramarins ?",
+            type: "radio",
+            options: [
+                { value: "retour-territoire", label: "Retour aux sources / Lien avec mon territoire d'origine", score: 3 },
+                { value: "opportunite-croissance", label: "Opportunités de croissance dans des marchés émergents", score: 3 },
+                { value: "impact-social", label: "Impact social et développement local", score: 3 },
+                { value: "diversification", label: "Diversification de mon portefeuille d'investissement", score: 2 },
+                { value: "autre", label: "Autre", score: 1 }
             ]
         },
         {
             id: 8,
-            question: "Quel est votre territoire principal ?",
-            type: "select",
+            question: "Quelles sont vos attentes principales avec Domtom Connect ?",
+            type: "radio",
             options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
+                { value: "decouvrir-projets", label: "Découvrir des projets à financer", score: 3 },
+                { value: "reseau-investisseurs", label: "Rejoindre un réseau d'investisseurs", score: 2 },
+                { value: "mentorat", label: "Proposer du mentorat aux porteurs de projets", score: 2 },
+                { value: "comprendre-ecosysteme", label: "Comprendre l'écosystème entrepreneurial ultramarin", score: 2 },
+                { value: "autre", label: "Autre", score: 1 }
+            ]
+        },
+        {
+            id: 9,
+            question: "Quels sont les critères les plus importants pour vous lors de l'évaluation d'un projet ?",
+            type: "radio",
+            options: [
+                { value: "equipe-porteur", label: "L'équipe et le porteur de projet", score: 3 },
+                { value: "potentiel-marche", label: "Le potentiel du marché", score: 3 },
+                { value: "viabilite-financiere", label: "La viabilité financière", score: 3 },
+                { value: "impact-territoire", label: "L'impact sur le territoire", score: 3 },
                 { value: "autre", label: "Autre", score: 1 }
             ]
         }
@@ -195,28 +261,45 @@ const adaptiveQuestions = {
     "prestataire": [
         {
             id: 2,
-            question: "Quels types de services proposez-vous ?",
+            question: "Quels services proposez-vous ?",
             type: "radio",
             options: [
-                { value: "digital", label: "Digital / Web / Communication", score: 3 },
-                { value: "conseil", label: "Conseil / Stratégie", score: 3 },
-                { value: "juridique", label: "Juridique / Fiscal", score: 3 },
-                { value: "comptabilite", label: "Comptabilité / Finance", score: 3 },
-                { value: "autre", label: "Autre", score: 2 }
+                { value: "developpement", label: "Développement web/mobile", score: 3 },
+                { value: "design", label: "Design graphique / UI/UX", score: 3 },
+                { value: "marketing", label: "Marketing digital / Communication", score: 3 },
+                { value: "comptabilite", label: "Comptabilité / Fiscalité", score: 3 },
+                { value: "juridique", label: "Juridique / Conseil", score: 3 },
+                { value: "coaching", label: "Coaching / Formation", score: 3 },
+                { value: "autre", label: "Autre service", score: 2 }
             ]
         },
         {
             id: 3,
-            question: "Quelle est votre expérience ?",
+            question: "Quel est votre statut juridique ?",
             type: "radio",
             options: [
-                { value: "debutant", label: "Débutant (< 2 ans)", score: 2 },
-                { value: "intermediaire", label: "Intermédiaire (2-5 ans)", score: 3 },
-                { value: "expert", label: "Expert (5+ ans)", score: 4 }
+                { value: "auto-entrepreneur", label: "Auto-entrepreneur / Micro-entrepreneur", score: 2 },
+                { value: "eurl", label: "EURL", score: 3 },
+                { value: "sarl", label: "SARL", score: 3 },
+                { value: "sas", label: "SAS", score: 3 },
+                { value: "sasu", label: "SASU", score: 3 },
+                { value: "autre", label: "Autre statut", score: 2 }
             ]
         },
         {
             id: 4,
+            question: "Quelle est votre expérience (en années) ?",
+            type: "radio",
+            options: [
+                { value: "moins-1", label: "Moins de 1 an", score: 2 },
+                { value: "1-3", label: "1 à 3 ans", score: 3 },
+                { value: "3-5", label: "3 à 5 ans", score: 3 },
+                { value: "5-10", label: "5 à 10 ans", score: 4 },
+                { value: "plus-10", label: "Plus de 10 ans", score: 4 }
+            ]
+        },
+        {
+            id: 5,
             question: "Dans quels territoires pouvez-vous intervenir ?",
             type: "radio",
             options: [
@@ -224,102 +307,123 @@ const adaptiveQuestions = {
                 { value: "plusieurs", label: "Plusieurs territoires", score: 3 },
                 { value: "tous", label: "Tous les territoires (distanciel possible)", score: 4 }
             ]
-        },
-        {
-            id: 5,
-            question: "Quel est votre territoire principal ?",
-            type: "select",
-            options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
         }
     ],
     "entreprise": [
         {
             id: 2,
-            question: "Dans quel secteur d'activité êtes-vous ?",
+            question: "Dans quel secteur d'activité évolue votre entreprise ?",
             type: "radio",
             options: [
                 { value: "tech", label: "Technologie / Digital", score: 2 },
                 { value: "commerce", label: "Commerce / E-commerce", score: 2 },
-                { value: "services", label: "Services", score: 2 },
-                { value: "agriculture", label: "Agriculture / Agroalimentaire", score: 2 },
-                { value: "tourisme", label: "Tourisme", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
+                { value: "tourisme", label: "Tourisme / Hôtellerie", score: 2 },
+                { value: "agroalimentaire", label: "Agroalimentaire", score: 2 },
+                { value: "services", label: "Services aux entreprises", score: 2 },
+                { value: "culture", label: "Culture / Événementiel", score: 2 },
+                { value: "sante", label: "Santé / Bien-être", score: 2 },
+                { value: "education", label: "Éducation / Formation", score: 2 },
+                { value: "autre", label: "Autre secteur", score: 1 }
             ]
         },
         {
             id: 3,
-            question: "Quel est votre principal besoin avec Domtom Connect ?",
+            question: "Quelle est la taille de votre entreprise ?",
             type: "radio",
             options: [
-                { value: "prestataires", label: "Trouver des prestataires fiables", score: 3 },
-                { value: "reseau", label: "Rejoindre un réseau d'entreprises", score: 2 },
-                { value: "visibilite", label: "Gagner en visibilité", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
+                { value: "micro", label: "Micro-entreprise (0-1 salarié)", score: 2 },
+                { value: "tpe", label: "TPE (2-9 salariés)", score: 2 },
+                { value: "pme", label: "PME (10-49 salariés)", score: 3 },
+                { value: "et", label: "ETI (50-249 salariés)", score: 3 },
+                { value: "ge", label: "Grande entreprise (250+ salariés)", score: 3 }
             ]
         },
         {
             id: 4,
-            question: "Combien de prestataires souhaitez-vous trouver ?",
+            question: "Quel est votre besoin principal ?",
             type: "radio",
             options: [
-                { value: "1", label: "1 prestataire", score: 2 },
-                { value: "2", label: "2 prestataires", score: 3 },
-                { value: "3", label: "3 prestataires", score: 4 },
-                { value: "3-plus", label: "Plus de 3 prestataires", score: 4 },
-                { value: "non-defini", label: "Je ne sais pas encore", score: 1 }
+                { value: "trouver-prestataires", label: "Trouver des prestataires", score: 3 },
+                { value: "developper-projet", label: "Développer un projet", score: 3 },
+                { value: "trouver-partenaires", label: "Trouver des partenaires", score: 2 },
+                { value: "autre", label: "Autre besoin", score: 1 }
             ]
         },
         {
             id: 5,
-            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
+            question: "Quel type de prestations recherchez-vous ?",
             type: "radio",
             options: [
-                { value: "moins-300", label: "Moins de 300 €", score: 1 },
-                { value: "300-1000", label: "300-1 000 €", score: 2 },
-                { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
-                { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
-                { value: "non-defini", label: "Pas encore défini", score: 1 }
-            ],
-            clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
+                { value: "developpement", label: "Développement web/mobile", score: 2 },
+                { value: "design", label: "Design / Identité visuelle", score: 2 },
+                { value: "marketing", label: "Marketing / Communication", score: 2 },
+                { value: "comptabilite", label: "Comptabilité / Fiscalité", score: 2 },
+                { value: "juridique", label: "Juridique / Conseil", score: 2 },
+                { value: "formation", label: "Formation / Coaching", score: 2 },
+                { value: "multiple", label: "Plusieurs types de prestations", score: 3 },
+                { value: "autre", label: "Autre", score: 1 }
+            ]
         },
         {
             id: 6,
-            question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
-        type: "radio",
-        options: [
-                { value: "moins-1000", label: "Moins de 1 000 €", score: 1 },
-                { value: "1000-3000", label: "1 000 - 3 000 €", score: 2 },
-                { value: "3000-5000", label: "3 000 - 5 000 €", score: 3 },
-                { value: "5000-10000", label: "5 000 - 10 000 €", score: 4 },
-                { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
-            { value: "non-defini", label: "Pas encore défini", score: 1 }
-            ],
-            clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
+            question: "Combien de prestataires recherchez-vous ?",
+            type: "radio",
+            options: [
+                { value: "1", label: "1 prestataire", score: 2 },
+                { value: "2-3", label: "2 à 3 prestataires", score: 3 },
+                { value: "4-5", label: "4 à 5 prestataires", score: 4 },
+                { value: "plus-5", label: "Plus de 5 prestataires", score: 4 },
+                { value: "non-defini", label: "À définir selon les besoins", score: 1 }
+            ]
         },
         {
             id: 7,
-            question: "Quel est votre territoire principal ?",
+            question: "Quel est votre budget estimé pour les prestations ?",
+            type: "radio",
+            options: [
+                { value: "moins-2000", label: "Moins de 2 000€", score: 1 },
+                { value: "2000-5000", label: "2 000€ - 5 000€", score: 2 },
+                { value: "5000-10000", label: "5 000€ - 10 000€", score: 3 },
+                { value: "10000-25000", label: "10 000€ - 25 000€", score: 4 },
+                { value: "plus-25000", label: "Plus de 25 000€", score: 4 },
+                { value: "a-definir", label: "À définir selon les besoins", score: 1 }
+            ]
+        },
+        {
+            id: 8,
+            question: "Quelle est l'urgence de votre besoin ?",
+            type: "radio",
+            options: [
+                { value: "immediat", label: "Immédiat (dans les 2 semaines)", score: 4 },
+                { value: "court-terme", label: "Court terme (1-3 mois)", score: 3 },
+                { value: "moyen-terme", label: "Moyen terme (3-6 mois)", score: 2 },
+                { value: "long-terme", label: "Long terme (6+ mois)", score: 1 },
+                { value: "exploration", label: "En phase d'exploration", score: 1 }
+            ]
+        },
+        {
+            id: 9,
+            question: "Dans quel territoire êtes-vous basé ?",
             type: "select",
             options: [
                 { value: "martinique", label: "Martinique", score: 2 },
                 { value: "guadeloupe", label: "Guadeloupe", score: 2 },
                 { value: "reunion", label: "La Réunion", score: 2 },
                 { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
                 { value: "diaspora", label: "Diaspora", score: 2 },
                 { value: "autre", label: "Autre", score: 1 }
+            ]
+        },
+        {
+            id: 10,
+            question: "Depuis combien de temps votre entreprise existe-t-elle ?",
+            type: "radio",
+            options: [
+                { value: "moins-1", label: "Moins de 1 an (je viens de créer)", score: 2 },
+                { value: "1-3", label: "1 à 3 ans", score: 3 },
+                { value: "3-5", label: "3 à 5 ans", score: 3 },
+                { value: "5-10", label: "5 à 10 ans", score: 3 },
+                { value: "plus-10", label: "Plus de 10 ans", score: 4 }
             ]
         }
     ]

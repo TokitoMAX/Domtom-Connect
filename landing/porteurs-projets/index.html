@@ -42,7 +42,7 @@
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel pays/territoire es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
+            { id: 'origine', question: 'D\'où viens-tu ? (Ton origine ou territoire d\'origine)', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
                 { value: 'martinique', label: 'Martinique' },
                 { value: 'guadeloupe', label: 'Guadeloupe' },
                 { value: 'reunion', label: 'La Réunion' },
@@ -54,18 +54,53 @@
                 { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                 { value: 'polynesie', label: 'Polynésie française' },
                 { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora' },
+                { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
+                { value: 'metropole', label: 'Métropole française' },
                 { value: 'autre', label: 'Autre' }
             ]},
-            { id: 'lien_territoires', question: 'Quel est ton lien avec les territoires insulaires (DOM-TOM / îles / diaspora) ?', type: 'radio', required: true, fieldName: 'lien_territoires', options: [
-                { value: 'vis-territoire', label: 'Je vis dans un territoire insulaire' },
-                { value: 'diaspora', label: 'Je fais partie de la diaspora' },
-                { value: 'projet-cible', label: 'Mon projet cible un territoire insulaire' },
-                { value: 'autre', label: 'Autre (à préciser)' }
+            { id: 'lieu_actuel', question: 'Où es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'lieu_actuel', placeholder: 'Sélectionne ton lieu actuel', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'saint-martin', label: 'Saint-Martin' },
+                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'metropole', label: 'Métropole française' },
+                { value: 'etranger', label: 'Étranger' },
+                { value: 'autre', label: 'Autre' }
             ]},
-            { id: 'lien_territoires_autre', question: 'Précise ton lien avec les territoires insulaires', type: 'text', placeholder: 'Ton lien', required: false, fieldName: 'lien_territoires_autre', conditional: { field: 'lien_territoires', value: 'autre' }},
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
             { id: 'description_projet', question: 'Décris ton projet en 3-5 phrases', type: 'textarea', placeholder: 'Décris ton projet...', required: true, fieldName: 'description_projet', rows: 4 },
+            { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
+                { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
+                { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
+                { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
+                { value: 'autre', label: 'Autre type de projet' }
+            ]},
+            { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation du projet', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'saint-martin', label: 'Saint-Martin' },
+                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'metropole', label: 'Métropole française' },
+                { value: 'international', label: 'International / Multi-territoires' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
+            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
+            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
             { id: 'stade_projet', question: 'À quel stade est ton projet ?', type: 'radio', required: true, fieldName: 'stade_projet', options: [
                 { value: 'idee-clarifiee', label: 'Idée clarifiée mais pas encore lancée' },
                 { value: 'lancement', label: 'Projet en cours de lancement' },
