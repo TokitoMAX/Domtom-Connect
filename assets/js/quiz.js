@@ -41,7 +41,7 @@ const adaptiveQuestions = {
         },
         {
             id: 4,
-            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement et les prestations pour les prochains mois ?",
+            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect pour les prochains mois ?",
             type: "radio",
             options: [
                 { value: "moins-300", label: "Moins de 300 €", score: 1 },
@@ -49,7 +49,8 @@ const adaptiveQuestions = {
                 { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
                 { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
                 { value: "non-defini", label: "Pas encore défini", score: 1 }
-            ]
+            ],
+            clarification: "💡 <strong>Important à savoir :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire. Vous gardez le contrôle total sur vos budgets de prestations."
         },
         {
             id: 5,
@@ -393,6 +394,16 @@ function showQuestion(index) {
     }
     
     questionHTML += `</div>`;
+    
+    // Ajouter la clarification si elle existe
+    if (question.clarification) {
+        questionHTML += `
+            <div class="quiz-clarification" style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(96, 165, 250, 0.05)); border-left: 4px solid #3B82F6; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; color: #475569;">
+                ${question.clarification}
+            </div>
+        `;
+    }
+    
     questionHTML += `<div class="quiz-navigation">`;
     
     if (index > 0) {
