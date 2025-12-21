@@ -132,7 +132,8 @@
                 { value: 'pas-sure', label: 'Pas encore sûr' },
                 { value: 'non', label: 'Non, je veux juste des informations' }
             ]},
-            { id: 'commentaires', question: 'As-tu des commentaires ou questions supplémentaires ?', type: 'textarea', placeholder: 'Tes commentaires (optionnel)', required: false, fieldName: 'commentaires', rows: 3 }
+            { id: 'commentaires', question: 'As-tu des commentaires ou questions supplémentaires ?', type: 'textarea', placeholder: 'Tes commentaires (optionnel)', required: false, fieldName: 'commentaires', rows: 3 },
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
         let quiz;

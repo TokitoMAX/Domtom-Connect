@@ -1099,6 +1099,16 @@ Commentaires additionnels: ${data.commentaires}
 `;
     }
     
+    // Certification pour porteurs-projets
+    if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.certification) {
+        messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Certification acceptée: OUI
+`;
+    }
+    
     // Informations spécifiques selon le profil (pour compatibilité avec anciens formulaires)
     if (data.entreprise) {
         messageBody += `
@@ -1319,6 +1329,22 @@ Besoin: ${data.besoin || 'Non renseigné'}
         if (data.motivation) formDataToSend.append('Motivation', data.motivation === 'autre' ? (data.motivation_autre || 'Autre') : data.motivation);
         if (data.attentes) formDataToSend.append('Attentes', data.attentes === 'autre' ? (data.attentes_autre || 'Autre') : data.attentes);
         if (data.criteres) formDataToSend.append('Critères', data.criteres === 'autre' ? (data.criteres_autre || 'Autre') : data.criteres);
+        if (data.certification) formDataToSend.append('Certification', 'OUI');
+        
+        // Ajouter certification dans le message body pour investisseurs
+        if (data.certification) {
+            messageBody += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Certification acceptée: OUI
+`;
+        }
+    }
+    
+    // Ajouter certification pour porteurs-projets dans les données structurées
+    if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.certification) {
+        formDataToSend.append('Certification', 'OUI');
     }
     
     fetch(formspreeUrl, {

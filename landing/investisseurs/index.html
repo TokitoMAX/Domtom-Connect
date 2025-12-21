@@ -99,7 +99,8 @@
                 { value: 'impact-territoire', label: 'L\'impact sur le territoire' },
                 { value: 'autre', label: 'Autre (à préciser)' }
             ]},
-            { id: 'criteres_autre', question: 'Précisez vos critères', type: 'text', placeholder: 'Vos critères', required: false, fieldName: 'criteres_autre', conditional: { field: 'criteres', value: 'autre' }}
+            { id: 'criteres_autre', question: 'Précisez vos critères', type: 'text', placeholder: 'Vos critères', required: false, fieldName: 'criteres_autre', conditional: { field: 'criteres', value: 'autre' }},
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
         let quiz;
