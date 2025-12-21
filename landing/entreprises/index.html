@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entreprises - Solutions pour Votre Business - Domtom Connect</title>
+    <title>Solutions pour Votre Entreprise - Domtom Connect</title>
     <meta name="description" content="Solutions sur mesure pour les entreprises des territoires ultramarins. Trouvez les prestataires et partenaires dont vous avez besoin.">
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+    <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
@@ -19,399 +19,151 @@
         </div>
     </nav>
 
-    <section class="landing-hero">
+    <section class="landing-hero quiz-hero">
         <div class="container">
             <div class="landing-content">
                 <h1>Solutions pour Votre Entreprise</h1>
-                <p class="landing-subtitle">Accédez à un réseau de prestataires qualifiés pour développer votre activité dans les territoires ultramarins</p>
                 
-                <div class="landing-benefits">
-                    <div class="benefit-item">
-                        <span>Prestataires spécialisés et vérifiés</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span>Accompagnement dédié aux entreprises</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span>Cadre professionnel et sécurisé</span>
-                    </div>
-                </div>
-                
-                <!-- Message d'explication sur le formulaire -->
-                <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.08); border-radius: 16px; border-left: 4px solid #8B5CF6;">
-                    <p style="font-size: 0.95rem; color: #1e293b; margin: 0; line-height: 1.7; font-weight: 500;">
-                        <strong>💡 Pourquoi ce formulaire détaillé ?</strong><br>
-                        Nous vérifions chaque entreprise pour garantir la qualité de notre réseau et vous proposer les meilleurs prestataires. Cela vous protège aussi : vous travaillez uniquement avec des prestataires vérifiés et qualifiés. <strong>5 minutes pour accéder à un réseau de confiance.</strong>
-                    </p>
-                </div>
-
-                <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
-                    <input type="hidden" name="profil" value="entreprise">
-                    <input type="hidden" name="lead_source" value="landing-entreprises">
-                    <input type="hidden" name="form_step" value="complete">
-                    <!-- Honeypot field - caché pour attraper les bots -->
-                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
-                    <div class="form-row">
-                        <input type="text" name="prenom" placeholder="Prénom" required>
-                        <input type="text" name="nom" placeholder="Nom" required>
-                    </div>
-                    <input type="email" name="email" placeholder="Email professionnel" required>
-                    <input type="tel" name="telephone" placeholder="Téléphone" required>
-                    <input type="text" name="entreprise" placeholder="Nom de l'entreprise *" required>
-                    <input type="url" name="site_web" placeholder="Site web de l'entreprise *" required pattern="https?://.+" title="Veuillez entrer une URL valide (commençant par http:// ou https://)">
-                    <input type="text" name="siret" placeholder="Numéro SIRET de l'entreprise *" required pattern="[0-9]{14}" title="Le SIRET doit contenir 14 chiffres" maxlength="14">
-                    <input type="url" name="linkedin" placeholder="Lien vers votre profil LinkedIn (optionnel mais recommandé)" pattern="https?://.+" title="Veuillez entrer une URL valide">
-                    <p style="font-size: 0.8rem; color: #64748b; margin-top: -0.5rem; margin-bottom: 0.5rem; font-style: italic;">💡 Si vous n'avez pas de LinkedIn, vous pouvez laisser vide</p>
-                    <select name="secteur_activite" required>
-                        <option value="">Secteur d'activité *</option>
-                        <option value="tech">Technologie / Digital</option>
-                        <option value="commerce">Commerce / E-commerce</option>
-                        <option value="tourisme">Tourisme / Hôtellerie</option>
-                        <option value="agroalimentaire">Agroalimentaire</option>
-                        <option value="services">Services aux entreprises</option>
-                        <option value="culture">Culture / Événementiel</option>
-                        <option value="sante">Santé / Bien-être</option>
-                        <option value="education">Éducation / Formation</option>
-                        <option value="autre">Autre secteur</option>
-                    </select>
-                    <input type="text" name="secteur_activite_autre" placeholder="Précisez votre secteur" class="conditional-field" style="display: none;">
-                    <select name="taille_entreprise" required>
-                        <option value="">Taille de l'entreprise *</option>
-                        <option value="micro">Micro-entreprise (0-1 salarié)</option>
-                        <option value="tpe">TPE (2-9 salariés)</option>
-                        <option value="pme">PME (10-49 salariés)</option>
-                        <option value="et">ETI (50-249 salariés)</option>
-                        <option value="ge">Grande entreprise (250+ salariés)</option>
-                    </select>
-                    <select name="besoin" required>
-                        <option value="">Votre besoin principal *</option>
-                        <option value="trouver-prestataires">Trouver des prestataires</option>
-                        <option value="developper-projet">Développer un projet</option>
-                        <option value="trouver-partenaires">Trouver des partenaires</option>
-                        <option value="autre">Autre besoin</option>
-                    </select>
-                    <input type="text" name="besoin_autre" placeholder="Précisez votre besoin" class="conditional-field" style="display: none;">
-                    <select name="type_prestations" required>
-                        <option value="">Type de prestations recherchées *</option>
-                        <option value="developpement">Développement web/mobile</option>
-                        <option value="design">Design / Identité visuelle</option>
-                        <option value="marketing">Marketing / Communication</option>
-                        <option value="comptabilite">Comptabilité / Fiscalité</option>
-                        <option value="juridique">Juridique / Conseil</option>
-                        <option value="formation">Formation / Coaching</option>
-                        <option value="multiple">Plusieurs types de prestations</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                    <input type="text" name="type_prestations_autre" placeholder="Précisez le type de prestations" class="conditional-field" style="display: none;">
-                    <select name="nombre_prestataires" required>
-                        <option value="">Nombre de prestataires recherchés *</option>
-                        <option value="1">1 prestataire</option>
-                        <option value="2-3">2 à 3 prestataires</option>
-                        <option value="4-5">4 à 5 prestataires</option>
-                        <option value="plus-5">Plus de 5 prestataires</option>
-                        <option value="non-defini">À définir selon les besoins</option>
-                    </select>
-                    <select name="budget" required>
-                        <option value="">Budget estimé pour les prestations *</option>
-                        <option value="moins-2000">Moins de 2 000€</option>
-                        <option value="2000-5000">2 000€ - 5 000€</option>
-                        <option value="5000-10000">5 000€ - 10 000€</option>
-                        <option value="10000-25000">10 000€ - 25 000€</option>
-                        <option value="plus-25000">Plus de 25 000€</option>
-                        <option value="a-definir">À définir selon les besoins</option>
-                    </select>
-                    <select name="urgence" required>
-                        <option value="">Urgence du besoin *</option>
-                        <option value="immediat">Immédiat (dans les 2 semaines)</option>
-                        <option value="court-terme">Court terme (1-3 mois)</option>
-                        <option value="moyen-terme">Moyen terme (3-6 mois)</option>
-                        <option value="long-terme">Long terme (6+ mois)</option>
-                        <option value="exploration">En phase d'exploration</option>
-                    </select>
-                    <select name="ile" required>
-                        <option value="">Votre territoire *</option>
-                        <option value="martinique">Martinique</option>
-                        <option value="guadeloupe">Guadeloupe</option>
-                        <option value="reunion">La Réunion</option>
-                        <option value="guyane">Guyane</option>
-                        <option value="diaspora">Diaspora</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                    <textarea name="description_besoin" rows="3" placeholder="Décrivez brièvement votre projet ou besoin spécifique (optionnel mais recommandé)"></textarea>
-                    
-                    <!-- Questions de validation croisée -->
-                    <div style="margin-top: 1rem; padding: 1.5rem; background: rgba(139, 92, 246, 0.05); border-radius: 12px; border-left: 4px solid #8B5CF6;">
-                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Questions de validation</h4>
-                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Ces questions nous aident à mieux comprendre votre contexte et à vous proposer les prestataires les plus adaptés</p>
-                        <select name="anciennete_entreprise" required>
-                            <option value="">Depuis combien de temps votre entreprise existe-t-elle ? *</option>
-                            <option value="moins-1">Moins de 1 an (je viens de créer)</option>
-                            <option value="1-3">1 à 3 ans</option>
-                            <option value="3-5">3 à 5 ans</option>
-                            <option value="5-10">5 à 10 ans</option>
-                            <option value="plus-10">Plus de 10 ans</option>
-                        </select>
-                        <select name="prestataires_precedents" required style="margin-top: 1rem;">
-                            <option value="">Combien de prestataires externes avez-vous déjà travaillé avec ? *</option>
-                            <option value="0">Aucun (première fois)</option>
-                            <option value="1-3">1 à 3 prestataires</option>
-                            <option value="4-10">4 à 10 prestataires</option>
-                            <option value="plus-10">Plus de 10 prestataires</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Certification -->
-                    <label style="display: flex; align-items: start; gap: 0.75rem; margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.05); border-radius: 12px; border: 2px solid rgba(16, 185, 129, 0.2); cursor: pointer;">
-                        <input type="checkbox" name="certification" required style="margin-top: 0.25rem; width: 20px; height: 20px; cursor: pointer; flex-shrink: 0;">
-                        <span style="font-size: 0.95rem; color: #1e293b; line-height: 1.6;">
-                            <strong>Je certifie sur l'honneur</strong> que toutes les informations fournies sont exactes et vérifiables. Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous. *
-                        </span>
-                    </label>
-                    
-                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(139, 92, 246, 0.08); border-radius: 12px; border-left: 4px solid #8B5CF6;">
-                        <p style="font-size: 0.875rem; color: #1e293b; margin: 0; line-height: 1.6;">
-                            <strong>✅ Processus de vérification :</strong> Nous vérifions votre SIRET et votre site web pour garantir la qualité du réseau. Ces vérifications nous permettent de vous proposer les meilleurs prestataires adaptés à votre entreprise. <strong>Notre objectif : vous mettre en relation avec les bons prestataires.</strong>
-                        </p>
-                    </div>
-                    
-                    <button type="submit" class="cta-button primary large">Rejoindre en tant qu'entreprise</button>
-                    <p class="form-privacy">Vos données sont sécurisées. Inscription gratuite pour les pionniers.</p>
+                <form class="landing-form quiz-form" id="landing-form" onsubmit="handleQuizFormSubmit(event)">
+                    <div class="quiz-container"></div>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Section : Compétences des prestataires -->
-    <section class="prestataires-competences-section" style="background: var(--gray-50); padding: 4rem 0;">
-        <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem); margin-bottom: 1rem;">Comment nous garantissons la qualité de nos prestataires</h2>
-                <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto;">Nous vérifions les compétences avant toute mise en relation</p>
-            </div>
-
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; gap: 2rem;">
-                    <!-- Processus de vérification -->
-                    <div style="background: var(--white); border-radius: 20px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 700; margin-bottom: 1.5rem; color: #1e293b;">Notre processus de vérification</h3>
-                        <div style="display: grid; gap: 1.5rem;">
-                            <div style="display: flex; gap: 1rem; align-items: start;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #8B5CF6, #A78BFA); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">1</div>
-                                <div>
-                                    <h4 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Vérification des compétences</h4>
-                                    <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin: 0;">
-                                        Nous vérifions l'expérience, les réalisations passées, les références et les certifications de chaque prestataire avant de les intégrer à notre réseau.
-                                    </p>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 1rem; align-items: start;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #8B5CF6, #A78BFA); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">2</div>
-                                <div>
-                                    <h4 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Validation du profil</h4>
-                                    <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin: 0;">
-                                        Chaque prestataire doit fournir des exemples concrets de réalisations, des témoignages clients, et démontrer sa compréhension des enjeux ultramarins.
-                                    </p>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 1rem; align-items: start;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #8B5CF6, #A78BFA); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">3</div>
-                                <div>
-                                    <h4 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Matching selon vos besoins</h4>
-                                    <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin: 0;">
-                                        Nous vous présentons uniquement les prestataires dont les compétences correspondent exactement à votre projet et à vos exigences.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Informations que vous recevrez -->
-                    <div style="background: var(--white); border-radius: 20px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 700; margin-bottom: 1.5rem; color: #1e293b;">Informations que vous recevrez sur chaque prestataire</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                            <div style="padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 3px solid #8B5CF6;">
-                                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Expérience et réalisations</h4>
-                                <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin: 0;">
-                                    Années d'expérience, projets réalisés, secteurs d'expertise
-                                </p>
-                            </div>
-                            <div style="padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 3px solid #8B5CF6;">
-                                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Références et témoignages</h4>
-                                <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin: 0;">
-                                    Témoignages clients, références vérifiées, avis sur les réalisations
-                                </p>
-                            </div>
-                            <div style="padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 3px solid #8B5CF6;">
-                                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Compétences techniques</h4>
-                                <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin: 0;">
-                                    Outils maîtrisés, certifications, formations, spécialisations
-                                </p>
-                            </div>
-                            <div style="padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 3px solid #8B5CF6;">
-                                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Connaissance des territoires</h4>
-                                <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin: 0;">
-                                    Expérience dans les territoires ultramarins, compréhension des enjeux locaux
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Avantages détaillés -->
-    <section class="benefits-detail-section" style="background: var(--white);">
-        <div class="container">
-            <div class="section-header" style="text-align: center;">
-                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem); margin-bottom: 1rem;">Pourquoi choisir Domtom Connect pour votre entreprise ?</h2>
-                <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto;">Des solutions sur mesure pour développer votre activité</p>
-            </div>
-
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; gap: 2.5rem;">
-                    <!-- Avantage 1 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🏝️</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Évitez les prestataires métropolitains déconnectés</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Fini les prestataires qui ne comprennent pas vos contraintes locales, vos délais, ou votre contexte économique. <strong>Tous nos prestataires sont des territoires ultramarins ou de la diaspora</strong>. Ils connaissent vos spécificités réglementaires, vos réalités de marché et vos enjeux locaux. Une collaboration qui a du sens dès le départ.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 2 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🎯</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Recherche sur mesure, pas un catalogue figé</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Contrairement aux plateformes avec catalogue limité, <strong>nous cherchons spécifiquement selon vos besoins</strong>. Si le prestataire idéal n'est pas encore dans notre réseau, nous le recherchons activement pour vous. Votre demande est unique ? Pas de problème. Nous construisons notre réseau selon vos besoins réels, pas l'inverse.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 3 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">👥</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Un seul interlocuteur pour tous vos besoins</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Au lieu de gérer plusieurs prestataires dispersés avec leurs propres interlocuteurs, <strong>vous avez un seul point de contact</strong>. Nous coordonnons la recherche, la validation, le suivi. Vous simplifiez votre gestion de projet et réduisez la charge administrative. Fini la multiplication des contacts et des interfaces.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 4 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">⚡</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Réactivité garantie, pas de projets qui traînent</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Nous ne disparaissons pas après la mise en relation. <strong>Nous suivons proactivement chaque projet</strong> pour garantir que tout avance. Si un prestataire tarde, ne répond pas ou ne livre pas, nous intervenons immédiatement. Vos projets ne restent pas bloqués. Vous avez un vrai suivi opérationnel.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 5 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">💸</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Pas de commission cachée sur les prestations</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Vous payez directement le prestataire, <strong>sans commission intermédiaire sur son travail</strong>. L'acompte versé à Domtom Connect couvre uniquement la recherche et l'accompagnement, pas une marge sur la prestation. Vous payez le vrai prix, le prestataire reçoit 100% de ce qu'il facture. Transparence totale.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section : Valeur de l'accompagnement Domtom Connect -->
-    <section class="accompagnement-valeur-section" style="background: var(--gray-50); padding: 4rem 0;">
-        <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem); margin-bottom: 1rem;">L'accompagnement Domtom Connect : bien plus qu'une simple mise en relation</h2>
-                <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto;">Nous partageons entièrement l'aventure de votre entreprise avec vous</p>
-            </div>
-
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; gap: 2.5rem;">
-                    <!-- Levier 1 : Recherche et qualification -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🔍</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Recherche active et qualification approfondie</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                Nous ne nous contentons pas d'un catalogue. <strong style="color: #1e293b;">Nous cherchons activement les prestataires adaptés à vos besoins</strong>, même s'ils ne sont pas encore dans notre réseau. Chaque prestataire est qualifié selon vos exigences spécifiques : compétences, expérience, tarifs, disponibilité, territoire.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Levier 2 : Suivi et médiation -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🤝</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Suivi continu et médiation</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                Nous ne disparaissons pas après la mise en relation. <strong style="color: #1e293b;">Nous suivons vos projets jusqu'à la livraison finale</strong>. En cas de problème, nous intervenons comme médiateur. Vous n'êtes jamais seul face aux difficultés. Vos projets aboutissent vraiment.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Levier 3 : Visibilité et partage d'aventure -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">📢</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Visibilité et partage de votre aventure</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                <strong style="color: #1e293b;">Nous ne restons pas dans l'ombre</strong>. Nous partageons entièrement l'aventure de votre entreprise avec vous. Vos projets peuvent être mis en avant dans notre podcast, sur nos réseaux sociaux, et dans notre communauté. <strong style="color: #1e293b;">Votre réussite devient notre histoire commune</strong>. Nous croyons en votre entreprise et nous le montrons.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Levier 4 : Podcast et contenu -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🎙️</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Mise en avant dans notre podcast</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                Nous développons un podcast dédié aux entreprises et projets des territoires ultramarins. <strong style="color: #1e293b;">Votre entreprise peut y être présentée</strong>, partageant votre histoire, vos défis et vos réussites avec notre communauté. Une visibilité supplémentaire pour votre entreprise, gratuitement.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Levier 5 : Accès à la communauté -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🌐</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Accès à un réseau entrepreneurial actif</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                Rejoignez notre communauté WhatsApp privée avec d'autres entreprises, porteurs de projets et prestataires des territoires ultramarins. <strong style="color: #1e293b;">Échangez, partagez vos expériences, trouvez des partenaires</strong>. Vous n'êtes plus isolé dans votre développement.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Levier 6 : Transparence totale -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.05)); border-radius: 20px; border-left: 4px solid #8B5CF6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">💎</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Transparence totale sur le processus</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: #475569; margin: 0;">
-                                <strong style="color: #1e293b;">Vous savez exactement où nous en sommes</strong> : quels prestataires nous avons contactés, leurs réponses, les critères de sélection. Pas de boîte noire. Vous êtes informé à chaque étape. Nous partageons les décisions importantes avec vous.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <script src="../../assets/js/landing-quiz.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
+    <script>
+        const entreprisesQuestions = [
+            { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
+            { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
+            { id: 'email', question: 'Quelle est votre adresse email professionnelle ?', type: 'email', placeholder: 'votre@entreprise.com', required: true, fieldName: 'email' },
+            { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
+            { id: 'entreprise', question: 'Quel est le nom de votre entreprise ?', type: 'text', placeholder: 'Nom de l\'entreprise', required: true, fieldName: 'entreprise' },
+            { id: 'site_web', question: 'Quel est le site web de votre entreprise ? (PREUVE REQUISE)', type: 'url', placeholder: 'https://votre-entreprise.com', required: true, fieldName: 'site_web', pattern: 'https?://.+', description: '⚠️ Preuve obligatoire : Site web de l\'entreprise pour vérifier l\'existence et l\'activité' },
+            { id: 'siret', question: 'Quel est le numéro SIRET de votre entreprise ? (PREUVE REQUISE)', type: 'text', placeholder: '12345678901234', required: true, fieldName: 'siret', pattern: '[0-9]{14}', maxlength: 14, description: '⚠️ Preuve obligatoire : Le SIRET doit contenir 14 chiffres. Il sera vérifié.' },
+            { id: 'linkedin', question: 'Quel est le lien vers votre profil LinkedIn ?', type: 'url', placeholder: 'https://linkedin.com/in/votre-profil (optionnel)', required: false, fieldName: 'linkedin', pattern: 'https?://.+', description: '💡 Si vous n\'avez pas de LinkedIn, vous pouvez laisser vide' },
+            { id: 'secteur_activite', question: 'Dans quel secteur d\'activité évolue votre entreprise ?', type: 'radio', required: true, fieldName: 'secteur_activite', options: [
+                { value: 'tech', label: 'Technologie / Digital' },
+                { value: 'commerce', label: 'Commerce / E-commerce' },
+                { value: 'tourisme', label: 'Tourisme / Hôtellerie' },
+                { value: 'agroalimentaire', label: 'Agroalimentaire' },
+                { value: 'services', label: 'Services aux entreprises' },
+                { value: 'culture', label: 'Culture / Événementiel' },
+                { value: 'sante', label: 'Santé / Bien-être' },
+                { value: 'education', label: 'Éducation / Formation' },
+                { value: 'autre', label: 'Autre secteur' }
+            ]},
+            { id: 'secteur_activite_autre', question: 'Précisez votre secteur d\'activité', type: 'text', placeholder: 'Votre secteur', required: false, fieldName: 'secteur_activite_autre', conditional: { field: 'secteur_activite', value: 'autre' }},
+            { id: 'taille_entreprise', question: 'Quelle est la taille de votre entreprise ?', type: 'radio', required: true, fieldName: 'taille_entreprise', options: [
+                { value: 'micro', label: 'Micro-entreprise (0-1 salarié)' },
+                { value: 'tpe', label: 'TPE (2-9 salariés)' },
+                { value: 'pme', label: 'PME (10-49 salariés)' },
+                { value: 'et', label: 'ETI (50-249 salariés)' },
+                { value: 'ge', label: 'Grande entreprise (250+ salariés)' }
+            ]},
+            { id: 'besoin', question: 'Quel est votre besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                { value: 'developper-projet', label: 'Développer un projet' },
+                { value: 'trouver-partenaires', label: 'Trouver des partenaires' },
+                { value: 'autre', label: 'Autre besoin' }
+            ]},
+            { id: 'besoin_autre', question: 'Précisez votre besoin', type: 'text', placeholder: 'Votre besoin', required: false, fieldName: 'besoin_autre', conditional: { field: 'besoin', value: 'autre' }},
+            { id: 'type_prestations', question: 'Quel type de prestations recherchez-vous ?', type: 'radio', required: true, fieldName: 'type_prestations', options: [
+                { value: 'developpement', label: 'Développement web/mobile' },
+                { value: 'design', label: 'Design / Identité visuelle' },
+                { value: 'marketing', label: 'Marketing / Communication' },
+                { value: 'comptabilite', label: 'Comptabilité / Fiscalité' },
+                { value: 'juridique', label: 'Juridique / Conseil' },
+                { value: 'formation', label: 'Formation / Coaching' },
+                { value: 'multiple', label: 'Plusieurs types de prestations' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'type_prestations_autre', question: 'Précisez le type de prestations', type: 'text', placeholder: 'Type de prestations', required: false, fieldName: 'type_prestations_autre', conditional: { field: 'type_prestations', value: 'autre' }},
+            { id: 'nombre_prestataires', question: 'Combien de prestataires recherchez-vous ?', type: 'radio', required: true, fieldName: 'nombre_prestataires', options: [
+                { value: '1', label: '1 prestataire' },
+                { value: '2-3', label: '2 à 3 prestataires' },
+                { value: '4-5', label: '4 à 5 prestataires' },
+                { value: 'plus-5', label: 'Plus de 5 prestataires' },
+                { value: 'non-defini', label: 'À définir selon les besoins' }
+            ]},
+            { id: 'budget', question: 'Quel est votre budget estimé pour les prestations ?', type: 'radio', required: true, fieldName: 'budget', options: [
+                { value: 'moins-2000', label: 'Moins de 2 000€' },
+                { value: '2000-5000', label: '2 000€ - 5 000€' },
+                { value: '5000-10000', label: '5 000€ - 10 000€' },
+                { value: '10000-25000', label: '10 000€ - 25 000€' },
+                { value: 'plus-25000', label: 'Plus de 25 000€' },
+                { value: 'a-definir', label: 'À définir selon les besoins' }
+            ]},
+            { id: 'urgence', question: 'Quelle est l\'urgence de votre besoin ?', type: 'radio', required: true, fieldName: 'urgence', options: [
+                { value: 'immediat', label: 'Immédiat (dans les 2 semaines)' },
+                { value: 'court-terme', label: 'Court terme (1-3 mois)' },
+                { value: 'moyen-terme', label: 'Moyen terme (3-6 mois)' },
+                { value: 'long-terme', label: 'Long terme (6+ mois)' },
+                { value: 'exploration', label: 'En phase d\'exploration' }
+            ]},
+            { id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'diaspora', label: 'Diaspora' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'description_besoin', question: 'Décrivez votre projet ou besoin spécifique (optionnel mais recommandé)', type: 'textarea', placeholder: 'Décrivez brièvement votre projet ou besoin...', required: false, fieldName: 'description_besoin', rows: 4 },
+            { id: 'anciennete_entreprise', question: 'Depuis combien de temps votre entreprise existe-t-elle ?', type: 'radio', required: true, fieldName: 'anciennete_entreprise', options: [
+                { value: 'moins-1', label: 'Moins de 1 an (je viens de créer)' },
+                { value: '1-3', label: '1 à 3 ans' },
+                { value: '3-5', label: '3 à 5 ans' },
+                { value: '5-10', label: '5 à 10 ans' },
+                { value: 'plus-10', label: 'Plus de 10 ans' }
+            ]},
+            { id: 'prestataires_precedents', question: 'Combien de prestataires externes avez-vous déjà travaillé avec ?', type: 'radio', required: true, fieldName: 'prestataires_precedents', options: [
+                { value: '0', label: 'Aucun (première fois)' },
+                { value: '1-3', label: '1 à 3 prestataires' },
+                { value: '4-10', label: '4 à 10 prestataires' },
+                { value: 'plus-10', label: 'Plus de 10 prestataires' }
+            ]},
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+        ];
+
+        let quiz;
+        document.addEventListener('DOMContentLoaded', () => {
+            quiz = new LandingQuiz(entreprisesQuestions, 'landing-form', 'entreprise');
+        });
+
+        function handleQuizFormSubmit(event) {
+            event.preventDefault();
+            if (!quiz) return;
+            const data = quiz.collectAllAnswers();
+            const form = document.getElementById('landing-form');
+            const formData = new FormData(form);
+            Object.keys(data).forEach(key => {
+                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                    formData.set(key, data[key]);
+                }
+            });
+            const submitData = {};
+            formData.forEach((value, key) => {
+                if (key !== 'website') submitData[key] = value;
+            });
+            const fakeEvent = { preventDefault: () => {}, target: form };
+            Object.keys(submitData).forEach(key => {
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = submitData[key] === input.value;
+                    } else {
+                        input.value = submitData[key];
+                    }
+                }
+            });
+            if (typeof handleLandingFormSubmit === 'function') {
+                handleLandingFormSubmit(fakeEvent);
+            }
+        }
+    </script>
 </body>
 </html>
-

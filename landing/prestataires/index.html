@@ -7,6 +7,7 @@
     <meta name="description" content="Rejoignez le réseau de prestataires Domtom Connect et travaillez avec des porteurs de projets des territoires ultramarins. Opportunités de collaboration qualifiées.">
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+    <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
 </head>
 <body>
     <!-- Navigation -->
@@ -19,253 +20,314 @@
         </div>
     </nav>
 
-    <section class="landing-hero">
+    <section class="landing-hero quiz-hero">
         <div class="container">
             <div class="landing-content">
                 <h1>Devenez Prestataire Domtom Connect</h1>
-                <p class="landing-subtitle">Rejoignez un réseau de prestataires qualifiés et travaillez avec des porteurs de projets engagés</p>
                 
-                <div class="landing-benefits">
-                    <div class="benefit-item">
-                        <span>Projets qualifiés et préparés</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span>Cadre de travail clair dès le départ</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span>Accompagnement et suivi</span>
-                    </div>
-                </div>
-                
-                <!-- Message d'explication sur le formulaire -->
-                <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(59, 130, 246, 0.08); border-radius: 16px; border-left: 4px solid #3B82F6;">
-                    <p style="font-size: 0.95rem; color: #1e293b; margin: 0; line-height: 1.7; font-weight: 500;">
-                        <strong>💡 Pourquoi ce formulaire détaillé ?</strong><br>
-                        Nous vérifions chaque prestataire pour garantir la qualité de notre réseau. Cela vous protège aussi : vous travaillez uniquement avec des clients sérieux, préparés et qui paient. <strong>5 minutes pour rejoindre un réseau de confiance.</strong>
-                    </p>
-                </div>
-
-                <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
-                    <input type="hidden" name="profil" value="prestataire">
-                    <input type="hidden" name="lead_source" value="landing-prestataires">
-                    <input type="hidden" name="form_step" value="complete">
-                    <!-- Honeypot field - caché pour attraper les bots -->
-                    <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
-                    <div class="form-row">
-                        <input type="text" name="prenom" placeholder="Prénom" required>
-                        <input type="text" name="nom" placeholder="Nom" required>
-                    </div>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="tel" name="telephone" placeholder="Téléphone" required>
-                    <select name="services" required>
-                        <option value="">Services que vous proposez *</option>
-                        <option value="developpement">Développement web/mobile</option>
-                        <option value="design">Design graphique / UI/UX</option>
-                        <option value="marketing">Marketing digital / Communication</option>
-                        <option value="comptabilite">Comptabilité / Fiscalité</option>
-                        <option value="juridique">Juridique / Conseil</option>
-                        <option value="coaching">Coaching / Formation</option>
-                        <option value="autre">Autre service</option>
-                    </select>
-                    <input type="text" name="services_autre" placeholder="Précisez votre service" class="conditional-field" style="display: none;">
-                    <select name="statut_juridique" required>
-                        <option value="">Statut juridique / Enregistrement *</option>
-                        <option value="auto-entrepreneur">Auto-entrepreneur / Micro-entrepreneur</option>
-                        <option value="eurl">EURL</option>
-                        <option value="sarl">SARL</option>
-                        <option value="sas">SAS</option>
-                        <option value="sasu">SASU</option>
-                        <option value="autre">Autre statut</option>
-                    </select>
-                    <input type="text" name="statut_juridique_autre" placeholder="Précisez votre statut" class="conditional-field" style="display: none;">
-                    <input type="text" name="siret" placeholder="Numéro SIRET / SIREN (obligatoire) *" required pattern="[0-9]{9,14}" title="Le SIRET doit contenir 9 à 14 chiffres" maxlength="14">
-                    <select name="experience" required>
-                        <option value="">Votre expérience (années) *</option>
-                        <option value="moins-1">Moins de 1 an</option>
-                        <option value="1-3">1 à 3 ans</option>
-                        <option value="3-5">3 à 5 ans</option>
-                        <option value="5-10">5 à 10 ans</option>
-                        <option value="plus-10">Plus de 10 ans</option>
-                    </select>
-                    <textarea name="realisations" rows="3" placeholder="Décrivez brièvement vos principales réalisations ou projets (2-3 exemples) *" required></textarea>
-                    <input type="url" name="portfolio" placeholder="Lien vers votre portfolio/site web *" required pattern="https?://.+" title="Veuillez entrer une URL valide (commençant par http:// ou https://)">
-                    <input type="url" name="linkedin" placeholder="Lien vers votre profil LinkedIn (optionnel mais recommandé)" pattern="https?://.+" title="Veuillez entrer une URL valide">
-                    <p style="font-size: 0.8rem; color: #64748b; margin-top: -0.5rem; margin-bottom: 0.5rem; font-style: italic;">💡 Si vous n'avez pas de LinkedIn, vous pouvez laisser vide</p>
-                    <textarea name="realisations_liens" rows="2" placeholder="Liens vers 2-3 réalisations concrètes (optionnel mais fortement recommandé)"></textarea>
-                    <p style="font-size: 0.8rem; color: #64748b; margin-top: -0.5rem; margin-bottom: 0.5rem; font-style: italic;">💡 Plus vous fournissez de preuves, plus vite nous pourrons vous valider et vous proposer des projets</p>
-                    <textarea name="competences" rows="2" placeholder="Compétences spécifiques / Outils maîtrisés (ex: React, Figma, WordPress...) *" required></textarea>
-                    <select name="tarifs" required>
-                        <option value="">Fourchette de tarifs (jour ou projet) *</option>
-                        <option value="moins-300">Moins de 300€/jour</option>
-                        <option value="300-500">300€ - 500€/jour</option>
-                        <option value="500-800">500€ - 800€/jour</option>
-                        <option value="800-1200">800€ - 1200€/jour</option>
-                        <option value="plus-1200">Plus de 1200€/jour</option>
-                        <option value="au-projet">Tarification au projet (variable)</option>
-                    </select>
-                    <select name="disponibilite" required>
-                        <option value="">Votre disponibilité *</option>
-                        <option value="plein-temps">Plein temps</option>
-                        <option value="mi-temps">Mi-temps</option>
-                        <option value="ponctuel">Ponctuel / Projets</option>
-                        <option value="limitee">Disponibilité limitée</option>
-                    </select>
-                    <select name="ile" required>
-                        <option value="">Votre territoire *</option>
-                        <option value="martinique">Martinique</option>
-                        <option value="guadeloupe">Guadeloupe</option>
-                        <option value="reunion">La Réunion</option>
-                        <option value="guyane">Guyane</option>
-                        <option value="diaspora">Diaspora</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                    <textarea name="references" rows="3" placeholder="2-3 références clients : Nom, Entreprise, Email, Téléphone (optionnel mais recommandé)"></textarea>
-                    <p style="font-size: 0.8rem; color: #64748b; margin-top: -0.5rem; margin-bottom: 0.5rem;">💡 Nous ne contacterons vos références qu'avec votre accord et uniquement pour vérifier votre sérieux</p>
-                    
-                    <!-- Questions de validation croisée -->
-                    <div style="margin-top: 1rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 12px; border-left: 4px solid #3B82F6;">
-                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Questions de validation</h4>
-                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Ces questions nous aident à mieux vous comprendre et à vous proposer les bons projets</p>
-                        <select name="projets_12_mois" required>
-                            <option value="">Combien de projets similaires avez-vous réalisés dans les 12 derniers mois ? *</option>
-                            <option value="0">Aucun (je débute)</option>
-                            <option value="1-3">1 à 3 projets</option>
-                            <option value="4-10">4 à 10 projets</option>
-                            <option value="plus-10">Plus de 10 projets</option>
-                        </select>
-                        <select name="taux_satisfaction" required style="margin-top: 1rem;">
-                            <option value="">Quel est votre taux de satisfaction client moyen ? *</option>
-                            <option value="moins-70">Moins de 70%</option>
-                            <option value="70-85">70% - 85%</option>
-                            <option value="85-95">85% - 95%</option>
-                            <option value="plus-95">Plus de 95%</option>
-                            <option value="pas-encore">Je n'ai pas encore assez de retours pour estimer</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Certification -->
-                    <label style="display: flex; align-items: start; gap: 0.75rem; margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.05); border-radius: 12px; border: 2px solid rgba(16, 185, 129, 0.2); cursor: pointer;">
-                        <input type="checkbox" name="certification" required style="margin-top: 0.25rem; width: 20px; height: 20px; cursor: pointer; flex-shrink: 0;">
-                        <span style="font-size: 0.95rem; color: #1e293b; line-height: 1.6;">
-                            <strong>Je certifie sur l'honneur</strong> que toutes les informations fournies sont exactes et vérifiables. Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous. *
-                        </span>
-                    </label>
-                    
-                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.08); border-radius: 12px; border-left: 4px solid #3B82F6;">
-                        <p style="font-size: 0.875rem; color: #1e293b; margin: 0; line-height: 1.6;">
-                            <strong>✅ Processus de vérification :</strong> Nous vérifions votre portfolio et votre statut légal pour garantir la qualité du réseau. Vos références ne seront contactées qu'avec votre accord et uniquement si nécessaire. <strong>Notre objectif : vous mettre en relation avec les bons clients.</strong>
-                        </p>
-                    </div>
-                    
-                    <button type="submit" class="cta-button primary large">Rejoindre le réseau de prestataires</button>
-                    <p class="form-privacy">Vos données sont sécurisées. Inscription gratuite pour les pionniers.</p>
+                <form class="landing-form quiz-form" id="landing-form" onsubmit="handleQuizFormSubmit(event)">
+                    <div class="quiz-container"></div>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Section Avantages détaillés -->
-    <section class="benefits-detail-section" style="background: var(--white);">
-        <div class="container">
-            <div class="section-header" style="text-align: center;">
-                <h2 style="font-size: clamp(1.75rem, 4vw, 3rem); margin-bottom: 1rem;">Pourquoi rejoindre notre réseau de prestataires ?</h2>
-                <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: var(--text-secondary); max-width: 800px; margin: 0 auto;">Des avantages concrets pour développer votre activité</p>
-            </div>
-
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; gap: 2.5rem;">
-                    <!-- Avantage 1 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(0, 191, 166, 0.05); border-radius: 20px; border-left: 4px solid #00BFA6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">💰</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Zéro risque de non-paiement</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Fini les clients qui ne paient pas ou qui traînent. <strong>Un acompte est requis avant que vous ne commenciez à travailler</strong>. Vous êtes payé avant de démarrer, ce qui élimine complètement le risque financier. Plus besoin de facturer dans le vide ou de relancer des clients récalcitrants.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 2 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(0, 191, 166, 0.05); border-radius: 20px; border-left: 4px solid #00BFA6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🎯</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Clients préparés et briefs clairs</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Nous ne vous proposons que des projets avec <strong>budget validé, vision claire et brief précis</strong>. Fini les projets flous où le client ne sait pas ce qu'il veut, fini les allers-retours interminables pour clarifier les besoins. Vous recevez des projets prêts à démarrer, avec des attentes définies dès le départ.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 3 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(0, 191, 166, 0.05); border-radius: 20px; border-left: 4px solid #00BFA6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🛡️</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Médiation incluse en cas de conflit</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Si un problème survient avec le client, <strong>nous intervenons en médiateur</strong>. Vous n'êtes plus seul face à un client mécontent ou qui change d'avis. Notre équipe gère les conflits, trouve des solutions et protège votre relation professionnelle. Vous pouvez travailler sereinement.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 4 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(0, 191, 166, 0.05); border-radius: 20px; border-left: 4px solid #00BFA6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">🏝️</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Clients qui comprennent votre contexte</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Tous nos clients sont des porteurs de projets des territoires ultramarins ou de la diaspora. Ils <strong>comprennent les spécificités locales, les contraintes géographiques et les réalités économiques</strong> de votre territoire. Plus besoin d'expliquer pourquoi les délais peuvent être différents ou pourquoi certaines solutions métropolitaines ne fonctionnent pas ici.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Avantage 5 -->
-                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2rem; background: rgba(0, 191, 166, 0.05); border-radius: 20px; border-left: 4px solid #00BFA6;">
-                        <div style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1;">✅</div>
-                        <div>
-                            <h3 style="font-size: clamp(1.125rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Pas de commission sur vos revenus</h3>
-                            <p style="font-size: clamp(0.95rem, 2.5vw, 1.125rem); line-height: 1.8; color: var(--text-secondary); margin: 0;">
-                                Contrairement aux plateformes classiques, <strong>vous êtes payé directement par le client, sans commission intermédiaire</strong>. Nous ne prenons pas de pourcentage sur votre travail. Vous gardez 100% de vos revenus. <strong style="color: var(--text-primary);">Important :</strong> Le client paie un acompte à Domtom Connect pour la recherche et l'accompagnement (service séparé), pas sur votre prestation. Vous recevez 100% de ce que vous facturez.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Section explicative sur la distinction -->
-                    <div style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1), rgba(0, 168, 150, 0.08)); border-radius: 20px; border: 2px solid rgba(0, 191, 166, 0.2);">
-                        <h3 style="font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); text-align: center;">
-                            💡 Comment ça fonctionne ?
-                        </h3>
-                        <div style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
-                            <div style="display: flex; gap: 1rem; align-items: start;">
-                                <div style="font-size: 1.5rem; flex-shrink: 0;">1️⃣</div>
-                                <div>
-                                    <strong style="color: var(--text-primary);">L'accompagnement Domtom Connect</strong>
-                                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
-                                        Le client paie un acompte à Domtom Connect pour notre service (recherche, mise en relation, suivi). C'est un service séparé, indépendant de votre prestation.
-                                    </p>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 1rem; align-items: start;">
-                                <div style="font-size: 1.5rem; flex-shrink: 0;">2️⃣</div>
-                                <div>
-                                    <strong style="color: var(--text-primary);">Votre prestation</strong>
-                                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
-                                        Vous êtes payé <strong>directement par le client</strong>, sans commission. Vous facturez votre prix normal, et vous recevez 100% de ce montant. Aucune marge n'est prélevée sur votre travail.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 12px; text-align: center; font-size: 0.95rem; color: var(--text-primary); font-weight: 600;">
-                            ✨ Résultat : Deux services distincts, deux paiements séparés. Vous gardez 100% de vos revenus.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <script src="../../assets/js/landing-quiz.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
+    <script>
+        // Questions pour les prestataires
+        const prestatairesQuestions = [
+            {
+                id: 'prenom',
+                question: 'Quel est votre prénom ?',
+                type: 'text',
+                placeholder: 'Votre prénom',
+                required: true,
+                fieldName: 'prenom'
+            },
+            {
+                id: 'nom',
+                question: 'Quel est votre nom ?',
+                type: 'text',
+                placeholder: 'Votre nom',
+                required: true,
+                fieldName: 'nom'
+            },
+            {
+                id: 'email',
+                question: 'Quelle est votre adresse email ?',
+                type: 'email',
+                placeholder: 'votre@email.com',
+                required: true,
+                fieldName: 'email'
+            },
+            {
+                id: 'telephone',
+                question: 'Quel est votre numéro de téléphone ?',
+                type: 'tel',
+                placeholder: '06 12 34 56 78',
+                required: true,
+                fieldName: 'telephone'
+            },
+            {
+                id: 'services',
+                question: 'Quels services proposez-vous ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'services',
+                options: [
+                    { value: 'developpement', label: 'Développement web/mobile' },
+                    { value: 'design', label: 'Design graphique / UI/UX' },
+                    { value: 'marketing', label: 'Marketing digital / Communication' },
+                    { value: 'comptabilite', label: 'Comptabilité / Fiscalité' },
+                    { value: 'juridique', label: 'Juridique / Conseil' },
+                    { value: 'coaching', label: 'Coaching / Formation' },
+                    { value: 'autre', label: 'Autre service' }
+                ]
+            },
+            {
+                id: 'services_autre',
+                question: 'Précisez votre service',
+                type: 'text',
+                placeholder: 'Décrivez votre service',
+                required: false,
+                fieldName: 'services_autre',
+                conditional: { field: 'services', value: 'autre' }
+            },
+            {
+                id: 'statut_juridique',
+                question: 'Quel est votre statut juridique ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'statut_juridique',
+                options: [
+                    { value: 'auto-entrepreneur', label: 'Auto-entrepreneur / Micro-entrepreneur' },
+                    { value: 'eurl', label: 'EURL' },
+                    { value: 'sarl', label: 'SARL' },
+                    { value: 'sas', label: 'SAS' },
+                    { value: 'sasu', label: 'SASU' },
+                    { value: 'autre', label: 'Autre statut' }
+                ]
+            },
+            {
+                id: 'statut_juridique_autre',
+                question: 'Précisez votre statut juridique',
+                type: 'text',
+                placeholder: 'Votre statut',
+                required: false,
+                fieldName: 'statut_juridique_autre',
+                conditional: { field: 'statut_juridique', value: 'autre' }
+            },
+            {
+                id: 'siret',
+                question: 'Quel est votre numéro SIRET / SIREN ?',
+                type: 'text',
+                placeholder: '12345678901234',
+                required: true,
+                fieldName: 'siret',
+                pattern: '[0-9]{9,14}',
+                maxlength: 14,
+                description: 'Le SIRET doit contenir 9 à 14 chiffres'
+            },
+            {
+                id: 'experience',
+                question: 'Quelle est votre expérience (en années) ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'experience',
+                options: [
+                    { value: 'moins-1', label: 'Moins de 1 an' },
+                    { value: '1-3', label: '1 à 3 ans' },
+                    { value: '3-5', label: '3 à 5 ans' },
+                    { value: '5-10', label: '5 à 10 ans' },
+                    { value: 'plus-10', label: 'Plus de 10 ans' }
+                ]
+            },
+            {
+                id: 'competences',
+                question: 'Quelles sont vos compétences spécifiques et outils maîtrisés ?',
+                type: 'textarea',
+                placeholder: 'Ex: React, Figma, WordPress, Photoshop, Excel avancé...',
+                required: true,
+                fieldName: 'competences',
+                rows: 3,
+                description: 'Listez vos compétences techniques et outils que vous maîtrisez'
+            },
+            {
+                id: 'portfolio',
+                question: 'Quel est le lien vers votre portfolio ou site web ? (PREUVE REQUISE)',
+                type: 'url',
+                placeholder: 'https://votre-portfolio.com',
+                required: true,
+                fieldName: 'portfolio',
+                pattern: 'https?://.+',
+                description: '⚠️ PREUVE OBLIGATOIRE : Portfolio ou site web démontrant vos compétences techniques'
+            },
+            {
+                id: 'realisations_liens',
+                question: 'Liens vers 2-3 réalisations concrètes démontrant vos compétences (PREUVE REQUISE)',
+                type: 'textarea',
+                placeholder: 'https://exemple1.com\nhttps://exemple2.com\nhttps://exemple3.com',
+                required: true,
+                fieldName: 'realisations_liens',
+                rows: 3,
+                description: '⚠️ PREUVE OBLIGATOIRE : Liens vers des projets réels que vous avez réalisés. Ces liens seront vérifiés.'
+            },
+            {
+                id: 'realisations',
+                question: 'Décrivez ces réalisations (contexte, technologies utilisées, résultats)',
+                type: 'textarea',
+                placeholder: 'Pour chaque réalisation : contexte, technologies utilisées, résultats obtenus, votre rôle...',
+                required: true,
+                fieldName: 'realisations',
+                rows: 4,
+                description: 'Détaillez chaque réalisation pour prouver votre expertise technique'
+            },
+            {
+                id: 'linkedin',
+                question: 'Quel est le lien vers votre profil LinkedIn ?',
+                type: 'url',
+                placeholder: 'https://linkedin.com/in/votre-profil (optionnel)',
+                required: false,
+                fieldName: 'linkedin',
+                pattern: 'https?://.+',
+                description: '💡 Si vous n\'avez pas de LinkedIn, vous pouvez laisser vide'
+            },
+            {
+                id: 'references',
+                question: '2-3 références clients avec coordonnées complètes (PREUVE REQUISE)',
+                type: 'textarea',
+                placeholder: 'Nom, Entreprise, Email, Téléphone\nExemple : Jean Dupont, TechCorp, jean@techcorp.com, 06 12 34 56 78',
+                required: true,
+                fieldName: 'references',
+                rows: 3,
+                description: '⚠️ PREUVE OBLIGATOIRE : Références vérifiables avec coordonnées complètes. Nous ne les contacterons qu\'avec votre accord.'
+            },
+            {
+                id: 'tarifs',
+                question: 'Quelle est votre fourchette de tarifs ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'tarifs',
+                options: [
+                    { value: 'moins-300', label: 'Moins de 300€/jour' },
+                    { value: '300-500', label: '300€ - 500€/jour' },
+                    { value: '500-800', label: '500€ - 800€/jour' },
+                    { value: '800-1200', label: '800€ - 1200€/jour' },
+                    { value: 'plus-1200', label: 'Plus de 1200€/jour' },
+                    { value: 'au-projet', label: 'Tarification au projet (variable)' }
+                ]
+            },
+            {
+                id: 'disponibilite',
+                question: 'Quelle est votre disponibilité ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'disponibilite',
+                options: [
+                    { value: 'plein-temps', label: 'Plein temps' },
+                    { value: 'mi-temps', label: 'Mi-temps' },
+                    { value: 'ponctuel', label: 'Ponctuel / Projets' },
+                    { value: 'limitee', label: 'Disponibilité limitée' }
+                ]
+            },
+            {
+                id: 'projets_12_mois',
+                question: 'Combien de projets similaires avez-vous réalisés dans les 12 derniers mois ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'projets_12_mois',
+                options: [
+                    { value: '0', label: 'Aucun (je débute)' },
+                    { value: '1-3', label: '1 à 3 projets' },
+                    { value: '4-10', label: '4 à 10 projets' },
+                    { value: 'plus-10', label: 'Plus de 10 projets' }
+                ]
+            },
+            {
+                id: 'taux_satisfaction',
+                question: 'Quel est votre taux de satisfaction client moyen ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'taux_satisfaction',
+                options: [
+                    { value: 'moins-70', label: 'Moins de 70%' },
+                    { value: '70-85', label: '70% - 85%' },
+                    { value: '85-95', label: '85% - 95%' },
+                    { value: 'plus-95', label: 'Plus de 95%' },
+                    { value: 'pas-encore', label: 'Je n\'ai pas encore assez de retours pour estimer' }
+                ]
+            },
+            {
+                id: 'certification',
+                question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables',
+                type: 'checkbox',
+                required: true,
+                fieldName: 'certification',
+                description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.'
+            }
+        ];
+
+        // Initialiser le quiz
+        let quiz;
+        document.addEventListener('DOMContentLoaded', () => {
+            quiz = new LandingQuiz(prestatairesQuestions, 'landing-form', 'prestataire');
+        });
+
+        // Gérer la soumission du formulaire
+        function handleQuizFormSubmit(event) {
+            event.preventDefault();
+            
+            if (!quiz) return;
+            
+            const data = quiz.collectAllAnswers();
+            
+            // Créer un FormData avec toutes les réponses
+            const form = document.getElementById('landing-form');
+            const formData = new FormData(form);
+            
+            // Ajouter toutes les réponses du quiz au FormData
+            Object.keys(data).forEach(key => {
+                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                    formData.set(key, data[key]);
+                }
+            });
+            
+            // Créer un objet data pour handleLandingFormSubmit
+            const submitData = {};
+            formData.forEach((value, key) => {
+                if (key !== 'website') {
+                    submitData[key] = value;
+                }
+            });
+            
+            // Créer un événement simulé avec les données
+            const fakeEvent = {
+                preventDefault: () => {},
+                target: form
+            };
+            
+            // Remplacer temporairement les valeurs du formulaire
+            const originalValues = {};
+            Object.keys(submitData).forEach(key => {
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) {
+                    originalValues[key] = input.value;
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = submitData[key] === input.value;
+                    } else {
+                        input.value = submitData[key];
+                    }
+                }
+            });
+            
+            // Appeler handleLandingFormSubmit
+            if (typeof handleLandingFormSubmit === 'function') {
+                handleLandingFormSubmit(fakeEvent);
+            }
+        }
+    </script>
 </body>
 </html>
-
