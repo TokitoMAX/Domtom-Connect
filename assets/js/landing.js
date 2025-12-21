@@ -403,22 +403,71 @@ function initConditionalFields() {
         });
     }
     
-    // Besoin (professionnels)
-    const besoinRadios = document.querySelectorAll('input[name="besoin"]');
+    // Besoin (entreprises)
+    const besoinSelect = document.querySelector('select[name="besoin"]');
     const besoinAutre = document.querySelector('input[name="besoin_autre"]');
     
-    if (besoinRadios.length && besoinAutre) {
-        besoinRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'autre') {
-                    besoinAutre.style.display = 'block';
-                    besoinAutre.required = true;
-                } else {
-                    besoinAutre.style.display = 'none';
-                    besoinAutre.required = false;
-                    besoinAutre.value = '';
-                }
-            });
+    if (besoinSelect && besoinAutre) {
+        besoinSelect.addEventListener('change', function() {
+            if (this.value === 'autre') {
+                besoinAutre.style.display = 'block';
+                besoinAutre.required = true;
+            } else {
+                besoinAutre.style.display = 'none';
+                besoinAutre.required = false;
+                besoinAutre.value = '';
+            }
+        });
+    }
+    
+    // Services (prestataires)
+    const servicesSelect = document.querySelector('select[name="services"]');
+    const servicesAutre = document.querySelector('input[name="services_autre"]');
+    
+    if (servicesSelect && servicesAutre) {
+        servicesSelect.addEventListener('change', function() {
+            if (this.value === 'autre') {
+                servicesAutre.style.display = 'block';
+                servicesAutre.required = true;
+            } else {
+                servicesAutre.style.display = 'none';
+                servicesAutre.required = false;
+                servicesAutre.value = '';
+            }
+        });
+    }
+    
+    // Secteur d'activité (entreprises)
+    const secteurSelect = document.querySelector('select[name="secteur_activite"]');
+    const secteurAutre = document.querySelector('input[name="secteur_activite_autre"]');
+    
+    if (secteurSelect && secteurAutre) {
+        secteurSelect.addEventListener('change', function() {
+            if (this.value === 'autre') {
+                secteurAutre.style.display = 'block';
+                secteurAutre.required = true;
+            } else {
+                secteurAutre.style.display = 'none';
+                secteurAutre.required = false;
+                secteurAutre.value = '';
+            }
+        });
+    }
+    
+    // Type de prestations (entreprises)
+    const typePrestationsSelect = document.querySelector('select[name="type_prestations"]');
+    const typePrestationsAutre = document.querySelector('input[name="type_prestations_autre"]');
+    
+    if (typePrestationsSelect && typePrestationsAutre) {
+        typePrestationsSelect.addEventListener('change', function() {
+            if (this.value === 'autre') {
+                typePrestationsAutre.style.display = 'block';
+                typePrestationsAutre.required = true;
+            } else {
+                typePrestationsAutre.style.display = 'none';
+                typePrestationsAutre.required = false;
+                typePrestationsAutre.value = '';
+            }
         });
     }
     
@@ -536,6 +585,181 @@ function getEngagementLabel(value) {
         'oui': 'Oui, je suis prêt à m\'engager',
         'pas-sure': 'Pas encore sûr',
         'non': 'Non, je veux juste des informations'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+// Fonctions helper pour les prestataires
+function getServicesLabel(value) {
+    const labels = {
+        'developpement': 'Développement web/mobile',
+        'design': 'Design graphique / UI/UX',
+        'marketing': 'Marketing digital / Communication',
+        'comptabilite': 'Comptabilité / Fiscalité',
+        'juridique': 'Juridique / Conseil',
+        'coaching': 'Coaching / Formation',
+        'autre': 'Autre service'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getExperienceLabel(value) {
+    const labels = {
+        'moins-1': 'Moins de 1 an',
+        '1-3': '1 à 3 ans',
+        '3-5': '3 à 5 ans',
+        '5-10': '5 à 10 ans',
+        'plus-10': 'Plus de 10 ans'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getTarifsLabel(value) {
+    const labels = {
+        'moins-300': 'Moins de 300€/jour',
+        '300-500': '300€ - 500€/jour',
+        '500-800': '500€ - 800€/jour',
+        '800-1200': '800€ - 1200€/jour',
+        'plus-1200': 'Plus de 1200€/jour',
+        'au-projet': 'Tarification au projet (variable)'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getDisponibiliteLabel(value) {
+    const labels = {
+        'plein-temps': 'Plein temps',
+        'mi-temps': 'Mi-temps',
+        'ponctuel': 'Ponctuel / Projets',
+        'limitee': 'Disponibilité limitée'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+// Fonctions helper pour les entreprises
+function getSecteurActiviteLabel(value) {
+    const labels = {
+        'tech': 'Technologie / Digital',
+        'commerce': 'Commerce / E-commerce',
+        'tourisme': 'Tourisme / Hôtellerie',
+        'agroalimentaire': 'Agroalimentaire',
+        'services': 'Services aux entreprises',
+        'culture': 'Culture / Événementiel',
+        'sante': 'Santé / Bien-être',
+        'education': 'Éducation / Formation',
+        'autre': 'Autre secteur'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getTailleEntrepriseLabel(value) {
+    const labels = {
+        'micro': 'Micro-entreprise (0-1 salarié)',
+        'tpe': 'TPE (2-9 salariés)',
+        'pme': 'PME (10-49 salariés)',
+        'et': 'ETI (50-249 salariés)',
+        'ge': 'Grande entreprise (250+ salariés)'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getBesoinLabel(value) {
+    const labels = {
+        'trouver-prestataires': 'Trouver des prestataires',
+        'developper-projet': 'Développer un projet',
+        'trouver-partenaires': 'Trouver des partenaires',
+        'autre': 'Autre besoin'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getTypePrestationsLabel(value) {
+    const labels = {
+        'developpement': 'Développement web/mobile',
+        'design': 'Design / Identité visuelle',
+        'marketing': 'Marketing / Communication',
+        'comptabilite': 'Comptabilité / Fiscalité',
+        'juridique': 'Juridique / Conseil',
+        'formation': 'Formation / Coaching',
+        'multiple': 'Plusieurs types de prestations',
+        'autre': 'Autre'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getNombrePrestatairesLabel(value) {
+    const labels = {
+        '1': '1 prestataire',
+        '2-3': '2 à 3 prestataires',
+        '4-5': '4 à 5 prestataires',
+        'plus-5': 'Plus de 5 prestataires',
+        'non-defini': 'À définir selon les besoins'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getBudgetEntrepriseLabel(value) {
+    const labels = {
+        'moins-2000': 'Moins de 2 000€',
+        '2000-5000': '2 000€ - 5 000€',
+        '5000-10000': '5 000€ - 10 000€',
+        '10000-25000': '10 000€ - 25 000€',
+        'plus-25000': 'Plus de 25 000€',
+        'a-definir': 'À définir selon les besoins'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getUrgenceLabel(value) {
+    const labels = {
+        'immediat': 'Immédiat (dans les 2 semaines)',
+        'court-terme': 'Court terme (1-3 mois)',
+        'moyen-terme': 'Moyen terme (3-6 mois)',
+        'long-terme': 'Long terme (6+ mois)',
+        'exploration': 'En phase d\'exploration'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+// Fonctions helper pour validation croisée - Prestataires
+function getProjets12MoisLabel(value) {
+    const labels = {
+        '0': 'Aucun',
+        '1-3': '1 à 3 projets',
+        '4-10': '4 à 10 projets',
+        'plus-10': 'Plus de 10 projets'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getTauxSatisfactionLabel(value) {
+    const labels = {
+        'moins-70': 'Moins de 70%',
+        '70-85': '70% - 85%',
+        '85-95': '85% - 95%',
+        'plus-95': 'Plus de 95%'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+// Fonctions helper pour validation croisée - Entreprises
+function getAncienneteEntrepriseLabel(value) {
+    const labels = {
+        'moins-1': 'Moins de 1 an',
+        '1-3': '1 à 3 ans',
+        '3-5': '3 à 5 ans',
+        '5-10': '5 à 10 ans',
+        'plus-10': 'Plus de 10 ans'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getPrestatairesPrecedentsLabel(value) {
+    const labels = {
+        '0': 'Aucun',
+        '1-3': '1 à 3 prestataires',
+        '4-10': '4 à 10 prestataires',
+        'plus-10': 'Plus de 10 prestataires'
     };
     return labels[value] || value || 'Non renseigné';
 }
@@ -827,10 +1051,25 @@ Nom de l'entreprise: ${data.entreprise}
     if (pageType === 'prestataires' || data.services) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💼 PRESTATAIRE - INFORMATIONS
+💼 PRESTATAIRE - QUALIFICATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Services proposés: ${data.services || 'Non renseigné'}
-Territoire: ${data.ile || 'Non renseigné'}
+Services proposés: ${data.services === 'autre' ? (data.services_autre || 'Autre') : (getServicesLabel(data.services) || 'Non renseigné')}
+Expérience: ${getExperienceLabel(data.experience) || 'Non renseigné'}
+Réalisations: ${data.realisations || 'Non renseigné'}
+Portfolio/Site web: ${data.portfolio || 'Non renseigné'}
+LinkedIn: ${data.linkedin || 'Non renseigné'}
+Liens vers réalisations: ${data.realisations_liens || 'Non renseigné'}
+Compétences/Outils: ${data.competences || 'Non renseigné'}
+Fourchette de tarifs: ${getTarifsLabel(data.tarifs) || 'Non renseigné'}
+Disponibilité: ${getDisponibiliteLabel(data.disponibilite) || 'Non renseigné'}
+Références/Témoignages: ${data.references || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION CROISÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Projets similaires (12 derniers mois): ${getProjets12MoisLabel(data.projets_12_mois) || 'Non renseigné'}
+Taux de satisfaction client: ${getTauxSatisfactionLabel(data.taux_satisfaction) || 'Non renseigné'}
+Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
     }
     
@@ -869,16 +1108,31 @@ Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || '
 `;
     }
     
-    // Informations spécifiques pour Entreprises (anciennement Professionnels)
+    // Informations spécifiques pour Entreprises
     if (pageType === 'entreprises') {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏢 ENTREPRISE - INFORMATIONS
+🏢 ENTREPRISE - QUALIFICATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Entreprise: ${data.entreprise || 'Non renseigné'}
-Secteur d'activité: ${data.secteur_activite || 'Non renseigné'}
-Poste/Fonction: ${data.poste || 'Non renseigné'}
-Besoin: ${data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : (data.besoin || 'Non renseigné')}
+Site web: ${data.site_web || 'Non renseigné'}
+SIRET: ${data.siret || 'Non renseigné'}
+LinkedIn: ${data.linkedin || 'Non renseigné'}
+Secteur d'activité: ${data.secteur_activite === 'autre' ? (data.secteur_activite_autre || 'Autre') : (getSecteurActiviteLabel(data.secteur_activite) || 'Non renseigné')}
+Taille de l'entreprise: ${getTailleEntrepriseLabel(data.taille_entreprise) || 'Non renseigné'}
+Besoin principal: ${data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : (getBesoinLabel(data.besoin) || 'Non renseigné')}
+Type de prestations recherchées: ${data.type_prestations === 'autre' ? (data.type_prestations_autre || 'Autre') : (getTypePrestationsLabel(data.type_prestations) || 'Non renseigné')}
+Nombre de prestataires recherchés: ${getNombrePrestatairesLabel(data.nombre_prestataires) || 'Non renseigné'}
+Budget estimé: ${getBudgetEntrepriseLabel(data.budget) || 'Non renseigné'}
+Urgence du besoin: ${getUrgenceLabel(data.urgence) || 'Non renseigné'}
+Description du besoin: ${data.description_besoin || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION CROISÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ancienneté entreprise: ${getAncienneteEntrepriseLabel(data.anciennete_entreprise) || 'Non renseigné'}
+Prestataires précédents: ${getPrestatairesPrecedentsLabel(data.prestataires_precedents) || 'Non renseigné'}
+Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
     }
     
@@ -943,7 +1197,37 @@ Besoin: ${data.besoin || 'Non renseigné'}
     
     // Informations spécifiques pour Prestataires
     if (pageType === 'prestataires') {
-        if (data.services) formDataToSend.append('Services proposés', data.services);
+        if (data.services) formDataToSend.append('Services proposés', data.services === 'autre' ? (data.services_autre || 'Autre') : getServicesLabel(data.services));
+        if (data.experience) formDataToSend.append('Expérience', getExperienceLabel(data.experience));
+        if (data.realisations) formDataToSend.append('Réalisations', data.realisations);
+        if (data.portfolio) formDataToSend.append('Portfolio', data.portfolio);
+        if (data.linkedin) formDataToSend.append('LinkedIn', data.linkedin);
+        if (data.realisations_liens) formDataToSend.append('Liens réalisations', data.realisations_liens);
+        if (data.competences) formDataToSend.append('Compétences', data.competences);
+        if (data.tarifs) formDataToSend.append('Tarifs', getTarifsLabel(data.tarifs));
+        if (data.disponibilite) formDataToSend.append('Disponibilité', getDisponibiliteLabel(data.disponibilite));
+        if (data.references) formDataToSend.append('Références', data.references);
+        if (data.projets_12_mois) formDataToSend.append('Projets 12 mois', getProjets12MoisLabel(data.projets_12_mois));
+        if (data.taux_satisfaction) formDataToSend.append('Taux satisfaction', getTauxSatisfactionLabel(data.taux_satisfaction));
+        if (data.certification) formDataToSend.append('Certification', 'OUI');
+    }
+    
+    // Informations spécifiques pour Entreprises
+    if (pageType === 'entreprises') {
+        if (data.site_web) formDataToSend.append('Site web', data.site_web);
+        if (data.siret) formDataToSend.append('SIRET', data.siret);
+        if (data.linkedin) formDataToSend.append('LinkedIn', data.linkedin);
+        if (data.secteur_activite) formDataToSend.append('Secteur d\'activité', data.secteur_activite === 'autre' ? (data.secteur_activite_autre || 'Autre') : getSecteurActiviteLabel(data.secteur_activite));
+        if (data.taille_entreprise) formDataToSend.append('Taille entreprise', getTailleEntrepriseLabel(data.taille_entreprise));
+        if (data.besoin) formDataToSend.append('Besoin', data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : getBesoinLabel(data.besoin));
+        if (data.type_prestations) formDataToSend.append('Type prestations', data.type_prestations === 'autre' ? (data.type_prestations_autre || 'Autre') : getTypePrestationsLabel(data.type_prestations));
+        if (data.nombre_prestataires) formDataToSend.append('Nombre prestataires', getNombrePrestatairesLabel(data.nombre_prestataires));
+        if (data.budget) formDataToSend.append('Budget', getBudgetEntrepriseLabel(data.budget));
+        if (data.urgence) formDataToSend.append('Urgence', getUrgenceLabel(data.urgence));
+        if (data.description_besoin) formDataToSend.append('Description besoin', data.description_besoin);
+        if (data.anciennete_entreprise) formDataToSend.append('Ancienneté', getAncienneteEntrepriseLabel(data.anciennete_entreprise));
+        if (data.prestataires_precedents) formDataToSend.append('Prestataires précédents', getPrestatairesPrecedentsLabel(data.prestataires_precedents));
+        if (data.certification) formDataToSend.append('Certification', 'OUI');
     }
     
     // Nouvelles données selon profil
