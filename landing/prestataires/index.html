@@ -60,6 +60,17 @@
                         <option value="autre">Autre service</option>
                     </select>
                     <input type="text" name="services_autre" placeholder="Précisez votre service" class="conditional-field" style="display: none;">
+                    <select name="statut_juridique" required>
+                        <option value="">Statut juridique / Enregistrement *</option>
+                        <option value="auto-entrepreneur">Auto-entrepreneur / Micro-entrepreneur</option>
+                        <option value="eurl">EURL</option>
+                        <option value="sarl">SARL</option>
+                        <option value="sas">SAS</option>
+                        <option value="sasu">SASU</option>
+                        <option value="autre">Autre statut</option>
+                    </select>
+                    <input type="text" name="statut_juridique_autre" placeholder="Précisez votre statut" class="conditional-field" style="display: none;">
+                    <input type="text" name="siret" placeholder="Numéro SIRET / SIREN (obligatoire) *" required pattern="[0-9]{9,14}" title="Le SIRET doit contenir 9 à 14 chiffres" maxlength="14">
                     <select name="experience" required>
                         <option value="">Votre expérience (années) *</option>
                         <option value="moins-1">Moins de 1 an</option>

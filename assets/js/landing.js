@@ -471,6 +471,23 @@ function initConditionalFields() {
         });
     }
     
+    // Statut juridique (prestataires)
+    const statutJuridiqueSelect = document.querySelector('select[name="statut_juridique"]');
+    const statutJuridiqueAutre = document.querySelector('input[name="statut_juridique_autre"]');
+    
+    if (statutJuridiqueSelect && statutJuridiqueAutre) {
+        statutJuridiqueSelect.addEventListener('change', function() {
+            if (this.value === 'autre') {
+                statutJuridiqueAutre.style.display = 'block';
+                statutJuridiqueAutre.required = true;
+            } else {
+                statutJuridiqueAutre.style.display = 'none';
+                statutJuridiqueAutre.required = false;
+                statutJuridiqueAutre.value = '';
+            }
+        });
+    }
+    
     // Motivation (investisseurs)
     const motivationRadios = document.querySelectorAll('input[name="motivation"]');
     const motivationAutre = document.querySelector('input[name="motivation_autre"]');
@@ -632,6 +649,18 @@ function getDisponibiliteLabel(value) {
         'mi-temps': 'Mi-temps',
         'ponctuel': 'Ponctuel / Projets',
         'limitee': 'Disponibilité limitée'
+    };
+    return labels[value] || value || 'Non renseigné';
+}
+
+function getStatutJuridiqueLabel(value) {
+    const labels = {
+        'auto-entrepreneur': 'Auto-entrepreneur / Micro-entrepreneur',
+        'eurl': 'EURL',
+        'sarl': 'SARL',
+        'sas': 'SAS',
+        'sasu': 'SASU',
+        'autre': 'Autre statut'
     };
     return labels[value] || value || 'Non renseigné';
 }
@@ -1053,7 +1082,9 @@ Nom de l'entreprise: ${data.entreprise}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💼 PRESTATAIRE - QUALIFICATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Services proposés: ${data.services === 'autre' ? (data.services_autre || 'Autre') : (getServicesLabel(data.services) || 'Non renseigné')}
+Services proposés: ${data.services === 'autre' ? (data.services_autre || 'Autre') : (getServicesLabel(data.services) || 'Non renseigné'))}
+Statut juridique: ${data.statut_juridique === 'autre' ? (data.statut_juridique_autre || 'Autre') : (getStatutJuridiqueLabel(data.statut_juridique) || 'Non renseigné')}
+SIRET/SIREN: ${data.siret || 'Non renseigné'}
 Expérience: ${getExperienceLabel(data.experience) || 'Non renseigné'}
 Réalisations: ${data.realisations || 'Non renseigné'}
 Portfolio/Site web: ${data.portfolio || 'Non renseigné'}
@@ -1197,6 +1228,8 @@ Besoin: ${data.besoin || 'Non renseigné'}
     
     // Informations spécifiques pour Prestataires
     if (pageType === 'prestataires') {
+        if (data.statut_juridique) formDataToSend.append('Statut juridique', data.statut_juridique === 'autre' ? (data.statut_juridique_autre || 'Autre') : getStatutJuridiqueLabel(data.statut_juridique));
+        if (data.siret) formDataToSend.append('SIRET/SIREN', data.siret);
         if (data.services) formDataToSend.append('Services proposés', data.services === 'autre' ? (data.services_autre || 'Autre') : getServicesLabel(data.services));
         if (data.experience) formDataToSend.append('Expérience', getExperienceLabel(data.experience));
         if (data.realisations) formDataToSend.append('Réalisations', data.realisations);
