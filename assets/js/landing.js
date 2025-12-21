@@ -421,6 +421,63 @@ function initConditionalFields() {
             });
         });
     }
+    
+    // Motivation (investisseurs)
+    const motivationRadios = document.querySelectorAll('input[name="motivation"]');
+    const motivationAutre = document.querySelector('input[name="motivation_autre"]');
+    
+    if (motivationRadios.length && motivationAutre) {
+        motivationRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    motivationAutre.style.display = 'block';
+                    motivationAutre.required = true;
+                } else {
+                    motivationAutre.style.display = 'none';
+                    motivationAutre.required = false;
+                    motivationAutre.value = '';
+                }
+            });
+        });
+    }
+    
+    // Attentes (investisseurs)
+    const attentesRadios = document.querySelectorAll('input[name="attentes"]');
+    const attentesAutre = document.querySelector('input[name="attentes_autre"]');
+    
+    if (attentesRadios.length && attentesAutre) {
+        attentesRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    attentesAutre.style.display = 'block';
+                    attentesAutre.required = true;
+                } else {
+                    attentesAutre.style.display = 'none';
+                    attentesAutre.required = false;
+                    attentesAutre.value = '';
+                }
+            });
+        });
+    }
+    
+    // Critères (investisseurs)
+    const criteresRadios = document.querySelectorAll('input[name="criteres"]');
+    const criteresAutre = document.querySelector('input[name="criteres_autre"]');
+    
+    if (criteresRadios.length && criteresAutre) {
+        criteresRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    criteresAutre.style.display = 'block';
+                    criteresAutre.required = true;
+                } else {
+                    criteresAutre.style.display = 'none';
+                    criteresAutre.required = false;
+                    criteresAutre.value = '';
+                }
+            });
+        });
+    }
 }
 
 // Fonctions helper pour formater les labels

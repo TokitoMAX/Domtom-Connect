@@ -107,6 +107,18 @@ const adaptiveQuestions = {
     "investisseur": [
         {
             id: 2,
+            question: "Qu'est-ce qui vous pousse à investir dans les territoires ultramarins ?",
+            type: "radio",
+            options: [
+                { value: "retour-territoire", label: "Retour aux sources / Lien avec mon territoire d'origine", score: 3 },
+                { value: "opportunite-croissance", label: "Opportunités de croissance dans des marchés émergents", score: 3 },
+                { value: "impact-social", label: "Impact social et développement local", score: 3 },
+                { value: "diversification", label: "Diversification de mon portefeuille d'investissement", score: 2 },
+                { value: "autre", label: "Autre", score: 1 }
+            ]
+        },
+        {
+            id: 3,
             question: "Quel type d'investissement vous intéresse ?",
             type: "radio",
             options: [
@@ -118,7 +130,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 3,
+            id: 4,
             question: "Quel est votre montant d'investissement potentiel ?",
             type: "radio",
             options: [
@@ -129,7 +141,19 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 4,
+            id: 5,
+            question: "Quelles sont vos attentes principales avec Domtom Connect ?",
+            type: "radio",
+            options: [
+                { value: "decouvrir-projets", label: "Découvrir des projets à financer", score: 3 },
+                { value: "reseau-investisseurs", label: "Rejoindre un réseau d'investisseurs", score: 2 },
+                { value: "mentorat", label: "Proposer du mentorat aux porteurs de projets", score: 2 },
+                { value: "comprendre-ecosysteme", label: "Comprendre l'écosystème entrepreneurial ultramarin", score: 2 },
+                { value: "autre", label: "Autre", score: 1 }
+            ]
+        },
+        {
+            id: 6,
             question: "Quels sont vos secteurs d'intérêt ?",
             type: "radio",
             options: [
@@ -142,7 +166,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 5,
+            id: 7,
             question: "Quelle est votre expérience en investissement ?",
             type: "radio",
             options: [
@@ -152,7 +176,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 6,
+            id: 8,
             question: "Quel est votre territoire principal ?",
             type: "select",
             options: [

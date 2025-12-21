@@ -21,18 +21,18 @@
     <section class="landing-hero">
         <div class="container">
             <div class="landing-content">
-                <h1>Investisseurs : Connectez-vous aux Meilleurs Projets</h1>
-                <p class="landing-subtitle">Découvrez des opportunités d'investissement qualifiées dans les territoires ultramarins</p>
+                <h1>Investisseurs : Rejoignez l'Écosystème Entrepreneurial Ultramarin</h1>
+                <p class="landing-subtitle">Nous construisons un réseau d'investisseurs engagés pour les territoires ultramarins. Partagez vos motivations et attentes avec nous.</p>
                 
                 <div class="landing-benefits">
                     <div class="benefit-item">
-                        <span>Projets qualifiés et préparés</span>
+                        <span>Réseau d'investisseurs engagés</span>
                     </div>
                     <div class="benefit-item">
-                        <span>Accompagnement personnalisé</span>
+                        <span>Compréhension de vos motivations</span>
                     </div>
                     <div class="benefit-item">
-                        <span>Réseau de porteurs de projets vérifiés</span>
+                        <span>Construction d'un écosystème solidaire</span>
                     </div>
                 </div>
 
@@ -203,26 +203,84 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" style="color: #1e293b; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quel est votre objectif avec Domtom Connect ? *</label>
+                        <label class="form-label" style="color: #1e293b; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Qu'est-ce qui vous pousse à investir dans les territoires ultramarins ? *</label>
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="objectif" value="financer-projets" required>
-                                <span>Financer des projets</span>
+                                <input type="radio" name="motivation" value="retour-territoire" required>
+                                <span>Retour aux sources / Lien avec mon territoire d'origine</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="objectif" value="reseau" required>
-                                <span>Rejoindre un réseau d'investisseurs</span>
+                                <input type="radio" name="motivation" value="opportunite-croissance" required>
+                                <span>Opportunités de croissance dans des marchés émergents</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="objectif" value="mentorat" required>
-                                <span>Proposer du mentorat</span>
+                                <input type="radio" name="motivation" value="impact-social" required>
+                                <span>Impact social et développement local</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="objectif" value="autre" required>
+                                <input type="radio" name="motivation" value="diversification" required>
+                                <span>Diversification de mon portefeuille d'investissement</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="motivation" value="autre" required>
                                 <span>Autre (à préciser)</span>
                             </label>
                         </div>
-                        <input type="text" name="objectif_autre" placeholder="Précisez votre objectif" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                        <input type="text" name="motivation_autre" placeholder="Précisez votre motivation" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="color: #1e293b; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quelles sont vos attentes principales avec Domtom Connect ? *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="attentes" value="decouvrir-projets" required>
+                                <span>Découvrir des projets à financer</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attentes" value="reseau-investisseurs" required>
+                                <span>Rejoindre un réseau d'investisseurs</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attentes" value="mentorat" required>
+                                <span>Proposer du mentorat aux porteurs de projets</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attentes" value="comprendre-ecosysteme" required>
+                                <span>Comprendre l'écosystème entrepreneurial ultramarin</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attentes" value="autre" required>
+                                <span>Autre (à préciser)</span>
+                            </label>
+                        </div>
+                        <input type="text" name="attentes_autre" placeholder="Précisez vos attentes" class="conditional-field" style="display: none; margin-top: 0.5rem;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="color: #1e293b; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Quels sont les critères les plus importants pour vous lors de l'évaluation d'un projet ? *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="criteres" value="equipe-porteur" required>
+                                <span>L'équipe et le porteur de projet</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="criteres" value="potentiel-marche" required>
+                                <span>Le potentiel du marché</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="criteres" value="viabilite-financiere" required>
+                                <span>La viabilité financière</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="criteres" value="impact-territoire" required>
+                                <span>L'impact sur le territoire</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="criteres" value="autre" required>
+                                <span>Autre (à préciser)</span>
+                            </label>
+                        </div>
+                        <input type="text" name="criteres_autre" placeholder="Précisez vos critères" class="conditional-field" style="display: none; margin-top: 0.5rem;">
                     </div>
 
                     <button type="submit" class="cta-button premium-button" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4); padding: 1.25rem 2.5rem; font-size: 1.125rem; font-weight: 700; border-radius: 16px; margin-top: 1.5rem; border: none; cursor: pointer; color: white;">
