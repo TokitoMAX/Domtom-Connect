@@ -33,6 +33,7 @@
     </section>
 
     <script src="../../assets/js/landing-quiz.js?v=1.0"></script>
+    <script src="../../assets/js/form-validation.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
@@ -277,12 +278,89 @@
         });
 
         // Gérer la soumission du formulaire
-        function handleQuizFormSubmit(event) {
+        async function handleQuizFormSubmit(event) {
             event.preventDefault();
             
             if (!quiz) return;
             
             const data = quiz.collectAllAnswers();
+            data.profil = 'prestataire';
+            
+            // Afficher un message de chargement
+            const submitBtn = event.target.querySelector('button[type="submit"]') || 
+                            document.querySelector('#quiz-btn-next[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Vérification en cours...';
+            }
+            
+            // Valider le formulaire
+            const validator = new FormValidator();
+            const validation = await validator.validateForm(data);
+            
+            // Afficher les résultats de validation
+            let canSubmit = true;
+            let validationMessage = '';
+            
+            if (!validation.valid) {
+                canSubmit = false;
+                validationMessage = '❌ Erreurs détectées :\n' + 
+                    validation.errors.map(e => `• ${e.message}`).join('\n');
+                alert(validationMessage);
+            } else {
+                // Afficher les avertissements
+                if (validation.warnings.length > 0) {
+                    const warnings = validation.warnings.map(w => `• ${w.message}`).join('\n');
+                    const continueAnyway = confirm('⚠️ Avertissements détectés :\n\n' + warnings + 
+                        '\n\nSouhaitez-vous continuer malgré ces avertissements ?');
+                    if (!continueAnyway) {
+                        canSubmit = false;
+                    }
+                }
+                
+                // Afficher les incohérences
+                if (validation.inconsistencies.length > 0) {
+                    const inconsistencies = validation.inconsistencies.map(i => `• ${i.message}`).join('\n');
+                    const continueAnyway = confirm('⚠️ Incohérences détectées :\n\n' + inconsistencies + 
+                        '\n\nCes incohérences seront vérifiées lors de l\'appel de qualification.\n\nSouhaitez-vous continuer ?');
+                    if (!continueAnyway) {
+                        canSubmit = false;
+                    }
+                }
+                
+                // Afficher le score de crédibilité
+                if (validation.credibilityScore) {
+                    const score = validation.credibilityScore.score;
+                    const level = validation.credibilityScore.level;
+                    
+                    if (level === 'low') {
+                        const continueAnyway = confirm(`⚠️ Score de crédibilité faible : ${score}%\n\n` +
+                            `Votre score est en dessous du seuil recommandé (60%).\n` +
+                            `Cela peut être dû à :\n` +
+                            `• Preuves insuffisantes\n` +
+                            `• Incohérences dans vos réponses\n` +
+                            `• Informations incomplètes\n\n` +
+                            `Souhaitez-vous continuer ? Un appel de qualification approfondi sera nécessaire.`);
+                        if (!continueAnyway) {
+                            canSubmit = false;
+                        }
+                    } else if (level === 'medium') {
+                        alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
+                            `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
+                    }
+                }
+            }
+            
+            // Restaurer le bouton
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+            
+            if (!canSubmit) {
+                return;
+            }
             
             // Créer un FormData avec toutes les réponses
             const form = document.getElementById('landing-form');
@@ -294,6 +372,15 @@
                     formData.set(key, data[key]);
                 }
             });
+            
+            // Ajouter les résultats de validation
+            if (validation.credibilityScore) {
+                formData.set('credibility_score', validation.credibilityScore.score);
+                formData.set('credibility_level', validation.credibilityScore.level);
+            }
+            if (validation.inconsistencies.length > 0) {
+                formData.set('inconsistencies', JSON.stringify(validation.inconsistencies));
+            }
             
             // Créer un objet data pour handleLandingFormSubmit
             const submitData = {};
@@ -310,11 +397,9 @@
             };
             
             // Remplacer temporairement les valeurs du formulaire
-            const originalValues = {};
             Object.keys(submitData).forEach(key => {
                 const input = form.querySelector(`[name="${key}"]`);
                 if (input) {
-                    originalValues[key] = input.value;
                     if (input.type === 'checkbox' || input.type === 'radio') {
                         input.checked = submitData[key] === input.value;
                     } else {
