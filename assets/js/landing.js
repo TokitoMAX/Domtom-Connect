@@ -766,7 +766,8 @@ function getTauxSatisfactionLabel(value) {
         'moins-70': 'Moins de 70%',
         '70-85': '70% - 85%',
         '85-95': '85% - 95%',
-        'plus-95': 'Plus de 95%'
+        'plus-95': 'Plus de 95%',
+        'pas-encore': 'Je n\'ai pas encore assez de retours pour estimer'
     };
     return labels[value] || value || 'Non renseigné';
 }
@@ -1088,8 +1089,8 @@ SIRET/SIREN: ${data.siret || 'Non renseigné'}
 Expérience: ${getExperienceLabel(data.experience) || 'Non renseigné'}
 Réalisations: ${data.realisations || 'Non renseigné'}
 Portfolio/Site web: ${data.portfolio || 'Non renseigné'}
-LinkedIn: ${data.linkedin || 'Non renseigné'}
-Liens vers réalisations: ${data.realisations_liens || 'Non renseigné'}
+LinkedIn: ${data.linkedin || 'Non renseigné (optionnel)'}
+Liens vers réalisations: ${data.realisations_liens || 'Non renseigné (optionnel)'}
 Compétences/Outils: ${data.competences || 'Non renseigné'}
 Fourchette de tarifs: ${getTarifsLabel(data.tarifs) || 'Non renseigné'}
 Disponibilité: ${getDisponibiliteLabel(data.disponibilite) || 'Non renseigné'}
