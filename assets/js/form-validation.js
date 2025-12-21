@@ -196,13 +196,25 @@ class FormValidator {
     calculateCredibilityScore(data) {
         let score = 0;
         let maxScore = 0;
+        const profil = data.profil || 'autre';
         
-        // Preuves fournies (40 points)
+        // Preuves fournies (40 points) - adapté selon le profil
         maxScore += 40;
-        if (data.portfolio) score += 10;
-        if (data.realisations_liens) score += 10;
-        if (data.references) score += 10;
-        if (data.siret || data.site_web) score += 10;
+        if (profil === 'prestataire') {
+            if (data.portfolio) score += 10;
+            if (data.realisations_liens) score += 10;
+            if (data.references) score += 10;
+            if (data.siret) score += 10;
+        } else if (profil === 'entreprise') {
+            if (data.site_web) score += 15;
+            if (data.siret) score += 15;
+            if (data.linkedin) score += 10;
+        } else if (profil === 'porteur-projet' || profil === 'investisseur') {
+            // Pour ces profils, on valorise la complétude des informations
+            if (data.description_projet || data.motivation) score += 20;
+            if (data.linkedin) score += 10;
+            if (data.commentaires && data.commentaires.length > 50) score += 10;
+        }
         
         // Cohérence des réponses (30 points)
         maxScore += 30;
@@ -220,7 +232,10 @@ class FormValidator {
         // Qualité des preuves (10 points)
         maxScore += 10;
         if (data.linkedin) score += 5;
-        if (data.realisations && data.realisations.length > 100) score += 5;
+        if (profil === 'prestataire' && data.realisations && data.realisations.length > 100) score += 5;
+        else if (profil === 'porteur-projet' && data.description_projet && data.description_projet.length > 100) score += 5;
+        else if (profil === 'investisseur' && data.motivation && data.motivation.length > 50) score += 5;
+        else if (profil === 'entreprise' && data.description_besoin && data.description_besoin.length > 100) score += 5;
         
         const percentage = (score / maxScore) * 100;
         
@@ -247,6 +262,11 @@ class FormValidator {
 
         // Valider chaque champ selon son type
         for (const [field, value] of Object.entries(data)) {
+            // Ne valider que si la valeur existe et n'est pas vide
+            if (!value || (typeof value === 'string' && value.trim() === '')) {
+                continue;
+            }
+            
             if (field.includes('siret')) {
                 const validation = await this.validateSIRET(value);
                 if (!validation.valid) {
@@ -269,7 +289,19 @@ class FormValidator {
                 }
             }
             
-            if (field.includes('email')) {
+            if (field.includes('email') && field !== 'email') {
+                // Ne pas valider le champ email principal deux fois
+                const validation = this.validateEmail(value);
+                if (!validation.valid) {
+                    results.valid = false;
+                    results.errors.push({ field, message: validation.error });
+                }
+                if (validation.warning) {
+                    results.warnings.push({ field, message: validation.warning });
+                }
+            }
+            
+            if (field === 'email') {
                 const validation = this.validateEmail(value);
                 if (!validation.valid) {
                     results.valid = false;
