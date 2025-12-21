@@ -598,18 +598,12 @@ function handleLandingFormSubmit(event) {
     let pageType = 'porteurs-projets'; // default
     if (window.location.pathname.includes('prestataires')) {
         pageType = 'prestataires';
-    } else if (window.location.pathname.includes('porteurs-projets')) {
-        pageType = 'porteurs-projets';
-    } else if (window.location.pathname.includes('entrepreneurs')) {
-        pageType = 'entrepreneurs';
-    } else if (window.location.pathname.includes('entreprises')) {
-        pageType = 'entreprises';
+    } else if (window.location.pathname.includes('porteurs-projets') || window.location.pathname.includes('entrepreneurs')) {
+        pageType = 'porteurs-projets'; // entrepreneurs redirigé vers porteurs-projets
+    } else if (window.location.pathname.includes('entreprises') || window.location.pathname.includes('professionnels')) {
+        pageType = 'entreprises'; // professionnels redirigé vers entreprises
     } else if (window.location.pathname.includes('investisseurs')) {
         pageType = 'investisseurs';
-    } else if (window.location.pathname.includes('professionnels')) {
-        pageType = 'professionnels';
-    } else if (window.location.pathname.includes('/autre')) {
-        pageType = 'autre';
     }
     
     // Si étape 1 (formulaire court), rediriger automatiquement vers la page de qualification correspondante
@@ -621,11 +615,10 @@ function handleLandingFormSubmit(event) {
         let qualificationUrl = '/landing/porteurs-projets/qualification.html';
         if (pageType === 'prestataires') {
             qualificationUrl = '/landing/prestataires/qualification.html';
-        } else if (pageType === 'entrepreneurs') {
-            qualificationUrl = '/landing/porteurs-projets/qualification.html'; // Utilise le même formulaire que porteurs-projets
         } else if (pageType === 'entreprises') {
             qualificationUrl = '/landing/entreprises/qualification.html';
         }
+        // entrepreneurs et professionnels utilisent les mêmes formulaires que leurs profils fusionnés
         
         // Envoyer les données de l'étape 1 en arrière-plan (ne pas attendre)
         sendStep1Data(data, pageType).catch(err => {
@@ -689,20 +682,14 @@ function handleLandingFormSubmit(event) {
     // Déterminer le profil clairement
     const profil = data.profil || pageType;
     let profilLabel = '';
-    if (profil === 'entreprise' || pageType === 'entreprises') {
+    if (profil === 'entreprise' || pageType === 'entreprises' || profil === 'professionnel') {
         profilLabel = '🏢 ENTREPRISE';
     } else if (profil === 'prestataire' || pageType === 'prestataires') {
         profilLabel = '💼 PRESTATAIRE';
-    } else if (profil === 'entrepreneur' || pageType === 'entrepreneurs') {
-        profilLabel = '💼 ENTREPRENEUR';
-    } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets') {
-        profilLabel = '🚀 PORTEUR DE PROJET';
+    } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets' || profil === 'entrepreneur' || pageType === 'entrepreneurs') {
+        profilLabel = '🚀 PORTEUR DE PROJET / ENTREPRENEUR';
     } else if (profil === 'investisseur' || pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR';
-    } else if (profil === 'professionnel' || pageType === 'professionnels') {
-        profilLabel = '👔 PROFESSIONNEL';
-    } else if (profil === 'autre' || pageType === 'autre') {
-        profilLabel = '👤 AUTRE';
     } else {
         profilLabel = '👤 ' + profil.toUpperCase();
     }
@@ -824,11 +811,11 @@ Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data
 `;
     }
     
-    // Informations spécifiques pour Professionnels
-    if (pageType === 'professionnels') {
+    // Informations spécifiques pour Entreprises (anciennement Professionnels)
+    if (pageType === 'entreprises') {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👔 PROFESSIONNEL - INFORMATIONS
+🏢 ENTREPRISE - INFORMATIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Entreprise: ${data.entreprise || 'Non renseigné'}
 Secteur d'activité: ${data.secteur_activite || 'Non renseigné'}
@@ -966,19 +953,13 @@ async function sendStep1Data(data, pageType) {
     const formDataToSend = new FormData();
     
     // Déterminer le label selon le type de page
-    let profilLabel = '🚀 PORTEUR DE PROJET - ÉTAPE 1';
+    let profilLabel = '🚀 PORTEUR DE PROJET / ENTREPRENEUR - ÉTAPE 1';
     if (pageType === 'prestataires') {
         profilLabel = '💼 PRESTATAIRE - ÉTAPE 1';
-    } else if (pageType === 'entrepreneurs') {
-        profilLabel = '💼 ENTREPRENEUR - ÉTAPE 1';
     } else if (pageType === 'entreprises') {
         profilLabel = '🏢 ENTREPRISE - ÉTAPE 1';
     } else if (pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR - ÉTAPE 1';
-    } else if (pageType === 'professionnels') {
-        profilLabel = '👔 PROFESSIONNEL - ÉTAPE 1';
-    } else if (pageType === 'autre') {
-        profilLabel = '👤 AUTRE - ÉTAPE 1';
     }
     
     formDataToSend.append('_to', 'domtomconnect@gmail.com');

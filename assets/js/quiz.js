@@ -2,16 +2,14 @@
 
 // Question initiale : Profil
 const profileQuestion = {
-        id: 1,
-        question: "Quel est votre profil ?",
-        type: "radio",
-        options: [
-        { value: "porteur-projet", label: "Porteur de projet / Entrepreneur", score: 2 },
-        { value: "prestataire", label: "Prestataire", score: 2 },
-            { value: "entreprise", label: "Entreprise", score: 2 },
-        { value: "investisseur", label: "Investisseur", score: 2 },
-        { value: "professionnel", label: "Professionnel", score: 2 },
-        { value: "autre", label: "Autre", score: 1 }
+    id: 1,
+    question: "Quel est votre profil ?",
+    type: "radio",
+    options: [
+        { value: "porteur-projet", label: "🚀 Porteur de projet / Entrepreneur", score: 2, description: "Vous avez un projet à développer et cherchez des prestataires" },
+        { value: "entreprise", label: "🏢 Entreprise", score: 2, description: "Votre entreprise cherche des prestataires fiables" },
+        { value: "prestataire", label: "💼 Prestataire", score: 2, description: "Vous offrez des services et cherchez des clients" },
+        { value: "investisseur", label: "💰 Investisseur", score: 2, description: "Vous cherchez des opportunités d'investissement" }
     ]
 };
 
@@ -300,98 +298,6 @@ const adaptiveQuestions = {
                 { value: "autre", label: "Autre", score: 1 }
             ]
         }
-    ],
-    "professionnel": [
-        {
-            id: 2,
-            question: "Dans quel secteur d'activité travaillez-vous ?",
-            type: "radio",
-            options: [
-                { value: "tech", label: "Technologie / Digital", score: 2 },
-                { value: "commerce", label: "Commerce", score: 2 },
-                { value: "services", label: "Services", score: 2 },
-                { value: "finance", label: "Finance / Banque", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 3,
-            question: "Quel est votre poste / fonction ?",
-            type: "radio",
-            options: [
-                { value: "cadre", label: "Cadre", score: 3 },
-                { value: "manager", label: "Manager / Directeur", score: 3 },
-                { value: "consultant", label: "Consultant / Freelance", score: 3 },
-                { value: "autre", label: "Autre", score: 2 }
-            ]
-        },
-        {
-            id: 4,
-            question: "Quel est votre besoin spécifique avec Domtom Connect ?",
-            type: "radio",
-            options: [
-                { value: "reseau", label: "Rejoindre un réseau professionnel", score: 2 },
-                { value: "opportunites", label: "Découvrir des opportunités", score: 2 },
-                { value: "collaboration", label: "Collaborer sur des projets", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-        ]
-    },
-    {
-        id: 5,
-        question: "Quel est votre territoire principal ?",
-        type: "select",
-        options: [
-            { value: "martinique", label: "Martinique", score: 2 },
-            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-            { value: "reunion", label: "La Réunion", score: 2 },
-            { value: "guyane", label: "Guyane", score: 2 },
-            { value: "mayotte", label: "Mayotte", score: 2 },
-            { value: "polynesie", label: "Polynésie française", score: 2 },
-            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "diaspora", label: "Diaspora", score: 2 },
-            { value: "autre", label: "Autre", score: 1 }
-        ]
-    }
-    ],
-    "autre": [
-        {
-            id: 2,
-            question: "Quel est votre rôle / profil ?",
-            type: "radio",
-            options: [
-                { value: "association", label: "Association / ONG", score: 2 },
-                { value: "collectivite", label: "Collectivité / Institution", score: 2 },
-                { value: "media", label: "Média / Journaliste", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 3,
-            question: "Quel est votre besoin avec Domtom Connect ?",
-            type: "radio",
-            options: [
-                { value: "information", label: "Obtenir des informations", score: 2 },
-                { value: "reseau", label: "Rejoindre un réseau", score: 2 },
-                { value: "collaboration", label: "Collaborer sur des projets", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 4,
-            question: "Quel est votre territoire principal ?",
-            type: "select",
-            options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        }
     ]
 };
 
@@ -400,9 +306,7 @@ const profileLandingPages = {
     "porteur-projet": "/landing/porteurs-projets",
     "prestataire": "/landing/prestataires",
     "entreprise": "/landing/entreprises",
-    "investisseur": "/landing/investisseurs",
-    "professionnel": "/landing/professionnels",
-    "autre": "/landing/autre"
+    "investisseur": "/landing/investisseurs"
 };
 
 let currentQuestionIndex = 0;
@@ -443,9 +347,10 @@ function showQuestion(index) {
     if (question.type === 'radio') {
         question.options.forEach((option, optIndex) => {
             questionHTML += `
-                <label class="quiz-option">
+                <label class="quiz-option" style="${option.description ? 'display: flex; flex-direction: column; gap: 0.25rem;' : ''}">
                     <input type="radio" name="question-${question.id}" value="${option.value}" data-score="${option.score}">
-                    ${option.label}
+                    <span style="font-weight: 600;">${option.label}</span>
+                    ${option.description ? `<span style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 1.5rem;">${option.description}</span>` : ''}
                 </label>
             `;
         });
@@ -614,9 +519,7 @@ function showResults() {
         "porteur-projet": "Porteur de projet / Entrepreneur",
         "prestataire": "Prestataire",
         "entreprise": "Entreprise",
-        "investisseur": "Investisseur",
-        "professionnel": "Professionnel",
-        "autre": "Autre"
+        "investisseur": "Investisseur"
     };
     
     let resultTitle = '';
@@ -796,9 +699,7 @@ function handleQuizContactSubmit(event) {
         "porteur-projet": "Porteur de projet / Entrepreneur",
         "prestataire": "Prestataire",
         "entreprise": "Entreprise",
-        "investisseur": "Investisseur",
-        "professionnel": "Professionnel",
-        "autre": "Autre"
+        "investisseur": "Investisseur"
     };
     const profileLabel = profileLabels[data.quiz_profile] || 'Non spécifié';
     

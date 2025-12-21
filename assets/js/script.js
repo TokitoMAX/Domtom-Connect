@@ -478,12 +478,11 @@ function updateFormFields() {
     // Redirection automatique vers la landing page correspondante
     const landingPages = {
         'porteur-projet': '/landing/porteurs-projets',
-        'entrepreneur': '/landing/entrepreneurs',
+        'entrepreneur': '/landing/porteurs-projets', // Fusionné avec porteurs-projets
         'prestataire': '/landing/prestataires',
         'entreprise': '/landing/entreprises',
         'investisseur': '/landing/investisseurs',
-        'professionnel': '/landing/professionnels',
-        'autre': '/landing/autre'
+        'professionnel': '/landing/entreprises' // Fusionné avec entreprises
     };
     
     if (landingPages[profil]) {
@@ -519,6 +518,13 @@ function updateFormFields2() {
         detailTextarea.placeholder = 'Parle-nous de ton projet en quelques lignes (optionnel mais recommandé)';
         detailHint.textContent = '💡 Exemples : Quelle est ton idée ? À quel stade es-tu ? Quels sont tes besoins spécifiques ? Budget estimé ?';
         detailTextarea.rows = 4;
+    } else if (profil === 'entreprise' || profil === 'professionnel') {
+        secteurField.style.display = 'block';
+        besoinField.style.display = 'block';
+        detailField.style.display = 'block';
+        detailTextarea.placeholder = 'Parle-nous des besoins de votre entreprise (optionnel mais recommandé)';
+        detailHint.textContent = '💡 Exemples : Type de prestataires recherchés ? Secteur d\'activité ? Budget disponible ? Délais ?';
+        detailTextarea.rows = 4;
     } else if (profil === 'prestataire') {
         servicesField.style.display = 'block';
         detailField.style.display = 'block';
@@ -530,17 +536,6 @@ function updateFormFields2() {
         detailField.style.display = 'block';
         detailTextarea.placeholder = 'Décris tes critères d\'investissement et tes attentes (optionnel mais recommandé)';
         detailHint.textContent = '💡 Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
-        detailTextarea.rows = 4;
-    } else if (profil === 'professionnel') {
-        besoinField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de tes motivations et de ce que tu cherches (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Objectifs professionnels, intérêts, ce que tu cherches dans la communauté, projets futurs...';
-        detailTextarea.rows = 4;
-    } else if (profil === 'autre') {
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Présente-toi et explique ce que tu cherches dans la communauté (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Ton profil, tes besoins, tes attentes, comment tu peux contribuer...';
         detailTextarea.rows = 4;
     }
     
