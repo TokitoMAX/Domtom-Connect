@@ -6,10 +6,10 @@ const profileQuestion = {
     question: "Quel est votre profil ?",
     type: "radio",
     options: [
-        { value: "porteur-projet", label: "🚀 Porteur de projet / Entrepreneur", score: 2, description: "Vous avez un projet à développer et cherchez des prestataires" },
-        { value: "entreprise", label: "🏢 Entreprise", score: 2, description: "Votre entreprise cherche des prestataires fiables" },
-        { value: "prestataire", label: "💼 Prestataire", score: 2, description: "Vous offrez des services et cherchez des clients" },
-        { value: "investisseur", label: "💰 Investisseur", score: 2, description: "Vous cherchez des opportunités d'investissement" }
+        { value: "porteur-projet", label: "Porteur de projet / Entrepreneur", score: 2, description: "Vous avez un projet à développer et cherchez des prestataires" },
+        { value: "entreprise", label: "Entreprise", score: 2, description: "Votre entreprise cherche des prestataires fiables" },
+        { value: "prestataire", label: "Prestataire", score: 2, description: "Vous offrez des services et cherchez des clients" },
+        { value: "investisseur", label: "Investisseur", score: 2, description: "Vous cherchez des opportunités d'investissement" }
     ]
 };
 
