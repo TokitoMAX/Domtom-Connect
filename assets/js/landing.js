@@ -648,9 +648,6 @@ function handleLandingFormSubmit(event) {
         }
     }
     
-    // Détecter si c'est l'étape 1 (formulaire court) ou étape 2 (formulaire complet)
-    const isStep1 = data.form_step === '1' || !data.nom_projet;
-    
     // Get landing page type
     let pageType = 'porteurs-projets'; // default
     if (window.location.pathname.includes('prestataires')) {
@@ -663,19 +660,18 @@ function handleLandingFormSubmit(event) {
         pageType = 'investisseurs';
     }
     
-    // Si étape 1 (formulaire court), rediriger automatiquement vers la page de qualification correspondante
-    if (isStep1) {
+    // Détecter si c'est l'étape 1 (formulaire court) ou étape 2 (formulaire complet)
+    // Les prestataires, entreprises et investisseurs n'ont pas de formulaire de qualification, ils envoient directement
+    const isStep1 = (data.form_step === '1' && pageType === 'porteurs-projets') || (!data.nom_projet && pageType === 'porteurs-projets');
+    
+    // Si étape 1 (formulaire court) ET porteurs de projets, rediriger automatiquement vers la page de qualification
+    // Les autres profils (prestataires, entreprises, investisseurs) envoient directement
+    if (isStep1 && pageType === 'porteurs-projets') {
         // Stocker les données de l'étape 1
         sessionStorage.setItem('domtomConnectStep1', JSON.stringify(data));
         
-        // Déterminer l'URL de redirection selon le type de page
+        // Déterminer l'URL de redirection (seulement pour porteurs de projets)
         let qualificationUrl = '/landing/porteurs-projets/qualification.html';
-        if (pageType === 'prestataires') {
-            qualificationUrl = '/landing/prestataires/qualification.html';
-        } else if (pageType === 'entreprises') {
-            qualificationUrl = '/landing/entreprises/qualification.html';
-        }
-        // entrepreneurs et professionnels utilisent les mêmes formulaires que leurs profils fusionnés
         
         // Envoyer les données de l'étape 1 en arrière-plan (ne pas attendre)
         sendStep1Data(data, pageType).catch(err => {
@@ -827,12 +823,14 @@ Nom de l'entreprise: ${data.entreprise}
 `;
     }
     
-    if (data.services) {
+    // Informations spécifiques pour Prestataires
+    if (pageType === 'prestataires' || data.services) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💼 SERVICES PROPOSÉS
+💼 PRESTATAIRE - INFORMATIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${data.services}
+Services proposés: ${data.services || 'Non renseigné'}
+Territoire: ${data.ile || 'Non renseigné'}
 `;
     }
     
@@ -865,6 +863,9 @@ Montant potentiel: ${data.montant_investissement || 'Non renseigné'}
 Secteurs d'intérêt: ${data.secteurs_interet || 'Non renseigné'}
 Expérience: ${data.experience_investissement || 'Non renseigné'}
 Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data.objectif || 'Non renseigné')}
+Motivation: ${data.motivation === 'autre' ? (data.motivation_autre || 'Autre') : (data.motivation || 'Non renseigné')}
+Attentes: ${data.attentes === 'autre' ? (data.attentes_autre || 'Autre') : (data.attentes || 'Non renseigné')}
+Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || 'Autre') : (data.criteres || 'Non renseigné')}
 `;
     }
     
@@ -940,6 +941,11 @@ Besoin: ${data.besoin || 'Non renseigné'}
     if (data.secteur) formDataToSend.append('Secteur', data.secteur);
     if (data.entreprise) formDataToSend.append('Entreprise', data.entreprise);
     
+    // Informations spécifiques pour Prestataires
+    if (pageType === 'prestataires') {
+        if (data.services) formDataToSend.append('Services proposés', data.services);
+    }
+    
     // Nouvelles données selon profil
     if (data.type_investissement) formDataToSend.append('Type investissement', data.type_investissement);
     if (data.montant_investissement) formDataToSend.append('Montant investissement', data.montant_investissement);
@@ -951,6 +957,13 @@ Besoin: ${data.besoin || 'Non renseigné'}
     if (data.objectif) formDataToSend.append('Objectif', data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : data.objectif);
     if (data.besoin && typeof data.besoin === 'string' && data.besoin.length > 50) formDataToSend.append('Besoin', data.besoin);
     
+    // Champs spécifiques pour Investisseurs
+    if (pageType === 'investisseurs') {
+        if (data.motivation) formDataToSend.append('Motivation', data.motivation === 'autre' ? (data.motivation_autre || 'Autre') : data.motivation);
+        if (data.attentes) formDataToSend.append('Attentes', data.attentes === 'autre' ? (data.attentes_autre || 'Autre') : data.attentes);
+        if (data.criteres) formDataToSend.append('Critères', data.criteres === 'autre' ? (data.criteres_autre || 'Autre') : data.criteres);
+    }
+    
     fetch(formspreeUrl, {
         method: 'POST',
         body: formDataToSend,
@@ -960,17 +973,17 @@ Besoin: ${data.besoin || 'Non renseigné'}
     })
     .then(response => {
         if (response.ok) {
-            // Si étape 2, afficher message de succès
-            if (!isStep1) {
+            // Si étape 2 ou formulaire complet (prestataires, entreprises, investisseurs), afficher message de succès
+            if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs') {
                 // Nettoyer les données stockées
                 sessionStorage.removeItem('domtomConnectStep1');
                 
                 // Show success message
                 form.innerHTML = `
                     <div style="text-align: center; padding: 2rem 0;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Qualification envoyée !</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons toutes les informations nécessaires. Nous vous contacterons très prochainement pour planifier votre appel de diagnostic.</p>
-                        <a href="/merci.html" class="cta-button primary">Voir les prochaines étapes</a>
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
+                        <a href="/" class="cta-button primary">Retour à l'accueil</a>
                     </div>
                 `;
             }
