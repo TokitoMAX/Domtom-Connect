@@ -478,7 +478,7 @@ function updateFormFields() {
     // Redirection automatique vers la landing page correspondante
     const landingPages = {
         'porteur-projet': '/landing/porteurs-projets',
-        'entrepreneur': '/landing/porteurs-projets',
+        'entrepreneur': '/landing/entrepreneurs',
         'prestataire': '/landing/prestataires',
         'entreprise': '/landing/entreprises',
         'investisseur': '/landing/investisseurs',

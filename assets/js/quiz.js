@@ -535,7 +535,7 @@ function showResults() {
     
     // Déterminer le titre et la description selon le profil
     const profileLabels = {
-        "porteur-projet": "Porteur de projet",
+        "porteur-projet": "Porteur de projet / Entrepreneur",
         "prestataire": "Prestataire",
         "entreprise": "Entreprise",
         "investisseur": "Investisseur",
@@ -717,7 +717,7 @@ function handleQuizContactSubmit(event) {
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     
     const profileLabels = {
-        "porteur-projet": "Porteur de projet",
+        "porteur-projet": "Porteur de projet / Entrepreneur",
         "prestataire": "Prestataire",
         "entreprise": "Entreprise",
         "investisseur": "Investisseur",

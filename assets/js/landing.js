@@ -600,6 +600,8 @@ function handleLandingFormSubmit(event) {
         pageType = 'prestataires';
     } else if (window.location.pathname.includes('porteurs-projets')) {
         pageType = 'porteurs-projets';
+    } else if (window.location.pathname.includes('entrepreneurs')) {
+        pageType = 'entrepreneurs';
     } else if (window.location.pathname.includes('entreprises')) {
         pageType = 'entreprises';
     } else if (window.location.pathname.includes('investisseurs')) {
@@ -619,6 +621,8 @@ function handleLandingFormSubmit(event) {
         let qualificationUrl = '/landing/porteurs-projets/qualification.html';
         if (pageType === 'prestataires') {
             qualificationUrl = '/landing/prestataires/qualification.html';
+        } else if (pageType === 'entrepreneurs') {
+            qualificationUrl = '/landing/porteurs-projets/qualification.html'; // Utilise le même formulaire que porteurs-projets
         } else if (pageType === 'entreprises') {
             qualificationUrl = '/landing/entreprises/qualification.html';
         }
@@ -689,6 +693,8 @@ function handleLandingFormSubmit(event) {
         profilLabel = '🏢 ENTREPRISE';
     } else if (profil === 'prestataire' || pageType === 'prestataires') {
         profilLabel = '💼 PRESTATAIRE';
+    } else if (profil === 'entrepreneur' || pageType === 'entrepreneurs') {
+        profilLabel = '💼 ENTREPRENEUR';
     } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets') {
         profilLabel = '🚀 PORTEUR DE PROJET';
     } else if (profil === 'investisseur' || pageType === 'investisseurs') {
@@ -963,6 +969,8 @@ async function sendStep1Data(data, pageType) {
     let profilLabel = '🚀 PORTEUR DE PROJET - ÉTAPE 1';
     if (pageType === 'prestataires') {
         profilLabel = '💼 PRESTATAIRE - ÉTAPE 1';
+    } else if (pageType === 'entrepreneurs') {
+        profilLabel = '💼 ENTREPRENEUR - ÉTAPE 1';
     } else if (pageType === 'entreprises') {
         profilLabel = '🏢 ENTREPRISE - ÉTAPE 1';
     } else if (pageType === 'investisseurs') {
