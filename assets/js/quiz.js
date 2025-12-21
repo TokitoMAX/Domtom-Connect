@@ -2,13 +2,13 @@
 
 // Question initiale : Profil
 const profileQuestion = {
-    id: 1,
-    question: "Quel est votre profil ?",
-    type: "radio",
-    options: [
+        id: 1,
+        question: "Quel est votre profil ?",
+        type: "radio",
+        options: [
         { value: "porteur-projet", label: "Porteur de projet / Entrepreneur", score: 2 },
         { value: "prestataire", label: "Prestataire", score: 2 },
-        { value: "entreprise", label: "Entreprise", score: 2 },
+            { value: "entreprise", label: "Entreprise", score: 2 },
         { value: "investisseur", label: "Investisseur", score: 2 },
         { value: "professionnel", label: "Professionnel", score: 2 },
         { value: "autre", label: "Autre", score: 1 }
@@ -18,30 +18,42 @@ const profileQuestion = {
 // Questions adaptatives par profil
 const adaptiveQuestions = {
     "porteur-projet": [
-        {
-            id: 2,
-            question: "À quel stade est votre projet ?",
-            type: "radio",
-            options: [
+    {
+        id: 2,
+        question: "À quel stade est votre projet ?",
+        type: "radio",
+        options: [
                 { value: "idee-clarifiee", label: "Idée clarifiée mais pas encore lancée", score: 2 },
                 { value: "lancement", label: "Projet en cours de lancement", score: 3 },
                 { value: "lance", label: "Activité déjà lancée (clients / utilisateurs)", score: 4 },
                 { value: "developpement", label: "Projet en phase de développement / structuration", score: 4 }
-            ]
-        },
-        {
-            id: 3,
-            question: "Avez-vous clarifié votre vision et vos objectifs ?",
+        ]
+    },
+    {
+        id: 3,
+        question: "Avez-vous clarifié votre vision et vos objectifs ?",
+        type: "radio",
+        options: [
+            { value: "oui", label: "Oui, c'est très clair", score: 5 },
+            { value: "partiellement", label: "Partiellement", score: 3 },
+            { value: "non", label: "Pas encore", score: 1 }
+        ]
+    },
+    {
+        id: 4,
+            question: "Combien de prestataires souhaitez-vous trouver ?",
             type: "radio",
             options: [
-                { value: "oui", label: "Oui, c'est très clair", score: 5 },
-                { value: "partiellement", label: "Partiellement", score: 3 },
-                { value: "non", label: "Pas encore", score: 1 }
+                { value: "1", label: "1 prestataire", score: 2 },
+                { value: "2", label: "2 prestataires", score: 3 },
+                { value: "3", label: "3 prestataires", score: 4 },
+                { value: "3-plus", label: "Plus de 3 prestataires", score: 4 },
+                { value: "non-defini", label: "Je ne sais pas encore", score: 1 }
             ]
         },
         {
-            id: 4,
-            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect pour les prochains mois ?",
+            id: 5,
+            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
             type: "radio",
             options: [
                 { value: "moins-300", label: "Moins de 300 €", score: 1 },
@@ -50,10 +62,24 @@ const adaptiveQuestions = {
                 { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
                 { value: "non-defini", label: "Pas encore défini", score: 1 }
             ],
-            clarification: "💡 <strong>Important à savoir :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire. Vous gardez le contrôle total sur vos budgets de prestations."
+            clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
         },
         {
-            id: 5,
+            id: 6,
+            question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
+            type: "radio",
+            options: [
+                { value: "moins-1000", label: "Moins de 1 000 €", score: 1 },
+                { value: "1000-3000", label: "1 000 - 3 000 €", score: 2 },
+                { value: "3000-5000", label: "3 000 - 5 000 €", score: 3 },
+                { value: "5000-10000", label: "5 000 - 10 000 €", score: 4 },
+                { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
+                { value: "non-defini", label: "Pas encore défini", score: 1 }
+            ],
+            clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
+        },
+        {
+            id: 7,
             question: "Quel est votre lien avec les territoires insulaires (DOM-TOM / îles / diaspora) ?",
             type: "radio",
             options: [
@@ -64,7 +90,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 6,
+            id: 8,
             question: "Quel est votre territoire principal ?",
             type: "select",
             options: [
@@ -221,6 +247,45 @@ const adaptiveQuestions = {
         },
         {
             id: 4,
+            question: "Combien de prestataires souhaitez-vous trouver ?",
+            type: "radio",
+            options: [
+                { value: "1", label: "1 prestataire", score: 2 },
+                { value: "2", label: "2 prestataires", score: 3 },
+                { value: "3", label: "3 prestataires", score: 4 },
+                { value: "3-plus", label: "Plus de 3 prestataires", score: 4 },
+                { value: "non-defini", label: "Je ne sais pas encore", score: 1 }
+            ]
+        },
+        {
+            id: 5,
+            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
+            type: "radio",
+            options: [
+                { value: "moins-300", label: "Moins de 300 €", score: 1 },
+                { value: "300-1000", label: "300-1 000 €", score: 2 },
+                { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
+                { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
+                { value: "non-defini", label: "Pas encore défini", score: 1 }
+            ],
+            clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
+        },
+        {
+            id: 6,
+            question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
+        type: "radio",
+        options: [
+                { value: "moins-1000", label: "Moins de 1 000 €", score: 1 },
+                { value: "1000-3000", label: "1 000 - 3 000 €", score: 2 },
+                { value: "3000-5000", label: "3 000 - 5 000 €", score: 3 },
+                { value: "5000-10000", label: "5 000 - 10 000 €", score: 4 },
+                { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
+            { value: "non-defini", label: "Pas encore défini", score: 1 }
+            ],
+            clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
+        },
+        {
+            id: 7,
             question: "Quel est votre territoire principal ?",
             type: "select",
             options: [
@@ -269,24 +334,24 @@ const adaptiveQuestions = {
                 { value: "opportunites", label: "Découvrir des opportunités", score: 2 },
                 { value: "collaboration", label: "Collaborer sur des projets", score: 2 },
                 { value: "autre", label: "Autre", score: 1 }
-            ]
-        },
-        {
-            id: 5,
-            question: "Quel est votre territoire principal ?",
-            type: "select",
-            options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
-        }
+        ]
+    },
+    {
+        id: 5,
+        question: "Quel est votre territoire principal ?",
+        type: "select",
+        options: [
+            { value: "martinique", label: "Martinique", score: 2 },
+            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
+            { value: "reunion", label: "La Réunion", score: 2 },
+            { value: "guyane", label: "Guyane", score: 2 },
+            { value: "mayotte", label: "Mayotte", score: 2 },
+            { value: "polynesie", label: "Polynésie française", score: 2 },
+            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+            { value: "diaspora", label: "Diaspora", score: 2 },
+            { value: "autre", label: "Autre", score: 1 }
+        ]
+    }
     ],
     "autre": [
         {
