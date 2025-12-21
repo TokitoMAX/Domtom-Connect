@@ -1149,7 +1149,7 @@ Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || '
 Entreprise: ${data.entreprise || 'Non renseigné'}
 Site web: ${data.site_web || 'Non renseigné'}
 SIRET: ${data.siret || 'Non renseigné'}
-LinkedIn: ${data.linkedin || 'Non renseigné'}
+LinkedIn: ${data.linkedin || 'Non renseigné (optionnel)'}
 Secteur d'activité: ${data.secteur_activite === 'autre' ? (data.secteur_activite_autre || 'Autre') : (getSecteurActiviteLabel(data.secteur_activite) || 'Non renseigné')}
 Taille de l'entreprise: ${getTailleEntrepriseLabel(data.taille_entreprise) || 'Non renseigné'}
 Besoin principal: ${data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : (getBesoinLabel(data.besoin) || 'Non renseigné')}

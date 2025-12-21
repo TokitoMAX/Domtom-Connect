@@ -36,6 +36,14 @@
                         <span>Cadre professionnel et sécurisé</span>
                     </div>
                 </div>
+                
+                <!-- Message d'explication sur le formulaire -->
+                <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.08); border-radius: 16px; border-left: 4px solid #8B5CF6;">
+                    <p style="font-size: 0.95rem; color: #1e293b; margin: 0; line-height: 1.7; font-weight: 500;">
+                        <strong>💡 Pourquoi ce formulaire détaillé ?</strong><br>
+                        Nous vérifions chaque entreprise pour garantir la qualité de notre réseau et vous proposer les meilleurs prestataires. Cela vous protège aussi : vous travaillez uniquement avec des prestataires vérifiés et qualifiés. <strong>5 minutes pour accéder à un réseau de confiance.</strong>
+                    </p>
+                </div>
 
                 <form class="landing-form" id="landing-form" onsubmit="handleLandingFormSubmit(event)">
                     <input type="hidden" name="profil" value="entreprise">
@@ -52,7 +60,8 @@
                     <input type="text" name="entreprise" placeholder="Nom de l'entreprise *" required>
                     <input type="url" name="site_web" placeholder="Site web de l'entreprise *" required pattern="https?://.+" title="Veuillez entrer une URL valide (commençant par http:// ou https://)">
                     <input type="text" name="siret" placeholder="Numéro SIRET de l'entreprise *" required pattern="[0-9]{14}" title="Le SIRET doit contenir 14 chiffres" maxlength="14">
-                    <input type="url" name="linkedin" placeholder="Lien vers votre profil LinkedIn *" required pattern="https?://.+" title="Veuillez entrer une URL valide">
+                    <input type="url" name="linkedin" placeholder="Lien vers votre profil LinkedIn (optionnel mais recommandé)" pattern="https?://.+" title="Veuillez entrer une URL valide">
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: -0.5rem; margin-bottom: 0.5rem; font-style: italic;">💡 Si vous n'avez pas de LinkedIn, vous pouvez laisser vide</p>
                     <select name="secteur_activite" required>
                         <option value="">Secteur d'activité *</option>
                         <option value="tech">Technologie / Digital</option>
@@ -132,10 +141,11 @@
                     
                     <!-- Questions de validation croisée -->
                     <div style="margin-top: 1rem; padding: 1.5rem; background: rgba(139, 92, 246, 0.05); border-radius: 12px; border-left: 4px solid #8B5CF6;">
-                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Questions de validation</h4>
+                        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Questions de validation</h4>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Ces questions nous aident à mieux comprendre votre contexte et à vous proposer les prestataires les plus adaptés</p>
                         <select name="anciennete_entreprise" required>
                             <option value="">Depuis combien de temps votre entreprise existe-t-elle ? *</option>
-                            <option value="moins-1">Moins de 1 an</option>
+                            <option value="moins-1">Moins de 1 an (je viens de créer)</option>
                             <option value="1-3">1 à 3 ans</option>
                             <option value="3-5">3 à 5 ans</option>
                             <option value="5-10">5 à 10 ans</option>
@@ -143,7 +153,7 @@
                         </select>
                         <select name="prestataires_precedents" required style="margin-top: 1rem;">
                             <option value="">Combien de prestataires externes avez-vous déjà travaillé avec ? *</option>
-                            <option value="0">Aucun</option>
+                            <option value="0">Aucun (première fois)</option>
                             <option value="1-3">1 à 3 prestataires</option>
                             <option value="4-10">4 à 10 prestataires</option>
                             <option value="plus-10">Plus de 10 prestataires</option>
@@ -154,13 +164,13 @@
                     <label style="display: flex; align-items: start; gap: 0.75rem; margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.05); border-radius: 12px; border: 2px solid rgba(16, 185, 129, 0.2); cursor: pointer;">
                         <input type="checkbox" name="certification" required style="margin-top: 0.25rem; width: 20px; height: 20px; cursor: pointer; flex-shrink: 0;">
                         <span style="font-size: 0.95rem; color: #1e293b; line-height: 1.6;">
-                            <strong>Je certifie sur l'honneur</strong> que toutes les informations fournies sont exactes et vérifiables. Je comprends que toute fausse information peut entraîner un refus ou une exclusion du réseau. *
+                            <strong>Je certifie sur l'honneur</strong> que toutes les informations fournies sont exactes et vérifiables. Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous. *
                         </span>
                     </label>
                     
-                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 12px; border-left: 4px solid #F59E0B;">
-                        <p style="font-size: 0.875rem; color: #92400E; margin: 0; line-height: 1.6;">
-                            <strong>⚠️ Vérification :</strong> Toutes les informations seront vérifiées. Le numéro SIRET sera validé, le site web de l'entreprise sera examiné. Des incohérences peuvent entraîner un refus.
+                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(139, 92, 246, 0.08); border-radius: 12px; border-left: 4px solid #8B5CF6;">
+                        <p style="font-size: 0.875rem; color: #1e293b; margin: 0; line-height: 1.6;">
+                            <strong>✅ Processus de vérification :</strong> Nous vérifions votre SIRET et votre site web pour garantir la qualité du réseau. Ces vérifications nous permettent de vous proposer les meilleurs prestataires adaptés à votre entreprise. <strong>Notre objectif : vous mettre en relation avec les bons prestataires.</strong>
                         </p>
                     </div>
                     
