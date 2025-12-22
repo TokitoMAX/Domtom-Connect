@@ -736,6 +736,80 @@ function showResults() {
         answers: answers,
         landingPageUrl: landingPageUrl
     };
+    
+    // Envoyer automatiquement un email avec les résultats du quiz
+    sendQuizCompletionEmail(selectedProfile, qualificationScore, percentage, answers, landingPageUrl);
+}
+
+// Fonction pour envoyer automatiquement un email à chaque complétion du quiz
+function sendQuizCompletionEmail(profile, score, percentage, answers, landingPageUrl) {
+    const profileLabels = {
+        "porteur-projet": "Porteur de projet / Entrepreneur",
+        "prestataire": "Prestataire",
+        "entreprise": "Entreprise",
+        "investisseur": "Investisseur"
+    };
+    const profileLabel = profileLabels[profile] || 'Non spécifié';
+    
+    const formDataToSend = new FormData();
+    formDataToSend.append('_to', 'domtomconnect@gmail.com');
+    formDataToSend.append('_subject', `📊 Quiz Complété - ${profileLabel} (Score: ${score}/10 - ${percentage}%)`);
+    
+    // Construire le message avec toutes les réponses
+    let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 QUIZ COMPLÉTÉ - RÉSULTATS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Date: ${new Date().toLocaleString('fr-FR')}
+Profil: ${profileLabel}
+Score: ${score}/10 (${percentage}%)
+Niveau: ${percentage >= 80 ? 'Excellent' : percentage >= 60 ? 'Bien préparé' : 'À améliorer'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 RÉPONSES DU QUIZ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer} (Score: ${a.score})`).join('\n\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. L'utilisateur peut maintenant remplir le formulaire de contact (optionnel)
+2. Rediriger vers la landing page: ${landingPageUrl}
+3. Suivre l'engagement de l'utilisateur (a-t-il visité la landing page ?)
+4. Contacter si l'utilisateur remplit le formulaire de contact
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️ NOTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Cet email est envoyé automatiquement à chaque complétion du quiz.
+Les coordonnées de l'utilisateur seront disponibles s'il remplit le formulaire de contact.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+    
+    formDataToSend.append('message', messageBody);
+    formDataToSend.append('Profil', profileLabel);
+    formDataToSend.append('Score Quiz', score);
+    formDataToSend.append('Pourcentage Quiz', percentage);
+    formDataToSend.append('Landing Page', landingPageUrl);
+    formDataToSend.append('Type', 'Quiz Completion (Auto)');
+    
+    // Envoyer en arrière-plan (ne pas bloquer l'interface)
+    fetch('https://formspree.io/f/myzbqepy', {
+        method: 'POST',
+        body: formDataToSend,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('✅ Email de complétion du quiz envoyé avec succès');
+        } else {
+            console.error('❌ Erreur lors de l\'envoi de l\'email de complétion du quiz');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Erreur lors de l\'envoi de l\'email de complétion du quiz:', error);
+    });
 }
 
 function handleQuizContactSubmit(event) {
