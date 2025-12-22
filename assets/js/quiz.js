@@ -2,8 +2,8 @@
 
 // Question initiale : Profil
 const profileQuestion = {
-    id: 1,
-    question: "Quel est votre profil ?",
+        id: 1,
+        question: "Quel est votre profil ?",
     type: "radio",
     options: [
         { value: "porteur-projet", label: "Porteur de projet / Entrepreneur", score: 2, description: "Vous avez un projet à développer et cherchez des prestataires" },
@@ -39,27 +39,6 @@ const adaptiveQuestions = {
     },
     {
         id: 3,
-        question: "Où êtes-vous basé actuellement ?",
-        type: "select",
-        options: [
-            { value: "martinique", label: "Martinique", score: 2 },
-            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-            { value: "reunion", label: "La Réunion", score: 2 },
-            { value: "guyane", label: "Guyane", score: 2 },
-            { value: "mayotte", label: "Mayotte", score: 2 },
-            { value: "saint-martin", label: "Saint-Martin", score: 2 },
-            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
-            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
-            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
-            { value: "polynesie", label: "Polynésie française", score: 2 },
-            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "metropole", label: "Métropole française", score: 1 },
-            { value: "etranger", label: "Étranger", score: 1 },
-            { value: "autre", label: "Autre", score: 1 }
-        ]
-    },
-    {
-        id: 4,
         question: "Quelle est la nature de votre projet ?",
         type: "radio",
         options: [
@@ -70,7 +49,7 @@ const adaptiveQuestions = {
         ]
     },
     {
-        id: 5,
+        id: 4,
         question: "Où sera localisé votre projet ?",
         type: "select",
         options: [
@@ -91,18 +70,7 @@ const adaptiveQuestions = {
         ]
     },
     {
-        id: 6,
-        question: "À quel stade est votre projet ?",
-        type: "radio",
-        options: [
-            { value: "idee-clarifiee", label: "Idée clarifiée mais pas encore lancée", score: 2 },
-            { value: "lancement", label: "Projet en cours de lancement", score: 3 },
-            { value: "lance", label: "Activité déjà lancée (clients / utilisateurs)", score: 4 },
-            { value: "developpement", label: "Projet en phase de développement / structuration", score: 4 }
-        ]
-    },
-    {
-        id: 7,
+        id: 5,
         question: "Avez-vous clarifié votre vision et vos objectifs ?",
         type: "radio",
         options: [
@@ -112,7 +80,7 @@ const adaptiveQuestions = {
         ]
     },
     {
-        id: 8,
+        id: 6,
         question: "Quel est votre objectif principal ?",
         type: "radio",
         options: [
@@ -124,7 +92,7 @@ const adaptiveQuestions = {
         ]
     },
     {
-        id: 9,
+        id: 7,
         question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
         type: "radio",
         options: [
@@ -137,7 +105,7 @@ const adaptiveQuestions = {
         clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
     },
     {
-        id: 10,
+        id: 8,
         question: "Quel budget global avez-vous prévu pour les prestations (hors accompagnement) ?",
         type: "radio",
         options: [
@@ -151,7 +119,7 @@ const adaptiveQuestions = {
         clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
     },
     {
-        id: 11,
+        id: 9,
         question: "Quel est votre horizon temporel ?",
         type: "radio",
         options: [
@@ -405,14 +373,14 @@ const adaptiveQuestions = {
             id: 9,
             question: "Dans quel territoire êtes-vous basé ?",
             type: "select",
-            options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
-            ]
+        options: [
+            { value: "martinique", label: "Martinique", score: 2 },
+            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
+            { value: "reunion", label: "La Réunion", score: 2 },
+            { value: "guyane", label: "Guyane", score: 2 },
+            { value: "diaspora", label: "Diaspora", score: 2 },
+            { value: "autre", label: "Autre", score: 1 }
+        ]
         },
         {
             id: 10,
