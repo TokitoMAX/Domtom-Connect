@@ -18,7 +18,10 @@ class LandingQuiz {
     
     init() {
         this.form = document.getElementById(this.formId);
-        if (!this.form) return;
+        if (!this.form) {
+            console.error('[Quiz] Formulaire non trouvé avec l\'ID:', this.formId);
+            return;
+        }
         
         // Pré-remplir depuis sessionStorage si disponible
         this.prefillFromSession();
@@ -32,6 +35,22 @@ class LandingQuiz {
         } else {
             this.questions = this.fullQuestions;
         }
+        
+        // Vérifier que les questions sont définies
+        if (!this.questions || this.questions.length === 0) {
+            console.error('[Quiz] Aucune question définie! fullQuestions:', this.fullQuestions?.length, 'simplifiedQuestions:', this.simplifiedQuestions?.length);
+            const container = this.form.querySelector('.quiz-container');
+            if (container) {
+                container.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: #ef4444;">
+                        <p>Erreur : Aucune question définie pour ce profil.</p>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        console.log('[Quiz] Initialisation avec', this.questions.length, 'questions');
         
         // Créer la structure du quiz
         this.createQuizStructure();
@@ -299,6 +318,20 @@ class LandingQuiz {
         const validQuestions = this.getValidQuestions();
         console.log('[Quiz] Nombre de questions valides:', validQuestions.length);
         
+        // Si aucune question valide, afficher un message d'erreur
+        if (validQuestions.length === 0) {
+            console.error('[Quiz] Aucune question valide à afficher!');
+            const container = document.getElementById('quiz-questions-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="quiz-error" style="padding: 2rem; text-align: center; color: #ef4444;">
+                        <p>Erreur : Aucune question à afficher. Veuillez rafraîchir la page.</p>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
         if (stepIndex >= validQuestions.length) {
             console.log('[Quiz] Toutes les questions terminées, soumission du formulaire');
             // Toutes les questions sont terminées, soumettre
@@ -321,6 +354,11 @@ class LandingQuiz {
         console.log('[Quiz] Index mis à jour - currentStep:', this.currentStep, 'currentValidStep:', this.currentValidStep);
         
         const container = document.getElementById('quiz-questions-container');
+        if (!container) {
+            console.error('[Quiz] Container quiz-questions-container non trouvé!');
+            return;
+        }
+        
         const prevBtn = document.getElementById('quiz-btn-prev');
         const nextBtn = document.getElementById('quiz-btn-next');
         const progressFill = document.getElementById('quiz-progress-fill');
@@ -383,21 +421,31 @@ class LandingQuiz {
         }
         
         // Créer et afficher la question
-        container.innerHTML = this.renderQuestion(question, stepIndex);
-        
-        // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
-        setTimeout(() => {
-            this.restoreAnswer(question);
-        }, 50);
-        
-        // Animation d'entrée
-        container.style.opacity = '0';
-        container.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            container.style.opacity = '1';
-            container.style.transform = 'translateY(0)';
-        }, 50);
+        try {
+            container.innerHTML = this.renderQuestion(question, stepIndex);
+            
+            // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
+            setTimeout(() => {
+                this.restoreAnswer(question);
+            }, 50);
+            
+            // Animation d'entrée
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 50);
+        } catch (error) {
+            console.error('[Quiz] Erreur lors du rendu de la question:', error);
+            container.innerHTML = `
+                <div class="quiz-error" style="padding: 2rem; text-align: center; color: #ef4444;">
+                    <p>Erreur lors de l'affichage de la question. Veuillez rafraîchir la page.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">${error.message}</p>
+                </div>
+            `;
+        }
     }
     
     submitForm() {
