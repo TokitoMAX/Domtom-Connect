@@ -289,22 +289,36 @@ class LandingQuiz {
     }
     
     showStep(stepIndex) {
-        if (stepIndex < 0) return;
+        console.log('[Quiz] showStep appelé avec stepIndex:', stepIndex);
+        
+        if (stepIndex < 0) {
+            console.log('[Quiz] stepIndex < 0, arrêt');
+            return;
+        }
         
         const validQuestions = this.getValidQuestions();
+        console.log('[Quiz] Nombre de questions valides:', validQuestions.length);
         
         if (stepIndex >= validQuestions.length) {
+            console.log('[Quiz] Toutes les questions terminées, soumission du formulaire');
             // Toutes les questions sont terminées, soumettre
             this.submitForm();
             return;
         }
         
         const question = validQuestions[stepIndex];
+        if (!question) {
+            console.log('[Quiz] Question non trouvée à l\'index:', stepIndex);
+            return;
+        }
+        
+        console.log('[Quiz] Affichage de la question:', question.id);
         const actualStep = this.getQuestionIndex(question.id);
         
         // Mettre à jour les deux index
         this.currentStep = actualStep;
         this.currentValidStep = stepIndex;
+        console.log('[Quiz] Index mis à jour - currentStep:', this.currentStep, 'currentValidStep:', this.currentValidStep);
         
         const container = document.getElementById('quiz-questions-container');
         const prevBtn = document.getElementById('quiz-btn-prev');
@@ -341,22 +355,34 @@ class LandingQuiz {
         // Changer le texte du bouton suivant
         const isLastQuestion = stepIndex === validQuestions.length - 1;
         
-        if (isLastQuestion) {
-            nextBtn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Envoyer
-            `;
-            nextBtn.type = 'submit';
-        } else {
-            nextBtn.innerHTML = `
-                Suivant
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            `;
-            nextBtn.type = 'button';
+        if (nextBtn) {
+            if (isLastQuestion) {
+                nextBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Envoyer
+                `;
+                nextBtn.type = 'submit';
+            } else {
+                nextBtn.innerHTML = `
+                    Suivant
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                `;
+                nextBtn.type = 'button';
+                // Réactiver le bouton au cas où il serait désactivé
+                nextBtn.disabled = false;
+            }
+            
+            // Réattacher l'event listener après modification du HTML
+            // (car modifier innerHTML peut supprimer les listeners)
+            const updatedBtn = this.reattachNextButtonListener(nextBtn);
+            // Mettre à jour la référence si nécessaire
+            if (updatedBtn && updatedBtn !== nextBtn) {
+                // Le bouton a été remplacé, mais on garde la référence originale pour cette fonction
+            }
         }
         
         // Créer et afficher la question
@@ -535,6 +561,71 @@ class LandingQuiz {
         }
     }
     
+    reattachNextButtonListener(nextBtn) {
+        // Supprimer tous les anciens listeners en clonant le bouton
+        const newNextBtn = nextBtn.cloneNode(true);
+        nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+        
+        // Réattacher le listener
+        newNextBtn.addEventListener('click', (e) => {
+            this.handleNextButtonClick(e, newNextBtn);
+        });
+        
+        return newNextBtn;
+    }
+    
+    handleNextButtonClick(e, nextBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('[Quiz] Bouton suivant cliqué');
+        console.log('[Quiz] Type du bouton:', nextBtn.type);
+        
+        if (nextBtn.type === 'submit') {
+            console.log('[Quiz] Bouton est de type submit, laisser le formulaire se soumettre');
+            // Laisser le formulaire se soumettre normalement
+            return;
+        }
+        
+        // Sauvegarder la réponse AVANT de valider
+        this.saveCurrentAnswer();
+        
+        // Valider l'étape actuelle
+        const isValid = this.validateCurrentStep();
+        console.log('[Quiz] Validation:', isValid);
+        console.log('[Quiz] currentValidStep:', this.currentValidStep);
+        
+        if (isValid) {
+            const validQuestions = this.getValidQuestions();
+            const nextStep = this.currentValidStep + 1;
+            console.log(`[Quiz] Navigation vers l'étape ${nextStep} sur ${validQuestions.length}`);
+            
+            // Utiliser directement currentValidStep au lieu de le recalculer
+            this.showStep(nextStep);
+        } else {
+            // Afficher un message d'erreur
+            console.log('[Quiz] Validation échouée, affichage erreur');
+            const validQuestions = this.getValidQuestions();
+            const question = validQuestions[this.currentValidStep];
+            if (question) {
+                console.log('[Quiz] Question non valide:', question.id);
+                const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
+                             document.getElementById(`question_${question.id}`);
+                if (input) {
+                    input.focus();
+                    input.style.borderColor = '#ef4444';
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                    }, 2000);
+                } else {
+                    console.log('[Quiz] Input non trouvé pour la question:', question.id);
+                }
+            } else {
+                console.log('[Quiz] Question non trouvée à l\'index:', this.currentValidStep);
+            }
+        }
+    }
+    
     initEvents() {
         const prevBtn = document.getElementById('quiz-btn-prev');
         const nextBtn = document.getElementById('quiz-btn-next');
@@ -553,25 +644,43 @@ class LandingQuiz {
         // Bouton suivant
         if (nextBtn) {
             nextBtn.addEventListener('click', (e) => {
+                this.handleNextButtonClick(e, nextBtn);
+            });
+        }
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('[Quiz] Bouton suivant cliqué');
+                console.log('[Quiz] Type du bouton:', nextBtn.type);
+                
                 if (nextBtn.type === 'submit') {
+                    console.log('[Quiz] Bouton est de type submit, laisser le formulaire se soumettre');
                     // Laisser le formulaire se soumettre normalement
                     return;
                 }
                 
-                if (this.validateCurrentStep()) {
-                    // Sauvegarder la réponse AVANT de passer à la suivante
-                    this.saveCurrentAnswer();
-                    
-                    // Debug: afficher l'état avant navigation
-                    console.log(`[Quiz] Avant navigation - currentValidStep: ${this.currentValidStep}, prochaine étape: ${this.currentValidStep + 1}`);
+                // Sauvegarder la réponse AVANT de valider
+                this.saveCurrentAnswer();
+                
+                // Valider l'étape actuelle
+                const isValid = this.validateCurrentStep();
+                console.log('[Quiz] Validation:', isValid);
+                console.log('[Quiz] currentValidStep:', this.currentValidStep);
+                
+                if (isValid) {
+                    const validQuestions = this.getValidQuestions();
+                    const nextStep = this.currentValidStep + 1;
+                    console.log(`[Quiz] Navigation vers l'étape ${nextStep} sur ${validQuestions.length}`);
                     
                     // Utiliser directement currentValidStep au lieu de le recalculer
-                    this.showStep(this.currentValidStep + 1);
+                    this.showStep(nextStep);
                 } else {
                     // Afficher un message d'erreur
+                    console.log('[Quiz] Validation échouée, affichage erreur');
                     const validQuestions = this.getValidQuestions();
                     const question = validQuestions[this.currentValidStep];
                     if (question) {
+                        console.log('[Quiz] Question non valide:', question.id);
                         const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
                                      document.getElementById(`question_${question.id}`);
                         if (input) {
@@ -580,7 +689,11 @@ class LandingQuiz {
                             setTimeout(() => {
                                 input.style.borderColor = '';
                             }, 2000);
+                        } else {
+                            console.log('[Quiz] Input non trouvé pour la question:', question.id);
                         }
+                    } else {
+                        console.log('[Quiz] Question non trouvée à l\'index:', this.currentValidStep);
                     }
                 }
             });
@@ -609,23 +722,44 @@ class LandingQuiz {
     
     validateCurrentStep() {
         const validQuestions = this.getValidQuestions();
+        console.log('[Quiz] validateCurrentStep - currentValidStep:', this.currentValidStep, 'total questions:', validQuestions.length);
+        
         if (this.currentValidStep < 0 || this.currentValidStep >= validQuestions.length) {
+            console.log('[Quiz] Index hors limites, validation OK');
             return true;
         }
+        
         const question = validQuestions[this.currentValidStep];
-        if (!question) return true;
-        if (!question.required) return true;
+        if (!question) {
+            console.log('[Quiz] Question non trouvée, validation OK');
+            return true;
+        }
+        
+        console.log('[Quiz] Validation de la question:', question.id, 'type:', question.type, 'required:', question.required);
+        
+        if (!question.required) {
+            console.log('[Quiz] Question non requise, validation OK');
+            return true;
+        }
+        
+        let isValid = false;
         
         if (question.type === 'radio') {
             const input = document.querySelector(`input[name="question_${question.id}"]:checked`);
-            return input !== null;
+            isValid = input !== null;
+            console.log('[Quiz] Radio - input trouvé:', input !== null, 'valeur:', input ? input.value : 'null');
         } else if (question.type === 'checkbox') {
             const input = document.getElementById(`question_${question.id}`);
-            return input && input.checked;
+            isValid = input && input.checked;
+            console.log('[Quiz] Checkbox - input trouvé:', input !== null, 'coché:', input ? input.checked : false);
         } else {
             const input = document.getElementById(`question_${question.id}`);
-            return input && input.value && input.value.trim() !== '';
+            isValid = input && input.value && input.value.trim() !== '';
+            console.log('[Quiz] Input text/textarea - input trouvé:', input !== null, 'valeur:', input ? input.value : 'null');
         }
+        
+        console.log('[Quiz] Résultat validation:', isValid);
+        return isValid;
     }
     
     collectAllAnswers() {
