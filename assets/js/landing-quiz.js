@@ -6,7 +6,8 @@ class LandingQuiz {
         this.simplifiedQuestions = simplifiedQuestions;
         this.formId = formId;
         this.profil = profil;
-        this.currentStep = 0;
+        this.currentStep = 0; // Index dans la liste complète des questions
+        this.currentValidStep = 0; // Index dans la liste des questions valides (affichées)
         this.answers = {};
         this.form = null;
         this.useSimplified = false;
@@ -301,7 +302,9 @@ class LandingQuiz {
         const question = validQuestions[stepIndex];
         const actualStep = this.getQuestionIndex(question.id);
         
+        // Mettre à jour les deux index
         this.currentStep = actualStep;
+        this.currentValidStep = stepIndex;
         
         const container = document.getElementById('quiz-questions-container');
         const prevBtn = document.getElementById('quiz-btn-prev');
@@ -309,17 +312,31 @@ class LandingQuiz {
         const progressFill = document.getElementById('quiz-progress-fill');
         const stepIndicator = document.getElementById('quiz-step-indicator');
         
-        // Compter le nombre total de questions affichables
+        // Compter le nombre total de questions affichables (recalculer à chaque fois au cas où)
         const totalQuestions = validQuestions.length;
         const currentQuestionNumber = stepIndex + 1;
         
         // Mettre à jour la barre de progression
-        const progress = (currentQuestionNumber / totalQuestions) * 100;
-        progressFill.style.width = `${progress}%`;
-        stepIndicator.textContent = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
+        const progress = totalQuestions > 0 ? (currentQuestionNumber / totalQuestions) * 100 : 0;
+        if (progressFill) {
+            progressFill.style.width = `${Math.min(progress, 100)}%`;
+        }
+        if (stepIndicator) {
+            // Mettre à jour le texte du compteur
+            const indicatorText = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
+            stepIndicator.textContent = indicatorText;
+            stepIndicator.innerText = indicatorText; // Double mise à jour pour assurer la compatibilité
+            // Forcer la mise à jour du DOM
+            stepIndicator.style.display = 'block';
+            
+            // Debug: vérifier que la mise à jour fonctionne
+            console.log(`[Quiz] Étape ${currentQuestionNumber}/${totalQuestions} - Question ID: ${question.id}`);
+        }
         
         // Afficher/masquer le bouton précédent
-        prevBtn.style.display = stepIndex > 0 ? 'flex' : 'none';
+        if (prevBtn) {
+            prevBtn.style.display = stepIndex > 0 ? 'flex' : 'none';
+        }
         
         // Changer le texte du bouton suivant
         const isLastQuestion = stepIndex === validQuestions.length - 1;
@@ -523,41 +540,51 @@ class LandingQuiz {
         const nextBtn = document.getElementById('quiz-btn-next');
         
         // Bouton précédent
-        prevBtn.addEventListener('click', () => {
-            this.saveCurrentAnswer();
-            const validQuestions = this.getValidQuestions();
-            const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-            if (currentValidIndex > 0) {
-                this.showStep(currentValidIndex - 1);
-            }
-        });
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                this.saveCurrentAnswer();
+                // Utiliser directement currentValidStep au lieu de le recalculer
+                if (this.currentValidStep > 0) {
+                    this.showStep(this.currentValidStep - 1);
+                }
+            });
+        }
         
         // Bouton suivant
-        nextBtn.addEventListener('click', (e) => {
-            if (nextBtn.type === 'submit') {
-                // Laisser le formulaire se soumettre normalement
-                return;
-            }
-            
-            if (this.validateCurrentStep()) {
-                this.saveCurrentAnswer();
-                const validQuestions = this.getValidQuestions();
-                const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-                this.showStep(currentValidIndex + 1);
-            } else {
-                // Afficher un message d'erreur
-                const question = this.questions[this.currentStep];
-                const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
-                             document.getElementById(`question_${question.id}`);
-                if (input) {
-                    input.focus();
-                    input.style.borderColor = '#ef4444';
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                    }, 2000);
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                if (nextBtn.type === 'submit') {
+                    // Laisser le formulaire se soumettre normalement
+                    return;
                 }
-            }
-        });
+                
+                if (this.validateCurrentStep()) {
+                    // Sauvegarder la réponse AVANT de passer à la suivante
+                    this.saveCurrentAnswer();
+                    
+                    // Debug: afficher l'état avant navigation
+                    console.log(`[Quiz] Avant navigation - currentValidStep: ${this.currentValidStep}, prochaine étape: ${this.currentValidStep + 1}`);
+                    
+                    // Utiliser directement currentValidStep au lieu de le recalculer
+                    this.showStep(this.currentValidStep + 1);
+                } else {
+                    // Afficher un message d'erreur
+                    const validQuestions = this.getValidQuestions();
+                    const question = validQuestions[this.currentValidStep];
+                    if (question) {
+                        const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
+                                     document.getElementById(`question_${question.id}`);
+                        if (input) {
+                            input.focus();
+                            input.style.borderColor = '#ef4444';
+                            setTimeout(() => {
+                                input.style.borderColor = '';
+                            }, 2000);
+                        }
+                    }
+                }
+            });
+        }
         
         // Sauvegarder automatiquement lors du changement
         const container = document.getElementById('quiz-questions-container');
@@ -571,13 +598,22 @@ class LandingQuiz {
     }
     
     saveCurrentAnswer() {
-        if (this.currentStep >= 0 && this.currentStep < this.questions.length) {
-            this.saveAnswer(this.questions[this.currentStep]);
+        const validQuestions = this.getValidQuestions();
+        if (this.currentValidStep >= 0 && this.currentValidStep < validQuestions.length) {
+            const question = validQuestions[this.currentValidStep];
+            if (question) {
+                this.saveAnswer(question);
+            }
         }
     }
     
     validateCurrentStep() {
-        const question = this.questions[this.currentStep];
+        const validQuestions = this.getValidQuestions();
+        if (this.currentValidStep < 0 || this.currentValidStep >= validQuestions.length) {
+            return true;
+        }
+        const question = validQuestions[this.currentValidStep];
+        if (!question) return true;
         if (!question.required) return true;
         
         if (question.type === 'radio') {
