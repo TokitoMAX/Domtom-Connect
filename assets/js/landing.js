@@ -1387,14 +1387,19 @@ Certification acceptée: OUI
                 // Nettoyer les données stockées
                 sessionStorage.removeItem('domtomConnectStep1');
                 
-            // Show success message
-            form.innerHTML = `
-                <div style="text-align: center; padding: 2rem 0;">
-                        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
-                    <a href="/" class="cta-button primary">Retour à l'accueil</a>
-                </div>
-            `;
+                // Pour porteurs-projets, la redirection est gérée dans index.html selon le budget
+                // Pour les autres profils, afficher le message de succès
+                if (pageType !== 'porteurs-projets') {
+                    // Show success message
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 0;">
+                                <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
+                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                        </div>
+                    `;
+                }
+                // Pour porteurs-projets, la redirection est déjà gérée dans index.html
             }
         } else {
             return response.json().then(errData => {

@@ -223,23 +223,21 @@
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
-        const porteursProjetsQuestions = [
-            // Budget en premier pour qualifier en douceur
-            { 
-                id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans l\'accompagnement pour transformer ton projet ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'budget', 
-                options: [
-                    { value: '300-1000', label: '300-1 000 € - Pack Starter (consultation + accès réseau)' },
-                    { value: '1000-3000', label: '1 000-3 000 € - Pack Premium (accompagnement complet)' },
-                    { value: 'plus-3000', label: 'Plus de 3 000 € - Pack Premium (accompagnement complet)' },
-                    { value: 'moins-300', label: 'Moins de 300 € - Je souhaite d\'abord des informations' },
-                    { value: 'non-defini', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
-                ], 
-                clarification: '💡 <strong>Pas de pression !</strong> Cette question nous aide à te proposer la meilleure solution. Tu peux aussi choisir "Je ne sais pas encore" et nous en discuterons ensemble lors de l\'appel.' 
-            },
+        // Détecter si l'utilisateur vient du quiz (page d'accueil) ou directement sur la landing
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromQuiz = urlParams.get('from') === 'quiz' || sessionStorage.getItem('fromQuiz') === 'true';
+        const quizBudget = urlParams.get('budget') || sessionStorage.getItem('quizBudget');
+        
+        // Si vient du quiz, stocker l'info
+        if (fromQuiz) {
+            sessionStorage.setItem('fromQuiz', 'true');
+            if (quizBudget) {
+                sessionStorage.setItem('quizBudget', quizBudget);
+            }
+        }
+        
+        // Questions de base (sans budget en premier) - pour utilisateurs venant du quiz
+        const porteursProjetsQuestionsBase = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
@@ -331,9 +329,22 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
+        // Sélectionner les questions selon l'origine
+        const porteursProjetsQuestions = fromQuiz ? porteursProjetsQuestionsBase : porteursProjetsQuestionsWithBudget;
+        
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
             quiz = new LandingQuiz(porteursProjetsQuestions, 'landing-form', 'porteur-projet');
+            
+            // Si budget vient du quiz, pré-remplir la question budget
+            if (fromQuiz && quizBudget) {
+                setTimeout(() => {
+                    const budgetInput = document.querySelector(`input[name="budget"][value="${quizBudget}"]`);
+                    if (budgetInput) {
+                        budgetInput.checked = true;
+                    }
+                }, 500);
+            }
         });
 
         async function handleQuizFormSubmit(event) {
@@ -449,9 +460,28 @@
                     }
                 }
             });
+            
+            // Stocker le budget pour la redirection
+            const budget = data.budget || submitData.budget;
+            sessionStorage.setItem('submittedBudget', budget);
+            
+            // Soumettre le formulaire
             if (typeof handleLandingFormSubmit === 'function') {
                 handleLandingFormSubmit(fakeEvent);
             }
+            
+            // Rediriger vers la page adaptée au budget après soumission
+            setTimeout(() => {
+                let redirectUrl = '/landing/porteurs-projets/resultat.html';
+                if (budget === '300-1000') {
+                    redirectUrl = '/landing/porteurs-projets/resultat-starter.html';
+                } else if (budget === '1000-3000' || budget === 'plus-3000') {
+                    redirectUrl = '/landing/porteurs-projets/resultat-premium.html';
+                } else {
+                    redirectUrl = '/landing/porteurs-projets/resultat-info.html';
+                }
+                window.location.href = redirectUrl + '?budget=' + encodeURIComponent(budget);
+            }, 1000);
         }
     </script>
 </body>

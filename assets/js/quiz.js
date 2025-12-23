@@ -621,7 +621,26 @@ function showResults() {
     let resultTitle = '';
     let resultDescription = '';
     let recommendations = [];
-    const landingPageUrl = profileLandingPages[selectedProfile] || '/#inscription-form';
+    // Pour porteurs-projets, ajouter le paramètre from=quiz
+    let landingPageUrl = profileLandingPages[selectedProfile] || '/#inscription-form';
+    if (selectedProfile === 'porteur-projet') {
+        // Récupérer le budget si disponible dans les réponses
+        const budgetAnswer = answers.find(a => a.question.toLowerCase().includes('budget'));
+        if (budgetAnswer) {
+            // Mapper les réponses du quiz vers les valeurs de budget
+            const budgetMap = {
+                'moins de 300': 'moins-300',
+                '300-1000': '300-1000',
+                '1000-3000': '1000-3000',
+                'plus de 3000': 'plus-3000',
+                'non défini': 'non-defini'
+            };
+            const budgetValue = budgetMap[budgetAnswer.answer.toLowerCase()] || 'non-defini';
+            landingPageUrl = `${landingPageUrl}?from=quiz&budget=${budgetValue}`;
+        } else {
+            landingPageUrl = `${landingPageUrl}?from=quiz`;
+        }
+    }
     
     if (percentage >= 80) {
         resultTitle = `Excellent ! Vous êtes bien préparé(e) 🎉`;
