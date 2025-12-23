@@ -37,6 +37,36 @@
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
+        // Questions simplifiées pour les investisseurs (sans données pré-remplies)
+        const investisseursQuestionsSimplified = [
+            { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
+            { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
+            { id: 'email', question: 'Quelle est votre adresse email ?', type: 'email', placeholder: 'votre@email.com', required: true, fieldName: 'email' },
+            { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
+            { id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'diaspora', label: 'Diaspora' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'type_investissement', question: 'Quel type d\'investissement vous intéresse ?', type: 'radio', required: true, fieldName: 'type_investissement', options: [
+                { value: 'capital-risque', label: 'Capital-risque' },
+                { value: 'pret', label: 'Prêt' },
+                { value: 'subvention', label: 'Subvention' },
+                { value: 'mecenat', label: 'Mécénat' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
+                { value: 'moins-10k', label: 'Moins de 10 000 €' },
+                { value: '10k-50k', label: '10 000 - 50 000 €' },
+                { value: '50k-200k', label: '50 000 - 200 000 €' },
+                { value: '200k-plus', label: 'Plus de 200 000 €' }
+            ]},
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+        ];
+        
         const investisseursQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
@@ -105,7 +135,7 @@
 
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur');
+            quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
         });
 
         async function handleQuizFormSubmit(event) {

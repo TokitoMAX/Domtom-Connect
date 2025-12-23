@@ -50,6 +50,74 @@
             }
         }
         
+        // Questions simplifiées (pour utilisateurs sans données pré-remplies - pour éviter la fatigue)
+        const porteursProjetsQuestionsSimplified = [
+            { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
+            { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
+            { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
+            { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
+            { id: 'origine', question: 'D\'où viens-tu ?', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'saint-martin', label: 'Saint-Martin' },
+                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
+                { value: 'metropole', label: 'Métropole française' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques phrases', type: 'textarea', placeholder: 'Décris ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
+            { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
+                { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, etc.)' },
+                { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
+                { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
+                { value: 'autre', label: 'Autre type de projet' }
+            ]},
+            { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'saint-martin', label: 'Saint-Martin' },
+                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'metropole', label: 'Métropole française' },
+                { value: 'international', label: 'International / Multi-territoires' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'objectif_principal', question: 'Quel est ton objectif principal ?', type: 'radio', required: true, fieldName: 'objectif_principal', options: [
+                { value: 'prestataires', label: 'Trouver des prestataires fiables' },
+                { value: 'structurer', label: 'Structurer mon projet' },
+                { value: 'reseau', label: 'Me connecter à un réseau' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { 
+                id: 'pack_desire', 
+                question: 'Quel type d\'accompagnement t\'intéresse ?', 
+                type: 'radio', 
+                required: true, 
+                fieldName: 'pack_desire', 
+                options: [
+                    { value: 'pack-starter', label: 'Pack Starter (500€ TTC)' },
+                    { value: 'pack-premium', label: 'Pack Premium (1 900€ TTC)' },
+                    { value: 'info', label: 'Je souhaite d\'abord des informations' },
+                    { value: 'discuter', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
+                ]
+            },
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+        ];
+        
         // Questions de base (sans budget en premier) - pour utilisateurs venant du quiz
         const porteursProjetsQuestionsBase = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
@@ -287,7 +355,8 @@
         
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            quiz = new LandingQuiz(porteursProjetsQuestions, 'landing-form', 'porteur-projet');
+            // Passer les questions simplifiées pour les utilisateurs sans données pré-remplies
+            quiz = new LandingQuiz(porteursProjetsQuestions, 'landing-form', 'porteur-projet', porteursProjetsQuestionsSimplified);
             
             // Si budget vient du quiz, pré-remplir la question budget
             if (fromQuiz && quizBudget) {

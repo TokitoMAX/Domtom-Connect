@@ -1,13 +1,15 @@
 // Système de quiz multi-étapes pour les landing pages
 
 class LandingQuiz {
-    constructor(questions, formId, profil) {
-        this.questions = questions;
+    constructor(questions, formId, profil, simplifiedQuestions = null) {
+        this.fullQuestions = questions;
+        this.simplifiedQuestions = simplifiedQuestions;
         this.formId = formId;
         this.profil = profil;
         this.currentStep = 0;
         this.answers = {};
         this.form = null;
+        this.useSimplified = false;
         
         this.init();
     }
@@ -18,6 +20,16 @@ class LandingQuiz {
         
         // Pré-remplir depuis sessionStorage si disponible
         this.prefillFromSession();
+        
+        // Déterminer si on utilise la version simplifiée
+        // Si des données sont pré-remplies OU si pas de questions simplifiées, utiliser le formulaire complet
+        // Sinon, utiliser la version simplifiée pour éviter la fatigue
+        if (this.simplifiedQuestions && !this.hasPrefilledData()) {
+            this.useSimplified = true;
+            this.questions = this.simplifiedQuestions;
+        } else {
+            this.questions = this.fullQuestions;
+        }
         
         // Créer la structure du quiz
         this.createQuizStructure();
@@ -34,16 +46,88 @@ class LandingQuiz {
         if (storedData) {
             try {
                 const data = JSON.parse(storedData);
-                // Pré-remplir les réponses avec les données stockées
-                if (data.prenom) this.answers.prenom = data.prenom;
-                if (data.nom) this.answers.nom = data.nom;
-                if (data.email) this.answers.email = data.email;
-                if (data.telephone) this.answers.telephone = data.telephone;
-                if (data.ile) this.answers.ile = data.ile;
+                // Mapper les données du formulaire d'accueil vers les champs du quiz
+                // Champs de base (toujours présents)
+                if (data.prenom) {
+                    this.answers.prenom = data.prenom;
+                    this.answers['question_prenom'] = data.prenom; // Pour compatibilité
+                }
+                if (data.nom) {
+                    this.answers.nom = data.nom;
+                    this.answers['question_nom'] = data.nom;
+                }
+                if (data.email) {
+                    this.answers.email = data.email;
+                    this.answers['question_email'] = data.email;
+                }
+                if (data.telephone) {
+                    this.answers.telephone = data.telephone;
+                    this.answers['question_telephone'] = data.telephone;
+                }
+                
+                // Mapper 'ile' vers les champs de territoire selon le profil
+                if (data.ile) {
+                    // Pour porteurs-projets, mapper vers origine et lieu_actuel
+                    if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                        this.answers.origine = data.ile;
+                        this.answers.lieu_actuel = data.ile;
+                        this.answers.localisation_projet = data.ile;
+                        this.answers['question_origine'] = data.ile;
+                        this.answers['question_lieu_actuel'] = data.ile;
+                        this.answers['question_localisation_projet'] = data.ile;
+                    } else {
+                        // Pour les autres profils, utiliser 'ile' directement
+                        this.answers.ile = data.ile;
+                        this.answers['question_ile'] = data.ile;
+                    }
+                }
+                
+                // Mapper les autres champs si disponibles
+                if (data.entreprise) {
+                    if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                        this.answers.nom_projet = data.entreprise;
+                        this.answers['question_nom_projet'] = data.entreprise;
+                    } else {
+                        this.answers.entreprise = data.entreprise;
+                        this.answers['question_entreprise'] = data.entreprise;
+                    }
+                }
+                if (data.secteur) {
+                    this.answers.secteur = data.secteur;
+                    this.answers.secteur_activite = data.secteur;
+                    this.answers['question_secteur'] = data.secteur;
+                    this.answers['question_secteur_activite'] = data.secteur;
+                }
+                if (data.services) {
+                    this.answers.services = data.services;
+                    this.answers['question_services'] = data.services;
+                }
+                if (data['type-investissement']) {
+                    this.answers.type_investissement = data['type-investissement'];
+                    this.answers['question_type_investissement'] = data['type-investissement'];
+                }
+                if (data.besoin) {
+                    this.answers.besoin = data.besoin;
+                    this.answers['question_besoin'] = data.besoin;
+                }
+                if (data.detail) {
+                    if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                        this.answers.description_projet = data.detail;
+                        this.answers['question_description_projet'] = data.detail;
+                    } else {
+                        this.answers.description = data.detail;
+                        this.answers['question_description'] = data.detail;
+                    }
+                }
             } catch (e) {
                 console.error('Erreur lors du préremplissage:', e);
             }
         }
+    }
+    
+    hasPrefilledData() {
+        // Vérifier si des données ont été pré-remplies
+        return Object.keys(this.answers).length > 0;
     }
     
     createQuizStructure() {
@@ -172,8 +256,10 @@ class LandingQuiz {
         // Créer et afficher la question
         container.innerHTML = this.renderQuestion(question, stepIndex);
         
-        // Restaurer la réponse si elle existe
-        this.restoreAnswer(question);
+        // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
+        setTimeout(() => {
+            this.restoreAnswer(question);
+        }, 50);
         
         // Animation d'entrée
         container.style.opacity = '0';
@@ -203,6 +289,10 @@ class LandingQuiz {
         `;
         
         if (question.type === 'radio') {
+            // Vérifier d'abord dans les réponses par ID, puis par fieldName
+            const savedValue = this.answers[`question_${question.id}`] || 
+                             (question.fieldName ? this.answers[question.fieldName] : '') || 
+                             '';
             html += '<div class="quiz-options">';
             question.options.forEach((option, optIndex) => {
                 const optionId = `q${question.id}_opt${optIndex}`;
@@ -212,39 +302,51 @@ class LandingQuiz {
                                id="${optionId}" 
                                name="question_${question.id}" 
                                value="${option.value}"
-                               ${this.answers[`question_${question.id}`] === option.value ? 'checked' : ''}>
+                               ${savedValue === option.value ? 'checked' : ''}>
                         <span class="quiz-option-label">${option.label}</span>
                     </label>
                 `;
             });
             html += '</div>';
         } else if (question.type === 'select') {
+            // Vérifier d'abord dans les réponses par ID, puis par fieldName
+            const savedValue = this.answers[`question_${question.id}`] || 
+                             (question.fieldName ? this.answers[question.fieldName] : '') || 
+                             '';
             html += `<select name="question_${question.id}" class="quiz-select" id="question_${question.id}">`;
             html += `<option value="">${question.placeholder || 'Sélectionnez une option'}</option>`;
             question.options.forEach(option => {
-                html += `<option value="${option.value}" ${this.answers[`question_${question.id}`] === option.value ? 'selected' : ''}>${option.label}</option>`;
+                html += `<option value="${option.value}" ${savedValue === option.value ? 'selected' : ''}>${option.label}</option>`;
             });
             html += '</select>';
         } else if (question.type === 'text' || question.type === 'email' || question.type === 'tel' || question.type === 'url') {
+            // Vérifier d'abord dans les réponses par ID, puis par fieldName
+            const answerValue = this.answers[`question_${question.id}`] || 
+                               (question.fieldName ? this.answers[question.fieldName] : '') || 
+                               '';
             html += `
                 <input type="${question.type}" 
                        name="question_${question.id}" 
                        class="quiz-input" 
                        id="question_${question.id}"
                        placeholder="${question.placeholder || ''}"
-                       value="${this.answers[`question_${question.id}`] || ''}"
+                       value="${answerValue}"
                        ${question.required ? 'required' : ''}
                        ${question.pattern ? `pattern="${question.pattern}"` : ''}
                        ${question.maxlength ? `maxlength="${question.maxlength}"` : ''}>
             `;
         } else if (question.type === 'textarea') {
+            // Vérifier d'abord dans les réponses par ID, puis par fieldName
+            const answerValue = this.answers[`question_${question.id}`] || 
+                               (question.fieldName ? this.answers[question.fieldName] : '') || 
+                               '';
             html += `
                 <textarea name="question_${question.id}" 
                           class="quiz-textarea" 
                           id="question_${question.id}"
                           placeholder="${question.placeholder || ''}"
                           rows="${question.rows || 4}"
-                          ${question.required ? 'required' : ''}>${this.answers[`question_${question.id}`] || ''}</textarea>
+                          ${question.required ? 'required' : ''}>${answerValue}</textarea>
             `;
         } else if (question.type === 'checkbox') {
             const checkboxId = `question_${question.id}`;
@@ -275,18 +377,42 @@ class LandingQuiz {
     }
     
     restoreAnswer(question) {
-        const savedAnswer = this.answers[`question_${question.id}`];
+        // Vérifier d'abord dans les réponses sauvegardées
+        let savedAnswer = this.answers[`question_${question.id}`];
+        
+        // Si pas de réponse sauvegardée, vérifier dans les données pré-remplies via fieldName
+        if (!savedAnswer && question.fieldName) {
+            savedAnswer = this.answers[question.fieldName];
+        }
+        
         if (!savedAnswer) return;
         
         if (question.type === 'radio') {
             const radio = document.querySelector(`input[name="question_${question.id}"][value="${savedAnswer}"]`);
-            if (radio) radio.checked = true;
+            if (radio) {
+                radio.checked = true;
+                // Déclencher l'événement change pour activer les champs conditionnels
+                radio.dispatchEvent(new Event('change', { bubbles: true }));
+            }
         } else if (question.type === 'select') {
             const select = document.getElementById(`question_${question.id}`);
-            if (select) select.value = savedAnswer;
+            if (select) {
+                select.value = savedAnswer;
+                // Déclencher l'événement change pour activer les champs conditionnels
+                select.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        } else if (question.type === 'checkbox') {
+            const checkbox = document.getElementById(`question_${question.id}`);
+            if (checkbox) {
+                checkbox.checked = savedAnswer === 'oui' || savedAnswer === true || savedAnswer === 'true';
+            }
         } else {
             const input = document.getElementById(`question_${question.id}`);
-            if (input) input.value = savedAnswer;
+            if (input) {
+                input.value = savedAnswer;
+                // Déclencher l'événement input pour les validations en temps réel
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
         }
     }
     

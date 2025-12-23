@@ -37,6 +37,48 @@
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
+        // Questions simplifiées pour les entreprises (sans données pré-remplies)
+        const entreprisesQuestionsSimplified = [
+            { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
+            { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
+            { id: 'email', question: 'Quelle est votre adresse email professionnelle ?', type: 'email', placeholder: 'votre@entreprise.com', required: true, fieldName: 'email' },
+            { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
+            { id: 'entreprise', question: 'Quel est le nom de votre entreprise ?', type: 'text', placeholder: 'Nom de l\'entreprise', required: true, fieldName: 'entreprise' },
+            { id: 'ile', question: 'Dans quel territoire est basée votre entreprise ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'saint-martin', label: 'Saint-Martin' },
+                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'metropole', label: 'Métropole française' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'secteur_activite', question: 'Dans quel secteur d\'activité évolue votre entreprise ?', type: 'radio', required: true, fieldName: 'secteur_activite', options: [
+                { value: 'tech', label: 'Technologie / Digital' },
+                { value: 'commerce', label: 'Commerce / E-commerce' },
+                { value: 'tourisme', label: 'Tourisme / Hôtellerie' },
+                { value: 'agroalimentaire', label: 'Agroalimentaire' },
+                { value: 'services', label: 'Services aux entreprises' },
+                { value: 'culture', label: 'Culture / Événementiel' },
+                { value: 'sante', label: 'Santé / Bien-être' },
+                { value: 'education', label: 'Éducation / Formation' },
+                { value: 'autre', label: 'Autre secteur' }
+            ]},
+            { id: 'besoin', question: 'Quel est votre besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                { value: 'developper-projet', label: 'Développer un projet' },
+                { value: 'trouver-partenaires', label: 'Trouver des partenaires' },
+                { value: 'autre', label: 'Autre besoin' }
+            ]},
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+        ];
+        
         const entreprisesQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
@@ -132,7 +174,7 @@
 
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            quiz = new LandingQuiz(entreprisesQuestions, 'landing-form', 'entreprise');
+            quiz = new LandingQuiz(entreprisesQuestions, 'landing-form', 'entreprise', entreprisesQuestionsSimplified);
         });
 
         async function handleQuizFormSubmit(event) {
