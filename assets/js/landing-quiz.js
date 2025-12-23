@@ -200,10 +200,14 @@ class LandingQuiz {
     }
     
     getValidQuestions() {
-        // TEMPORAIRE : Désactiver le filtrage des questions pré-remplies pour restaurer l'affichage
-        // Retourner uniquement les questions qui doivent être affichées selon les conditions
-        return this.questions.filter((question, index) => {
-            // Vérifier les conditions conditionnelles uniquement
+        // Retourner uniquement les questions qui doivent être affichées
+        const filtered = this.questions.filter((question, index) => {
+            // Si on a des données pré-remplies depuis la page d'accueil, filtrer les questions déjà répondues
+            if (this.homepageData && this.isQuestionAlreadyAnswered(question)) {
+                return false; // Ne pas afficher cette question
+            }
+            
+            // Vérifier les conditions conditionnelles
             if (question.conditional) {
                 const parentValue = this.answers[`question_${question.conditional.field}`] || 
                                   this.answers[question.conditional.field];
@@ -212,6 +216,19 @@ class LandingQuiz {
             
             return true;
         });
+        
+        // SÉCURITÉ : Si toutes les questions sont filtrées, retourner au moins quelques questions essentielles
+        if (filtered.length === 0 && this.questions.length > 0) {
+            console.warn('[Quiz] Toutes les questions ont été filtrées, affichage des questions essentielles');
+            // Retourner les questions qui ne sont pas dans les champs de base
+            return this.questions.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel'];
+                return !basicFields.includes(fieldName);
+            }).slice(0, Math.min(5, this.questions.length));
+        }
+        
+        return filtered;
     }
     
     isQuestionAlreadyAnswered(question) {
@@ -231,7 +248,6 @@ class LandingQuiz {
         }
         
         // Mappings spécifiques pour les champs de base du formulaire d'accueil
-        // On ne filtre que les champs de base (prenom, nom, email, telephone, ile)
         const basicFields = ['prenom', 'nom', 'email', 'telephone'];
         if (basicFields.includes(fieldName) && this.homepageData[fieldName]) {
             return true;
@@ -246,6 +262,48 @@ class LandingQuiz {
             } else if (fieldName === 'ile') {
                 return true;
             }
+        }
+        
+        // Pour 'entreprise', mapper vers 'nom_projet' pour porteurs-projets
+        if (this.homepageData.entreprise) {
+            if ((this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') && fieldName === 'nom_projet') {
+                return true;
+            } else if (fieldName === 'entreprise') {
+                return true;
+            }
+        }
+        
+        // Pour 'detail', mapper vers 'description_projet' pour porteurs-projets
+        if (this.homepageData.detail) {
+            if ((this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') && fieldName === 'description_projet') {
+                return true;
+            } else if (fieldName === 'description') {
+                return true;
+            }
+        }
+        
+        // Pour 'secteur', mapper vers 'secteur_activite' si applicable
+        if (this.homepageData.secteur) {
+            if (fieldName === 'secteur' || fieldName === 'secteur_activite') {
+                return true;
+            }
+        }
+        
+        // Pour 'services', mapper directement
+        if (this.homepageData.services && fieldName === 'services') {
+            return true;
+        }
+        
+        // Pour 'type-investissement', mapper vers 'type_investissement'
+        if (this.homepageData['type-investissement']) {
+            if (fieldName === 'type_investissement' || fieldName === 'type-investissement') {
+                return true;
+            }
+        }
+        
+        // Pour 'besoin', mapper directement
+        if (this.homepageData.besoin && fieldName === 'besoin') {
+            return true;
         }
         
         return false;
