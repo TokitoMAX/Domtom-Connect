@@ -717,26 +717,28 @@ class LandingQuiz {
             packInfo = {
                 name: 'Pack Starter',
                 price: '500€ TTC',
-                description: 'Parfait pour ton budget ! Le Pack Starter inclut une consultation personnalisée et l\'accès à notre réseau de prestataires vérifiés.',
+                description: 'Parfait pour ton budget ! Domtom Connect va rechercher activement des prestataires adaptés à tes besoins spécifiques et à ton budget dans notre réseau vérifié, et t\'accompagner dans ta recherche.',
                 features: [
-                    'Consultation personnalisée de 1h',
-                    'Accès au réseau de prestataires vérifiés',
-                    'Mise en relation avec 3-5 prestataires adaptés',
-                    'Support par email'
+                    '🔍 <strong>Recherche personnalisée</strong> : Je cherche des prestataires selon tes besoins et ton budget',
+                    '✅ <strong>Sélection qualifiée</strong> : Prestataires vérifiés et adaptés à ton projet',
+                    '🤝 <strong>Mise en relation</strong> : Connexion directe avec les prestataires sélectionnés',
+                    '📞 <strong>Accompagnement</strong> : Support dans tes échanges et négociations',
+                    '💬 <strong>Facilitation</strong> : Aide à la communication et coordination'
                 ]
             };
         } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000') {
             packInfo = {
                 name: 'Pack Premium',
                 price: '1 900€ TTC',
-                description: 'Excellent ! Le Pack Premium est idéal pour ton budget. Accompagnement complet avec suivi personnalisé.',
+                description: 'Excellent ! Avec le Pack Premium, Domtom Connect t\'accompagne de A à Z : recherche de prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des prestataires pour toi.',
                 features: [
-                    'Consultation approfondie + suivi personnalisé',
-                    'Accès prioritaire au réseau de prestataires',
-                    'Mise en relation avec 5-10 prestataires adaptés',
-                    'Suivi et accompagnement jusqu\'à la signature',
-                    'Support prioritaire par email et téléphone',
-                    'Révision des contrats et négociations'
+                    '🔍 <strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget',
+                    '🚀 <strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu\'à la fin',
+                    '👥 <strong>Gestion des prestataires</strong> : Je m\'occupe de la coordination, du suivi et de la communication',
+                    '💡 <strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation',
+                    '📊 <strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires',
+                    '🎯 <strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins',
+                    '✅ <strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés'
                 ]
             };
         } else if (budgetValue === 'moins-300') {
@@ -779,7 +781,7 @@ class LandingQuiz {
                             </div>
                         </div>
                         <ul style="margin: 1rem 0 0 0; padding-left: 1.5rem; color: #555; font-size: 0.9rem; line-height: 1.8;">
-                            ${packInfo.features.map(feature => `<li>${feature}</li>`).join('')}
+                            ${packInfo.features.map(feature => `<li style="margin-bottom: 0.5rem;">${feature}</li>`).join('')}
                         </ul>
                     </div>
                     <style>
