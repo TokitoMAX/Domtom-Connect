@@ -999,11 +999,11 @@ function handleLandingFormSubmit(event) {
     const originalText = buttonText ? buttonText.textContent : submitButton ? submitButton.textContent : '';
     
     if (submitButton) {
-        submitButton.disabled = true;
+    submitButton.disabled = true;
         if (buttonText) {
             buttonText.style.opacity = '0';
         } else {
-            submitButton.textContent = 'Envoi en cours...';
+    submitButton.textContent = 'Envoi en cours...';
         }
         if (buttonLoader) {
             buttonLoader.style.display = 'block';
@@ -1084,11 +1084,24 @@ Horizon: ${getHorizonLabel(data.horizon)}
     
     // Bloc 4 - Budget & engagement
     if (data.budget || data.engagement) {
+        // Déterminer le pack selon le budget
+        let packSelectionne = '';
+        if (data.budget === '300-1000') {
+            packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
+        } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
+            packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
+        } else if (data.budget === 'moins-300' || data.budget === 'non-defini') {
+            packSelectionne = 'À discuter - Besoin d\'informations';
+        } else {
+            packSelectionne = 'Non spécifié';
+        }
+        
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 BLOC 4 - BUDGET & ENGAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Budget: ${getBudgetLabel(data.budget)}
+Pack sélectionné: ${packSelectionne}
 Engagement: ${getEngagementLabel(data.engagement)}
 `;
     }
@@ -1107,6 +1120,19 @@ Commentaires additionnels: ${data.commentaires}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Certification acceptée: OUI
 `;
+    }
+    
+    // Ajouter le pack dans les données structurées pour porteurs-projets
+    if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.budget) {
+        let packValue = '';
+        if (data.budget === '300-1000') {
+            packValue = 'Pack Starter';
+        } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
+            packValue = 'Pack Premium';
+        } else {
+            packValue = 'À discuter';
+        }
+        formDataToSend.append('Pack sélectionné', packValue);
     }
     
     // Informations spécifiques selon le profil (pour compatibilité avec anciens formulaires)
@@ -1223,7 +1249,7 @@ Besoin: ${data.besoin || 'Non renseigné'}
     
     // Construire les prochaines étapes selon l'étape
     if (isStep1) {
-        messageBody += `
+    messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1361,14 +1387,14 @@ Certification acceptée: OUI
                 // Nettoyer les données stockées
                 sessionStorage.removeItem('domtomConnectStep1');
                 
-                // Show success message
-                form.innerHTML = `
-                    <div style="text-align: center; padding: 2rem 0;">
+            // Show success message
+            form.innerHTML = `
+                <div style="text-align: center; padding: 2rem 0;">
                         <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
-                        <a href="/" class="cta-button primary">Retour à l'accueil</a>
-                    </div>
-                `;
+                    <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                </div>
+            `;
             }
         } else {
             return response.json().then(errData => {
@@ -1391,10 +1417,10 @@ Certification acceptée: OUI
             if (buttonLoader) {
                 buttonLoader.style.display = 'none';
             }
-            submitButton.disabled = false;
+        submitButton.disabled = false;
             
             if (!buttonText && !buttonLoader) {
-                submitButton.textContent = originalText;
+        submitButton.textContent = originalText;
             }
         }
     });
