@@ -378,11 +378,8 @@ class LandingQuiz {
             
             // Réattacher l'event listener après modification du HTML
             // (car modifier innerHTML peut supprimer les listeners)
-            const updatedBtn = this.reattachNextButtonListener(nextBtn);
-            // Mettre à jour la référence si nécessaire
-            if (updatedBtn && updatedBtn !== nextBtn) {
-                // Le bouton a été remplacé, mais on garde la référence originale pour cette fonction
-            }
+            // On utilise la délégation d'événements via le formulaire pour éviter ce problème
+            // Le listener est déjà attaché dans initEvents() et fonctionne via la délégation
         }
         
         // Créer et afficher la question
@@ -561,22 +558,21 @@ class LandingQuiz {
         }
     }
     
-    reattachNextButtonListener(nextBtn) {
-        // Supprimer tous les anciens listeners en clonant le bouton
-        const newNextBtn = nextBtn.cloneNode(true);
-        nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
-        
-        // Réattacher le listener
-        newNextBtn.addEventListener('click', (e) => {
-            this.handleNextButtonClick(e, newNextBtn);
-        });
-        
-        return newNextBtn;
-    }
-    
-    handleNextButtonClick(e, nextBtn) {
+    handleNextButtonClick(e) {
         e.preventDefault();
         e.stopPropagation();
+        
+        const nextBtn = document.getElementById('quiz-btn-next');
+        if (!nextBtn) {
+            console.error('[Quiz] Bouton suivant non trouvé');
+            return;
+        }
+        
+        const nextBtn = document.getElementById('quiz-btn-next');
+        if (!nextBtn) {
+            console.error('[Quiz] Bouton suivant non trouvé');
+            return;
+        }
         
         console.log('[Quiz] Bouton suivant cliqué');
         console.log('[Quiz] Type du bouton:', nextBtn.type);
@@ -632,7 +628,9 @@ class LandingQuiz {
         
         // Bouton précédent
         if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 this.saveCurrentAnswer();
                 // Utiliser directement currentValidStep au lieu de le recalculer
                 if (this.currentValidStep > 0) {
@@ -641,62 +639,28 @@ class LandingQuiz {
             });
         }
         
-        // Bouton suivant
+        // Bouton suivant - utiliser la délégation d'événements via le formulaire
+        // Cela évite les problèmes de listeners perdus lors de la modification du HTML
+        if (this.form) {
+            // Utiliser once: false pour permettre plusieurs clics
+            this.form.addEventListener('click', (e) => {
+                const target = e.target;
+                // Vérifier si le clic est sur le bouton suivant ou un de ses enfants (comme le SVG)
+                if (target && (target.id === 'quiz-btn-next' || target.closest('#quiz-btn-next'))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.handleNextButtonClick(e);
+                }
+            }, false);
+        }
+        
+        // Fallback direct sur le bouton si disponible
         if (nextBtn) {
             nextBtn.addEventListener('click', (e) => {
-                this.handleNextButtonClick(e, nextBtn);
-            });
-        }
                 e.preventDefault();
                 e.stopPropagation();
-                
-                console.log('[Quiz] Bouton suivant cliqué');
-                console.log('[Quiz] Type du bouton:', nextBtn.type);
-                
-                if (nextBtn.type === 'submit') {
-                    console.log('[Quiz] Bouton est de type submit, laisser le formulaire se soumettre');
-                    // Laisser le formulaire se soumettre normalement
-                    return;
-                }
-                
-                // Sauvegarder la réponse AVANT de valider
-                this.saveCurrentAnswer();
-                
-                // Valider l'étape actuelle
-                const isValid = this.validateCurrentStep();
-                console.log('[Quiz] Validation:', isValid);
-                console.log('[Quiz] currentValidStep:', this.currentValidStep);
-                
-                if (isValid) {
-                    const validQuestions = this.getValidQuestions();
-                    const nextStep = this.currentValidStep + 1;
-                    console.log(`[Quiz] Navigation vers l'étape ${nextStep} sur ${validQuestions.length}`);
-                    
-                    // Utiliser directement currentValidStep au lieu de le recalculer
-                    this.showStep(nextStep);
-                } else {
-                    // Afficher un message d'erreur
-                    console.log('[Quiz] Validation échouée, affichage erreur');
-                    const validQuestions = this.getValidQuestions();
-                    const question = validQuestions[this.currentValidStep];
-                    if (question) {
-                        console.log('[Quiz] Question non valide:', question.id);
-                        const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
-                                     document.getElementById(`question_${question.id}`);
-                        if (input) {
-                            input.focus();
-                            input.style.borderColor = '#ef4444';
-                            setTimeout(() => {
-                                input.style.borderColor = '';
-                            }, 2000);
-                        } else {
-                            console.log('[Quiz] Input non trouvé pour la question:', question.id);
-                        }
-                    } else {
-                        console.log('[Quiz] Question non trouvée à l\'index:', this.currentValidStep);
-                    }
-                }
-            });
+                this.handleNextButtonClick(e);
+            }, false);
         }
         
         // Sauvegarder automatiquement lors du changement
