@@ -73,13 +73,40 @@
                 { value: 'autre', label: 'Autre' }
             ]},
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
-            { id: 'description_projet', question: 'Décris ton projet en quelques phrases', type: 'textarea', placeholder: 'Décris ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
+            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
             { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
                 { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, etc.)' },
                 { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
                 { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
                 { value: 'autre', label: 'Autre type de projet' }
             ]},
+            // Questions spécifiques pour projets physiques
+            { id: 'type_local_physique', question: 'Quel type de local ou espace physique recherches-tu ?', type: 'radio', required: false, fieldName: 'type_local_physique', options: [
+                { value: 'boutique', label: 'Boutique / Magasin' },
+                { value: 'restaurant', label: 'Restaurant / Bar / Café' },
+                { value: 'atelier', label: 'Atelier / Espace de production' },
+                { value: 'bureau', label: 'Bureau / Espace de coworking' },
+                { value: 'entrepot', label: 'Entrepôt / Stockage' },
+                { value: 'autre', label: 'Autre type de local' }
+            ], conditional: { field: 'nature_projet', value: 'physique' }},
+            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
+            { id: 'prestataires_physique', question: 'Quels types de prestataires recherches-tu pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.', required: false, fieldName: 'prestataires_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
+            
+            // Questions spécifiques pour projets virtuels/digitaux
+            { id: 'type_plateforme_virtuel', question: 'Quel type de plateforme ou solution digitale recherches-tu ?', type: 'radio', required: false, fieldName: 'type_plateforme_virtuel', options: [
+                { value: 'site-web', label: 'Site web / E-commerce' },
+                { value: 'app-mobile', label: 'Application mobile' },
+                { value: 'saas', label: 'Plateforme SaaS / Service en ligne' },
+                { value: 'marketplace', label: 'Marketplace / Plateforme de mise en relation' },
+                { value: 'outils-digitaux', label: 'Outils digitaux / Automatisation' },
+                { value: 'autre', label: 'Autre type de solution digitale' }
+            ], conditional: { field: 'nature_projet', value: 'virtuel' }},
+            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
+            { id: 'prestataires_virtuel', question: 'Quels types de prestataires recherches-tu pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.', required: false, fieldName: 'prestataires_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
+            
+            // Questions spécifiques pour projets hybrides
+            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
+            { id: 'prestataires_hybride', question: 'Quels types de prestataires recherches-tu pour ton projet hybride ?', type: 'textarea', placeholder: 'Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)', required: false, fieldName: 'prestataires_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
             { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation', options: [
                 { value: 'martinique', label: 'Martinique' },
                 { value: 'guadeloupe', label: 'Guadeloupe' },

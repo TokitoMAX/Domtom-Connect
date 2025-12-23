@@ -48,6 +48,61 @@ const adaptiveQuestions = {
             { value: "autre", label: "Autre type de projet", score: 2 }
         ]
     },
+    // Questions spécifiques pour projets physiques
+    {
+        id: 31,
+        question: "Quel type de local ou espace physique recherchez-vous ?",
+        type: "radio",
+        conditional: { field: 3, value: "physique" },
+        options: [
+            { value: "boutique", label: "Boutique / Magasin", score: 2 },
+            { value: "restaurant", label: "Restaurant / Bar / Café", score: 2 },
+            { value: "atelier", label: "Atelier / Espace de production", score: 2 },
+            { value: "bureau", label: "Bureau / Espace de coworking", score: 2 },
+            { value: "entrepot", label: "Entrepôt / Stockage", score: 2 },
+            { value: "autre", label: "Autre type de local", score: 1 }
+        ]
+    },
+    {
+        id: 32,
+        question: "Quels types de prestataires recherchez-vous pour votre projet physique ?",
+        type: "textarea",
+        conditional: { field: 3, value: "physique" },
+        placeholder: "Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.",
+        score: 2
+    },
+    // Questions spécifiques pour projets virtuels/digitaux
+    {
+        id: 33,
+        question: "Quel type de plateforme ou solution digitale recherchez-vous ?",
+        type: "radio",
+        conditional: { field: 3, value: "virtuel" },
+        options: [
+            { value: "site-web", label: "Site web / E-commerce", score: 3 },
+            { value: "app-mobile", label: "Application mobile", score: 3 },
+            { value: "saas", label: "Plateforme SaaS / Service en ligne", score: 3 },
+            { value: "marketplace", label: "Marketplace / Plateforme de mise en relation", score: 3 },
+            { value: "outils-digitaux", label: "Outils digitaux / Automatisation", score: 3 },
+            { value: "autre", label: "Autre type de solution digitale", score: 2 }
+        ]
+    },
+    {
+        id: 34,
+        question: "Quels types de prestataires recherchez-vous pour votre projet digital ?",
+        type: "textarea",
+        conditional: { field: 3, value: "virtuel" },
+        placeholder: "Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.",
+        score: 2
+    },
+    // Questions spécifiques pour projets hybrides
+    {
+        id: 35,
+        question: "Quels types de prestataires recherchez-vous pour votre projet hybride ?",
+        type: "textarea",
+        conditional: { field: 3, value: "hybride" },
+        placeholder: "Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)",
+        score: 2
+    },
     {
         id: 4,
         question: "Où sera localisé votre projet ?",
@@ -102,7 +157,7 @@ const adaptiveQuestions = {
             { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
             { value: "non-defini", label: "Pas encore défini", score: 1 }
         ],
-        clarification: "💡 <strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
+        clarification: "<strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
     },
     {
         id: 8,
@@ -116,7 +171,7 @@ const adaptiveQuestions = {
             { value: "plus-10000", label: "Plus de 10 000 €", score: 4 },
             { value: "non-defini", label: "Pas encore défini", score: 1 }
         ],
-        clarification: "💡 <strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
+        clarification: "<strong>Rappel :</strong> Ce budget est pour payer directement les prestataires. Il est indépendant du budget d'accompagnement Domtom Connect."
     },
     {
         id: 9,
@@ -457,6 +512,8 @@ function showQuestion(index) {
             questionHTML += `<option value="${option.value}" data-score="${option.score}">${option.label}</option>`;
         });
         questionHTML += `</select>`;
+    } else if (question.type === 'textarea') {
+        questionHTML += `<textarea class="quiz-textarea" name="question-${question.id}" placeholder="${question.placeholder || ''}" rows="4" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-family: inherit; font-size: 1rem; resize: vertical;"></textarea>`;
     }
     
     questionHTML += `</div>`;
@@ -501,6 +558,11 @@ function showQuestion(index) {
         select.addEventListener('change', function() {
             document.getElementById('next-btn').disabled = !this.value;
         });
+    } else if (question.type === 'textarea') {
+        const textarea = document.querySelector(`textarea[name="question-${question.id}"]`);
+        textarea.addEventListener('input', function() {
+            document.getElementById('next-btn').disabled = !this.value.trim();
+        });
     }
 }
 
@@ -509,7 +571,27 @@ function getTotalQuestionsCount() {
         // Si le profil n'est pas encore sélectionné, compter la question profil + moyenne des questions adaptatives
         return 5; // Estimation moyenne
     }
-    return 1 + adaptiveQuestions[selectedProfile].length; // 1 pour le profil + questions adaptatives
+    // Filtrer les questions conditionnelles
+    const validQuestions = getValidQuestions(adaptiveQuestions[selectedProfile]);
+    return 1 + validQuestions.length; // 1 pour le profil + questions adaptatives valides
+}
+
+function getValidQuestions(questions) {
+    // Filtrer les questions conditionnelles basées sur les réponses précédentes
+    return questions.filter(question => {
+        if (!question.conditional) {
+            return true; // Question non conditionnelle, toujours affichée
+        }
+        
+        // Trouver la réponse à la question conditionnelle
+        const conditionalAnswer = answers.find(a => a.questionId === question.conditional.field);
+        if (!conditionalAnswer) {
+            return false; // Pas de réponse à la question conditionnelle, ne pas afficher
+        }
+        
+        // Vérifier si la réponse correspond à la condition
+        return conditionalAnswer.answer === question.conditional.value;
+    });
 }
 
 function updateProgress(current, total) {
@@ -540,6 +622,12 @@ function nextQuestion() {
             const selectedOption = selected.options[selected.selectedIndex];
             selectedScore = parseInt(selectedOption.dataset.score);
         }
+    } else if (question.type === 'textarea') {
+        const textarea = document.querySelector(`textarea[name="question-${question.id}"]`);
+        if (textarea && textarea.value.trim()) {
+            selectedValue = textarea.value.trim();
+            selectedScore = question.score || 2; // Score par défaut pour les textarea
+        }
     }
     
     if (!selectedValue) {
@@ -550,10 +638,24 @@ function nextQuestion() {
     // Si c'est la question de profil, charger les questions adaptatives
     if (question.id === 1) {
         selectedProfile = selectedValue;
-        // Ajouter les questions adaptatives pour ce profil
-        quizQuestions = [profileQuestion, ...adaptiveQuestions[selectedProfile]];
+        // Filtrer et ajouter les questions adaptatives valides pour ce profil
+        const validQuestions = getValidQuestions(adaptiveQuestions[selectedProfile]);
+        quizQuestions = [profileQuestion, ...validQuestions];
+    } else {
+        // Re-filtrer les questions après chaque réponse pour gérer les questions conditionnelles
+        if (selectedProfile) {
+            const allQuestions = adaptiveQuestions[selectedProfile];
+            const validQuestions = getValidQuestions(allQuestions);
+            quizQuestions = [profileQuestion, ...validQuestions];
+            // Réajuster l'index si nécessaire
+            const currentQuestionInNewList = quizQuestions.findIndex(q => q.id === question.id);
+            if (currentQuestionInNewList !== -1 && currentQuestionInNewList !== currentQuestionIndex) {
+                currentQuestionIndex = currentQuestionInNewList;
+            }
+        }
     }
     
+    // Sauvegarder la réponse
     answers.push({
         questionId: question.id,
         question: question.question,
@@ -571,6 +673,13 @@ function nextQuestion() {
             answer: selectedValue,
             score: selectedScore
         });
+    }
+    
+    // Re-filtrer les questions après chaque réponse pour gérer les questions conditionnelles
+    if (selectedProfile) {
+        const allQuestions = adaptiveQuestions[selectedProfile];
+        const validQuestions = getValidQuestions(allQuestions);
+        quizQuestions = [profileQuestion, ...validQuestions];
     }
     
     showQuestion(currentQuestionIndex + 1);
