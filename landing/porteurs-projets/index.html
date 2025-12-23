@@ -159,23 +159,8 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
-        // Questions avec demande de pack en premier - pour utilisateurs venant directement sur la landing
+        // Questions avec demande de pack plus tard - pour utilisateurs venant directement sur la landing
         const porteursProjetsQuestionsWithBudget = [
-            // Demande de pack en PREMIÈRE question pour qualifier en douceur
-            { 
-                id: 'pack_desire', 
-                question: 'Quel pack d\'accompagnement t\'intéresse ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'pack_desire', 
-                options: [
-                    { value: 'pack-starter', label: 'Pack Starter (500€ TTC) - Consultation + accès réseau' },
-                    { value: 'pack-premium', label: 'Pack Premium (1 900€ TTC) - Accompagnement complet' },
-                    { value: 'info', label: 'Je souhaite d\'abord des informations' },
-                    { value: 'discuter', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
-                ], 
-                clarification: '💡 <strong>Pas de pression !</strong> Cette question nous aide à te proposer la meilleure solution. Tu peux aussi choisir "Je ne sais pas encore" et nous en discuterons ensemble lors de l\'appel.' 
-            },
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
@@ -258,6 +243,21 @@
                 { value: 'moyen', label: 'Moyen terme (6-24 mois)' },
                 { value: 'long', label: 'Long terme (2 ans et +)' }
             ]},
+            // Demande de pack APRÈS avoir compris le besoin (pas en premier pour ne pas faire fuir)
+            { 
+                id: 'pack_desire', 
+                question: 'Quel type d\'accompagnement t\'intéresse ?', 
+                type: 'radio', 
+                required: true, 
+                fieldName: 'pack_desire', 
+                options: [
+                    { value: 'pack-starter', label: 'Pack Starter (500€ TTC) - Consultation + accès réseau' },
+                    { value: 'pack-premium', label: 'Pack Premium (1 900€ TTC) - Accompagnement complet' },
+                    { value: 'info', label: 'Je souhaite d\'abord des informations' },
+                    { value: 'discuter', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
+                ], 
+                clarification: '💡 <strong>Pas de pression !</strong> Cette question nous aide à te proposer la meilleure solution. Tu peux aussi choisir "Je ne sais pas encore" et nous en discuterons ensemble lors de l\'appel.' 
+            },
             { 
                 id: 'budget', 
                 question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect pour les prochains mois ?', 
