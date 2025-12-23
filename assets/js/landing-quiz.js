@@ -6,8 +6,7 @@ class LandingQuiz {
         this.simplifiedQuestions = simplifiedQuestions;
         this.formId = formId;
         this.profil = profil;
-        this.currentStep = 0; // Index dans la liste complète des questions
-        this.currentValidStep = 0; // Index dans la liste des questions valides (affichées)
+        this.currentStep = 0;
         this.answers = {};
         this.form = null;
         this.useSimplified = false;
@@ -162,10 +161,6 @@ class LandingQuiz {
             this.form.appendChild(quizContainer);
         }
         
-        // Calculer le nombre de questions valides (sans celles déjà répondues)
-        const validQuestions = this.getValidQuestions();
-        const totalQuestions = validQuestions.length;
-        
         // Créer la structure HTML du quiz
         quizContainer.innerHTML = `
             <input type="hidden" name="profil" value="${this.profil}">
@@ -173,20 +168,13 @@ class LandingQuiz {
             <input type="hidden" name="form_step" value="complete">
             <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
             
-            ${this.hasPrefilledData() ? `
-            <!-- Message informatif pour les données pré-remplies -->
-            <div class="quiz-prefilled-notice" style="background: rgba(0, 191, 166, 0.1); border-left: 4px solid #00BFA6; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; font-size: 0.9rem; color: #00BFA6;">
-                <strong>✓ Informations pré-remplies</strong> : Certaines informations que vous avez déjà renseignées ne seront pas demandées à nouveau.
-            </div>
-            ` : ''}
-            
             <!-- Barre de progression -->
             <div class="quiz-progress-container">
                 <div class="quiz-progress-bar">
                     <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
                 </div>
                 <div class="quiz-progress-text">
-                    <span id="quiz-step-indicator">Question 1 sur ${totalQuestions}</span>
+                    <span id="quiz-step-indicator">Question 1 sur ${this.questions.length}</span>
                 </div>
             </div>
             
@@ -276,82 +264,35 @@ class LandingQuiz {
     }
     
     showStep(stepIndex) {
-        console.log('[Quiz] showStep appelé avec stepIndex:', stepIndex);
-        
-        if (stepIndex < 0) {
-            console.log('[Quiz] stepIndex < 0, arrêt');
-            return;
-        }
+        if (stepIndex < 0) return;
         
         const validQuestions = this.getValidQuestions();
-        console.log('[Quiz] Nombre de questions valides:', validQuestions.length);
-        
-        // Si aucune question valide, afficher un message d'erreur
-        if (validQuestions.length === 0) {
-            console.error('[Quiz] Aucune question valide à afficher!');
-            const container = document.getElementById('quiz-questions-container');
-            if (container) {
-                container.innerHTML = `
-                    <div class="quiz-error" style="padding: 2rem; text-align: center; color: #ef4444;">
-                        <p>Erreur : Aucune question à afficher. Veuillez rafraîchir la page.</p>
-                    </div>
-                `;
-            }
-            return;
-        }
         
         if (stepIndex >= validQuestions.length) {
-            console.log('[Quiz] Toutes les questions terminées, soumission du formulaire');
             // Toutes les questions sont terminées, soumettre
             this.submitForm();
             return;
         }
         
         const question = validQuestions[stepIndex];
-        if (!question) {
-            console.log('[Quiz] Question non trouvée à l\'index:', stepIndex);
-            return;
-        }
-        
-        console.log('[Quiz] Affichage de la question:', question.id);
         const actualStep = this.getQuestionIndex(question.id);
         
-        // Mettre à jour les deux index
         this.currentStep = actualStep;
-        this.currentValidStep = stepIndex;
-        console.log('[Quiz] Index mis à jour - currentStep:', this.currentStep, 'currentValidStep:', this.currentValidStep);
         
         const container = document.getElementById('quiz-questions-container');
-        if (!container) {
-            console.error('[Quiz] Container quiz-questions-container non trouvé!');
-            return;
-        }
-        
         const prevBtn = document.getElementById('quiz-btn-prev');
         const nextBtn = document.getElementById('quiz-btn-next');
         const progressFill = document.getElementById('quiz-progress-fill');
         const stepIndicator = document.getElementById('quiz-step-indicator');
         
-        // Compter le nombre total de questions affichables (recalculer à chaque fois au cas où)
+        // Compter le nombre total de questions affichables
         const totalQuestions = validQuestions.length;
         const currentQuestionNumber = stepIndex + 1;
         
         // Mettre à jour la barre de progression
-        const progress = totalQuestions > 0 ? (currentQuestionNumber / totalQuestions) * 100 : 0;
-        if (progressFill) {
-            progressFill.style.width = `${Math.min(progress, 100)}%`;
-        }
-        if (stepIndicator) {
-            // Mettre à jour le texte du compteur
-            const indicatorText = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
-            stepIndicator.textContent = indicatorText;
-            stepIndicator.innerText = indicatorText; // Double mise à jour pour assurer la compatibilité
-            // Forcer la mise à jour du DOM
-            stepIndicator.style.display = 'block';
-            
-            // Debug: vérifier que la mise à jour fonctionne
-            console.log(`[Quiz] Étape ${currentQuestionNumber}/${totalQuestions} - Question ID: ${question.id}`);
-        }
+        const progress = (currentQuestionNumber / totalQuestions) * 100;
+        progressFill.style.width = `${progress}%`;
+        stepIndicator.textContent = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
         
         // Afficher/masquer le bouton précédent
         if (prevBtn) {
@@ -574,53 +515,35 @@ class LandingQuiz {
         }
     }
     
-    handleNextButtonClick(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
+    initEvents() {
+        const prevBtn = document.getElementById('quiz-btn-prev');
         const nextBtn = document.getElementById('quiz-btn-next');
-        if (!nextBtn) {
-            console.error('[Quiz] Bouton suivant non trouvé');
-            return;
-        }
         
-        const nextBtn = document.getElementById('quiz-btn-next');
-        if (!nextBtn) {
-            console.error('[Quiz] Bouton suivant non trouvé');
-            return;
-        }
-        
-        console.log('[Quiz] Bouton suivant cliqué');
-        console.log('[Quiz] Type du bouton:', nextBtn.type);
-        
-        if (nextBtn.type === 'submit') {
-            console.log('[Quiz] Bouton est de type submit, laisser le formulaire se soumettre');
-            // Laisser le formulaire se soumettre normalement
-            return;
-        }
-        
-        // Sauvegarder la réponse AVANT de valider
-        this.saveCurrentAnswer();
-        
-        // Valider l'étape actuelle
-        const isValid = this.validateCurrentStep();
-        console.log('[Quiz] Validation:', isValid);
-        console.log('[Quiz] currentValidStep:', this.currentValidStep);
-        
-        if (isValid) {
+        // Bouton précédent
+        prevBtn.addEventListener('click', () => {
+            this.saveCurrentAnswer();
             const validQuestions = this.getValidQuestions();
-            const nextStep = this.currentValidStep + 1;
-            console.log(`[Quiz] Navigation vers l'étape ${nextStep} sur ${validQuestions.length}`);
+            const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
+            if (currentValidIndex > 0) {
+                this.showStep(currentValidIndex - 1);
+            }
+        });
+        
+        // Bouton suivant
+        nextBtn.addEventListener('click', (e) => {
+            if (nextBtn.type === 'submit') {
+                // Laisser le formulaire se soumettre normalement
+                return;
+            }
             
-            // Utiliser directement currentValidStep au lieu de le recalculer
-            this.showStep(nextStep);
-        } else {
-            // Afficher un message d'erreur
-            console.log('[Quiz] Validation échouée, affichage erreur');
-            const validQuestions = this.getValidQuestions();
-            const question = validQuestions[this.currentValidStep];
-            if (question) {
-                console.log('[Quiz] Question non valide:', question.id);
+            if (this.validateCurrentStep()) {
+                this.saveCurrentAnswer();
+                const validQuestions = this.getValidQuestions();
+                const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
+                this.showStep(currentValidIndex + 1);
+            } else {
+                // Afficher un message d'erreur
+                const question = this.questions[this.currentStep];
                 const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
                              document.getElementById(`question_${question.id}`);
                 if (input) {
@@ -629,12 +552,18 @@ class LandingQuiz {
                     setTimeout(() => {
                         input.style.borderColor = '';
                     }, 2000);
-                } else {
-                    console.log('[Quiz] Input non trouvé pour la question:', question.id);
                 }
-            } else {
-                console.log('[Quiz] Question non trouvée à l\'index:', this.currentValidStep);
             }
+        });
+        
+        // Sauvegarder automatiquement lors du changement
+        const container = document.getElementById('quiz-questions-container');
+        if (container) {
+            container.addEventListener('change', (e) => {
+                if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
+                    this.saveCurrentAnswer();
+                }
+            });
         }
     }
     
@@ -643,41 +572,41 @@ class LandingQuiz {
         const nextBtn = document.getElementById('quiz-btn-next');
         
         // Bouton précédent
-        if (prevBtn) {
-            prevBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+        prevBtn.addEventListener('click', () => {
+            this.saveCurrentAnswer();
+            const validQuestions = this.getValidQuestions();
+            const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
+            if (currentValidIndex > 0) {
+                this.showStep(currentValidIndex - 1);
+            }
+        });
+        
+        // Bouton suivant
+        nextBtn.addEventListener('click', (e) => {
+            if (nextBtn.type === 'submit') {
+                // Laisser le formulaire se soumettre normalement
+                return;
+            }
+            
+            if (this.validateCurrentStep()) {
                 this.saveCurrentAnswer();
-                // Utiliser directement currentValidStep au lieu de le recalculer
-                if (this.currentValidStep > 0) {
-                    this.showStep(this.currentValidStep - 1);
+                const validQuestions = this.getValidQuestions();
+                const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
+                this.showStep(currentValidIndex + 1);
+            } else {
+                // Afficher un message d'erreur
+                const question = this.questions[this.currentStep];
+                const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
+                             document.getElementById(`question_${question.id}`);
+                if (input) {
+                    input.focus();
+                    input.style.borderColor = '#ef4444';
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                    }, 2000);
                 }
-            });
-        }
-        
-        // Bouton suivant - utiliser la délégation d'événements via le formulaire
-        // Cela évite les problèmes de listeners perdus lors de la modification du HTML
-        if (this.form) {
-            // Utiliser once: false pour permettre plusieurs clics
-            this.form.addEventListener('click', (e) => {
-                const target = e.target;
-                // Vérifier si le clic est sur le bouton suivant ou un de ses enfants (comme le SVG)
-                if (target && (target.id === 'quiz-btn-next' || target.closest('#quiz-btn-next'))) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.handleNextButtonClick(e);
-                }
-            }, false);
-        }
-        
-        // Fallback direct sur le bouton si disponible
-        if (nextBtn) {
-            nextBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.handleNextButtonClick(e);
-            }, false);
-        }
+            }
+        });
         
         // Sauvegarder automatiquement lors du changement
         const container = document.getElementById('quiz-questions-container');
@@ -691,55 +620,25 @@ class LandingQuiz {
     }
     
     saveCurrentAnswer() {
-        const validQuestions = this.getValidQuestions();
-        if (this.currentValidStep >= 0 && this.currentValidStep < validQuestions.length) {
-            const question = validQuestions[this.currentValidStep];
-            if (question) {
-                this.saveAnswer(question);
-            }
+        if (this.currentStep >= 0 && this.currentStep < this.questions.length) {
+            this.saveAnswer(this.questions[this.currentStep]);
         }
     }
     
     validateCurrentStep() {
-        const validQuestions = this.getValidQuestions();
-        console.log('[Quiz] validateCurrentStep - currentValidStep:', this.currentValidStep, 'total questions:', validQuestions.length);
-        
-        if (this.currentValidStep < 0 || this.currentValidStep >= validQuestions.length) {
-            console.log('[Quiz] Index hors limites, validation OK');
-            return true;
-        }
-        
-        const question = validQuestions[this.currentValidStep];
-        if (!question) {
-            console.log('[Quiz] Question non trouvée, validation OK');
-            return true;
-        }
-        
-        console.log('[Quiz] Validation de la question:', question.id, 'type:', question.type, 'required:', question.required);
-        
-        if (!question.required) {
-            console.log('[Quiz] Question non requise, validation OK');
-            return true;
-        }
-        
-        let isValid = false;
+        const question = this.questions[this.currentStep];
+        if (!question.required) return true;
         
         if (question.type === 'radio') {
             const input = document.querySelector(`input[name="question_${question.id}"]:checked`);
-            isValid = input !== null;
-            console.log('[Quiz] Radio - input trouvé:', input !== null, 'valeur:', input ? input.value : 'null');
+            return input !== null;
         } else if (question.type === 'checkbox') {
             const input = document.getElementById(`question_${question.id}`);
-            isValid = input && input.checked;
-            console.log('[Quiz] Checkbox - input trouvé:', input !== null, 'coché:', input ? input.checked : false);
+            return input && input.checked;
         } else {
             const input = document.getElementById(`question_${question.id}`);
-            isValid = input && input.value && input.value.trim() !== '';
-            console.log('[Quiz] Input text/textarea - input trouvé:', input !== null, 'valeur:', input ? input.value : 'null');
+            return input && input.value && input.value.trim() !== '';
         }
-        
-        console.log('[Quiz] Résultat validation:', isValid);
-        return isValid;
     }
     
     collectAllAnswers() {
