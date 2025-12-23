@@ -212,15 +212,10 @@ class LandingQuiz {
     }
     
     getValidQuestions() {
-        // Retourner uniquement les questions qui doivent être affichées
-        const filtered = this.questions.filter((question, index) => {
-            // Vérifier d'abord si la question a déjà été répondue (pré-remplie depuis la page d'accueil)
-            // MAIS seulement si on a des données pré-remplies
-            if (this.homepageData && this.isQuestionAlreadyAnswered(question)) {
-                return false; // Ne pas afficher cette question
-            }
-            
-            // Vérifier les conditions conditionnelles
+        // TEMPORAIRE : Désactiver le filtrage des questions pré-remplies pour restaurer l'affichage
+        // Retourner uniquement les questions qui doivent être affichées selon les conditions
+        return this.questions.filter((question, index) => {
+            // Vérifier les conditions conditionnelles uniquement
             if (question.conditional) {
                 const parentValue = this.answers[`question_${question.conditional.field}`] || 
                                   this.answers[question.conditional.field];
@@ -229,14 +224,6 @@ class LandingQuiz {
             
             return true;
         });
-        
-        // SÉCURITÉ : Si toutes les questions sont filtrées, retourner au moins les premières questions
-        if (filtered.length === 0 && this.questions.length > 0) {
-            console.warn('[Quiz] Toutes les questions ont été filtrées, affichage des 3 premières questions');
-            return this.questions.slice(0, Math.min(3, this.questions.length));
-        }
-        
-        return filtered;
     }
     
     isQuestionAlreadyAnswered(question) {
