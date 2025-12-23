@@ -37,13 +37,16 @@
         }
         .pack-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 2.5rem;
             margin: 2rem 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border: 2px solid #10b981;
             position: relative;
-            overflow: hidden;
+        }
+        .pack-card.selected {
+            border: 3px solid #10b981;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
         }
         .pack-card::before {
             content: '';
@@ -51,19 +54,21 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            border-radius: 16px 16px 0 0;
         }
         .pack-badge {
             display: inline-block;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .feature-item {
             padding: 1rem 0;
@@ -71,36 +76,30 @@
             align-items: start;
             gap: 1rem;
             border-bottom: 1px solid #f1f5f9;
-            transition: all 0.3s ease;
         }
         .feature-item:last-child {
             border-bottom: none;
         }
-        .feature-item:hover {
-            background: #f9fafb;
-            padding-left: 0.5rem;
-            border-radius: 8px;
-        }
-        .feature-icon {
+        .feature-check {
             color: #10b981;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             flex-shrink: 0;
+            margin-top: 0.2rem;
         }
         .steps-card {
             background: linear-gradient(135deg, #F0FDF4 0%, #D1FAE5 100%);
             border-radius: 16px;
             padding: 2rem;
             margin: 2rem 0;
-            border-left: 5px solid #10b981;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
         }
-        .premium-section {
+        .comparison-section {
             display: none;
-            margin-top: 3rem;
+            margin-top: 4rem;
             padding-top: 3rem;
-            border-top: 2px dashed #e5e7eb;
+            border-top: 2px solid #e5e7eb;
         }
-        .premium-section.show {
+        .comparison-section.show {
             display: block;
             animation: slideDown 0.5s ease-out;
         }
@@ -114,66 +113,98 @@
                 transform: translateY(0);
             }
         }
-        .premium-card {
-            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 2rem 0;
-            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
-            color: white;
-            position: relative;
-            overflow: hidden;
+        .comparison-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
         }
-        .premium-card::before {
+        .packs-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 768px) {
+            .packs-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+        .pack-comparison-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid #e5e7eb;
+            position: relative;
+        }
+        .pack-comparison-card.starter {
+            border-color: #10b981;
+        }
+        .pack-comparison-card.premium {
+            border-color: #3B82F6;
+        }
+        .pack-comparison-card.starter::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            border-radius: 16px 16px 0 0;
         }
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.3;
-            }
+        .pack-comparison-card.premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6 0%, #2563EB 100%);
+            border-radius: 16px 16px 0 0;
         }
-        .premium-badge {
+        .comparison-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .premium-feature {
-            padding: 1rem 0;
+        .comparison-badge.starter {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .comparison-badge.premium {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+        }
+        .comparison-feature {
+            padding: 0.75rem 0;
             display: flex;
             align-items: start;
-            gap: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            gap: 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
         }
-        .premium-feature:last-child {
+        .comparison-feature:last-child {
             border-bottom: none;
         }
-        .premium-icon {
-            color: white;
-            font-size: 1.5rem;
+        .comparison-check {
+            color: #10b981;
+            font-size: 1.1rem;
             flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+        .comparison-check.premium {
+            color: #3B82F6;
         }
         .btn-premium {
-            background: white;
-            color: #3B82F6;
+            background: #3B82F6;
+            color: white;
             border: none;
             padding: 1rem 2rem;
             border-radius: 12px;
@@ -181,25 +212,26 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         .btn-premium:hover {
+            background: #2563EB;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
         }
-        .btn-close-premium {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.5rem 1.5rem;
+        .btn-close-comparison {
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
-        .btn-close-premium:hover {
-            background: rgba(255,255,255,0.3);
+        .btn-close-comparison:hover {
+            background: #e5e7eb;
         }
     </style>
 </head>
@@ -215,7 +247,7 @@
 
     <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto; background: linear-gradient(135deg, #F0FDF4 0%, #D1FAE5 100%);">
         <div class="container">
-            <div class="landing-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div class="landing-content" style="max-width: 1000px; margin: 0 auto; text-align: center;">
                 <div class="success-icon"></div>
                 <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
                     Merci pour votre inscription !
@@ -224,42 +256,41 @@
                     Votre demande pour le <strong style="color: #10b981;">Pack Starter</strong> a bien été reçue.
                 </p>
 
-                <div class="pack-card">
-                    <div class="pack-badge">📦 Pack Starter</div>
+                <div class="pack-card selected">
+                    <div class="pack-badge">Pack Starter</div>
                     <h2 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
-                        À partir de 500€ TTC
+                        500€ TTC
                     </h2>
-                    <p style="color: #475569; line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">
+                    <p style="color: #475569; line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;">
                         Parfait pour démarrer ! Domtom Connect va rechercher activement des prestataires adaptés à tes besoins spécifiques et à ton budget dans notre réseau vérifié, et t'accompagner dans ta recherche.
                     </p>
                     <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
                         <li class="feature-item">
-                            <span class="feature-icon">🔍</span>
+                            <span class="feature-check">✓</span>
                             <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Recherche personnalisée</strong> : Je cherche des prestataires selon tes besoins et ton budget</span>
                         </li>
                         <li class="feature-item">
-                            <span class="feature-icon">✅</span>
+                            <span class="feature-check">✓</span>
                             <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Sélection qualifiée</strong> : Prestataires vérifiés et adaptés à ton projet</span>
                         </li>
                         <li class="feature-item">
-                            <span class="feature-icon">🤝</span>
+                            <span class="feature-check">✓</span>
                             <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Mise en relation</strong> : Connexion directe avec les prestataires sélectionnés</span>
                         </li>
                         <li class="feature-item">
-                            <span class="feature-icon">📞</span>
+                            <span class="feature-check">✓</span>
                             <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Accompagnement</strong> : Support dans tes échanges et négociations</span>
                         </li>
                         <li class="feature-item">
-                            <span class="feature-icon">💬</span>
+                            <span class="feature-check">✓</span>
                             <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Facilitation</strong> : Aide à la communication et coordination</span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="steps-card">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <span>📞</span>
-                        <span>Prochaines étapes</span>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem;">
+                        Prochaines étapes
                     </h3>
                     <ol style="text-align: left; color: #475569; line-height: 2.2; padding-left: 1.5rem; font-size: 1.05rem;">
                         <li style="margin-bottom: 0.75rem;">Nous allons examiner votre demande dans les <strong style="color: #10b981;">24-48 heures</strong></li>
@@ -273,55 +304,96 @@
                     <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px;">
                         Retour à l'accueil
                     </a>
-                    <button id="btn-show-premium" class="btn-premium" style="margin: 0.5rem;">
-                        Voir le Pack Premium
+                    <button id="btn-show-comparison" class="btn-premium" style="margin: 0.5rem;">
+                        Comparer avec le Pack Premium
                     </button>
                 </div>
 
-                <div id="premium-section" class="premium-section">
-                    <div class="premium-card">
-                        <div class="premium-badge">⭐ Pack Premium</div>
-                        <h2 style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
-                            1 900€ TTC
-                        </h2>
-                        <p style="color: rgba(255,255,255,0.95); line-height: 1.8; margin-bottom: 1rem; font-size: 1.05rem;">
-                            💰 Paiement en 2 fois : 950€ à la commande + 950€ à la livraison
-                        </p>
-                        <p style="color: rgba(255,255,255,0.95); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">
-                            Excellent ! Avec le Pack Premium, Domtom Connect t'accompagne de A à Z : recherche de prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des prestataires pour toi.
-                        </p>
-                        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
-                            <li class="premium-feature">
-                                <span class="premium-icon">🔍</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">🚀</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu'à la fin</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">👥</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Gestion des prestataires</strong> : Je m'occupe de la coordination, du suivi et de la communication</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">💡</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">📊</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">🎯</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins</span>
-                            </li>
-                            <li class="premium-feature">
-                                <span class="premium-icon">✅</span>
-                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés</span>
-                            </li>
-                        </ul>
-                        <button class="btn-close-premium" onclick="document.getElementById('premium-section').classList.remove('show'); document.getElementById('btn-show-premium').style.display = 'inline-block'; window.scrollTo({top: 0, behavior: 'smooth'});">
-                            Fermer
+                <div id="comparison-section" class="comparison-section">
+                    <h2 class="comparison-title">Comparaison des packs</h2>
+                    <div class="packs-comparison">
+                        <div class="pack-comparison-card starter">
+                            <div class="comparison-badge starter">Pack Starter</div>
+                            <h3 style="font-size: 1.75rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+                                500€ TTC
+                            </h3>
+                            <p style="color: #475569; line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                                Parfait pour démarrer avec un accompagnement de base
+                            </p>
+                            <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                                <li class="comparison-feature">
+                                    <span class="comparison-check">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Recherche personnalisée de prestataires</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Sélection qualifiée selon ton budget</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Mise en relation avec prestataires vérifiés</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Accompagnement dans les échanges</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Facilitation communication et coordination</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pack-comparison-card premium">
+                            <div class="comparison-badge premium">Pack Premium</div>
+                            <h3 style="font-size: 1.75rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+                                1 900€ TTC
+                            </h3>
+                            <p style="color: #475569; line-height: 1.6; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600;">
+                                Paiement en 2 fois : 950€ + 950€
+                            </p>
+                            <p style="color: #475569; line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                                Accompagnement complet de A à Z
+                            </p>
+                            <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;"><strong>Tout le Pack Starter</strong> +</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Recherche approfondie de prestataires</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Accompagnement du début à la fin</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;"><strong>Gestion complète des prestataires</strong></span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Réponse à tes besoins spécifiques</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Suivi personnalisé et optimisation</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;">Support prioritaire</span>
+                                </li>
+                                <li class="comparison-feature">
+                                    <span class="comparison-check premium">✓</span>
+                                    <span style="color: #475569; line-height: 1.6; font-size: 0.95rem;"><strong>Résultat garanti</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn-close-comparison" onclick="document.getElementById('comparison-section').classList.remove('show'); document.getElementById('btn-show-comparison').style.display = 'inline-block'; window.scrollTo({top: 0, behavior: 'smooth'});">
+                            Fermer la comparaison
                         </button>
                     </div>
                 </div>
@@ -330,15 +402,20 @@
     </section>
 
     <script>
-        document.getElementById('btn-show-premium').addEventListener('click', function() {
-            const premiumSection = document.getElementById('premium-section');
-            premiumSection.classList.add('show');
-            this.style.display = 'none';
-            setTimeout(() => {
-                premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnShowComparison = document.getElementById('btn-show-comparison');
+            const comparisonSection = document.getElementById('comparison-section');
+            
+            if (btnShowComparison && comparisonSection) {
+                btnShowComparison.addEventListener('click', function() {
+                    comparisonSection.classList.add('show');
+                    this.style.display = 'none';
+                    setTimeout(() => {
+                        comparisonSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                });
+            }
         });
     </script>
 </body>
 </html>
-
