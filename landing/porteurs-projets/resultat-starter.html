@@ -6,6 +6,202 @@
     <title>Merci ! Pack Starter - Domtom Connect</title>
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+    <style>
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            animation: scaleIn 0.5s ease-out;
+        }
+        .success-icon::before {
+            content: '✓';
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .pack-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 2px solid #10b981;
+            position: relative;
+            overflow: hidden;
+        }
+        .pack-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        }
+        .pack-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .feature-item {
+            padding: 1rem 0;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-item:hover {
+            background: #f9fafb;
+            padding-left: 0.5rem;
+            border-radius: 8px;
+        }
+        .feature-icon {
+            color: #10b981;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .steps-card {
+            background: linear-gradient(135deg, #F0FDF4 0%, #D1FAE5 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 5px solid #10b981;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+        }
+        .premium-section {
+            display: none;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 2px dashed #e5e7eb;
+        }
+        .premium-section.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .premium-card {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+        }
+        .premium-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .premium-feature {
+            padding: 1rem 0;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .premium-feature:last-child {
+            border-bottom: none;
+        }
+        .premium-icon {
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .btn-premium {
+            background: white;
+            color: #3B82F6;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .btn-close-premium {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        .btn-close-premium:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -17,10 +213,10 @@
         </div>
     </nav>
 
-    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto;">
+    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto; background: linear-gradient(135deg, #F0FDF4 0%, #D1FAE5 100%);">
         <div class="container">
-            <div class="landing-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <div style="font-size: 4rem; margin-bottom: 1.5rem;">✅</div>
+            <div class="landing-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <div class="success-icon"></div>
                 <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
                     Merci pour votre inscription !
                 </h1>
@@ -28,56 +224,121 @@
                     Votre demande pour le <strong style="color: #10b981;">Pack Starter</strong> a bien été reçue.
                 </p>
 
-                <div style="background: white; border-radius: 16px; padding: 2.5rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 2px solid #10b981;">
-                    <h2 style="font-size: 1.75rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem;">
-                        📦 Pack Starter - À partir de 500€ TTC
+                <div class="pack-card">
+                    <div class="pack-badge">📦 Pack Starter</div>
+                    <h2 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+                        À partir de 500€ TTC
                     </h2>
-                    <p style="color: #475569; line-height: 1.8; margin-bottom: 1.5rem;">
-                        Vous avez choisi le Pack Starter, parfait pour démarrer avec un accompagnement de base.
+                    <p style="color: #475569; line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">
+                        Parfait pour démarrer ! Domtom Connect va rechercher activement des prestataires adaptés à tes besoins spécifiques et à ton budget dans notre réseau vérifié, et t'accompagner dans ta recherche.
                     </p>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; text-align: left;">
-                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid #f1f5f9;">
-                            <span style="color: #10b981; font-size: 1.25rem;">✓</span>
-                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Consultation personnalisée</strong> (2h) pour clarifier vos besoins</span>
+                    <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                        <li class="feature-item">
+                            <span class="feature-icon">🔍</span>
+                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Recherche personnalisée</strong> : Je cherche des prestataires selon tes besoins et ton budget</span>
                         </li>
-                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid #f1f5f9;">
-                            <span style="color: #10b981; font-size: 1.25rem;">✓</span>
-                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Accès au réseau</strong> Domtom Connect (annuaire de prestataires)</span>
+                        <li class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Sélection qualifiée</strong> : Prestataires vérifiés et adaptés à ton projet</span>
                         </li>
-                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem; border-bottom: 1px solid #f1f5f9;">
-                            <span style="color: #10b981; font-size: 1.25rem;">✓</span>
-                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Guide personnalisé</strong> pour trouver vos prestataires</span>
+                        <li class="feature-item">
+                            <span class="feature-icon">🤝</span>
+                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Mise en relation</strong> : Connexion directe avec les prestataires sélectionnés</span>
                         </li>
-                        <li style="padding: 0.75rem 0; display: flex; align-items: start; gap: 0.75rem;">
-                            <span style="color: #10b981; font-size: 1.25rem;">✓</span>
-                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Accès communauté</strong> WhatsApp pour échanges</span>
+                        <li class="feature-item">
+                            <span class="feature-icon">📞</span>
+                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Accompagnement</strong> : Support dans tes échanges et négociations</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="feature-icon">💬</span>
+                            <span style="color: #475569; line-height: 1.6;"><strong style="color: #1e293b;">Facilitation</strong> : Aide à la communication et coordination</span>
                         </li>
                     </ul>
                 </div>
 
-                <div style="background: #F0FDF4; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; border-left: 4px solid #10b981;">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
-                        📞 Prochaines étapes
+                <div class="steps-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📞</span>
+                        <span>Prochaines étapes</span>
                     </h3>
-                    <ol style="text-align: left; color: #475569; line-height: 2; padding-left: 1.5rem;">
-                        <li>Nous allons examiner votre demande dans les <strong>24-48 heures</strong></li>
-                        <li>Si votre projet correspond à notre mission, nous vous contacterons pour un <strong>appel de qualification</strong></li>
-                        <li>Lors de l'appel, nous discuterons de vos besoins et confirmerons le Pack Starter</li>
+                    <ol style="text-align: left; color: #475569; line-height: 2.2; padding-left: 1.5rem; font-size: 1.05rem;">
+                        <li style="margin-bottom: 0.75rem;">Nous allons examiner votre demande dans les <strong style="color: #10b981;">24-48 heures</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Si votre projet correspond à notre mission, nous vous contacterons pour un <strong style="color: #10b981;">appel de qualification</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Lors de l'appel, nous discuterons de vos besoins et confirmerons le Pack Starter</li>
                         <li>Une fois validé, vous recevrez les détails de paiement et le planning de la consultation</li>
                     </ol>
                 </div>
 
-                <div style="margin-top: 2rem;">
-                    <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; margin: 0.5rem;">
+                <div style="margin-top: 3rem;">
+                    <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px;">
                         Retour à l'accueil
                     </a>
-                    <a href="/landing/porteurs-projets" class="cta-button" style="text-decoration: none; display: inline-block; margin: 0.5rem; background: #f1f5f9; color: #1e293b;">
+                    <button id="btn-show-premium" class="btn-premium" style="margin: 0.5rem;">
                         Voir le Pack Premium
-                    </a>
+                    </button>
+                </div>
+
+                <div id="premium-section" class="premium-section">
+                    <div class="premium-card">
+                        <div class="premium-badge">⭐ Pack Premium</div>
+                        <h2 style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
+                            1 900€ TTC
+                        </h2>
+                        <p style="color: rgba(255,255,255,0.95); line-height: 1.8; margin-bottom: 1rem; font-size: 1.05rem;">
+                            💰 Paiement en 2 fois : 950€ à la commande + 950€ à la livraison
+                        </p>
+                        <p style="color: rgba(255,255,255,0.95); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">
+                            Excellent ! Avec le Pack Premium, Domtom Connect t'accompagne de A à Z : recherche de prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des prestataires pour toi.
+                        </p>
+                        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                            <li class="premium-feature">
+                                <span class="premium-icon">🔍</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">🚀</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu'à la fin</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">👥</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Gestion des prestataires</strong> : Je m'occupe de la coordination, du suivi et de la communication</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">💡</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">📊</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">🎯</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins</span>
+                            </li>
+                            <li class="premium-feature">
+                                <span class="premium-icon">✅</span>
+                                <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés</span>
+                            </li>
+                        </ul>
+                        <button class="btn-close-premium" onclick="document.getElementById('premium-section').classList.remove('show'); document.getElementById('btn-show-premium').style.display = 'inline-block'; window.scrollTo({top: 0, behavior: 'smooth'});">
+                            Fermer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        document.getElementById('btn-show-premium').addEventListener('click', function() {
+            const premiumSection = document.getElementById('premium-section');
+            premiumSection.classList.add('show');
+            this.style.display = 'none';
+            setTimeout(() => {
+                premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        });
+    </script>
 </body>
 </html>
 

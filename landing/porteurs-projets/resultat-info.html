@@ -6,6 +6,50 @@
     <title>Merci ! Informations - Domtom Connect</title>
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+    <style>
+        .info-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+            animation: scaleIn 0.5s ease-out;
+        }
+        .info-icon::before {
+            content: '📧';
+            font-size: 3rem;
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .info-card {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border-left: 5px solid #F59E0B;
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+        }
+        .steps-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid #FEF3C7;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -17,10 +61,10 @@
         </div>
     </nav>
 
-    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto;">
+    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto; background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);">
         <div class="container">
-            <div class="landing-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <div style="font-size: 4rem; margin-bottom: 1.5rem;">📧</div>
+            <div class="landing-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <div class="info-icon"></div>
                 <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
                     Merci pour votre demande d'informations !
                 </h1>
@@ -28,37 +72,39 @@
                     Nous avons bien reçu votre demande. Nous allons vous contacter pour discuter de votre projet et voir comment nous pouvons vous aider.
                 </p>
 
-                <div style="background: #FEF3C7; border-radius: 12px; padding: 2rem; margin: 2rem 0; border-left: 4px solid #F59E0B;">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
-                        💡 Pourquoi cette approche ?
+                <div class="info-card">
+                    <h3 style="font-size: 1.75rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        <span>💡</span>
+                        <span>Pourquoi cette approche ?</span>
                     </h3>
-                    <p style="color: #92400E; line-height: 1.8; margin-bottom: 1rem;">
+                    <p style="color: #92400E; line-height: 1.8; margin-bottom: 1rem; font-size: 1.05rem;">
                         Nous préférons prendre le temps de comprendre votre situation avant de vous proposer une solution. 
                         Chaque projet est unique, et nous voulons vous proposer la meilleure approche pour vous.
                     </p>
-                    <p style="color: #92400E; line-height: 1.8; margin: 0;">
+                    <p style="color: #92400E; line-height: 1.8; margin: 0; font-size: 1.05rem;">
                         Lors de notre appel, nous pourrons discuter de vos besoins, de votre budget, et voir si le Pack Starter, 
                         le Pack Premium, ou une autre solution vous convient mieux.
                     </p>
                 </div>
 
-                <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
-                        📞 Prochaines étapes
+                <div class="steps-card">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        <span>📞</span>
+                        <span>Prochaines étapes</span>
                     </h3>
-                    <ol style="text-align: left; color: #475569; line-height: 2; padding-left: 1.5rem;">
-                        <li>Nous allons examiner votre demande dans les <strong>24-48 heures</strong></li>
-                        <li>Nous vous contacterons par email ou téléphone pour un <strong>échange informel</strong></li>
-                        <li>Lors de l'échange, nous discuterons de votre projet et de vos besoins</li>
+                    <ol style="text-align: left; color: #475569; line-height: 2.2; padding-left: 1.5rem; font-size: 1.05rem;">
+                        <li style="margin-bottom: 0.75rem;">Nous allons examiner votre demande dans les <strong style="color: #F59E0B;">24-48 heures</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Nous vous contacterons par email ou téléphone pour un <strong style="color: #F59E0B;">échange informel</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Lors de l'échange, nous discuterons de votre projet et de vos besoins</li>
                         <li>Nous vous proposerons la solution la plus adaptée à votre situation</li>
                     </ol>
                 </div>
 
-                <div style="margin-top: 2rem;">
-                    <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; margin: 0.5rem;">
+                <div style="margin-top: 3rem;">
+                    <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px;">
                         Retour à l'accueil
                     </a>
-                    <a href="/landing/porteurs-projets" class="cta-button" style="text-decoration: none; display: inline-block; margin: 0.5rem; background: #f1f5f9; color: #1e293b;">
+                    <a href="/landing/porteurs-projets" class="cta-button" style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px; background: #f1f5f9; color: #1e293b; font-weight: 600;">
                         Voir les packs disponibles
                     </a>
                 </div>
