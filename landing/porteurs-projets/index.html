@@ -102,19 +102,6 @@
                 { value: 'reseau', label: 'Me connecter à un réseau' },
                 { value: 'autre', label: 'Autre' }
             ]},
-            { 
-                id: 'pack_desire', 
-                question: 'Quel type d\'accompagnement t\'intéresse ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'pack_desire', 
-                options: [
-                    { value: 'pack-starter', label: 'Pack Starter (500€ TTC)' },
-                    { value: 'pack-premium', label: 'Pack Premium (1 900€ TTC)' },
-                    { value: 'info', label: 'Je souhaite d\'abord des informations' },
-                    { value: 'discuter', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
-                ]
-            },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
@@ -311,21 +298,6 @@
                 { value: 'moyen', label: 'Moyen terme (6-24 mois)' },
                 { value: 'long', label: 'Long terme (2 ans et +)' }
             ]},
-            // Demande de pack APRÈS avoir compris le besoin (pas en premier pour ne pas faire fuir)
-            { 
-                id: 'pack_desire', 
-                question: 'Quel type d\'accompagnement t\'intéresse ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'pack_desire', 
-                options: [
-                    { value: 'pack-starter', label: 'Pack Starter (500€ TTC) - Consultation + accès réseau' },
-                    { value: 'pack-premium', label: 'Pack Premium (1 900€ TTC) - Accompagnement complet' },
-                    { value: 'info', label: 'Je souhaite d\'abord des informations' },
-                    { value: 'discuter', label: 'Je ne sais pas encore, j\'aimerais en discuter' }
-                ], 
-                clarification: '💡 <strong>Pas de pression !</strong> Cette question nous aide à te proposer la meilleure solution. Tu peux aussi choisir "Je ne sais pas encore" et nous en discuterons ensemble lors de l\'appel.' 
-            },
             { 
                 id: 'budget', 
                 question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect pour les prochains mois ?', 
@@ -483,37 +455,37 @@
                 }
             });
             
-            // Déterminer le pack et le budget pour la redirection
-            const packDesire = data.pack_desire || submitData.pack_desire;
+            // Déterminer le pack selon le budget pour la redirection
             const budget = data.budget || submitData.budget;
-            
-            // Mapper pack_desire vers budget pour la redirection
             let budgetForRedirect = budget;
-            if (packDesire === 'pack-starter') {
-                budgetForRedirect = '300-1000';
-            } else if (packDesire === 'pack-premium') {
-                budgetForRedirect = '1000-3000';
-            } else if (packDesire === 'info' || packDesire === 'discuter') {
-                budgetForRedirect = 'moins-300';
+            
+            // Déterminer le pack sélectionné selon le budget
+            let packSelectionne = '';
+            if (budget === '300-1000') {
+                packSelectionne = 'pack-starter';
+            } else if (budget === '1000-3000' || budget === 'plus-3000') {
+                packSelectionne = 'pack-premium';
+            } else {
+                packSelectionne = 'info';
             }
             
             sessionStorage.setItem('submittedBudget', budgetForRedirect);
-            sessionStorage.setItem('submittedPack', packDesire);
+            sessionStorage.setItem('submittedPack', packSelectionne);
             
             // Soumettre le formulaire
             if (typeof handleLandingFormSubmit === 'function') {
                 handleLandingFormSubmit(fakeEvent);
             }
             
-            // Rediriger vers la page adaptée au pack/budget après soumission
+            // Rediriger vers la page adaptée au budget après soumission
             setTimeout(() => {
                 let redirectUrl = '/landing/porteurs-projets/resultat-info.html';
-                if (packDesire === 'pack-starter' || budgetForRedirect === '300-1000') {
+                if (budget === '300-1000') {
                     redirectUrl = '/landing/porteurs-projets/resultat-starter.html';
-                } else if (packDesire === 'pack-premium' || budgetForRedirect === '1000-3000' || budgetForRedirect === 'plus-3000') {
+                } else if (budget === '1000-3000' || budget === 'plus-3000') {
                     redirectUrl = '/landing/porteurs-projets/resultat-premium.html';
                 }
-                window.location.href = redirectUrl + '?pack=' + encodeURIComponent(packDesire || '') + '&budget=' + encodeURIComponent(budgetForRedirect);
+                window.location.href = redirectUrl + '?budget=' + encodeURIComponent(budgetForRedirect) + '&pack=' + encodeURIComponent(packSelectionne);
             }, 1000);
         }
     </script>

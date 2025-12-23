@@ -1083,21 +1083,10 @@ Horizon: ${getHorizonLabel(data.horizon)}
     }
     
     // Bloc 4 - Pack, Budget & engagement
-    if (data.pack_desire || data.budget || data.engagement) {
-        // Déterminer le pack selon pack_desire ou budget
+    if (data.budget || data.engagement) {
+        // Déterminer le pack selon le budget uniquement
         let packSelectionne = '';
-        if (data.pack_desire) {
-            if (data.pack_desire === 'pack-starter') {
-                packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
-            } else if (data.pack_desire === 'pack-premium') {
-                packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
-            } else if (data.pack_desire === 'info') {
-                packSelectionne = 'Demande d\'informations';
-            } else if (data.pack_desire === 'discuter') {
-                packSelectionne = 'À discuter';
-            }
-        } else if (data.budget) {
-            // Fallback sur budget si pack_desire n'est pas disponible
+        if (data.budget) {
             if (data.budget === '300-1000') {
                 packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
             } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
@@ -1109,11 +1098,10 @@ Horizon: ${getHorizonLabel(data.horizon)}
         
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 BLOC 4 - PACK, BUDGET & ENGAGEMENT
+💰 BLOC 4 - BUDGET & ENGAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${data.pack_desire ? `Pack désiré: ${packSelectionne}` : ''}
 Budget: ${getBudgetLabel(data.budget)}
-${data.pack_desire ? '' : `Pack sélectionné: ${packSelectionne}`}
+Pack sélectionné (selon budget): ${packSelectionne}
 Engagement: ${getEngagementLabel(data.engagement)}
 `;
     }
@@ -1136,18 +1124,8 @@ Certification acceptée: OUI
     
     // Ajouter le pack dans les données structurées pour porteurs-projets
     if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet')) {
-        if (data.pack_desire) {
-            let packValue = '';
-            if (data.pack_desire === 'pack-starter') {
-                packValue = 'Pack Starter';
-            } else if (data.pack_desire === 'pack-premium') {
-                packValue = 'Pack Premium';
-            } else {
-                packValue = 'À discuter';
-            }
-            formDataToSend.append('Pack désiré', packValue);
-        } else if (data.budget) {
-            // Fallback sur budget si pack_desire n'est pas disponible
+        if (data.budget) {
+            // Déterminer le pack selon le budget
             let packValue = '';
             if (data.budget === '300-1000') {
                 packValue = 'Pack Starter';
@@ -1156,7 +1134,7 @@ Certification acceptée: OUI
             } else {
                 packValue = 'À discuter';
             }
-            formDataToSend.append('Pack sélectionné', packValue);
+            formDataToSend.append('Pack sélectionné (selon budget)', packValue);
         }
     }
     
@@ -1415,14 +1393,14 @@ Certification acceptée: OUI
                 // Pour porteurs-projets, la redirection est gérée dans index.html selon le budget
                 // Pour les autres profils, afficher le message de succès
                 if (pageType !== 'porteurs-projets') {
-                    // Show success message
-                    form.innerHTML = `
-                        <div style="text-align: center; padding: 2rem 0;">
+            // Show success message
+            form.innerHTML = `
+                <div style="text-align: center; padding: 2rem 0;">
                                 <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
                                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
-                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
-                        </div>
-                    `;
+                    <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                </div>
+            `;
                 }
                 // Pour porteurs-projets, la redirection est déjà gérée dans index.html
             }

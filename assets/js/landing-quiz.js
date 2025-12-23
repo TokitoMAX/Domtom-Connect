@@ -394,6 +394,17 @@ class LandingQuiz {
             // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
             setTimeout(() => {
                 this.restoreAnswer(question);
+                
+                // Si c'est la question budget, ajouter un listener pour afficher l'info pack
+                if (question.id === 'budget' && this.profil === 'porteur-projet') {
+                    this.setupBudgetPackInfo(question);
+                    
+                    // Si une réponse est déjà sélectionnée, afficher l'info pack immédiatement
+                    const selectedBudget = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                    if (selectedBudget) {
+                        this.showPackInfoForBudget(selectedBudget.value);
+                    }
+                }
             }, 50);
             
             // Animation d'entrée
@@ -672,8 +683,125 @@ class LandingQuiz {
             container.addEventListener('change', (e) => {
                 if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
                     this.saveCurrentAnswer();
+                    
+                    // Si c'est la question budget, afficher l'info pack
+                    if (e.target.name === 'question_budget' && this.profil === 'porteur-projet') {
+                        this.showPackInfoForBudget(e.target.value);
+                    }
                 }
             });
+        }
+    }
+    
+    setupBudgetPackInfo(question) {
+        // Ajouter un listener sur tous les inputs radio de la question budget
+        const budgetInputs = document.querySelectorAll(`input[name="question_${question.id}"]`);
+        budgetInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                this.showPackInfoForBudget(e.target.value);
+            });
+        });
+    }
+    
+    showPackInfoForBudget(budgetValue) {
+        // Supprimer l'info pack précédente si elle existe
+        const existingInfo = document.getElementById('pack-info-budget');
+        if (existingInfo) {
+            existingInfo.remove();
+        }
+        
+        // Déterminer le pack adapté selon le budget
+        let packInfo = null;
+        
+        if (budgetValue === '300-1000') {
+            packInfo = {
+                name: 'Pack Starter',
+                price: '500€ TTC',
+                description: 'Parfait pour ton budget ! Le Pack Starter inclut une consultation personnalisée et l\'accès à notre réseau de prestataires vérifiés.',
+                features: [
+                    'Consultation personnalisée de 1h',
+                    'Accès au réseau de prestataires vérifiés',
+                    'Mise en relation avec 3-5 prestataires adaptés',
+                    'Support par email'
+                ]
+            };
+        } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000') {
+            packInfo = {
+                name: 'Pack Premium',
+                price: '1 900€ TTC',
+                description: 'Excellent ! Le Pack Premium est idéal pour ton budget. Accompagnement complet avec suivi personnalisé.',
+                features: [
+                    'Consultation approfondie + suivi personnalisé',
+                    'Accès prioritaire au réseau de prestataires',
+                    'Mise en relation avec 5-10 prestataires adaptés',
+                    'Suivi et accompagnement jusqu\'à la signature',
+                    'Support prioritaire par email et téléphone',
+                    'Révision des contrats et négociations'
+                ]
+            };
+        } else if (budgetValue === 'moins-300') {
+            packInfo = {
+                name: 'Information',
+                price: 'Gratuit',
+                description: 'Pas de souci ! Nous pouvons d\'abord discuter de ton projet et voir comment on peut t\'aider. Un appel de diagnostic gratuit te permettra de mieux comprendre nos services.',
+                features: [
+                    'Appel de diagnostic gratuit',
+                    'Conseils personnalisés sur ton projet',
+                    'Présentation de nos services',
+                    'Pas d\'engagement'
+                ]
+            };
+        } else if (budgetValue === 'non-defini') {
+            packInfo = {
+                name: 'Information',
+                price: 'Gratuit',
+                description: 'C\'est normal de ne pas avoir encore défini ton budget ! Un appel de diagnostic gratuit te permettra de mieux comprendre nos services et de définir ensemble la meilleure approche.',
+                features: [
+                    'Appel de diagnostic gratuit',
+                    'Conseils personnalisés sur ton projet',
+                    'Présentation de nos services adaptés à ta situation',
+                    'Pas d\'engagement'
+                ]
+            };
+        }
+        
+        // Afficher l'info pack si disponible
+        if (packInfo) {
+            const questionContainer = document.querySelector(`[data-question-id="budget"]`);
+            if (questionContainer) {
+                const packInfoHtml = `
+                    <div id="pack-info-budget" style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 168, 150, 0.1) 100%); border-left: 4px solid #00BFA6; border-radius: 8px; animation: slideIn 0.4s ease-out;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">🎯</div>
+                            <div>
+                                <h3 style="margin: 0; color: #00BFA6; font-size: 1.2rem; font-weight: 700;">${packInfo.name} - ${packInfo.price}</h3>
+                                <p style="margin: 0.5rem 0 0 0; color: #333; font-size: 0.95rem;">${packInfo.description}</p>
+                            </div>
+                        </div>
+                        <ul style="margin: 1rem 0 0 0; padding-left: 1.5rem; color: #555; font-size: 0.9rem; line-height: 1.8;">
+                            ${packInfo.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <style>
+                        @keyframes slideIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                    </style>
+                `;
+                
+                // Insérer après la question
+                const questionContent = questionContainer.querySelector('.quiz-question-content');
+                if (questionContent) {
+                    questionContent.insertAdjacentHTML('beforeend', packInfoHtml);
+                }
+            }
         }
     }
     
