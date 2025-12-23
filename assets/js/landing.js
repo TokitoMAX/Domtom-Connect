@@ -1082,26 +1082,38 @@ Horizon: ${getHorizonLabel(data.horizon)}
 `;
     }
     
-    // Bloc 4 - Budget & engagement
-    if (data.budget || data.engagement) {
-        // Déterminer le pack selon le budget
+    // Bloc 4 - Pack, Budget & engagement
+    if (data.pack_desire || data.budget || data.engagement) {
+        // Déterminer le pack selon pack_desire ou budget
         let packSelectionne = '';
-        if (data.budget === '300-1000') {
-            packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
-        } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
-            packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
-        } else if (data.budget === 'moins-300' || data.budget === 'non-defini') {
-            packSelectionne = 'À discuter - Besoin d\'informations';
-        } else {
-            packSelectionne = 'Non spécifié';
+        if (data.pack_desire) {
+            if (data.pack_desire === 'pack-starter') {
+                packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
+            } else if (data.pack_desire === 'pack-premium') {
+                packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
+            } else if (data.pack_desire === 'info') {
+                packSelectionne = 'Demande d\'informations';
+            } else if (data.pack_desire === 'discuter') {
+                packSelectionne = 'À discuter';
+            }
+        } else if (data.budget) {
+            // Fallback sur budget si pack_desire n'est pas disponible
+            if (data.budget === '300-1000') {
+                packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
+            } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
+                packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
+            } else if (data.budget === 'moins-300' || data.budget === 'non-defini') {
+                packSelectionne = 'À discuter - Besoin d\'informations';
+            }
         }
         
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 BLOC 4 - BUDGET & ENGAGEMENT
+💰 BLOC 4 - PACK, BUDGET & ENGAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${data.pack_desire ? `Pack désiré: ${packSelectionne}` : ''}
 Budget: ${getBudgetLabel(data.budget)}
-Pack sélectionné: ${packSelectionne}
+${data.pack_desire ? '' : `Pack sélectionné: ${packSelectionne}`}
 Engagement: ${getEngagementLabel(data.engagement)}
 `;
     }
@@ -1123,16 +1135,29 @@ Certification acceptée: OUI
     }
     
     // Ajouter le pack dans les données structurées pour porteurs-projets
-    if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.budget) {
-        let packValue = '';
-        if (data.budget === '300-1000') {
-            packValue = 'Pack Starter';
-        } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
-            packValue = 'Pack Premium';
-        } else {
-            packValue = 'À discuter';
+    if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet')) {
+        if (data.pack_desire) {
+            let packValue = '';
+            if (data.pack_desire === 'pack-starter') {
+                packValue = 'Pack Starter';
+            } else if (data.pack_desire === 'pack-premium') {
+                packValue = 'Pack Premium';
+            } else {
+                packValue = 'À discuter';
+            }
+            formDataToSend.append('Pack désiré', packValue);
+        } else if (data.budget) {
+            // Fallback sur budget si pack_desire n'est pas disponible
+            let packValue = '';
+            if (data.budget === '300-1000') {
+                packValue = 'Pack Starter';
+            } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
+                packValue = 'Pack Premium';
+            } else {
+                packValue = 'À discuter';
+            }
+            formDataToSend.append('Pack sélectionné', packValue);
         }
-        formDataToSend.append('Pack sélectionné', packValue);
     }
     
     // Informations spécifiques selon le profil (pour compatibilité avec anciens formulaires)
