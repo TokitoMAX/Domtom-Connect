@@ -719,11 +719,11 @@ class LandingQuiz {
                 price: '500€ TTC',
                 description: 'Parfait pour ton budget ! Domtom Connect va rechercher activement des prestataires adaptés à tes besoins spécifiques et à ton budget dans notre réseau vérifié, et t\'accompagner dans ta recherche.',
                 features: [
-                    '🔍 <strong>Recherche personnalisée</strong> : Je cherche des prestataires selon tes besoins et ton budget',
-                    '✅ <strong>Sélection qualifiée</strong> : Prestataires vérifiés et adaptés à ton projet',
-                    '🤝 <strong>Mise en relation</strong> : Connexion directe avec les prestataires sélectionnés',
-                    '📞 <strong>Accompagnement</strong> : Support dans tes échanges et négociations',
-                    '💬 <strong>Facilitation</strong> : Aide à la communication et coordination'
+                    '<strong>Recherche personnalisée</strong> : Je cherche des prestataires selon tes besoins et ton budget',
+                    '<strong>Sélection qualifiée</strong> : Prestataires vérifiés et adaptés à ton projet',
+                    '<strong>Mise en relation</strong> : Connexion directe avec les prestataires sélectionnés',
+                    '<strong>Accompagnement</strong> : Support dans tes échanges et négociations',
+                    '<strong>Facilitation</strong> : Aide à la communication et coordination'
                 ]
             };
         } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000') {
@@ -732,13 +732,13 @@ class LandingQuiz {
                 price: '1 900€ TTC',
                 description: 'Excellent ! Avec le Pack Premium, Domtom Connect t\'accompagne de A à Z : recherche de prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des prestataires pour toi.',
                 features: [
-                    '🔍 <strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget',
-                    '🚀 <strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu\'à la fin',
-                    '👥 <strong>Gestion des prestataires</strong> : Je m\'occupe de la coordination, du suivi et de la communication',
-                    '💡 <strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation',
-                    '📊 <strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires',
-                    '🎯 <strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins',
-                    '✅ <strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés'
+                    '<strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget',
+                    '<strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu\'à la fin',
+                    '<strong>Gestion des prestataires</strong> : Je m\'occupe de la coordination, du suivi et de la communication',
+                    '<strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation',
+                    '<strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires',
+                    '<strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins',
+                    '<strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés'
                 ]
             };
         } else if (budgetValue === 'moins-300') {
@@ -774,7 +774,6 @@ class LandingQuiz {
                 const packInfoHtml = `
                     <div id="pack-info-budget" style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 168, 150, 0.1) 100%); border-left: 4px solid #00BFA6; border-radius: 8px; animation: slideIn 0.4s ease-out;">
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <div style="font-size: 2rem;">🎯</div>
                             <div>
                                 <h3 style="margin: 0; color: #00BFA6; font-size: 1.2rem; font-weight: 700;">${packInfo.name} - ${packInfo.price}</h3>
                                 <p style="margin: 0.5rem 0 0 0; color: #333; font-size: 0.95rem;">${packInfo.description}</p>

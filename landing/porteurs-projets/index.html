@@ -22,7 +22,7 @@
     <section class="landing-hero quiz-hero">
         <div class="container">
             <div class="landing-content">
-                <h1>Trouvez les Meilleurs Prestataires pour Votre Projet</h1>
+                <h1>trouvez les meilleurs prestataires pour votre projet</h1>
                 
                 <form class="landing-form quiz-form" id="landing-form" onsubmit="handleQuizFormSubmit(event)">
                     <div class="quiz-container"></div>
@@ -144,7 +144,7 @@
                 { value: 'autre', label: 'Autre' }
             ]},
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
-            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '💡 <strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
             { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
                 { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
                 { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
@@ -206,7 +206,7 @@
                 { value: 'reseau', label: 'Me connecter à un réseau insulaire / diaspora' },
                 { value: 'visibilite', label: 'Gagner en visibilité' },
                 { value: 'autre', label: 'Autre' }
-            ], clarification: '💡 <strong>Note :</strong> Le Pack Accompagnement & Connexions est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, nous pourrons en discuter lors de l\'appel pour voir comment nous pouvons t\'aider.' },
+            ], clarification: '<strong>Note :</strong> Le Pack Accompagnement & Connexions est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, nous pourrons en discuter lors de l\'appel pour voir comment nous pouvons t\'aider.' },
             { id: 'objectif_principal_autre', question: 'Précise ton objectif', type: 'text', placeholder: 'Ton objectif', required: false, fieldName: 'objectif_principal_autre', conditional: { field: 'objectif_principal', value: 'autre' }},
             { id: 'horizon', question: 'Quel est ton horizon temporel ?', type: 'radio', required: true, fieldName: 'horizon', options: [
                 { value: 'court', label: 'Court terme (0-6 mois)' },
@@ -227,7 +227,7 @@
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
                 ], 
-                clarification: '💡 <strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                clarification: '<strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
             },
             { id: 'engagement', question: 'Es-tu prêt à t\'engager dans ce processus ?', type: 'radio', required: true, fieldName: 'engagement', options: [
                 { value: 'oui', label: 'Oui, je suis prêt à m\'engager' },
@@ -277,7 +277,7 @@
                 { value: 'autre', label: 'Autre' }
             ]},
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
-            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '💡 <strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
             { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
                 { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
                 { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
@@ -339,7 +339,7 @@
                 { value: 'reseau', label: 'Me connecter à un réseau insulaire / diaspora' },
                 { value: 'visibilite', label: 'Gagner en visibilité' },
                 { value: 'autre', label: 'Autre' }
-            ], clarification: '💡 <strong>Note :</strong> Le Pack Accompagnement & Connexions est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, nous pourrons en discuter lors de l\'appel pour voir comment nous pouvons t\'aider.' },
+            ], clarification: '<strong>Note :</strong> Le Pack Accompagnement & Connexions est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, nous pourrons en discuter lors de l\'appel pour voir comment nous pouvons t\'aider.' },
             { id: 'objectif_principal_autre', question: 'Précise ton objectif', type: 'text', placeholder: 'Ton objectif', required: false, fieldName: 'objectif_principal_autre', conditional: { field: 'objectif_principal', value: 'autre' }},
             { id: 'horizon', question: 'Quel est ton horizon temporel ?', type: 'radio', required: true, fieldName: 'horizon', options: [
                 { value: 'court', label: 'Court terme (0-6 mois)' },
@@ -359,7 +359,7 @@
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
                 ], 
-                clarification: '💡 <strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                clarification: '<strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
             },
             { id: 'engagement', question: 'Es-tu prêt à t\'engager dans ce processus ?', type: 'radio', required: true, fieldName: 'engagement', options: [
                 { value: 'oui', label: 'Oui, je suis prêt à m\'engager' },
@@ -402,7 +402,7 @@
             const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Vérification en cours...';
+                submitBtn.innerHTML = 'Vérification en cours...';
             }
             
             // Valider le formulaire
@@ -414,14 +414,14 @@
             
             if (!validation.valid) {
                 canSubmit = false;
-                const validationMessage = '❌ Erreurs détectées :\n' + 
+                const validationMessage = 'Erreurs détectées :\n' + 
                     validation.errors.map(e => `• ${e.message}`).join('\n');
                 alert(validationMessage);
             } else {
                 // Afficher les avertissements
                 if (validation.warnings.length > 0) {
                     const warnings = validation.warnings.map(w => `• ${w.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Avertissements détectés :\n\n' + warnings + 
+                    const continueAnyway = confirm('Avertissements détectés :\n\n' + warnings + 
                         '\n\nSouhaitez-vous continuer malgré ces avertissements ?');
                     if (!continueAnyway) {
                         canSubmit = false;
@@ -431,7 +431,7 @@
                 // Afficher les incohérences
                 if (validation.inconsistencies.length > 0) {
                     const inconsistencies = validation.inconsistencies.map(i => `• ${i.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Incohérences détectées :\n\n' + inconsistencies + 
+                    const continueAnyway = confirm('Incohérences détectées :\n\n' + inconsistencies + 
                         '\n\nCes incohérences seront vérifiées lors de l\'appel de qualification.\n\nSouhaitez-vous continuer ?');
                     if (!continueAnyway) {
                         canSubmit = false;
@@ -444,7 +444,7 @@
                     const level = validation.credibilityScore.level;
                     
                     if (level === 'low') {
-                        const continueAnyway = confirm(`⚠️ Score de crédibilité faible : ${score}%\n\n` +
+                        const continueAnyway = confirm(`Score de crédibilité faible : ${score}%\n\n` +
                             `Votre score est en dessous du seuil recommandé (60%).\n` +
                             `Cela peut être dû à :\n` +
                             `• Informations incomplètes\n` +
@@ -454,7 +454,7 @@
                             canSubmit = false;
                         }
                     } else if (level === 'medium') {
-                        alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
+                        alert(`Score de crédibilité : ${score}%\n\n` +
                             `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
                     }
                 }
