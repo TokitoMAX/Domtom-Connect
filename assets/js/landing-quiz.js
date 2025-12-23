@@ -10,6 +10,7 @@ class LandingQuiz {
         this.answers = {};
         this.form = null;
         this.useSimplified = false;
+        this.homepageData = null; // Données brutes du formulaire d'accueil
         
         this.init();
     }
@@ -46,6 +47,8 @@ class LandingQuiz {
         if (storedData) {
             try {
                 const data = JSON.parse(storedData);
+                // Stocker les données brutes pour la détection
+                this.homepageData = data;
                 // Mapper les données du formulaire d'accueil vers les champs du quiz
                 // Champs de base (toujours présents)
                 if (data.prenom) {
@@ -139,6 +142,10 @@ class LandingQuiz {
             this.form.appendChild(quizContainer);
         }
         
+        // Calculer le nombre de questions valides (sans celles déjà répondues)
+        const validQuestions = this.getValidQuestions();
+        const totalQuestions = validQuestions.length;
+        
         // Créer la structure HTML du quiz
         quizContainer.innerHTML = `
             <input type="hidden" name="profil" value="${this.profil}">
@@ -146,13 +153,20 @@ class LandingQuiz {
             <input type="hidden" name="form_step" value="complete">
             <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
             
+            ${this.hasPrefilledData() ? `
+            <!-- Message informatif pour les données pré-remplies -->
+            <div class="quiz-prefilled-notice" style="background: rgba(0, 191, 166, 0.1); border-left: 4px solid #00BFA6; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; font-size: 0.9rem; color: #00BFA6;">
+                <strong>✓ Informations pré-remplies</strong> : Certaines informations que vous avez déjà renseignées ne seront pas demandées à nouveau.
+            </div>
+            ` : ''}
+            
             <!-- Barre de progression -->
             <div class="quiz-progress-container">
                 <div class="quiz-progress-bar">
                     <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
                 </div>
                 <div class="quiz-progress-text">
-                    <span id="quiz-step-indicator">Question 1 sur ${this.questions.length}</span>
+                    <span id="quiz-step-indicator">Question 1 sur ${totalQuestions}</span>
                 </div>
             </div>
             
@@ -180,10 +194,85 @@ class LandingQuiz {
     getValidQuestions() {
         // Retourner uniquement les questions qui doivent être affichées
         return this.questions.filter((question, index) => {
-            if (!question.conditional) return true;
-            const parentValue = this.answers[`question_${question.conditional.field}`];
-            return parentValue === question.conditional.value;
+            // Vérifier d'abord si la question a déjà été répondue (pré-remplie)
+            if (this.isQuestionAlreadyAnswered(question)) {
+                return false; // Ne pas afficher cette question
+            }
+            
+            // Vérifier les conditions conditionnelles
+            if (question.conditional) {
+                const parentValue = this.answers[`question_${question.conditional.field}`] || 
+                                  this.answers[question.conditional.field];
+                return parentValue === question.conditional.value;
+            }
+            
+            return true;
         });
+    }
+    
+    isQuestionAlreadyAnswered(question) {
+        // Si pas de données pré-remplies, la question n'est pas déjà répondue
+        if (!this.homepageData) {
+            return false;
+        }
+        
+        const questionId = question.id;
+        const fieldName = question.fieldName || questionId;
+        
+        // Vérifier dans les réponses par ID de question
+        if (this.answers[`question_${questionId}`]) {
+            return true;
+        }
+        
+        // Vérifier dans les réponses par fieldName
+        if (this.answers[fieldName]) {
+            return true;
+        }
+        
+        // Vérifier directement dans les données du formulaire d'accueil
+        if (this.homepageData[fieldName]) {
+            return true;
+        }
+        
+        // Mappings spécifiques pour les champs de base du formulaire d'accueil
+        const homepageFieldMappings = {
+            'prenom': ['prenom'],
+            'nom': ['nom'],
+            'email': ['email'],
+            'telephone': ['telephone'],
+            'ile': ['ile', 'origine', 'lieu_actuel', 'localisation_projet'], // Pour porteurs-projets
+            'entreprise': ['entreprise', 'nom_projet'], // Pour porteurs-projets
+            'secteur': ['secteur', 'secteur_activite'],
+            'services': ['services'],
+            'type-investissement': ['type_investissement', 'type-investissement'],
+            'besoin': ['besoin'],
+            'detail': ['detail', 'description', 'description_projet'] // Pour porteurs-projets
+        };
+        
+        // Vérifier les mappings
+        for (const [homepageField, mappedFields] of Object.entries(homepageFieldMappings)) {
+            if (this.homepageData[homepageField] && mappedFields.includes(fieldName)) {
+                return true;
+            }
+        }
+        
+        // Pour les porteurs-projets, vérifier aussi les mappings spécifiques
+        if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+            // Si 'ile' est rempli et que la question concerne origine, lieu_actuel ou localisation_projet
+            if (this.homepageData.ile && (fieldName === 'origine' || fieldName === 'lieu_actuel' || fieldName === 'localisation_projet')) {
+                return true;
+            }
+            // Si 'entreprise' est rempli et que la question concerne nom_projet
+            if (this.homepageData.entreprise && fieldName === 'nom_projet') {
+                return true;
+            }
+            // Si 'detail' est rempli et que la question concerne description_projet
+            if (this.homepageData.detail && fieldName === 'description_projet') {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     getQuestionIndex(questionId) {
@@ -511,13 +600,74 @@ class LandingQuiz {
         const formData = new FormData(this.form);
         const data = {};
         
-        // Ajouter les réponses du quiz
+        // Ajouter d'abord toutes les données pré-remplies (même si les questions ne sont pas affichées)
+        if (this.homepageData) {
+            // Mapper les données du formulaire d'accueil
+            if (this.homepageData.prenom) data.prenom = this.homepageData.prenom;
+            if (this.homepageData.nom) data.nom = this.homepageData.nom;
+            if (this.homepageData.email) data.email = this.homepageData.email;
+            if (this.homepageData.telephone) data.telephone = this.homepageData.telephone;
+            
+            // Mapper selon le profil
+            if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                if (this.homepageData.ile) {
+                    data.origine = this.homepageData.ile;
+                    data.lieu_actuel = this.homepageData.ile;
+                    data.localisation_projet = this.homepageData.ile;
+                }
+                if (this.homepageData.entreprise) data.nom_projet = this.homepageData.entreprise;
+                if (this.homepageData.detail) data.description_projet = this.homepageData.detail;
+            } else {
+                if (this.homepageData.ile) data.ile = this.homepageData.ile;
+                if (this.homepageData.entreprise) data.entreprise = this.homepageData.entreprise;
+                if (this.homepageData.detail) data.description = this.homepageData.detail;
+            }
+            
+            if (this.homepageData.secteur) {
+                data.secteur = this.homepageData.secteur;
+                data.secteur_activite = this.homepageData.secteur;
+            }
+            if (this.homepageData.services) data.services = this.homepageData.services;
+            if (this.homepageData['type-investissement']) data.type_investissement = this.homepageData['type-investissement'];
+            if (this.homepageData.besoin) data.besoin = this.homepageData.besoin;
+        }
+        
+        // Ajouter les réponses du quiz (celles qui ont été répondues dans le quiz)
         this.questions.forEach(question => {
             const answer = this.answers[`question_${question.id}`];
             if (answer !== null && answer !== undefined && answer !== '') {
                 // Mapper les réponses aux noms de champs du formulaire
                 const fieldName = question.fieldName || question.id;
-                data[fieldName] = answer;
+                // Ne pas écraser les données pré-remplies sauf si l'utilisateur a modifié
+                if (!data[fieldName] || data[fieldName] !== answer) {
+                    data[fieldName] = answer;
+                }
+            }
+        });
+        
+        // Ajouter aussi toutes les réponses stockées dans this.answers (pour les questions non affichées)
+        Object.keys(this.answers).forEach(key => {
+            if (key.startsWith('question_')) {
+                const questionId = key.replace('question_', '');
+                // Trouver la question correspondante pour obtenir le fieldName
+                const question = this.questions.find(q => q.id === questionId);
+                if (question) {
+                    const fieldName = question.fieldName || questionId;
+                    if (this.answers[key] && (!data[fieldName] || data[fieldName] !== this.answers[key])) {
+                        data[fieldName] = this.answers[key];
+                    }
+                } else {
+                    // Si pas de question trouvée, utiliser directement la clé sans "question_"
+                    const fieldName = questionId;
+                    if (this.answers[key] && !data[fieldName]) {
+                        data[fieldName] = this.answers[key];
+                    }
+                }
+            } else {
+                // Données directes (pas de préfixe "question_")
+                if (this.answers[key] && !data[key]) {
+                    data[key] = this.answers[key];
+                }
             }
         });
         
