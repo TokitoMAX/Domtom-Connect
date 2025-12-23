@@ -213,9 +213,10 @@ class LandingQuiz {
     
     getValidQuestions() {
         // Retourner uniquement les questions qui doivent être affichées
-        return this.questions.filter((question, index) => {
-            // Vérifier d'abord si la question a déjà été répondue (pré-remplie)
-            if (this.isQuestionAlreadyAnswered(question)) {
+        const filtered = this.questions.filter((question, index) => {
+            // Vérifier d'abord si la question a déjà été répondue (pré-remplie depuis la page d'accueil)
+            // MAIS seulement si on a des données pré-remplies
+            if (this.homepageData && this.isQuestionAlreadyAnswered(question)) {
                 return false; // Ne pas afficher cette question
             }
             
@@ -228,6 +229,14 @@ class LandingQuiz {
             
             return true;
         });
+        
+        // SÉCURITÉ : Si toutes les questions sont filtrées, retourner au moins les premières questions
+        if (filtered.length === 0 && this.questions.length > 0) {
+            console.warn('[Quiz] Toutes les questions ont été filtrées, affichage des 3 premières questions');
+            return this.questions.slice(0, Math.min(3, this.questions.length));
+        }
+        
+        return filtered;
     }
     
     isQuestionAlreadyAnswered(question) {
@@ -236,18 +245,10 @@ class LandingQuiz {
             return false;
         }
         
-        const questionId = question.id;
-        const fieldName = question.fieldName || questionId;
+        const fieldName = question.fieldName || question.id;
         
-        // Vérifier dans les réponses par ID de question
-        if (this.answers[`question_${questionId}`]) {
-            return true;
-        }
-        
-        // Vérifier dans les réponses par fieldName
-        if (this.answers[fieldName]) {
-            return true;
-        }
+        // IMPORTANT: Ne vérifier QUE les données du formulaire d'accueil (homepageData)
+        // Ne PAS vérifier this.answers car cela contient aussi les réponses du quiz en cours
         
         // Vérifier directement dans les données du formulaire d'accueil
         if (this.homepageData[fieldName]) {
@@ -255,39 +256,19 @@ class LandingQuiz {
         }
         
         // Mappings spécifiques pour les champs de base du formulaire d'accueil
-        const homepageFieldMappings = {
-            'prenom': ['prenom'],
-            'nom': ['nom'],
-            'email': ['email'],
-            'telephone': ['telephone'],
-            'ile': ['ile', 'origine', 'lieu_actuel', 'localisation_projet'], // Pour porteurs-projets
-            'entreprise': ['entreprise', 'nom_projet'], // Pour porteurs-projets
-            'secteur': ['secteur', 'secteur_activite'],
-            'services': ['services'],
-            'type-investissement': ['type_investissement', 'type-investissement'],
-            'besoin': ['besoin'],
-            'detail': ['detail', 'description', 'description_projet'] // Pour porteurs-projets
-        };
-        
-        // Vérifier les mappings
-        for (const [homepageField, mappedFields] of Object.entries(homepageFieldMappings)) {
-            if (this.homepageData[homepageField] && mappedFields.includes(fieldName)) {
-                return true;
-            }
+        // On ne filtre que les champs de base (prenom, nom, email, telephone, ile)
+        const basicFields = ['prenom', 'nom', 'email', 'telephone'];
+        if (basicFields.includes(fieldName) && this.homepageData[fieldName]) {
+            return true;
         }
         
-        // Pour les porteurs-projets, vérifier aussi les mappings spécifiques
-        if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
-            // Si 'ile' est rempli et que la question concerne origine, lieu_actuel ou localisation_projet
-            if (this.homepageData.ile && (fieldName === 'origine' || fieldName === 'lieu_actuel' || fieldName === 'localisation_projet')) {
-                return true;
-            }
-            // Si 'entreprise' est rempli et que la question concerne nom_projet
-            if (this.homepageData.entreprise && fieldName === 'nom_projet') {
-                return true;
-            }
-            // Si 'detail' est rempli et que la question concerne description_projet
-            if (this.homepageData.detail && fieldName === 'description_projet') {
+        // Pour 'ile', mapper vers les champs de territoire selon le profil
+        if (this.homepageData.ile) {
+            if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                if (['origine', 'lieu_actuel', 'localisation_projet'].includes(fieldName)) {
+                    return true;
+                }
+            } else if (fieldName === 'ile') {
                 return true;
             }
         }
