@@ -731,17 +731,31 @@ function showResults() {
     const quizContent = document.getElementById('quiz-content');
     const quizResults = document.getElementById('quiz-results');
     
+    if (!quizContent || !quizResults) {
+        console.error('❌ Éléments quiz-content ou quiz-results introuvables');
+        return;
+    }
+    
     quizContent.style.display = 'none';
     quizResults.style.display = 'block';
     
     // Calculer le score maximum possible
     const maxScore = quizQuestions.reduce((sum, q) => {
-        const maxOptionScore = Math.max(...q.options.map(o => o.score));
+        if (!q.options || q.options.length === 0) return sum;
+        const maxOptionScore = Math.max(...q.options.map(o => o.score || 0));
         return sum + maxOptionScore;
     }, 0);
     
     const percentage = Math.round((totalScore / maxScore) * 100);
     const qualificationScore = Math.round((totalScore / maxScore) * 10);
+    
+    console.log('✅ Affichage des résultats du quiz', {
+        profile: selectedProfile,
+        score: qualificationScore,
+        percentage: percentage,
+        totalScore: totalScore,
+        maxScore: maxScore
+    });
     
     // Déterminer le titre et la description selon le profil
     const profileLabels = {
