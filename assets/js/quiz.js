@@ -401,7 +401,20 @@ const adaptiveQuestions = {
         },
         {
             id: 7,
-            question: "Quel est votre budget estimé pour les prestations ?",
+            question: "Quel budget êtes-vous prêt à investir dans l'accompagnement Domtom Connect ?",
+            type: "radio",
+            options: [
+                { value: "moins-300", label: "Moins de 300 €", score: 1 },
+                { value: "300-1000", label: "300-1 000 €", score: 2 },
+                { value: "1000-3000", label: "1 000-3 000 €", score: 3 },
+                { value: "plus-3000", label: "Plus de 3 000 €", score: 4 },
+                { value: "non-defini", label: "Pas encore défini", score: 1 }
+            ],
+            clarification: "<strong>Important :</strong> L'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire."
+        },
+        {
+            id: 8,
+            question: "Quel est votre budget estimé pour les prestations (hors accompagnement) ?",
             type: "radio",
             options: [
                 { value: "moins-2000", label: "Moins de 2 000€", score: 1 },
@@ -413,7 +426,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 8,
+            id: 9,
             question: "Quelle est l'urgence de votre besoin ?",
             type: "radio",
             options: [
@@ -425,7 +438,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 9,
+            id: 10,
             question: "Dans quel territoire êtes-vous basé ?",
             type: "select",
         options: [
@@ -438,7 +451,7 @@ const adaptiveQuestions = {
         ]
         },
         {
-            id: 10,
+            id: 11,
             question: "Depuis combien de temps votre entreprise existe-t-elle ?",
             type: "radio",
             options: [
@@ -738,14 +751,15 @@ function showResults() {
         "investisseur": "Investisseur"
     };
     
-    // Récupérer le budget d'accompagnement pour les porteurs de projets
+    // Récupérer le budget d'accompagnement pour les porteurs de projets et entreprises
     let budgetAccompagnement = null;
     let packRecommandé = null;
     let eligible = false;
     let packInfo = '';
+    let engagementInfo = ''; // Pour investisseurs et prestataires
     
-    if (selectedProfile === 'porteur-projet') {
-        // Chercher la question sur le budget d'accompagnement (ID 7)
+    if (selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') {
+        // Chercher la question sur le budget d'accompagnement (ID 7 pour porteurs-projets, ID 7 pour entreprises)
         const budgetQuestion = answers.find(a => 
             a.questionId === 7 || 
             (a.question.toLowerCase().includes("budget") && 
@@ -827,30 +841,118 @@ function showResults() {
                 `;
             }
         }
+    } else if (selectedProfile === 'prestataire') {
+        // Pour les prestataires : contribution au contenu et partage de compétences
+        engagementInfo = `
+            <div style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+                <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💼 Votre Engagement dans l'Écosystème</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
+                    Pour rejoindre le réseau Domtom Connect, nous vous invitons à <strong>contribuer au contenu</strong> et à <strong>partager vos compétences</strong> pour le bien de l'écosystème entrepreneurial ultramarin.
+                </p>
+                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1.25rem;">📝 Contribution au Contenu</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; text-align: left; color: rgba(255,255,255,0.9);">
+                        <li style="margin-bottom: 0.75rem;">✓ Création de contenu avec Domtom Connect (articles, vidéos, podcasts)</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Partage de vos expertises et retours d'expérience</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Contribution à la communauté entrepreneuriale ultramarine</li>
+                        <li>✓ Mise en avant de votre profil dans le contenu créé</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1.25rem;">🎯 Avantages</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; text-align: left; color: rgba(255,255,255,0.9);">
+                        <li style="margin-bottom: 0.75rem;">✓ Accès au réseau de clients qualifiés</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Visibilité accrue grâce au contenu créé</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Mises en relation prioritaires</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Positionnement en tant qu'expert dans votre domaine</li>
+                        <li>✓ Contribution à la croissance de l'écosystème ultramarin</li>
+                    </ul>
+                </div>
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: 1rem; font-style: italic; text-align: center;">
+                    💡 Ensemble, construisons un écosystème entrepreneurial fort et solidaire pour les territoires ultramarins.
+                </p>
+            </div>
+        `;
+    } else if (selectedProfile === 'investisseur') {
+        // Pour les investisseurs : cotisation mensuelle
+        // Récupérer la question sur le montant d'investissement si disponible
+        const montantInvestissementQuestion = answers.find(a => 
+            a.question.toLowerCase().includes("montant") && 
+            a.question.toLowerCase().includes("investissement")
+        );
+        
+        let montantSuggestion = '';
+        if (montantInvestissementQuestion) {
+            const montantValue = montantInvestissementQuestion.answerValue || montantInvestissementQuestion.answer;
+            // Ajuster la suggestion selon le montant d'investissement potentiel
+            if (montantValue.includes('200k-plus') || montantValue.includes('plus de 200 000')) {
+                montantSuggestion = '<p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1rem;"><strong>💡 Suggestion :</strong> Pour les investissements de 200k€+, nous recommandons une cotisation mensuelle de <strong>99€/mois</strong>.</p>';
+            } else if (montantValue.includes('50k-200k') || montantValue.includes('50 000 - 200 000')) {
+                montantSuggestion = '<p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1rem;"><strong>💡 Suggestion :</strong> Pour les investissements de 50k-200k€, nous recommandons une cotisation mensuelle de <strong>49€/mois</strong>.</p>';
+            } else {
+                montantSuggestion = '<p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1rem;"><strong>💡 Suggestion :</strong> Cotisation mensuelle à partir de <strong>29€/mois</strong>.</p>';
+            }
+        } else {
+            montantSuggestion = '<p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1rem;"><strong>💡 Information :</strong> Une cotisation mensuelle sera demandée pour accéder au réseau d\'investisseurs. Le montant sera défini lors de notre échange.</p>';
+        }
+        
+        engagementInfo = `
+            <div style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+                <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💰 Engagement Investisseur</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
+                    Pour garantir la qualité du réseau et votre engagement, une <strong>cotisation mensuelle</strong> est requise pour accéder au réseau d'investisseurs et aux projets qualifiés.
+                </p>
+                ${montantSuggestion}
+                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                    <h4 style="color: white; margin-bottom: 1rem; font-size: 1.25rem;">🎯 Avantages de la Cotisation Mensuelle</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; text-align: left; color: rgba(255,255,255,0.9);">
+                        <li style="margin-bottom: 0.75rem;">✓ Accès au réseau d'investisseurs Domtom Connect</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Projets qualifiés et vérifiés</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Mises en relation prioritaires avec les meilleurs projets</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Événements et rencontres exclusives</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Accès à des analyses et rapports sur l'écosystème</li>
+                        <li>✓ Support dédié et accompagnement personnalisé</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin-top: 1rem; border-left: 4px solid rgba(255,255,255,0.5);">
+                    <p style="color: rgba(255,255,255,0.9); font-size: 0.95rem; margin: 0;">
+                        <strong>📞 Prochaines étapes :</strong> Nous échangerons ensemble pour définir le montant de votre cotisation mensuelle selon votre capacité d'investissement et vos besoins spécifiques.
+                    </p>
+                </div>
+            </div>
+        `;
     }
     
     let resultTitle = '';
     let resultDescription = '';
     let recommendations = [];
-    // Pour porteurs-projets, ajouter le paramètre from=quiz
+    // Pour porteurs-projets et entreprises, ajouter le paramètre from=quiz
     let landingPageUrl = profileLandingPages[selectedProfile] || '/#inscription-form';
-    if (selectedProfile === 'porteur-projet') {
-        // Récupérer le budget si disponible dans les réponses
-        const budgetAnswer = answers.find(a => a.question.toLowerCase().includes('budget'));
+    if (selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') {
+        // Récupérer le budget d'accompagnement si disponible dans les réponses
+        const budgetAnswer = answers.find(a => 
+            a.questionId === 7 || 
+            (a.question.toLowerCase().includes("budget") && 
+             a.question.toLowerCase().includes("accompagnement") &&
+             a.question.toLowerCase().includes("domtom"))
+        );
         if (budgetAnswer) {
             // Mapper les réponses du quiz vers les valeurs de budget
+            const budgetValue = budgetAnswer.answerValue || budgetAnswer.answer;
             const budgetMap = {
+                'moins-300': 'moins-300',
                 'moins de 300': 'moins-300',
-                '300-1 000': '300-1000',
                 '300-1000': '300-1000',
-                '1 000-3 000': '1000-3000',
+                '300-1 000': '300-1000',
                 '1000-3000': '1000-3000',
-                'plus de 3 000': 'plus-3000',
+                '1 000-3 000': '1000-3000',
                 'plus-3000': 'plus-3000',
+                'plus de 3 000': 'plus-3000',
+                'non-defini': 'non-defini',
                 'non défini': 'non-defini'
             };
-            const budgetValue = budgetMap[budgetAnswer.answer.toLowerCase()] || 'non-defini';
-            landingPageUrl = `${landingPageUrl}?from=quiz&budget=${budgetValue}`;
+            const budgetValueMapped = budgetMap[budgetValue.toLowerCase()] || 'non-defini';
+            landingPageUrl = `${landingPageUrl}?from=quiz&budget=${budgetValueMapped}`;
         } else {
             landingPageUrl = `${landingPageUrl}?from=quiz`;
         }
@@ -888,7 +990,8 @@ function showResults() {
         <h2 class="quiz-result-title">${resultTitle}</h2>
         <p class="quiz-result-description">${resultDescription}</p>
         
-        ${selectedProfile === 'porteur-projet' && packInfo ? packInfo : ''}
+        ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && packInfo ? packInfo : ''}
+        ${(selectedProfile === 'prestataire' || selectedProfile === 'investisseur') && engagementInfo ? engagementInfo : ''}
         
         <div class="quiz-recommendations">
             <h3>Nos recommandations :</h3>
@@ -897,7 +1000,7 @@ function showResults() {
             </ul>
         </div>
         
-        ${selectedProfile === 'porteur-projet' && budgetAccompagnement ? `
+        ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && budgetAccompagnement ? `
         <div style="background: #f8fafc; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e2e8f0;">
             <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.25rem;">📊 Récapitulatif de votre profil</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
@@ -924,10 +1027,12 @@ function showResults() {
         <div class="quiz-contact-form-container">
             <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.25rem;">Continuez votre parcours</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
-                ${selectedProfile === 'porteur-projet' && eligible 
+                ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && eligible 
                     ? `Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter' : 'Pack Premium') : ''} ! Continuez vers la page dédiée pour compléter votre inscription.`
-                    : selectedProfile === 'porteur-projet' && !eligible
+                    : (selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && !eligible
                     ? 'Explorez nos solutions et nos packs d\'accompagnement pour trouver la meilleure option pour votre projet.'
+                    : selectedProfile === 'prestataire' || selectedProfile === 'investisseur'
+                    ? 'Découvrez nos options d\'engagement pour garantir votre place dans le réseau et accéder aux meilleures opportunités.'
                     : 'Vous allez être redirigé(e) vers la page dédiée à votre profil pour compléter votre inscription et recevoir des recommandations personnalisées.'}
             </p>
             <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -1000,7 +1105,8 @@ function showResults() {
         landingPageUrl: landingPageUrl,
         budgetAccompagnement: budgetAccompagnement,
         packRecommandé: packRecommandé,
-        eligible: eligible
+        eligible: eligible,
+        engagementInfo: engagementInfo
     };
     
     // Envoyer automatiquement un email avec les résultats du quiz
