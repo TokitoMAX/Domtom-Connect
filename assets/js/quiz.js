@@ -984,105 +984,117 @@ function showResults() {
         ];
     }
     
+    // Déterminer le message d'appel à l'action selon le profil
+    let ctaMessage = '';
+    if ((selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && eligible) {
+        ctaMessage = `✅ Parfait ! Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter (500€)' : 'Pack Premium (1 900€)') : ''}. Laissez-nous vos coordonnées pour être recontacté(e) et démarrer votre accompagnement.`;
+    } else if ((selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && !eligible) {
+        ctaMessage = `💡 Laissez-nous vos coordonnées pour discuter ensemble des meilleures options d'accompagnement adaptées à votre budget et à vos besoins.`;
+    } else if (selectedProfile === 'prestataire') {
+        ctaMessage = `💼 Excellent ! Laissez-nous vos coordonnées pour échanger sur votre contribution au contenu et votre intégration dans notre réseau de prestataires.`;
+    } else if (selectedProfile === 'investisseur') {
+        ctaMessage = `💰 Parfait ! Laissez-nous vos coordonnées pour discuter de votre cotisation mensuelle et de votre intégration dans notre réseau d'investisseurs.`;
+    } else {
+        ctaMessage = `📞 Laissez-nous vos coordonnées pour être recontacté(e) avec des recommandations personnalisées adaptées à votre situation.`;
+    }
+    
     const resultsHTML = `
-        <div class="quiz-score">${percentage}%</div>
-        <div class="quiz-score-label">Score de préparation</div>
-        <h2 class="quiz-result-title">${resultTitle}</h2>
-        <p class="quiz-result-description">${resultDescription}</p>
-        
-        ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && packInfo ? packInfo : ''}
-        ${(selectedProfile === 'prestataire' || selectedProfile === 'investisseur') && engagementInfo ? engagementInfo : ''}
-        
-        <div class="quiz-recommendations">
-            <h3>Nos recommandations :</h3>
-            <ul>
-                ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
-            </ul>
-        </div>
-        
-        ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && budgetAccompagnement ? `
-        <div style="background: #f8fafc; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e2e8f0;">
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.25rem;">📊 Récapitulatif de votre profil</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                <div>
-                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Budget d'accompagnement :</strong>
-                    <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem;">${budgetAccompagnement}</p>
-                </div>
-                <div>
-                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Pack recommandé :</strong>
-                    <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem;">
-                        ${packRecommandé === 'starter' ? 'Pack Starter (500€)' : packRecommandé === 'premium' ? 'Pack Premium (1 900€)' : 'Non éligible'}
-                    </p>
-                </div>
-                <div>
-                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Statut :</strong>
-                    <p style="color: ${eligible ? '#10b981' : '#f59e0b'}; font-size: 1.1rem; margin-top: 0.25rem; font-weight: 600;">
-                        ${eligible ? '✓ Éligible' : '⚠ Non éligible'}
-                    </p>
+        <div style="animation: fadeIn 0.6s ease-out;">
+            <div class="quiz-score" style="margin-bottom: 0.5rem;">${percentage}%</div>
+            <div class="quiz-score-label" style="margin-bottom: 2rem;">Score de préparation</div>
+            
+            <h2 class="quiz-result-title" style="margin-bottom: 1rem;">${resultTitle}</h2>
+            <p class="quiz-result-description" style="margin-bottom: 2.5rem;">${resultDescription}</p>
+            
+            ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && packInfo ? packInfo : ''}
+            ${(selectedProfile === 'prestataire' || selectedProfile === 'investisseur') && engagementInfo ? engagementInfo : ''}
+            
+            ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && budgetAccompagnement ? `
+            <div style="background: #f8fafc; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e2e8f0;">
+                <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.25rem;">📊 Récapitulatif de votre profil</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <strong style="color: var(--text-secondary); font-size: 0.9rem;">Budget d'accompagnement :</strong>
+                        <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem; font-weight: 600;">${budgetAccompagnement}</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-secondary); font-size: 0.9rem;">Pack recommandé :</strong>
+                        <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem; font-weight: 600;">
+                            ${packRecommandé === 'starter' ? 'Pack Starter (500€)' : packRecommandé === 'premium' ? 'Pack Premium (1 900€)' : 'Non éligible'}
+                        </p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-secondary); font-size: 0.9rem;">Statut :</strong>
+                        <p style="color: ${eligible ? '#10b981' : '#f59e0b'}; font-size: 1.1rem; margin-top: 0.25rem; font-weight: 600;">
+                            ${eligible ? '✓ Éligible' : '⚠ Non éligible'}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        ` : ''}
-        
-        <div class="quiz-contact-form-container">
-            <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.25rem;">Continuez votre parcours</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
-                ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && eligible 
-                    ? `Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter' : 'Pack Premium') : ''} ! Continuez vers la page dédiée pour compléter votre inscription.`
-                    : (selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && !eligible
-                    ? 'Explorez nos solutions et nos packs d\'accompagnement pour trouver la meilleure option pour votre projet.'
-                    : selectedProfile === 'prestataire' || selectedProfile === 'investisseur'
-                    ? 'Découvrez nos options d\'engagement pour garantir votre place dans le réseau et accéder aux meilleures opportunités.'
-                    : 'Vous allez être redirigé(e) vers la page dédiée à votre profil pour compléter votre inscription et recevoir des recommandations personnalisées.'}
-            </p>
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <a href="${landingPageUrl}" class="cta-button primary large" style="text-decoration: none; display: inline-block;">
-                    Continuer vers la page ${profileLabels[selectedProfile]}
-                </a>
+            ` : ''}
+            
+            <div class="quiz-recommendations" style="margin: 2rem 0;">
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">💡 Nos recommandations</h3>
+                <ul>
+                    ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                </ul>
             </div>
-            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;">
-                🔒 Vos données sont sécurisées. Vous pouvez aussi remplir le formulaire de contact ci-dessous pour être recontacté(e).
-            </p>
-        </div>
-        
-        <div class="quiz-contact-form-container" style="margin-top: 2rem;">
-            <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.25rem;">Ou laissez-nous vos coordonnées</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
-                Nous vous contacterons avec des conseils adaptés à votre situation.
-            </p>
-            <form class="quiz-contact-form" id="quiz-contact-form" onsubmit="handleQuizContactSubmit(event)">
-                <div class="form-row">
-                    <input type="text" name="prenom" placeholder="Prénom *" required>
-                    <input type="text" name="nom" placeholder="Nom *" required>
+            
+            <div class="quiz-contact-form-container" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 3px solid #3B82F6; margin-top: 3rem;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">📞 Contactez-nous pour démarrer</h3>
+                    <p style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
+                        ${ctaMessage}
+                    </p>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Nous vous recontacterons dans les <strong>24 heures</strong> pour discuter de votre projet et des prochaines étapes.
+                    </p>
                 </div>
-                <input type="email" name="email" placeholder="Email *" required>
-                <input type="tel" name="telephone" placeholder="Téléphone *" required>
-                <select name="ile" required>
-                    <option value="">Votre territoire *</option>
-                    <option value="martinique">Martinique</option>
-                    <option value="guadeloupe">Guadeloupe</option>
-                    <option value="reunion">La Réunion</option>
-                    <option value="guyane">Guyane</option>
-                    <option value="mayotte">Mayotte</option>
-                    <option value="polynesie">Polynésie française</option>
-                    <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
-                    <option value="diaspora">Diaspora</option>
-                    <option value="autre">Autre</option>
-                </select>
-                <button type="submit" class="cta-button primary large">
-                    Recevoir mes recommandations
-                </button>
-                <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;">
-                    🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.
-                </p>
-                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center;">
-                    * Champs obligatoires
-                </p>
-            </form>
+                
+                <form class="quiz-contact-form" id="quiz-contact-form" onsubmit="handleQuizContactSubmit(event)" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <div class="form-row">
+                        <input type="text" name="prenom" placeholder="Prénom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                        <input type="text" name="nom" placeholder="Nom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <input type="email" name="email" placeholder="Email *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                    <input type="tel" name="telephone" placeholder="Téléphone *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                    <select name="ile" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; background: white;">
+                        <option value="">Votre territoire *</option>
+                        <option value="martinique">Martinique</option>
+                        <option value="guadeloupe">Guadeloupe</option>
+                        <option value="reunion">La Réunion</option>
+                        <option value="guyane">Guyane</option>
+                        <option value="mayotte">Mayotte</option>
+                        <option value="polynesie">Polynésie française</option>
+                        <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                        <option value="diaspora">Diaspora</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                    <button type="submit" class="cta-button primary large" style="padding: 1.25rem 2rem; font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem;">
+                        ✉️ Recevoir mes recommandations
+                    </button>
+                    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+                        🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.
+                    </p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center;">
+                        * Champs obligatoires
+                    </p>
+                </form>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">Ou</p>
+                    <a href="${landingPageUrl}" class="cta-button" style="text-decoration: none; display: inline-block; padding: 0.875rem 1.75rem; background: white; color: #3B82F6; border: 2px solid #3B82F6; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
+                        Continuer vers la page ${profileLabels[selectedProfile]} →
+                    </a>
+                </div>
+            </div>
         </div>
     `;
     
     quizResults.innerHTML = resultsHTML;
+    
+    // Scroll vers les résultats
+    quizResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
     
     // Track quiz completion
     if (window.trackLead) {
@@ -1289,12 +1301,37 @@ function handleQuizContactSubmit(event) {
     formDataToSend.append('_subject', `🆕 Quiz Complété - ${profileLabel} - ${data.prenom} ${data.nom} (Score: ${data.quiz_score}/10)`);
     formDataToSend.append('_replyto', data.email);
     
+    // Récupérer les informations de pack/engagement si disponibles
+    let packInfoSection = '';
+    if (window.quizResults) {
+        if (window.quizResults.budgetAccompagnement) {
+            packInfoSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PACK D'ACCOMPAGNEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget d'accompagnement: ${window.quizResults.budgetAccompagnement}
+Pack recommandé: ${window.quizResults.packRecommandé === 'starter' ? 'Pack Starter (500€ TTC)' : window.quizResults.packRecommandé === 'premium' ? 'Pack Premium (1 900€ TTC)' : 'Non éligible'}
+Statut: ${window.quizResults.eligible ? '✓ Éligible' : '⚠ Non éligible'}
+
+`;
+        } else if (window.quizResults.engagementInfo) {
+            packInfoSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💼 ENGAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Information d'engagement disponible dans les résultats du quiz.
+
+`;
+        }
+    }
+    
     let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 QUIZ COMPLÉTÉ - DEMANDE DE CONTACT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Profil: ${profileLabel}
 Score: ${data.quiz_score}/10 (${data.quiz_percentage}%)
-
+Niveau: ${data.quiz_percentage >= 80 ? 'Excellent' : data.quiz_percentage >= 60 ? 'Bien préparé' : 'À améliorer'}
+${packInfoSection}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 👤 INFORMATIONS CONTACT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1307,16 +1344,17 @@ Territoire: ${data.ile}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 RÉPONSES DU QUIZ
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${data.quiz_answers ? JSON.parse(data.quiz_answers).map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer} (Score: ${a.score})`).join('\n\n') : 'Non disponible'}
+${data.quiz_answers ? JSON.parse(data.quiz_answers).map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer}${a.answerValue ? ` (valeur: ${a.answerValue})` : ''} (Score: ${a.score})`).join('\n\n') : 'Non disponible'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Contacter la personne pour un appel
+1. Contacter ${data.prenom} ${data.nom} pour un appel
 2. Discuter des résultats du quiz et des recommandations
-3. Rediriger vers la landing page: ${window.quizResults ? window.quizResults.landingPageUrl : 'N/A'}
-4. Après l'appel, décider (oui/non)
-5. Si oui, ajouter à l'écosystème WhatsApp
+3. ${window.quizResults && window.quizResults.packRecommandé ? `Présenter le ${window.quizResults.packRecommandé === 'starter' ? 'Pack Starter (500€)' : 'Pack Premium (1 900€)'}` : 'Discuter des options d\'accompagnement'}
+4. Rediriger vers la landing page: ${window.quizResults ? window.quizResults.landingPageUrl : 'N/A'}
+5. Après l'appel, décider (oui/non)
+6. Si oui, ajouter à l'écosystème WhatsApp
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     
@@ -1325,6 +1363,11 @@ ${data.quiz_answers ? JSON.parse(data.quiz_answers).map((a, i) => `${i + 1}. ${a
     formDataToSend.append('Nom', data.nom);
     formDataToSend.append('Email', data.email);
     formDataToSend.append('Téléphone', data.telephone);
+    if (window.quizResults && window.quizResults.budgetAccompagnement) {
+        formDataToSend.append('Budget Accompagnement', window.quizResults.budgetAccompagnement);
+        formDataToSend.append('Pack Recommandé', window.quizResults.packRecommandé === 'starter' ? 'Pack Starter (500€ TTC)' : window.quizResults.packRecommandé === 'premium' ? 'Pack Premium (1 900€ TTC)' : 'Non éligible');
+        formDataToSend.append('Éligible', window.quizResults.eligible ? 'Oui' : 'Non');
+    }
     formDataToSend.append('Territoire', data.ile);
     formDataToSend.append('Profil', profileLabel);
     formDataToSend.append('Score Quiz', data.quiz_score);
