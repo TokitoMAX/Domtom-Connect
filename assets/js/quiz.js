@@ -1110,11 +1110,13 @@ function showResults() {
     };
     
     // Envoyer automatiquement un email avec les résultats du quiz
-    sendQuizCompletionEmail(selectedProfile, qualificationScore, percentage, answers, landingPageUrl);
+    const packName = packRecommandé === 'starter' ? 'Pack Starter (500€)' : packRecommandé === 'premium' ? 'Pack Premium (1 900€)' : null;
+    const packPrice = packRecommandé === 'starter' ? '500€ TTC' : packRecommandé === 'premium' ? '1 900€ TTC' : null;
+    sendQuizCompletionEmail(selectedProfile, qualificationScore, percentage, answers, landingPageUrl, packName, packPrice, budgetAccompagnement, packRecommandé, eligible, engagementInfo);
 }
 
 // Fonction pour envoyer automatiquement un email à chaque complétion du quiz
-function sendQuizCompletionEmail(profile, score, percentage, answers, landingPageUrl) {
+function sendQuizCompletionEmail(profile, score, percentage, answers, landingPageUrl, packName = null, packPrice = null, budgetAccompagnement = null, packRecommandé = null, eligible = false, engagementInfo = null) {
     const profileLabels = {
         "porteur-projet": "Porteur de projet / Entrepreneur",
         "prestataire": "Prestataire",
@@ -1128,6 +1130,40 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
     formDataToSend.append('_subject', `📊 Quiz Complété - ${profileLabel} (Score: ${score}/10 - ${percentage}%)`);
     
     // Construire le message avec toutes les réponses
+    let packInfoSection = '';
+    if ((profile === 'porteur-projet' || profile === 'entreprise') && budgetAccompagnement) {
+        packInfoSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 PACK D'ACCOMPAGNEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget d'accompagnement: ${budgetAccompagnement}
+Pack recommandé: ${packName || 'Non éligible'}
+Statut: ${eligible ? '✓ Éligible' : '⚠ Non éligible'}
+${packRecommandé === 'starter' ? 'Pack Starter - 500€ TTC\nBudget requis: 300-1 000€' : packRecommandé === 'premium' ? 'Pack Premium - 1 900€ TTC\nBudget requis: 1 000€+' : ''}
+
+`;
+    } else if (profile === 'prestataire') {
+        packInfoSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💼 ENGAGEMENT PRESTATAIRE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Engagement requis: Contribution au contenu et partage de compétences
+- Création de contenu avec Domtom Connect (articles, vidéos, podcasts)
+- Partage d'expertises et retours d'expérience
+- Contribution à la communauté entrepreneuriale ultramarine
+
+`;
+    } else if (profile === 'investisseur') {
+        packInfoSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 ENGAGEMENT INVESTISSEUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Engagement requis: Cotisation mensuelle
+Le montant sera défini lors de l'échange selon la capacité d'investissement.
+
+`;
+    }
+    
     let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 QUIZ COMPLÉTÉ - RÉSULTATS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1135,11 +1171,11 @@ Date: ${new Date().toLocaleString('fr-FR')}
 Profil: ${profileLabel}
 Score: ${score}/10 (${percentage}%)
 Niveau: ${percentage >= 80 ? 'Excellent' : percentage >= 60 ? 'Bien préparé' : 'À améliorer'}
-
+${packInfoSection}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 RÉPONSES DU QUIZ
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer} (Score: ${a.score})`).join('\n\n')}
+${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer}${a.answerValue ? ` (valeur: ${a.answerValue})` : ''} (Score: ${a.score})`).join('\n\n')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
@@ -1162,6 +1198,11 @@ Les coordonnées de l'utilisateur seront disponibles s'il remplit le formulaire 
     formDataToSend.append('Score Quiz', score);
     formDataToSend.append('Pourcentage Quiz', percentage);
     formDataToSend.append('Landing Page', landingPageUrl);
+    if (packName) formDataToSend.append('Pack Recommandé', packName);
+    if (packPrice) formDataToSend.append('Prix Pack', packPrice);
+    if (budgetAccompagnement) formDataToSend.append('Budget Accompagnement', budgetAccompagnement);
+    if (packRecommandé) formDataToSend.append('Pack Type', packRecommandé);
+    formDataToSend.append('Éligible', eligible ? 'Oui' : 'Non');
     formDataToSend.append('Type', 'Quiz Completion (Auto)');
     
     // Envoyer en arrière-plan (ne pas bloquer l'interface)

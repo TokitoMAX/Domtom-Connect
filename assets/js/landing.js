@@ -1213,6 +1213,24 @@ Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || '
     
     // Informations spécifiques pour Entreprises
     if (pageType === 'entreprises') {
+        // Déterminer le pack recommandé selon le budget d'accompagnement
+        let packRecommandeEntreprise = 'Non déterminé';
+        let eligibleEntreprise = false;
+        if (data.budget_accompagnement) {
+            const budgetValue = data.budget_accompagnement;
+            if (budgetValue === '300-1000' || budgetValue.includes('300-1 000') || budgetValue.includes('300-1000')) {
+                packRecommandeEntreprise = 'Pack Starter (500€ TTC)';
+                eligibleEntreprise = true;
+            } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' || 
+                      budgetValue.includes('1 000-3 000') || budgetValue.includes('plus de 3 000')) {
+                packRecommandeEntreprise = 'Pack Premium (1 900€ TTC)';
+                eligibleEntreprise = true;
+            } else if (budgetValue === 'moins-300' || budgetValue.includes('moins de 300')) {
+                packRecommandeEntreprise = 'Non éligible (budget insuffisant)';
+                eligibleEntreprise = false;
+            }
+        }
+        
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏢 ENTREPRISE - QUALIFICATION
@@ -1226,7 +1244,14 @@ Taille de l'entreprise: ${getTailleEntrepriseLabel(data.taille_entreprise) || 'N
 Besoin principal: ${data.besoin === 'autre' ? (data.besoin_autre || 'Autre') : (getBesoinLabel(data.besoin) || 'Non renseigné')}
 Type de prestations recherchées: ${data.type_prestations === 'autre' ? (data.type_prestations_autre || 'Autre') : (getTypePrestationsLabel(data.type_prestations) || 'Non renseigné')}
 Nombre de prestataires recherchés: ${getNombrePrestatairesLabel(data.nombre_prestataires) || 'Non renseigné'}
-Budget estimé: ${getBudgetEntrepriseLabel(data.budget) || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 BUDGET & PACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget d'accompagnement Domtom Connect: ${data.budget_accompagnement || 'Non renseigné'}
+Pack recommandé: ${packRecommandeEntreprise}
+Statut éligibilité: ${eligibleEntreprise ? '✓ Éligible' : '⚠ Non éligible'}
+Budget estimé pour prestations (hors accompagnement): ${getBudgetEntrepriseLabel(data.budget) || 'Non renseigné'}
 Urgence du besoin: ${getUrgenceLabel(data.urgence) || 'Non renseigné'}
 Description du besoin: ${data.description_besoin || 'Non renseigné'}
 
@@ -1237,6 +1262,12 @@ Ancienneté entreprise: ${getAncienneteEntrepriseLabel(data.anciennete_entrepris
 Prestataires précédents: ${getPrestatairesPrecedentsLabel(data.prestataires_precedents) || 'Non renseigné'}
 Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
+        
+        // Ajouter les informations de pack dans FormData
+        if (packRecommandeEntreprise !== 'Non déterminé') {
+            formDataToSend.append('Pack Recommandé', packRecommandeEntreprise);
+            formDataToSend.append('Éligible', eligibleEntreprise ? 'Oui' : 'Non');
+        }
     }
     
     // Informations spécifiques pour Autre
