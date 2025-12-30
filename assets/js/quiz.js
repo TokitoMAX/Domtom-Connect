@@ -589,8 +589,9 @@ function getValidQuestions(questions) {
             return false; // Pas de réponse à la question conditionnelle, ne pas afficher
         }
         
-        // Vérifier si la réponse correspond à la condition
-        return conditionalAnswer.answer === question.conditional.value;
+        // Vérifier si la réponse correspond à la condition (utiliser answerValue si disponible, sinon answer)
+        const answerToCheck = conditionalAnswer.answerValue || conditionalAnswer.answer;
+        return answerToCheck === question.conditional.value;
     });
 }
 
@@ -655,11 +656,21 @@ function nextQuestion() {
         }
     }
     
+    // Trouver le label correspondant à la valeur sélectionnée
+    let selectedLabel = selectedValue;
+    if (question.options) {
+        const selectedOption = question.options.find(opt => opt.value === selectedValue);
+        if (selectedOption) {
+            selectedLabel = selectedOption.label;
+        }
+    }
+    
     // Sauvegarder la réponse
     answers.push({
         questionId: question.id,
         question: question.question,
-        answer: selectedValue,
+        answer: selectedLabel, // Le label affiché à l'utilisateur
+        answerValue: selectedValue, // La valeur originale pour le traitement
         score: selectedScore
     });
     
@@ -727,6 +738,97 @@ function showResults() {
         "investisseur": "Investisseur"
     };
     
+    // Récupérer le budget d'accompagnement pour les porteurs de projets
+    let budgetAccompagnement = null;
+    let packRecommandé = null;
+    let eligible = false;
+    let packInfo = '';
+    
+    if (selectedProfile === 'porteur-projet') {
+        // Chercher la question sur le budget d'accompagnement (ID 7)
+        const budgetQuestion = answers.find(a => 
+            a.questionId === 7 || 
+            (a.question.toLowerCase().includes("budget") && 
+             a.question.toLowerCase().includes("accompagnement") &&
+             a.question.toLowerCase().includes("domtom"))
+        );
+        
+        if (budgetQuestion) {
+            budgetAccompagnement = budgetQuestion.answer;
+            
+            // Déterminer le pack recommandé et l'éligibilité basé sur la valeur (value) ou le label
+            const budgetValue = budgetQuestion.answerValue || budgetQuestion.answer;
+            const budgetAnswerLower = budgetValue.toLowerCase();
+            
+            if (budgetValue === '300-1000' || budgetAnswerLower.includes('300-1 000') || budgetAnswerLower.includes('300-1000') || budgetAnswerLower.includes('300 - 1 000')) {
+                packRecommandé = 'starter';
+                eligible = true;
+                packInfo = `
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+                        <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💚 Pack Starter Recommandé</h3>
+                        <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">500€ TTC</div>
+                        <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Vous êtes éligible au Pack Starter !</p>
+                        <ul style="list-style: none; padding: 0; margin: 0; text-align: left; color: rgba(255,255,255,0.9);">
+                            <li style="margin-bottom: 0.5rem;">✓ Consultation initiale et évaluation</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Recherche de 1-2 prestataires</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Mise en relation</li>
+                            <li>✓ Suivi de base</li>
+                        </ul>
+                    </div>
+                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; margin-top: 1rem; border-left: 4px solid #3B82F6;">
+                        <h4 style="color: #1e293b; margin-bottom: 0.75rem;">💎 Pack Premium également disponible</h4>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #3B82F6; margin-bottom: 0.5rem;">1 900€ TTC</div>
+                        <p style="color: #64748b; font-size: 0.95rem;">Accompagnement complet du début à la fin avec gestion totale des prestataires</p>
+                    </div>
+                `;
+            } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' ||
+                      budgetAnswerLower.includes('1 000-3 000') || budgetAnswerLower.includes('1000-3000') || 
+                      budgetAnswerLower.includes('plus de 3 000') || budgetAnswerLower.includes('plus-3000') ||
+                      budgetAnswerLower.includes('1 000 - 3 000') || budgetAnswerLower.includes('plus de 3000')) {
+                packRecommandé = 'premium';
+                eligible = true;
+                packInfo = `
+                    <div style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+                        <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💎 Pack Premium Recommandé</h3>
+                        <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">1 900€ TTC</div>
+                        <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Vous êtes éligible au Pack Premium !</p>
+                        <ul style="list-style: none; padding: 0; margin: 0; text-align: left; color: rgba(255,255,255,0.9);">
+                            <li style="margin-bottom: 0.5rem;">✓ Tout le Pack Starter</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Recherche approfondie de prestataires</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Accompagnement du début à la fin</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Gestion complète des prestataires</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Suivi personnalisé et optimisation</li>
+                            <li>✓ Résultat garanti</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (budgetValue === 'moins-300' || budgetAnswerLower.includes('moins de 300') || budgetAnswerLower.includes('moins-300')) {
+                eligible = false;
+                packInfo = `
+                    <div style="background: #fef3c7; padding: 2rem; border-radius: 16px; margin: 2rem 0; border-left: 4px solid #f59e0b;">
+                        <h3 style="color: #92400e; margin-bottom: 1rem; font-size: 1.5rem;">⚠️ Budget d'accompagnement insuffisant</h3>
+                        <p style="color: #78350f; margin-bottom: 1rem;">Votre budget d'accompagnement (moins de 300€) est en dessous de nos packs disponibles.</p>
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                            <h4 style="color: #1e293b; margin-bottom: 1rem;">Nos packs d'accompagnement :</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div style="border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem;">
+                                    <h5 style="color: #10b981; margin-bottom: 0.5rem;">Pack Starter</h5>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">500€ TTC</div>
+                                    <p style="color: #64748b; font-size: 0.9rem;">Budget requis : 300-1 000€</p>
+                                </div>
+                                <div style="border: 2px solid #3B82F6; border-radius: 12px; padding: 1.5rem;">
+                                    <h5 style="color: #3B82F6; margin-bottom: 0.5rem;">Pack Premium</h5>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">1 900€ TTC</div>
+                                    <p style="color: #64748b; font-size: 0.9rem;">Budget requis : 1 000€+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    }
+    
     let resultTitle = '';
     let resultDescription = '';
     let recommendations = [];
@@ -739,9 +841,12 @@ function showResults() {
             // Mapper les réponses du quiz vers les valeurs de budget
             const budgetMap = {
                 'moins de 300': 'moins-300',
+                '300-1 000': '300-1000',
                 '300-1000': '300-1000',
+                '1 000-3 000': '1000-3000',
                 '1000-3000': '1000-3000',
-                'plus de 3000': 'plus-3000',
+                'plus de 3 000': 'plus-3000',
+                'plus-3000': 'plus-3000',
                 'non défini': 'non-defini'
             };
             const budgetValue = budgetMap[budgetAnswer.answer.toLowerCase()] || 'non-defini';
@@ -783,6 +888,8 @@ function showResults() {
         <h2 class="quiz-result-title">${resultTitle}</h2>
         <p class="quiz-result-description">${resultDescription}</p>
         
+        ${selectedProfile === 'porteur-projet' && packInfo ? packInfo : ''}
+        
         <div class="quiz-recommendations">
             <h3>Nos recommandations :</h3>
             <ul>
@@ -790,10 +897,38 @@ function showResults() {
             </ul>
         </div>
         
+        ${selectedProfile === 'porteur-projet' && budgetAccompagnement ? `
+        <div style="background: #f8fafc; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e2e8f0;">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.25rem;">📊 Récapitulatif de votre profil</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Budget d'accompagnement :</strong>
+                    <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem;">${budgetAccompagnement}</p>
+                </div>
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Pack recommandé :</strong>
+                    <p style="color: var(--text-primary); font-size: 1.1rem; margin-top: 0.25rem;">
+                        ${packRecommandé === 'starter' ? 'Pack Starter (500€)' : packRecommandé === 'premium' ? 'Pack Premium (1 900€)' : 'Non éligible'}
+                    </p>
+                </div>
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.9rem;">Statut :</strong>
+                    <p style="color: ${eligible ? '#10b981' : '#f59e0b'}; font-size: 1.1rem; margin-top: 0.25rem; font-weight: 600;">
+                        ${eligible ? '✓ Éligible' : '⚠ Non éligible'}
+                    </p>
+                </div>
+            </div>
+        </div>
+        ` : ''}
+        
         <div class="quiz-contact-form-container">
             <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.25rem;">Continuez votre parcours</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
-                Vous allez être redirigé(e) vers la page dédiée à votre profil pour compléter votre inscription et recevoir des recommandations personnalisées.
+                ${selectedProfile === 'porteur-projet' && eligible 
+                    ? `Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter' : 'Pack Premium') : ''} ! Continuez vers la page dédiée pour compléter votre inscription.`
+                    : selectedProfile === 'porteur-projet' && !eligible
+                    ? 'Explorez nos solutions et nos packs d\'accompagnement pour trouver la meilleure option pour votre projet.'
+                    : 'Vous allez être redirigé(e) vers la page dédiée à votre profil pour compléter votre inscription et recevoir des recommandations personnalisées.'}
             </p>
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <a href="${landingPageUrl}" class="cta-button primary large" style="text-decoration: none; display: inline-block;">
@@ -862,7 +997,10 @@ function showResults() {
         percentage: percentage,
         profile: selectedProfile,
         answers: answers,
-        landingPageUrl: landingPageUrl
+        landingPageUrl: landingPageUrl,
+        budgetAccompagnement: budgetAccompagnement,
+        packRecommandé: packRecommandé,
+        eligible: eligible
     };
     
     // Envoyer automatiquement un email avec les résultats du quiz
