@@ -82,19 +82,32 @@
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": "Trouvez vos prestataires pour votre projet - Domtom Connect",
+      "name": "Recherche et mise en relation avec prestataires pour projets ultramarins",
       "serviceType": "Mise en relation avec prestataires",
       "description": "Domtom Connect trouve les prestataires adaptés à votre projet, quel que soit votre besoin. Développement, design, marketing, comptabilité... Le principal est d'avoir un budget. Acompte requis avant toute recherche de prestataire.",
       "provider": {
         "@type": "Organization",
         "name": "Domtom Connect",
         "url": "https://domtomconnect.com",
-        "logo": "https://domtomconnect.com/assets/images/logo-domtomconnect.png"
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://domtomconnect.com/assets/images/logo-domtomconnect.png"
+        }
       },
-      "areaServed": {
-        "@type": "Place",
-        "name": "Territoires ultramarins français, îles indépendantes, îles africaines"
-      },
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Territoires ultramarins français"
+        },
+        {
+          "@type": "Place",
+          "name": "Îles indépendantes"
+        },
+        {
+          "@type": "Place",
+          "name": "Îles africaines"
+        }
+      ],
       "offers": {
         "@type": "Offer",
         "description": "Acompte requis avant toute recherche de prestataire"
@@ -102,27 +115,38 @@
       "url": "https://domtomconnect.com/services"
     }
     </script>
+    <!-- HowTo Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "HowTo",
       "name": "Comment trouver vos prestataires avec Domtom Connect",
-      "description": "Processus pour trouver les prestataires adaptés à votre projet",
+      "description": "Processus en 3 étapes pour trouver les prestataires adaptés à votre projet dans les territoires ultramarins",
+      "image": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
+      "totalTime": "PT1H",
+      "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "EUR",
+        "value": "Variable selon le projet"
+      },
       "step": [
         {
           "@type": "HowToStep",
-          "name": "Acompte",
-          "text": "Effectuer un acompte avant toute recherche de prestataire"
+          "position": 1,
+          "name": "Effectuer un acompte",
+          "text": "Un acompte est requis avant toute recherche de prestataire. Cela nous permet de nous investir pleinement dans votre projet et de garantir notre engagement."
         },
         {
           "@type": "HowToStep",
-          "name": "Recherche",
-          "text": "Nous recherchons les prestataires adaptés à votre projet et à votre budget"
+          "position": 2,
+          "name": "Recherche de prestataires",
+          "text": "Nous recherchons activement les prestataires adaptés à votre projet et à votre budget dans notre réseau ou en dehors si nécessaire. Nous vérifions leurs compétences et leur fiabilité."
         },
         {
           "@type": "HowToStep",
+          "position": 3,
           "name": "Mise en relation",
-          "text": "Mise en relation avec les prestataires validés correspondant à vos besoins"
+          "text": "Nous mettons en relation avec les prestataires validés correspondant à vos besoins spécifiques. Vous pouvez ensuite négocier directement avec eux."
         }
       ]
     }
