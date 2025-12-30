@@ -1366,6 +1366,7 @@ Besoin: ${data.besoin || 'Non renseigné'}
         if (data.type_prestations) formDataToSend.append('Type prestations', data.type_prestations === 'autre' ? (data.type_prestations_autre || 'Autre') : getTypePrestationsLabel(data.type_prestations));
         if (data.nombre_prestataires) formDataToSend.append('Nombre prestataires', getNombrePrestatairesLabel(data.nombre_prestataires));
         if (data.budget) formDataToSend.append('Budget', getBudgetEntrepriseLabel(data.budget));
+        if (data.budget_accompagnement) formDataToSend.append('Budget Accompagnement', data.budget_accompagnement);
         if (data.urgence) formDataToSend.append('Urgence', getUrgenceLabel(data.urgence));
         if (data.description_besoin) formDataToSend.append('Description besoin', data.description_besoin);
         if (data.anciennete_entreprise) formDataToSend.append('Ancienneté', getAncienneteEntrepriseLabel(data.anciennete_entreprise));
@@ -1416,6 +1417,14 @@ Certification acceptée: OUI
     })
     .then(response => {
         if (response.ok) {
+            console.log('✅ Email envoyé avec succès depuis la landing page:', {
+                pageType: pageType,
+                profil: profilLabel,
+                email: data.email,
+                nom: data.nom,
+                prenom: data.prenom
+            });
+            
             // Si étape 2 ou formulaire complet (prestataires, entreprises, investisseurs), afficher message de succès
             if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs') {
                 // Nettoyer les données stockées
@@ -1437,12 +1446,13 @@ Certification acceptée: OUI
             }
         } else {
             return response.json().then(errData => {
+                console.error('❌ Erreur lors de l\'envoi de l\'email:', errData);
                 throw new Error(errData.error || 'Erreur lors de l\'envoi');
             });
         }
     })
     .catch(error => {
-        console.error('Erreur détaillée:', error);
+        console.error('❌ Erreur détaillée lors de l\'envoi de l\'email:', error);
         // Message d'erreur plus informatif
         const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
         alert(errorMessage);
@@ -1530,8 +1540,23 @@ ${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data
         headers: {
             'Accept': 'application/json'
         }
-    }).catch(error => {
-        console.error('Erreur lors de l\'envoi de l\'étape 1:', error);
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('✅ Email étape 1 envoyé avec succès:', {
+                pageType: pageType,
+                profil: profilLabel,
+                email: data.email,
+                nom: data.nom,
+                prenom: data.prenom
+            });
+        } else {
+            console.error('❌ Erreur lors de l\'envoi de l\'email étape 1:', response.status);
+        }
+        return response;
+    })
+    .catch(error => {
+        console.error('❌ Erreur lors de l\'envoi de l\'étape 1:', error);
         throw error;
     });
 }
@@ -1722,6 +1747,15 @@ Commentaires additionnels: ${completeData.commentaires}
     })
     .then(response => {
         if (response.ok) {
+            console.log('✅ Email qualification complète envoyé avec succès:', {
+                pageType: pageType,
+                profil: profilLabel,
+                email: completeData.email,
+                nom: completeData.nom,
+                prenom: completeData.prenom,
+                projet: completeData.nom_projet
+            });
+            
             // Nettoyer les données stockées
             sessionStorage.removeItem('domtomConnectStep1');
             
@@ -1735,13 +1769,14 @@ Commentaires additionnels: ${completeData.commentaires}
             `;
         } else {
             return response.json().then(errData => {
+                console.error('❌ Erreur lors de l\'envoi de l\'email de qualification:', errData);
                 throw new Error(errData.error || 'Erreur lors de l\'envoi');
             });
         }
     })
     .catch(error => {
-        console.error('Erreur détaillée:', error);
-        const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
+        console.error('❌ Erreur détaillée lors de l\'envoi de l\'email de qualification:', error);
+        const errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement.';
         alert(errorMessage);
         
         if (submitButton) {
