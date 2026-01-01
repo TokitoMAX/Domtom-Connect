@@ -617,6 +617,89 @@ function getEngagementLabel(value) {
     return labels[value] || value || 'Non renseigné';
 }
 
+// Fonction pour déterminer le pack et les facilités de paiement selon budget + engagement
+function determinePackAndPayment(budget, engagement) {
+    // Si pas d'engagement ou engagement = "non", pas de pack
+    if (!engagement || engagement === 'non') {
+        return {
+            pack: null,
+            packName: 'Aucun pack proposé',
+            packPrice: null,
+            paymentPlan: 'Appel de découverte gratuit',
+            action: 'Redirection vers newsletter/ressources'
+        };
+    }
+    
+    // Déterminer le pack selon le budget
+    let packInfo = null;
+    
+    if (budget === '300-1000') {
+        packInfo = {
+            pack: 'starter',
+            packName: 'Pack Starter',
+            basePrice: 500
+        };
+    } else if (budget === '1000-3000' || budget === 'plus-3000') {
+        packInfo = {
+            pack: 'premium',
+            packName: 'Pack Premium',
+            basePrice: 1900
+        };
+    } else {
+        // Budget insuffisant ou non défini
+        return {
+            pack: null,
+            packName: 'À discuter',
+            packPrice: null,
+            paymentPlan: 'Appel de découverte gratuit',
+            action: 'Qualification nécessaire'
+        };
+    }
+    
+    // Adapter les facilités de paiement selon l'engagement
+    if (engagement === 'oui') {
+        // Engagement clair : paiement standard
+        if (packInfo.pack === 'starter') {
+            return {
+                ...packInfo,
+                packPrice: `${packInfo.basePrice}€ TTC`,
+                paymentPlan: 'Paiement standard (1 fois)',
+                paymentDetails: `${packInfo.basePrice}€ en une fois`,
+                action: 'Priorité sur l\'appel - Proposition directe'
+            };
+        } else {
+            return {
+                ...packInfo,
+                packPrice: `${packInfo.basePrice}€ TTC`,
+                paymentPlan: 'Paiement en 2 fois',
+                paymentDetails: `${Math.round(packInfo.basePrice / 2)}€ + ${Math.round(packInfo.basePrice / 2)}€`,
+                action: 'Priorité sur l\'appel - Proposition directe'
+            };
+        }
+    } else if (engagement === 'pas-sure') {
+        // Engagement hésitant : facilités de paiement
+        if (packInfo.pack === 'starter') {
+            return {
+                ...packInfo,
+                packPrice: `${packInfo.basePrice}€ TTC`,
+                paymentPlan: 'Paiement en 2 fois (facilité)',
+                paymentDetails: `${Math.round(packInfo.basePrice / 2)}€ + ${Math.round(packInfo.basePrice / 2)}€`,
+                action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
+            };
+        } else {
+            return {
+                ...packInfo,
+                packPrice: `${packInfo.basePrice}€ TTC`,
+                paymentPlan: 'Paiement en 3 fois (facilité)',
+                paymentDetails: `${Math.round(packInfo.basePrice / 3)}€ + ${Math.round(packInfo.basePrice / 3)}€ + ${Math.round(packInfo.basePrice / 3)}€`,
+                action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
+            };
+        }
+    }
+    
+    return packInfo;
+}
+
 // Fonctions helper pour les prestataires
 function getServicesLabel(value) {
     const labels = {
@@ -1084,16 +1167,21 @@ Horizon: ${getHorizonLabel(data.horizon)}
     
     // Bloc 4 - Pack, Budget & engagement
     if (data.budget || data.engagement) {
-        // Déterminer le pack selon le budget uniquement
-        let packSelectionne = '';
-        if (data.budget) {
-            if (data.budget === '300-1000') {
-                packSelectionne = 'Pack Starter (500€ TTC) - Consultation + Accès réseau';
-            } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
-                packSelectionne = 'Pack Premium (1 900€ TTC) - Accompagnement complet';
-            } else if (data.budget === 'moins-300' || data.budget === 'non-defini') {
-                packSelectionne = 'À discuter - Besoin d\'informations';
-            }
+        // Déterminer le pack et les facilités de paiement selon budget + engagement
+        const packInfo = determinePackAndPayment(data.budget, data.engagement);
+        
+        let packSection = '';
+        if (packInfo.pack) {
+            packSection = `
+Pack sélectionné: ${packInfo.packName} (${packInfo.packPrice})
+Plan de paiement: ${packInfo.paymentPlan}
+Détails paiement: ${packInfo.paymentDetails}
+Action recommandée: ${packInfo.action}`;
+        } else {
+            packSection = `
+Pack: ${packInfo.packName}
+Plan: ${packInfo.paymentPlan}
+Action: ${packInfo.action}`;
         }
         
         messageBody += `
@@ -1101,8 +1189,8 @@ Horizon: ${getHorizonLabel(data.horizon)}
 💰 BLOC 4 - BUDGET & ENGAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Budget: ${getBudgetLabel(data.budget)}
-Pack sélectionné (selon budget): ${packSelectionne}
 Engagement: ${getEngagementLabel(data.engagement)}
+${packSection}
 `;
     }
     
@@ -1124,17 +1212,17 @@ Certification acceptée: OUI
     
     // Ajouter le pack dans les données structurées pour porteurs-projets
     if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet')) {
-        if (data.budget) {
-            // Déterminer le pack selon le budget
-            let packValue = '';
-            if (data.budget === '300-1000') {
-                packValue = 'Pack Starter';
-            } else if (data.budget === '1000-3000' || data.budget === 'plus-3000') {
-                packValue = 'Pack Premium';
+        if (data.budget || data.engagement) {
+            const packInfo = determinePackAndPayment(data.budget, data.engagement);
+            if (packInfo.pack) {
+                formDataToSend.append('Pack sélectionné', `${packInfo.packName} (${packInfo.packPrice})`);
+                formDataToSend.append('Plan de paiement', packInfo.paymentPlan);
+                formDataToSend.append('Détails paiement', packInfo.paymentDetails);
+                formDataToSend.append('Action recommandée', packInfo.action);
             } else {
-                packValue = 'À discuter';
+                formDataToSend.append('Pack sélectionné', packInfo.packName);
+                formDataToSend.append('Action', packInfo.action);
             }
-            formDataToSend.append('Pack sélectionné (selon budget)', packValue);
         }
     }
     
@@ -1213,23 +1301,22 @@ Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || '
     
     // Informations spécifiques pour Entreprises
     if (pageType === 'entreprises') {
-        // Déterminer le pack recommandé selon le budget d'accompagnement
-        let packRecommandeEntreprise = 'Non déterminé';
-        let eligibleEntreprise = false;
+        // Normaliser le budget pour utiliser la fonction determinePackAndPayment
+        let normalizedBudget = null;
         if (data.budget_accompagnement) {
             const budgetValue = data.budget_accompagnement;
             if (budgetValue === '300-1000' || budgetValue.includes('300-1 000') || budgetValue.includes('300-1000')) {
-                packRecommandeEntreprise = 'Pack Starter (500€ TTC)';
-                eligibleEntreprise = true;
+                normalizedBudget = '300-1000';
             } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' || 
                       budgetValue.includes('1 000-3 000') || budgetValue.includes('plus de 3 000')) {
-                packRecommandeEntreprise = 'Pack Premium (1 900€ TTC)';
-                eligibleEntreprise = true;
+                normalizedBudget = '1000-3000';
             } else if (budgetValue === 'moins-300' || budgetValue.includes('moins de 300')) {
-                packRecommandeEntreprise = 'Non éligible (budget insuffisant)';
-                eligibleEntreprise = false;
+                normalizedBudget = 'moins-300';
             }
         }
+        
+        // Déterminer le pack et les facilités selon budget + engagement
+        const packInfo = determinePackAndPayment(normalizedBudget, data.engagement);
         
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1249,8 +1336,16 @@ Nombre de prestataires recherchés: ${getNombrePrestatairesLabel(data.nombre_pre
 💰 BUDGET & PACK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Budget d'accompagnement Domtom Connect: ${data.budget_accompagnement || 'Non renseigné'}
-Pack recommandé: ${packRecommandeEntreprise}
-Statut éligibilité: ${eligibleEntreprise ? '✓ Éligible' : '⚠ Non éligible'}
+${data.engagement ? `Engagement: ${getEngagementLabel(data.engagement)}` : ''}
+${packInfo.pack ? `
+Pack recommandé: ${packInfo.packName} (${packInfo.packPrice})
+Plan de paiement: ${packInfo.paymentPlan}
+Détails paiement: ${packInfo.paymentDetails}
+Action recommandée: ${packInfo.action}
+Statut éligibilité: ✓ Éligible` : `
+Pack: ${packInfo.packName}
+Action: ${packInfo.action}
+Statut éligibilité: ⚠ Non éligible`}
 Budget estimé pour prestations (hors accompagnement): ${getBudgetEntrepriseLabel(data.budget) || 'Non renseigné'}
 Urgence du besoin: ${getUrgenceLabel(data.urgence) || 'Non renseigné'}
 Description du besoin: ${data.description_besoin || 'Non renseigné'}
@@ -1264,9 +1359,16 @@ Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
         
         // Ajouter les informations de pack dans FormData
-        if (packRecommandeEntreprise !== 'Non déterminé') {
-            formDataToSend.append('Pack Recommandé', packRecommandeEntreprise);
-            formDataToSend.append('Éligible', eligibleEntreprise ? 'Oui' : 'Non');
+        if (packInfo.pack) {
+            formDataToSend.append('Pack Recommandé', `${packInfo.packName} (${packInfo.packPrice})`);
+            formDataToSend.append('Plan de paiement', packInfo.paymentPlan);
+            formDataToSend.append('Détails paiement', packInfo.paymentDetails);
+            formDataToSend.append('Action recommandée', packInfo.action);
+            formDataToSend.append('Éligible', 'Oui');
+        } else {
+            formDataToSend.append('Pack Recommandé', packInfo.packName);
+            formDataToSend.append('Action', packInfo.action);
+            formDataToSend.append('Éligible', 'Non');
         }
     }
     
@@ -1685,12 +1787,30 @@ Horizon: ${getHorizonLabel(completeData.horizon)}
     
     // Bloc 4 - Budget & engagement
     if (completeData.budget || completeData.engagement) {
+        // Déterminer le pack et les facilités de paiement selon budget + engagement
+        const packInfo = determinePackAndPayment(completeData.budget, completeData.engagement);
+        
+        let packSection = '';
+        if (packInfo.pack) {
+            packSection = `
+Pack sélectionné: ${packInfo.packName} (${packInfo.packPrice})
+Plan de paiement: ${packInfo.paymentPlan}
+Détails paiement: ${packInfo.paymentDetails}
+Action recommandée: ${packInfo.action}`;
+        } else {
+            packSection = `
+Pack: ${packInfo.packName}
+Plan: ${packInfo.paymentPlan}
+Action: ${packInfo.action}`;
+        }
+        
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 BLOC 4 - BUDGET & ENGAGEMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Budget: ${getBudgetLabel(completeData.budget)}
 Engagement: ${getEngagementLabel(completeData.engagement)}
+${packSection}
 `;
     }
     
@@ -1700,14 +1820,36 @@ Commentaires additionnels: ${completeData.commentaires}
 `;
     }
     
+    // Adapter les prochaines étapes selon l'engagement
+    const packInfo = determinePackAndPayment(completeData.budget, completeData.engagement);
+    let prochainesEtapes = '';
+    
+    if (completeData.engagement === 'oui') {
+        prochainesEtapes = `
+1. ⚡ PRIORITÉ : Contacter ${completeData.prenom} ${completeData.nom}${completeData.nom_projet ? ' (' + completeData.nom_projet + ')' : ''} rapidement (engagement clair)
+2. Présenter le ${packInfo.packName || 'pack'} et confirmer l'alignement
+3. Si alignement confirmé, envoyer récap + lien paiement${packInfo.paymentDetails ? ' (' + packInfo.paymentDetails + ')' : ''}
+4. Planifier première session de travail`;
+    } else if (completeData.engagement === 'pas-sure') {
+        prochainesEtapes = `
+1. Appel de découverte avec ${completeData.prenom} ${completeData.nom}${completeData.nom_projet ? ' (' + completeData.nom_projet + ')' : ''}
+2. Présenter la valeur du ${packInfo.packName || 'pack'} et répondre aux questions
+3. Proposer les facilités de paiement${packInfo.paymentDetails ? ' (' + packInfo.paymentDetails + ')' : ''} pour réduire la friction
+4. Si convaincu, envoyer récap + lien paiement
+5. Planifier première session de travail`;
+    } else {
+        prochainesEtapes = `
+1. Contacter ${completeData.prenom} ${completeData.nom}${completeData.nom_projet ? ' (' + completeData.nom_projet + ')' : ''} pour un appel informatif
+2. Présenter les services sans pression
+3. Proposer newsletter/ressources gratuites
+4. Suivi à froid dans 2-3 semaines`;
+    }
+    
     messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Contacter ${completeData.prenom} ${completeData.nom}${completeData.nom_projet ? ' (' + completeData.nom_projet + ')' : ''} pour un appel de diagnostic
-2. Après l'appel, décider (oui/non) selon alignement avec mission
-3. Si oui, envoyer récap + lien paiement acompte (950€)
-4. Planifier première session de travail (diagnostic approfondi)
+${prochainesEtapes}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     
@@ -1736,6 +1878,18 @@ Commentaires additionnels: ${completeData.commentaires}
     if (completeData.horizon) formDataToSend.append('Horizon', getHorizonLabel(completeData.horizon));
     if (completeData.budget) formDataToSend.append('Budget', getBudgetLabel(completeData.budget));
     if (completeData.engagement) formDataToSend.append('Engagement', getEngagementLabel(completeData.engagement));
+    if (completeData.budget || completeData.engagement) {
+        const packInfo = determinePackAndPayment(completeData.budget, completeData.engagement);
+        if (packInfo.pack) {
+            formDataToSend.append('Pack sélectionné', `${packInfo.packName} (${packInfo.packPrice})`);
+            formDataToSend.append('Plan de paiement', packInfo.paymentPlan);
+            formDataToSend.append('Détails paiement', packInfo.paymentDetails);
+            formDataToSend.append('Action recommandée', packInfo.action);
+        } else {
+            formDataToSend.append('Pack', packInfo.packName);
+            formDataToSend.append('Action', packInfo.action);
+        }
+    }
     if (completeData.commentaires) formDataToSend.append('Commentaires', completeData.commentaires);
     
     fetch(formspreeUrl, {
