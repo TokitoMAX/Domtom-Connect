@@ -687,11 +687,15 @@ function determinePackAndPayment(budget, engagement) {
                 action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
             };
         } else {
+            // Calcul précis pour 3 fois : s'assurer que la somme = basePrice
+            const part1 = Math.floor(packInfo.basePrice / 3);
+            const part2 = Math.floor(packInfo.basePrice / 3);
+            const part3 = packInfo.basePrice - part1 - part2; // Le reste pour la dernière échéance
             return {
                 ...packInfo,
                 packPrice: `${packInfo.basePrice}€ TTC`,
                 paymentPlan: 'Paiement en 3 fois (facilité)',
-                paymentDetails: `${Math.round(packInfo.basePrice / 3)}€ + ${Math.round(packInfo.basePrice / 3)}€ + ${Math.round(packInfo.basePrice / 3)}€`,
+                paymentDetails: `${part1}€ + ${part2}€ + ${part3}€`,
                 action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
             };
         }
