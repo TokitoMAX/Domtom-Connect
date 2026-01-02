@@ -8,6 +8,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/tarifs",
+      "destination": "/tarifs.html"
+    },
+    {
       "source": "/landing/prestataires",
       "destination": "/landing/prestataires/index.html"
     },
