@@ -26,25 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initExitIntentPopup();
     
-    // Show popup after user has been on page for 30 seconds
+    // Stratégie multi-triggers pour afficher le popup de manière plus intelligente
+    // Trigger 1: Après 20 secondes (engagement temporel)
     setTimeout(() => {
-        if (!exitIntentShown) {
-            showExitIntentPopup();
-            exitIntentShown = true;
-            setCookie('exit_intent_shown', 'true', 24);
-            
-            // Track time-based trigger
-            if (window.trackLead) {
-                window.trackLead({
-                    source: 'exit-intent-popup',
-                    action: 'triggered',
-                    trigger: 'time-based',
-                    timeOnPage: timeOnPage,
-                    scrollPercentage: scrollPercentage
-                });
-            }
+        if (!exitIntentShown && timeOnPage >= 20) {
+            checkAndShowPopup('time-based');
         }
-    }, 30000); // 30 seconds
+    }, 20000); // 20 seconds
 });
 
 function handleMouseMove(e) {
@@ -56,28 +44,40 @@ function handleScroll() {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     scrollPercentage = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
+    
+    // Trigger 2: Afficher après 60% de scroll si l'utilisateur a passé au moins 15 secondes (engagement par scroll)
+    if (!exitIntentShown && scrollPercentage >= 60 && timeOnPage >= 15) {
+        checkAndShowPopup('scroll-based');
+    }
+}
+
+// Fonction pour vérifier les conditions et afficher le popup
+function checkAndShowPopup(triggerType) {
+    if (!exitIntentShown) {
+        showExitIntentPopup();
+        exitIntentShown = true;
+        setCookie('exit_intent_shown', 'true', 24);
+        
+        // Track trigger
+        if (window.trackLead) {
+            window.trackLead({
+                source: 'exit-intent-popup',
+                action: 'triggered',
+                trigger: triggerType,
+                timeOnPage: timeOnPage,
+                scrollPercentage: scrollPercentage
+            });
+        }
+    }
 }
 
 function handleMouseOut(e) {
-    // Only trigger if mouse is moving upward (toward top of page) - exit intent
-    // This detects when user tries to leave the page
-    // Amélioration de la détection pour être plus sensible
+    // Trigger 3: Exit intent - détecte quand l'utilisateur essaie de quitter la page
+    // Only trigger if mouse is moving upward (toward top of page)
     if (e.clientY < 0 || (!e.toElement && !e.relatedTarget && mouseY < 50)) {
-        if (!exitIntentShown) {
-            showExitIntentPopup();
-            exitIntentShown = true;
-            setCookie('exit_intent_shown', 'true', 24); // 24 hours
-            
-            // Track exit intent trigger
-            if (window.trackLead) {
-                window.trackLead({
-                    source: 'exit-intent-popup',
-                    action: 'triggered',
-                    trigger: 'exit-intent',
-                    timeOnPage: timeOnPage,
-                    scrollPercentage: scrollPercentage
-                });
-            }
+        // Afficher seulement si l'utilisateur a passé au moins 10 secondes sur la page
+        if (!exitIntentShown && timeOnPage >= 10) {
+            checkAndShowPopup('exit-intent');
         }
     }
 }
@@ -105,10 +105,10 @@ function initExitIntentPopup() {
                     <input type="tel" name="telephone" placeholder="Téléphone *" required>
                     <select name="profil" required>
                         <option value="">Votre profil *</option>
-                        <option value="porteur-projet">Porteur de projet</option>
-                        <option value="entrepreneur">Entrepreneur</option>
+                        <option value="porteur-projet">Porteur de projet / Entrepreneur</option>
                         <option value="entreprise">Entreprise</option>
                         <option value="prestataire">Prestataire</option>
+                        <option value="investisseur">Investisseur</option>
                     </select>
                     <select name="ile" required>
                         <option value="">Votre territoire *</option>
@@ -292,6 +292,8 @@ function handleExitIntentSubmit(event) {
         profilLabel = '🚀 PORTEUR DE PROJET';
     } else if (data.profil === 'entrepreneur') {
         profilLabel = '🚀 ENTREPRENEUR';
+    } else if (data.profil === 'investisseur') {
+        profilLabel = '💰 INVESTISSEUR';
     } else {
         profilLabel = '👤 ' + (data.profil || 'AUTRE').toUpperCase();
     }
