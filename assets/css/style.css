@@ -1850,7 +1850,7 @@ p {
     }
     
     .hero-section {
-        padding: 140px 0 80px;
+        padding: 120px 0 60px; /* Réduction pour tablette mais garde le titre visible */
         min-height: auto;
     }
     
@@ -2057,9 +2057,18 @@ p {
         margin-bottom: 0;
     }
     
-    /* Réduction du padding hero sur mobile */
+    /* Réduction du padding hero sur mobile - mais garder assez d'espace pour le titre */
     .hero-section {
-        padding: 2.5rem 0 !important; /* Réduction majeure pour réduire le scroll */
+        padding: 4rem 0 2.5rem 0 !important; /* Padding-top augmenté pour compenser navbar et rendre le titre visible */
+    }
+    
+    /* Améliorer la visibilité du titre hero */
+    .hero-title {
+        font-size: clamp(2rem, 5.5vw, 3rem) !important; /* Taille augmentée pour mieux voir */
+        margin-bottom: 1.5rem !important; /* Margin ajustée */
+        margin-top: 0.5rem !important; /* Espace au-dessus */
+        line-height: 1.3 !important; /* Line-height optimisée */
+        font-weight: 800 !important;
     }
     
     .hero-content-with-form {
@@ -2130,9 +2139,19 @@ p {
         padding: 0 20px;
     }
     
-    .hero-section,
+    .hero-section {
+        padding: 3.5rem 0 2rem !important; /* Padding-top augmenté pour compenser navbar sur petits mobiles */
+    }
+    
     .pricing-hero {
-        padding: 2rem 0 2rem !important; /* Réduction majeure sur petits mobiles */
+        padding: 2rem 0 1.5rem !important; /* Padding réduit pour pricing */
+    }
+    
+    /* Titre hero encore plus visible sur petits mobiles */
+    .hero-title {
+        font-size: clamp(1.875rem, 6vw, 2.5rem) !important; /* Taille augmentée */
+        margin-bottom: 1.25rem !important;
+        line-height: 1.3 !important;
     }
     
     .features-section,
