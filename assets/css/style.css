@@ -2060,7 +2060,7 @@ p {
     
     /* Réduction du padding hero sur mobile - mais garder assez d'espace pour le titre */
     .hero-section {
-        padding: 4rem 0 2.5rem 0 !important; /* Padding-top augmenté pour compenser navbar et rendre le titre visible */
+        padding: 5.5rem 0 2.5rem 0 !important; /* Padding-top augmenté pour compenser navbar (80px) et rendre le titre visible */
     }
     
     /* Améliorer la visibilité du titre hero */
@@ -2193,7 +2193,7 @@ p {
     }
     
     .hero-section {
-        padding: 3.5rem 0 2rem !important; /* Padding-top augmenté pour compenser navbar sur petits mobiles */
+        padding: 5rem 0 2rem !important; /* Padding-top augmenté pour compenser navbar (80px) sur petits mobiles */
     }
     
     .pricing-hero {
