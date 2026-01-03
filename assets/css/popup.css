@@ -60,6 +60,8 @@
     right: 1rem;
     width: 32px;
     height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     border: none;
     background: var(--gray-100);
     border-radius: 50%;
@@ -75,6 +77,11 @@
 .exit-intent-close:hover {
     background: var(--gray-200);
     transform: rotate(90deg);
+}
+
+.exit-intent-close:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 .exit-intent-header {
@@ -122,11 +129,22 @@
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .exit-intent-form input:focus,
 .exit-intent-form select:focus {
     outline: none;
+    border-color: var(--primary-color);
+}
+
+.exit-intent-form input:focus-visible,
+.exit-intent-form select:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
     border-color: var(--primary-color);
 }
 
@@ -142,12 +160,38 @@
     margin-top: 1rem;
 }
 
+/* Prévention du zoom automatique sur iOS */
+@supports (-webkit-touch-callout: none) {
+    .exit-intent-form input[type="text"],
+    .exit-intent-form input[type="email"],
+    .exit-intent-form input[type="tel"],
+    .exit-intent-form select {
+        font-size: 16px;
+    }
+}
+
+/* Amélioration des selects */
+.exit-intent-form select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e293b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    padding-right: 3rem;
+}
+
 @media (max-width: 768px) {
     .exit-intent-popup {
         padding: 2rem 1.5rem;
+        max-width: calc(100% - 2rem);
     }
 
     .exit-intent-header h2 {
         font-size: 1.5rem;
+    }
+    
+    .exit-intent-form input,
+    .exit-intent-form select {
+        min-height: 44px; /* Zone tactile minimale pour mobile */
     }
 }

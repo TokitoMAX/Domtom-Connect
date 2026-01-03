@@ -1,7 +1,5 @@
 // Exit Intent Popup functionality
 
-console.log('Exit Intent Popup script chargé'); // Debug
-
 let exitIntentShown = false;
 let mouseY = 0;
 let timeOnPage = 0;
@@ -9,10 +7,10 @@ let scrollPercentage = 0;
 let pageLoadTime = Date.now();
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if popup was already shown (cookie) - commenté pour test
-    // if (getCookie('exit_intent_shown') === 'true') {
-    //     return;
-    // }
+    // Check if popup was already shown (cookie)
+    if (getCookie('exit_intent_shown') === 'true') {
+        return;
+    }
     
     // Track mouse movement for exit intent
     document.addEventListener('mouseout', handleMouseOut);
@@ -28,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initExitIntentPopup();
     
-    // Show popup after user has been on page for 10 seconds (réduit pour test)
+    // Show popup after user has been on page for 30 seconds
     setTimeout(() => {
         if (!exitIntentShown) {
             showExitIntentPopup();
@@ -46,18 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }
-    }, 10000); // 10 seconds pour test (normalement 30s)
-    
-    // Mode test : appuyez sur 'T' pour forcer l'affichage
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 't' || e.key === 'T') {
-            if (!exitIntentShown) {
-                showExitIntentPopup();
-                exitIntentShown = true;
-                console.log('Popup forcée via touche T');
-            }
-        }
-    });
+    }, 30000); // 30 seconds
 });
 
 function handleMouseMove(e) {
@@ -195,8 +182,6 @@ function showExitIntentPopup() {
         overlay.style.opacity = '1';
         overlay.style.zIndex = '99999';
         
-        console.log('Popup affichée'); // Debug
-        
         // Track popup shown
         if (window.trackLead) {
             window.trackLead({
@@ -205,8 +190,14 @@ function showExitIntentPopup() {
                 page: window.location.pathname
             });
         }
-    } else {
-        console.error('Overlay non trouvé - popup non initialisée'); // Debug
+        
+        // Focus sur le premier champ pour accessibilité
+        setTimeout(() => {
+            const firstInput = overlay.querySelector('input[name="prenom"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 300);
     }
 }
 
@@ -224,10 +215,6 @@ function closeExitIntentPopup() {
                 action: 'closed'
             });
         }
-        
-        console.log('Popup fermée'); // Debug
-    } else {
-        console.error('Overlay non trouvé pour fermeture'); // Debug
     }
 }
 
@@ -454,5 +441,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Exposer la fonction globalement pour qu'elle soit accessible depuis onclick
+// Exposer les fonctions globalement pour qu'elles soient accessibles depuis onclick/onsubmit
 window.closeExitIntentPopup = closeExitIntentPopup;
+window.handleExitIntentSubmit = handleExitIntentSubmit;
