@@ -7,6 +7,22 @@ let scrollPercentage = 0;
 let pageLoadTime = Date.now();
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Vérifier si on doit forcer l'affichage du popup (pour test avec ?test-popup=1 dans l'URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceShow = urlParams.get('test-popup') === '1';
+    
+    if (forceShow) {
+        // Mode test : supprimer le cookie et forcer l'affichage immédiatement
+        setCookie('exit_intent_shown', 'false', -1); // Supprimer le cookie
+        initExitIntentPopup();
+        // Afficher le popup après 1 seconde pour le test
+        setTimeout(() => {
+            showExitIntentPopup();
+            exitIntentShown = true;
+        }, 1000);
+        return;
+    }
+    
     // Check if popup was already shown (cookie)
     if (getCookie('exit_intent_shown') === 'true') {
         return;
@@ -446,3 +462,28 @@ document.addEventListener('keydown', function(e) {
 // Exposer les fonctions globalement pour qu'elles soient accessibles depuis onclick/onsubmit
 window.closeExitIntentPopup = closeExitIntentPopup;
 window.handleExitIntentSubmit = handleExitIntentSubmit;
+
+// Fonction utilitaire pour tester le popup depuis la console
+// Utilisation : window.testPopup() dans la console du navigateur
+window.testPopup = function() {
+    // Supprimer le cookie
+    setCookie('exit_intent_shown', 'false', -1);
+    // Réinitialiser la variable
+    exitIntentShown = false;
+    // S'assurer que le popup est initialisé
+    if (!document.getElementById('exit-intent-overlay')) {
+        initExitIntentPopup();
+        setTimeout(() => {
+            showExitIntentPopup();
+        }, 100);
+    } else {
+        showExitIntentPopup();
+    }
+};
+
+// Fonction pour réinitialiser le popup (supprime le cookie)
+window.resetPopup = function() {
+    setCookie('exit_intent_shown', 'false', -1);
+    exitIntentShown = false;
+    console.log('Popup réinitialisé. Le popup s\'affichera à nouveau selon les conditions normales.');
+};
