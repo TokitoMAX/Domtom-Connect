@@ -299,14 +299,163 @@
             margin-top: 3rem;
         }
         
+        /* Optimisations Mobile */
         @media (max-width: 768px) {
-            .packs-container {
-                grid-template-columns: 1fr;
+            .pricing-hero {
+                padding: 3rem 0 2.5rem 0;
+                margin-top: 70px;
+            }
+            
+            .pricing-hero h1 {
+                font-size: clamp(1.75rem, 5vw, 2.5rem);
+                margin-bottom: 1rem;
+            }
+            
+            .pricing-hero p {
+                font-size: clamp(1rem, 3vw, 1.125rem);
+                padding: 0 1.5rem;
+            }
+            
+            .pricing-section {
+                padding: 3rem 0;
+            }
+            
+            .pricing-card {
+                padding: 1.75rem 1.5rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
             }
             
             .profile-header {
                 flex-direction: column;
                 text-align: center;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .profile-icon {
+                font-size: 2.5rem;
+            }
+            
+            .profile-title h2 {
+                font-size: clamp(1.5rem, 4vw, 1.75rem);
+            }
+            
+            .profile-title p {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .packs-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+            
+            .pack-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 16px;
+            }
+            
+            .pack-price {
+                font-size: clamp(2rem, 5vw, 2.25rem);
+            }
+            
+            .pack-features {
+                margin: 1.25rem 0;
+            }
+            
+            .pack-features li {
+                padding: 0.625rem 0;
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .payment-options {
+                padding: 1.25rem;
+                margin-top: 1.25rem;
+            }
+            
+            .payment-options h4 {
+                font-size: 0.95rem;
+            }
+            
+            .payment-options p {
+                font-size: clamp(0.85rem, 2vw, 0.9rem);
+                line-height: 1.5;
+            }
+            
+            .engagement-section {
+                padding: 1.5rem 1.25rem;
+                margin-top: 1.5rem;
+            }
+            
+            .engagement-section h3 {
+                font-size: clamp(1.25rem, 3.5vw, 1.375rem);
+            }
+            
+            .engagement-list li {
+                padding: 0.625rem 0;
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .advantages-section h3 {
+                font-size: clamp(1.25rem, 3.5vw, 1.375rem);
+            }
+            
+            .advantages-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .advantage-item {
+                padding: 1.25rem 1rem;
+            }
+            
+            .advantage-item h4 {
+                font-size: clamp(1rem, 2.5vw, 1.05rem);
+            }
+            
+            .advantage-item p {
+                font-size: clamp(0.85rem, 2vw, 0.9rem);
+            }
+            
+            .cta-section {
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pricing-hero {
+                padding: 2.5rem 0 2rem 0;
+            }
+            
+            .pricing-section {
+                padding: 2.5rem 0;
+            }
+            
+            .pricing-card {
+                padding: 1.5rem 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .profile-icon {
+                font-size: 2rem;
+            }
+            
+            .pack-card {
+                padding: 1.25rem 1rem;
+            }
+            
+            .pack-price {
+                font-size: 1.75rem;
+            }
+            
+            .engagement-section,
+            .payment-options {
+                padding: 1rem 0.875rem;
+            }
+            
+            .advantage-item {
+                padding: 1rem 0.875rem;
             }
         }
     </style>
