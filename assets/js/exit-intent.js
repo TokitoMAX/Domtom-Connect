@@ -6,7 +6,8 @@ let timeOnPage = 0;
 let scrollPercentage = 0;
 let pageLoadTime = Date.now();
 
-document.addEventListener('DOMContentLoaded', function() {
+// Fonction d'initialisation principale
+function initializeExitIntent() {
     // Vérifier si on doit forcer l'affichage du popup (pour test avec ?test-popup=1 dans l'URL)
     const urlParams = new URLSearchParams(window.location.search);
     const forceShow = urlParams.get('test-popup') === '1';
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (forceShow) {
         // Mode test : supprimer le cookie et forcer l'affichage immédiatement
         setCookie('exit_intent_shown', 'false', -1); // Supprimer le cookie
+        exitIntentShown = false;
         initExitIntentPopup();
         // Afficher le popup après 1 seconde pour le test
         setTimeout(() => {
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check if popup was already shown (cookie)
     if (getCookie('exit_intent_shown') === 'true') {
+        console.log('Popup déjà affiché (cookie présent), pas d\'affichage');
         return;
     }
     
@@ -49,7 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
             checkAndShowPopup('time-based');
         }
     }, 20000); // 20 seconds
-});
+}
+
+// Attendre que le DOM soit chargé
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeExitIntent);
+} else {
+    // DOM déjà chargé
+    initializeExitIntent();
+}
 
 function handleMouseMove(e) {
     mouseY = e.clientY;
@@ -99,6 +110,18 @@ function handleMouseOut(e) {
 }
 
 function initExitIntentPopup() {
+    // Vérifier si le popup existe déjà
+    if (document.getElementById('exit-intent-overlay')) {
+        return; // Le popup existe déjà, pas besoin de le recréer
+    }
+    
+    // Attendre que document.body soit disponible
+    if (!document.body) {
+        console.warn('exit-intent: document.body non disponible, nouvelle tentative dans 100ms');
+        setTimeout(initExitIntentPopup, 100);
+        return;
+    }
+    
     // Get page-specific offer
     const offer = getPageSpecificOffer();
     
@@ -191,12 +214,21 @@ function getPageSpecificOffer() {
 }
 
 function showExitIntentPopup() {
+    // S'assurer que le popup est initialisé
+    if (!document.getElementById('exit-intent-overlay')) {
+        initExitIntentPopup();
+    }
+    
     const overlay = document.getElementById('exit-intent-overlay');
     if (overlay) {
         overlay.classList.add('show');
         overlay.style.display = 'flex';
         overlay.style.opacity = '1';
         overlay.style.zIndex = '99999';
+        overlay.style.visibility = 'visible';
+        
+        // Forcer le reflow pour s'assurer que les styles sont appliqués
+        void overlay.offsetHeight;
         
         // Track popup shown
         if (window.trackLead) {
@@ -214,6 +246,10 @@ function showExitIntentPopup() {
                 firstInput.focus();
             }
         }, 300);
+        
+        console.log('Popup affiché avec succès');
+    } else {
+        console.error('Impossible de trouver l\'overlay du popup');
     }
 }
 
@@ -466,17 +502,20 @@ window.handleExitIntentSubmit = handleExitIntentSubmit;
 // Fonction utilitaire pour tester le popup depuis la console
 // Utilisation : window.testPopup() dans la console du navigateur
 window.testPopup = function() {
+    console.log('Test du popup en cours...');
     // Supprimer le cookie
     setCookie('exit_intent_shown', 'false', -1);
     // Réinitialiser la variable
     exitIntentShown = false;
     // S'assurer que le popup est initialisé
     if (!document.getElementById('exit-intent-overlay')) {
+        console.log('Initialisation du popup...');
         initExitIntentPopup();
         setTimeout(() => {
             showExitIntentPopup();
         }, 100);
     } else {
+        console.log('Popup trouvé, affichage...');
         showExitIntentPopup();
     }
 };
