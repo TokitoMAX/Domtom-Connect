@@ -92,7 +92,7 @@
                             <option value="autre">Autre</option>
                         </select>
                         <button type="submit" class="popup-submit">${offer.buttonText}</button>
-                        <p class="popup-privacy">🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.</p>
+                        <p class="popup-privacy">Vos données sont sécurisées. Nous vous contacterons dans les 24h.</p>
                     </form>
                 </div>
             </div>

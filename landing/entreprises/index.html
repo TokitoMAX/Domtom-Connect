@@ -211,7 +211,7 @@
             { id: 'entreprise', question: 'Quel est le nom de votre entreprise ?', type: 'text', placeholder: 'Nom de l\'entreprise', required: true, fieldName: 'entreprise' },
             { id: 'site_web', question: 'Quel est le site web de votre entreprise ? (PREUVE REQUISE)', type: 'url', placeholder: 'https://votre-entreprise.com', required: true, fieldName: 'site_web', pattern: 'https?://.+', description: '⚠️ Preuve obligatoire : Site web de l\'entreprise pour vérifier l\'existence et l\'activité' },
             { id: 'siret', question: 'Quel est le numéro SIRET de votre entreprise ? (PREUVE REQUISE)', type: 'text', placeholder: '12345678901234', required: true, fieldName: 'siret', pattern: '[0-9]{14}', maxlength: 14, description: '⚠️ Preuve obligatoire : Le SIRET doit contenir 14 chiffres. Il sera vérifié.' },
-            { id: 'linkedin', question: 'Quel est le lien vers votre profil LinkedIn ?', type: 'url', placeholder: 'https://linkedin.com/in/votre-profil (optionnel)', required: false, fieldName: 'linkedin', pattern: 'https?://.+', description: '💡 Si vous n\'avez pas de LinkedIn, vous pouvez laisser vide' },
+            { id: 'linkedin', question: 'Quel est le lien vers votre profil LinkedIn ?', type: 'url', placeholder: 'https://linkedin.com/in/votre-profil (optionnel)', required: false, fieldName: 'linkedin', pattern: 'https?://.+', description: 'Si vous n\'avez pas de LinkedIn, vous pouvez laisser vide' },
             { id: 'secteur_activite', question: 'Dans quel secteur d\'activité évolue votre entreprise ?', type: 'radio', required: true, fieldName: 'secteur_activite', options: [
                 { value: 'tech', label: 'Technologie / Digital' },
                 { value: 'commerce', label: 'Commerce / E-commerce' },
