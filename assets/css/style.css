@@ -1986,7 +1986,17 @@ p {
     .feature-card,
     .service-card,
     .collaborate-card {
-        padding: 2rem 1.5rem;
+        padding: 1.75rem 1.25rem; /* Réduit pour mobile */
+    }
+    
+    /* Optimiser les cards "Pourquoi collaborer" sur mobile */
+    .collaborate-card ul {
+        margin-bottom: 1.5rem !important; /* Réduit de 2rem */
+    }
+    
+    .collaborate-card li {
+        padding: 0.625rem 0 !important; /* Réduit de 0.75rem */
+        font-size: clamp(0.875rem, 2vw, 0.95rem) !important;
     }
     
     .features-section,
@@ -1997,11 +2007,21 @@ p {
     .faq-section,
     .final-form-section,
     .why-collaborate-section {
-        padding: 80px 0;
+        padding: 60px 0; /* Réduit de 80px à 60px pour mobile */
     }
     
     .section-header {
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem; /* Réduit de 3rem à 2.5rem */
+    }
+    
+    /* Cacher le quiz intégré sur mobile (déjà un lien dans le hero) */
+    .quiz-section-mobile {
+        display: none;
+    }
+    
+    /* Cacher la vidéo YouTube sur mobile (chargement lourd, data) */
+    .video-section-mobile {
+        display: none;
     }
     
     .inscription-form {
@@ -2085,11 +2105,11 @@ p {
     .faq-section,
     .final-form-section,
     .why-collaborate-section {
-        padding: 60px 0;
+        padding: 50px 0; /* Encore plus réduit sur petits mobiles */
     }
     
     .section-header {
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem; /* Réduit encore plus sur petits mobiles */
     }
     
     .hero-content-with-form {
