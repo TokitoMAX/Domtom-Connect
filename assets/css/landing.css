@@ -711,7 +711,7 @@
 /* Mobile - Tablettes */
 @media (max-width: 768px) {
     .landing-hero {
-        padding: 5.5rem 0 40px !important; /* Padding-top augmenté pour compenser navbar (80px) et rendre le titre visible */
+        padding: 7rem 0 40px !important; /* Padding-top augmenté pour compenser navbar et status bar - 112px */
         min-height: auto;
     }
 
@@ -957,7 +957,7 @@
 /* Petits mobiles */
 @media (max-width: 480px) {
     .landing-hero {
-        padding: 5rem 0 30px !important; /* Padding-top augmenté pour compenser navbar (80px) sur petits mobiles */
+        padding: 6.5rem 0 30px !important; /* Padding-top augmenté pour compenser navbar et status bar - 104px */
     }
 
     .landing-content {
