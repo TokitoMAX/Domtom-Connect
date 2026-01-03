@@ -234,8 +234,8 @@ Date: ${new Date().toLocaleString('fr-FR')}`;
             if (response.ok) {
                 form.innerHTML = `
                     <div style="text-align: center; padding: 2rem 0;">
-                        <h3 style="color: #667eea; margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription réussie !</h3>
-                        <p style="color: #666; margin-bottom: 1.5rem;">Merci ! Nous vous contacterons dans les 24h.</p>
+                        <h3 style="color: var(--primary-color, #00BFA6); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription réussie !</h3>
+                        <p style="color: var(--text-secondary, #6b7280); margin-bottom: 1.5rem;">Merci ! Nous vous contacterons dans les 24h.</p>
                         <button type="button" class="popup-submit" onclick="window.closeExitIntentPopup()">Parfait !</button>
                     </div>
                 `;
