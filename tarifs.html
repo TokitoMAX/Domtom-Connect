@@ -299,10 +299,10 @@
             margin-top: 3rem;
         }
         
-        /* Optimisations Mobile */
+        /* Optimisations Mobile - Réduction agressive du scroll */
         @media (max-width: 768px) {
             .pricing-hero {
-                padding: 3rem 0 2.5rem 0;
+                padding: 2.5rem 0 2rem 0 !important; /* Réduction pour moins de scroll */
                 margin-top: 70px;
             }
             
@@ -317,7 +317,7 @@
             }
             
             .pricing-section {
-                padding: 3rem 0;
+                padding: 40px 0 !important; /* Aligné avec le CSS global pour réduction du scroll */
             }
             
             .pricing-card {
@@ -425,11 +425,11 @@
         
         @media (max-width: 480px) {
             .pricing-hero {
-                padding: 2.5rem 0 2rem 0;
+                padding: 2rem 0 1.5rem 0 !important; /* Réduction maximale sur petits mobiles */
             }
             
             .pricing-section {
-                padding: 2.5rem 0;
+                padding: 30px 0 !important; /* Aligné avec le CSS global */
             }
             
             .pricing-card {

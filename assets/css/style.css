@@ -1985,20 +1985,42 @@ p {
     
     .feature-card,
     .service-card,
-    .collaborate-card {
-        padding: 1.75rem 1.25rem; /* Réduit pour mobile */
+    .collaborate-card,
+    .pricing-card {
+        padding: 1.25rem 1.5rem !important; /* Réduction : 1.75rem → 1.25rem */
+        margin-bottom: 1.5rem !important; /* Réduction des marges entre cards */
     }
     
     /* Optimiser les cards "Pourquoi collaborer" sur mobile */
     .collaborate-card ul {
-        margin-bottom: 1.5rem !important; /* Réduit de 2rem */
+        margin-bottom: 1.25rem !important; /* Réduit encore plus */
     }
     
     .collaborate-card li {
-        padding: 0.625rem 0 !important; /* Réduit de 0.75rem */
+        padding: 0.5rem 0 !important; /* Réduction : 0.625rem → 0.5rem */
         font-size: clamp(0.875rem, 2vw, 0.95rem) !important;
     }
     
+    /* Réduire les gaps dans les grids */
+    .features-grid,
+    .services-grid,
+    .collaborate-grid {
+        gap: 1rem !important; /* Réduction : de 2rem → 1rem */
+        margin-top: 1.5rem !important; /* Réduit aussi */
+    }
+    
+    /* Réduire les listes */
+    .pack-features,
+    .engagement-list {
+        margin: 1rem 0 !important;
+    }
+    
+    .pack-features li,
+    .engagement-list li {
+        padding: 0.5rem 0 !important;
+    }
+    
+    /* Réduction agressive du scroll sur mobile */
     .features-section,
     .vision-section,
     .services-section,
@@ -2006,12 +2028,13 @@ p {
     .testimonial-section,
     .faq-section,
     .final-form-section,
-    .why-collaborate-section {
-        padding: 60px 0; /* Réduit de 80px à 60px pour mobile */
+    .why-collaborate-section,
+    .pricing-section {
+        padding: 40px 0 !important; /* Réduction majeure : 60px → 40px */
     }
     
     .section-header {
-        margin-bottom: 2.5rem; /* Réduit de 3rem à 2.5rem */
+        margin-bottom: 1.5rem !important; /* Réduction : 2.5rem → 1.5rem */
     }
     
     /* Cacher le quiz intégré sur mobile (déjà un lien dans le hero) */
@@ -2034,29 +2057,43 @@ p {
         margin-bottom: 0;
     }
     
+    /* Réduction du padding hero sur mobile */
+    .hero-section {
+        padding: 2.5rem 0 !important; /* Réduction majeure pour réduire le scroll */
+    }
+    
     .hero-content-with-form {
-        gap: 2rem;
+        gap: 1.5rem !important; /* Réduction : 2rem → 1.5rem */
     }
     
     .hero-problem,
     .hero-solution {
         font-size: 1.125rem;
+        margin-bottom: 1rem !important; /* Réduction des marges */
     }
     
     .hero-benefits {
-        padding: 1.25rem;
+        padding: 1rem !important; /* Réduction : 1.25rem → 1rem */
+        margin-top: 1.5rem !important; /* Réduction : de 3rem */
     }
     
     .hero-benefits p {
         font-size: 0.95rem;
+        margin-bottom: 0.375rem !important; /* Réduction */
     }
     
     .hero-form {
-        padding: 1.5rem;
+        padding: 1.25rem !important; /* Réduction : 1.5rem → 1.25rem */
     }
     
     .hero-form-title {
         font-size: 1.25rem;
+        margin-bottom: 0.75rem !important; /* Réduction */
+    }
+    
+    /* Réduire les gaps dans les formulaires */
+    .inscription-form {
+        gap: 1.25rem !important; /* Réduction : 1.5rem → 1.25rem */
     }
     
     .hero-card,
@@ -2093,8 +2130,9 @@ p {
         padding: 0 20px;
     }
     
-    .hero-section {
-        padding: 120px 0 60px;
+    .hero-section,
+    .pricing-hero {
+        padding: 2rem 0 2rem !important; /* Réduction majeure sur petits mobiles */
     }
     
     .features-section,
@@ -2104,12 +2142,13 @@ p {
     .testimonial-section,
     .faq-section,
     .final-form-section,
-    .why-collaborate-section {
-        padding: 50px 0; /* Encore plus réduit sur petits mobiles */
+    .why-collaborate-section,
+    .pricing-section {
+        padding: 30px 0 !important; /* Encore plus agressif : 50px → 30px */
     }
     
     .section-header {
-        margin-bottom: 2rem; /* Réduit encore plus sur petits mobiles */
+        margin-bottom: 1rem !important; /* Réduction : 2rem → 1rem */
     }
     
     .hero-content-with-form {
@@ -2119,12 +2158,16 @@ p {
     .features-grid,
     .services-grid,
     .collaborate-grid {
-        gap: 1.5rem;
-        margin-top: 2rem !important;
+        gap: 0.75rem !important; /* Réduction : 1.5rem → 0.75rem */
+        margin-top: 1.5rem !important;
     }
     
-    .collaborate-card {
-        padding: 1.5rem 1.25rem;
+    .feature-card,
+    .service-card,
+    .collaborate-card,
+    .pricing-card {
+        padding: 1rem 1.25rem !important; /* Réduction : 1.5rem → 1rem */
+        margin-bottom: 1rem !important;
     }
     
     .collaborate-card .cta-button {
