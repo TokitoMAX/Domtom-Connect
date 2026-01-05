@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>Tarifs et Attentes par Profil - Domtom Connect</title>
+    <meta name="description" content="Découvrez nos tarifs et attentes pour chaque profil : porteurs de projets, entreprises, prestataires et investisseurs. Packs Starter et Premium disponibles.">
+    <meta name="keywords" content="tarifs domtom connect, prix accompagnement, pack starter, pack premium, tarifs prestataires, tarifs investisseurs">
+    <meta name="author" content="Domtom Connect">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://domtomconnect.com/tarifs">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://domtomconnect.com/tarifs">
+    <meta property="og:title" content="Tarifs et Attentes par Profil - Domtom Connect">
+    <meta property="og:description" content="Découvrez nos tarifs et attentes pour chaque profil. Packs Starter et Premium disponibles.">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Domtom Connect">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://domtomconnect.com/tarifs">
+    <meta property="twitter:title" content="Tarifs et Attentes par Profil - Domtom Connect">
+    <meta property="twitter:description" content="Découvrez nos tarifs et attentes pour chaque profil. Packs Starter et Premium disponibles.">
+    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    
+    <style>
+        .pricing-hero {
+            background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
+            color: white;
+            padding: 5rem 0 4rem 0;
+            text-align: center;
+            margin-top: 80px; /* Compensation pour la navbar fixe */
+        }
+        
+        .pricing-hero .container {
+            padding-top: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        
+        .pricing-hero h1 {
+            color: white;
+            margin-bottom: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 0;
+        }
+        
+        .pricing-hero p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 1rem;
+            line-height: 1.7;
+            padding: 0 1rem;
+        }
+        
+        .pricing-section {
+            padding: 4rem 0;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+            border-top: 4px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .pricing-card.porteurs-projets {
+            border-top-color: #3B82F6;
+        }
+        
+        .pricing-card.entreprises {
+            border-top-color: #8B5CF6;
+        }
+        
+        .pricing-card.prestataires {
+            border-top-color: #00BFA6;
+        }
+        
+        .pricing-card.investisseurs {
+            border-top-color: #F59E0B;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+        
+        .profile-title {
+            flex: 1;
+        }
+        
+        .profile-title h2 {
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .profile-title p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .packs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .pack-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .pack-card:hover {
+            border-color: var(--primary-color);
+            background: white;
+        }
+        
+        .pack-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .pack-badge.starter {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .pack-badge.premium {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+        }
+        
+        .pack-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 1rem 0;
+        }
+        
+        .pack-price small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        
+        .pack-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        
+        .pack-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+        
+        .pack-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .pack-features li::before {
+            content: "✓";
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .payment-options {
+            background: rgba(0, 191, 166, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .payment-options h4 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .payment-options p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .engagement-section {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .engagement-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .engagement-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .engagement-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+        
+        .engagement-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .engagement-list li::before {
+            content: "→";
+            color: var(--primary-color);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .advantages-section {
+            margin-top: 2rem;
+        }
+        
+        .advantages-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .advantage-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .advantage-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .advantage-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        /* Optimisations Mobile - Réduction agressive du scroll */
+        @media (max-width: 768px) {
+            .pricing-hero {
+                padding: 2.5rem 0 2rem 0 !important; /* Réduction pour moins de scroll */
+                margin-top: 70px;
+            }
+            
+            .pricing-hero h1 {
+                font-size: clamp(1.75rem, 5vw, 2.5rem);
+                margin-bottom: 1rem;
+            }
+            
+            .pricing-hero p {
+                font-size: clamp(1rem, 3vw, 1.125rem);
+                padding: 0 1.5rem;
+            }
+            
+            .pricing-section {
+                padding: 40px 0 !important; /* Aligné avec le CSS global pour réduction du scroll */
+            }
+            
+            .pricing-card {
+                padding: 1.75rem 1.5rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .profile-icon {
+                font-size: 2.5rem;
+            }
+            
+            .profile-title h2 {
+                font-size: clamp(1.5rem, 4vw, 1.75rem);
+            }
+            
+            .profile-title p {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .packs-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+            
+            .pack-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 16px;
+            }
+            
+            .pack-price {
+                font-size: clamp(2rem, 5vw, 2.25rem);
+            }
+            
+            .pack-features {
+                margin: 1.25rem 0;
+            }
+            
+            .pack-features li {
+                padding: 0.625rem 0;
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .payment-options {
+                padding: 1.25rem;
+                margin-top: 1.25rem;
+            }
+            
+            .payment-options h4 {
+                font-size: 0.95rem;
+            }
+            
+            .payment-options p {
+                font-size: clamp(0.85rem, 2vw, 0.9rem);
+                line-height: 1.5;
+            }
+            
+            .engagement-section {
+                padding: 1.5rem 1.25rem;
+                margin-top: 1.5rem;
+            }
+            
+            .engagement-section h3 {
+                font-size: clamp(1.25rem, 3.5vw, 1.375rem);
+            }
+            
+            .engagement-list li {
+                padding: 0.625rem 0;
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+            
+            .advantages-section h3 {
+                font-size: clamp(1.25rem, 3.5vw, 1.375rem);
+            }
+            
+            .advantages-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .advantage-item {
+                padding: 1.25rem 1rem;
+            }
+            
+            .advantage-item h4 {
+                font-size: clamp(1rem, 2.5vw, 1.05rem);
+            }
+            
+            .advantage-item p {
+                font-size: clamp(0.85rem, 2vw, 0.9rem);
+            }
+            
+            .cta-section {
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pricing-hero {
+                padding: 2rem 0 1.5rem 0 !important; /* Réduction maximale sur petits mobiles */
+            }
+            
+            .pricing-section {
+                padding: 30px 0 !important; /* Aligné avec le CSS global */
+            }
+            
+            .pricing-card {
+                padding: 1.5rem 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .profile-icon {
+                font-size: 2rem;
+            }
+            
+            .pack-card {
+                padding: 1.25rem 1rem;
+            }
+            
+            .pack-price {
+                font-size: 1.75rem;
+            }
+            
+            .engagement-section,
+            .payment-options {
+                padding: 1rem 0.875rem;
+            }
+            
+            .advantage-item {
+                padding: 1rem 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="/services">Trouver des prestataires</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/a-propos">À propos</a>
+                    <a href="/tarifs">Tarifs</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="#inscription-form">
+                        <button class="nav-button" type="button" onclick="window.location.href='/#inscription-form'; return false;">
+                            <span>Rejoindre maintenant</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pricing-hero">
+        <div class="container">
+            <h1>Tarifs et Attentes par Profil</h1>
+            <p>Des offres adaptées à chaque profil avec des engagements clairs pour garantir la qualité du réseau</p>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            
+            <!-- Porteurs de Projets -->
+            <div class="pricing-card porteurs-projets">
+                <div class="profile-header">
+                    <div class="profile-icon"></div>
+                    <div class="profile-title">
+                        <h2>Porteurs de Projets / Entrepreneurs</h2>
+                        <p>Trouvez les meilleurs prestataires pour votre projet</p>
+                    </div>
+                </div>
+                
+                <div class="packs-container">
+                    <!-- Pack Starter -->
+                    <div class="pack-card">
+                        <div class="pack-badge starter">Pack Starter</div>
+                        <div class="pack-price">
+                            500€ <small>TTC</small>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Pour budget d'accompagnement de 300-1 000€
+                        </p>
+                        <ul class="pack-features">
+                            <li>Recherche personnalisée de prestataires</li>
+                            <li>Sélection qualifiée et vérifiée</li>
+                            <li>Mise en relation directe</li>
+                            <li>Accompagnement dans les échanges</li>
+                            <li>Support et coordination</li>
+                        </ul>
+                        <div class="payment-options">
+                            <h4>Options de paiement</h4>
+                            <p><strong>Engagement "Oui"</strong> : Paiement standard (1 fois - 500€)</p>
+                            <p><strong>Engagement "Pas encore sûr"</strong> : Paiement en 2 fois (250€ + 250€)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pack Premium -->
+                    <div class="pack-card">
+                        <div class="pack-badge premium">Pack Premium</div>
+                        <div class="pack-price">
+                            1 900€ <small>TTC</small>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Pour budget d'accompagnement de 1 000€+
+                        </p>
+                        <ul class="pack-features">
+                            <li>Tout le Pack Starter +</li>
+                            <li>Recherche approfondie de prestataires</li>
+                            <li>Accompagnement complet du début à la fin</li>
+                            <li>Gestion complète des prestataires</li>
+                            <li>Structuration et conseils stratégiques</li>
+                            <li>Suivi personnalisé et optimisation</li>
+                            <li>Support prioritaire</li>
+                            <li>Résultat garanti</li>
+                        </ul>
+                        <div class="payment-options">
+                            <h4>Options de paiement</h4>
+                            <p><strong>Engagement "Oui"</strong> : Paiement en 2 fois (950€ + 950€)</p>
+                            <p><strong>Engagement "Pas encore sûr"</strong> : Paiement en 3 fois (633€ + 633€ + 634€)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <a href="/landing/porteurs-projets" class="cta-button primary">Choisir mon pack</a>
+                </div>
+            </div>
+            
+            <!-- Entreprises -->
+            <div class="pricing-card entreprises">
+                <div class="profile-header">
+                    <div class="profile-icon"></div>
+                    <div class="profile-title">
+                        <h2>Entreprises</h2>
+                        <p>Prestataires locaux fiables pour votre entreprise</p>
+                    </div>
+                </div>
+                
+                <div class="packs-container">
+                    <!-- Pack Starter -->
+                    <div class="pack-card">
+                        <div class="pack-badge starter">Pack Starter</div>
+                        <div class="pack-price">
+                            500€ <small>TTC</small>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Pour budget d'accompagnement de 300-1 000€
+                        </p>
+                        <ul class="pack-features">
+                            <li>Recherche de prestataires locaux fiables</li>
+                            <li>Mise en relation sur mesure</li>
+                            <li>Suivi et accompagnement</li>
+                            <li>Coordination des prestataires</li>
+                        </ul>
+                        <div class="payment-options">
+                            <h4>Options de paiement</h4>
+                            <p><strong>Engagement "Oui"</strong> : Paiement standard (1 fois - 500€)</p>
+                            <p><strong>Engagement "Pas encore sûr"</strong> : Paiement en 2 fois (250€ + 250€)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pack Premium -->
+                    <div class="pack-card">
+                        <div class="pack-badge premium">Pack Premium</div>
+                        <div class="pack-price">
+                            1 900€ <small>TTC</small>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Pour budget d'accompagnement de 1 000€+
+                        </p>
+                        <ul class="pack-features">
+                            <li>Tout le Pack Starter +</li>
+                            <li>Recherche sur mesure selon vos besoins</li>
+                            <li>Gestion complète des prestataires</li>
+                            <li>Un seul interlocuteur</li>
+                            <li>Réactivité garantie</li>
+                            <li>Suivi proactif</li>
+                        </ul>
+                        <div class="payment-options">
+                            <h4>Options de paiement</h4>
+                            <p><strong>Engagement "Oui"</strong> : Paiement en 2 fois (950€ + 950€)</p>
+                            <p><strong>Engagement "Pas encore sûr"</strong> : Paiement en 3 fois (633€ + 633€ + 634€)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <a href="/landing/entreprises" class="cta-button primary">Choisir mon pack</a>
+                </div>
+            </div>
+            
+            <!-- Prestataires -->
+            <div class="pricing-card prestataires">
+                <div class="profile-header">
+                    <div class="profile-icon"></div>
+                    <div class="profile-title">
+                        <h2>Prestataires</h2>
+                        <p>Rejoignez notre réseau de prestataires vérifiés</p>
+                    </div>
+                </div>
+                
+                <div class="engagement-section">
+                    <h3>Engagement Requis</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                        Pour garantir la qualité du réseau, nous demandons un engagement de contribution au contenu et partage de compétences.
+                    </p>
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Format de contribution :</h4>
+                    <ul class="engagement-list">
+                        <li>Création de contenu avec Domtom Connect (articles, vidéos, podcasts)</li>
+                        <li>Partage d'expertises et retours d'expérience</li>
+                        <li>Contribution à la communauté entrepreneuriale ultramarine</li>
+                    </ul>
+                </div>
+                
+                <div class="advantages-section">
+                    <h3>Avantages</h3>
+                    <div class="advantages-grid">
+                        <div class="advantage-item">
+                            <h4>Accès au réseau</h4>
+                            <p>Clients qualifiés et vérifiés</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>Visibilité accrue</h4>
+                            <p>Grâce au contenu créé ensemble</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>⭐ Mises en relation prioritaires</h4>
+                            <p>Accès en avant-première aux projets</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>Positionnement expert</h4>
+                            <p>Reconnaissance dans votre domaine</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <a href="/landing/prestataires" class="cta-button primary">Rejoindre en tant que prestataire</a>
+                </div>
+            </div>
+            
+            <!-- Investisseurs -->
+            <div class="pricing-card investisseurs">
+                <div class="profile-header">
+                    <div class="profile-icon"></div>
+                    <div class="profile-title">
+                        <h2>Investisseurs</h2>
+                        <p>Accédez à des projets qualifiés et vérifiés</p>
+                    </div>
+                </div>
+                
+                <div class="engagement-section">
+                    <h3>Engagement Requis</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                        Cotisation mensuelle variable selon votre capacité d'investissement (à définir lors de l'échange).
+                    </p>
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Suggestions selon le montant d'investissement :</h4>
+                    <ul class="engagement-list">
+                        <li><strong>Moins de 50k€</strong> : À partir de 29€/mois</li>
+                        <li><strong>50k-200k€</strong> : 49€/mois</li>
+                        <li><strong>Plus de 200k€</strong> : 99€/mois</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary); font-style: italic;">
+                        Note : Les tarifs sont des suggestions. Le montant exact sera défini lors de l'échange selon votre situation.
+                    </p>
+                </div>
+                
+                <div class="advantages-section">
+                    <h3>Avantages</h3>
+                    <div class="advantages-grid">
+                        <div class="advantage-item">
+                            <h4>🌐 Réseau d'investisseurs</h4>
+                            <p>Accès à la communauté Domtom Connect</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>✅ Projets qualifiés</h4>
+                            <p>Projets vérifiés et viables</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>⭐ Mises en relation prioritaires</h4>
+                            <p>Avec les meilleurs projets</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>🎪 Événements exclusifs</h4>
+                            <p>Rencontres et networking</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>Analyses et rapports</h4>
+                            <p>Sur l'écosystème ultramarin</p>
+                        </div>
+                        <div class="advantage-item">
+                            <h4>Support dédié</h4>
+                            <p>Accompagnement personnalisé</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <a href="/landing/investisseurs" class="cta-button primary">Découvrir les opportunités</a>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" style="background: var(--gray-50);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Questions fréquentes sur les tarifs</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Les prix incluent-ils les prestations des prestataires ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Non. Les packs Domtom Connect couvrent uniquement l'accompagnement, la recherche et la mise en relation. Les prestataires sont payés <strong>directement par vous</strong>, sans commission intermédiaire.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Peut-on payer en plusieurs fois ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui ! Les facilités de paiement dépendent de votre niveau d'engagement :
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li><strong>Engagement "Oui"</strong> : Paiement standard (1 ou 2 fois selon le pack)</li>
+                            <li><strong>Engagement "Pas encore sûr"</strong> : Facilités de paiement (2 ou 3 fois selon le pack)</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Y a-t-il un acompte à verser ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pour le Pack Premium, un acompte de 50% est demandé après validation lors de l'appel de diagnostic. Le solde est versé après livraison de la feuille de route et première mise en relation.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Que se passe-t-il si mon budget est inférieur à 300€ ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nous proposons un appel de découverte gratuit pour discuter de votre projet et voir comment nous pouvons vous aider. Nous pourrons peut-être vous proposer une solution adaptée à votre budget.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Domtom Connect. Tous droits réservés.</p>
+            <div class="footer-social">
+                <span>Suivez-nous :</span>
+                <a href="https://www.tiktok.com/@domtomconnect?_r=1&_t=ZN-91JOe22RD7e" target="_blank" rel="noopener">TikTok</a>
+                <a href="https://www.instagram.com/domtomconnect?igsh=MWdybHh4ajBqNzhhdg==" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@domtomconnect" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://open.spotify.com/show/domtomconnect" target="_blank" rel="noopener">Spotify</a>
+                <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:domtomconnect@gmail.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js?v=2"></script>
+</body>
+</html>
+
