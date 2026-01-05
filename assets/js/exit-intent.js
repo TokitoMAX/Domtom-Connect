@@ -91,6 +91,17 @@
                             <option value="diaspora">Diaspora</option>
                             <option value="autre">Autre</option>
                         </select>
+                        <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(0, 191, 166, 0.05); border-radius: 8px;">
+                            <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.85rem; color: var(--text-secondary, #6b7280); line-height: 1.5;">
+                                <input type="checkbox" name="newsletter" value="yes" style="cursor: pointer; margin-top: 0.2rem; flex-shrink: 0;">
+                                <span>
+                                    <strong style="color: var(--primary-color, #00BFA6);">Je souhaite recevoir "L'Écho Ultramarin"</strong> - Newsletter Domtom Connect (1 email/mois, conseils, actualités)
+                                </span>
+                            </label>
+                            <p style="font-size: 0.7rem; color: var(--text-muted, #9ca3af); margin-top: 0.5rem; margin-left: 1.75rem; line-height: 1.4;">
+                                📧 Désinscription facile • Pas de spam
+                            </p>
+                        </div>
                         <button type="submit" class="popup-submit">${offer.buttonText}</button>
                         <p class="popup-privacy">Vos données sont sécurisées. Nous vous contacterons dans les 24h.</p>
                     </form>
@@ -211,6 +222,7 @@ Email: ${data.email}
 Téléphone: ${data.telephone}
 Profil: ${data.profil}
 Territoire: ${data.ile}
+Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
 Page: ${window.location.href}
 Date: ${new Date().toLocaleString('fr-FR')}`;
 
@@ -221,6 +233,7 @@ Date: ${new Date().toLocaleString('fr-FR')}`;
         formDataToSend.append('Téléphone', data.telephone);
         formDataToSend.append('Profil', data.profil);
         formDataToSend.append('Territoire', data.ile);
+        formDataToSend.append('Newsletter', data.newsletter ? 'Oui' : 'Non');
 
         // Envoyer à Formspree
         fetch('https://formspree.io/f/myzbqepy', {

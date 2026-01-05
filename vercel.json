@@ -1,49 +1,15 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null,
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/tarifs",
-      "destination": "/tarifs.html"
-    },
-    {
-      "source": "/landing/prestataires",
-      "destination": "/landing/prestataires/index.html"
-    },
-    {
-      "source": "/landing/porteurs-projets",
-      "destination": "/landing/porteurs-projets/index.html"
-    },
-    {
-      "source": "/landing/entreprises",
-      "destination": "/landing/entreprises/index.html"
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
-  "redirects": [
+  "routes": [
     {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)/index.html",
-      "destination": "/$1",
-      "permanent": true
-    },
-    {
-      "source": "/blog.html",
-      "destination": "/blog",
-      "permanent": true
-    },
-    {
-      "source": "/pourquoi-j-ai-cree-domtom-connect-episode-1",
-      "destination": "/blog/pourquoi-j-ai-cree-domtom-connect-episode-1",
-      "permanent": true
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
   ]
 }
