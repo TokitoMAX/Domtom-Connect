@@ -23,6 +23,63 @@ function scrollToFeatures() {
 // Configuration Formspree
 const FORMSFREE_ENDPOINT = 'https://formspree.io/f/myzbqepy';
 
+// Fonction pour gérer la soumission du formulaire newsletter
+function handleNewsletterSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const email = form.email.value;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    // Désactiver le bouton
+    submitButton.disabled = true;
+    submitButton.textContent = 'Inscription...';
+    
+    // Préparer les données
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('newsletter', 'yes');
+    formData.append('_subject', 'Nouvelle inscription newsletter - L\'Écho Ultramarin');
+    formData.append('_to', 'domtomconnect@gmail.com');
+    
+    // Envoyer à Formspree
+    fetch(FORMSFREE_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            submitButton.textContent = '✓ Inscrit !';
+            submitButton.style.background = '#10b981';
+            form.reset();
+            
+            // Réactiver après 3 secondes
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+                submitButton.style.background = '';
+            }, 3000);
+        } else {
+            throw new Error('Erreur lors de l\'inscription');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        submitButton.textContent = 'Erreur, réessayez';
+        submitButton.style.background = '#ef4444';
+        
+        setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+            submitButton.style.background = '';
+        }, 3000);
+    });
+}
+
 // Fonction pour gérer la soumission du formulaire
 function handleFormSubmit(event) {
     event.preventDefault();
