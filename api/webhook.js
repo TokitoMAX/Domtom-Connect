@@ -18,12 +18,13 @@ async function processFormspreeToBrevo(formspreeData) {
         console.log('Données reçues de Formspree:', formspreeData);
 
         // Extraire les données du formulaire
-        const email = formspreeData.email || formspreeData.Email || '';
-        const prenom = formspreeData.prenom || formspreeData.Prénom || formspreeData.prenom || '';
-        const nom = formspreeData.nom || formspreeData.Nom || '';
-        const profil = formspreeData.profil || formspreeData.Profil || '';
-        const territoire = formspreeData.ile || formspreeData['Île/Territoire'] || formspreeData.Territoire || '';
-        const newsletter = formspreeData.newsletter || formspreeData.Newsletter || '';
+        // Formspree envoie les données avec les noms exacts du formulaire
+        const email = formspreeData.Email || formspreeData.email || '';
+        const prenom = formspreeData.Prénom || formspreeData.prenom || '';
+        const nom = formspreeData.Nom || formspreeData.nom || '';
+        const profil = formspreeData.Profil || formspreeData.profil || '';
+        const territoire = formspreeData['Île/Territoire'] || formspreeData.ile || formspreeData.Territoire || '';
+        const newsletter = formspreeData.Newsletter || formspreeData.newsletter || '';
 
         // Vérifier que l'email existe
         if (!email) {
