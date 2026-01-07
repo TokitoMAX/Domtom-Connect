@@ -500,42 +500,92 @@ function initQuiz() {
     }
 }
 
-// Fonction pour sauvegarder l'email dans localStorage
-function saveQuizEmail(email) {
-    if (email && email.trim()) {
-        localStorage.setItem('quiz-email', email.trim());
-    }
+// Fonction pour sauvegarder toutes les infos de contact dans localStorage
+function saveQuizContactInfo() {
+    const prenom = document.getElementById('quiz-prenom')?.value.trim() || '';
+    const nom = document.getElementById('quiz-nom')?.value.trim() || '';
+    const email = document.getElementById('quiz-email')?.value.trim() || '';
+    const telephone = document.getElementById('quiz-telephone')?.value.trim() || '';
+    
+    if (prenom) localStorage.setItem('quiz-prenom', prenom);
+    if (nom) localStorage.setItem('quiz-nom', nom);
+    if (email) localStorage.setItem('quiz-email', email);
+    if (telephone) localStorage.setItem('quiz-telephone', telephone);
 }
 
-// Fonction pour valider l'email et activer/désactiver le bouton suivant
+// Fonction pour valider l'email
 function validateQuizEmail(input) {
     const email = input.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const nextBtn = document.getElementById('next-btn');
     
     if (email && emailRegex.test(email)) {
         input.style.borderColor = '#10b981';
-        if (nextBtn) {
-            // Vérifier aussi que le profil est sélectionné
-            const profileSelected = document.querySelector('input[name="question-1"]:checked');
-            if (profileSelected) {
-                nextBtn.disabled = false;
-            }
-        }
-        saveQuizEmail(email);
+        input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
     } else if (email) {
         input.style.borderColor = '#ef4444';
+        input.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
     } else {
         input.style.borderColor = 'var(--gray-300)';
-        if (nextBtn) {
-            nextBtn.disabled = true;
-        }
+        input.style.boxShadow = 'none';
+    }
+}
+
+// Fonction pour valider le téléphone
+function validateQuizTelephone(input) {
+    const telephone = input.value.trim();
+    // Accepter les formats : 0612345678, 06 12 34 56 78, +33612345678, +33 6 12 34 56 78
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
+    const phoneClean = telephone.replace(/\s/g, ''); // Enlever les espaces pour la validation
+    
+    if (telephone && phoneRegex.test(phoneClean)) {
+        input.style.borderColor = '#10b981';
+        input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+    } else if (telephone) {
+        input.style.borderColor = '#ef4444';
+        input.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+    } else {
+        input.style.borderColor = 'var(--gray-300)';
+        input.style.boxShadow = 'none';
+    }
+}
+
+// Fonction pour valider tous les champs de contact et activer/désactiver le bouton suivant
+function validateQuizContactInfo() {
+    const prenom = document.getElementById('quiz-prenom')?.value.trim() || '';
+    const nom = document.getElementById('quiz-nom')?.value.trim() || '';
+    const email = document.getElementById('quiz-email')?.value.trim() || '';
+    const telephone = document.getElementById('quiz-telephone')?.value.trim() || '';
+    const nextBtn = document.getElementById('next-btn');
+    
+    // Validation email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailValid = email && emailRegex.test(email);
+    
+    // Validation téléphone
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
+    const phoneClean = telephone.replace(/\s/g, '');
+    const phoneValid = telephone && phoneRegex.test(phoneClean);
+    
+    // Tous les champs doivent être remplis et valides
+    const allValid = prenom && nom && emailValid && phoneValid;
+    
+    if (nextBtn) {
+        // Vérifier aussi que le profil est sélectionné
+        const profileSelected = document.querySelector('input[name="question-1"]:checked');
+        nextBtn.disabled = !(allValid && profileSelected);
+    }
+    
+    // Sauvegarder si tout est valide
+    if (allValid) {
+        saveQuizContactInfo();
     }
 }
 
 // Exposer les fonctions globalement
-window.saveQuizEmail = saveQuizEmail;
+window.saveQuizContactInfo = saveQuizContactInfo;
 window.validateQuizEmail = validateQuizEmail;
+window.validateQuizTelephone = validateQuizTelephone;
+window.validateQuizContactInfo = validateQuizContactInfo;
 
 function showQuestion(index) {
     if (index >= quizQuestions.length) {
@@ -579,22 +629,51 @@ function showQuestion(index) {
     
     questionHTML += `</div>`;
     
-    // Ajouter un champ email obligatoire juste après la question de profil
+    // Ajouter les champs de contact obligatoires juste après la question de profil
     if (question.id === 1) {
         questionHTML += `
             <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); border: 2px solid rgba(0, 191, 166, 0.2); border-radius: 12px;">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <span style="font-size: 1.5rem;">📧</span>
-                    <label style="font-size: 1rem; color: var(--text-primary); font-weight: 600;">
-                        Votre email <span style="color: #ef4444;">*</span>
-                    </label>
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                    <span style="font-size: 1.5rem;">👤</span>
+                    <h3 style="font-size: 1.1rem; color: var(--text-primary); font-weight: 700; margin: 0;">
+                        Vos coordonnées
+                    </h3>
                 </div>
-                <input type="email" id="quiz-email" name="quiz-email" placeholder="votre@email.com" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizEmail(this.value)" oninput="validateQuizEmail(this)">
-                <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
-                    <strong style="color: var(--primary-color);">Pourquoi ?</strong> Nous vous enverrons vos résultats personnalisés par email et pourrons vous recontacter pour discuter de votre projet.
-                </p>
-                <div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.6); border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
-                    🔒 Vos données sont sécurisées. Pas de spam, juste vos résultats et un suivi personnalisé.
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">
+                            Prénom <span style="color: #ef4444;">*</span>
+                        </label>
+                        <input type="text" id="quiz-prenom" name="quiz-prenom" placeholder="Votre prénom" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizContactInfo()">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">
+                            Nom <span style="color: #ef4444;">*</span>
+                        </label>
+                        <input type="text" id="quiz-nom" name="quiz-nom" placeholder="Votre nom" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizContactInfo()">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">
+                        Email <span style="color: #ef4444;">*</span>
+                    </label>
+                    <input type="email" id="quiz-email" name="quiz-email" placeholder="votre@email.com" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizEmail(this); validateQuizContactInfo()">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">
+                        Téléphone <span style="color: #ef4444;">*</span>
+                    </label>
+                    <input type="tel" id="quiz-telephone" name="quiz-telephone" placeholder="06 12 34 56 78" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizTelephone(this); validateQuizContactInfo()">
+                    <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                        Format accepté : 06 12 34 56 78 ou +33 6 12 34 56 78
+                    </p>
+                </div>
+                
+                <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.6); border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                    🔒 Vos données sont sécurisées. Nous vous contacterons pour discuter de votre projet et vous envoyer vos résultats personnalisés.
                 </div>
             </div>
         `;
@@ -724,26 +803,84 @@ function nextQuestion() {
     let selectedValue = null;
     let selectedScore = 0;
     
-    // Vérifier l'email si c'est la question de profil
+    // Vérification STRICTE de tous les champs de contact si c'est la question de profil
     if (question.id === 1) {
+        const prenomInput = document.getElementById('quiz-prenom');
+        const nomInput = document.getElementById('quiz-nom');
         const emailInput = document.getElementById('quiz-email');
-        if (!emailInput || !emailInput.value.trim()) {
-            alert('Veuillez renseigner votre email pour recevoir vos résultats.');
-            if (emailInput) {
-                emailInput.focus();
-                emailInput.style.borderColor = '#ef4444';
-            }
+        const telephoneInput = document.getElementById('quiz-telephone');
+        
+        // Vérification 1: Tous les champs existent
+        if (!prenomInput || !nomInput || !emailInput || !telephoneInput) {
+            console.error('❌ ERREUR: Champs de contact introuvables');
+            alert('Erreur technique: Les champs de contact sont introuvables. Veuillez recharger la page.');
             return;
         }
+        
+        // Vérification 2: Prénom
+        const prenomValue = prenomInput.value.trim();
+        if (!prenomValue) {
+            alert('⚠️ Prénom obligatoire\n\nVeuillez renseigner votre prénom.');
+            prenomInput.focus();
+            prenomInput.style.borderColor = '#ef4444';
+            prenomInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            return;
+        }
+        
+        // Vérification 3: Nom
+        const nomValue = nomInput.value.trim();
+        if (!nomValue) {
+            alert('⚠️ Nom obligatoire\n\nVeuillez renseigner votre nom.');
+            nomInput.focus();
+            nomInput.style.borderColor = '#ef4444';
+            nomInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            return;
+        }
+        
+        // Vérification 4: Email
+        const emailValue = emailInput.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value.trim())) {
-            alert('Veuillez entrer une adresse email valide.');
+        if (!emailValue) {
+            alert('⚠️ Email obligatoire\n\nVeuillez renseigner votre email pour recevoir vos résultats personnalisés.');
             emailInput.focus();
             emailInput.style.borderColor = '#ef4444';
+            emailInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
             return;
         }
-        // Sauvegarder l'email
-        saveQuizEmail(emailInput.value.trim());
+        if (!emailRegex.test(emailValue)) {
+            alert('⚠️ Email invalide\n\nVeuillez entrer une adresse email valide (exemple: nom@email.com).');
+            emailInput.focus();
+            emailInput.style.borderColor = '#ef4444';
+            emailInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            return;
+        }
+        
+        // Vérification 5: Téléphone
+        const telephoneValue = telephoneInput.value.trim();
+        const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
+        const phoneClean = telephoneValue.replace(/\s/g, '');
+        if (!telephoneValue) {
+            alert('⚠️ Téléphone obligatoire\n\nVeuillez renseigner votre numéro de téléphone pour que nous puissions vous contacter.');
+            telephoneInput.focus();
+            telephoneInput.style.borderColor = '#ef4444';
+            telephoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            return;
+        }
+        if (!phoneRegex.test(phoneClean)) {
+            alert('⚠️ Téléphone invalide\n\nVeuillez entrer un numéro de téléphone valide (exemple: 06 12 34 56 78 ou +33 6 12 34 56 78).');
+            telephoneInput.focus();
+            telephoneInput.style.borderColor = '#ef4444';
+            telephoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            return;
+        }
+        
+        // Si tout est OK, sauvegarder toutes les infos
+        saveQuizContactInfo();
+        prenomInput.style.borderColor = '#10b981';
+        nomInput.style.borderColor = '#10b981';
+        emailInput.style.borderColor = '#10b981';
+        telephoneInput.style.borderColor = '#10b981';
+        console.log('✅ Toutes les informations de contact validées et sauvegardées');
     }
     
     if (question.type === 'radio') {
@@ -1193,7 +1330,7 @@ function showResults() {
                         <input type="text" name="prenom" placeholder="Prénom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
                         <input type="text" name="nom" placeholder="Nom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
                     </div>
-                    <input type="email" name="email" placeholder="Email *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                    <input type="email" name="email" id="quiz-contact-email" placeholder="Email *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
                     <input type="tel" name="telephone" placeholder="Téléphone *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
                     <select name="ile" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; background: white;">
                         <option value="">Votre territoire *</option>
@@ -1230,6 +1367,33 @@ function showResults() {
     
     quizResults.innerHTML = resultsHTML;
     
+    // Pré-remplir tous les champs du formulaire de contact si disponibles
+    setTimeout(() => {
+        if (window.quizResults) {
+            const contactPrenomField = document.getElementById('quiz-contact-prenom');
+            const contactNomField = document.getElementById('quiz-contact-nom');
+            const contactEmailField = document.getElementById('quiz-contact-email');
+            const contactTelephoneField = document.getElementById('quiz-contact-telephone');
+            
+            if (contactPrenomField && window.quizResults.prenom) {
+                contactPrenomField.value = window.quizResults.prenom;
+            }
+            if (contactNomField && window.quizResults.nom) {
+                contactNomField.value = window.quizResults.nom;
+            }
+            if (contactEmailField && window.quizResults.email) {
+                contactEmailField.value = window.quizResults.email;
+            }
+            if (contactTelephoneField && window.quizResults.telephone) {
+                contactTelephoneField.value = window.quizResults.telephone;
+            }
+            
+            if (window.quizResults.prenom || window.quizResults.nom || window.quizResults.email || window.quizResults.telephone) {
+                console.log('✅ Informations de contact pré-remplies dans le formulaire');
+            }
+        }
+    }, 100);
+    
     // Scroll vers les résultats
     quizResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
     
@@ -1245,6 +1409,12 @@ function showResults() {
         });
     }
     
+    // Récupérer toutes les infos de contact pour les stocker dans les résultats
+    const finalPrenom = document.getElementById('quiz-prenom')?.value.trim() || localStorage.getItem('quiz-prenom') || '';
+    const finalNom = document.getElementById('quiz-nom')?.value.trim() || localStorage.getItem('quiz-nom') || '';
+    const finalEmail = document.getElementById('quiz-email')?.value.trim() || localStorage.getItem('quiz-email') || '';
+    const finalTelephone = document.getElementById('quiz-telephone')?.value.trim() || localStorage.getItem('quiz-telephone') || '';
+    
     // Store quiz results globally for contact form submission
     window.quizResults = {
         score: qualificationScore,
@@ -1255,8 +1425,37 @@ function showResults() {
         budgetAccompagnement: budgetAccompagnement,
         packRecommandé: packRecommandé,
         eligible: eligible,
-        engagementInfo: engagementInfo
+        engagementInfo: engagementInfo,
+        prenom: finalPrenom,
+        nom: finalNom,
+        email: finalEmail,
+        telephone: finalTelephone,
+        timestamp: new Date().toISOString(),
+        quizId: `quiz-${Date.now()}-${selectedProfile}-${qualificationScore}`
     };
+    
+    // Vérification finale
+    const emailRegexFinal = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!finalPrenom || !finalNom || !finalEmail || !emailRegexFinal.test(finalEmail) || !finalTelephone) {
+        console.error('❌ ERREUR: Informations de contact manquantes dans window.quizResults');
+        console.error('Données:', { finalPrenom, finalNom, finalEmail, finalTelephone });
+    } else {
+        console.log('✅ Toutes les informations de contact stockées dans window.quizResults');
+    }
+    
+    // Vérification FINALE de l'email avant d'envoyer
+    const finalEmailCheck = document.getElementById('quiz-email');
+    const finalEmail = finalEmailCheck ? finalEmailCheck.value.trim() : localStorage.getItem('quiz-email') || '';
+    const emailRegexFinal = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!finalEmail || !emailRegexFinal.test(finalEmail)) {
+        console.error('❌ ERREUR CRITIQUE: Email manquant ou invalide avant envoi');
+        console.error('Email final:', finalEmail);
+        // On envoie quand même pour ne pas perdre les données, mais avec un avertissement
+        console.warn('⚠️ Envoi du quiz avec email manquant - vérification supplémentaire nécessaire');
+    } else {
+        console.log('✅ Email confirmé avant envoi:', finalEmail);
+    }
     
     // Envoyer automatiquement un email avec les résultats du quiz
     const packName = packRecommandé === 'starter' ? 'Pack Starter (500€)' : packRecommandé === 'premium' ? 'Pack Premium (1 900€)' : null;
@@ -1274,25 +1473,134 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
     };
     const profileLabel = profileLabels[profile] || 'Non spécifié';
     
-    // Récupérer l'email depuis localStorage ou le champ du formulaire
+    // Récupérer toutes les infos de contact depuis localStorage ou les champs du formulaire
+    let userPrenom = '';
+    let userNom = '';
     let userEmail = '';
+    let userTelephone = '';
+    
+    const prenomInput = document.getElementById('quiz-prenom');
+    const nomInput = document.getElementById('quiz-nom');
     const emailInput = document.getElementById('quiz-email');
+    const telephoneInput = document.getElementById('quiz-telephone');
+    
+    if (prenomInput && prenomInput.value) {
+        userPrenom = prenomInput.value.trim();
+    } else {
+        userPrenom = localStorage.getItem('quiz-prenom') || '';
+    }
+    
+    if (nomInput && nomInput.value) {
+        userNom = nomInput.value.trim();
+    } else {
+        userNom = localStorage.getItem('quiz-nom') || '';
+    }
+    
     if (emailInput && emailInput.value) {
         userEmail = emailInput.value.trim();
     } else {
-        // Essayer depuis localStorage
         userEmail = localStorage.getItem('quiz-email') || '';
+    }
+    
+    if (telephoneInput && telephoneInput.value) {
+        userTelephone = telephoneInput.value.trim();
+    } else {
+        userTelephone = localStorage.getItem('quiz-telephone') || '';
+    }
+    
+    // VALIDATION CRITIQUE : Tous les champs sont OBLIGATOIRES
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
+    const phoneClean = userTelephone.replace(/\s/g, '');
+    
+    let hasErrors = false;
+    const errors = [];
+    
+    if (!userPrenom) {
+        errors.push('Prénom manquant');
+        hasErrors = true;
+    }
+    
+    if (!userNom) {
+        errors.push('Nom manquant');
+        hasErrors = true;
+    }
+    
+    if (!userEmail || !emailRegex.test(userEmail)) {
+        errors.push('Email manquant ou invalide');
+        hasErrors = true;
+    }
+    
+    if (!userTelephone || !phoneRegex.test(phoneClean)) {
+        errors.push('Téléphone manquant ou invalide');
+        hasErrors = true;
+    }
+    
+    if (hasErrors) {
+        console.error('❌ ERREUR CRITIQUE: Informations de contact manquantes ou invalides');
+        console.error('Erreurs:', errors);
+        console.error('Données récupérées:', { userPrenom, userNom, userEmail, userTelephone });
+        
+        // Essayer une dernière fois de récupérer depuis le DOM
+        const prenomField = document.getElementById('quiz-prenom');
+        const nomField = document.getElementById('quiz-nom');
+        const emailField = document.getElementById('quiz-email');
+        const telephoneField = document.getElementById('quiz-telephone');
+        
+        if (prenomField && prenomField.value) userPrenom = prenomField.value.trim();
+        if (nomField && nomField.value) userNom = nomField.value.trim();
+        if (emailField && emailField.value && emailRegex.test(emailField.value.trim())) {
+            userEmail = emailField.value.trim();
+        }
+        if (telephoneField && telephoneField.value) {
+            const telClean = telephoneField.value.replace(/\s/g, '');
+            if (phoneRegex.test(telClean)) {
+                userTelephone = telephoneField.value.trim();
+            }
+        }
+        
+        // Si toujours des erreurs, on envoie quand même mais avec un avertissement fort
+        if (!userPrenom || !userNom || !userEmail || !userTelephone) {
+            console.warn('⚠️ ATTENTION: Envoi du quiz avec informations incomplètes - cela ne devrait pas arriver');
+        }
     }
     
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     formDataToSend.append('_subject', `📊 Quiz Complété - ${profileLabel} (Score: ${score}/10 - ${percentage}%)`);
     
-    // Ajouter l'email si disponible
-    if (userEmail) {
-        formDataToSend.append('Email', userEmail);
+    // Toutes les infos de contact sont TOUJOURS ajoutées
+    formDataToSend.append('Prénom', userPrenom || 'NON_FOURNI_ERREUR');
+    formDataToSend.append('Nom', userNom || 'NON_FOURNI_ERREUR');
+    formDataToSend.append('Email', userEmail || 'NON_FOURNI_ERREUR');
+    formDataToSend.append('Téléphone', userTelephone || 'NON_FOURNI_ERREUR');
+    
+    if (userEmail && emailRegex.test(userEmail)) {
         formDataToSend.append('_replyto', userEmail);
+    } else {
+        // Ajouter un avertissement dans le sujet si pas d'email
+        formDataToSend.append('_subject', `⚠️ ${formDataToSend.get('_subject')} - EMAIL MANQUANT`);
     }
+    
+    // Ajouter un avertissement si d'autres infos manquent
+    if (!userPrenom || !userNom || !userTelephone) {
+        formDataToSend.append('_subject', `⚠️ ${formDataToSend.get('_subject')} - INFOS INCOMPLÈTES`);
+    }
+    
+    // Ajouter des métadonnées de tracking pour retrouver l'utilisateur
+    const timestamp = new Date().toISOString();
+    formDataToSend.append('Timestamp', timestamp);
+    formDataToSend.append('Page URL', window.location.href);
+    formDataToSend.append('Referrer', document.referrer || 'Direct');
+    formDataToSend.append('User Agent', navigator.userAgent);
+    formDataToSend.append('Screen Resolution', `${window.screen.width}x${window.screen.height}`);
+    formDataToSend.append('Language', navigator.language || 'fr-FR');
+    
+    // Ajouter un identifiant unique pour ce quiz (basé sur timestamp + profil)
+    const quizId = `quiz-${Date.now()}-${profile}-${score}`;
+    formDataToSend.append('Quiz ID', quizId);
+    
+    // Note: L'adresse IP sera automatiquement capturée par Formspree dans leurs métadonnées
     
     // Construire le message avec toutes les réponses
     let packInfoSection = '';
@@ -1353,13 +1661,33 @@ ${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer}${a.an
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📧 COORDONNÉES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${userEmail ? `Email: ${userEmail} ✓` : '⚠️ ATTENTION: Email non fourni - L\'utilisateur n\'a pas rempli le champ email obligatoire. Vérifiez le formulaire de contact pour ses coordonnées.'}
+${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && phoneRegex.test(phoneClean) ? 
+`Prénom: ${userPrenom} ✓
+Nom: ${userNom} ✓
+Email: ${userEmail} ✓
+Téléphone: ${userTelephone} ✓` : 
+'🚨 ERREUR CRITIQUE: Informations de contact manquantes ou invalides !\n\nCette erreur ne devrait PAS se produire car tous les champs sont obligatoires.\n\nACTIONS À FAIRE:\n1. Vérifier le formulaire de contact (l\'utilisateur peut avoir rempli après)\n2. Vérifier les métadonnées Formspree (IP, User Agent)\n3. Chercher dans Brevo les contacts récents avec les mêmes caractéristiques\n4. Vérifier le Quiz ID ci-dessous pour retrouver l\'utilisateur'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 IDENTIFIANT UNIQUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Quiz ID: ${quizId}
+Timestamp: ${timestamp}
+Page: ${window.location.href}
+Referrer: ${document.referrer || 'Direct'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ℹ️ NOTE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Cet email est envoyé automatiquement à chaque complétion du quiz.
-${userEmail ? 'Vous pouvez répondre directement à cet email pour contacter l\'utilisateur.' : 'L\'utilisateur peut aussi remplir le formulaire de contact pour partager ses coordonnées complètes.'}
+${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && phoneRegex.test(phoneClean) ? 
+`✅ Contact direct possible :
+- Email: ${userEmail}
+- Téléphone: ${userTelephone}
+- Nom complet: ${userPrenom} ${userNom}
+
+Vous pouvez répondre directement à cet email ou appeler l'utilisateur.` : 
+'⚠️ L\'utilisateur DOIT remplir le formulaire de contact pour partager ses coordonnées complètes.'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     
