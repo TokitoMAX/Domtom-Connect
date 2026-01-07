@@ -487,7 +487,55 @@ function initQuiz() {
     // Commencer par la question de profil
     quizQuestions = [profileQuestion];
     showQuestion(0);
+    
+    // Récupérer l'email depuis localStorage s'il existe
+    const savedEmail = localStorage.getItem('quiz-email');
+    if (savedEmail) {
+        setTimeout(() => {
+            const emailInput = document.getElementById('quiz-email');
+            if (emailInput) {
+                emailInput.value = savedEmail;
+            }
+        }, 100);
+    }
 }
+
+// Fonction pour sauvegarder l'email dans localStorage
+function saveQuizEmail(email) {
+    if (email && email.trim()) {
+        localStorage.setItem('quiz-email', email.trim());
+    }
+}
+
+// Fonction pour valider l'email et activer/désactiver le bouton suivant
+function validateQuizEmail(input) {
+    const email = input.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const nextBtn = document.getElementById('next-btn');
+    
+    if (email && emailRegex.test(email)) {
+        input.style.borderColor = '#10b981';
+        if (nextBtn) {
+            // Vérifier aussi que le profil est sélectionné
+            const profileSelected = document.querySelector('input[name="question-1"]:checked');
+            if (profileSelected) {
+                nextBtn.disabled = false;
+            }
+        }
+        saveQuizEmail(email);
+    } else if (email) {
+        input.style.borderColor = '#ef4444';
+    } else {
+        input.style.borderColor = 'var(--gray-300)';
+        if (nextBtn) {
+            nextBtn.disabled = true;
+        }
+    }
+}
+
+// Exposer les fonctions globalement
+window.saveQuizEmail = saveQuizEmail;
+window.validateQuizEmail = validateQuizEmail;
 
 function showQuestion(index) {
     if (index >= quizQuestions.length) {
@@ -531,6 +579,27 @@ function showQuestion(index) {
     
     questionHTML += `</div>`;
     
+    // Ajouter un champ email obligatoire juste après la question de profil
+    if (question.id === 1) {
+        questionHTML += `
+            <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); border: 2px solid rgba(0, 191, 166, 0.2); border-radius: 12px;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <span style="font-size: 1.5rem;">📧</span>
+                    <label style="font-size: 1rem; color: var(--text-primary); font-weight: 600;">
+                        Votre email <span style="color: #ef4444;">*</span>
+                    </label>
+                </div>
+                <input type="email" id="quiz-email" name="quiz-email" placeholder="votre@email.com" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizEmail(this.value)" oninput="validateQuizEmail(this)">
+                <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                    <strong style="color: var(--primary-color);">Pourquoi ?</strong> Nous vous enverrons vos résultats personnalisés par email et pourrons vous recontacter pour discuter de votre projet.
+                </p>
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.6); border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                    🔒 Vos données sont sécurisées. Pas de spam, juste vos résultats et un suivi personnalisé.
+                </div>
+            </div>
+        `;
+    }
+    
     // Ajouter la clarification si elle existe
     if (question.clarification) {
         questionHTML += `
@@ -549,17 +618,49 @@ function showQuestion(index) {
     }
     
     const isLastQuestion = index === quizQuestions.length - 1;
-    questionHTML += `<button type="button" class="quiz-button quiz-button-primary" onclick="nextQuestion()" id="next-btn" disabled>${isLastQuestion ? 'Voir les résultats' : 'Suivant'}</button>`;
+    // Désactiver le bouton par défaut, sauf si ce n'est pas la question de profil
+    const shouldDisableBtn = (index === 0) ? true : false;
+    questionHTML += `<button type="button" class="quiz-button quiz-button-primary" onclick="nextQuestion()" id="next-btn" ${shouldDisableBtn ? 'disabled' : ''}>${isLastQuestion ? 'Voir les résultats' : 'Suivant'}</button>`;
     questionHTML += `</div>`;
     questionHTML += `</div>`;
     
     quizContent.innerHTML = questionHTML;
     
+    // Si c'est la question de profil, vérifier l'email au chargement
+    if (question.id === 1) {
+        setTimeout(() => {
+            const emailInput = document.getElementById('quiz-email');
+            if (emailInput) {
+                const savedEmail = localStorage.getItem('quiz-email');
+                if (savedEmail) {
+                    emailInput.value = savedEmail;
+                    validateQuizEmail(emailInput);
+                }
+            }
+        }, 100);
+    }
+    
     // Ajouter les event listeners
     if (question.type === 'radio') {
         document.querySelectorAll(`input[name="question-${question.id}"]`).forEach(radio => {
             radio.addEventListener('change', function() {
-                document.getElementById('next-btn').disabled = false;
+                // Vérifier aussi l'email si c'est la question de profil
+                const nextBtn = document.getElementById('next-btn');
+                if (question.id === 1) {
+                    const emailInput = document.getElementById('quiz-email');
+                    if (emailInput && emailInput.value.trim()) {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (emailRegex.test(emailInput.value.trim())) {
+                            nextBtn.disabled = false;
+                        } else {
+                            nextBtn.disabled = true;
+                        }
+                    } else {
+                        nextBtn.disabled = true;
+                    }
+                } else {
+                    nextBtn.disabled = false;
+                }
                 document.querySelectorAll(`label.quiz-option`).forEach(label => {
                     label.classList.remove('selected');
                 });
@@ -622,6 +723,28 @@ function nextQuestion() {
     const question = quizQuestions[currentQuestionIndex];
     let selectedValue = null;
     let selectedScore = 0;
+    
+    // Vérifier l'email si c'est la question de profil
+    if (question.id === 1) {
+        const emailInput = document.getElementById('quiz-email');
+        if (!emailInput || !emailInput.value.trim()) {
+            alert('Veuillez renseigner votre email pour recevoir vos résultats.');
+            if (emailInput) {
+                emailInput.focus();
+                emailInput.style.borderColor = '#ef4444';
+            }
+            return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+            alert('Veuillez entrer une adresse email valide.');
+            emailInput.focus();
+            emailInput.style.borderColor = '#ef4444';
+            return;
+        }
+        // Sauvegarder l'email
+        saveQuizEmail(emailInput.value.trim());
+    }
     
     if (question.type === 'radio') {
         const selected = document.querySelector(`input[name="question-${question.id}"]:checked`);
@@ -1151,9 +1274,25 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
     };
     const profileLabel = profileLabels[profile] || 'Non spécifié';
     
+    // Récupérer l'email depuis localStorage ou le champ du formulaire
+    let userEmail = '';
+    const emailInput = document.getElementById('quiz-email');
+    if (emailInput && emailInput.value) {
+        userEmail = emailInput.value.trim();
+    } else {
+        // Essayer depuis localStorage
+        userEmail = localStorage.getItem('quiz-email') || '';
+    }
+    
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     formDataToSend.append('_subject', `📊 Quiz Complété - ${profileLabel} (Score: ${score}/10 - ${percentage}%)`);
+    
+    // Ajouter l'email si disponible
+    if (userEmail) {
+        formDataToSend.append('Email', userEmail);
+        formDataToSend.append('_replyto', userEmail);
+    }
     
     // Construire le message avec toutes les réponses
     let packInfoSection = '';
@@ -1212,10 +1351,15 @@ ${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer}${a.an
 4. Contacter si l'utilisateur remplit le formulaire de contact
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 COORDONNÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${userEmail ? `Email: ${userEmail} ✓` : '⚠️ ATTENTION: Email non fourni - L\'utilisateur n\'a pas rempli le champ email obligatoire. Vérifiez le formulaire de contact pour ses coordonnées.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ℹ️ NOTE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Cet email est envoyé automatiquement à chaque complétion du quiz.
-Les coordonnées de l'utilisateur seront disponibles s'il remplit le formulaire de contact.
+${userEmail ? 'Vous pouvez répondre directement à cet email pour contacter l\'utilisateur.' : 'L\'utilisateur peut aussi remplir le formulaire de contact pour partager ses coordonnées complètes.'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     
