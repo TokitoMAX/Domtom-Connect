@@ -1261,15 +1261,15 @@ function showResults() {
     // Déterminer le message d'appel à l'action selon le profil
     let ctaMessage = '';
     if ((selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && eligible) {
-        ctaMessage = `✅ Parfait ! Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter (500€)' : 'Pack Premium (1 900€)') : ''}. Laissez-nous vos coordonnées pour être recontacté(e) et démarrer votre accompagnement.`;
+        ctaMessage = `✅ Parfait ! Vous êtes éligible${packRecommandé ? ' au ' + (packRecommandé === 'starter' ? 'Pack Starter (500€)' : 'Pack Premium (1 900€)') : ''}. Remplis ce formulaire en 3-5 minutes pour réserver ton appel de 20 minutes et démarrer ton accompagnement.`;
     } else if ((selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && !eligible) {
-        ctaMessage = `💡 Laissez-nous vos coordonnées pour discuter ensemble des meilleures options d'accompagnement adaptées à votre budget et à vos besoins.`;
+        ctaMessage = `💡 Remplis ce formulaire en 3-5 minutes pour réserver ton appel de 20 minutes. Nous discuterons ensemble des meilleures options d'accompagnement adaptées à ton budget et à tes besoins.`;
     } else if (selectedProfile === 'prestataire') {
-        ctaMessage = `💼 Excellent ! Laissez-nous vos coordonnées pour échanger sur votre contribution au contenu et votre intégration dans notre réseau de prestataires.`;
+        ctaMessage = `💼 Excellent ! Remplis ce formulaire en 5-7 minutes pour réserver ton appel de 20 minutes. Nous échangerons sur ta contribution au contenu et ton intégration dans notre réseau de prestataires.`;
     } else if (selectedProfile === 'investisseur') {
-        ctaMessage = `💰 Parfait ! Laissez-nous vos coordonnées pour discuter de votre cotisation mensuelle et de votre intégration dans notre réseau d'investisseurs.`;
+        ctaMessage = `💰 Parfait ! Remplis ce formulaire en 3-5 minutes pour réserver ton appel de 20 minutes. Nous discuterons de ta cotisation mensuelle et de ton intégration dans notre réseau d'investisseurs.`;
     } else {
-        ctaMessage = `📞 Laissez-nous vos coordonnées pour être recontacté(e) avec des recommandations personnalisées adaptées à votre situation.`;
+        ctaMessage = `📞 Remplis ce formulaire en 3-5 minutes pour réserver ton appel de 20 minutes. Tu recevras des recommandations personnalisées adaptées à ta situation.`;
     }
     
     const resultsHTML = `
@@ -1321,7 +1321,7 @@ function showResults() {
                         ${ctaMessage}
                     </p>
                     <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                        Nous vous recontacterons dans les <strong>24 heures</strong> pour discuter de votre projet et des prochaines étapes.
+                        Nous te recontacterons dans les <strong>24 heures</strong> pour planifier ton appel de 20 minutes et discuter de ton projet.
                     </p>
                 </div>
                 
@@ -1345,7 +1345,7 @@ function showResults() {
                         <option value="autre">Autre</option>
                     </select>
                     <button type="submit" class="cta-button primary large" style="padding: 1.25rem 2rem; font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem;">
-                        ✉️ Recevoir mes recommandations
+                        ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') ? '📝 Remplis ce formulaire en 3-5 minutes' : selectedProfile === 'prestataire' ? '📝 Remplis ce formulaire en 5-7 minutes' : '📝 Remplis ce formulaire en 3-5 minutes'}
                     </button>
                     <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;">
                         🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.

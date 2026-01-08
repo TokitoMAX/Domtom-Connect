@@ -25,6 +25,12 @@ class LandingQuiz {
         // Pré-remplir depuis sessionStorage si disponible
         this.prefillFromSession();
         
+        // Charger les réponses sauvegardées depuis localStorage
+        const hasSavedData = this.loadFromLocalStorage();
+        if (hasSavedData) {
+            console.log('[Quiz] Réponses sauvegardées trouvées, restauration en cours...');
+        }
+        
         // Déterminer si on utilise la version simplifiée
         // Si des données sont pré-remplies OU si pas de questions simplifiées, utiliser le formulaire complet
         // Sinon, utiliser la version simplifiée pour éviter la fatigue
@@ -170,11 +176,25 @@ class LandingQuiz {
             
             <!-- Barre de progression -->
             <div class="quiz-progress-container">
+                <div class="quiz-progress-header">
+                    <div class="quiz-progress-info">
+                        <span id="quiz-step-indicator">Question 1 sur ${this.questions.length}</span>
+                        <span id="quiz-progress-percent" class="quiz-progress-percent">0%</span>
+                    </div>
+                    <div class="quiz-save-indicator" id="quiz-save-indicator" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <span>Sauvegardé</span>
+                    </div>
+                </div>
                 <div class="quiz-progress-bar">
                     <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
                 </div>
-                <div class="quiz-progress-text">
-                    <span id="quiz-step-indicator">Question 1 sur ${this.questions.length}</span>
+                <div class="quiz-progress-time" id="quiz-progress-time">
+                    <span>⏱️ Temps estimé restant : ~${Math.ceil(this.questions.length * 0.15)} min</span>
                 </div>
             </div>
             
@@ -352,6 +372,24 @@ class LandingQuiz {
         progressFill.style.width = `${progress}%`;
         stepIndicator.textContent = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
         
+        // Mettre à jour le pourcentage
+        const progressPercent = document.getElementById('quiz-progress-percent');
+        if (progressPercent) {
+            progressPercent.textContent = `${Math.round(progress)}%`;
+        }
+        
+        // Mettre à jour le temps estimé restant
+        const progressTime = document.getElementById('quiz-progress-time');
+        if (progressTime) {
+            const remainingQuestions = totalQuestions - currentQuestionNumber;
+            const estimatedMinutes = Math.ceil(remainingQuestions * 0.15);
+            if (remainingQuestions > 0) {
+                progressTime.innerHTML = `<span>⏱️ Temps estimé restant : ~${estimatedMinutes} min</span>`;
+            } else {
+                progressTime.innerHTML = `<span>✅ Presque terminé !</span>`;
+            }
+        }
+        
         // Afficher/masquer le bouton précédent
         if (prevBtn) {
             prevBtn.style.display = stepIndex > 0 ? 'flex' : 'none';
@@ -362,11 +400,23 @@ class LandingQuiz {
         
         if (nextBtn) {
             if (isLastQuestion) {
+                // Texte du bouton selon le profil
+                let buttonText = 'Envoyer';
+                if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                } else if (this.profil === 'prestataire') {
+                    buttonText = 'Remplis ce formulaire en 5-7 minutes';
+                } else if (this.profil === 'entreprise') {
+                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                } else {
+                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                }
+                
                 nextBtn.innerHTML = `
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
-                    Envoyer
+                    ${buttonText}
                 `;
                 nextBtn.type = 'submit';
             } else {
@@ -582,57 +632,68 @@ class LandingQuiz {
             const input = document.getElementById(`question_${question.id}`);
             this.answers[`question_${question.id}`] = input ? (input.value || null) : null;
         }
+        
+        // Sauvegarder dans localStorage
+        this.saveToLocalStorage();
+        
+        // Afficher l'indicateur de sauvegarde
+        this.showSaveIndicator();
     }
     
-    initEvents() {
-        const prevBtn = document.getElementById('quiz-btn-prev');
-        const nextBtn = document.getElementById('quiz-btn-next');
-        
-        // Bouton précédent
-        prevBtn.addEventListener('click', () => {
-            this.saveCurrentAnswer();
-            const validQuestions = this.getValidQuestions();
-            const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-            if (currentValidIndex > 0) {
-                this.showStep(currentValidIndex - 1);
+    saveToLocalStorage() {
+        try {
+            const storageKey = `quiz_${this.profil}_answers`;
+            const dataToSave = {
+                answers: this.answers,
+                currentStep: this.currentStep,
+                timestamp: Date.now(),
+                formId: this.formId
+            };
+            localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+        } catch (error) {
+            console.warn('[Quiz] Impossible de sauvegarder dans localStorage:', error);
+        }
+    }
+    
+    loadFromLocalStorage() {
+        try {
+            const storageKey = `quiz_${this.profil}_answers`;
+            const savedData = localStorage.getItem(storageKey);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                // Vérifier que c'est pour le même formulaire
+                if (data.formId === this.formId) {
+                    // Restaurer les réponses
+                    if (data.answers) {
+                        Object.assign(this.answers, data.answers);
+                    }
+                    // Ne pas restaurer currentStep car on veut toujours commencer au début
+                    // mais on peut l'utiliser pour afficher un message "Reprendre où vous vous êtes arrêté"
+                    return true;
+                }
             }
-        });
-        
-        // Bouton suivant
-        nextBtn.addEventListener('click', (e) => {
-            if (nextBtn.type === 'submit') {
-                // Laisser le formulaire se soumettre normalement
-                return;
-            }
+        } catch (error) {
+            console.warn('[Quiz] Impossible de charger depuis localStorage:', error);
+        }
+        return false;
+    }
+    
+    showSaveIndicator() {
+        const saveIndicator = document.getElementById('quiz-save-indicator');
+        if (saveIndicator) {
+            saveIndicator.style.display = 'flex';
+            saveIndicator.style.opacity = '1';
             
-            if (this.validateCurrentStep()) {
-                this.saveCurrentAnswer();
-                const validQuestions = this.getValidQuestions();
-                const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-                this.showStep(currentValidIndex + 1);
-            } else {
-                // Afficher un message d'erreur
-                const question = this.questions[this.currentStep];
-                const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
-                             document.getElementById(`question_${question.id}`);
-                if (input) {
-                    input.focus();
-                    input.style.borderColor = '#ef4444';
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                    }, 2000);
-                }
-            }
-        });
-        
-        // Sauvegarder automatiquement lors du changement
-        const container = document.getElementById('quiz-questions-container');
-        if (container) {
-            container.addEventListener('change', (e) => {
-                if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
-                    this.saveCurrentAnswer();
-                }
-            });
+            // Masquer après 2 secondes avec animation
+            setTimeout(() => {
+                saveIndicator.style.transition = 'opacity 0.5s ease-out';
+                saveIndicator.style.opacity = '0';
+                setTimeout(() => {
+                    if (saveIndicator.style.opacity === '0') {
+                        saveIndicator.style.display = 'none';
+                    }
+                }, 500);
+            }, 2000);
         }
     }
     
@@ -680,14 +741,21 @@ class LandingQuiz {
         // Sauvegarder automatiquement lors du changement
         const container = document.getElementById('quiz-questions-container');
         if (container) {
+            // Écouter les changements (radio, select, checkbox)
             container.addEventListener('change', (e) => {
                 if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
                     this.saveCurrentAnswer();
-                    
-                    // Si c'est la question budget, afficher l'info pack
-                    if (e.target.name === 'question_budget' && this.profil === 'porteur-projet') {
-                        this.showPackInfoForBudget(e.target.value);
-                    }
+                }
+            });
+            
+            // Écouter les saisies (input, textarea) avec debounce
+            let inputTimeout;
+            container.addEventListener('input', (e) => {
+                if (e.target.matches('input[name^="question_"], textarea[name^="question_"]')) {
+                    clearTimeout(inputTimeout);
+                    inputTimeout = setTimeout(() => {
+                        this.saveCurrentAnswer();
+                    }, 1000); // Sauvegarder 1 seconde après la dernière frappe
                 }
             });
         }
