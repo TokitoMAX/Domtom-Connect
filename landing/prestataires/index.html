@@ -495,15 +495,6 @@
                 console.log('✅ Email ajouté manuellement au FormData:', data.email);
             }
             
-            // Ajouter les résultats de validation
-            if (validation.credibilityScore) {
-                formData.set('credibility_score', validation.credibilityScore.score);
-                formData.set('credibility_level', validation.credibilityScore.level);
-            }
-            if (validation.inconsistencies.length > 0) {
-                formData.set('inconsistencies', JSON.stringify(validation.inconsistencies));
-            }
-            
             // Créer un objet data pour handleLandingFormSubmit
             const submitData = {};
             formData.forEach((value, key) => {
@@ -533,13 +524,7 @@
                 nom: submitData.nom
             });
             
-            // Créer un événement simulé avec les données
-            const fakeEvent = {
-                preventDefault: () => {},
-                target: form
-            };
-            
-            // Remplacer temporairement les valeurs du formulaire
+            // Remplacer temporairement les valeurs du formulaire pour que handleLandingFormSubmit les trouve
             Object.keys(submitData).forEach(key => {
                 const input = form.querySelector(`[name="${key}"]`);
                 if (input) {
@@ -558,10 +543,60 @@
                 }
             });
             
+            // Créer un événement simulé avec les données
+            const fakeEvent = {
+                preventDefault: () => {},
+                target: form,
+                currentTarget: form
+            };
+            
             // Appeler handleLandingFormSubmit
-            if (typeof handleLandingFormSubmit === 'function') {
-                handleLandingFormSubmit(fakeEvent);
-            }
+            console.log('🔍 Vérification de handleLandingFormSubmit:', typeof handleLandingFormSubmit);
+            console.log('🔍 Formulaire:', form);
+            console.log('🔍 Données à envoyer:', submitData);
+            
+            // Attendre un peu pour s'assurer que tout est prêt
+            setTimeout(() => {
+                if (typeof handleLandingFormSubmit === 'function') {
+                    console.log('✅ Appel de handleLandingFormSubmit...');
+                    try {
+                        // Appeler directement avec l'événement
+                        handleLandingFormSubmit(fakeEvent);
+                        console.log('✅ handleLandingFormSubmit appelé avec succès');
+                    } catch (error) {
+                        console.error('❌ Erreur lors de l\'appel de handleLandingFormSubmit:', error);
+                        console.error('❌ Stack trace:', error.stack);
+                        alert('Erreur lors de l\'envoi: ' + error.message);
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnText;
+                        }
+                    }
+                } else {
+                    console.error('❌ handleLandingFormSubmit n\'est pas une fonction ! Type:', typeof handleLandingFormSubmit);
+                    console.error('❌ window.handleLandingFormSubmit:', window.handleLandingFormSubmit);
+                    // Essayer d'appeler depuis window
+                    if (window.handleLandingFormSubmit && typeof window.handleLandingFormSubmit === 'function') {
+                        console.log('✅ handleLandingFormSubmit trouvé dans window, appel...');
+                        try {
+                            window.handleLandingFormSubmit(fakeEvent);
+                        } catch (error) {
+                            console.error('❌ Erreur:', error);
+                            alert('Erreur lors de l\'envoi: ' + error.message);
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = originalBtnText;
+                            }
+                        }
+                    } else {
+                        alert('Erreur: Le formulaire ne peut pas être envoyé. Veuillez recharger la page.');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnText;
+                        }
+                    }
+                }
+            }, 100);
         }
     </script>
 </body>
