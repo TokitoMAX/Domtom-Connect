@@ -298,19 +298,6 @@ const adaptiveQuestions = {
         },
         {
             id: 3,
-            question: "Quel est votre statut juridique ?",
-            type: "radio",
-            options: [
-                { value: "auto-entrepreneur", label: "Auto-entrepreneur / Micro-entrepreneur", score: 2 },
-                { value: "eurl", label: "EURL", score: 3 },
-                { value: "sarl", label: "SARL", score: 3 },
-                { value: "sas", label: "SAS", score: 3 },
-                { value: "sasu", label: "SASU", score: 3 },
-                { value: "autre", label: "Autre statut", score: 2 }
-            ]
-        },
-        {
-            id: 4,
             question: "Quelle est votre expérience (en années) ?",
             type: "radio",
             options: [
@@ -322,7 +309,7 @@ const adaptiveQuestions = {
             ]
         },
         {
-            id: 5,
+            id: 4,
             question: "Dans quels territoires pouvez-vous intervenir ?",
             type: "radio",
             options: [
