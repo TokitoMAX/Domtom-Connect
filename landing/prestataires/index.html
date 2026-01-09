@@ -445,90 +445,10 @@
             const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Vérification en cours...';
+                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Envoi en cours...';
             }
             
-            // Valider le formulaire (mais ne PAS bloquer l'envoi pour des erreurs mineures)
-            const validator = new FormValidator();
-            const validation = await validator.validateForm(data);
-            
-            // Afficher les résultats de validation
-            let canSubmit = true;
-            let validationMessage = '';
-            
-            // Filtrer les erreurs : ne bloquer QUE pour les erreurs critiques
-            const criticalErrors = validation.errors.filter(e => {
-                const errorLower = e.message.toLowerCase();
-                // Ne pas bloquer pour les erreurs de format mineures
-                return !errorLower.includes('format') && 
-                       !errorLower.includes('caractères') &&
-                       !errorLower.includes('longueur');
-            });
-            
-            if (!validation.valid && criticalErrors.length > 0) {
-                // Afficher les erreurs mais permettre de continuer
-                validationMessage = '⚠️ Avertissements :\n' + 
-                    validation.errors.map(e => `• ${e.message}`).join('\n');
-                console.warn('Avertissements de validation:', validationMessage);
-                // Ne PAS bloquer avec alert, juste logger
-                // canSubmit = false; // DÉSACTIVÉ pour permettre l'envoi
-            }
-            } else {
-                // Afficher les avertissements
-                if (validation.warnings.length > 0) {
-                    const warnings = validation.warnings.map(w => `• ${w.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Avertissements détectés :\n\n' + warnings + 
-                        '\n\nSouhaitez-vous continuer malgré ces avertissements ?');
-                    if (!continueAnyway) {
-                        canSubmit = false;
-                    }
-                }
-                
-                // Afficher les incohérences
-                if (validation.inconsistencies.length > 0) {
-                    const inconsistencies = validation.inconsistencies.map(i => `• ${i.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Incohérences détectées :\n\n' + inconsistencies + 
-                        '\n\nCes incohérences seront vérifiées lors de l\'appel de qualification.\n\nSouhaitez-vous continuer ?');
-                    if (!continueAnyway) {
-                        canSubmit = false;
-                    }
-                }
-                
-                // Afficher le score de crédibilité
-                if (validation.credibilityScore) {
-                    const score = validation.credibilityScore.score;
-                    const level = validation.credibilityScore.level;
-                    
-                    if (level === 'low') {
-                        const continueAnyway = confirm(`⚠️ Score de crédibilité faible : ${score}%\n\n` +
-                            `Votre score est en dessous du seuil recommandé (60%).\n` +
-                            `Cela peut être dû à :\n` +
-                            `• Preuves insuffisantes\n` +
-                            `• Incohérences dans vos réponses\n` +
-                            `• Informations incomplètes\n\n` +
-                            `Souhaitez-vous continuer ? Un appel de qualification approfondi sera nécessaire.`);
-                        if (!continueAnyway) {
-                            canSubmit = false;
-                        }
-                    } else if (level === 'medium') {
-                        // Ne pas bloquer avec un alert, juste un log
-                        console.log(`ℹ️ Score de crédibilité : ${score}% - Acceptable, vérification approfondie lors de l'appel`);
-                        // Optionnel : afficher un message non-bloquant
-                        // alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
-                        //     `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
-                    }
-                }
-            }
-            
-            // Restaurer le bouton
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-            
-            if (!canSubmit) {
-                return;
-            }
+            // PAS DE VALIDATION - ENVOYER DIRECTEMENT CE QUE L'UTILISATEUR A ÉCRIT
             
             // Vérifier l'email mais ne PAS bloquer l'envoi
             if (!data.email || data.email.trim() === '') {

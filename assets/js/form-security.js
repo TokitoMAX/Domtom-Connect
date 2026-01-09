@@ -158,83 +158,23 @@ function initFillTimeTracking(form) {
     }
 }
 
-// Validation complète du formulaire
+// Validation complète du formulaire - DÉSACTIVÉE : on envoie toujours
 function validateFormSecurity(form, data) {
+    // TOUTE LA VALIDATION EST DÉSACTIVÉE - ON ENVOIE TOUJOURS
+    // Ne garder que le check du honeypot pour les bots évidents
     const errors = [];
     
-    // 1. Vérifier le honeypot
+    // 1. Vérifier le honeypot (seul check qui reste pour les bots évidents)
     if (!checkHoneypot(form)) {
         errors.push('Soumission détectée comme suspecte.');
         console.warn('Honeypot détecté - probable bot');
         return { valid: false, errors };
     }
     
-    // 2. Vérifier le rate limiting
-    if (!checkRateLimit()) {
-        errors.push('Trop de soumissions récentes. Veuillez patienter avant de réessayer.');
-        return { valid: false, errors };
-    }
-    
-    // 3. Vérifier le temps de remplissage
-    if (!checkFillTime(form)) {
-        errors.push('Le formulaire semble avoir été rempli trop rapidement. Veuillez prendre votre temps.');
-        return { valid: false, errors };
-    }
-    
-    // 4. Valider l'email
-    if (data.email) {
-        if (!isValidEmail(data.email)) {
-            errors.push('Veuillez entrer une adresse email valide.');
-        } else if (isSuspiciousEmail(data.email)) {
-            errors.push('L\'adresse email fournie semble invalide.');
-        }
-    }
-    
-    // 5. Valider le téléphone
-    if (data.telephone) {
-        if (!isValidPhone(data.telephone)) {
-            errors.push('Veuillez entrer un numéro de téléphone valide.');
-        } else if (isSuspiciousPhone(data.telephone)) {
-            errors.push('Le numéro de téléphone fourni semble invalide.');
-        }
-    }
-    
-    // 6. Valider les noms (mais ne PAS bloquer si vides ou invalides - juste avertir)
-    // Les noms peuvent être vides ou invalides, on ne bloque pas l'envoi
-    if (data.prenom && isSuspiciousName(data.prenom)) {
-        // Ne pas bloquer, juste logger
-        console.warn('Prénom suspect détecté:', data.prenom);
-    }
-    if (data.nom && isSuspiciousName(data.nom)) {
-        // Ne pas bloquer, juste logger
-        console.warn('Nom suspect détecté:', data.nom);
-    }
-    
-    // Ne pas valider les noms de manière stricte - permettre l'envoi même si invalides
-    // La validation stricte est faite côté serveur
-    if (data.prenom && data.prenom.trim() && !isValidName(data.prenom)) {
-        // Juste logger, ne pas bloquer
-        console.warn('Prénom invalide détecté (mais envoi autorisé):', data.prenom);
-    }
-    if (data.nom && data.nom.trim() && !isValidName(data.nom)) {
-        // Juste logger, ne pas bloquer
-        console.warn('Nom invalide détecté (mais envoi autorisé):', data.nom);
-    }
-    
-    // 7. Vérifier que les champs ne sont pas identiques (signe de spam)
-    if (data.prenom && data.nom && data.prenom.toLowerCase() === data.nom.toLowerCase()) {
-        errors.push('Le prénom et le nom ne peuvent pas être identiques.');
-    }
-    
-    // 8. Vérifier que l'email ne contient pas le nom/prénom (signe de spam)
-    if (data.email && data.prenom && data.email.toLowerCase().includes(data.prenom.toLowerCase())) {
-        // C'est acceptable, mais on note pour surveillance
-        console.log('Email contient le prénom - à surveiller');
-    }
-    
+    // TOUT LE RESTE EST DÉSACTIVÉ - ON ENVOIE TOUJOURS
     return {
-        valid: errors.length === 0,
-        errors
+        valid: true,
+        errors: []
     };
 }
 
