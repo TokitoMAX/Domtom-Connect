@@ -56,7 +56,8 @@ class FormValidator {
 
     // Validation URL (assouplie - ajoute http:// si manquant)
     async validateURL(url) {
-        if (!url || url.trim().length === 0) {
+        // Si le champ est vide ou contient juste "non" ou "Non", on accepte (pas de portfolio)
+        if (!url || url.trim().length === 0 || url.trim().toLowerCase() === 'non' || url.trim().toLowerCase() === 'non, je n\'en ai pas encore') {
             return { valid: true }; // URL optionnelle
         }
         
@@ -313,7 +314,19 @@ class FormValidator {
                 }
             }
             
+            // Ne valider les URLs que si elles sont remplies (sauf si c'est explicitement "non")
             if (field.includes('url') || field.includes('portfolio') || field.includes('site_web') || field.includes('linkedin') || field.includes('realisations_liens')) {
+                // Si le champ portfolio a la valeur "non", ne pas valider l'URL du portfolio
+                if (field === 'portfolio_url' && data.portfolio === 'non') {
+                    // Ne rien faire, le champ est optionnel
+                    continue;
+                }
+                
+                // Si le champ est vide, c'est OK (optionnel)
+                if (!value || value.trim().length === 0) {
+                    continue;
+                }
+                
                 const validation = await this.validateURL(value);
                 if (!validation.valid) {
                     results.valid = false;

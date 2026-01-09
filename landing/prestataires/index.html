@@ -289,12 +289,24 @@
             {
                 id: 'portfolio',
                 question: 'Avez-vous un portfolio ou site web à partager ?',
-                type: 'url',
-                placeholder: 'https://votre-portfolio.com (optionnel)',
-                required: false,
+                type: 'radio',
+                required: true,
                 fieldName: 'portfolio',
+                options: [
+                    { value: 'oui', label: 'Oui, j\'ai un portfolio/site web' },
+                    { value: 'non', label: 'Non, je n\'en ai pas encore' }
+                ]
+            },
+            {
+                id: 'portfolio_url',
+                question: 'Quel est le lien vers votre portfolio ou site web ?',
+                type: 'url',
+                placeholder: 'https://votre-portfolio.com',
+                required: false,
+                fieldName: 'portfolio_url',
                 pattern: 'https?://.+',
-                description: '💡 Optionnel mais recommandé : cela nous aide à mieux comprendre votre expertise'
+                description: '💡 Partagez votre portfolio ou site web pour mieux comprendre votre expertise',
+                conditional: { field: 'portfolio', value: 'oui' }
             },
             {
                 id: 'realisations',
