@@ -1652,7 +1652,29 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
         } else {
             return response.json().then(errData => {
                 console.error('❌ Erreur lors de l\'envoi de l\'email:', errData);
-                throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                
+                // Gérer les erreurs de validation de Formspree
+                let errorMessage = 'Erreur lors de l\'envoi du formulaire.';
+                
+                if (errData.errors && Array.isArray(errData.errors) && errData.errors.length > 0) {
+                    // Formspree retourne des erreurs de validation détaillées
+                    const validationErrors = errData.errors.map(err => {
+                        if (typeof err === 'string') return err;
+                        if (err.message) return err.message;
+                        if (err.field) return `${err.field}: ${err.message || 'Erreur de validation'}`;
+                        return JSON.stringify(err);
+                    }).join('\n');
+                    errorMessage = `Erreurs de validation détectées :\n\n${validationErrors}\n\nVeuillez vérifier vos informations et réessayer.`;
+                } else if (errData.error) {
+                    // Message d'erreur générique de Formspree
+                    if (errData.error.toLowerCase().includes('validation')) {
+                        errorMessage = 'Certains champs du formulaire ne sont pas valides. Veuillez vérifier vos informations et réessayer.';
+                    } else {
+                        errorMessage = errData.error;
+                    }
+                }
+                
+                throw new Error(errorMessage);
             });
         }
     })
@@ -1678,22 +1700,29 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
         });
         
         // Message d'erreur plus informatif
-        const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
+        let errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre formulaire.';
+        
+        // Si le message contient "Validation errors", le rendre plus clair
+        if (errorMessage.toLowerCase().includes('validation errors') || errorMessage.toLowerCase().includes('validation error')) {
+            errorMessage = 'Certains champs du formulaire ne sont pas valides.\n\nVeuillez vérifier que tous les champs obligatoires sont correctement remplis et réessayer.\n\nSi le problème persiste, contactez-nous directement à domtomconnect@gmail.com';
+        }
+        
         alert(errorMessage);
         if (submitButton) {
+            submitButton.disabled = false;
             const buttonText = submitButton.querySelector('.button-text');
             const buttonLoader = submitButton.querySelector('.button-loader');
             
             if (buttonText) {
                 buttonText.style.opacity = '1';
+                buttonText.textContent = originalText;
             }
             if (buttonLoader) {
                 buttonLoader.style.display = 'none';
             }
-        submitButton.disabled = false;
             
             if (!buttonText && !buttonLoader) {
-        submitButton.textContent = originalText;
+                submitButton.textContent = originalText || 'Envoyer';
             }
         }
     });
