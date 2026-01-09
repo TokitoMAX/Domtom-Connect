@@ -400,29 +400,39 @@ class LandingQuiz {
         
         if (nextBtn) {
             if (isLastQuestion) {
-                // Texte du bouton selon le profil
-                let buttonText = 'Envoyer';
-                if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
-                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                } else if (this.profil === 'prestataire') {
-                    buttonText = 'Remplis ce formulaire en 5-7 minutes';
-                } else if (this.profil === 'entreprise') {
-                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                } else {
-                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                }
+                // Pour les profils sans pack (prestataires, investisseurs), masquer le bouton
+                // La soumission se fera automatiquement via la checkbox
+                const profilesWithoutPack = ['prestataire', 'investisseur'];
+                const hasNoPack = profilesWithoutPack.includes(this.profil);
                 
-                nextBtn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    ${buttonText}
-                `;
-                nextBtn.type = 'submit';
-                // Pour la dernière question avec checkbox, désactiver le bouton si la checkbox n'est pas cochée
-                // (sera activé dans le setTimeout après création du DOM)
-                if (question.type === 'checkbox') {
-                    nextBtn.disabled = true; // Désactivé par défaut, sera activé si checkbox cochée
+                if (hasNoPack && question.type === 'checkbox') {
+                    // Masquer le bouton pour les profils sans pack avec checkbox
+                    nextBtn.style.display = 'none';
+                } else {
+                    // Texte du bouton selon le profil
+                    let buttonText = 'Envoyer';
+                    if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                    } else if (this.profil === 'prestataire') {
+                        buttonText = 'Remplis ce formulaire en 5-7 minutes';
+                    } else if (this.profil === 'entreprise') {
+                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                    } else {
+                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                    }
+                    
+                    nextBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        ${buttonText}
+                    `;
+                    nextBtn.type = 'submit';
+                    // Pour la dernière question avec checkbox, désactiver le bouton si la checkbox n'est pas cochée
+                    // (sera activé dans le setTimeout après création du DOM)
+                    if (question.type === 'checkbox') {
+                        nextBtn.disabled = true; // Désactivé par défaut, sera activé si checkbox cochée
+                    }
                 }
             } else {
                 nextBtn.innerHTML = `
@@ -456,16 +466,49 @@ class LandingQuiz {
                 if (question.type === 'checkbox') {
                     const checkbox = document.getElementById(`question_${question.id}`);
                     const nextBtn = document.getElementById('quiz-btn-next');
-                    if (checkbox && nextBtn) {
-                        // Définir l'état initial du bouton
-                        nextBtn.disabled = !checkbox.checked;
-                        
-                        // Ajouter un listener direct pour une réactivité immédiate
-                        checkbox.addEventListener('change', () => {
+                    const profilesWithoutPack = ['prestataire', 'investisseur'];
+                    const hasNoPack = profilesWithoutPack.includes(this.profil);
+                    
+                    if (checkbox) {
+                        if (hasNoPack) {
+                            // Pour les profils sans pack, déclencher automatiquement la soumission
+                            checkbox.addEventListener('change', (e) => {
+                                if (e.target.checked) {
+                                    console.log('✅ Checkbox cochée, soumission automatique pour profil sans pack');
+                                    this.saveCurrentAnswer();
+                                    
+                                    // Petit délai pour l'animation visuelle
+                                    setTimeout(() => {
+                                        // Déclencher la soumission
+                                        if (typeof handleQuizFormSubmit === 'function') {
+                                            const fakeEvent = {
+                                                preventDefault: () => {},
+                                                stopPropagation: () => {},
+                                                target: this.form,
+                                                currentTarget: this.form
+                                            };
+                                            handleQuizFormSubmit(fakeEvent);
+                                        } else {
+                                            // Fallback : déclencher l'événement submit
+                                            const submitEvent = new Event('submit', { 
+                                                bubbles: true, 
+                                                cancelable: true
+                                            });
+                                            this.form.dispatchEvent(submitEvent);
+                                        }
+                                    }, 300);
+                                }
+                            });
+                        } else if (nextBtn) {
+                            // Pour les autres profils, activer/désactiver le bouton
                             nextBtn.disabled = !checkbox.checked;
-                            this.saveCurrentAnswer();
-                            console.log('✅ Checkbox changée, bouton suivant:', nextBtn.disabled ? 'désactivé' : 'activé');
-                        });
+                            
+                            checkbox.addEventListener('change', () => {
+                                nextBtn.disabled = !checkbox.checked;
+                                this.saveCurrentAnswer();
+                                console.log('✅ Checkbox changée, bouton suivant:', nextBtn.disabled ? 'désactivé' : 'activé');
+                            });
+                        }
                     }
                 }
                 
