@@ -756,9 +756,36 @@ class LandingQuiz {
                     }
                     return false;
                 }
-                // Si valide, laisser le formulaire se soumettre normalement
-                console.log('✅ Formulaire prêt à être soumis');
-                return true;
+                // Si valide, déclencher manuellement la soumission du formulaire
+                console.log('✅ Formulaire prêt à être soumis, déclenchement de la soumission...');
+                
+                // Sauvegarder la réponse actuelle avant soumission
+                this.saveCurrentAnswer();
+                
+                // Déclencher manuellement la soumission du formulaire
+                console.log('✅ Validation OK, déclenchement de la soumission...');
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Appeler directement handleQuizFormSubmit si disponible
+                if (typeof handleQuizFormSubmit === 'function') {
+                    console.log('✅ Appel direct de handleQuizFormSubmit');
+                    const fakeEvent = {
+                        preventDefault: () => {},
+                        target: this.form,
+                        currentTarget: this.form
+                    };
+                    handleQuizFormSubmit(fakeEvent);
+                } else {
+                    // Fallback : déclencher l'événement submit du formulaire
+                    console.log('⚠️ handleQuizFormSubmit non trouvé, déclenchement de l\'événement submit');
+                    const submitEvent = new Event('submit', { 
+                        bubbles: true, 
+                        cancelable: true
+                    });
+                    this.form.dispatchEvent(submitEvent);
+                }
+                return false;
             }
             
             if (this.validateCurrentStep()) {
