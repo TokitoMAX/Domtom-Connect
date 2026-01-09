@@ -381,17 +381,7 @@
         // Initialiser le quiz
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('[Prestataires] Initialisation du quiz...');
-            const form = document.getElementById('landing-form');
-            if (!form) {
-                console.error('[Prestataires] Formulaire landing-form non trouvé!');
-                return;
-            }
-            console.log('[Prestataires] Formulaire trouvé:', form);
-            console.log('[Prestataires] Questions complètes:', prestatairesQuestions?.length);
-            console.log('[Prestataires] Questions simplifiées:', prestatairesQuestionsSimplified?.length);
             quiz = new LandingQuiz(prestatairesQuestions, 'landing-form', 'prestataire', prestatairesQuestionsSimplified);
-            console.log('[Prestataires] Quiz initialisé:', quiz);
         });
 
         // Gérer la soumission du formulaire

@@ -162,13 +162,10 @@ class LandingQuiz {
         // Créer le container quiz s'il n'existe pas
         let quizContainer = this.form.querySelector('.quiz-container');
         if (!quizContainer) {
-            console.warn('[Quiz] Container .quiz-container non trouvé, création...');
             quizContainer = document.createElement('div');
             quizContainer.className = 'quiz-container';
             this.form.appendChild(quizContainer);
         }
-        
-        console.log('[Quiz] Création de la structure du quiz dans:', quizContainer);
         
         // Créer la structure HTML du quiz
         quizContainer.innerHTML = `
@@ -468,34 +465,24 @@ class LandingQuiz {
                 // Utiliser un délai supplémentaire pour s'assurer que le DOM est complètement prêt
                 setTimeout(() => {
                     if (question.type === 'checkbox') {
-                    const checkbox = document.getElementById(`question_${question.id}`);
-                    const nextBtn = document.getElementById('quiz-btn-next');
-                    const profilesWithoutPack = ['prestataire', 'investisseur'];
-                    const hasNoPack = profilesWithoutPack.includes(this.profil);
-                    
-                    console.log('🔍 Debug checkbox:', {
-                        questionId: question.id,
-                        checkboxFound: !!checkbox,
-                        profil: this.profil,
-                        hasNoPack: hasNoPack,
-                        nextBtnFound: !!nextBtn
-                    });
-                    
-                    if (checkbox && nextBtn) {
-                        // Pour TOUS les profils, activer/désactiver le bouton selon l'état de la checkbox
-                        // Le bouton est déjà configuré comme "submit" pour la dernière question
-                        nextBtn.disabled = !checkbox.checked;
+                        const checkbox = document.getElementById(`question_${question.id}`);
+                        const nextBtn = document.getElementById('quiz-btn-next');
                         
-                        // Listener pour activer/désactiver le bouton quand la checkbox change
-                        checkbox.addEventListener('change', () => {
+                        if (checkbox && nextBtn) {
+                            // Pour TOUS les profils, activer/désactiver le bouton selon l'état de la checkbox
+                            // Le bouton est déjà configuré comme "submit" pour la dernière question
                             nextBtn.disabled = !checkbox.checked;
-                            this.saveCurrentAnswer();
-                            console.log('✅ Checkbox changée, bouton:', nextBtn.disabled ? 'désactivé' : 'activé');
-                        });
-                        
-                        // Si la checkbox est déjà cochée (restauration), activer le bouton
-                        if (checkbox.checked) {
-                            nextBtn.disabled = false;
+                            
+                            // Listener pour activer/désactiver le bouton quand la checkbox change
+                            checkbox.addEventListener('change', () => {
+                                nextBtn.disabled = !checkbox.checked;
+                                this.saveCurrentAnswer();
+                            });
+                            
+                            // Si la checkbox est déjà cochée (restauration), activer le bouton
+                            if (checkbox.checked) {
+                                nextBtn.disabled = false;
+                            }
                         }
                     }
                 }
@@ -876,7 +863,6 @@ class LandingQuiz {
                         if (question.type === 'checkbox' || e.target.type === 'checkbox') {
                             // Pour les checkboxes, activer/désactiver le bouton selon l'état
                             nextBtn.disabled = !e.target.checked;
-                            console.log('🔵 Checkbox changée via container listener, état:', e.target.checked, 'Bouton:', nextBtn.disabled ? 'désactivé' : 'activé');
                         } else if (question.type === 'radio' || e.target.tagName === 'SELECT') {
                             // Pour radio et select, activer le bouton et passer automatiquement (sauf dernière question)
                             nextBtn.disabled = false;
