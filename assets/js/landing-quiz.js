@@ -463,41 +463,89 @@ class LandingQuiz {
                 this.restoreAnswer(question);
                 
                 // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
-                if (question.type === 'checkbox') {
+                // Utiliser un délai supplémentaire pour s'assurer que le DOM est complètement prêt
+                setTimeout(() => {
+                    if (question.type === 'checkbox') {
                     const checkbox = document.getElementById(`question_${question.id}`);
                     const nextBtn = document.getElementById('quiz-btn-next');
                     const profilesWithoutPack = ['prestataire', 'investisseur'];
                     const hasNoPack = profilesWithoutPack.includes(this.profil);
                     
+                    console.log('🔍 Debug checkbox:', {
+                        questionId: question.id,
+                        checkboxFound: !!checkbox,
+                        profil: this.profil,
+                        hasNoPack: hasNoPack,
+                        nextBtnFound: !!nextBtn
+                    });
+                    
                     if (checkbox) {
                         if (hasNoPack) {
+                            console.log('✅ Mode auto-submit activé pour profil sans pack:', this.profil);
                             // Pour les profils sans pack, déclencher automatiquement la soumission
-                            checkbox.addEventListener('change', (e) => {
-                                if (e.target.checked) {
-                                    console.log('✅ Checkbox cochée, soumission automatique pour profil sans pack');
-                                    this.saveCurrentAnswer();
+                            // Utiliser 'change' pour détecter quand la checkbox est cochée
+                            const handleCheckboxChange = (e) => {
+                                // Vérifier l'état après un petit délai pour s'assurer que la checkbox est bien cochée
+                                setTimeout(() => {
+                                    const isChecked = e.target.checked || checkbox.checked;
+                                    console.log('🔄 Checkbox changée, état:', isChecked, 'e.target.checked:', e.target.checked, 'checkbox.checked:', checkbox.checked);
                                     
-                                    // Petit délai pour l'animation visuelle
-                                    setTimeout(() => {
-                                        // Déclencher la soumission
-                                        if (typeof handleQuizFormSubmit === 'function') {
-                                            const fakeEvent = {
-                                                preventDefault: () => {},
-                                                stopPropagation: () => {},
-                                                target: this.form,
-                                                currentTarget: this.form
-                                            };
-                                            handleQuizFormSubmit(fakeEvent);
-                                        } else {
-                                            // Fallback : déclencher l'événement submit
-                                            const submitEvent = new Event('submit', { 
-                                                bubbles: true, 
-                                                cancelable: true
-                                            });
-                                            this.form.dispatchEvent(submitEvent);
+                                    if (isChecked) {
+                                        console.log('✅ Checkbox cochée, soumission automatique pour profil sans pack');
+                                        this.saveCurrentAnswer();
+                                        
+                                        // Afficher un indicateur visuel de chargement
+                                        const container = this.form.querySelector('.quiz-container');
+                                        if (container) {
+                                            // Supprimer l'ancien indicateur s'il existe
+                                            const oldLoading = document.getElementById('quiz-submitting');
+                                            if (oldLoading) oldLoading.remove();
+                                            
+                                            const loadingDiv = document.createElement('div');
+                                            loadingDiv.id = 'quiz-submitting';
+                                            loadingDiv.style.cssText = 'text-align: center; padding: 1rem; color: var(--primary-color); font-weight: 600; margin-top: 1rem;';
+                                            loadingDiv.innerHTML = '⏳ Envoi en cours...';
+                                            container.appendChild(loadingDiv);
                                         }
-                                    }, 300);
-                                }
+                                        
+                                        // Petit délai pour l'animation visuelle
+                                        setTimeout(() => {
+                                            console.log('📤 Déclenchement de la soumission...');
+                                            // Déclencher la soumission
+                                            if (typeof handleQuizFormSubmit === 'function') {
+                                                console.log('✅ handleQuizFormSubmit trouvé, appel en cours...');
+                                                const fakeEvent = {
+                                                    preventDefault: () => {
+                                                        console.log('preventDefault appelé');
+                                                    },
+                                                    stopPropagation: () => {},
+                                                    target: this.form,
+                                                    currentTarget: this.form
+                                                };
+                                                try {
+                                                    handleQuizFormSubmit(fakeEvent);
+                                                } catch (error) {
+                                                    console.error('❌ Erreur lors de l\'appel de handleQuizFormSubmit:', error);
+                                                }
+                                            } else {
+                                                console.warn('⚠️ handleQuizFormSubmit non trouvé, déclenchement de l\'événement submit');
+                                                // Fallback : déclencher l'événement submit
+                                                const submitEvent = new Event('submit', { 
+                                                    bubbles: true, 
+                                                    cancelable: true
+                                                });
+                                                this.form.dispatchEvent(submitEvent);
+                                            }
+                                        }, 300);
+                                    }
+                                }, 50); // Petit délai pour s'assurer que la checkbox est bien cochée
+                            };
+                            
+                            // Ajouter les listeners
+                            checkbox.addEventListener('change', handleCheckboxChange);
+                            checkbox.addEventListener('click', (e) => {
+                                console.log('🖱️ Checkbox cliquée');
+                                // Le listener 'change' se déclenchera automatiquement après
                             });
                         } else if (nextBtn) {
                             // Pour les autres profils, activer/désactiver le bouton
