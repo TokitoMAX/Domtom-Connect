@@ -1100,19 +1100,43 @@ function handleLandingFormSubmit(event) {
     // Send to Formspree (même endpoint que le formulaire principal)
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
     
-    // Déterminer le profil clairement
-    const profil = data.profil || pageType;
+    // Déterminer le profil clairement (priorité à data.profil, puis pageType, puis URL)
+    let profil = data.profil || pageType;
+    
+    // Si profil n'est toujours pas défini, essayer de le détecter depuis l'URL
+    if (!profil || profil === 'porteurs-projets') {
+        if (window.location.pathname.includes('prestataires')) {
+            profil = 'prestataire';
+        } else if (window.location.pathname.includes('entreprises') || window.location.pathname.includes('professionnels')) {
+            profil = 'entreprise';
+        } else if (window.location.pathname.includes('investisseurs')) {
+            profil = 'investisseur';
+        } else if (window.location.pathname.includes('porteurs-projets') || window.location.pathname.includes('entrepreneurs')) {
+            profil = 'porteur-projet';
+        }
+    }
+    
+    // Normaliser les valeurs de profil
+    if (profil === 'porteurs-projets') profil = 'porteur-projet';
+    if (profil === 'entrepreneurs') profil = 'porteur-projet';
+    if (profil === 'professionnels') profil = 'entreprise';
+    
     let profilLabel = '';
-    if (profil === 'entreprise' || pageType === 'entreprises' || profil === 'professionnel') {
+    if (profil === 'entreprise' || pageType === 'entreprises') {
         profilLabel = '🏢 ENTREPRISE';
     } else if (profil === 'prestataire' || pageType === 'prestataires') {
         profilLabel = '💼 PRESTATAIRE';
-    } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets' || profil === 'entrepreneur' || pageType === 'entrepreneurs') {
+    } else if (profil === 'porteur-projet' || pageType === 'porteurs-projets') {
         profilLabel = '🚀 PORTEUR DE PROJET / ENTREPRENEUR';
     } else if (profil === 'investisseur' || pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR';
     } else {
-        profilLabel = '👤 ' + profil.toUpperCase();
+        profilLabel = '👤 ' + (profil || 'NON_DEFINI').toUpperCase();
+    }
+    
+    // S'assurer que data.profil est défini pour les logs
+    if (!data.profil) {
+        data.profil = profil;
     }
     
     // Préparer les données au format FormData (comme le formulaire principal)
@@ -1559,6 +1583,25 @@ Certification acceptée: OUI
     })
     .catch(error => {
         console.error('❌ Erreur détaillée lors de l\'envoi de l\'email:', error);
+        console.error('❌ Données du formulaire:', data);
+        console.error('❌ Profil détecté:', profil, 'PageType:', pageType);
+        
+        // Essayer d'envoyer un email de secours avec les données disponibles
+        console.warn('⚠️ Tentative d\'envoi d\'email de secours...');
+        const fallbackFormData = new FormData();
+        fallbackFormData.append('_to', 'domtomconnect@gmail.com');
+        fallbackFormData.append('_subject', `⚠️ ERREUR ENVOI - ${profilLabel} - ${data.prenom || 'NOM_MANQUANT'} ${data.nom || 'PRENOM_MANQUANT'}`);
+        fallbackFormData.append('_replyto', data.email || 'domtomconnect@gmail.com');
+        fallbackFormData.append('message', `ERREUR LORS DE L'ENVOI DU FORMULAIRE\n\nProfil: ${profilLabel}\nPage: ${window.location.href}\nErreur: ${error.message}\n\nDonnées disponibles:\n${JSON.stringify(data, null, 2)}`);
+        
+        fetch('https://formspree.io/f/myzbqepy', {
+            method: 'POST',
+            body: fallbackFormData,
+            headers: { 'Accept': 'application/json' }
+        }).catch(fallbackError => {
+            console.error('❌ Échec de l\'envoi de secours:', fallbackError);
+        });
+        
         // Message d'erreur plus informatif
         const errorMessage = error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement.';
         alert(errorMessage);
