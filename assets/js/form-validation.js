@@ -314,7 +314,7 @@ class FormValidator {
                 }
             }
             
-            // Ne valider les URLs que si elles sont remplies (sauf si c'est explicitement "non")
+            // Ne valider les URLs que si elles sont remplies (tous les champs URL sont optionnels)
             if (field.includes('url') || field.includes('portfolio') || field.includes('site_web') || field.includes('linkedin') || field.includes('realisations_liens')) {
                 // Si le champ portfolio a la valeur "non", ne pas valider l'URL du portfolio
                 if (field === 'portfolio_url' && data.portfolio === 'non') {
@@ -322,15 +322,17 @@ class FormValidator {
                     continue;
                 }
                 
-                // Si le champ est vide, c'est OK (optionnel)
+                // Tous les champs URL sont optionnels - si vide, on accepte sans validation
                 if (!value || value.trim().length === 0) {
                     continue;
                 }
                 
+                // Valider uniquement si une valeur est fournie
                 const validation = await this.validateURL(value);
+                // Ne jamais bloquer la validation pour les URLs optionnelles, seulement avertir
                 if (!validation.valid) {
-                    results.valid = false;
-                    results.errors.push({ field, message: validation.error });
+                    // Au lieu de bloquer, on ajoute juste un avertissement
+                    results.warnings.push({ field, message: validation.error || 'Format d\'URL suspect, vérification manuelle nécessaire' });
                 }
                 if (validation.warning) {
                     results.warnings.push({ field, message: validation.warning });
