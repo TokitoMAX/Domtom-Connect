@@ -1175,36 +1175,33 @@ function handleLandingFormSubmit(event) {
         replyToEmail = replyToEmail.trim();
     }
     
-    // Vérifier que l'email est valide
+    // Vérifier que l'email est valide, mais ne PAS bloquer l'envoi
     if (!replyToEmail || !emailRegex.test(replyToEmail)) {
-        console.error('❌ Email invalide ou manquant:', {
-            replyToEmail: replyToEmail,
-            dataEmail: data.email,
-            dataQuestionEmail: data['question_email'],
-            formDataEmail: formData.get('email'),
-            formDataQuestionEmail: formData.get('question_email'),
-            allData: data
-        });
-        alert('❌ Erreur : L\'adresse email est manquante ou invalide. Veuillez vérifier votre email et réessayer.');
-        if (submitButton) {
-            submitButton.disabled = false;
-            const buttonText = submitButton.querySelector('.button-text');
-            const buttonLoader = submitButton.querySelector('.button-loader');
-            if (buttonText) {
-                buttonText.style.opacity = '1';
-            }
-            if (buttonLoader) {
-                buttonLoader.style.display = 'none';
-            }
-            if (!buttonText && !buttonLoader) {
-                submitButton.textContent = originalText || 'Envoyer';
+        console.warn('⚠️ Email invalide ou manquant, recherche dans tous les champs...');
+        
+        // Dernière tentative : chercher dans TOUS les inputs du formulaire
+        const allInputs = form.querySelectorAll('input, textarea, select');
+        for (const input of allInputs) {
+            const value = input.value || '';
+            if (value.includes('@') && value.includes('.')) {
+                replyToEmail = value.trim();
+                console.log('✅ Email trouvé dans un input:', replyToEmail);
+                break;
             }
         }
-        return;
+        
+        // Si toujours pas d'email valide, utiliser une valeur par défaut
+        if (!replyToEmail || !emailRegex.test(replyToEmail)) {
+            console.warn('⚠️ Utilisation d\'une valeur par défaut pour permettre l\'envoi');
+            replyToEmail = data.prenom && data.nom 
+                ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
+                : 'contact@domtomconnect-temp.com';
+        }
     }
     
     // S'assurer que data.email est défini pour la suite
     data.email = replyToEmail;
+    console.log('📧 Email final utilisé pour l\'envoi:', data.email);
     
     formDataToSend.append('_replyto', replyToEmail);
     

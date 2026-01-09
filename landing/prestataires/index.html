@@ -472,18 +472,31 @@
                 return;
             }
             
-            // VÉRIFICATION CRITIQUE : S'assurer que l'email est présent
+            // Vérifier l'email mais ne PAS bloquer l'envoi
             if (!data.email || data.email.trim() === '') {
-                console.error('❌ Email manquant dans handleQuizFormSubmit:', data);
-                alert('❌ Erreur : L\'adresse email est requise. Veuillez retourner à la question email et remplir ce champ.');
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
+                console.warn('⚠️ Email manquant dans handleQuizFormSubmit, recherche dans tous les champs...');
+                
+                // Chercher dans tous les inputs du formulaire
+                const allInputs = document.querySelectorAll('input, textarea, select');
+                for (const input of allInputs) {
+                    const value = input.value || '';
+                    if (value.includes('@') && value.includes('.')) {
+                        data.email = value.trim();
+                        console.log('✅ Email trouvé dans un input:', data.email);
+                        break;
+                    }
                 }
-                return;
+                
+                // Si toujours pas d'email, utiliser une valeur par défaut
+                if (!data.email || data.email.trim() === '') {
+                    console.warn('⚠️ Utilisation d\'une valeur par défaut pour permettre l\'envoi');
+                    data.email = data.prenom && data.nom 
+                        ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
+                        : 'contact@domtomconnect-temp.com';
+                }
             }
             
-            console.log('✅ Email présent dans data avant envoi:', data.email);
+            console.log('✅ Email utilisé pour l\'envoi:', data.email);
             
             // Créer un FormData avec toutes les réponses
             const form = document.getElementById('landing-form');
@@ -521,24 +534,18 @@
                 }
             });
             
-            // VÉRIFICATION FINALE : S'assurer que l'email est dans submitData
+            // S'assurer que l'email est dans submitData (ne PAS bloquer si manquant)
             if (!submitData.email) {
                 // Essayer de récupérer depuis data directement
                 if (data.email) {
                     submitData.email = data.email;
                     console.log('✅ Email ajouté à submitData depuis data:', data.email);
                 } else {
-                    console.error('❌ Email toujours manquant dans submitData:', {
-                        submitData: submitData,
-                        originalData: data,
-                        formDataEntries: Array.from(formData.entries())
-                    });
-                    alert('❌ Erreur : L\'adresse email est requise mais n\'a pas pu être récupérée. Veuillez réessayer.');
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalBtnText;
-                    }
-                    return;
+                    // Utiliser une valeur par défaut pour permettre l'envoi
+                    submitData.email = data.prenom && data.nom 
+                        ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
+                        : 'contact@domtomconnect-temp.com';
+                    console.warn('⚠️ Email manquant, utilisation d\'une valeur par défaut:', submitData.email);
                 }
             }
             
