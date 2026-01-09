@@ -419,6 +419,11 @@ class LandingQuiz {
                     ${buttonText}
                 `;
                 nextBtn.type = 'submit';
+                // Pour la dernière question avec checkbox, désactiver le bouton si la checkbox n'est pas cochée
+                // (sera activé dans le setTimeout après création du DOM)
+                if (question.type === 'checkbox') {
+                    nextBtn.disabled = true; // Désactivé par défaut, sera activé si checkbox cochée
+                }
             } else {
                 nextBtn.innerHTML = `
                     Suivant
@@ -427,8 +432,10 @@ class LandingQuiz {
                     </svg>
                 `;
                 nextBtn.type = 'button';
-                // Réactiver le bouton au cas où il serait désactivé
-                nextBtn.disabled = false;
+                // Réactiver le bouton au cas où il serait désactivé (sauf si c'est une checkbox)
+                if (question.type !== 'checkbox') {
+                    nextBtn.disabled = false;
+                }
             }
             
             // Réattacher l'event listener après modification du HTML
@@ -444,6 +451,23 @@ class LandingQuiz {
             // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
             setTimeout(() => {
                 this.restoreAnswer(question);
+                
+                // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
+                if (question.type === 'checkbox') {
+                    const checkbox = document.getElementById(`question_${question.id}`);
+                    const nextBtn = document.getElementById('quiz-btn-next');
+                    if (checkbox && nextBtn) {
+                        // Définir l'état initial du bouton
+                        nextBtn.disabled = !checkbox.checked;
+                        
+                        // Ajouter un listener direct pour une réactivité immédiate
+                        checkbox.addEventListener('change', () => {
+                            nextBtn.disabled = !checkbox.checked;
+                            this.saveCurrentAnswer();
+                            console.log('✅ Checkbox changée, bouton suivant:', nextBtn.disabled ? 'désactivé' : 'activé');
+                        });
+                    }
+                }
                 
                 // Si c'est la question budget, ajouter un listener pour afficher l'info pack
                 if (question.id === 'budget' && this.profil === 'porteur-projet') {
@@ -714,8 +738,27 @@ class LandingQuiz {
         // Bouton suivant
         nextBtn.addEventListener('click', (e) => {
             if (nextBtn.type === 'submit') {
-                // Laisser le formulaire se soumettre normalement
-                return;
+                // Vérifier que la dernière question est valide avant de soumettre
+                if (!this.validateCurrentStep()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const question = this.questions[this.currentStep];
+                    if (question.type === 'checkbox') {
+                        const checkbox = document.getElementById(`question_${question.id}`);
+                        if (checkbox && !checkbox.checked) {
+                            alert('⚠️ Veuillez cocher la case de certification pour continuer.');
+                            checkbox.focus();
+                            checkbox.style.outline = '2px solid #ef4444';
+                            setTimeout(() => {
+                                checkbox.style.outline = '';
+                            }, 2000);
+                        }
+                    }
+                    return false;
+                }
+                // Si valide, laisser le formulaire se soumettre normalement
+                console.log('✅ Formulaire prêt à être soumis');
+                return true;
             }
             
             if (this.validateCurrentStep()) {
@@ -746,22 +789,35 @@ class LandingQuiz {
                 if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
                     this.saveCurrentAnswer();
                     
-                    // Passage automatique pour radio et select (sauf si c'est la dernière question)
+                    // Activer/désactiver le bouton suivant selon le type de question
                     const question = this.questions[this.currentStep];
-                    if (question && (e.target.type === 'radio' || e.target.tagName === 'SELECT')) {
-                        // Vérifier que la question est valide avant de passer
-                        if (this.validateCurrentStep()) {
-                            const validQuestions = this.getValidQuestions();
-                            const currentValidIndex = validQuestions.findIndex(q => q.id === question.id);
+                    const nextBtn = document.getElementById('quiz-btn-next');
+                    
+                    if (question && nextBtn) {
+                        if (question.type === 'checkbox' || e.target.type === 'checkbox') {
+                            // Pour les checkboxes, activer/désactiver le bouton selon l'état
+                            nextBtn.disabled = !e.target.checked;
+                            console.log('🔵 Checkbox changée via container listener, état:', e.target.checked, 'Bouton:', nextBtn.disabled ? 'désactivé' : 'activé');
+                        } else if (question.type === 'radio' || e.target.tagName === 'SELECT') {
+                            // Pour radio et select, activer le bouton et passer automatiquement (sauf dernière question)
+                            nextBtn.disabled = false;
                             
-                            // Ne pas passer automatiquement si c'est la dernière question ou si c'est un submit
-                            const nextBtn = document.getElementById('quiz-btn-next');
-                            if (nextBtn && nextBtn.type !== 'submit' && currentValidIndex < validQuestions.length - 1) {
-                                // Passage automatique après un court délai pour l'animation
-                                setTimeout(() => {
-                                    this.showStep(currentValidIndex + 1);
-                                }, 600);
+                            // Passage automatique pour radio et select (sauf si c'est la dernière question)
+                            if (this.validateCurrentStep()) {
+                                const validQuestions = this.getValidQuestions();
+                                const currentValidIndex = validQuestions.findIndex(q => q.id === question.id);
+                                
+                                // Ne pas passer automatiquement si c'est la dernière question ou si c'est un submit
+                                if (nextBtn.type !== 'submit' && currentValidIndex < validQuestions.length - 1) {
+                                    // Passage automatique après un court délai pour l'animation
+                                    setTimeout(() => {
+                                        this.showStep(currentValidIndex + 1);
+                                    }, 600);
+                                }
                             }
+                        } else {
+                            // Pour les autres types (textarea, text), activer si valide
+                            nextBtn.disabled = !this.validateCurrentStep();
                         }
                     }
                 }
