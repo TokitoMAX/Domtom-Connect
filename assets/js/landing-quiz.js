@@ -676,15 +676,32 @@ class LandingQuiz {
     }
     
     saveAnswer(question) {
+        let savedValue = null;
+        
         if (question.type === 'radio') {
             const input = document.querySelector(`input[name="question_${question.id}"]:checked`);
-            this.answers[`question_${question.id}`] = input ? input.value : null;
+            savedValue = input ? input.value : null;
+            this.answers[`question_${question.id}`] = savedValue;
         } else if (question.type === 'checkbox') {
             const input = document.getElementById(`question_${question.id}`);
-            this.answers[`question_${question.id}`] = input && input.checked ? input.value : null;
+            savedValue = input && input.checked ? (input.value || 'OUI') : null;
+            this.answers[`question_${question.id}`] = savedValue;
         } else {
             const input = document.getElementById(`question_${question.id}`);
-            this.answers[`question_${question.id}`] = input ? (input.value || null) : null;
+            savedValue = input ? (input.value || null) : null;
+            this.answers[`question_${question.id}`] = savedValue;
+            
+            // IMPORTANT: Pour l'email, sauvegarder aussi avec le fieldName pour faciliter la récupération
+            if (question.fieldName === 'email' || question.id === 'email') {
+                this.answers.email = savedValue;
+                this.answers['question_email'] = savedValue;
+                console.log('✅ Email sauvegardé dans answers:', {
+                    questionId: question.id,
+                    fieldName: question.fieldName,
+                    value: savedValue,
+                    savedIn: ['question_' + question.id, 'email', 'question_email']
+                });
+            }
         }
         
         // Sauvegarder dans localStorage
@@ -1052,6 +1069,27 @@ class LandingQuiz {
         // Sauvegarder la réponse actuelle
         this.saveCurrentAnswer();
         
+        // IMPORTANT: Sauvegarder TOUTES les réponses visibles dans le formulaire avant de collecter
+        // Cela garantit que même si on est à la dernière étape, toutes les réponses précédentes sont sauvegardées
+        this.questions.forEach(question => {
+            const input = document.getElementById(`question_${question.id}`) || 
+                         document.querySelector(`input[name="question_${question.id}"]`) ||
+                         document.querySelector(`select[name="question_${question.id}"]`) ||
+                         document.querySelector(`textarea[name="question_${question.id}"]`);
+            if (input) {
+                if (question.type === 'radio') {
+                    const checked = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                    if (checked) {
+                        this.answers[`question_${question.id}`] = checked.value;
+                    }
+                } else if (question.type === 'checkbox') {
+                    this.answers[`question_${question.id}`] = input.checked ? (input.value || 'OUI') : null;
+                } else {
+                    this.answers[`question_${question.id}`] = input.value || null;
+                }
+            }
+        });
+        
         // Collecter toutes les réponses dans le formulaire
         const formData = new FormData(this.form);
         const data = {};
@@ -1089,14 +1127,27 @@ class LandingQuiz {
         }
         
         // Ajouter les réponses du quiz (celles qui ont été répondues dans le quiz)
+        // IMPORTANT: Parcourir toutes les questions et récupérer leurs réponses depuis this.answers
         this.questions.forEach(question => {
-            const answer = this.answers[`question_${question.id}`];
+            // Essayer plusieurs clés possibles pour récupérer la réponse
+            const answer = this.answers[`question_${question.id}`] || 
+                          this.answers[question.id] ||
+                          (question.fieldName ? this.answers[question.fieldName] : null);
+            
             if (answer !== null && answer !== undefined && answer !== '') {
                 // Mapper les réponses aux noms de champs du formulaire
                 const fieldName = question.fieldName || question.id;
-                // Ne pas écraser les données pré-remplies sauf si l'utilisateur a modifié
-                if (!data[fieldName] || data[fieldName] !== answer) {
-                    data[fieldName] = answer;
+                // Toujours utiliser la réponse du quiz si elle existe (priorité sur données pré-remplies)
+                data[fieldName] = answer;
+                
+                // Log spécial pour l'email
+                if (fieldName === 'email') {
+                    console.log('✅ Email trouvé dans les réponses du quiz:', {
+                        questionId: question.id,
+                        fieldName: fieldName,
+                        answer: answer,
+                        source: 'questions.forEach'
+                    });
                 }
             }
         });
@@ -1151,35 +1202,53 @@ class LandingQuiz {
         });
         
         // Vérifier que l'email est bien présent et valide
-        // Essayer de récupérer l'email depuis plusieurs sources
+        // IMPORTANT: Récupérer l'email depuis TOUS les inputs du formulaire (visibles ou non)
         if (!data.email || data.email.trim() === '') {
-            // 1. Essayer depuis le DOM (priorité)
-            const emailInput = this.form.querySelector('input[type="email"], input[name="email"], input[name="question_email"], input[id="question_email"], input[id*="email"]');
-            if (emailInput && emailInput.value && emailInput.value.trim() !== '') {
-                data.email = emailInput.value.trim();
-                console.log('✅ Email récupéré depuis le DOM:', data.email);
-            } else {
-                // 2. Essayer depuis formData
+            // 1. Essayer depuis TOUS les inputs email du formulaire (même non visibles)
+            const allEmailInputs = this.form.querySelectorAll('input[type="email"], input[name="email"], input[name="question_email"], input[id="question_email"], input[id*="email"]');
+            for (const emailInput of allEmailInputs) {
+                if (emailInput && emailInput.value && emailInput.value.trim() !== '') {
+                    data.email = emailInput.value.trim();
+                    console.log('✅ Email récupéré depuis le DOM (input visible ou caché):', data.email);
+                    break;
+                }
+            }
+            
+            // 2. Si toujours pas trouvé, essayer depuis formData
+            if (!data.email || data.email.trim() === '') {
                 const emailFromForm = formData.get('question_email') || formData.get('email');
                 if (emailFromForm && emailFromForm.trim() !== '') {
                     data.email = emailFromForm.trim();
                     console.log('✅ Email récupéré depuis FormData:', data.email);
-                } else {
-                    // 3. Essayer depuis les réponses du quiz
-                    const emailAnswer = this.answers['question_email'] || this.answers.email;
-                    if (emailAnswer && emailAnswer.trim() !== '') {
-                        data.email = emailAnswer.trim();
-                        console.log('✅ Email récupéré depuis answers:', data.email);
+                }
+            }
+            
+            // 3. Si toujours pas trouvé, essayer depuis les réponses sauvegardées
+            if (!data.email || data.email.trim() === '') {
+                const emailAnswer = this.answers['question_email'] || this.answers.email;
+                if (emailAnswer && emailAnswer.trim() !== '') {
+                    data.email = emailAnswer.trim();
+                    console.log('✅ Email récupéré depuis answers:', data.email);
+                }
+            }
+            
+            // 4. Si toujours pas trouvé, chercher dans toutes les questions
+            if (!data.email || data.email.trim() === '') {
+                const emailQuestion = this.questions.find(q => q.id === 'email' || q.fieldName === 'email');
+                if (emailQuestion) {
+                    // Essayer depuis answers avec différentes clés
+                    const emailValue = this.answers[`question_${emailQuestion.id}`] || 
+                                    this.answers[emailQuestion.id] ||
+                                    (emailQuestion.fieldName ? this.answers[emailQuestion.fieldName] : null);
+                    if (emailValue && emailValue.trim() !== '') {
+                        data.email = emailValue.trim();
+                        console.log('✅ Email récupéré depuis la question email:', data.email);
                     } else {
-                        // 4. Essayer de trouver la question email et récupérer sa valeur
-                        const emailQuestion = this.questions.find(q => q.id === 'email' || q.fieldName === 'email');
-                        if (emailQuestion) {
-                            const emailValue = this.answers[`question_${emailQuestion.id}`] || 
-                                            (emailQuestion.fieldName ? this.answers[emailQuestion.fieldName] : null);
-                            if (emailValue && emailValue.trim() !== '') {
-                                data.email = emailValue.trim();
-                                console.log('✅ Email récupéré depuis la question email:', data.email);
-                            }
+                        // Dernière tentative : chercher l'input même s'il n'est pas dans le DOM actuel
+                        const emailInputById = document.getElementById(`question_${emailQuestion.id}`);
+                        if (emailInputById && emailInputById.value && emailInputById.value.trim() !== '') {
+                            data.email = emailInputById.value.trim();
+                            console.log('✅ Email récupéré depuis l\'input par ID:', data.email);
                         }
                     }
                 }
@@ -1201,14 +1270,46 @@ class LandingQuiz {
                     name: inp.name,
                     id: inp.id,
                     value: inp.value
+                })),
+                allQuestions: this.questions.map(q => ({
+                    id: q.id,
+                    fieldName: q.fieldName,
+                    answer: this.answers[`question_${q.id}`]
                 }))
             });
+            
+            // Dernière tentative : parcourir toutes les questions et chercher manuellement l'email
+            const emailQuestion = this.questions.find(q => q.id === 'email' || q.fieldName === 'email');
+            if (emailQuestion) {
+                // Essayer toutes les clés possibles
+                const possibleKeys = [
+                    `question_${emailQuestion.id}`,
+                    emailQuestion.id,
+                    emailQuestion.fieldName,
+                    'email',
+                    'question_email'
+                ];
+                
+                for (const key of possibleKeys) {
+                    if (this.answers[key] && this.answers[key].trim() !== '') {
+                        data.email = this.answers[key].trim();
+                        console.log(`✅ Email récupéré depuis answers avec la clé "${key}":`, data.email);
+                        break;
+                    }
+                }
+            }
         }
         
         // Valider le format de l'email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (data.email && !emailRegex.test(data.email)) {
             console.warn('[Quiz] Email invalide détecté:', data.email);
+        }
+        
+        // Vérification finale : si l'email est toujours manquant, lancer une erreur
+        if (!data.email || data.email.trim() === '') {
+            console.error('❌ ERREUR CRITIQUE: Email toujours manquant après toutes les tentatives de récupération');
+            throw new Error('L\'adresse email est requise mais n\'a pas pu être récupérée. Veuillez remplir le champ email et réessayer.');
         }
         
         return data;
