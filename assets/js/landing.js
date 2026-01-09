@@ -1698,7 +1698,19 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                     errorMessage = `Erreurs de validation détectées :\n\n${validationErrors}\n\nVeuillez vérifier vos informations et réessayer.`;
                 } else if (errData.error) {
                     // Message d'erreur générique de Formspree
-                    if (errData.error.toLowerCase().includes('validation')) {
+                    const errorLower = errData.error.toLowerCase();
+                    
+                    // Gérer les erreurs de rate limiting
+                    if (errorLower.includes('trop de soumissions') || 
+                        errorLower.includes('too many submissions') || 
+                        errorLower.includes('rate limit') ||
+                        errorLower.includes('rate limiting')) {
+                        errorMessage = '⏱️ Trop de soumissions récentes\n\n' +
+                            'Pour éviter le spam, nous limitons le nombre de soumissions par période.\n\n' +
+                            'Veuillez patienter quelques minutes avant de réessayer.\n\n' +
+                            'Si le problème persiste, contactez-nous directement à :\n' +
+                            'domtomconnect@gmail.com';
+                    } else if (errorLower.includes('validation')) {
                         errorMessage = 'Certains champs du formulaire ne sont pas valides. Veuillez vérifier vos informations et réessayer.';
                     } else {
                         errorMessage = errData.error;
