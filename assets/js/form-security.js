@@ -199,19 +199,26 @@ function validateFormSecurity(form, data) {
         }
     }
     
-    // 6. Valider les noms
+    // 6. Valider les noms (mais ne PAS bloquer si vides ou invalides - juste avertir)
+    // Les noms peuvent être vides ou invalides, on ne bloque pas l'envoi
     if (data.prenom && isSuspiciousName(data.prenom)) {
-        errors.push('Le prénom fourni semble invalide.');
+        // Ne pas bloquer, juste logger
+        console.warn('Prénom suspect détecté:', data.prenom);
     }
     if (data.nom && isSuspiciousName(data.nom)) {
-        errors.push('Le nom fourni semble invalide.');
+        // Ne pas bloquer, juste logger
+        console.warn('Nom suspect détecté:', data.nom);
     }
     
-    if (data.prenom && !isValidName(data.prenom)) {
-        errors.push('Veuillez entrer un prénom valide (2-50 caractères, lettres uniquement).');
+    // Ne pas valider les noms de manière stricte - permettre l'envoi même si invalides
+    // La validation stricte est faite côté serveur
+    if (data.prenom && data.prenom.trim() && !isValidName(data.prenom)) {
+        // Juste logger, ne pas bloquer
+        console.warn('Prénom invalide détecté (mais envoi autorisé):', data.prenom);
     }
-    if (data.nom && !isValidName(data.nom)) {
-        errors.push('Veuillez entrer un nom valide (2-50 caractères, lettres uniquement).');
+    if (data.nom && data.nom.trim() && !isValidName(data.nom)) {
+        // Juste logger, ne pas bloquer
+        console.warn('Nom invalide détecté (mais envoi autorisé):', data.nom);
     }
     
     // 7. Vérifier que les champs ne sont pas identiques (signe de spam)

@@ -1012,14 +1012,29 @@ function handleLandingFormSubmit(event) {
         formDataEntries: Array.from(formData.entries()).filter(([key]) => key.includes('email') || key === 'email')
     });
     
-    // Vérification de sécurité (anti-bot)
+    // Vérification de sécurité (anti-bot) - mais ne PAS bloquer pour les erreurs de validation de noms
     if (window.formSecurity) {
         const securityCheck = window.formSecurity.secureFormSubmission(form, data);
         if (!securityCheck.success) {
-            // Afficher les erreurs de sécurité
-            const errorMessage = securityCheck.errors.join('\n');
-            alert(errorMessage);
-            return;
+            // Filtrer les erreurs : ne bloquer QUE pour les erreurs critiques (honeypot, rate limit, etc.)
+            const criticalErrors = securityCheck.errors.filter(err => {
+                const errLower = err.toLowerCase();
+                // Bloquer uniquement pour les erreurs critiques
+                return errLower.includes('soumission détectée') ||
+                       errLower.includes('trop de soumissions') ||
+                       errLower.includes('trop rapidement') ||
+                       errLower.includes('suspecte');
+            });
+            
+            if (criticalErrors.length > 0) {
+                // Afficher les erreurs critiques
+                const errorMessage = criticalErrors.join('\n');
+                alert(errorMessage);
+                return;
+            } else {
+                // Pour les autres erreurs (validation de noms, etc.), juste logger
+                console.warn('Avertissements de sécurité (non bloquants):', securityCheck.errors);
+            }
         }
     }
     

@@ -1071,6 +1071,8 @@ class LandingQuiz {
         
         // IMPORTANT: Sauvegarder TOUTES les réponses visibles dans le formulaire avant de collecter
         // Cela garantit que même si on est à la dernière étape, toutes les réponses précédentes sont sauvegardées
+        // Réinitialiser temporairement pour forcer la collecte depuis les inputs
+        const tempAnswers = { ...this.answers };
         this.questions.forEach(question => {
             const input = document.getElementById(`question_${question.id}`) || 
                          document.querySelector(`input[name="question_${question.id}"]`) ||
@@ -1087,6 +1089,13 @@ class LandingQuiz {
                 } else {
                     this.answers[`question_${question.id}`] = input.value || null;
                 }
+            }
+        });
+        
+        // Restaurer les réponses précédentes si elles n'ont pas été trouvées dans les inputs
+        Object.keys(tempAnswers).forEach(key => {
+            if (!this.answers[key] && tempAnswers[key]) {
+                this.answers[key] = tempAnswers[key];
             }
         });
         
