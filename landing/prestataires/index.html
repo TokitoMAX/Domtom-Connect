@@ -472,16 +472,37 @@
                 return;
             }
             
+            // VÉRIFICATION CRITIQUE : S'assurer que l'email est présent
+            if (!data.email || data.email.trim() === '') {
+                console.error('❌ Email manquant dans handleQuizFormSubmit:', data);
+                alert('❌ Erreur : L\'adresse email est requise. Veuillez retourner à la question email et remplir ce champ.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+                return;
+            }
+            
+            console.log('✅ Email présent dans data avant envoi:', data.email);
+            
             // Créer un FormData avec toutes les réponses
             const form = document.getElementById('landing-form');
             const formData = new FormData(form);
             
             // Ajouter toutes les réponses du quiz au FormData
+            // IMPORTANT: S'assurer que l'email est bien ajouté avec la clé "email"
             Object.keys(data).forEach(key => {
                 if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
                     formData.set(key, data[key]);
                 }
             });
+            
+            // Vérification finale : s'assurer que l'email est bien dans le FormData
+            if (!formData.get('email') && !formData.get('question_email')) {
+                // Forcer l'ajout de l'email
+                formData.set('email', data.email);
+                console.log('✅ Email ajouté manuellement au FormData:', data.email);
+            }
             
             // Ajouter les résultats de validation
             if (validation.credibilityScore) {
@@ -500,6 +521,33 @@
                 }
             });
             
+            // VÉRIFICATION FINALE : S'assurer que l'email est dans submitData
+            if (!submitData.email) {
+                // Essayer de récupérer depuis data directement
+                if (data.email) {
+                    submitData.email = data.email;
+                    console.log('✅ Email ajouté à submitData depuis data:', data.email);
+                } else {
+                    console.error('❌ Email toujours manquant dans submitData:', {
+                        submitData: submitData,
+                        originalData: data,
+                        formDataEntries: Array.from(formData.entries())
+                    });
+                    alert('❌ Erreur : L\'adresse email est requise mais n\'a pas pu être récupérée. Veuillez réessayer.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }
+                    return;
+                }
+            }
+            
+            console.log('✅ Données finales avant envoi à handleLandingFormSubmit:', {
+                email: submitData.email,
+                prenom: submitData.prenom,
+                nom: submitData.nom
+            });
+            
             // Créer un événement simulé avec les données
             const fakeEvent = {
                 preventDefault: () => {},
@@ -515,6 +563,13 @@
                     } else {
                         input.value = submitData[key];
                     }
+                } else {
+                    // Si l'input n'existe pas, créer un input caché pour garantir que la valeur est dans le FormData
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = key;
+                    hiddenInput.value = submitData[key];
+                    form.appendChild(hiddenInput);
                 }
             });
             

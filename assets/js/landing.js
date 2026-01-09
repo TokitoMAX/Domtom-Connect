@@ -1005,6 +1005,13 @@ function handleLandingFormSubmit(event) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
+    // Log pour debug
+    console.log('📧 handleLandingFormSubmit - Données reçues:', {
+        email: data.email,
+        question_email: data.question_email,
+        formDataEntries: Array.from(formData.entries()).filter(([key]) => key.includes('email') || key === 'email')
+    });
+    
     // Vérification de sécurité (anti-bot)
     if (window.formSecurity) {
         const securityCheck = window.formSecurity.secureFormSubmission(form, data);
