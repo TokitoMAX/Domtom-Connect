@@ -1,0 +1,394 @@
+# 🧠 Psychologie Utilisateur - Pourquoi Choisir Chaque Pack ?
+
+## 🎯 Objectif
+
+Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et adapter la communication en conséquence.
+
+---
+
+## 💡 Pack Découverte (99€) - Pourquoi le Prendre ?
+
+### Profils d'utilisateurs qui choisissent ce pack :
+
+#### 1. Le "Curieux Prudent" 🧐
+**Profil :**
+- Budget limité (< 300€)
+- Veut tester avant d'investir plus
+- A besoin de voir la qualité avant de s'engager
+- Hésite encore sur la valeur du service
+
+**Motivations :**
+- "Je veux voir si c'est vraiment de la qualité"
+- "99€ c'est pas grand-chose pour tester"
+- "Si ça marche, je passerai au Starter"
+- "Je veux vérifier que le réseau est vraiment vérifié"
+
+**Déclencheurs :**
+- ✅ Prix accessible (moins de 100€)
+- ✅ Pas de risque (petit investissement)
+- ✅ Permet de tester la qualité
+- ✅ Pas d'engagement long terme
+
+**Freins à lever :**
+- "Est-ce que 2-3 prestataires suffisent ?" → Oui, c'est un aperçu efficace
+- "Est-ce que je vais trouver quelque chose ?" → Oui, prestataires qualifiés
+- "C'est peut-être trop limité ?" → C'est fait exprès, pour tester
+
+---
+
+#### 2. Le "Autonome avec Budget Serré" 💪
+**Profil :**
+- Aime faire les choses lui-même
+- Budget limité mais compétent
+- Veut juste les contacts, il gère le reste
+- Préfère payer moins et faire le travail
+
+**Motivations :**
+- "Je suis capable de contacter les prestataires moi-même"
+- "Je veux juste les contacts vérifiés"
+- "99€ pour une liste qualifiée, c'est raisonnable"
+- "Je n'ai pas besoin qu'on fasse tout pour moi"
+
+**Déclencheurs :**
+- ✅ Liste de prestataires vérifiés
+- ✅ Prix accessible
+- ✅ Autonomie (il gère)
+- ✅ Pas de surcoût pour services non nécessaires
+
+**Freins à lever :**
+- "Est-ce que c'est vraiment vérifié ?" → Oui, réseau qualifié
+- "Pourquoi pas juste chercher moi-même ?" → Gain de temps + qualité garantie
+
+---
+
+#### 3. Le "Premier Pas" 🚶
+**Profil :**
+- Première expérience avec Domtom Connect
+- Ne connaît pas encore le service
+- Veut comprendre avant d'investir plus
+- Projet encore au stade d'exploration
+
+**Motivations :**
+- "Je découvre le service"
+- "Je veux voir comment ça fonctionne"
+- "Si ça me convient, j'investirai plus"
+- "C'est un bon point d'entrée"
+
+**Déclencheurs :**
+- ✅ Appel découverte gratuit avant
+- ✅ Prix d'entrée bas
+- ✅ Permet de tester
+- ✅ Pas d'engagement
+
+**Freins à lever :**
+- "Est-ce que ça vaut le coup ?" → Oui, aperçu de la qualité
+- "Je ne connais pas encore bien" → C'est fait pour ça, découvrir
+
+---
+
+## 🚀 Pack Starter (500€) - Pourquoi le Prendre ?
+
+### Profils d'utilisateurs qui choisissent ce pack :
+
+#### 1. Le "Occupé qui Veut Gagner du Temps" ⏰
+**Profil :**
+- Manque de temps
+- Veut se concentrer sur son projet, pas sur la recherche
+- Budget moyen (300-1000€)
+- Veut que quelqu'un s'en occupe pour lui
+
+**Motivations :**
+- "Je n'ai pas le temps de chercher"
+- "Je veux me concentrer sur mon projet"
+- "500€ pour gagner 20-30h de recherche, c'est rentable"
+- "Je veux que quelqu'un fasse le travail à ma place"
+
+**Déclencheurs :**
+- ✅ On fait le travail à ta place
+- ✅ Gain de temps énorme
+- ✅ Accompagnement dans les négociations
+- ✅ Suivi et support
+
+**Freins à lever :**
+- "500€ c'est cher" → Mais tu gagnes 20-30h de temps
+- "Est-ce que ça vaut vraiment le coup ?" → Oui, accompagnement complet
+- "Je pourrais le faire moi-même" → Oui, mais tu perds du temps
+
+---
+
+#### 2. Le "Incertain qui Veut de l'Aide" 🤝
+**Profil :**
+- Ne sait pas comment bien choisir un prestataire
+- A peur de faire une erreur
+- Veut être accompagné dans les négociations
+- Budget moyen mais besoin de sécurité
+
+**Motivations :**
+- "Je ne sais pas comment bien négocier"
+- "J'ai peur de me faire avoir"
+- "Je veux quelqu'un qui m'accompagne"
+- "500€ pour éviter les erreurs, c'est rentable"
+
+**Déclencheurs :**
+- ✅ Accompagnement dans les négociations
+- ✅ Vérification des devis
+- ✅ Support et conseils
+- ✅ Médiation si besoin
+
+**Freins à lever :**
+- "Est-ce que j'ai vraiment besoin d'aide ?" → Oui, pour éviter les erreurs
+- "C'est peut-être trop cher ?" → Non, ça évite des erreurs coûteuses
+
+---
+
+#### 3. Le "Projet Important" 🎯
+**Profil :**
+- Projet important pour lui
+- Ne veut pas prendre de risques
+- Budget moyen mais projet prioritaire
+- Veut la qualité et la sécurité
+
+**Motivations :**
+- "Mon projet est important, je veux la qualité"
+- "Je ne veux pas prendre de risques"
+- "500€ pour un projet qui en vaut 10 000€, c'est rien"
+- "Je veux que tout soit bien fait"
+
+**Déclencheurs :**
+- ✅ Recherche approfondie (5-8 prestataires)
+- ✅ Qualification et vérification
+- ✅ Accompagnement professionnel
+- ✅ Support continu
+
+**Freins à lever :**
+- "Est-ce que c'est vraiment nécessaire ?" → Oui, pour un projet important
+- "Je pourrais prendre le Pack Découverte ?" → Non, pas assez pour un projet important
+
+---
+
+#### 4. Le "Après Pack Découverte" 📈
+**Profil :**
+- A pris le Pack Découverte
+- Satisfait de la qualité
+- Veut maintenant qu'on s'en occupe pour lui
+- Comprend la valeur du service
+
+**Motivations :**
+- "J'ai testé, c'est de la qualité"
+- "Maintenant je veux qu'on s'en occupe pour moi"
+- "Je n'ai plus envie de gérer ça moi-même"
+- "500€ pour le confort, ça vaut le coup"
+
+**Déclencheurs :**
+- ✅ Upsell naturel après Pack Découverte
+- ✅ Connaissance de la qualité
+- ✅ Envie de gagner du temps
+- ✅ Confiance établie
+
+**Freins à lever :**
+- "J'ai déjà les contacts du Pack Découverte" → Oui, mais on fait tout pour toi maintenant
+- "Est-ce que ça vaut vraiment 500€ ?" → Oui, accompagnement complet
+
+---
+
+## 💎 Pack Premium (1900€) - Pourquoi le Prendre ?
+
+### Profils d'utilisateurs qui choisissent ce pack :
+
+#### 1. Le "Projet Complexe Multi-Prestataires" 🏗️
+**Profil :**
+- Projet complexe nécessitant plusieurs prestataires
+- Budget élevé (1000€+)
+- Veut une gestion complète
+- Projet stratégique important
+
+**Motivations :**
+- "J'ai besoin de plusieurs prestataires"
+- "Je veux que tout soit géré pour moi"
+- "Mon projet est complexe, je veux la qualité"
+- "1900€ pour gérer tout ça, c'est rentable"
+
+**Déclencheurs :**
+- ✅ Recherche élargie (10-15 prestataires)
+- ✅ Gestion complète de tous les prestataires
+- ✅ Coordination entre prestataires
+- ✅ Support prioritaire
+
+**Freins à lever :**
+- "1900€ c'est cher" → Oui, mais gestion complète de projet complexe
+- "Est-ce que j'ai vraiment besoin ?" → Oui, pour projet complexe
+
+---
+
+#### 2. Le "Business Owner Occupé" 💼
+**Profil :**
+- Dirigeant d'entreprise
+- Très occupé, pas de temps à perdre
+- Budget élevé mais temps = argent
+- Veut déléguer complètement
+
+**Motivations :**
+- "Je n'ai pas le temps de gérer ça"
+- "Mon temps vaut plus que 1900€"
+- "Je veux que tout soit géré professionnellement"
+- "Je veux me concentrer sur mon business"
+
+**Déclencheurs :**
+- ✅ Gestion complète (on gère tout)
+- ✅ Support prioritaire
+- ✅ Rapport mensuel
+- ✅ Garantie de résultat
+
+**Freins à lever :**
+- "C'est cher" → Mais tu gagnes énormément de temps
+- "Je pourrais embaucher quelqu'un ?" → Oui, mais ça coûte plus cher
+
+---
+
+#### 3. Le "Paranoïaque de la Qualité" 🔒
+**Profil :**
+- Très exigeant sur la qualité
+- A peur des mauvaises surprises
+- Veut toutes les garanties
+- Budget élevé mais sécurité avant tout
+
+**Motivations :**
+- "Je veux la meilleure qualité possible"
+- "Je veux toutes les garanties"
+- "Je ne veux pas prendre de risques"
+- "1900€ pour la tranquillité d'esprit, c'est rien"
+
+**Déclencheurs :**
+- ✅ Audit approfondi de chaque prestataire
+- ✅ Garantie de résultat
+- ✅ Médiation proactive
+- ✅ Support prioritaire
+
+**Freins à lever :**
+- "Est-ce que c'est vraiment nécessaire ?" → Oui, pour la tranquillité
+- "Le Starter ne suffit pas ?" → Non, pas assez de garanties
+
+---
+
+#### 4. Le "Projet Long Terme" 📅
+**Profil :**
+- Projet sur 6-12 mois
+- Besoin d'accompagnement continu
+- Veut un partenaire stratégique
+- Budget élevé mais investissement long terme
+
+**Motivations :**
+- "Mon projet dure 6-12 mois"
+- "Je veux un accompagnement continu"
+- "Je veux un partenaire, pas juste un service"
+- "1900€ pour 12 mois, c'est raisonnable"
+
+**Déclencheurs :**
+- ✅ Accompagnement 6-12 mois
+- ✅ Suivi hebdomadaire
+- ✅ Partenaire stratégique
+- ✅ Support continu
+
+**Freins à lever :**
+- "C'est cher" → Oui, mais pour 12 mois c'est raisonnable
+- "Est-ce que j'ai besoin de tout ça ?" → Oui, pour projet long terme
+
+---
+
+## 📊 Tableau Synthétique des Motivations
+
+| Pack | Profil Principal | Motivation Clé | Frein Principal |
+|------|-----------------|----------------|-----------------|
+| **Découverte (99€)** | Curieux Prudent | "Je veux tester avant d'investir" | "Est-ce que c'est vraiment de la qualité ?" |
+| **Starter (500€)** | Occupé / Incertain | "Je veux qu'on s'en occupe pour moi" | "500€ c'est cher" |
+| **Premium (1900€)** | Projet Complexe / Business Owner | "Je veux que tout soit géré" | "1900€ c'est très cher" |
+
+---
+
+## 🎯 Messages Clés Adaptés par Profil
+
+### Pour le Pack Découverte (99€)
+
+**Message pour "Curieux Prudent" :**
+> "Teste notre service pour 99€. On recherche 2-3 prestataires vérifiés adaptés à ton projet. Tu découvres la qualité de notre réseau sans risque. Si ça te convient, passe au Starter pour qu'on s'en occupe pour toi."
+
+**Message pour "Autonome" :**
+> "Tu aimes gérer toi-même ? Parfait. Pour 99€, on te donne une liste de 2-3 prestataires vérifiés avec leurs coordonnées. Tu les contactes, tu négocies, tu gères. On te donne juste les contacts qualifiés."
+
+**Message pour "Premier Pas" :**
+> "Première fois avec Domtom Connect ? Commence par le Pack Découverte à 99€. On recherche 2-3 prestataires vérifiés pour ton projet. Tu découvres notre méthode et notre qualité. Si ça te plaît, on peut t'accompagner avec le Starter."
+
+---
+
+### Pour le Pack Starter (500€)
+
+**Message pour "Occupé" :**
+> "Tu n'as pas le temps de chercher ? On s'en occupe pour toi. On recherche, on qualifie, on contacte, on négocie. Tu te concentres sur ton projet, on gère les prestataires. 500€ pour gagner 20-30h de temps."
+
+**Message pour "Incertain" :**
+> "Tu ne sais pas comment bien choisir ? On t'accompagne. On recherche 5-8 prestataires, on les qualifie, on négocie pour toi, on vérifie les devis. Tu es accompagné à chaque étape. 500€ pour éviter les erreurs coûteuses."
+
+**Message pour "Projet Important" :**
+> "Ton projet est important ? Ne prends pas de risques. On fait une recherche approfondie, on qualifie chaque prestataire, on t'accompagne dans les négociations. 500€ pour la qualité et la sécurité."
+
+**Message pour "Après Découverte" :**
+> "Tu as testé le Pack Découverte ? Maintenant, on s'en occupe pour toi. Plus besoin de contacter toi-même, on fait tout : recherche, qualification, contact, négociation, suivi. 500€ pour le confort."
+
+---
+
+### Pour le Pack Premium (1900€)
+
+**Message pour "Projet Complexe" :**
+> "Projet complexe avec plusieurs prestataires ? On gère tout pour toi. Recherche élargie, gestion complète, coordination, suivi hebdomadaire. Tu te concentres sur ton projet, on gère tous les prestataires. 1900€ pour la tranquillité."
+
+**Message pour "Business Owner" :**
+> "Tu n'as pas le temps ? On gère tout. Recherche, qualification, négociation, gestion, coordination, rapports mensuels. Ton temps vaut plus que 1900€. On est ton partenaire opérationnel."
+
+**Message pour "Paranoïaque Qualité" :**
+> "Tu veux la meilleure qualité ? On fait un audit approfondi de chaque prestataire, on garantit le résultat, on médie proactivement. 1900€ pour toutes les garanties et la tranquillité d'esprit."
+
+**Message pour "Projet Long Terme" :**
+> "Projet sur 6-12 mois ? On t'accompagne tout le long. Suivi hebdomadaire, rapports mensuels, gestion complète, support prioritaire. 1900€ pour 12 mois d'accompagnement, c'est ton partenaire stratégique."
+
+---
+
+## 🎨 Stratégie de Communication
+
+### Sur le Site Web
+
+**Pack Découverte (99€) :**
+- Badge : "Découverte"
+- Accroche : "Teste notre service pour moins de 100€"
+- CTA : "Découvrir le réseau"
+- Couleur : Vert (découverte, accessible)
+
+**Pack Starter (500€) :**
+- Badge : "Le plus populaire"
+- Accroche : "On s'en occupe pour toi"
+- CTA : "Faire le Starter"
+- Couleur : Bleu (confiance, professionnel)
+
+**Pack Premium (1900€) :**
+- Badge : "Solution complète"
+- Accroche : "Gestion complète de A à Z"
+- CTA : "Choisir le Premium"
+- Couleur : Or/Violet (premium, exclusif)
+
+---
+
+## ✅ Checklist de Validation
+
+Pour chaque pack, s'assurer que :
+- ✅ La motivation est claire
+- ✅ Le frein est identifié et adressé
+- ✅ Le message correspond au profil
+- ✅ La valeur est perçue
+- ✅ L'upsell est naturel
+
+---
+
+**Date de création :** 2025-01-XX
+**Statut :** 🟡 En réflexion
+**Priorité :** 🔴 Haute (compréhension utilisateur)
+
+

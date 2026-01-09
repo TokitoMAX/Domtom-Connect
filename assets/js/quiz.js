@@ -484,9 +484,33 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initQuiz() {
+    console.log('🔵 Initialisation du quiz...');
+    
+    // Vérifier que l'élément quiz-content existe
+    const quizContent = document.getElementById('quiz-content');
+    if (!quizContent) {
+        console.error('❌ ERREUR: Élément quiz-content introuvable dans le DOM');
+        return;
+    }
+    console.log('✅ Élément quiz-content trouvé');
+    
+    // Vérifier que profileQuestion est défini
+    if (!profileQuestion) {
+        console.error('❌ ERREUR: profileQuestion n\'est pas défini');
+        quizContent.innerHTML = '<div style="padding: 2rem; text-align: center; color: #ef4444;"><p>Erreur: Configuration du quiz manquante</p></div>';
+        return;
+    }
+    console.log('✅ profileQuestion défini:', profileQuestion.question);
+    
     // Commencer par la question de profil
     quizQuestions = [profileQuestion];
-    showQuestion(0);
+    console.log('✅ quizQuestions initialisé avec', quizQuestions.length, 'question(s)');
+    
+    // Attendre un peu pour s'assurer que le DOM est prêt
+    setTimeout(() => {
+        console.log('🔵 Appel de showQuestion(0)...');
+        showQuestion(0);
+    }, 100);
     
     // Récupérer l'email depuis localStorage s'il existe
     const savedEmail = localStorage.getItem('quiz-email');
@@ -496,7 +520,7 @@ function initQuiz() {
             if (emailInput) {
                 emailInput.value = savedEmail;
             }
-        }, 100);
+        }, 300);
     }
 }
 
@@ -597,6 +621,18 @@ function showQuestion(index) {
     const question = quizQuestions[index];
     const quizContent = document.getElementById('quiz-content');
     
+    // Vérifier que l'élément existe
+    if (!quizContent) {
+        console.error('❌ ERREUR: Élément quiz-content introuvable');
+        return;
+    }
+    
+    // Vérifier que la question existe
+    if (!question) {
+        console.error('❌ ERREUR: Question introuvable à l\'index', index);
+        return;
+    }
+    
     // Mettre à jour la progression
     const totalQuestions = getTotalQuestionsCount();
     updateProgress(index + 1, totalQuestions);
@@ -607,6 +643,14 @@ function showQuestion(index) {
     questionHTML += `<div class="quiz-options">`;
     
     if (question.type === 'radio') {
+        // Vérifier que les options existent
+        if (!question.options || question.options.length === 0) {
+            console.error('❌ ERREUR: Question radio sans options', question);
+            quizContent.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
+                <p>Erreur: Question sans options disponibles</p>
+            </div>`;
+            return;
+        }
         question.options.forEach((option, optIndex) => {
             questionHTML += `
                 <label class="quiz-option" style="${option.description ? 'display: flex; flex-direction: column; gap: 0.25rem;' : ''}">
@@ -703,7 +747,50 @@ function showQuestion(index) {
     questionHTML += `</div>`;
     questionHTML += `</div>`;
     
-    quizContent.innerHTML = questionHTML;
+    // Injecter le HTML dans l'élément
+    try {
+        console.log('🔵 Injection du HTML dans quiz-content...');
+        console.log('🔵 Type de question:', question.type);
+        console.log('🔵 Question ID:', question.id);
+        console.log('🔵 Question:', question.question);
+        console.log('🔵 Options:', question.options ? question.options.length : 'Aucune');
+        console.log('🔵 Longueur du HTML:', questionHTML.length);
+        
+        quizContent.innerHTML = questionHTML;
+        
+        console.log('✅ HTML injecté dans quiz-content');
+        console.log('✅ Question affichée:', question.id, question.question);
+        
+        // Vérifier que le contenu est bien dans le DOM après injection
+        setTimeout(() => {
+            const questionElement = document.querySelector('.quiz-question');
+            const questionTitle = document.querySelector('.quiz-question-title');
+            const options = document.querySelectorAll('.quiz-option');
+            
+            if (!questionElement) {
+                console.error('❌ ERREUR: L\'élément .quiz-question n\'a pas été créé dans le DOM');
+            } else {
+                console.log('✅ Élément .quiz-question trouvé dans le DOM');
+            }
+            
+            if (!questionTitle) {
+                console.error('❌ ERREUR: Le titre de la question n\'a pas été créé');
+            } else {
+                console.log('✅ Titre de la question trouvé:', questionTitle.textContent);
+            }
+            
+            console.log('✅ Nombre d\'options trouvées:', options.length);
+        }, 100);
+    } catch (error) {
+        console.error('❌ ERREUR lors de l\'affichage de la question:', error);
+        console.error('❌ Stack trace:', error.stack);
+        quizContent.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
+            <p>Erreur lors du chargement de la question. Veuillez rafraîchir la page.</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">${error.message}</p>
+            <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">Vérifiez la console pour plus de détails.</p>
+        </div>`;
+        return;
+    }
     
     // Si c'est la question de profil, vérifier l'email au chargement
     if (question.id === 1) {
@@ -765,6 +852,9 @@ function getTotalQuestionsCount() {
         return 5; // Estimation moyenne
     }
     // Filtrer les questions conditionnelles
+    if (!adaptiveQuestions[selectedProfile]) {
+        return 5; // Valeur par défaut si le profil n'existe pas
+    }
     const validQuestions = getValidQuestions(adaptiveQuestions[selectedProfile]);
     return 1 + validQuestions.length; // 1 pour le profil + questions adaptatives valides
 }
@@ -1443,18 +1533,17 @@ function showResults() {
         console.log('✅ Toutes les informations de contact stockées dans window.quizResults');
     }
     
-    // Vérification FINALE de l'email avant d'envoyer
+    // Vérification FINALE de l'email avant d'envoyer (réutilisation des variables déjà définies)
     const finalEmailCheck = document.getElementById('quiz-email');
-    const finalEmail = finalEmailCheck ? finalEmailCheck.value.trim() : localStorage.getItem('quiz-email') || '';
-    const emailRegexFinal = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const finalEmailVerified = finalEmailCheck ? finalEmailCheck.value.trim() : finalEmail;
     
-    if (!finalEmail || !emailRegexFinal.test(finalEmail)) {
+    if (!finalEmailVerified || !emailRegexFinal.test(finalEmailVerified)) {
         console.error('❌ ERREUR CRITIQUE: Email manquant ou invalide avant envoi');
-        console.error('Email final:', finalEmail);
+        console.error('Email final:', finalEmailVerified);
         // On envoie quand même pour ne pas perdre les données, mais avec un avertissement
         console.warn('⚠️ Envoi du quiz avec email manquant - vérification supplémentaire nécessaire');
     } else {
-        console.log('✅ Email confirmé avant envoi:', finalEmail);
+        console.log('✅ Email confirmé avant envoi:', finalEmailVerified);
     }
     
     // Envoyer automatiquement un email avec les résultats du quiz
