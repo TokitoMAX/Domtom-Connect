@@ -1144,7 +1144,38 @@ function handleLandingFormSubmit(event) {
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     const projetNom = data.nom_projet || data.entreprise || '';
     formDataToSend.append('_subject', `${profilLabel} - ${projetNom ? projetNom + ' - ' : ''}${data.prenom} ${data.nom}`);
-    formDataToSend.append('_replyto', data.email);
+    
+    // Valider et normaliser l'email pour _replyto
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let replyToEmail = data.email || '';
+    
+    // Nettoyer l'email (supprimer les espaces)
+    if (replyToEmail) {
+        replyToEmail = replyToEmail.trim();
+    }
+    
+    // Vérifier que l'email est valide
+    if (!replyToEmail || !emailRegex.test(replyToEmail)) {
+        console.error('❌ Email invalide ou manquant:', replyToEmail);
+        alert('❌ Erreur : L\'adresse email est manquante ou invalide. Veuillez vérifier votre email et réessayer.');
+        if (submitButton) {
+            submitButton.disabled = false;
+            const buttonText = submitButton.querySelector('.button-text');
+            const buttonLoader = submitButton.querySelector('.button-loader');
+            if (buttonText) {
+                buttonText.style.opacity = '1';
+            }
+            if (buttonLoader) {
+                buttonLoader.style.display = 'none';
+            }
+            if (!buttonText && !buttonLoader) {
+                submitButton.textContent = originalText || 'Envoyer';
+            }
+        }
+        return;
+    }
+    
+    formDataToSend.append('_replyto', replyToEmail);
     
     // Construire le message de manière claire selon le profil
     let messageBody = `

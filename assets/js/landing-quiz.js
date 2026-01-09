@@ -1134,6 +1134,30 @@ class LandingQuiz {
             }
         });
         
+        // Vérifier que l'email est bien présent et valide
+        if (!data.email || data.email.trim() === '') {
+            // Essayer de récupérer l'email depuis le DOM
+            const emailInput = this.form.querySelector('input[type="email"], input[name="email"], input[id*="email"], input[name*="email"]');
+            if (emailInput && emailInput.value) {
+                data.email = emailInput.value.trim();
+            } else {
+                // Essayer depuis les réponses du quiz
+                const emailAnswer = this.answers['question_email'] || this.answers.email;
+                if (emailAnswer) {
+                    data.email = emailAnswer.trim();
+                }
+            }
+        } else {
+            // Nettoyer l'email (supprimer les espaces)
+            data.email = data.email.trim();
+        }
+        
+        // Valider le format de l'email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (data.email && !emailRegex.test(data.email)) {
+            console.warn('[Quiz] Email invalide détecté:', data.email);
+        }
+        
         return data;
     }
 }
