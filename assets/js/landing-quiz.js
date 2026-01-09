@@ -1127,29 +1127,82 @@ class LandingQuiz {
             }
         });
         
-        // Ajouter les champs cachés
+        // Ajouter les champs cachés et mapper les champs question_* vers leurs fieldName
         formData.forEach((value, key) => {
             if (key !== 'website' && value) {
-                data[key] = value;
+                // Si c'est un champ question_*, trouver la question correspondante pour mapper vers fieldName
+                if (key.startsWith('question_')) {
+                    const questionId = key.replace('question_', '');
+                    const question = this.questions.find(q => q.id === questionId);
+                    if (question) {
+                        const fieldName = question.fieldName || questionId;
+                        // Ne pas écraser si déjà défini
+                        if (!data[fieldName]) {
+                            data[fieldName] = value;
+                        }
+                    } else {
+                        // Si pas de question trouvée, garder la clé originale
+                        data[key] = value;
+                    }
+                } else {
+                    data[key] = value;
+                }
             }
         });
         
         // Vérifier que l'email est bien présent et valide
+        // Essayer de récupérer l'email depuis plusieurs sources
         if (!data.email || data.email.trim() === '') {
-            // Essayer de récupérer l'email depuis le DOM
-            const emailInput = this.form.querySelector('input[type="email"], input[name="email"], input[id*="email"], input[name*="email"]');
-            if (emailInput && emailInput.value) {
+            // 1. Essayer depuis le DOM (priorité)
+            const emailInput = this.form.querySelector('input[type="email"], input[name="email"], input[name="question_email"], input[id="question_email"], input[id*="email"]');
+            if (emailInput && emailInput.value && emailInput.value.trim() !== '') {
                 data.email = emailInput.value.trim();
+                console.log('✅ Email récupéré depuis le DOM:', data.email);
             } else {
-                // Essayer depuis les réponses du quiz
-                const emailAnswer = this.answers['question_email'] || this.answers.email;
-                if (emailAnswer) {
-                    data.email = emailAnswer.trim();
+                // 2. Essayer depuis formData
+                const emailFromForm = formData.get('question_email') || formData.get('email');
+                if (emailFromForm && emailFromForm.trim() !== '') {
+                    data.email = emailFromForm.trim();
+                    console.log('✅ Email récupéré depuis FormData:', data.email);
+                } else {
+                    // 3. Essayer depuis les réponses du quiz
+                    const emailAnswer = this.answers['question_email'] || this.answers.email;
+                    if (emailAnswer && emailAnswer.trim() !== '') {
+                        data.email = emailAnswer.trim();
+                        console.log('✅ Email récupéré depuis answers:', data.email);
+                    } else {
+                        // 4. Essayer de trouver la question email et récupérer sa valeur
+                        const emailQuestion = this.questions.find(q => q.id === 'email' || q.fieldName === 'email');
+                        if (emailQuestion) {
+                            const emailValue = this.answers[`question_${emailQuestion.id}`] || 
+                                            (emailQuestion.fieldName ? this.answers[emailQuestion.fieldName] : null);
+                            if (emailValue && emailValue.trim() !== '') {
+                                data.email = emailValue.trim();
+                                console.log('✅ Email récupéré depuis la question email:', data.email);
+                            }
+                        }
+                    }
                 }
             }
         } else {
             // Nettoyer l'email (supprimer les espaces)
             data.email = data.email.trim();
+            console.log('✅ Email déjà présent dans data:', data.email);
+        }
+        
+        // Log pour debug si email toujours manquant
+        if (!data.email || data.email.trim() === '') {
+            console.error('❌ Email manquant dans collectAllAnswers:', {
+                formDataEntries: Array.from(formData.entries()),
+                answers: this.answers,
+                currentData: data,
+                emailQuestion: this.questions.find(q => q.id === 'email' || q.fieldName === 'email'),
+                emailInputs: Array.from(this.form.querySelectorAll('input[type="email"], input[name*="email"]')).map(inp => ({
+                    name: inp.name,
+                    id: inp.id,
+                    value: inp.value
+                }))
+            });
         }
         
         // Valider le format de l'email

@@ -1147,7 +1147,21 @@ function handleLandingFormSubmit(event) {
     
     // Valider et normaliser l'email pour _replyto
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let replyToEmail = data.email || '';
+    
+    // Récupérer l'email depuis plusieurs sources possibles
+    let replyToEmail = data.email || 
+                       data['question_email'] || 
+                       formData.get('email') || 
+                       formData.get('question_email') || 
+                       '';
+    
+    // Si toujours pas d'email, chercher dans le DOM
+    if (!replyToEmail || replyToEmail.trim() === '') {
+        const emailInput = form.querySelector('input[type="email"], input[name="email"], input[name="question_email"], input[id*="email"]');
+        if (emailInput && emailInput.value) {
+            replyToEmail = emailInput.value;
+        }
+    }
     
     // Nettoyer l'email (supprimer les espaces)
     if (replyToEmail) {
@@ -1156,7 +1170,14 @@ function handleLandingFormSubmit(event) {
     
     // Vérifier que l'email est valide
     if (!replyToEmail || !emailRegex.test(replyToEmail)) {
-        console.error('❌ Email invalide ou manquant:', replyToEmail);
+        console.error('❌ Email invalide ou manquant:', {
+            replyToEmail: replyToEmail,
+            dataEmail: data.email,
+            dataQuestionEmail: data['question_email'],
+            formDataEmail: formData.get('email'),
+            formDataQuestionEmail: formData.get('question_email'),
+            allData: data
+        });
         alert('❌ Erreur : L\'adresse email est manquante ou invalide. Veuillez vérifier votre email et réessayer.');
         if (submitButton) {
             submitButton.disabled = false;
@@ -1174,6 +1195,9 @@ function handleLandingFormSubmit(event) {
         }
         return;
     }
+    
+    // S'assurer que data.email est défini pour la suite
+    data.email = replyToEmail;
     
     formDataToSend.append('_replyto', replyToEmail);
     
