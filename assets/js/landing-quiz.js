@@ -769,13 +769,34 @@ class LandingQuiz {
                 
                 // Appeler directement handleQuizFormSubmit si disponible
                 if (typeof handleQuizFormSubmit === 'function') {
-                    console.log('✅ Appel direct de handleQuizFormSubmit');
+                    console.log('✅ Appel direct de handleQuizFormSubmit pour la landing page');
+                    
+                    // Vérifier que le bouton submit existe bien
+                    const submitBtn = document.getElementById('quiz-btn-next');
+                    if (!submitBtn) {
+                        console.error('❌ Bouton submit non trouvé !');
+                        return false;
+                    }
+                    console.log('✅ Bouton submit trouvé:', submitBtn, 'Type:', submitBtn.type, 'Disabled:', submitBtn.disabled);
+                    
+                    // Créer un événement qui ressemble à un événement submit réel
+                    // handleQuizFormSubmit cherche event.target.querySelector('button[type="submit"]')
+                    // Le bouton est dans le quiz-container qui est dans le form, donc ça devrait fonctionner
                     const fakeEvent = {
-                        preventDefault: () => {},
-                        target: this.form,
+                        preventDefault: () => {
+                            console.log('preventDefault appelé dans fakeEvent');
+                        },
+                        stopPropagation: () => {},
+                        target: this.form, // Le formulaire contient le quiz-container qui contient le bouton
                         currentTarget: this.form
                     };
-                    handleQuizFormSubmit(fakeEvent);
+                    
+                    // Appeler handleQuizFormSubmit
+                    try {
+                        handleQuizFormSubmit(fakeEvent);
+                    } catch (error) {
+                        console.error('❌ Erreur lors de l\'appel de handleQuizFormSubmit:', error);
+                    }
                 } else {
                     // Fallback : déclencher l'événement submit du formulaire
                     console.log('⚠️ handleQuizFormSubmit non trouvé, déclenchement de l\'événement submit');
