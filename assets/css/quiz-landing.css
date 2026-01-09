@@ -8,6 +8,16 @@
 .quiz-form {
     max-width: 800px;
     margin: 0 auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.quiz-container {
+    min-height: 200px;
+    position: relative;
+    width: 100%;
 }
 
 /* Barre de progression */
