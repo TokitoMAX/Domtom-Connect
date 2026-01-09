@@ -453,8 +453,11 @@
                             canSubmit = false;
                         }
                     } else if (level === 'medium') {
-                        alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
-                            `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
+                        // Ne pas bloquer avec un alert, juste un log
+                        console.log(`ℹ️ Score de crédibilité : ${score}% - Acceptable, vérification approfondie lors de l'appel`);
+                        // Optionnel : afficher un message non-bloquant
+                        // alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
+                        //     `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
                     }
                 }
             }

@@ -1563,14 +1563,65 @@ Certification acceptée: OUI
                 // Pour porteurs-projets, la redirection est gérée dans index.html selon le budget
                 // Pour les autres profils, afficher le message de succès
                 if (pageType !== 'porteurs-projets') {
-            // Show success message
-            form.innerHTML = `
-                <div style="text-align: center; padding: 2rem 0;">
-                                <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription envoyée !</h3>
-                                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.</p>
-                    <a href="/" class="cta-button primary">Retour à l'accueil</a>
-                </div>
-            `;
+                    // Message de succès personnalisé selon le profil
+                    let successTitle = '✓ Inscription envoyée !';
+                    let successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.';
+                    
+                    if (pageType === 'prestataires') {
+                        successTitle = '✓ Candidature envoyée avec succès !';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+
+Votre candidature a bien été reçue et enregistrée. 
+
+📞 Nous vous recontacterons dans les 24-48 heures pour :
+• Discuter de votre profil et de vos compétences
+• Vous présenter notre réseau et les opportunités
+• Planifier votre intégration dans notre écosystème
+
+En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
+                    } else if (pageType === 'entreprises') {
+                        successTitle = '✓ Demande envoyée avec succès !';
+                        successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de vos besoins en prestataires.';
+                    } else if (pageType === 'investisseurs') {
+                        successTitle = '✓ Inscription envoyée avec succès !';
+                        successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de vos opportunités d\'investissement.';
+                    }
+                    
+                    // Afficher le message de succès avec animation
+                    setTimeout(() => {
+                        // Show success message
+                        form.innerHTML = `
+                            <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
+                                <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
+                                <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">${successTitle}</h3>
+                                <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">${successMessage}</div>
+                                <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                            </div>
+                            <style>
+                                @keyframes fadeInSlide {
+                                    from {
+                                        opacity: 0;
+                                        transform: translateY(20px);
+                                    }
+                                    to {
+                                        opacity: 1;
+                                        transform: translateY(0);
+                                    }
+                                }
+                                @keyframes bounceIn {
+                                    0% {
+                                        transform: scale(0);
+                                    }
+                                    50% {
+                                        transform: scale(1.2);
+                                    }
+                                    100% {
+                                        transform: scale(1);
+                                    }
+                                }
+                            </style>
+                        `;
+                    }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
                 }
                 // Pour porteurs-projets, la redirection est déjà gérée dans index.html
             }
