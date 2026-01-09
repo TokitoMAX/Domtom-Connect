@@ -496,7 +496,6 @@ class LandingQuiz {
                         }
                     }
                 }
-                }
                 
                 // Si c'est la question budget, ajouter un listener pour afficher l'info pack
                 if (question.id === 'budget' && this.profil === 'porteur-projet') {
