@@ -184,6 +184,7 @@
     background: #ffffff;
     position: relative;
     overflow: hidden;
+    user-select: none;
 }
 
 .quiz-option::before {
@@ -200,9 +201,9 @@
 
 .quiz-option:hover {
     border-color: #3B82F6;
-    background: #f1f5f9;
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(96, 165, 250, 0.05));
+    transform: translateX(4px) scale(1.01);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
 }
 
 .quiz-option:hover::before {
@@ -226,9 +227,22 @@
 
 .quiz-option:has(input[type="radio"]:checked) {
     border-color: #3B82F6;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
-    transform: translateX(4px);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(96, 165, 250, 0.12));
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+    transform: translateX(6px) scale(1.02);
+    animation: optionSelected 0.3s ease;
+}
+
+@keyframes optionSelected {
+    0% {
+        transform: translateX(0) scale(1);
+    }
+    50% {
+        transform: translateX(8px) scale(1.03);
+    }
+    100% {
+        transform: translateX(6px) scale(1.02);
+    }
 }
 
 .quiz-option:has(input[type="radio"]:checked)::before {

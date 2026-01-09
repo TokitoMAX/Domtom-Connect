@@ -98,26 +98,68 @@
 }
 
 .quiz-option {
-    padding: 1.25rem;
+    padding: 1.25rem 1.5rem;
     border: 2px solid var(--gray-200);
-    border-radius: var(--border-radius);
+    border-radius: 14px;
     background: var(--white);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 1rem;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.quiz-option::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-primary);
+    transform: scaleY(0);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .quiz-option:hover {
     border-color: var(--primary-color);
-    background: var(--gray-50);
-    transform: translateX(4px);
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.05), rgba(0, 168, 150, 0.05));
+    transform: translateX(4px) scale(1.01);
+    box-shadow: 0 4px 16px rgba(0, 191, 166, 0.15);
+}
+
+.quiz-option:hover::before {
+    transform: scaleY(1);
 }
 
 .quiz-option.selected {
     border-color: var(--primary-color);
-    background: rgba(0, 191, 166, 0.1);
+    background: linear-gradient(135deg, rgba(0, 191, 166, 0.12), rgba(0, 168, 150, 0.12));
     font-weight: 600;
+    transform: translateX(6px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.2);
+    animation: optionSelected 0.3s ease;
+}
+
+.quiz-option.selected::before {
+    transform: scaleY(1);
+}
+
+@keyframes optionSelected {
+    0% {
+        transform: translateX(0) scale(1);
+    }
+    50% {
+        transform: translateX(8px) scale(1.03);
+    }
+    100% {
+        transform: translateX(6px) scale(1.02);
+    }
 }
 
 .quiz-option input[type="radio"] {

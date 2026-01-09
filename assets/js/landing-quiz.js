@@ -738,13 +738,32 @@ class LandingQuiz {
             }
         });
         
-        // Sauvegarder automatiquement lors du changement
+        // Sauvegarder automatiquement lors du changement et passage automatique
         const container = document.getElementById('quiz-questions-container');
         if (container) {
             // Écouter les changements (radio, select, checkbox)
             container.addEventListener('change', (e) => {
                 if (e.target.matches('input[name^="question_"], select[name^="question_"], textarea[name^="question_"]')) {
                     this.saveCurrentAnswer();
+                    
+                    // Passage automatique pour radio et select (sauf si c'est la dernière question)
+                    const question = this.questions[this.currentStep];
+                    if (question && (e.target.type === 'radio' || e.target.tagName === 'SELECT')) {
+                        // Vérifier que la question est valide avant de passer
+                        if (this.validateCurrentStep()) {
+                            const validQuestions = this.getValidQuestions();
+                            const currentValidIndex = validQuestions.findIndex(q => q.id === question.id);
+                            
+                            // Ne pas passer automatiquement si c'est la dernière question ou si c'est un submit
+                            const nextBtn = document.getElementById('quiz-btn-next');
+                            if (nextBtn && nextBtn.type !== 'submit' && currentValidIndex < validQuestions.length - 1) {
+                                // Passage automatique après un court délai pour l'animation
+                                setTimeout(() => {
+                                    this.showStep(currentValidIndex + 1);
+                                }, 600);
+                            }
+                        }
+                    }
                 }
             });
             

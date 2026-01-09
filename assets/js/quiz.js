@@ -787,10 +787,16 @@ function showQuestion(index) {
         }, 100);
     }
     
-    // Ajouter les event listeners
+    // Ajouter les event listeners avec passage automatique
     if (question.type === 'radio') {
         document.querySelectorAll(`input[name="question-${question.id}"]`).forEach(radio => {
             radio.addEventListener('change', function() {
+                // Mise à jour visuelle
+                document.querySelectorAll(`label.quiz-option`).forEach(label => {
+                    label.classList.remove('selected');
+                });
+                this.closest('label').classList.add('selected');
+                
                 // Vérifier aussi l'email si c'est la question de profil
                 const nextBtn = document.getElementById('next-btn');
                 if (question.id === 1) {
@@ -799,6 +805,12 @@ function showQuestion(index) {
                         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         if (emailRegex.test(emailInput.value.trim())) {
                             nextBtn.disabled = false;
+                            // Passage automatique après un court délai (sauf si c'est la question de profil avec champs de contact)
+                            setTimeout(() => {
+                                if (!nextBtn.disabled && index < quizQuestions.length - 1) {
+                                    nextQuestion();
+                                }
+                            }, 500);
                         } else {
                             nextBtn.disabled = true;
                         }
@@ -807,17 +819,26 @@ function showQuestion(index) {
                     }
                 } else {
                     nextBtn.disabled = false;
+                    // Passage automatique à la question suivante après sélection
+                    setTimeout(() => {
+                        if (!nextBtn.disabled && index < quizQuestions.length - 1) {
+                            nextQuestion();
+                        }
+                    }, 500);
                 }
-                document.querySelectorAll(`label.quiz-option`).forEach(label => {
-                    label.classList.remove('selected');
-                });
-                this.closest('label').classList.add('selected');
             });
         });
     } else if (question.type === 'select') {
         const select = document.querySelector(`select[name="question-${question.id}"]`);
         select.addEventListener('change', function() {
-            document.getElementById('next-btn').disabled = !this.value;
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = !this.value;
+            // Passage automatique après sélection
+            if (this.value && index < quizQuestions.length - 1) {
+                setTimeout(() => {
+                    nextQuestion();
+                }, 500);
+            }
         });
     } else if (question.type === 'textarea') {
         const textarea = document.querySelector(`textarea[name="question-${question.id}"]`);
