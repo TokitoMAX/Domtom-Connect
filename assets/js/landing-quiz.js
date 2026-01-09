@@ -26,10 +26,7 @@ class LandingQuiz {
         this.prefillFromSession();
         
         // Charger les réponses sauvegardées depuis localStorage
-        const hasSavedData = this.loadFromLocalStorage();
-        if (hasSavedData) {
-            console.log('[Quiz] Réponses sauvegardées trouvées, restauration en cours...');
-        }
+        this.loadFromLocalStorage();
         
         // Déterminer si on utilise la version simplifiée
         // Si des données sont pré-remplies OU si pas de questions simplifiées, utiliser le formulaire complet
@@ -54,8 +51,6 @@ class LandingQuiz {
             }
             return;
         }
-        
-        console.log('[Quiz] Initialisation avec', this.questions.length, 'questions');
         
         // Créer la structure du quiz
         this.createQuizStructure();
