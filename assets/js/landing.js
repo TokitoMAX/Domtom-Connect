@@ -1270,7 +1270,7 @@ Nom de l'entreprise: ${data.entreprise}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💼 PRESTATAIRE - QUALIFICATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Services proposés: ${data.services === 'autre' ? (data.services_autre || 'Autre') : (getServicesLabel(data.services) || 'Non renseigné'))}
+Services proposés: ${data.services === 'autre' ? (data.services_autre || 'Autre') : (getServicesLabel(data.services) || 'Non renseigné')}
 Statut juridique: ${data.statut_juridique === 'autre' ? (data.statut_juridique_autre || 'Autre') : (getStatutJuridiqueLabel(data.statut_juridique) || 'Non renseigné')}
 SIRET/SIREN: ${data.siret || 'Non renseigné'}
 Expérience: ${getExperienceLabel(data.experience) || 'Non renseigné'}

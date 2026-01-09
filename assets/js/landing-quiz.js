@@ -405,34 +405,33 @@ class LandingQuiz {
                 const profilesWithoutPack = ['prestataire', 'investisseur'];
                 const hasNoPack = profilesWithoutPack.includes(this.profil);
                 
-                if (hasNoPack && question.type === 'checkbox') {
-                    // Masquer le bouton pour les profils sans pack avec checkbox
-                    nextBtn.style.display = 'none';
+                // Toujours afficher le bouton, même pour les profils sans pack
+                nextBtn.style.display = '';
+                
+                // Texte du bouton selon le profil
+                let buttonText = 'Envoyer';
+                if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                } else if (this.profil === 'prestataire' || this.profil === 'investisseur') {
+                    // Pour les profils sans pack, afficher simplement "Envoyer"
+                    buttonText = 'Envoyer';
+                } else if (this.profil === 'entreprise') {
+                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
                 } else {
-                    // Texte du bouton selon le profil
-                    let buttonText = 'Envoyer';
-                    if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
-                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                    } else if (this.profil === 'prestataire') {
-                        buttonText = 'Remplis ce formulaire en 5-7 minutes';
-                    } else if (this.profil === 'entreprise') {
-                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                    } else {
-                        buttonText = 'Remplis ce formulaire en 3-5 minutes';
-                    }
-                    
-                    nextBtn.innerHTML = `
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        ${buttonText}
-                    `;
-                    nextBtn.type = 'submit';
-                    // Pour la dernière question avec checkbox, désactiver le bouton si la checkbox n'est pas cochée
-                    // (sera activé dans le setTimeout après création du DOM)
-                    if (question.type === 'checkbox') {
-                        nextBtn.disabled = true; // Désactivé par défaut, sera activé si checkbox cochée
-                    }
+                    buttonText = 'Envoyer';
+                }
+                
+                nextBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    ${buttonText}
+                `;
+                nextBtn.type = 'submit';
+                // Pour la dernière question avec checkbox, désactiver le bouton si la checkbox n'est pas cochée
+                // (sera activé dans le setTimeout après création du DOM)
+                if (question.type === 'checkbox') {
+                    nextBtn.disabled = true; // Désactivé par défaut, sera activé si checkbox cochée
                 }
             } else {
                 nextBtn.innerHTML = `
@@ -479,85 +478,24 @@ class LandingQuiz {
                         nextBtnFound: !!nextBtn
                     });
                     
-                    if (checkbox) {
-                        if (hasNoPack) {
-                            console.log('✅ Mode auto-submit activé pour profil sans pack:', this.profil);
-                            // Pour les profils sans pack, déclencher automatiquement la soumission
-                            // Utiliser 'change' pour détecter quand la checkbox est cochée
-                            const handleCheckboxChange = (e) => {
-                                // Vérifier l'état après un petit délai pour s'assurer que la checkbox est bien cochée
-                                setTimeout(() => {
-                                    const isChecked = e.target.checked || checkbox.checked;
-                                    console.log('🔄 Checkbox changée, état:', isChecked, 'e.target.checked:', e.target.checked, 'checkbox.checked:', checkbox.checked);
-                                    
-                                    if (isChecked) {
-                                        console.log('✅ Checkbox cochée, soumission automatique pour profil sans pack');
-                                        this.saveCurrentAnswer();
-                                        
-                                        // Afficher un indicateur visuel de chargement
-                                        const container = this.form.querySelector('.quiz-container');
-                                        if (container) {
-                                            // Supprimer l'ancien indicateur s'il existe
-                                            const oldLoading = document.getElementById('quiz-submitting');
-                                            if (oldLoading) oldLoading.remove();
-                                            
-                                            const loadingDiv = document.createElement('div');
-                                            loadingDiv.id = 'quiz-submitting';
-                                            loadingDiv.style.cssText = 'text-align: center; padding: 1rem; color: var(--primary-color); font-weight: 600; margin-top: 1rem;';
-                                            loadingDiv.innerHTML = '⏳ Envoi en cours...';
-                                            container.appendChild(loadingDiv);
-                                        }
-                                        
-                                        // Petit délai pour l'animation visuelle
-                                        setTimeout(() => {
-                                            console.log('📤 Déclenchement de la soumission...');
-                                            // Déclencher la soumission
-                                            if (typeof handleQuizFormSubmit === 'function') {
-                                                console.log('✅ handleQuizFormSubmit trouvé, appel en cours...');
-                                                const fakeEvent = {
-                                                    preventDefault: () => {
-                                                        console.log('preventDefault appelé');
-                                                    },
-                                                    stopPropagation: () => {},
-                                                    target: this.form,
-                                                    currentTarget: this.form
-                                                };
-                                                try {
-                                                    handleQuizFormSubmit(fakeEvent);
-                                                } catch (error) {
-                                                    console.error('❌ Erreur lors de l\'appel de handleQuizFormSubmit:', error);
-                                                }
-                                            } else {
-                                                console.warn('⚠️ handleQuizFormSubmit non trouvé, déclenchement de l\'événement submit');
-                                                // Fallback : déclencher l'événement submit
-                                                const submitEvent = new Event('submit', { 
-                                                    bubbles: true, 
-                                                    cancelable: true
-                                                });
-                                                this.form.dispatchEvent(submitEvent);
-                                            }
-                                        }, 300);
-                                    }
-                                }, 50); // Petit délai pour s'assurer que la checkbox est bien cochée
-                            };
-                            
-                            // Ajouter les listeners
-                            checkbox.addEventListener('change', handleCheckboxChange);
-                            checkbox.addEventListener('click', (e) => {
-                                console.log('🖱️ Checkbox cliquée');
-                                // Le listener 'change' se déclenchera automatiquement après
-                            });
-                        } else if (nextBtn) {
-                            // Pour les autres profils, activer/désactiver le bouton
+                    if (checkbox && nextBtn) {
+                        // Pour TOUS les profils, activer/désactiver le bouton selon l'état de la checkbox
+                        // Le bouton est déjà configuré comme "submit" pour la dernière question
+                        nextBtn.disabled = !checkbox.checked;
+                        
+                        // Listener pour activer/désactiver le bouton quand la checkbox change
+                        checkbox.addEventListener('change', () => {
                             nextBtn.disabled = !checkbox.checked;
-                            
-                            checkbox.addEventListener('change', () => {
-                                nextBtn.disabled = !checkbox.checked;
-                                this.saveCurrentAnswer();
-                                console.log('✅ Checkbox changée, bouton suivant:', nextBtn.disabled ? 'désactivé' : 'activé');
-                            });
+                            this.saveCurrentAnswer();
+                            console.log('✅ Checkbox changée, bouton:', nextBtn.disabled ? 'désactivé' : 'activé');
+                        });
+                        
+                        // Si la checkbox est déjà cochée (restauration), activer le bouton
+                        if (checkbox.checked) {
+                            nextBtn.disabled = false;
                         }
                     }
+                }
                 }
                 
                 // Si c'est la question budget, ajouter un listener pour afficher l'info pack
