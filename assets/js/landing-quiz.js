@@ -154,14 +154,19 @@ class LandingQuiz {
     }
     
     createQuizStructure() {
+        console.log('[Quiz] Création de la structure du quiz...');
         // Créer le container quiz s'il n'existe pas
         let quizContainer = this.form.querySelector('.quiz-container');
         if (!quizContainer) {
+            console.log('[Quiz] Container quiz non trouvé, création...');
             quizContainer = document.createElement('div');
             quizContainer.className = 'quiz-container';
             this.form.appendChild(quizContainer);
+        } else {
+            console.log('[Quiz] Container quiz trouvé');
         }
         
+        console.log('[Quiz] Injection du HTML dans le container...');
         // Créer la structure HTML du quiz
         quizContainer.innerHTML = `
             <input type="hidden" name="profil" value="${this.profil}">
@@ -337,12 +342,15 @@ class LandingQuiz {
     }
     
     showStep(stepIndex) {
+        console.log('[Quiz] showStep appelé avec stepIndex:', stepIndex);
         if (stepIndex < 0) return;
         
         const validQuestions = this.getValidQuestions();
+        console.log('[Quiz] Questions valides:', validQuestions.length);
         
         if (stepIndex >= validQuestions.length) {
             // Toutes les questions sont terminées, soumettre
+            console.log('[Quiz] Toutes les questions terminées, soumission...');
             this.submitForm();
             return;
         }
@@ -351,8 +359,14 @@ class LandingQuiz {
         const actualStep = this.getQuestionIndex(question.id);
         
         this.currentStep = actualStep;
+        console.log('[Quiz] Question actuelle:', question.id, question.question);
         
         const container = document.getElementById('quiz-questions-container');
+        if (!container) {
+            console.error('[Quiz] Container quiz-questions-container non trouvé!');
+            return;
+        }
+        console.log('[Quiz] Container trouvé, rendu de la question...');
         const prevBtn = document.getElementById('quiz-btn-prev');
         const nextBtn = document.getElementById('quiz-btn-next');
         const progressFill = document.getElementById('quiz-progress-fill');
@@ -450,7 +464,10 @@ class LandingQuiz {
         
         // Créer et afficher la question
         try {
-            container.innerHTML = this.renderQuestion(question, stepIndex);
+            const questionHTML = this.renderQuestion(question, stepIndex);
+            console.log('[Quiz] HTML de la question généré, longueur:', questionHTML.length);
+            container.innerHTML = questionHTML;
+            console.log('[Quiz] Question rendue dans le container');
             
             // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
             setTimeout(() => {
@@ -480,18 +497,18 @@ class LandingQuiz {
                             }
                         }
                     }
-                }
-                
-                // Si c'est la question budget, ajouter un listener pour afficher l'info pack
-                if (question.id === 'budget' && this.profil === 'porteur-projet') {
-                    this.setupBudgetPackInfo(question);
                     
-                    // Si une réponse est déjà sélectionnée, afficher l'info pack immédiatement
-                    const selectedBudget = document.querySelector(`input[name="question_${question.id}"]:checked`);
-                    if (selectedBudget) {
-                        this.showPackInfoForBudget(selectedBudget.value);
+                    // Si c'est la question budget, ajouter un listener pour afficher l'info pack
+                    if (question.id === 'budget' && this.profil === 'porteur-projet') {
+                        this.setupBudgetPackInfo(question);
+                        
+                        // Si une réponse est déjà sélectionnée, afficher l'info pack immédiatement
+                        const selectedBudget = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                        if (selectedBudget) {
+                            this.showPackInfoForBudget(selectedBudget.value);
+                        }
                     }
-                }
+                }, 50);
             }, 50);
             
             // Animation d'entrée
