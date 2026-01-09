@@ -554,19 +554,18 @@ function validateQuizEmail(input) {
     }
 }
 
-// Fonction pour valider le téléphone
+// Fonction pour valider le téléphone (validation simplifiée - juste vérifier qu'il y a du contenu)
 function validateQuizTelephone(input) {
     const telephone = input.value.trim();
-    // Accepter les formats : 0612345678, 06 12 34 56 78, +33612345678, +33 6 12 34 56 78
-    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
-    const phoneClean = telephone.replace(/\s/g, ''); // Enlever les espaces pour la validation
     
-    if (telephone && phoneRegex.test(phoneClean)) {
+    // Validation simplifiée : juste vérifier qu'il y a du contenu
+    if (telephone && telephone.length >= 8) {
         input.style.borderColor = '#10b981';
         input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
     } else if (telephone) {
-        input.style.borderColor = '#ef4444';
-        input.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+        // Si trop court, garder la bordure normale (pas d'erreur rouge)
+        input.style.borderColor = 'var(--gray-300)';
+        input.style.boxShadow = 'none';
     } else {
         input.style.borderColor = 'var(--gray-300)';
         input.style.boxShadow = 'none';
@@ -585,10 +584,8 @@ function validateQuizContactInfo() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailValid = email && emailRegex.test(email);
     
-    // Validation téléphone
-    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
-    const phoneClean = telephone.replace(/\s/g, '');
-    const phoneValid = telephone && phoneRegex.test(phoneClean);
+    // Validation téléphone simplifiée (juste vérifier qu'il y a du contenu)
+    const phoneValid = telephone && telephone.length >= 8;
     
     // Tous les champs doivent être remplis et valides
     const allValid = prenom && nom && emailValid && phoneValid;
@@ -710,10 +707,7 @@ function showQuestion(index) {
                     <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">
                         Téléphone <span style="color: #ef4444;">*</span>
                     </label>
-                    <input type="tel" id="quiz-telephone" name="quiz-telephone" placeholder="06 12 34 56 78" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizTelephone(this); validateQuizContactInfo()">
-                    <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-                        Format accepté : 06 12 34 56 78 ou +33 6 12 34 56 78
-                    </p>
+                    <input type="tel" id="quiz-telephone" name="quiz-telephone" placeholder="06 12 34 56 78" required style="width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white;" onchange="saveQuizContactInfo()" oninput="validateQuizContactInfo()">
                 </div>
                 
                 <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.6); border-radius: 8px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
@@ -945,10 +939,8 @@ function nextQuestion() {
             return;
         }
         
-        // Vérification 5: Téléphone
+        // Vérification 5: Téléphone (validation simplifiée - juste vérifier qu'il y a du contenu)
         const telephoneValue = telephoneInput.value.trim();
-        const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
-        const phoneClean = telephoneValue.replace(/\s/g, '');
         if (!telephoneValue) {
             alert('⚠️ Téléphone obligatoire\n\nVeuillez renseigner votre numéro de téléphone pour que nous puissions vous contacter.');
             telephoneInput.focus();
@@ -956,8 +948,9 @@ function nextQuestion() {
             telephoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
             return;
         }
-        if (!phoneRegex.test(phoneClean)) {
-            alert('⚠️ Téléphone invalide\n\nVeuillez entrer un numéro de téléphone valide (exemple: 06 12 34 56 78 ou +33 6 12 34 56 78).');
+        // Validation simplifiée : juste vérifier qu'il y a au moins 8 caractères
+        if (telephoneValue.length < 8) {
+            alert('⚠️ Numéro de téléphone trop court\n\nVeuillez entrer un numéro de téléphone complet.');
             telephoneInput.focus();
             telephoneInput.style.borderColor = '#ef4444';
             telephoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
@@ -1599,9 +1592,6 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
     
     // VALIDATION CRITIQUE : Tous les champs sont OBLIGATOIRES
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(\+33|0)[1-9](\d{2}\s?){4}\d{2}$/;
-    const phoneClean = userTelephone.replace(/\s/g, '');
-    
     let hasErrors = false;
     const errors = [];
     
@@ -1620,8 +1610,9 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
         hasErrors = true;
     }
     
-    if (!userTelephone || !phoneRegex.test(phoneClean)) {
-        errors.push('Téléphone manquant ou invalide');
+    // Validation téléphone simplifiée (juste vérifier qu'il y a du contenu)
+    if (!userTelephone || userTelephone.length < 8) {
+        errors.push('Téléphone manquant ou trop court');
         hasErrors = true;
     }
     
@@ -1642,9 +1633,10 @@ function sendQuizCompletionEmail(profile, score, percentage, answers, landingPag
             userEmail = emailField.value.trim();
         }
         if (telephoneField && telephoneField.value) {
-            const telClean = telephoneField.value.replace(/\s/g, '');
-            if (phoneRegex.test(telClean)) {
-                userTelephone = telephoneField.value.trim();
+            const telValue = telephoneField.value.trim();
+            // Validation simplifiée : juste vérifier qu'il y a au moins 8 caractères
+            if (telValue.length >= 8) {
+                userTelephone = telValue;
             }
         }
         
@@ -1750,7 +1742,7 @@ ${answers.map((a, i) => `${i + 1}. ${a.question}\n   Réponse: ${a.answer}${a.an
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📧 COORDONNÉES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && phoneRegex.test(phoneClean) ? 
+${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && userTelephone.length >= 8 ? 
 `Prénom: ${userPrenom} ✓
 Nom: ${userNom} ✓
 Email: ${userEmail} ✓
@@ -1769,7 +1761,7 @@ Referrer: ${document.referrer || 'Direct'}
 ℹ️ NOTE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Cet email est envoyé automatiquement à chaque complétion du quiz.
-${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && phoneRegex.test(phoneClean) ? 
+${userPrenom && userNom && userEmail && emailRegex.test(userEmail) && userTelephone && userTelephone.length >= 8 ? 
 `✅ Contact direct possible :
 - Email: ${userEmail}
 - Téléphone: ${userTelephone}
