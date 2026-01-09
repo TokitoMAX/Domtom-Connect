@@ -11,50 +11,83 @@ class FormValidator {
         };
     }
 
-    // Validation SIRET
+    // Validation SIRET (assouplie - accepte SIREN 9 chiffres ou SIRET 14 chiffres)
     async validateSIRET(siret) {
-        if (!siret || siret.length < 9 || siret.length > 14) {
-            return { valid: false, error: 'Le SIRET doit contenir entre 9 et 14 chiffres' };
+        if (!siret || siret.trim().length === 0) {
+            return { valid: false, error: 'Le SIRET/SIREN est requis' };
         }
         
-        // Vérification de la clé de contrôle (algorithme Luhn)
+        // Nettoyer le SIRET (enlever espaces, tirets, points)
         const digits = siret.replace(/\D/g, '');
-        if (digits.length !== 14) {
-            return { valid: false, error: 'Le SIRET doit contenir exactement 14 chiffres' };
+        
+        // Accepter SIREN (9 chiffres) ou SIRET (14 chiffres)
+        if (digits.length < 9 || digits.length > 14) {
+            return { 
+                valid: false, 
+                error: 'Le SIRET/SIREN doit contenir entre 9 et 14 chiffres (SIREN: 9 chiffres, SIRET: 14 chiffres)' 
+            };
         }
         
-        // Algorithme de Luhn pour vérifier la clé de contrôle
-        let sum = 0;
-        for (let i = 0; i < 13; i++) {
-            let digit = parseInt(digits[i]);
-            if (i % 2 === 1) {
-                digit *= 2;
-                if (digit > 9) digit -= 9;
+        // Si c'est un SIRET complet (14 chiffres), on peut vérifier la clé de contrôle mais on ne bloque pas si invalide
+        if (digits.length === 14) {
+            // Algorithme de Luhn pour vérifier la clé de contrôle (mais on accepte quand même)
+            let sum = 0;
+            for (let i = 0; i < 13; i++) {
+                let digit = parseInt(digits[i]);
+                if (i % 2 === 1) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+                sum += digit;
             }
-            sum += digit;
+            const checkDigit = (10 - (sum % 10)) % 10;
+            const isValid = checkDigit === parseInt(digits[13]);
+            
+            // On accepte même si la clé de contrôle n'est pas valide (vérification manuelle ultérieure)
+            return {
+                valid: true,
+                warning: isValid ? null : 'ℹ️ Le numéro SIRET sera vérifié manuellement lors de la qualification.'
+            };
         }
-        const checkDigit = (10 - (sum % 10)) % 10;
-        const isValid = checkDigit === parseInt(digits[13]);
         
-        return {
-            valid: isValid,
-            error: isValid ? null : 'Le numéro SIRET semble invalide. Vérifiez-le.',
-            warning: isValid ? null : '⚠️ Ce numéro SIRET ne semble pas valide. Il sera vérifié manuellement.'
-        };
+        // Pour SIREN (9 chiffres) ou autres longueurs, on accepte
+        return { valid: true };
     }
 
-    // Validation URL avec vérification de l'existence
+    // Validation URL (assouplie - ajoute http:// si manquant)
     async validateURL(url) {
-        if (!url) return { valid: false, error: 'URL requise' };
+        if (!url || url.trim().length === 0) {
+            return { valid: true }; // URL optionnelle
+        }
         
-        const urlPattern = /^https?:\/\/.+/i;
-        if (!urlPattern.test(url)) {
-            return { valid: false, error: 'L\'URL doit commencer par http:// ou https://' };
+        let cleanUrl = url.trim();
+        
+        // Si l'URL ne commence pas par http:// ou https://, l'ajouter automatiquement
+        if (!/^https?:\/\//i.test(cleanUrl)) {
+            // Si ça ressemble à un domaine (contient un point et pas d'espaces)
+            if (cleanUrl.includes('.') && !cleanUrl.includes(' ')) {
+                cleanUrl = 'https://' + cleanUrl;
+            } else {
+                // Sinon, on accepte quand même mais avec un avertissement
+                return { 
+                    valid: true,
+                    warning: 'ℹ️ L\'URL sera vérifiée manuellement. Format recommandé : https://exemple.com'
+                };
+            }
+        }
+        
+        // Vérifier le format de base (doit contenir au moins un point après le protocole)
+        const urlPattern = /^https?:\/\/.+\..+/i;
+        if (!urlPattern.test(cleanUrl)) {
+            return { 
+                valid: true,
+                warning: 'ℹ️ Format d\'URL suspect. Vérification manuelle nécessaire.'
+            };
         }
 
-        // Vérifier si l'URL est accessible (HEAD request)
+        // Vérifier si l'URL est accessible (HEAD request) - mais on ne bloque pas si échec
         try {
-            const response = await fetch(url, { 
+            const response = await fetch(cleanUrl, { 
                 method: 'HEAD', 
                 mode: 'no-cors',
                 cache: 'no-cache'
@@ -62,13 +95,15 @@ class FormValidator {
             return { 
                 valid: true, 
                 accessible: true,
-                warning: null
+                warning: null,
+                normalizedUrl: cleanUrl
             };
         } catch (error) {
             return { 
                 valid: true, // On accepte l'URL même si on ne peut pas la vérifier
                 accessible: false,
-                warning: '⚠️ Impossible de vérifier l\'accessibilité de cette URL. Elle sera vérifiée manuellement.'
+                warning: 'ℹ️ L\'URL sera vérifiée manuellement lors de la qualification.',
+                normalizedUrl: cleanUrl
             };
         }
     }
@@ -286,6 +321,10 @@ class FormValidator {
                 }
                 if (validation.warning) {
                     results.warnings.push({ field, message: validation.warning });
+                }
+                // Normaliser l'URL si elle a été corrigée automatiquement
+                if (validation.normalizedUrl && validation.normalizedUrl !== value) {
+                    data[field] = validation.normalizedUrl;
                 }
             }
             

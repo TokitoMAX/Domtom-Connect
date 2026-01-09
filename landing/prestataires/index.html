@@ -166,7 +166,7 @@
                 { value: 'coaching', label: 'Coaching / Formation' },
                 { value: 'autre', label: 'Autre service' }
             ]},
-            { id: 'siret', question: 'Quel est votre numéro SIRET ?', type: 'text', placeholder: '12345678901234', required: true, fieldName: 'siret', pattern: '[0-9]{9,14}', maxlength: 14 },
+            { id: 'siret', question: 'Quel est votre numéro SIRET / SIREN ?', type: 'text', placeholder: '12345678901234 (SIRET) ou 123456789 (SIREN)', required: true, fieldName: 'siret', description: '💡 Accepte SIREN (9 chiffres) ou SIRET (14 chiffres). Les espaces et tirets sont acceptés.' },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
@@ -257,12 +257,10 @@
                 id: 'siret',
                 question: 'Quel est votre numéro SIRET / SIREN ?',
                 type: 'text',
-                placeholder: '12345678901234',
+                placeholder: '12345678901234 (SIRET) ou 123456789 (SIREN)',
                 required: true,
                 fieldName: 'siret',
-                pattern: '[0-9]{9,14}',
-                maxlength: 14,
-                description: 'Le SIRET doit contenir 9 à 14 chiffres'
+                description: '💡 Accepte SIREN (9 chiffres) ou SIRET (14 chiffres). Les espaces et tirets sont acceptés.'
             },
             {
                 id: 'experience',
