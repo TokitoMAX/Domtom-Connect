@@ -1573,6 +1573,8 @@ Certification acceptée: OUI
 
 Votre candidature a bien été reçue et enregistrée. 
 
+📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre candidature dans quelques instants.
+
 📞 Nous vous recontacterons dans les 24-48 heures pour :
 • Discuter de votre profil et de vos compétences
 • Vous présenter notre réseau et les opportunités
@@ -1581,10 +1583,32 @@ Votre candidature a bien été reçue et enregistrée.
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
                     } else if (pageType === 'entreprises') {
                         successTitle = '✓ Demande envoyée avec succès !';
-                        successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de vos besoins en prestataires.';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+
+Votre demande a bien été reçue et enregistrée.
+
+📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre demande dans quelques instants.
+
+📞 Nous vous recontacterons dans les 24-48 heures pour :
+• Discuter de vos besoins en prestataires
+• Vous présenter notre réseau de prestataires vérifiés
+• Vous proposer des solutions adaptées à vos besoins
+
+En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
                     } else if (pageType === 'investisseurs') {
                         successTitle = '✓ Inscription envoyée avec succès !';
-                        successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de vos opportunités d\'investissement.';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+
+Votre demande a bien été reçue et enregistrée.
+
+📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre demande dans quelques instants.
+
+📞 Nous vous recontacterons dans les 24-48 heures pour :
+• Discuter de vos opportunités d'investissement
+• Vous présenter des projets qualifiés
+• Définir ensemble votre cotisation mensuelle
+
+En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
                     }
                     
                     // Afficher le message de succès avec animation
