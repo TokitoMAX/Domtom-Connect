@@ -264,16 +264,26 @@
                         Le réseau qui connecte les entrepreneurs ultramarins. On trouve tes prestataires, même si on doit les chercher.
                     </p>
                     <p class="hero-subtitle hero-problem" style="margin-top: 2rem;">
-                        <strong>Le problème :</strong> Trop de projets meurent car on avance seul.
+                        <strong>Le problème :</strong> Trop de projets meurent car on avance seul. On cherche des prestataires, on perd du temps, on se décourage.
                     </p>
                     <p class="hero-subtitle hero-solution">
-                        <strong>La solution :</strong> Domtom Connect crée le pont entre porteurs de projets, entreprises et prestataires des territoires ultramarins.
+                        <strong>La solution :</strong> Domtom Connect crée le pont entre porteurs de projets, entreprises et prestataires des territoires ultramarins. On cherche pour toi, même si on ne les a pas encore dans notre réseau.
                     </p>
                     
                     <div class="hero-benefits">
                         <p>Inscription gratuite pour les pionniers</p>
                         <p>Accès au groupe WhatsApp privé</p>
                         <p>Recherche active de prestataires selon tes besoins</p>
+                    </div>
+                    <!-- Rareté et urgence authentique -->
+                    <div style="margin-top: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 168, 150, 0.05) 100%); border-radius: var(--border-radius); border: 2px solid rgba(0, 191, 166, 0.2);">
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--text-primary); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.25rem;">🏝️</span>
+                            <span>Offre réservée aux pionniers : inscription gratuite limitée</span>
+                        </p>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                            Rejoins les premiers entrepreneurs ultramarins qui construisent ensemble l'écosystème. Tu fais partie de la première vague et ton feedback compte.
+                        </p>
                     </div>
                     <!-- Option quiz discrète pour ceux qui doutent - stratégie : réduire la friction avant le formulaire -->
                     <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);">
@@ -284,9 +294,9 @@
                     </div>
                 </div>
                 <div class="form-content hero-form" style="position: relative;">
-                    <!-- Badge de confiance -->
+                    <!-- Badge de confiance renforcé -->
                     <div style="position: absolute; top: -15px; right: 20px; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3); z-index: 10;">
-                        100% Sécurisé
+                        🔒 100% Sécurisé • RGPD
                     </div>
                     
                     <div style="margin-bottom: 1.75rem;">
@@ -294,19 +304,34 @@
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; text-align: left; line-height: 1.5;">
                             <strong style="color: var(--primary-color);">Inscription gratuite</strong> - Rejoins les pionniers qui transforment les territoires ultramarins
                         </p>
+                        <!-- Garanties pour réduire le risque -->
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 191, 166, 0.08); border-radius: var(--border-radius); border-left: 3px solid var(--primary-color);">
+                            <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">
+                                ✓ Sans engagement • Annulation possible à tout moment
+                            </p>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">
+                                Premier appel gratuit, sans engagement. On en parle ensemble avant toute décision.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Indicateur de progression et message rassurant -->
+                    <div style="margin-bottom: 1rem; text-align: center;">
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">
+                            <span style="color: var(--primary-color);">⚡ Formulaire simple</span> • 6 champs seulement • 2 minutes
+                        </p>
                     </div>
                     <form class="inscription-form" onsubmit="handleFormSubmit(event)">
                         <div class="form-group">
-                            <input type="text" name="prenom" placeholder="Prénom" required>
+                            <input type="text" name="prenom" placeholder="Ex: Marie" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="nom" placeholder="Nom" required>
+                            <input type="text" name="nom" placeholder="Ex: Dupont" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="email" name="email" placeholder="Ex: marie.dupont@email.com" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" name="telephone" placeholder="Téléphone" required>
+                            <input type="tel" name="telephone" placeholder="Ex: 06 12 34 56 78" required>
                         </div>
                         <div class="form-group full-width">
                             <select name="ile" required>
@@ -339,9 +364,50 @@
                         </p>
                         
                         <p style="color: var(--text-muted); font-size: 0.75rem; text-align: center; margin-top: 1rem; line-height: 1.4;">
-                            On en parlera ensemble lors de l'appel personnalisé. Pas de spam, juste de la valeur.
+                            On en parlera ensemble lors de l'appel personnalisé. Pas de spam, juste de la valeur.<br>
+                            <strong style="color: var(--primary-color);">Questions ?</strong> On répond sous 24h • <a href="mailto:domtomconnect@gmail.com" style="color: var(--primary-color); text-decoration: underline;">domtomconnect@gmail.com</a>
                         </p>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Crédibilité et Confiance -->
+    <section style="background: var(--gray-50); padding: 3rem 0;">
+        <div class="container">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h2 style="text-align: center; font-size: clamp(1.75rem, 4vw, 2.25rem); margin-bottom: 2rem; color: var(--text-primary);">
+                    Pourquoi nous faire confiance ?
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔐</div>
+                        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Données sécurisées</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Données cryptées, conforme RGPD. Tes informations sont protégées.</p>
+                    </div>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💬</div>
+                        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Processus transparent</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Pas de commission cachée. Tu payes le prestataire directement.</p>
+                    </div>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Engagement clair</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">On cherche pour toi, même si on ne les a pas encore dans notre réseau.</p>
+                    </div>
+                </div>
+                <!-- Badges de confiance -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--white); border-radius: 50px; font-size: 0.85rem; color: var(--text-secondary); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <span style="color: var(--primary-color);">✓</span> Créé en 2024
+                    </div>
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--white); border-radius: 50px; font-size: 0.85rem; color: var(--text-secondary); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <span style="color: var(--primary-color);">✓</span> Réseau en construction
+                    </div>
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--white); border-radius: 50px; font-size: 0.85rem; color: var(--text-secondary); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <span style="color: var(--primary-color);">✓</span> Réponse sous 24h
+                    </div>
                 </div>
             </div>
         </div>
@@ -358,33 +424,36 @@
             </div>
             
             <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="feature-card" style="position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 191, 166, 0.05) 100%); border-radius: 0 0 0 100%;"></div>
+                    <div class="feature-icon" style="position: relative; z-index: 1;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
                         </svg>
                     </div>
-                    <h3>Accès à la communauté</h3>
-                    <p>Groupe WhatsApp privé avec porteurs de projets, entreprises et prestataires des territoires ultramarins.</p>
+                    <h3 style="position: relative; z-index: 1;">Accès à la communauté</h3>
+                    <p style="position: relative; z-index: 1;">Groupe WhatsApp privé avec porteurs de projets, entreprises et prestataires des territoires ultramarins. Échange direct, partage d'expériences et entraide.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="feature-card" style="position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 191, 166, 0.05) 100%); border-radius: 0 0 0 100%;"></div>
+                    <div class="feature-icon" style="position: relative; z-index: 1;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
                         </svg>
                     </div>
-                    <h3>Recherche de prestataires</h3>
-                    <p>Nous recherchons activement les prestataires adaptés à ton projet et à ton budget. Si nous ne les avons pas encore dans notre réseau, nous les trouvons pour toi. <a href="/services">En savoir plus</a></p>
+                    <h3 style="position: relative; z-index: 1;">Recherche de prestataires</h3>
+                    <p style="position: relative; z-index: 1;">Nous recherchons activement les prestataires adaptés à ton projet et à ton budget. Si nous ne les avons pas encore dans notre réseau, nous les trouvons pour toi. <a href="/services" style="color: var(--primary-color); font-weight: 600;">En savoir plus</a></p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="feature-card" style="position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 191, 166, 0.05) 100%); border-radius: 0 0 0 100%;"></div>
+                    <div class="feature-icon" style="position: relative; z-index: 1;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Accompagnement personnalisé</h3>
-                    <p>Nous construisons notre réseau de prestataires selon tes besoins. Chaque demande nous permet d'étoffer notre base et de mieux te servir.</p>
+                    <h3 style="position: relative; z-index: 1;">Accompagnement personnalisé</h3>
+                    <p style="position: relative; z-index: 1;">Nous construisons notre réseau de prestataires selon tes besoins. Chaque demande nous permet d'étoffer notre base et de mieux te servir. Suivi jusqu'au bout.</p>
                 </div>
             </div>
             
@@ -636,29 +705,57 @@
             
             <div style="max-width: 900px; margin: 0 auto 2rem;">
                 <p style="font-size: 1rem; color: var(--text-secondary); text-align: center; line-height: 1.7; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-radius: 12px; border-left: 4px solid var(--primary-color);">
-                    <strong>Notre approche rigoureuse</strong> garantit que chaque étape est structurée pour maximiser tes chances de succès. Nous faisons preuve de <strong>discernement</strong> pour sélectionner uniquement les projets viables et les prestataires compétents, parce que la qualité prime sur la quantité.
+                    <strong>Notre approche rigoureuse</strong> garantit que chaque étape est structurée pour maximiser tes chances de succès. Nous faisons preuve de <strong>discernement</strong> pour sélectionner uniquement les projets viables et les prestataires compétents, parce que la qualité prime sur la quantité. <strong>On prend le temps de bien faire les choses, ensemble.</strong>
                 </p>
             </div>
+            <!-- Section "Ce qui t'attend après l'inscription" -->
+            <div style="max-width: 900px; margin: 0 auto 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.05) 0%, rgba(0, 168, 150, 0.02) 100%); border-radius: var(--border-radius-lg); border: 2px solid rgba(0, 191, 166, 0.1);">
+                <h3 style="font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem; text-align: center;">
+                    Ce qui t'attend après l'inscription
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+                        <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Email de confirmation</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Sous 2h, tu reçois un email avec les prochaines étapes</p>
+                    </div>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📞</div>
+                        <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Appel personnalisé</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Sous 24-48h, on planifie un appel de 15-30 min</p>
+                    </div>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                        <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Validation & accès</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Après validation, accès au groupe WhatsApp privé</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-number">01</div>
                     <h3>Tu remplis le formulaire</h3>
-                    <p>Présente ton projet en quelques minutes.</p>
+                    <p>Présente ton projet en quelques minutes (2 min max).</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">→ Redirection automatique vers ta page dédiée</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">02</div>
                     <h3>On échange ensemble</h3>
                     <p>Appel de 15-30 minutes pour comprendre tes besoins.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">→ Planifié sous 24-48h après ton inscription</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">03</div>
                     <h3>On valide ton profil</h3>
                     <p>Vérification rigoureuse de la viabilité de ton projet et de ton engagement.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">→ Réponse sous 48h après l'appel</p>
                 </div>
                 <div class="service-card">
                     <div class="service-number">04</div>
                     <h3>Tu rejoins l'écosystème</h3>
                     <p>Accès au groupe WhatsApp privé et mise en relation avec les prestataires validés.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; font-style: italic;">→ Recherche active selon tes besoins</p>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
@@ -666,6 +763,46 @@
                 <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
                     Réserve ensuite ton appel de 20 minutes pour démarrer
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Support & Accompagnement (SAV) -->
+    <section style="background: var(--white); padding: 4rem 0;">
+        <div class="container">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="section-header">
+                    <h2>Support & Accompagnement</h2>
+                    <p style="font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--text-secondary); margin-top: 1rem;">
+                        On est là pour répondre à toutes tes questions
+                    </p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--border-radius-lg); border-top: 4px solid var(--primary-color);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">⏱️</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">Réponse sous 24h</h3>
+                        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            On s'engage à te répondre sous 24h, que ce soit par email ou lors de l'appel personnalisé.
+                        </p>
+                    </div>
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--border-radius-lg); border-top: 4px solid var(--primary-color);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">Contact direct</h3>
+                        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 1rem 0;">
+                            Email : <a href="mailto:domtomconnect@gmail.com" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">domtomconnect@gmail.com</a>
+                        </p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+                            On lit tous les emails et on répond personnellement.
+                        </p>
+                    </div>
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--border-radius-lg); border-top: 4px solid var(--primary-color);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">💬</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">Engagement de qualité</h3>
+                        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                            Chaque interaction compte. On prend le temps de comprendre tes besoins et de t'accompagner au mieux.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -693,6 +830,15 @@
                     </div>
                     <div class="faq-answer">
                         <p>Non. L'inscription est gratuite pour les pionniers de la première vague.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment vous contacter ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Par email à <a href="mailto:domtomconnect@gmail.com" style="color: var(--primary-color);">domtomconnect@gmail.com</a>. On répond sous 24h.</p>
                     </div>
                 </div>
             </div>
