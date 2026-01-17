@@ -1,3 +1,53 @@
+// Fonction pour calculer le ROI
+function calculateROI() {
+    const tauxHoraire = parseFloat(document.getElementById('taux-horaire')?.value) || 0;
+    const heuresRecherche = parseFloat(document.getElementById('heures-recherche')?.value) || 0;
+    const prixService = 1900; // Prix du pack en euros
+    
+    if (tauxHoraire > 0 && heuresRecherche > 0) {
+        const coutTemps = Math.round(tauxHoraire * heuresRecherche);
+        const economies = Math.max(0, coutTemps - prixService);
+        
+        // Afficher les résultats
+        const resultsDiv = document.getElementById('roi-results');
+        const coutTempsSpan = document.getElementById('cout-temps');
+        const heuresCalcSpan = document.getElementById('heures-calc');
+        const tauxCalcSpan = document.getElementById('taux-calc');
+        const montantEconomiesSpan = document.getElementById('montant-economies');
+        const coutTotalTxtSpan = document.getElementById('cout-total-txt');
+        
+        if (resultsDiv && coutTempsSpan && heuresCalcSpan && tauxCalcSpan && montantEconomiesSpan && coutTotalTxtSpan) {
+            coutTempsSpan.textContent = coutTemps.toLocaleString('fr-FR') + '€';
+            heuresCalcSpan.textContent = heuresRecherche;
+            tauxCalcSpan.textContent = tauxHoraire;
+            
+            if (economies > 0) {
+                montantEconomiesSpan.textContent = economies.toLocaleString('fr-FR') + '€';
+                montantEconomiesSpan.style.color = 'var(--primary-color)';
+                resultsDiv.style.display = 'block';
+            } else if (coutTemps > 0) {
+                montantEconomiesSpan.textContent = 'Tu économises ton temps et évites les risques';
+                montantEconomiesSpan.style.color = 'var(--primary-color)';
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+            
+            coutTotalTxtSpan.textContent = coutTemps.toLocaleString('fr-FR') + '€ en temps';
+        }
+    } else {
+        const resultsDiv = document.getElementById('roi-results');
+        if (resultsDiv) {
+            resultsDiv.style.display = 'none';
+        }
+    }
+}
+
+// Calculer automatiquement au chargement de la page si les valeurs sont présentes
+document.addEventListener('DOMContentLoaded', function() {
+    calculateROI();
+});
+
 // Fonction pour faire défiler vers le formulaire d'inscription
 function scrollToForm() {
     const formSection = document.getElementById('inscription-form');

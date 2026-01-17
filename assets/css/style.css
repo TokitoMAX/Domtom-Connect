@@ -1172,6 +1172,17 @@ p {
     }
 }
 
+@keyframes pulse-urgent {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 6px 30px rgba(239, 68, 68, 0.6);
+    }
+}
+
 /* Testimonial Section */
 .testimonial-section {
     padding: 140px 0;
