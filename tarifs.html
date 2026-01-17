@@ -35,55 +35,95 @@
         .pricing-hero {
             background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
             color: white;
-            padding: 3rem 0 2.5rem 0;
+            padding: 3.5rem 0 2.5rem 0;
             text-align: center;
             margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .pricing-hero .container {
+            position: relative;
+            z-index: 1;
         }
         
         .pricing-hero h1 {
             color: white;
             margin-bottom: 0.75rem;
-            font-size: clamp(2rem, 5vw, 2.75rem);
-            font-weight: 800;
+            font-size: clamp(2.25rem, 6vw, 3.5rem);
+            font-weight: 900;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         .pricing-hero p {
             color: rgba(255, 255, 255, 0.95);
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
             max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
+            font-weight: 400;
         }
         
-        /* Section principale - Mise en avant des prix */
+        /* Section principale - Packs Porteurs de Projets */
         .pricing-main {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 0.98) 100%);
-            padding: 3.5rem 0;
+            background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+            padding: 4.5rem 0;
+            position: relative;
+        }
+        
+        .pricing-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 191, 166, 0.2), transparent);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
         .section-title {
-            text-align: center;
-            font-size: clamp(1.75rem, 4vw, 2.25rem);
-            margin-bottom: 0.5rem;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            margin-bottom: 0.75rem;
             color: var(--text-primary);
-            font-weight: 800;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        
+        .section-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
         }
         
         .section-subtitle {
-            text-align: center;
-            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            font-size: clamp(1.05rem, 2.8vw, 1.25rem);
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
             max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
             padding: 0 1rem;
+            line-height: 1.6;
         }
         
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -91,158 +131,209 @@
         
         .price-card {
             background: white;
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
             border: 2px solid var(--gray-200);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .price-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
         
         .price-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(0, 191, 166, 0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(0, 191, 166, 0.25);
             border-color: var(--primary-color);
+        }
+        
+        .price-card:hover::after {
+            transform: scaleX(1);
         }
         
         .price-card.popular {
             border: 3px solid #10b981;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.03) 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
+            transform: scale(1.05);
+        }
+        
+        .price-card.popular::after {
+            background: linear-gradient(90deg, #10b981, #059669);
+            height: 5px;
         }
         
         .price-card.popular::before {
-            content: "POPULAIRE";
+            content: "MOST POPULAR";
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 0.375rem 1.25rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            text-transform: uppercase;
         }
         
         .price-card.featured {
             border: 3px solid var(--primary-color);
-            background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(0, 191, 166, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
+        }
+        
+        .price-card.featured::after {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
+            height: 5px;
         }
         
         .price-card.featured::before {
-            content: "COMPLET ⭐";
+            content: "PREMIUM ⭐";
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
             color: white;
-            padding: 0.375rem 1.25rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
-        }
-        
-        .price-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 191, 166, 0.4);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            align-self: flex-start;
         }
         
-        .price-badge.decouverte {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
+        .pack-name {
+            font-size: clamp(1.15rem, 3vw, 1.35rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
         }
         
-        .price-badge.starter {
-            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-            color: white;
-        }
-        
-        .price-badge.complet {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            color: white;
+        .pack-title {
+            font-size: clamp(1.5rem, 4vw, 1.85rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
         }
         
         .price-amount {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-size: clamp(3rem, 7vw, 4.5rem);
             font-weight: 900;
             color: var(--text-primary);
-            margin: 0.5rem 0;
+            margin: 1rem 0 0.5rem 0;
             line-height: 1;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
         
         .price-amount small {
-            font-size: clamp(0.9rem, 2vw, 1.125rem);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             font-weight: 500;
             color: var(--text-secondary);
             display: block;
             margin-top: 0.5rem;
+            letter-spacing: 0;
         }
         
-        .price-tagline {
+        .price-benefit {
             color: var(--text-secondary);
-            margin-bottom: 1.25rem;
-            font-size: clamp(0.875rem, 2vw, 0.95rem);
-            line-height: 1.5;
-            min-height: 2.5rem;
+            margin: 1.5rem 0;
+            font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+            line-height: 1.6;
+            min-height: 3rem;
+            font-weight: 400;
         }
         
-        .price-features {
+        .price-benefit strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        
+        .price-highlights {
             list-style: none;
             padding: 0;
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 2rem 0;
             flex-grow: 1;
         }
         
-        .price-features li {
-            padding: 0.625rem 0;
+        .price-highlights li {
+            padding: 0.75rem 0;
             display: flex;
             align-items: start;
-            gap: 0.625rem;
-            font-size: clamp(0.875rem, 2vw, 0.95rem);
+            gap: 0.75rem;
+            font-size: clamp(0.95rem, 2.2vw, 1rem);
             line-height: 1.5;
+            color: var(--text-secondary);
         }
         
-        .price-features li::before {
+        .price-highlights li::before {
             content: "✓";
             color: var(--primary-color);
-            font-weight: 800;
-            font-size: 1.2rem;
+            font-weight: 900;
+            font-size: 1.3rem;
             flex-shrink: 0;
             margin-top: 0.1rem;
         }
         
         .price-cta {
             margin-top: auto;
-            padding-top: 1.25rem;
+            padding-top: 1.5rem;
+        }
+        
+        .price-cta .cta-button {
+            width: 100%;
+            display: block;
+            text-align: center;
+            padding: 1.1rem 2rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 191, 166, 0.2);
+        }
+        
+        .price-cta .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 191, 166, 0.3);
         }
         
         .price-payment {
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            padding-top: 1rem;
+            padding-top: 1.25rem;
             border-top: 1px solid var(--gray-200);
         }
         
-        /* Sections autres profils - Ultra concises */
+        .price-payment strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        /* Sections autres profils */
         .profile-section {
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
         
         .profile-section:nth-child(even) {
@@ -250,40 +341,36 @@
         }
         
         .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
         .profile-icon {
-            font-size: 3rem;
-            line-height: 1;
-        }
-        
-        .profile-title {
-            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
         }
         
         .profile-title h2 {
-            font-size: clamp(1.75rem, 4vw, 2rem);
-            margin-bottom: 0.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 0.75rem;
             color: var(--text-primary);
-            font-weight: 800;
+            font-weight: 900;
+            letter-spacing: -0.5px;
         }
         
         .profile-title p {
-            font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+            font-size: clamp(1.05rem, 2.8vw, 1.2rem);
             color: var(--text-secondary);
-            margin: 0;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
         
         .profile-packs {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1.5rem;
@@ -291,17 +378,26 @@
         
         .profile-pack-card {
             background: white;
-            border-radius: 16px;
-            padding: 1.75rem;
+            border-radius: 20px;
+            padding: 2rem 1.75rem;
             border: 2px solid var(--gray-200);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
         
         .profile-pack-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 191, 166, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 191, 166, 0.2);
             border-color: var(--primary-color);
+        }
+        
+        .profile-pack-name {
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .profile-pack-badge {
@@ -310,7 +406,7 @@
             border-radius: 50px;
             font-weight: 700;
             font-size: 0.7rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -330,98 +426,111 @@
             color: white;
         }
         
+        .profile-pack-title {
+            font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+        
         .profile-pack-price {
-            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-size: clamp(2.25rem, 5.5vw, 3rem);
             font-weight: 900;
             color: var(--text-primary);
-            margin: 0.5rem 0;
+            margin: 0.75rem 0;
             line-height: 1;
+            letter-spacing: -1px;
         }
         
         .profile-pack-price small {
-            font-size: clamp(0.85rem, 2vw, 1rem);
+            font-size: clamp(0.9rem, 2.2vw, 1.05rem);
             font-weight: 500;
             color: var(--text-secondary);
         }
         
-        .profile-pack-tagline {
+        .profile-pack-benefit {
             color: var(--text-secondary);
-            font-size: clamp(0.85rem, 2vw, 0.9rem);
-            margin-bottom: 1rem;
+            font-size: clamp(0.9rem, 2.2vw, 0.95rem);
+            margin-bottom: 1.25rem;
             line-height: 1.5;
         }
         
         .profile-pack-features {
             list-style: none;
             padding: 0;
-            margin: 0 0 1.25rem 0;
+            margin: 0 0 1.5rem 0;
         }
         
         .profile-pack-features li {
-            padding: 0.5rem 0;
-            font-size: clamp(0.8rem, 2vw, 0.875rem);
+            padding: 0.625rem 0;
+            font-size: clamp(0.875rem, 2.2vw, 0.95rem);
             display: flex;
             align-items: start;
-            gap: 0.5rem;
+            gap: 0.625rem;
             line-height: 1.4;
+            color: var(--text-secondary);
         }
         
         .profile-pack-features li::before {
             content: "✓";
             color: var(--primary-color);
-            font-weight: 800;
+            font-weight: 900;
             flex-shrink: 0;
+            font-size: 1.1rem;
         }
         
         .profile-special {
             background: white;
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem;
             border: 2px solid var(--gray-200);
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
         
         .profile-special h3 {
-            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-size: clamp(1.5rem, 4vw, 1.85rem);
             margin-bottom: 1rem;
             color: var(--text-primary);
-            font-weight: 700;
+            font-weight: 800;
         }
         
         .profile-special p {
             color: var(--text-secondary);
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
-            line-height: 1.6;
-            margin-bottom: 1rem;
+            font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
         }
         
         .profile-special ul {
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 0 0 1.5rem 0;
         }
         
         .profile-special li {
-            padding: 0.625rem 0;
-            font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+            padding: 0.75rem 0;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             display: flex;
             align-items: start;
-            gap: 0.625rem;
+            gap: 0.75rem;
             color: var(--text-secondary);
+            line-height: 1.6;
         }
         
         .profile-special li::before {
             content: "→";
             color: var(--primary-color);
-            font-weight: 800;
+            font-weight: 900;
             flex-shrink: 0;
+            font-size: 1.2rem;
         }
         
         .cta-button-container {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
         
         /* Mobile Optimizations */
@@ -432,42 +541,46 @@
             }
             
             .pricing-main {
-                padding: 2.5rem 0;
+                padding: 3rem 0;
             }
             
             .pricing-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2rem;
                 padding: 0 1rem;
             }
             
             .price-card {
-                padding: 2rem 1.5rem;
+                padding: 2.5rem 2rem;
+            }
+            
+            .price-card.popular {
+                transform: scale(1);
             }
             
             .price-card.popular::before,
             .price-card.featured::before {
                 font-size: 0.65rem;
-                padding: 0.3rem 0.875rem;
+                padding: 0.4rem 1.25rem;
             }
             
             .profile-section {
-                padding: 2.5rem 0;
+                padding: 3rem 0;
             }
             
             .profile-packs {
                 grid-template-columns: 1fr;
-                gap: 1.25rem;
+                gap: 1.5rem;
             }
         }
         
         @media (max-width: 480px) {
             .price-card {
-                padding: 1.75rem 1.25rem;
+                padding: 2rem 1.5rem;
             }
             
             .price-amount {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
         }
     </style>
@@ -506,37 +619,41 @@
     <!-- Hero Section -->
     <section class="pricing-hero">
         <div class="container">
-            <h1>Tarifs par Profil</h1>
-            <p>Des offres adaptées à <strong>ton profil, ton besoin et ton budget</strong></p>
+            <h1>Choisis ton Pack</h1>
+            <p>Des solutions adaptées à <strong>ton profil, ton besoin et ton budget</strong></p>
         </div>
     </section>
 
     <!-- SCROLL 1 : Packs Porteurs de Projets (Principal) -->
     <section class="pricing-main">
         <div class="container">
-            <h2 class="section-title">🚀 Porteurs de Projets / Entrepreneurs</h2>
-            <p class="section-subtitle">Choisis le pack adapté à ton budget et à tes besoins</p>
+            <div class="section-header">
+                <span class="section-icon">🚀</span>
+                <h2 class="section-title">Porteurs de Projets / Entrepreneurs</h2>
+                <p class="section-subtitle">Trouve les prestataires locaux vérifiés qui font décoller ton projet</p>
+            </div>
+            
             <div class="pricing-grid">
                 <!-- Pack Découverte 99€ -->
                 <div class="price-card popular">
-                    <div class="price-badge decouverte">Pack Découverte</div>
+                    <div class="pack-name" style="color: #10b981;">Pack Essai Local</div>
+                    <h3 class="pack-title">Teste la qualité pour moins de 100€</h3>
                     <div class="price-amount">
                         99€
                         <small>TTC</small>
                     </div>
-                    <p class="price-tagline">
-                        <strong>Test avant investissement</strong><br>
-                        Budget : &lt; 300€
+                    <p class="price-benefit">
+                        <strong>Découvre notre réseau vérifié</strong> et teste la qualité de nos prestataires locaux avant d'investir davantage.
                     </p>
-                    <ul class="price-features">
-                        <li>Appel diagnostic (30 min)</li>
-                        <li>Recherche 2-3 prestataires vérifiés</li>
-                        <li>Fiches prestataires détaillées</li>
+                    <ul class="price-highlights">
+                        <li>Appel diagnostic personnalisé (30 min)</li>
+                        <li>2-3 prestataires vérifiés dans ton territoire</li>
+                        <li>Fiches détaillées avec exemples de projets</li>
                         <li>Guide PDF + Brief personnalisé</li>
-                        <li>Mise en relation avec 1 prestataire</li>
+                        <li>1 mise en relation avec briefing préalable</li>
                     </ul>
                     <div class="price-cta">
-                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                        <a href="/pack-essai-local" class="cta-button primary">Découvrir ce pack →</a>
                     </div>
                     <div class="price-payment">
                         <strong>Paiement :</strong> 99€ (1 fois) ou 50€ + 49€ (2 fois)
@@ -545,24 +662,24 @@
                 
                 <!-- Pack Starter 500€ -->
                 <div class="price-card">
-                    <div class="price-badge starter">Pack Starter</div>
+                    <div class="pack-name" style="color: #3B82F6;">Pack Accompagnement Pro</div>
+                    <h3 class="pack-title">On fait tout pour toi</h3>
                     <div class="price-amount">
                         500€
                         <small>TTC</small>
                     </div>
-                    <p class="price-tagline">
-                        <strong>On fait le travail pour toi</strong><br>
-                        Budget : 300-1 000€
+                    <p class="price-benefit">
+                        <strong>Tu gagnes du temps, on s'occupe du reste.</strong> Recherche approfondie, mise en relation et accompagnement complet.
                     </p>
-                    <ul class="price-features">
-                        <li>Tout le Pack Découverte inclus</li>
-                        <li>Recherche approfondie 5-8 prestataires</li>
-                        <li>Tableau comparatif + Recommandation</li>
-                        <li>Mise en relation : on fait le contact</li>
-                        <li>Négociation tarifs + Accompagnement</li>
+                    <ul class="price-highlights">
+                        <li>Tout le Pack Essai Local inclus</li>
+                        <li>Recherche approfondie de 5-8 prestataires</li>
+                        <li>Tableau comparatif + Recommandation argumentée</li>
+                        <li>On fait le contact et on négocie pour toi</li>
+                        <li>Accompagnement jusqu'au démarrage</li>
                     </ul>
                     <div class="price-cta">
-                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                        <a href="/pack-accompagnement-pro" class="cta-button primary">Découvrir ce pack →</a>
                     </div>
                     <div class="price-payment">
                         <strong>Paiement :</strong> 500€ (1 fois) ou 250€ × 2 (2 fois)
@@ -571,24 +688,24 @@
                 
                 <!-- Pack Complet 1900€ -->
                 <div class="price-card featured">
-                    <div class="price-badge complet">Pack Complet</div>
+                    <div class="pack-name" style="color: #8B5CF6;">Pack Solution Tout-en-Un</div>
+                    <h3 class="pack-title">Ton projet de A à Z</h3>
                     <div class="price-amount">
                         1 900€
                         <small>TTC</small>
                     </div>
-                    <p class="price-tagline">
-                        <strong>Accompagnement de A à Z</strong><br>
-                        Budget : 1 000€+
+                    <p class="price-benefit">
+                        <strong>Lance-toi sereinement.</strong> Accompagnement complet avec branding local, réseau diaspora et suivi long terme.
                     </p>
-                    <ul class="price-features">
-                        <li>Tout le Pack Starter inclus</li>
-                        <li>Diagnostic approfondi + Analyse marché</li>
-                        <li>Branding adapté contexte local</li>
-                        <li>Accompagnement opérationnel</li>
-                        <li>Réseau diaspora + Suivi 3-6 mois</li>
+                    <ul class="price-highlights">
+                        <li>Tout le Pack Accompagnement Pro inclus</li>
+                        <li>Diagnostic approfondi + Analyse de marché locale</li>
+                        <li>Branding adapté contexte ultramarin</li>
+                        <li>Accompagnement opérationnel complet</li>
+                        <li>Réseau diaspora activé + Suivi 3-6 mois</li>
                     </ul>
                     <div class="price-cta">
-                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                        <a href="/pack-solution-tout-en-un" class="cta-button primary">Découvrir ce pack →</a>
                     </div>
                     <div class="price-payment">
                         <strong>Paiement :</strong> 950€ × 2 (2 fois) ou 633€ × 3 (3 fois)
@@ -602,67 +719,76 @@
     <section class="profile-section">
         <div class="container">
             <div class="profile-header">
-                <div class="profile-icon">🏢</div>
+                <span class="profile-icon">🏢</span>
                 <div class="profile-title">
                     <h2>Entreprises</h2>
-                    <p>Prestataires locaux pour vos besoins récurrents ou urgents</p>
+                    <p>Prestataires locaux fiables pour répondre à vos besoins récurrents ou urgents</p>
                 </div>
             </div>
             <div class="profile-packs">
                 <!-- Pack Urgence -->
                 <div class="profile-pack-card">
-                    <div class="profile-pack-badge urgence">Pack Urgence</div>
+                    <div class="profile-pack-badge urgence">Pack Express</div>
+                    <div class="profile-pack-name">Réponse sous 48h</div>
+                    <h3 class="profile-pack-title">Besoin urgent ?</h3>
                     <div class="profile-pack-price">
                         800€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-tagline">
-                        <strong>Réponse sous 48h</strong><br>
-                        Budget : 500-1 500€
+                    <p class="profile-pack-benefit">
+                        <strong>Solution rapide et fiable</strong> pour vos urgences business avec des prestataires locaux disponibles immédiatement.
                     </p>
                     <ul class="profile-pack-features">
                         <li>Appel diagnostic express (20 min)</li>
-                        <li>Recherche urgente : 1-2 prestataires</li>
+                        <li>Recherche urgente : 1-2 prestataires sous 48h</li>
                         <li>Mise en relation immédiate (24h)</li>
                         <li>Point de suivi rapide</li>
                     </ul>
                     <div class="price-payment">
                         <strong>Paiement :</strong> 400€ × 2 (2 fois)
                     </div>
+                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
+                        <a href="/pack-express" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    </div>
                 </div>
                 
                 <!-- Pack Projet -->
                 <div class="profile-pack-card">
-                    <div class="profile-pack-badge projet">Pack Projet</div>
+                    <div class="profile-pack-badge projet">Pack Coordination</div>
+                    <div class="profile-pack-name">Multi-prestataires</div>
+                    <h3 class="profile-pack-title">Un projet complexe ?</h3>
                     <div class="profile-pack-price">
                         1 500€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-tagline">
-                        <strong>Coordination multi-prestataires</strong><br>
-                        Budget : 1 000€-3 000€
+                    <p class="profile-pack-benefit">
+                        <strong>Un seul interlocuteur</strong> pour coordonner tous vos prestataires et faire gagner un temps précieux à votre équipe.
                     </p>
                     <ul class="profile-pack-features">
                         <li>Analyse complète projet (45 min)</li>
                         <li>Recherche 2-5 prestataires locaux</li>
-                        <li>Un seul interlocuteur (coordination)</li>
+                        <li>Coordination centrale (un seul interlocuteur)</li>
                         <li>Suivi jusqu'à livraison</li>
                     </ul>
                     <div class="price-payment">
                         <strong>Paiement :</strong> 750€ × 2 (2 fois)
                     </div>
+                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
+                        <a href="/pack-coordination" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    </div>
                 </div>
                 
                 <!-- Pack Partenaire Continu -->
                 <div class="profile-pack-card">
-                    <div class="profile-pack-badge partenaire">Partenaire Continu</div>
+                    <div class="profile-pack-badge partenaire">Pack Partenaire</div>
+                    <div class="profile-pack-name">Accompagnement 6-12 mois</div>
+                    <h3 class="profile-pack-title">Besoin récurrent ?</h3>
                     <div class="profile-pack-price">
                         2 500€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-tagline">
-                        <strong>Accompagnement 6-12 mois</strong><br>
-                        Budget : 2 000€+
+                    <p class="profile-pack-benefit">
+                        <strong>On devient votre partenaire</strong> sur le long terme avec un point mensuel et une gestion continue de vos prestataires.
                     </p>
                     <ul class="profile-pack-features">
-                        <li>Accompagnement long terme</li>
+                        <li>Accompagnement 6-12 mois</li>
                         <li>Recherche continue de prestataires</li>
                         <li>Point mensuel régulier</li>
                         <li>Support prioritaire (24h)</li>
@@ -670,10 +796,10 @@
                     <div class="price-payment">
                         <strong>Paiement :</strong> 210€ × 12 (mensualité)
                     </div>
+                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
+                        <a href="/pack-partenaire" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    </div>
                 </div>
-            </div>
-            <div class="cta-button-container">
-                <a href="/#inscription-form" class="cta-button primary">Choisir mon pack</a>
             </div>
         </div>
     </section>
@@ -683,7 +809,7 @@
         <div class="container">
             <!-- Prestataires -->
             <div class="profile-header">
-                <div class="profile-icon">💼</div>
+                <span class="profile-icon">💼</span>
                 <div class="profile-title">
                     <h2>Prestataires</h2>
                     <p>Rejoins notre réseau vérifié et accède à des clients qualifiés</p>
@@ -699,13 +825,13 @@
                 </ul>
                 <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Accès réseau clients qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
                 <div class="cta-button-container" style="margin-top: 1.5rem;">
-                    <a href="/#inscription-form" class="cta-button primary">Rejoindre en tant que prestataire</a>
+                    <a href="/prestataires" class="cta-button primary">Rejoindre en tant que prestataire →</a>
                 </div>
             </div>
             
             <!-- Investisseurs -->
             <div class="profile-header">
-                <div class="profile-icon">💰</div>
+                <span class="profile-icon">💰</span>
                 <div class="profile-title">
                     <h2>Investisseurs</h2>
                     <p>Accède à des projets qualifiés et vérifiés des territoires ultramarins</p>
@@ -721,34 +847,7 @@
                 </ul>
                 <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Réseau investisseurs • Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses écosystème ultramarin</p>
                 <div class="cta-button-container" style="margin-top: 1.5rem;">
-                    <a href="/#inscription-form" class="cta-button primary">Découvrir les opportunités</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section (Réduite) -->
-    <section class="profile-section" style="background: var(--gray-50); padding: 2.5rem 0;">
-        <div class="container" style="max-width: 800px;">
-            <h2 class="section-title" style="font-size: clamp(1.5rem, 4vw, 1.75rem); margin-bottom: 1.5rem;">Questions fréquentes</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3 style="font-size: clamp(1rem, 3vw, 1.1rem);">Les prix incluent-ils les prestations des prestataires ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Non. Les packs couvrent uniquement <strong>l'accompagnement, la recherche et la mise en relation</strong>. Les prestataires sont payés <strong>directement par vous</strong>, sans commission.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3 style="font-size: clamp(1rem, 3vw, 1.1rem);">Peut-on payer en plusieurs fois ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Oui ! Tous nos packs proposent des <strong>options de paiement flexibles</strong> adaptées à votre budget (2-12 fois selon le pack).</p>
-                    </div>
+                    <a href="/investisseurs" class="cta-button primary">Découvrir les opportunités →</a>
                 </div>
             </div>
         </div>
