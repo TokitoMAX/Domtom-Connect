@@ -35,33 +35,188 @@
         .pricing-hero {
             background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
             color: white;
-            padding: 5rem 0 4rem 0;
+            padding: 4rem 0 3rem 0;
             text-align: center;
             margin-top: 80px;
         }
         
         .pricing-hero .container {
-            padding-top: 1.5rem;
+            padding-top: 1rem;
             padding-bottom: 1rem;
         }
         
         .pricing-hero h1 {
             color: white;
-            margin-bottom: 1.5rem;
-            margin-top: 1rem;
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
             padding-top: 0;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 800;
         }
         
         .pricing-hero p {
             color: rgba(255, 255, 255, 0.95);
-            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             max-width: 900px;
             margin: 0 auto;
-            margin-top: 1rem;
-            line-height: 1.7;
+            margin-top: 0.75rem;
+            line-height: 1.6;
             padding: 0 1rem;
             font-weight: 400;
+        }
+        
+        /* Section de mise en avant des prix principaux */
+        .pricing-highlight {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 250, 251, 0.98) 100%);
+            padding: 4rem 0;
+            margin-top: 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .pricing-highlight h2 {
+            text-align: center;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+        
+        .pricing-highlight .subtitle {
+            text-align: center;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+        
+        .pricing-grid-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .pricing-card-main {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .pricing-card-main:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 191, 166, 0.2);
+            border-color: var(--primary-color);
+        }
+        
+        .pricing-card-main.highlight-99 {
+            border: 3px solid #10b981;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.03) 100%);
+            position: relative;
+        }
+        
+        .pricing-card-main.highlight-99::before {
+            content: "POPULAIRE";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.375rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .pricing-card-main.featured {
+            border: 3px solid var(--primary-color);
+            background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.05) 100%);
+        }
+        
+        .pricing-card-main.featured::before {
+            content: "COMPLET ⭐";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
+            color: white;
+            padding: 0.375rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
+        }
+        
+        .pricing-main-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            align-self: flex-start;
+        }
+        
+        .pricing-main-badge.decouverte {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .pricing-main-badge.starter {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+        }
+        
+        .pricing-main-badge.complet {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+        }
+        
+        .pricing-main-price {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin: 0.75rem 0;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        
+        .pricing-main-price small {
+            font-size: clamp(0.9rem, 2vw, 1.125rem);
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 0.5rem;
+        }
+        
+        .pricing-main-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            min-height: 3rem;
+        }
+        
+        .pricing-main-cta {
+            margin-top: auto;
+            padding-top: 1.5rem;
         }
         
         .pricing-section {
@@ -452,11 +607,48 @@
             border-top: 2px solid var(--gray-200);
         }
         
+        /* Tablet Optimizations */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .pricing-grid-main {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .pricing-card-main {
+                padding: 2rem 1.5rem;
+            }
+        }
+        
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .pricing-hero {
-                padding: 3rem 0 2.5rem 0 !important;
+                padding: 2.5rem 0 2rem 0 !important;
                 margin-top: 70px;
+            }
+            
+            .pricing-highlight {
+                padding: 3rem 0;
+            }
+            
+            .pricing-grid-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+            
+            .pricing-card-main {
+                padding: 2rem 1.5rem;
+            }
+            
+            .pricing-card-main.highlight-99::before,
+            .pricing-card-main.featured::before {
+                font-size: 0.7rem;
+                padding: 0.3rem 1rem;
+            }
+            
+            .pricing-main-price {
+                font-size: 2.75rem;
             }
             
             .pricing-section {
@@ -521,6 +713,21 @@
                 gap: 1.25rem;
             }
         }
+        
+        /* Small Mobile */
+        @media (max-width: 480px) {
+            .pricing-highlight {
+                padding: 2.5rem 0;
+            }
+            
+            .pricing-card-main {
+                padding: 1.75rem 1.25rem;
+            }
+            
+            .pricing-main-price {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -559,6 +766,96 @@
         <div class="container">
             <h1>Tarifs par Profil</h1>
             <p>Des offres adaptées à <strong>ton profil, ton besoin et ton budget</strong> avec des engagements clairs pour garantir la qualité du réseau</p>
+        </div>
+    </section>
+
+    <!-- Section Mise en Avant des Prix Principaux -->
+    <section class="pricing-highlight">
+        <div class="container">
+            <h2>Packs Porteurs de Projets</h2>
+            <p class="subtitle">Choisis le pack adapté à ton budget et à tes besoins</p>
+            <div class="pricing-grid-main">
+                <!-- Pack Découverte 99€ -->
+                <div class="pricing-card-main highlight-99">
+                    <div class="pricing-main-badge decouverte">Pack Découverte</div>
+                    <div class="pricing-main-price">
+                        99€
+                        <small>TTC</small>
+                    </div>
+                    <p class="pricing-main-description">
+                        <strong>Profil :</strong> Porteur de projet<br>
+                        <strong>Besoin :</strong> Test avant investissement<br>
+                        <strong>Budget :</strong> &lt; 300€
+                    </p>
+                    <ul class="pack-features" style="margin-top: 0; margin-bottom: 0;">
+                        <li>Appel diagnostic (30 min)</li>
+                        <li>Recherche 2-3 prestataires</li>
+                        <li>Fiches prestataires détaillées</li>
+                        <li>Guide PDF + Brief personnalisé</li>
+                        <li>Mise en relation avec 1 prestataire</li>
+                    </ul>
+                    <div class="pricing-main-cta">
+                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong>Paiement :</strong> 99€ (1 fois) ou 50€ + 49€ (2 fois)
+                    </div>
+                </div>
+                
+                <!-- Pack Starter 500€ -->
+                <div class="pricing-card-main">
+                    <div class="pricing-main-badge starter">Pack Starter</div>
+                    <div class="pricing-main-price">
+                        500€
+                        <small>TTC</small>
+                    </div>
+                    <p class="pricing-main-description">
+                        <strong>Profil :</strong> Porteur de projet<br>
+                        <strong>Besoin :</strong> Trouver prestataires<br>
+                        <strong>Budget :</strong> 300-1 000€
+                    </p>
+                    <ul class="pack-features" style="margin-top: 0; margin-bottom: 0;">
+                        <li>Tout le Pack Découverte inclus</li>
+                        <li>Recherche approfondie 5-8 prestataires</li>
+                        <li>Tableau comparatif + Recommandation</li>
+                        <li>Mise en relation : on fait le contact</li>
+                        <li>Négociation tarifs + Accompagnement</li>
+                    </ul>
+                    <div class="pricing-main-cta">
+                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong>Paiement :</strong> 500€ (1 fois) ou 250€ × 2 (2 fois)
+                    </div>
+                </div>
+                
+                <!-- Pack Complet 1900€ -->
+                <div class="pricing-card-main featured">
+                    <div class="pricing-main-badge complet">Pack Complet</div>
+                    <div class="pricing-main-price">
+                        1 900€
+                        <small>TTC</small>
+                    </div>
+                    <p class="pricing-main-description">
+                        <strong>Profil :</strong> Porteur de projet<br>
+                        <strong>Besoin :</strong> Accompagnement complet<br>
+                        <strong>Budget :</strong> 1 000€+
+                    </p>
+                    <ul class="pack-features" style="margin-top: 0; margin-bottom: 0;">
+                        <li>Tout le Pack Starter inclus</li>
+                        <li>Diagnostic approfondi + Analyse marché</li>
+                        <li>Branding adapté contexte local</li>
+                        <li>Accompagnement opérationnel</li>
+                        <li>Réseau diaspora + Suivi 3-6 mois</li>
+                    </ul>
+                    <div class="pricing-main-cta">
+                        <a href="/#inscription-form" class="cta-button primary" style="width: 100%; display: block; text-align: center;">Choisir ce pack</a>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                        <strong>Paiement :</strong> 950€ × 2 (2 fois) ou 633€ × 3 (3 fois)
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
