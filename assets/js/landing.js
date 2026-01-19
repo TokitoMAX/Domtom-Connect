@@ -1410,20 +1410,21 @@ ${data.besoin}
 `;
     }
     
-    // Informations spécifiques pour Investisseurs
+    // Informations spécifiques pour Investisseurs (simplifié)
     if (pageType === 'investisseurs') {
+        const montantLabel = data.montant_mensuel === '29' ? '29€/mois (ou 300€/an) - Moins de 50 000€ d\'investissement' :
+                           data.montant_mensuel === '49' ? '49€/mois (ou 500€/an) - 50 000€ à 200 000€ d\'investissement' :
+                           data.montant_mensuel === '99' ? '99€/mois (ou 1 000€/an) - Plus de 200 000€ d\'investissement' :
+                           data.montant_mensuel || 'Non renseigné';
+        
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 INVESTISSEUR - INFORMATIONS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Type d'investissement: ${data.type_investissement || 'Non renseigné'}
-Montant potentiel: ${data.montant_investissement || 'Non renseigné'}
-Secteurs d'intérêt: ${data.secteurs_interet || 'Non renseigné'}
-Expérience: ${data.experience_investissement || 'Non renseigné'}
-Objectif: ${data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : (data.objectif || 'Non renseigné')}
-Motivation: ${data.motivation === 'autre' ? (data.motivation_autre || 'Autre') : (data.motivation || 'Non renseigné')}
-Attentes: ${data.attentes === 'autre' ? (data.attentes_autre || 'Autre') : (data.attentes || 'Non renseigné')}
-Critères d'évaluation: ${data.criteres === 'autre' ? (data.criteres_autre || 'Autre') : (data.criteres || 'Non renseigné')}
+Cotisation mensuelle souhaitée: ${montantLabel}
+
+Pourquoi investir dans les territoires ultramarins:
+${data.pourquoi_investir || 'Non renseigné'}
 `;
     }
     

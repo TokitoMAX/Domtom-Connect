@@ -404,12 +404,9 @@
                 console.log(`✅ Champ ${field.name} ajouté au formulaire:`, field.value);
             });
             
-            // Ajouter aussi tous les autres champs du quiz (toutes les questions)
+            // Ajouter aussi tous les autres champs du quiz (simplifié)
             const allQuizFields = [
-                'type_investissement', 'montant_investissement', 'secteurs_interet',
-                'experience_investissement', 'motivation', 'motivation_autre',
-                'attentes', 'attentes_autre', 'criteres', 'criteres_autre',
-                'cotisation_acceptee', 'certification'
+                'montant_mensuel', 'pourquoi_investir', 'certification'
             ];
             
             allQuizFields.forEach(fieldName => {
