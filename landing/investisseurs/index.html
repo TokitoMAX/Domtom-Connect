@@ -70,15 +70,12 @@
         </div>
     </footer>
 
-    <script src="../../assets/js/landing-quiz.js?v=1.3"></script>
+    <script src="../../assets/js/landing-quiz.js?v=1.0"></script>
     <script src="../../assets/js/form-validation.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
-        // Vérifier que le script est chargé
-        console.log('🔵 Script inline investisseurs chargé');
-        console.log('LandingQuiz disponible:', typeof LandingQuiz !== 'undefined');
         // Questions simplifiées pour les investisseurs (sans données pré-remplies)
         const investisseursQuestionsSimplified = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
@@ -175,175 +172,11 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
-        // Initialiser le quiz
+        // Initialiser le quiz - EXACTEMENT comme les prestataires qui fonctionne
         let quiz;
-        
-        // Attendre que le script soit chargé
-        function waitForLandingQuiz(callback, maxAttempts = 50) {
-            let attempts = 0;
-            const checkInterval = setInterval(() => {
-                attempts++;
-                if (typeof LandingQuiz !== 'undefined') {
-                    clearInterval(checkInterval);
-                    console.log('✅ LandingQuiz disponible après', attempts * 100, 'ms');
-                    callback();
-                } else if (attempts >= maxAttempts) {
-                    clearInterval(checkInterval);
-                    console.error('❌ LandingQuiz non disponible après', maxAttempts * 100, 'ms');
-                    const container = document.querySelector('.quiz-container');
-                    if (container) {
-                        container.innerHTML = `
-                            <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                                <p style="font-weight: bold; margin-bottom: 1rem;">Erreur : Le script de quiz n'a pas pu être chargé</p>
-                                <p>Le script landing-quiz.js n'est pas disponible après 5 secondes.</p>
-                                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger</button>
-                            </div>
-                        `;
-                    }
-                }
-            }, 100);
-        }
-        
-        // Vérifier immédiatement si le script est chargé
-        console.log('🔵 Script inline chargé');
-        console.log('LandingQuiz disponible immédiatement:', typeof LandingQuiz !== 'undefined');
-        console.log('Questions complètes:', investisseursQuestions?.length);
-        console.log('Questions simplifiées:', investisseursQuestionsSimplified?.length);
-        
-        function initQuiz() {
-            console.log('🔵 DOMContentLoaded - Initialisation du quiz investisseurs...');
-            
-            const container = document.querySelector('.quiz-container');
-            if (!container) {
-                console.error('❌ Container .quiz-container non trouvé');
-                return;
-            }
-            console.log('✅ Container trouvé');
-            
-            if (typeof LandingQuiz === 'undefined') {
-                console.error('❌ LandingQuiz n\'est pas défini');
-                container.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                        <p style="font-weight: bold; margin-bottom: 1rem;">Erreur : Le script de quiz n'a pas pu être chargé</p>
-                        <p>Vérifiez que le fichier landing-quiz.js est bien chargé.</p>
-                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger</button>
-                    </div>
-                `;
-                return;
-            }
-            
-            if (!investisseursQuestions || investisseursQuestions.length === 0) {
-                console.error('❌ Aucune question définie');
-                container.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                        <p style="font-weight: bold; margin-bottom: 1rem;">Erreur : Aucune question définie</p>
-                        <p>Les questions pour les investisseurs ne sont pas configurées.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            try {
-                console.log('Création de l\'instance LandingQuiz...');
-                console.log('Paramètres:', {
-                    questions: investisseursQuestions?.length,
-                    formId: 'landing-form',
-                    profil: 'investisseur',
-                    simplified: investisseursQuestionsSimplified?.length
-                });
-                
-                quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
-                console.log('✅ Quiz initialisé avec succès');
-                console.log('Quiz object:', quiz);
-                console.log('Questions dans quiz:', quiz.questions?.length);
-                console.log('Full questions:', quiz.fullQuestions?.length);
-                console.log('Simplified questions:', quiz.simplifiedQuestions?.length);
-                
-                // Vérifier après un court délai si le quiz s'est affiché
-                setTimeout(() => {
-                    const questionsContainer = document.querySelector('#quiz-questions-container');
-                    const progressContainer = document.querySelector('.quiz-progress-container');
-                    
-                    console.log('Vérification après initialisation:');
-                    console.log('- Container questions:', questionsContainer ? 'Trouvé' : 'Non trouvé');
-                    console.log('- Container progress:', progressContainer ? 'Trouvé' : 'Non trouvé');
-                    console.log('- Contenu questions:', questionsContainer?.innerHTML?.substring(0, 100) || 'Vide');
-                    
-                    if (!questionsContainer) {
-                        console.error('❌ Container quiz-questions-container non trouvé');
-                        container.innerHTML = `
-                            <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                                <p style="font-weight: bold; margin-bottom: 1rem;">Erreur : Structure du quiz non créée</p>
-                                <p>Le container des questions n'a pas été créé.</p>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    if (questionsContainer.innerHTML.trim() === '') {
-                        console.warn('⚠️ Container vide, tentative de forcer l\'affichage...');
-                        
-                        // Forcer l'affichage de la première question
-                        if (quiz && quiz.showStep) {
-                            console.log('Appel de quiz.showStep(0)...');
-                            try {
-                                quiz.showStep(0);
-                                console.log('showStep appelé');
-                            } catch (err) {
-                                console.error('Erreur lors de showStep:', err);
-                            }
-                        } else {
-                            console.error('quiz.showStep non disponible');
-                        }
-                        
-                        // Vérifier à nouveau après un délai
-                        setTimeout(() => {
-                            if (questionsContainer.innerHTML.trim() === '') {
-                                console.error('❌ Le quiz ne s\'est toujours pas affiché');
-                                // Afficher un message d'erreur visible
-                                container.innerHTML = `
-                                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                                        <p style="font-weight: bold; margin-bottom: 1rem;">⚠️ Le quiz ne s'affiche pas</p>
-                                        <p>Veuillez ouvrir la console (F12) pour voir les détails de l'erreur.</p>
-                                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger</button>
-                                    </div>
-                                `;
-                            } else {
-                                console.log('✅ Quiz affiché après forçage');
-                            }
-                        }, 1000);
-                    } else {
-                        console.log('✅ Quiz affiché correctement');
-                    }
-                }, 500);
-            } catch (error) {
-                console.error('❌ Erreur lors de l\'initialisation:', error);
-                console.error('Stack:', error.stack);
-                container.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
-                        <p style="font-weight: bold; margin-bottom: 1rem;">Erreur technique</p>
-                        <p>${error.message}</p>
-                        <pre style="text-align: left; margin-top: 1rem; font-size: 0.8rem; background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow: auto;">${error.stack}</pre>
-                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger</button>
-                    </div>
-                `;
-            }
-        }
-        
-        // Attendre que le DOM soit prêt ET que le script soit chargé
-        function startInit() {
-            waitForLandingQuiz(() => {
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', initQuiz);
-                } else {
-                    console.log('DOM déjà chargé, initialisation...');
-                    initQuiz();
-                }
-            });
-        }
-        
-        // Démarrer l'initialisation
-        startInit();
+        document.addEventListener('DOMContentLoaded', () => {
+            quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
+        });
 
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
