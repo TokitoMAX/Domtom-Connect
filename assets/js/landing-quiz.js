@@ -414,7 +414,7 @@ class LandingQuiz {
         }
         
         // Changer le texte du bouton suivant
-        const isLastQuestion = stepIndex === validQuestions.length - 1;
+        const isLastQuestion = stepIndex === questionsToUse.length - 1;
         
         if (nextBtn) {
             if (isLastQuestion) {
