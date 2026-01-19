@@ -338,22 +338,70 @@
             });
             
             // FORCER l'ajout de tous les champs de base au formulaire AVANT l'appel à handleLandingFormSubmit
-            // Créer des inputs cachés pour garantir que toutes les données sont dans le FormData
-            const requiredFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'profil'];
-            requiredFields.forEach(field => {
-                // Supprimer l'input existant s'il existe
-                const existingInput = form.querySelector(`[name="${field}"]`);
-                if (existingInput) {
-                    existingInput.remove();
+            // Récupérer les valeurs DIRECTEMENT depuis les inputs du quiz
+            const getValueFromQuiz = (fieldName) => {
+                // Essayer plusieurs sélecteurs possibles
+                const selectors = [
+                    `#question_${fieldName}`,
+                    `input[name="question_${fieldName}"]`,
+                    `select[name="question_${fieldName}"]`,
+                    `input[name="${fieldName}"]`,
+                    `select[name="${fieldName}"]`
+                ];
+                
+                for (const selector of selectors) {
+                    const input = document.querySelector(selector);
+                    if (input) {
+                        if (input.type === 'radio') {
+                            const checked = document.querySelector(`input[name="${input.name}"]:checked`);
+                            if (checked) return checked.value;
+                        } else if (input.type === 'checkbox') {
+                            return input.checked ? (input.value || 'OUI') : '';
+                        } else {
+                            return input.value || '';
+                        }
+                    }
                 }
+                return '';
+            };
+            
+            // Récupérer les valeurs directement depuis les inputs
+            const prenomValue = getValueFromQuiz('prenom') || submitData.prenom || data.prenom || '';
+            const nomValue = getValueFromQuiz('nom') || submitData.nom || data.nom || '';
+            const emailValue = getValueFromQuiz('email') || submitData.email || data.email || '';
+            const telephoneValue = getValueFromQuiz('telephone') || submitData.telephone || data.telephone || '';
+            const ileValue = getValueFromQuiz('ile') || submitData.ile || data.ile || '';
+            
+            console.log('✅ Valeurs récupérées depuis les inputs:', {
+                prenom: prenomValue,
+                nom: nomValue,
+                email: emailValue,
+                telephone: telephoneValue,
+                ile: ileValue
+            });
+            
+            // Créer des inputs cachés pour garantir que toutes les données sont dans le FormData
+            const requiredFields = [
+                { name: 'prenom', value: prenomValue },
+                { name: 'nom', value: nomValue },
+                { name: 'email', value: emailValue },
+                { name: 'telephone', value: telephoneValue },
+                { name: 'ile', value: ileValue },
+                { name: 'profil', value: 'investisseur' }
+            ];
+            
+            requiredFields.forEach(field => {
+                // Supprimer tous les inputs existants avec ce nom
+                const existingInputs = form.querySelectorAll(`[name="${field.name}"], [name="question_${field.name}"]`);
+                existingInputs.forEach(input => input.remove());
                 
                 // Créer un nouvel input caché avec la valeur
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
-                hiddenInput.name = field;
-                hiddenInput.value = submitData[field] || data[field] || '';
+                hiddenInput.name = field.name;
+                hiddenInput.value = field.value;
                 form.appendChild(hiddenInput);
-                console.log(`✅ Champ ${field} ajouté au formulaire:`, hiddenInput.value);
+                console.log(`✅ Champ ${field.name} ajouté au formulaire:`, field.value);
             });
             
             // Ajouter aussi tous les autres champs du quiz
