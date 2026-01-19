@@ -70,12 +70,15 @@
         </div>
     </footer>
 
-    <script src="../../assets/js/landing-quiz.js?v=1.1"></script>
+    <script src="../../assets/js/landing-quiz.js?v=1.1" onerror="console.error('❌ Erreur de chargement de landing-quiz.js'); document.querySelector('.quiz-container').innerHTML = '<div style=\'padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;\'><p>Erreur : Le script de quiz n\'a pas pu être chargé.</p><button onclick=\'location.reload()\' style=\'margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;\'>Recharger</button></div>';"></script>
     <script src="../../assets/js/form-validation.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
+        // Vérifier que le script est chargé
+        console.log('🔵 Script inline investisseurs chargé');
+        console.log('LandingQuiz disponible:', typeof LandingQuiz !== 'undefined');
         // Questions simplifiées pour les investisseurs (sans données pré-remplies)
         const investisseursQuestionsSimplified = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
