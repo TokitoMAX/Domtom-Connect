@@ -174,7 +174,37 @@
 
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
+            console.log('🔵 Initialisation du quiz investisseurs...');
+            console.log('Questions complètes:', investisseursQuestions?.length);
+            console.log('Questions simplifiées:', investisseursQuestionsSimplified?.length);
+            
+            if (typeof LandingQuiz === 'undefined') {
+                console.error('❌ LandingQuiz n\'est pas défini. Vérifiez que landing-quiz.js est chargé.');
+                const container = document.querySelector('.quiz-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="padding: 2rem; text-align: center; color: #ef4444;">
+                            <p>Erreur : Le script de quiz n'a pas pu être chargé. Veuillez recharger la page.</p>
+                        </div>
+                    `;
+                }
+                return;
+            }
+            
+            try {
+                quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
+                console.log('✅ Quiz initialisé avec succès');
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'initialisation du quiz:', error);
+                const container = document.querySelector('.quiz-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="padding: 2rem; text-align: center; color: #ef4444;">
+                            <p>Erreur : ${error.message}</p>
+                        </div>
+                    `;
+                }
+            }
         });
 
         async function handleQuizFormSubmit(event) {
