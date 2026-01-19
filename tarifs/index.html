@@ -116,23 +116,37 @@
             background: #f9fafb;
         }
         
-        .section-intro {
-            text-align: center;
+        .profile-section-block {
             margin-bottom: 4rem;
         }
         
-        .section-intro h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 900;
-            color: #1a1a1a;
-            margin-bottom: 1rem;
+        .profile-header-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         
-        .section-intro p {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        .profile-icon-large {
+            font-size: 4rem;
+            flex-shrink: 0;
+        }
+        
+        .profile-title-main {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: #6b7280;
-            max-width: 700px;
-            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .pricing-grid {
@@ -474,6 +488,21 @@
             .pricing-section {
                 padding: 3rem 0;
             }
+            
+            .profile-header-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .profile-icon-large {
+                font-size: 3rem;
+            }
+            
+            .profile-section-block {
+                margin-top: 3rem !important;
+                padding-top: 3rem !important;
+            }
         }
     </style>
 </head>
@@ -520,49 +549,171 @@
     <!-- ÉTAPE 2 : SOLUTION / OFFRES -->
     <section class="pricing-section" id="packs">
         <div class="container">
-            <div class="section-intro">
-                <h2>Choisis ton Pack</h2>
-                <p>Des solutions adaptées à ton besoin et ton budget</p>
+            <!-- Porteurs de Projets -->
+            <div class="profile-section-block">
+                <div class="profile-header-section">
+                    <div class="profile-icon-large">🚀</div>
+                    <div>
+                        <h2 class="profile-title-main">Porteurs de Projets / Entrepreneurs</h2>
+                        <p class="profile-subtitle">Tu lances un projet ? On trouve les prestataires locaux vérifiés pour toi</p>
+                    </div>
+                </div>
+                
+                <div class="pricing-grid">
+                    <!-- Pack 99€ -->
+                    <div class="pricing-card popular">
+                        <div class="pack-name" style="color: #10b981;">Pack Essai Local</div>
+                        <h3 class="pack-title">Teste la qualité pour moins de 100€</h3>
+                        <div class="pack-price">
+                            99€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta popular">
+                            <button onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">En savoir plus →</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pack 500€ -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #3B82F6;">Pack Accompagnement Pro</div>
+                        <h3 class="pack-title">On fait tout pour toi</h3>
+                        <div class="pack-price">
+                            500€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta">
+                            <button onclick="openPackModal('Pack Accompagnement Pro', '500€', 'porteur-projet')">En savoir plus →</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pack 1900€ -->
+                    <div class="pricing-card featured">
+                        <div class="pack-name" style="color: #8B5CF6;">Pack Solution Tout-en-Un</div>
+                        <h3 class="pack-title">Ton projet de A à Z</h3>
+                        <div class="pack-price">
+                            1 900€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta featured">
+                            <button onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">En savoir plus →</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="pricing-grid">
-                <!-- Pack 99€ -->
-                <div class="pricing-card popular">
-                    <div class="pack-name" style="color: #10b981;">Pack Essai Local</div>
-                    <h3 class="pack-title">Teste la qualité pour moins de 100€</h3>
-                    <div class="pack-price">
-                        99€
-                        <small>TTC</small>
-                    </div>
-                    <div class="pack-cta popular">
-                        <button onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">En savoir plus →</button>
+            <!-- Entreprises -->
+            <div class="profile-section-block" style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
+                <div class="profile-header-section">
+                    <div class="profile-icon-large">🏢</div>
+                    <div>
+                        <h2 class="profile-title-main">Entreprises</h2>
+                        <p class="profile-subtitle">Vous avez besoin de prestataires locaux fiables ? On répond à vos besoins récurrents ou urgents</p>
                     </div>
                 </div>
                 
-                <!-- Pack 500€ -->
-                <div class="pricing-card">
-                    <div class="pack-name" style="color: #3B82F6;">Pack Accompagnement Pro</div>
-                    <h3 class="pack-title">On fait tout pour toi</h3>
-                    <div class="pack-price">
-                        500€
-                        <small>TTC</small>
+                <div class="pricing-grid">
+                    <!-- Pack Express -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #EF4444;">Pack Express</div>
+                        <h3 class="pack-title">Besoin urgent ? Réponse sous 48h</h3>
+                        <div class="pack-price">
+                            800€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta">
+                            <button onclick="openPackModal('Pack Express', '800€', 'entreprise')">En savoir plus →</button>
+                        </div>
                     </div>
-                    <div class="pack-cta">
-                        <button onclick="openPackModal('Pack Accompagnement Pro', '500€', 'porteur-projet')">En savoir plus →</button>
+                    
+                    <!-- Pack Coordination -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #F59E0B;">Pack Coordination</div>
+                        <h3 class="pack-title">Un projet complexe ? Multi-prestataires</h3>
+                        <div class="pack-price">
+                            1 500€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta">
+                            <button onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')">En savoir plus →</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pack Partenaire -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #6366F1;">Pack Partenaire</div>
+                        <h3 class="pack-title">Besoin récurrent ? Accompagnement 6-12 mois</h3>
+                        <div class="pack-price">
+                            2 500€
+                            <small>TTC</small>
+                        </div>
+                        <div class="pack-cta">
+                            <button onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')">En savoir plus →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Prestataires -->
+            <div class="profile-section-block" style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
+                <div class="profile-header-section">
+                    <div class="profile-icon-large">💼</div>
+                    <div>
+                        <h2 class="profile-title-main">Prestataires</h2>
+                        <p class="profile-subtitle">Tu es prestataire ? Rejoins notre réseau vérifié et accède à des clients qualifiés</p>
                     </div>
                 </div>
                 
-                <!-- Pack 1900€ -->
-                <div class="pricing-card featured">
-                    <div class="pack-name" style="color: #8B5CF6;">Pack Solution Tout-en-Un</div>
-                    <h3 class="pack-title">Ton projet de A à Z</h3>
-                    <div class="pack-price">
-                        1 900€
-                        <small>TTC</small>
+                <div style="background: white; border-radius: 24px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 2rem auto;">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #1a1a1a;">Engagement Requis</h3>
+                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Pas de paiement direct</strong> - Contribution au contenu en échange d'accès au réseau :</p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span>Création contenu avec Domtom Connect (articles, vidéos, podcasts)</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span>Partage expertises et retours d'expérience</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span>Contribution communauté entrepreneuriale ultramarine</span>
+                        </li>
+                    </ul>
+                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Avantages :</strong> Accès réseau clients qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
+                    <a href="/prestataires" style="display: inline-block; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); color: white; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);">Rejoindre en tant que prestataire →</a>
+                </div>
+            </div>
+            
+            <!-- Investisseurs -->
+            <div class="profile-section-block" style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
+                <div class="profile-header-section">
+                    <div class="profile-icon-large">💰</div>
+                    <div>
+                        <h2 class="profile-title-main">Investisseurs</h2>
+                        <p class="profile-subtitle">Tu es investisseur ? Accède à des projets qualifiés et vérifiés des territoires ultramarins</p>
                     </div>
-                    <div class="pack-cta featured">
-                        <button onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">En savoir plus →</button>
-                    </div>
+                </div>
+                
+                <div style="background: white; border-radius: 24px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 2rem auto;">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #1a1a1a;">Cotisation Mensuelle Variable</h3>
+                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Selon votre capacité d'investissement :</strong></p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span><strong>Moins de 50k€</strong> : À partir de 29€/mois (ou 300€/an)</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span><strong>50k-200k€</strong> : 49€/mois (ou 500€/an)</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
+                            <span style="color: #00BFA6; font-weight: 900;">→</span>
+                            <span><strong>Plus de 200k€</strong> : 99€/mois (ou 1 000€/an)</span>
+                        </li>
+                    </ul>
+                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Avantages :</strong> Réseau investisseurs • Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses écosystème ultramarin</p>
+                    <a href="/investisseurs" style="display: inline-block; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); color: white; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);">Découvrir les opportunités →</a>
                 </div>
             </div>
         </div>
