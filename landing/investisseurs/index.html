@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
@@ -106,6 +107,7 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
+        // Questions pour les investisseurs
         const investisseursQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
@@ -172,18 +174,17 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
-        // Initialiser le quiz - EXACTEMENT comme les prestataires qui fonctionne
+        // Initialiser le quiz
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
             quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
         });
 
+        // Gérer la soumission du formulaire
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
-            if (!quiz) return;
             
-            const data = quiz.collectAllAnswers();
-            data.profil = 'investisseur';
+            if (!quiz) return;
             
             // NETTOYER les données en cache avant de collecter (pour éviter les conflits)
             // Réinitialiser les réponses pour forcer la collecte depuis les inputs actuels
@@ -228,7 +229,7 @@
                 }
             }
             
-            console.log('📝 Données collectées avant envoi:', {
+            console.log('📝 Données collectées avant validation:', {
                 prenom: data.prenom,
                 nom: data.nom,
                 email: data.email
