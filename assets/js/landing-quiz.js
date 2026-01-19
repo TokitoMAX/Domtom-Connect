@@ -242,11 +242,19 @@ class LandingQuiz {
         if (filtered.length === 0 && this.questions.length > 0) {
             console.warn('[Quiz] Toutes les questions ont été filtrées, affichage des questions essentielles');
             // Retourner les questions qui ne sont pas dans les champs de base
-            return this.questions.filter(q => {
+            const essentialQuestions = this.questions.filter(q => {
                 const fieldName = q.fieldName || q.id;
                 const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel'];
                 return !basicFields.includes(fieldName);
-            }).slice(0, Math.min(5, this.questions.length));
+            });
+            
+            // Si même les questions essentielles sont vides, retourner TOUTES les questions
+            if (essentialQuestions.length === 0) {
+                console.warn('[Quiz] Même les questions essentielles sont vides, utilisation de TOUTES les questions');
+                return this.questions;
+            }
+            
+            return essentialQuestions.slice(0, Math.min(5, this.questions.length));
         }
         
         return filtered;
@@ -374,7 +382,7 @@ class LandingQuiz {
         const stepIndicator = document.getElementById('quiz-step-indicator');
         
         // Compter le nombre total de questions affichables
-        const totalQuestions = validQuestions.length;
+        const totalQuestions = questionsToUse.length;
         const currentQuestionNumber = stepIndex + 1;
         
         // Mettre à jour la barre de progression

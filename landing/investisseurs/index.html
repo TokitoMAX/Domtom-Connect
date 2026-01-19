@@ -234,9 +234,26 @@
                         console.log('Current step:', quiz.currentStep);
                         
                         // Essayer de forcer l'affichage de la première question
-                        if (quiz.showStep) {
+                        if (quiz && quiz.showStep) {
                             console.log('Tentative de forcer l\'affichage de la première question...');
-                            quiz.showStep(0);
+                            console.log('Questions disponibles:', quiz.questions?.length);
+                            console.log('Questions valides:', quiz.getValidQuestions?.()?.length);
+                            
+                            // Forcer l'affichage même si les questions sont filtrées
+                            const validQuestions = quiz.getValidQuestions ? quiz.getValidQuestions() : [];
+                            if (validQuestions.length === 0 && quiz.questions && quiz.questions.length > 0) {
+                                console.warn('⚠️ Toutes les questions sont filtrées, utilisation de toutes les questions');
+                                // Utiliser directement les questions sans filtre
+                                quiz.questions.forEach((q, idx) => {
+                                    console.log(`Question ${idx}:`, q.id, q.question);
+                                });
+                                // Forcer l'affichage de la première question
+                                if (quiz.questions.length > 0) {
+                                    quiz.showStep(0);
+                                }
+                            } else {
+                                quiz.showStep(0);
+                            }
                         }
                         
                         // Vérifier à nouveau après un délai
