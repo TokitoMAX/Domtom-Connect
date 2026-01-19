@@ -70,7 +70,7 @@
         </div>
     </footer>
 
-    <script src="../../assets/js/landing-quiz.js?v=1.0"></script>
+    <script src="../../assets/js/landing-quiz.js?v=1.1"></script>
     <script src="../../assets/js/form-validation.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     <script src="../../assets/js/landing.js?v=1.0"></script>
@@ -173,39 +173,68 @@
         ];
 
         let quiz;
-        document.addEventListener('DOMContentLoaded', () => {
+        
+        // Fonction pour initialiser le quiz
+        function initQuiz() {
             console.log('🔵 Initialisation du quiz investisseurs...');
             console.log('Questions complètes:', investisseursQuestions?.length);
             console.log('Questions simplifiées:', investisseursQuestionsSimplified?.length);
             
+            const container = document.querySelector('.quiz-container');
+            if (!container) {
+                console.error('❌ Container quiz-container non trouvé');
+                return;
+            }
+            
             if (typeof LandingQuiz === 'undefined') {
                 console.error('❌ LandingQuiz n\'est pas défini. Vérifiez que landing-quiz.js est chargé.');
-                const container = document.querySelector('.quiz-container');
-                if (container) {
-                    container.innerHTML = `
-                        <div style="padding: 2rem; text-align: center; color: #ef4444;">
-                            <p>Erreur : Le script de quiz n'a pas pu être chargé. Veuillez recharger la page.</p>
-                        </div>
-                    `;
-                }
+                container.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
+                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">⚠️ Erreur de chargement</p>
+                        <p>Le script de quiz n'a pas pu être chargé. Veuillez recharger la page.</p>
+                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger la page</button>
+                    </div>
+                `;
                 return;
             }
             
             try {
                 quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
                 console.log('✅ Quiz initialisé avec succès');
+                
+                // Vérifier après un court délai si le quiz s'est bien affiché
+                setTimeout(() => {
+                    const questionsContainer = document.querySelector('#quiz-questions-container');
+                    if (!questionsContainer || questionsContainer.innerHTML.trim() === '') {
+                        console.warn('⚠️ Le quiz ne s\'est pas affiché correctement');
+                        container.innerHTML = `
+                            <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
+                                <p style="font-size: 1.1rem; margin-bottom: 1rem;">⚠️ Erreur d'affichage</p>
+                                <p>Le quiz n'a pas pu s'afficher. Veuillez recharger la page.</p>
+                                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger la page</button>
+                            </div>
+                        `;
+                    }
+                }, 1000);
             } catch (error) {
                 console.error('❌ Erreur lors de l\'initialisation du quiz:', error);
-                const container = document.querySelector('.quiz-container');
-                if (container) {
-                    container.innerHTML = `
-                        <div style="padding: 2rem; text-align: center; color: #ef4444;">
-                            <p>Erreur : ${error.message}</p>
-                        </div>
-                    `;
-                }
+                container.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
+                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">⚠️ Erreur technique</p>
+                        <p>${error.message}</p>
+                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger la page</button>
+                    </div>
+                `;
             }
-        });
+        }
+        
+        // Attendre que le DOM soit prêt
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initQuiz);
+        } else {
+            // Le DOM est déjà chargé
+            initQuiz();
+        }
 
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
