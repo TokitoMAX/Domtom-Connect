@@ -255,49 +255,9 @@
             letter-spacing: 0;
         }
         
-        .price-benefit {
-            color: var(--text-secondary);
-            margin: 1.5rem 0;
-            font-size: clamp(0.95rem, 2.2vw, 1.05rem);
-            line-height: 1.6;
-            min-height: 3rem;
-            font-weight: 400;
-        }
-        
-        .price-benefit strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-        
-        .price-highlights {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 2rem 0;
-            flex-grow: 1;
-        }
-        
-        .price-highlights li {
-            padding: 0.75rem 0;
-            display: flex;
-            align-items: start;
-            gap: 0.75rem;
-            font-size: clamp(0.95rem, 2.2vw, 1rem);
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
-        
-        .price-highlights li::before {
-            content: "✓";
-            color: var(--primary-color);
-            font-weight: 900;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-            margin-top: 0.1rem;
-        }
-        
         .price-cta {
             margin-top: auto;
-            padding-top: 1.5rem;
+            padding-top: 2rem;
         }
         
         .price-cta .cta-button {
@@ -310,6 +270,7 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 191, 166, 0.2);
+            cursor: pointer;
         }
         
         .price-cta .cta-button:hover {
@@ -317,18 +278,150 @@
             box-shadow: 0 6px 20px rgba(0, 191, 166, 0.3);
         }
         
-        .price-payment {
-            margin-top: 1.25rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            padding-top: 1.25rem;
-            border-top: 1px solid var(--gray-200);
+        /* Modal pour "En savoir plus" */
+        .pack-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
         }
         
-        .price-payment strong {
+        .pack-modal.active {
+            display: flex;
+        }
+        
+        .pack-modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .pack-modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .pack-modal-close:hover {
+            background: var(--gray-100);
             color: var(--text-primary);
-            font-weight: 600;
+        }
+        
+        .pack-modal-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .pack-modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .pack-modal-header .pack-modal-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+        
+        .pack-modal-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .pack-modal-form {
+            margin-top: 1.5rem;
+        }
+        
+        .pack-modal-form input,
+        .pack-modal-form select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .pack-modal-form input:focus,
+        .pack-modal-form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .pack-modal-form button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .pack-modal-form button:hover {
+            background: var(--primary-color-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
+        }
+        
+        .pack-modal-form button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .pack-modal-privacy {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
         }
         
         /* Sections autres profils */
@@ -642,21 +735,8 @@
                         99€
                         <small>TTC</small>
                     </div>
-                    <p class="price-benefit">
-                        <strong>Découvre notre réseau vérifié</strong> et teste la qualité de nos prestataires locaux avant d'investir davantage.
-                    </p>
-                    <ul class="price-highlights">
-                        <li>Appel diagnostic personnalisé (30 min)</li>
-                        <li>2-3 prestataires vérifiés dans ton territoire</li>
-                        <li>Fiches détaillées avec exemples de projets</li>
-                        <li>Guide PDF + Brief personnalisé</li>
-                        <li>1 mise en relation avec briefing préalable</li>
-                    </ul>
                     <div class="price-cta">
-                        <a href="/pack-essai-local" class="cta-button primary">Découvrir ce pack →</a>
-                    </div>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 99€ (1 fois) ou 50€ + 49€ (2 fois)
+                        <button class="cta-button primary" onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">En savoir plus →</button>
                     </div>
                 </div>
                 
@@ -668,21 +748,8 @@
                         500€
                         <small>TTC</small>
                     </div>
-                    <p class="price-benefit">
-                        <strong>Tu gagnes du temps, on s'occupe du reste.</strong> Recherche approfondie, mise en relation et accompagnement complet.
-                    </p>
-                    <ul class="price-highlights">
-                        <li>Tout le Pack Essai Local inclus</li>
-                        <li>Recherche approfondie de 5-8 prestataires</li>
-                        <li>Tableau comparatif + Recommandation argumentée</li>
-                        <li>On fait le contact et on négocie pour toi</li>
-                        <li>Accompagnement jusqu'au démarrage</li>
-                    </ul>
                     <div class="price-cta">
-                        <a href="/pack-accompagnement-pro" class="cta-button primary">Découvrir ce pack →</a>
-                    </div>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 500€ (1 fois) ou 250€ × 2 (2 fois)
+                        <button class="cta-button primary" onclick="openPackModal('Pack Accompagnement Pro', '500€', 'porteur-projet')">En savoir plus →</button>
                     </div>
                 </div>
                 
@@ -694,21 +761,8 @@
                         1 900€
                         <small>TTC</small>
                     </div>
-                    <p class="price-benefit">
-                        <strong>Lance-toi sereinement.</strong> Accompagnement complet avec branding local, réseau diaspora et suivi long terme.
-                    </p>
-                    <ul class="price-highlights">
-                        <li>Tout le Pack Accompagnement Pro inclus</li>
-                        <li>Diagnostic approfondi + Analyse de marché locale</li>
-                        <li>Branding adapté contexte ultramarin</li>
-                        <li>Accompagnement opérationnel complet</li>
-                        <li>Réseau diaspora activé + Suivi 3-6 mois</li>
-                    </ul>
                     <div class="price-cta">
-                        <a href="/pack-solution-tout-en-un" class="cta-button primary">Découvrir ce pack →</a>
-                    </div>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 950€ × 2 (2 fois) ou 633€ × 3 (3 fois)
+                        <button class="cta-button primary" onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">En savoir plus →</button>
                     </div>
                 </div>
             </div>
@@ -734,20 +788,8 @@
                     <div class="profile-pack-price">
                         800€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-benefit">
-                        <strong>Solution rapide et fiable</strong> pour vos urgences business avec des prestataires locaux disponibles immédiatement.
-                    </p>
-                    <ul class="profile-pack-features">
-                        <li>Appel diagnostic express (20 min)</li>
-                        <li>Recherche urgente : 1-2 prestataires sous 48h</li>
-                        <li>Mise en relation immédiate (24h)</li>
-                        <li>Point de suivi rapide</li>
-                    </ul>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 400€ × 2 (2 fois)
-                    </div>
-                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
-                        <a href="/pack-express" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
+                        <button class="cta-button primary" onclick="openPackModal('Pack Express', '800€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
                 
@@ -759,20 +801,8 @@
                     <div class="profile-pack-price">
                         1 500€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-benefit">
-                        <strong>Un seul interlocuteur</strong> pour coordonner tous vos prestataires et faire gagner un temps précieux à votre équipe.
-                    </p>
-                    <ul class="profile-pack-features">
-                        <li>Analyse complète projet (45 min)</li>
-                        <li>Recherche 2-5 prestataires locaux</li>
-                        <li>Coordination centrale (un seul interlocuteur)</li>
-                        <li>Suivi jusqu'à livraison</li>
-                    </ul>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 750€ × 2 (2 fois)
-                    </div>
-                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
-                        <a href="/pack-coordination" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
+                        <button class="cta-button primary" onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
                 
@@ -784,20 +814,8 @@
                     <div class="profile-pack-price">
                         2 500€ <small>TTC</small>
                     </div>
-                    <p class="profile-pack-benefit">
-                        <strong>On devient votre partenaire</strong> sur le long terme avec un point mensuel et une gestion continue de vos prestataires.
-                    </p>
-                    <ul class="profile-pack-features">
-                        <li>Accompagnement 6-12 mois</li>
-                        <li>Recherche continue de prestataires</li>
-                        <li>Point mensuel régulier</li>
-                        <li>Support prioritaire (24h)</li>
-                    </ul>
-                    <div class="price-payment">
-                        <strong>Paiement :</strong> 210€ × 12 (mensualité)
-                    </div>
-                    <div class="price-cta" style="padding-top: 1rem; margin-top: 0;">
-                        <a href="/pack-partenaire" class="cta-button primary" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</a>
+                    <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
+                        <button class="cta-button primary" onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
             </div>
@@ -868,6 +886,149 @@
         </div>
     </footer>
 
+    <!-- Modal "En savoir plus" -->
+    <div class="pack-modal" id="packModal">
+        <div class="pack-modal-content">
+            <button class="pack-modal-close" onclick="closePackModal()" aria-label="Fermer">×</button>
+            <div class="pack-modal-header">
+                <h3 id="modalPackName"></h3>
+                <div class="pack-modal-price" id="modalPackPrice"></div>
+                <p>Remplis ce formulaire et on te recontacte sous 24h avec tous les détails de ce pack.</p>
+            </div>
+            <form class="pack-modal-form" id="packModalForm" onsubmit="handlePackModalSubmit(event)">
+                <input type="hidden" id="modalPackNameInput" name="pack_name">
+                <input type="hidden" id="modalPackPriceInput" name="pack_price">
+                <input type="hidden" id="modalPackProfilInput" name="profil">
+                <input type="text" name="prenom" placeholder="Prénom *" required>
+                <input type="text" name="nom" placeholder="Nom *" required>
+                <input type="email" name="email" placeholder="Email *" required>
+                <input type="tel" name="telephone" placeholder="Téléphone *" required>
+                <select name="ile" required>
+                    <option value="">Votre territoire *</option>
+                    <option value="martinique">Martinique</option>
+                    <option value="guadeloupe">Guadeloupe</option>
+                    <option value="reunion">La Réunion</option>
+                    <option value="guyane">Guyane</option>
+                    <option value="mayotte">Mayotte</option>
+                    <option value="polynesie">Polynésie française</option>
+                    <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                    <option value="diaspora">Diaspora</option>
+                    <option value="autre">Autre</option>
+                </select>
+                <button type="submit" id="packModalSubmit">Envoyer ma demande</button>
+                <p class="pack-modal-privacy">🔒 Vos données sont sécurisées. Nous vous contacterons dans les 24h.</p>
+            </form>
+        </div>
+    </div>
+
     <script src="assets/js/script.js?v=2"></script>
+    <script>
+        // Fonction pour ouvrir le modal
+        function openPackModal(packName, packPrice, profil) {
+            const modal = document.getElementById('packModal');
+            const modalPackName = document.getElementById('modalPackName');
+            const modalPackPrice = document.getElementById('modalPackPrice');
+            const modalPackNameInput = document.getElementById('modalPackNameInput');
+            const modalPackPriceInput = document.getElementById('modalPackPriceInput');
+            const modalPackProfilInput = document.getElementById('modalPackProfilInput');
+            
+            modalPackName.textContent = packName;
+            modalPackPrice.textContent = packPrice;
+            modalPackNameInput.value = packName;
+            modalPackPriceInput.value = packPrice;
+            modalPackProfilInput.value = profil;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Fonction pour fermer le modal
+        function closePackModal() {
+            const modal = document.getElementById('packModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Fermer le modal en cliquant en dehors
+        document.getElementById('packModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePackModal();
+            }
+        });
+        
+        // Fermer le modal avec Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePackModal();
+            }
+        });
+        
+        // Gérer la soumission du formulaire
+        function handlePackModalSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitButton = document.getElementById('packModalSubmit');
+            const originalText = submitButton.textContent;
+            
+            // Désactiver le bouton
+            submitButton.disabled = true;
+            submitButton.textContent = 'Envoi en cours...';
+            
+            // Récupérer les données
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Préparer les données pour Formspree
+            const formDataToSend = new FormData();
+            formDataToSend.append('_to', 'domtomconnect@gmail.com');
+            formDataToSend.append('_subject', `📦 Demande d'info - ${data.pack_name} (${data.pack_price})`);
+            formDataToSend.append('_replyto', data.email);
+            
+            // Construire le message
+            let message = `Nouvelle demande d'information sur un pack :\n\n`;
+            message += `📦 Pack : ${data.pack_name}\n`;
+            message += `💰 Prix : ${data.pack_price}\n`;
+            message += `👤 Profil : ${data.profil}\n\n`;
+            message += `👤 Nom : ${data.prenom} ${data.nom}\n`;
+            message += `📧 Email : ${data.email}\n`;
+            message += `📞 Téléphone : ${data.telephone}\n`;
+            message += `🌴 Territoire : ${data.ile}\n`;
+            
+            formDataToSend.append('message', message);
+            
+            // Envoyer via Formspree
+            fetch('https://formspree.io/f/myzbqepy', {
+                method: 'POST',
+                body: formDataToSend,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Afficher message de succès
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 0;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">Demande envoyée !</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                                Merci pour ton intérêt. Nous allons t'envoyer tous les détails du <strong>${data.pack_name}</strong> par email dans les 24h.
+                            </p>
+                            <button type="button" onclick="closePackModal()" class="cta-button primary" style="padding: 0.875rem 2rem; font-size: 1rem;">Fermer</button>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Erreur lors de l\'envoi');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com');
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            });
+        }
+    </script>
 </body>
 </html>
