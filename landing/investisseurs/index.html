@@ -219,10 +219,19 @@
             
             try {
                 console.log('Création de l\'instance LandingQuiz...');
+                console.log('Paramètres:', {
+                    questions: investisseursQuestions?.length,
+                    formId: 'landing-form',
+                    profil: 'investisseur',
+                    simplified: investisseursQuestionsSimplified?.length
+                });
+                
                 quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
                 console.log('✅ Quiz initialisé avec succès');
                 console.log('Quiz object:', quiz);
                 console.log('Questions dans quiz:', quiz.questions?.length);
+                console.log('Full questions:', quiz.fullQuestions?.length);
+                console.log('Simplified questions:', quiz.simplifiedQuestions?.length);
                 
                 // Vérifier après un court délai si le quiz s'est affiché
                 setTimeout(() => {
