@@ -158,15 +158,16 @@ class LandingQuiz {
         // Créer le container quiz s'il n'existe pas
         let quizContainer = this.form.querySelector('.quiz-container');
         if (!quizContainer) {
-            console.log('[Quiz] Container quiz non trouvé, création...');
-            quizContainer = document.createElement('div');
-            quizContainer.className = 'quiz-container';
-            this.form.appendChild(quizContainer);
+            console.error('[Quiz] ERREUR: Container quiz non trouvé!');
+            console.error('[Quiz] Formulaire:', this.form);
+            console.error('[Quiz] Form ID:', this.formId);
+            return;
         } else {
             console.log('[Quiz] Container quiz trouvé');
         }
         
         console.log('[Quiz] Injection du HTML dans le container...');
+        console.log('[Quiz] Nombre de questions:', this.questions?.length);
         // Créer la structure HTML du quiz
         quizContainer.innerHTML = `
             <input type="hidden" name="profil" value="${this.profil}">
