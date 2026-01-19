@@ -356,15 +356,27 @@ class LandingQuiz {
         
         const validQuestions = this.getValidQuestions();
         console.log('[Quiz] Questions valides:', validQuestions.length);
+        console.log('[Quiz] Questions valides détaillées:', validQuestions.map(q => ({ id: q.id, question: q.question })));
         
-        if (stepIndex >= validQuestions.length) {
+        // SÉCURITÉ : Si aucune question valide, utiliser toutes les questions
+        let questionsToUse = validQuestions;
+        if (validQuestions.length === 0 && this.questions.length > 0) {
+            console.warn('[Quiz] Aucune question valide, utilisation de toutes les questions');
+            questionsToUse = this.questions;
+        }
+        
+        if (stepIndex >= questionsToUse.length) {
             // Toutes les questions sont terminées, soumettre
             console.log('[Quiz] Toutes les questions terminées, soumission...');
             this.submitForm();
             return;
         }
         
-        const question = validQuestions[stepIndex];
+        const question = questionsToUse[stepIndex];
+        if (!question) {
+            console.error('[Quiz] Question introuvable à l\'index', stepIndex);
+            return;
+        }
         const actualStep = this.getQuestionIndex(question.id);
         
         this.currentStep = actualStep;
@@ -373,6 +385,9 @@ class LandingQuiz {
         const container = document.getElementById('quiz-questions-container');
         if (!container) {
             console.error('[Quiz] Container quiz-questions-container non trouvé!');
+            console.error('[Quiz] Recherche dans tout le document...');
+            const allContainers = document.querySelectorAll('[id*="quiz"], [class*="quiz"]');
+            console.error('[Quiz] Containers trouvés:', allContainers);
             return;
         }
         console.log('[Quiz] Container trouvé, rendu de la question...');
