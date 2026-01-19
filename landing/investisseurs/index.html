@@ -214,20 +214,37 @@
             const data = quiz.collectAllAnswers();
             data.profil = 'investisseur';
             
-            // S'assurer que prénom et nom sont bien présents et valides
-            // Si vides, essayer de les récupérer depuis les inputs directement
-            if (!data.prenom || data.prenom.trim() === '') {
-                const prenomInput = document.getElementById('question_prenom') || document.querySelector('input[name="question_prenom"]');
-                if (prenomInput && prenomInput.value) {
-                    data.prenom = prenomInput.value.trim();
+            // FORCER la récupération des champs de base depuis les inputs du DOM
+            // S'assurer que prénom, nom, email, telephone sont bien présents
+            const baseFields = [
+                { key: 'prenom', selectors: ['question_prenom', 'input[name="question_prenom"]', 'input[name="prenom"]'] },
+                { key: 'nom', selectors: ['question_nom', 'input[name="question_nom"]', 'input[name="nom"]'] },
+                { key: 'email', selectors: ['question_email', 'input[name="question_email"]', 'input[name="email"]', 'input[type="email"]'] },
+                { key: 'telephone', selectors: ['question_telephone', 'input[name="question_telephone"]', 'input[name="telephone"]', 'input[type="tel"]'] }
+            ];
+            
+            baseFields.forEach(field => {
+                if (!data[field.key] || data[field.key].trim() === '') {
+                    for (const selector of field.selectors) {
+                        const input = document.getElementById(selector) || 
+                                     document.querySelector(selector);
+                        if (input && input.value && input.value.trim() !== '') {
+                            data[field.key] = input.value.trim();
+                            console.log(`✅ ${field.key} récupéré depuis le DOM:`, data[field.key]);
+                            break;
+                        }
+                    }
                 }
-            }
-            if (!data.nom || data.nom.trim() === '') {
-                const nomInput = document.getElementById('question_nom') || document.querySelector('input[name="question_nom"]');
-                if (nomInput && nomInput.value) {
-                    data.nom = nomInput.value.trim();
-                }
-            }
+            });
+            
+            // Vérification finale et logs
+            console.log('📝 Données collectées après nettoyage:', {
+                prenom: data.prenom,
+                nom: data.nom,
+                email: data.email,
+                telephone: data.telephone,
+                profil: data.profil
+            });
             
             console.log('📝 Données collectées avant validation:', {
                 prenom: data.prenom,

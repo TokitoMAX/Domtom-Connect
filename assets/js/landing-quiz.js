@@ -1292,6 +1292,29 @@ class LandingQuiz {
             console.log('✅ Email déjà présent dans data:', data.email);
         }
         
+        // FORCER le mapping des champs de base (prenom, nom, email, telephone) depuis les réponses
+        // Même si le mapping précédent a échoué, forcer la récupération depuis les réponses
+        const baseFields = ['prenom', 'nom', 'email', 'telephone'];
+        baseFields.forEach(fieldName => {
+            if (!data[fieldName] || data[fieldName].trim() === '') {
+                // Chercher la question correspondante
+                const question = this.questions.find(q => q.id === fieldName || q.fieldName === fieldName);
+                if (question) {
+                    // Essayer plusieurs clés possibles
+                    const value = this.answers[`question_${question.id}`] || 
+                                 this.answers[question.id] ||
+                                 (question.fieldName ? this.answers[question.fieldName] : null) ||
+                                 formData.get(`question_${question.id}`) ||
+                                 formData.get(question.fieldName || question.id);
+                    
+                    if (value && value.trim() !== '') {
+                        data[fieldName] = value.trim();
+                        console.log(`✅ ${fieldName} récupéré depuis les réponses:`, data[fieldName]);
+                    }
+                }
+            }
+        });
+        
         // Log pour debug si email toujours manquant
         if (!data.email || data.email.trim() === '') {
             console.error('❌ Email manquant dans collectAllAnswers:', {
