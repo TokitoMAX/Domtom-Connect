@@ -404,9 +404,37 @@
                 console.log(`✅ Champ ${field.name} ajouté au formulaire:`, field.value);
             });
             
-            // Ajouter aussi tous les autres champs du quiz
+            // Ajouter aussi tous les autres champs du quiz (toutes les questions)
+            const allQuizFields = [
+                'type_investissement', 'montant_investissement', 'secteurs_interet',
+                'experience_investissement', 'motivation', 'motivation_autre',
+                'attentes', 'attentes_autre', 'criteres', 'criteres_autre',
+                'cotisation_acceptee', 'certification'
+            ];
+            
+            allQuizFields.forEach(fieldName => {
+                const value = getValueFromQuiz(fieldName) || submitData[fieldName] || data[fieldName] || '';
+                
+                // Supprimer l'input existant s'il existe
+                const existingInput = form.querySelector(`[name="${fieldName}"], [name="question_${fieldName}"]`);
+                if (existingInput && existingInput.type === 'hidden') {
+                    existingInput.remove();
+                }
+                
+                // Créer un input caché pour garantir que la valeur est dans le FormData
+                if (value) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = fieldName;
+                    hiddenInput.value = value;
+                    form.appendChild(hiddenInput);
+                    console.log(`✅ Champ quiz ${fieldName} ajouté:`, value);
+                }
+            });
+            
+            // Ajouter aussi tous les autres champs de submitData qui ne sont pas déjà traités
             Object.keys(submitData).forEach(key => {
-                if (!requiredFields.includes(key)) {
+                if (!requiredFields.some(f => f.name === key) && !allQuizFields.includes(key)) {
                     // Supprimer l'input existant s'il existe
                     const existingInput = form.querySelector(`[name="${key}"]`);
                     if (existingInput && existingInput.type === 'hidden') {
@@ -414,11 +442,13 @@
                     }
                     
                     // Créer un input caché pour garantir que la valeur est dans le FormData
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = key;
-                    hiddenInput.value = submitData[key] || '';
-                    form.appendChild(hiddenInput);
+                    if (submitData[key]) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = key;
+                        hiddenInput.value = submitData[key];
+                        form.appendChild(hiddenInput);
+                    }
                 }
             });
             

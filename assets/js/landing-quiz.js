@@ -1161,11 +1161,31 @@ class LandingQuiz {
         
         // Ajouter les réponses du quiz (celles qui ont été répondues dans le quiz)
         // IMPORTANT: Parcourir toutes les questions et récupérer leurs réponses depuis this.answers
+        // ET depuis les inputs du DOM pour s'assurer qu'on a les dernières valeurs
         this.questions.forEach(question => {
             // Essayer plusieurs clés possibles pour récupérer la réponse
-            const answer = this.answers[`question_${question.id}`] || 
-                          this.answers[question.id] ||
-                          (question.fieldName ? this.answers[question.fieldName] : null);
+            let answer = this.answers[`question_${question.id}`] || 
+                        this.answers[question.id] ||
+                        (question.fieldName ? this.answers[question.fieldName] : null);
+            
+            // Si pas de réponse dans answers, essayer de récupérer depuis le DOM
+            if (!answer || answer === '') {
+                const input = document.getElementById(`question_${question.id}`) || 
+                            document.querySelector(`input[name="question_${question.id}"]`) ||
+                            document.querySelector(`select[name="question_${question.id}"]`) ||
+                            document.querySelector(`textarea[name="question_${question.id}"]`);
+                
+                if (input) {
+                    if (question.type === 'radio') {
+                        const checked = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                        if (checked) answer = checked.value;
+                    } else if (question.type === 'checkbox') {
+                        answer = input.checked ? (input.value || 'OUI') : null;
+                    } else {
+                        answer = input.value || null;
+                    }
+                }
+            }
             
             if (answer !== null && answer !== undefined && answer !== '') {
                 // Mapper les réponses aux noms de champs du formulaire
@@ -1173,15 +1193,8 @@ class LandingQuiz {
                 // Toujours utiliser la réponse du quiz si elle existe (priorité sur données pré-remplies)
                 data[fieldName] = answer;
                 
-                // Log spécial pour l'email
-                if (fieldName === 'email') {
-                    console.log('✅ Email trouvé dans les réponses du quiz:', {
-                        questionId: question.id,
-                        fieldName: fieldName,
-                        answer: answer,
-                        source: 'questions.forEach'
-                    });
-                }
+                // Log pour debug
+                console.log(`✅ Réponse collectée pour ${fieldName}:`, answer);
             }
         });
         
