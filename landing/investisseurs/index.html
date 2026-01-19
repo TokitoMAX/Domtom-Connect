@@ -178,9 +178,35 @@
         // Initialiser le quiz
         let quiz;
         
+        // Attendre que le script soit chargé
+        function waitForLandingQuiz(callback, maxAttempts = 50) {
+            let attempts = 0;
+            const checkInterval = setInterval(() => {
+                attempts++;
+                if (typeof LandingQuiz !== 'undefined') {
+                    clearInterval(checkInterval);
+                    console.log('✅ LandingQuiz disponible après', attempts * 100, 'ms');
+                    callback();
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(checkInterval);
+                    console.error('❌ LandingQuiz non disponible après', maxAttempts * 100, 'ms');
+                    const container = document.querySelector('.quiz-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div style="padding: 2rem; text-align: center; color: #ef4444; background: white; border-radius: 8px;">
+                                <p style="font-weight: bold; margin-bottom: 1rem;">Erreur : Le script de quiz n'a pas pu être chargé</p>
+                                <p>Le script landing-quiz.js n'est pas disponible après 5 secondes.</p>
+                                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Recharger</button>
+                            </div>
+                        `;
+                    }
+                }
+            }, 100);
+        }
+        
         // Vérifier immédiatement si le script est chargé
         console.log('🔵 Script inline chargé');
-        console.log('LandingQuiz disponible:', typeof LandingQuiz !== 'undefined');
+        console.log('LandingQuiz disponible immédiatement:', typeof LandingQuiz !== 'undefined');
         console.log('Questions complètes:', investisseursQuestions?.length);
         console.log('Questions simplifiées:', investisseursQuestionsSimplified?.length);
         
@@ -304,14 +330,20 @@
             }
         }
         
-        // Attendre que le DOM soit prêt
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initQuiz);
-        } else {
-            // Le DOM est déjà chargé
-            console.log('DOM déjà chargé, initialisation immédiate...');
-            initQuiz();
+        // Attendre que le DOM soit prêt ET que le script soit chargé
+        function startInit() {
+            waitForLandingQuiz(() => {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initQuiz);
+                } else {
+                    console.log('DOM déjà chargé, initialisation...');
+                    initQuiz();
+                }
+            });
         }
+        
+        // Démarrer l'initialisation
+        startInit();
 
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
