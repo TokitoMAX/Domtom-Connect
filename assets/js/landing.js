@@ -1005,6 +1005,46 @@ function handleLandingFormSubmit(event) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
+    // FORCER la récupération des champs de base depuis le FormData
+    // Si les champs sont manquants, essayer de les récupérer depuis les inputs du formulaire
+    if (!data.prenom || data.prenom.trim() === '') {
+        const prenomInput = form.querySelector('[name="prenom"], [name="question_prenom"], input[id*="prenom"]');
+        if (prenomInput && prenomInput.value) {
+            data.prenom = prenomInput.value.trim();
+            formData.set('prenom', data.prenom);
+        }
+    }
+    if (!data.nom || data.nom.trim() === '') {
+        const nomInput = form.querySelector('[name="nom"], [name="question_nom"], input[id*="nom"]');
+        if (nomInput && nomInput.value) {
+            data.nom = nomInput.value.trim();
+            formData.set('nom', data.nom);
+        }
+    }
+    if (!data.email || data.email.trim() === '') {
+        const emailInput = form.querySelector('[name="email"], [name="question_email"], input[type="email"]');
+        if (emailInput && emailInput.value) {
+            data.email = emailInput.value.trim();
+            formData.set('email', data.email);
+        }
+    }
+    if (!data.telephone || data.telephone.trim() === '') {
+        const telephoneInput = form.querySelector('[name="telephone"], [name="question_telephone"], input[type="tel"]');
+        if (telephoneInput && telephoneInput.value) {
+            data.telephone = telephoneInput.value.trim();
+            formData.set('telephone', data.telephone);
+        }
+    }
+    
+    // Log pour debug
+    console.log('📧 handleLandingFormSubmit - Données après nettoyage:', {
+        prenom: data.prenom,
+        nom: data.nom,
+        email: data.email,
+        telephone: data.telephone,
+        profil: data.profil
+    });
+    
     // Log pour debug
     console.log('📧 handleLandingFormSubmit - Données reçues:', {
         email: data.email,

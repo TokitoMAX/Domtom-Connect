@@ -337,23 +337,51 @@
                 nom: submitData.nom
             });
             
-            // Remplacer temporairement les valeurs du formulaire pour que handleLandingFormSubmit les trouve
+            // FORCER l'ajout de tous les champs de base au formulaire AVANT l'appel à handleLandingFormSubmit
+            // Créer des inputs cachés pour garantir que toutes les données sont dans le FormData
+            const requiredFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'profil'];
+            requiredFields.forEach(field => {
+                // Supprimer l'input existant s'il existe
+                const existingInput = form.querySelector(`[name="${field}"]`);
+                if (existingInput) {
+                    existingInput.remove();
+                }
+                
+                // Créer un nouvel input caché avec la valeur
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = field;
+                hiddenInput.value = submitData[field] || data[field] || '';
+                form.appendChild(hiddenInput);
+                console.log(`✅ Champ ${field} ajouté au formulaire:`, hiddenInput.value);
+            });
+            
+            // Ajouter aussi tous les autres champs du quiz
             Object.keys(submitData).forEach(key => {
-                const input = form.querySelector(`[name="${key}"]`);
-                if (input) {
-                    if (input.type === 'checkbox' || input.type === 'radio') {
-                        input.checked = submitData[key] === input.value;
-                    } else {
-                        input.value = submitData[key];
+                if (!requiredFields.includes(key)) {
+                    // Supprimer l'input existant s'il existe
+                    const existingInput = form.querySelector(`[name="${key}"]`);
+                    if (existingInput && existingInput.type === 'hidden') {
+                        existingInput.remove();
                     }
-                } else {
-                    // Si l'input n'existe pas, créer un input caché pour garantir que la valeur est dans le FormData
+                    
+                    // Créer un input caché pour garantir que la valeur est dans le FormData
                     const hiddenInput = document.createElement('input');
                     hiddenInput.type = 'hidden';
                     hiddenInput.name = key;
-                    hiddenInput.value = submitData[key];
+                    hiddenInput.value = submitData[key] || '';
                     form.appendChild(hiddenInput);
                 }
+            });
+            
+            // Vérification finale : s'assurer que les champs de base sont bien dans le formulaire
+            const finalFormData = new FormData(form);
+            console.log('✅ Vérification finale FormData:', {
+                prenom: finalFormData.get('prenom'),
+                nom: finalFormData.get('nom'),
+                email: finalFormData.get('email'),
+                telephone: finalFormData.get('telephone'),
+                profil: finalFormData.get('profil')
             });
             
             // Créer un événement simulé avec les données
