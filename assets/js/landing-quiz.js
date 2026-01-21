@@ -444,12 +444,12 @@ class LandingQuiz {
                 // Texte du bouton selon le profil
                 let buttonText = 'Envoyer';
                 if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
-                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                    buttonText = 'Valider ma demande';
                 } else if (this.profil === 'prestataire' || this.profil === 'investisseur') {
                     // Pour les profils sans pack, afficher simplement "Envoyer"
                     buttonText = 'Envoyer';
                 } else if (this.profil === 'entreprise') {
-                    buttonText = 'Remplis ce formulaire en 3-5 minutes';
+                    buttonText = 'Valider ma demande';
                 } else {
                     buttonText = 'Envoyer';
                 }

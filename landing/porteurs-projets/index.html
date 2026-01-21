@@ -340,7 +340,6 @@
         const porteursProjetsQuestions = fromQuiz ? porteursProjetsQuestionsBase : porteursProjetsQuestionsWithBudget;
         
         let quiz;
-        let packConfirmationShown = false;
         
         // Fonction pour obtenir les infos du pack selon le budget
         function getPackInfo(budget) {
@@ -366,42 +365,30 @@
             return null;
         }
         
-        // Fonction pour afficher le pack adapté
-        function showPackConfirmation(budget) {
+        // Fonction pour afficher le pack adapté après la sélection du budget
+        function showPackAfterBudget(budget) {
             const packInfo = getPackInfo(budget);
-            if (!packInfo || packConfirmationShown) return;
+            if (!packInfo) return;
             
-            packConfirmationShown = true;
             const container = document.getElementById('quiz-questions-container');
             if (!container) return;
             
-            // Sauvegarder la réponse budget
-            quiz.saveCurrentAnswer();
+            // Récupérer la question actuelle
+            const currentQuestion = container.querySelector('.quiz-question');
+            if (!currentQuestion) return;
             
-            // Afficher le pack
+            // Ajouter l'affichage du pack après la question budget
             const packHTML = `
-                <div class="quiz-question" data-question-id="pack-confirmation" style="text-align: center; padding: 2rem 0;">
-                    <h2 class="quiz-question-title">Pack adapté à ton budget</h2>
-                    <div style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 24px; padding: 3rem 2rem; color: white; margin: 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: white;">${packInfo.name}</h3>
-                        <div style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
-                        <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem;">${packInfo.description}</p>
-                        <p style="font-size: 0.95rem; color: rgba(255, 255, 255, 0.8);">Es-tu OK avec ce pack ?</p>
-                    </div>
-                    <input type="hidden" name="question_pack-confirmation" value="confirmed" id="question_pack-confirmation">
+                <div class="pack-preview" style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; color: white; text-align: center;">
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: white;">Pack adapté à ton budget</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: white;">${packInfo.name}</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
+                    <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
                 </div>
             `;
             
-            container.innerHTML = packHTML;
-            
-            // Activer le bouton suivant après un court délai
-            setTimeout(() => {
-                const nextBtn = document.getElementById('quiz-btn-next');
-                if (nextBtn) {
-                    nextBtn.disabled = false;
-                    nextBtn.textContent = 'Oui, je continue';
-                }
-            }, 500);
+            // Insérer le pack après la question budget
+            currentQuestion.insertAdjacentHTML('afterend', packHTML);
         }
         
         document.addEventListener('DOMContentLoaded', () => {
@@ -414,11 +401,47 @@
                     const budgetInput = document.querySelector(`input[name="question_budget"][value="${quizBudget}"]`);
                     if (budgetInput) {
                         budgetInput.checked = true;
-                        showPackConfirmation(quizBudget);
+                        showPackAfterBudget(quizBudget);
                     }
                 }, 500);
             }
             
+            // Intercepter la sélection du budget pour afficher le pack
+            // Utiliser un MutationObserver pour détecter quand la question budget est affichée
+            const observer = new MutationObserver(() => {
+                const budgetInputs = document.querySelectorAll('input[name="question_budget"]');
+                const currentQuestion = document.querySelector('.quiz-question[data-question-id="budget"]');
+                
+                if (budgetInputs.length > 0 && currentQuestion) {
+                    budgetInputs.forEach(input => {
+                        if (!input.dataset.packHandlerAttached) {
+                            input.dataset.packHandlerAttached = 'true';
+                            
+                            input.addEventListener('change', function() {
+                                if (this.checked) {
+                                    const budget = this.value;
+                                    
+                                    // Attendre un peu pour que le DOM soit stable
+                                    setTimeout(() => {
+                                        // Vérifier si le pack n'est pas déjà affiché
+                                        const existingPack = document.querySelector('.pack-preview');
+                                        if (existingPack) {
+                                            existingPack.remove();
+                                        }
+                                        showPackAfterBudget(budget);
+                                    }, 200);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // Observer les changements dans le container du quiz
+            const quizContainer = document.getElementById('quiz-questions-container');
+            if (quizContainer) {
+                observer.observe(quizContainer, { childList: true, subtree: true });
+            }
         });
 
         async function handleQuizFormSubmit(event) {
@@ -557,6 +580,30 @@
             // Soumettre le formulaire
             if (typeof handleLandingFormSubmit === 'function') {
                 handleLandingFormSubmit(fakeEvent);
+            }
+            
+            // Fonction pour obtenir les infos du pack selon le budget
+            function getPackInfo(budget) {
+                if (budget === 'moins-300') {
+                    return {
+                        name: 'Pack Essai Local',
+                        price: '99€',
+                        description: 'Tu as des doutes ? Teste pour moins de 100€'
+                    };
+                } else if (budget === '300-1000') {
+                    return {
+                        name: 'Pack Accompagnement Pro',
+                        price: '500€',
+                        description: 'On fait tout pour toi'
+                    };
+                } else if (budget === '1000-3000' || budget === 'plus-3000') {
+                    return {
+                        name: 'Pack Solution Tout-en-Un',
+                        price: '1 900€',
+                        description: 'Ton projet de A à Z'
+                    };
+                }
+                return null;
             }
             
             // Afficher un message de confirmation au lieu de rediriger
