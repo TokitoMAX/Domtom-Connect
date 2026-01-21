@@ -464,86 +464,203 @@
                 data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
             
-            // Mapper les données du quiz vers les noms de champs attendus par handleLandingFormSubmit
-            const form = document.getElementById('landing-form');
+            // Préparer les données pour l'envoi
+            const prenom = data.prenom || data.question_prenom || '';
+            const nom = data.nom || data.question_nom || '';
+            const email = data.email || data.question_email || '';
+            const telephone = data.telephone || data.question_telephone || '';
+            const ile = data.ile || data.question_ile || '';
+            const nom_projet = data.nom_projet || data.question_nom_projet || '';
+            const description_projet = data.description_projet || data.question_description_projet || '';
+            const besoin = data.besoin || data.question_besoin || '';
+            const budget = data.budget || data.question_budget || '';
             
-            // Créer des inputs cachés dans le formulaire avec les bonnes valeurs
-            const fieldMapping = {
-                'prenom': data.prenom || data.question_prenom || '',
-                'nom': data.nom || data.question_nom || '',
-                'email': data.email || data.question_email || '',
-                'telephone': data.telephone || data.question_telephone || '',
-                'ile': data.ile || data.question_ile || '',
-                'origine': data.ile || data.question_ile || '',
-                'lieu_actuel': data.ile || data.question_ile || '',
-                'nom_projet': data.nom_projet || data.question_nom_projet || '',
-                'description_projet': data.description_projet || data.question_description_projet || '',
-                'besoin': data.besoin || data.question_besoin || data.objectif_principal || data.question_objectif_principal || '',
-                'objectif_principal': data.objectif_principal || data.question_objectif_principal || data.besoin || data.question_besoin || '',
-                'budget': data.budget || data.question_budget || '',
-                'certification': data.certification || data.question_certification ? 'on' : '',
-                'profil': 'porteur-projet'
-            };
+            // Déterminer le pack selon le budget
+            let packInfo = null;
+            if (budget === 'moins-300') {
+                packInfo = { name: 'Pack Essai Local', price: '99 €', description: 'Pour tester avec un budget limité' };
+            } else if (budget === '300-1000') {
+                packInfo = { name: 'Pack Accompagnement Pro', price: 'À partir de 300 €', description: 'Accompagnement personnalisé' };
+            } else if (budget === '1000-3000' || budget === 'plus-3000') {
+                packInfo = { name: 'Pack Solution Tout-en-Un', price: 'À partir de 1 000 €', description: 'Solution complète pour votre projet' };
+            }
             
-            // Ajouter les champs au formulaire
-            Object.keys(fieldMapping).forEach(key => {
-                let input = form.querySelector(`[name="${key}"]`);
-                if (!input) {
-                    input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    form.appendChild(input);
-                }
-                input.value = fieldMapping[key];
-            });
+            // Préparer le message pour l'email
+            let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 PORTEUR DE PROJET - NOUVELLE INSCRIPTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source: Landing Page porteurs-projets
+Date: ${new Date().toLocaleString('fr-FR')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 BLOC 1 - PROFIL & ORIGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${prenom}
+Nom: ${nom}
+Email: ${email}
+Téléphone: ${telephone || 'Non renseigné'}
+Territoire: ${ile || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 BLOC 2 - PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nom du projet: ${nom_projet || 'Non renseigné'}
+Description du projet: ${description_projet || 'Non renseigné'}
+Besoin principal: ${besoin || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 BLOC 3 - BUDGET & PACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget: ${budget || 'Non renseigné'}
+${packInfo ? `Pack sélectionné: ${packInfo.name} (${packInfo.price})` : 'Pack: Non défini'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Certification acceptée: OUI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Contacter ${prenom} ${nom}${nom_projet ? ' (' + nom_projet + ')' : ''} pour un appel découverte gratuit
+2. Après l'appel, décider (oui/non) selon alignement avec mission
+3. Si oui, envoyer récap + lien paiement
+4. Planifier première session de travail
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
             
-            // Ajouter les résultats de validation si disponibles
+            // Préparer FormData pour Formspree
+            const formDataToSend = new FormData();
+            formDataToSend.append('_to', 'domtomconnect@gmail.com');
+            formDataToSend.append('_subject', `🚀 PORTEUR DE PROJET${packInfo ? ' - ' + packInfo.name : ''} - ${nom_projet || 'Nouveau Projet'} - ${prenom} ${nom}`);
+            formDataToSend.append('_replyto', email);
+            formDataToSend.append('message', messageBody);
+            
+            // Données structurées
+            formDataToSend.append('Prénom', prenom);
+            formDataToSend.append('Nom', nom);
+            formDataToSend.append('Email', email);
+            formDataToSend.append('Téléphone', telephone || '');
+            formDataToSend.append('Territoire', ile || '');
+            formDataToSend.append('Nom projet', nom_projet || '');
+            formDataToSend.append('Description projet', description_projet || '');
+            formDataToSend.append('Besoin', besoin || '');
+            formDataToSend.append('Budget', budget || '');
+            formDataToSend.append('Profil', 'porteur-projet');
+            if (packInfo) {
+                formDataToSend.append('Pack sélectionné', `${packInfo.name} (${packInfo.price})`);
+            }
             if (validation.credibilityScore) {
-                let scoreInput = form.querySelector('[name="credibility_score"]');
-                if (!scoreInput) {
-                    scoreInput = document.createElement('input');
-                    scoreInput.type = 'hidden';
-                    scoreInput.name = 'credibility_score';
-                    form.appendChild(scoreInput);
-                }
-                scoreInput.value = validation.credibilityScore.score;
-                
-                let levelInput = form.querySelector('[name="credibility_level"]');
-                if (!levelInput) {
-                    levelInput = document.createElement('input');
-                    levelInput.type = 'hidden';
-                    levelInput.name = 'credibility_level';
-                    form.appendChild(levelInput);
-                }
-                levelInput.value = validation.credibilityScore.level;
+                formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
+                formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);
             }
             
-            // Créer un événement de soumission valide et appeler handleLandingFormSubmit
-            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-            Object.defineProperty(submitEvent, 'target', { value: form, writable: false });
-            Object.defineProperty(submitEvent, 'currentTarget', { value: form, writable: false });
-            submitEvent.preventDefault = function() { this.defaultPrevented = true; };
-            
-            // Sauvegarder le texte original du bouton pour handleLandingFormSubmit
-            const submitBtn = form.querySelector('button[type="submit"]') || 
+            // Gérer le bouton
+            const submitBtn = event.target.querySelector('button[type="submit"]') || 
                             document.querySelector('#quiz-btn-next[type="submit"]');
-            if (submitBtn && !submitBtn.getAttribute('data-original-text')) {
-                submitBtn.setAttribute('data-original-text', submitBtn.textContent || submitBtn.innerHTML);
+            const originalBtnText = submitBtn ? (submitBtn.textContent || submitBtn.innerHTML) : '';
+            
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Envoi en cours...';
             }
             
-            // Appeler handleLandingFormSubmit qui formate et envoie correctement les données
-            // Cette fonction gère maintenant complètement le bouton (état de chargement, restauration, etc.)
-            if (typeof handleLandingFormSubmit === 'function') {
-                handleLandingFormSubmit(submitEvent);
-            } else {
-                console.error('❌ handleLandingFormSubmit n\'est pas disponible');
-                alert('Une erreur est survenue. Veuillez réessayer.');
+            // Envoyer à Formspree
+            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
+            
+            fetch(formspreeUrl, {
+                method: 'POST',
+                body: formDataToSend,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('📧 Réponse Formspree:', response.status, response.statusText);
+                
+                if (response.ok) {
+                    console.log('✅ Email envoyé avec succès');
+                    
+                    // Afficher le message de succès
+                    const quizContainer = document.querySelector('.quiz-container');
+                    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+                    const quizNavigation = document.getElementById('quiz-navigation');
+                    
+                    const successHTML = `
+                        <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
+                            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">✓ Demande envoyée avec succès !</h3>
+                            <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+                                Merci ${prenom ? prenom + ' !' : ' !'} 🎉
+
+Ta demande a bien été reçue et enregistrée.
+
+📧 Tu vas recevoir un email de confirmation avec le récapitulatif de ta demande dans quelques instants.
+
+📞 On te recontacte sous 24h pour :
+• Discuter de ton projet et de tes besoins
+• T'expliquer le pack adapté à ton budget
+• Planifier un appel découverte gratuit
+
+En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domtom Connect.
+                            </div>
+                            ${packInfo ? `
+                                <div style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; padding: 2rem; color: white; margin: 2rem 0;">
+                                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">${packInfo.name}</h3>
+                                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
+                                    <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
+                                </div>
+                            ` : ''}
+                            <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                        </div>
+                        <style>
+                            @keyframes fadeInSlide {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(20px);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0);
+                                }
+                            }
+                            @keyframes bounceIn {
+                                0% {
+                                    transform: scale(0);
+                                }
+                                50% {
+                                    transform: scale(1.2);
+                                }
+                                100% {
+                                    transform: scale(1);
+                                }
+                            }
+                        </style>
+                    `;
+                    
+                    if (quizContainer) {
+                        quizContainer.innerHTML = successHTML;
+                    } else if (quizQuestionsContainer) {
+                        quizQuestionsContainer.innerHTML = successHTML;
+                        if (quizNavigation) {
+                            quizNavigation.style.display = 'none';
+                        }
+                    }
+                } else {
+                    return response.json().then(errData => {
+                        console.error('❌ Erreur lors de l\'envoi:', errData);
+                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erreur:', error);
+                alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    const originalBtnText = submitBtn.getAttribute('data-original-text') || 'Valider ma demande';
                     submitBtn.innerHTML = originalBtnText;
                 }
-            }
+            });
         }
     </script>
 </body>
