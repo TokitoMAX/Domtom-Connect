@@ -1624,21 +1624,18 @@ Certification acceptée: OUI
                 prenom: data.prenom
             });
             
-            // Si étape 2 ou formulaire complet (prestataires, entreprises, investisseurs), afficher message de succès
-            if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs') {
+            // Si étape 2 ou formulaire complet (tous les profils), afficher message de succès
+            if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs' || pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
                 // Nettoyer les données stockées
                 sessionStorage.removeItem('domtomConnectStep1');
                 
-                // Pour porteurs-projets, la redirection est gérée dans index.html selon le budget
-                // Pour les autres profils, afficher le message de succès
-                if (pageType !== 'porteurs-projets') {
-                    // Message de succès personnalisé selon le profil
-                    let successTitle = '✓ Inscription envoyée !';
-                    let successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.';
-                    
-                    if (pageType === 'prestataires') {
-                        successTitle = '✓ Candidature envoyée avec succès !';
-                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                // Message de succès personnalisé selon le profil
+                let successTitle = '✓ Inscription envoyée !';
+                let successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.';
+                
+                if (pageType === 'prestataires') {
+                    successTitle = '✓ Candidature envoyée avec succès !';
+                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre candidature a bien été reçue et enregistrée. 
 
@@ -1650,9 +1647,9 @@ Votre candidature a bien été reçue et enregistrée.
 • Planifier votre intégration dans notre écosystème
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                    } else if (pageType === 'entreprises') {
-                        successTitle = '✓ Demande envoyée avec succès !';
-                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                } else if (pageType === 'entreprises') {
+                    successTitle = '✓ Demande envoyée avec succès !';
+                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre demande a bien été reçue et enregistrée.
 
@@ -1664,9 +1661,9 @@ Votre demande a bien été reçue et enregistrée.
 • Vous proposer des solutions adaptées à vos besoins
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                    } else if (pageType === 'investisseurs') {
-                        successTitle = '✓ Inscription envoyée avec succès !';
-                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                } else if (pageType === 'investisseurs') {
+                    successTitle = '✓ Inscription envoyée avec succès !';
+                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre demande a bien été reçue et enregistrée.
 
@@ -1678,45 +1675,57 @@ Votre demande a bien été reçue et enregistrée.
 • Définir ensemble votre cotisation mensuelle
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                    }
-                    
-                    // Afficher le message de succès avec animation
-                    setTimeout(() => {
-                        // Show success message
-                        form.innerHTML = `
-                            <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
-                                <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
-                                <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">${successTitle}</h3>
-                                <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">${successMessage}</div>
-                                <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
-                            </div>
-                            <style>
-                                @keyframes fadeInSlide {
-                                    from {
-                                        opacity: 0;
-                                        transform: translateY(20px);
-                                    }
-                                    to {
-                                        opacity: 1;
-                                        transform: translateY(0);
-                                    }
-                                }
-                                @keyframes bounceIn {
-                                    0% {
-                                        transform: scale(0);
-                                    }
-                                    50% {
-                                        transform: scale(1.2);
-                                    }
-                                    100% {
-                                        transform: scale(1);
-                                    }
-                                }
-                            </style>
-                        `;
-                    }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
+                } else if (pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
+                    successTitle = '✓ Demande envoyée avec succès !';
+                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+
+Ta demande a bien été reçue et enregistrée.
+
+📧 Tu vas recevoir un email de confirmation avec le récapitulatif de ta demande dans quelques instants.
+
+📞 On te recontacte sous 24h pour :
+• Discuter de ton projet et de tes besoins
+• T'expliquer le pack adapté à ton budget
+• Planifier un appel découverte gratuit
+
+En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
                 }
-                // Pour porteurs-projets, la redirection est déjà gérée dans index.html
+                
+                // Afficher le message de succès avec animation
+                setTimeout(() => {
+                    // Show success message
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
+                            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">${successTitle}</h3>
+                            <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">${successMessage}</div>
+                            <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                        </div>
+                        <style>
+                            @keyframes fadeInSlide {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(20px);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0);
+                                }
+                            }
+                            @keyframes bounceIn {
+                                0% {
+                                    transform: scale(0);
+                                }
+                                50% {
+                                    transform: scale(1.2);
+                                }
+                                100% {
+                                    transform: scale(1);
+                                }
+                            }
+                        </style>
+                    `;
+                }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
             }
         } else {
             return response.json().then(errData => {

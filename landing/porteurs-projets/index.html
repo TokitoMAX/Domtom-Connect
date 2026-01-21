@@ -542,7 +542,7 @@
                 'besoin': data.besoin || data.question_besoin || data.objectif_principal || data.question_objectif_principal || '',
                 'objectif_principal': data.objectif_principal || data.question_objectif_principal || data.besoin || data.question_besoin || '',
                 'budget': data.budget || data.question_budget || '',
-                'certification': data.certification || data.question_certification || '',
+                'certification': data.certification || data.question_certification ? 'on' : '',
                 'profil': 'porteur-projet'
             };
             
@@ -579,12 +579,11 @@
                 levelInput.value = validation.credibilityScore.level;
             }
             
-            // Créer un événement de soumission et appeler handleLandingFormSubmit
-            const submitEvent = {
-                preventDefault: () => {},
-                target: form,
-                currentTarget: form
-            };
+            // Créer un événement de soumission valide et appeler handleLandingFormSubmit
+            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+            Object.defineProperty(submitEvent, 'target', { value: form, writable: false });
+            Object.defineProperty(submitEvent, 'currentTarget', { value: form, writable: false });
+            submitEvent.preventDefault = function() { this.defaultPrevented = true; };
             
             // Appeler handleLandingFormSubmit qui formate et envoie correctement les données
             if (typeof handleLandingFormSubmit === 'function') {
