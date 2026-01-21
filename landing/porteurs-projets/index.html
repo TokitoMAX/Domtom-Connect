@@ -80,84 +80,88 @@
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'origine', question: 'D\'où viens-tu ?', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
+            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
                 { value: 'martinique', label: 'Martinique' },
                 { value: 'guadeloupe', label: 'Guadeloupe' },
                 { value: 'reunion', label: 'La Réunion' },
                 { value: 'guyane', label: 'Guyane' },
                 { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                 { value: 'polynesie', label: 'Polynésie française' },
                 { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
-                { value: 'metropole', label: 'Métropole française' },
+                { value: 'diaspora', label: 'Diaspora' },
                 { value: 'autre', label: 'Autre' }
             ]},
-            { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
-            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
-            { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
-                { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, etc.)' },
-                { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
-                { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
-                { value: 'autre', label: 'Autre type de projet' }
-            ]},
-            // Questions spécifiques pour projets physiques
-            { id: 'type_local_physique', question: 'Quel type de local ou espace physique recherches-tu ?', type: 'radio', required: false, fieldName: 'type_local_physique', options: [
-                { value: 'boutique', label: 'Boutique / Magasin' },
-                { value: 'restaurant', label: 'Restaurant / Bar / Café' },
-                { value: 'atelier', label: 'Atelier / Espace de production' },
-                { value: 'bureau', label: 'Bureau / Espace de coworking' },
-                { value: 'entrepot', label: 'Entrepôt / Stockage' },
-                { value: 'autre', label: 'Autre type de local' }
-            ], conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'prestataires_physique', question: 'Quels types de prestataires recherches-tu pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.', required: false, fieldName: 'prestataires_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            
-            // Questions spécifiques pour projets virtuels/digitaux
-            { id: 'type_plateforme_virtuel', question: 'Quel type de plateforme ou solution digitale recherches-tu ?', type: 'radio', required: false, fieldName: 'type_plateforme_virtuel', options: [
-                { value: 'site-web', label: 'Site web / E-commerce' },
-                { value: 'app-mobile', label: 'Application mobile' },
-                { value: 'saas', label: 'Plateforme SaaS / Service en ligne' },
-                { value: 'marketplace', label: 'Marketplace / Plateforme de mise en relation' },
-                { value: 'outils-digitaux', label: 'Outils digitaux / Automatisation' },
-                { value: 'autre', label: 'Autre type de solution digitale' }
-            ], conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'prestataires_virtuel', question: 'Quels types de prestataires recherches-tu pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.', required: false, fieldName: 'prestataires_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            
-            // Questions spécifiques pour projets hybrides
-            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'prestataires_hybride', question: 'Quels types de prestataires recherches-tu pour ton projet hybride ?', type: 'textarea', placeholder: 'Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)', required: false, fieldName: 'prestataires_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'international', label: 'International / Multi-territoires' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'objectif_principal', question: 'Quel est ton objectif principal ?', type: 'radio', required: true, fieldName: 'objectif_principal', options: [
-                { value: 'prestataires', label: 'Trouver des prestataires fiables' },
+            { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
+            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
                 { value: 'structurer', label: 'Structurer mon projet' },
                 { value: 'reseau', label: 'Me connecter à un réseau' },
                 { value: 'autre', label: 'Autre' }
             ]},
+            { 
+                id: 'budget', 
+                question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect ?', 
+                type: 'radio', 
+                required: true, 
+                fieldName: 'budget', 
+                options: [
+                    { value: 'moins-300', label: 'Moins de 300 €' },
+                    { value: '300-1000', label: '300-1 000 €' },
+                    { value: '1000-3000', label: '1 000-3 000 €' },
+                    { value: 'plus-3000', label: 'Plus de 3 000 €' },
+                    { value: 'non-defini', label: 'Pas encore défini' }
+                ], 
+                clarification: '<strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+            },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
-        // Questions de base (sans budget en premier) - pour utilisateurs venant du quiz
+        // Questions simplifiées - pour utilisateurs venant du quiz
         const porteursProjetsQuestionsBase = [
+            { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
+            { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
+            { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
+            { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
+            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
+                { value: 'martinique', label: 'Martinique' },
+                { value: 'guadeloupe', label: 'Guadeloupe' },
+                { value: 'reunion', label: 'La Réunion' },
+                { value: 'guyane', label: 'Guyane' },
+                { value: 'mayotte', label: 'Mayotte' },
+                { value: 'polynesie', label: 'Polynésie française' },
+                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                { value: 'diaspora', label: 'Diaspora' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
+            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                { value: 'structurer', label: 'Structurer mon projet' },
+                { value: 'reseau', label: 'Me connecter à un réseau' },
+                { value: 'autre', label: 'Autre' }
+            ]},
+            { 
+                id: 'budget', 
+                question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect ?', 
+                type: 'radio', 
+                required: true, 
+                fieldName: 'budget', 
+                options: [
+                    { value: 'moins-300', label: 'Moins de 300 €' },
+                    { value: '300-1000', label: '300-1 000 €' },
+                    { value: '1000-3000', label: '1 000-3 000 €' },
+                    { value: 'plus-3000', label: 'Plus de 3 000 €' },
+                    { value: 'non-defini', label: 'Pas encore défini' }
+                ], 
+                clarification: '<strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+            },
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+        ];
+        
+        // Anciennes questions complètes (remplacées par version simplifiée ci-dessus)
+        const porteursProjetsQuestionsBaseOld = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
@@ -289,117 +293,34 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
-        // Questions avec demande de pack plus tard - pour utilisateurs venant directement sur la landing
+        // Questions simplifiées - pour utilisateurs venant directement sur la landing
         const porteursProjetsQuestionsWithBudget = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'origine', question: 'D\'où viens-tu ? (Ton origine ou territoire d\'origine)', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
+            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
                 { value: 'martinique', label: 'Martinique' },
                 { value: 'guadeloupe', label: 'Guadeloupe' },
                 { value: 'reunion', label: 'La Réunion' },
                 { value: 'guyane', label: 'Guyane' },
                 { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                 { value: 'polynesie', label: 'Polynésie française' },
                 { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
-                { value: 'metropole', label: 'Métropole française' },
+                { value: 'diaspora', label: 'Diaspora' },
                 { value: 'autre', label: 'Autre' }
             ]},
-            { id: 'lieu_actuel', question: 'Où es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'lieu_actuel', placeholder: 'Sélectionne ton lieu actuel', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'etranger', label: 'Étranger' },
+            { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
+            { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
+            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                { value: 'structurer', label: 'Structurer mon projet' },
+                { value: 'reseau', label: 'Me connecter à un réseau' },
                 { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
-            { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
-            { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
-                { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
-                { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
-                { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
-                { value: 'autre', label: 'Autre type de projet' }
-            ]},
-            // Questions spécifiques pour projets physiques
-            { id: 'type_local_physique', question: 'Quel type de local ou espace physique recherches-tu ?', type: 'radio', required: false, fieldName: 'type_local_physique', options: [
-                { value: 'boutique', label: 'Boutique / Magasin' },
-                { value: 'restaurant', label: 'Restaurant / Bar / Café' },
-                { value: 'atelier', label: 'Atelier / Espace de production' },
-                { value: 'bureau', label: 'Bureau / Espace de coworking' },
-                { value: 'entrepot', label: 'Entrepôt / Stockage' },
-                { value: 'autre', label: 'Autre type de local' }
-            ], conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'prestataires_physique', question: 'Quels types de prestataires recherches-tu pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.', required: false, fieldName: 'prestataires_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            
-            // Questions spécifiques pour projets virtuels/digitaux
-            { id: 'type_plateforme_virtuel', question: 'Quel type de plateforme ou solution digitale recherches-tu ?', type: 'radio', required: false, fieldName: 'type_plateforme_virtuel', options: [
-                { value: 'site-web', label: 'Site web / E-commerce' },
-                { value: 'app-mobile', label: 'Application mobile' },
-                { value: 'saas', label: 'Plateforme SaaS / Service en ligne' },
-                { value: 'marketplace', label: 'Marketplace / Plateforme de mise en relation' },
-                { value: 'outils-digitaux', label: 'Outils digitaux / Automatisation' },
-                { value: 'autre', label: 'Autre type de solution digitale' }
-            ], conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'prestataires_virtuel', question: 'Quels types de prestataires recherches-tu pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.', required: false, fieldName: 'prestataires_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            
-            // Questions spécifiques pour projets hybrides
-            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'prestataires_hybride', question: 'Quels types de prestataires recherches-tu pour ton projet hybride ?', type: 'textarea', placeholder: 'Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)', required: false, fieldName: 'prestataires_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation du projet', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'international', label: 'International / Multi-territoires' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'stade_projet', question: 'À quel stade est ton projet ?', type: 'radio', required: true, fieldName: 'stade_projet', options: [
-                { value: 'idee-clarifiee', label: 'Idée clarifiée mais pas encore lancée' },
-                { value: 'lancement', label: 'Projet en cours de lancement' },
-                { value: 'lance', label: 'Activité déjà lancée (clients / utilisateurs)' },
-                { value: 'developpement', label: 'Projet en phase de développement / structuration' }
-            ]},
-            { id: 'objectif_principal', question: 'Quel est ton objectif principal avec Domtom Connect ?', type: 'radio', required: true, fieldName: 'objectif_principal', options: [
-                { value: 'prestataires', label: 'Trouver des prestataires fiables (objectif principal du pack)' },
-                { value: 'structurer', label: 'Structurer mon projet (avec besoin de prestataires)' },
-                { value: 'reseau', label: 'Me connecter à un réseau insulaire / diaspora' },
-                { value: 'visibilite', label: 'Gagner en visibilité' },
-                { value: 'autre', label: 'Autre' }
-            ], clarification: '<strong>Note :</strong> Le Pack Accompagnement & Connexions est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, nous pourrons en discuter lors de l\'appel pour voir comment nous pouvons t\'aider.' },
-            { id: 'objectif_principal_autre', question: 'Précise ton objectif', type: 'text', placeholder: 'Ton objectif', required: false, fieldName: 'objectif_principal_autre', conditional: { field: 'objectif_principal', value: 'autre' }},
-            { id: 'horizon', question: 'Quel est ton horizon temporel ?', type: 'radio', required: true, fieldName: 'horizon', options: [
-                { value: 'court', label: 'Court terme (0-6 mois)' },
-                { value: 'moyen', label: 'Moyen terme (6-24 mois)' },
-                { value: 'long', label: 'Long terme (2 ans et +)' }
             ]},
             { 
                 id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect pour les prochains mois ?', 
+                question: 'Quel budget es-tu prêt à investir dans l\'accompagnement Domtom Connect ?', 
                 type: 'radio', 
                 required: true, 
                 fieldName: 'budget', 
@@ -412,13 +333,7 @@
                 ], 
                 clarification: '<strong>Important :</strong> L\'accompagnement Domtom Connect (recherche, mise en relation, suivi) est un service séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
             },
-            { id: 'engagement', question: 'Es-tu prêt à t\'engager dans ce processus ?', type: 'radio', required: true, fieldName: 'engagement', options: [
-                { value: 'oui', label: 'Oui, je suis prêt à m\'engager' },
-                { value: 'pas-sure', label: 'Pas encore sûr' },
-                { value: 'non', label: 'Non, je veux juste des informations' }
-            ]},
-            { id: 'commentaires', question: 'As-tu des commentaires ou questions supplémentaires ?', type: 'textarea', placeholder: 'Tes commentaires (optionnel)', required: false, fieldName: 'commentaires', rows: 3 },
-            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
+            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
         // Sélectionner les questions selon l'origine
@@ -558,12 +473,14 @@
             const budget = data.budget || submitData.budget;
             let budgetForRedirect = budget;
             
-            // Déterminer le pack sélectionné selon le budget
+            // Déterminer le pack sélectionné selon le budget (3 packs disponibles)
             let packSelectionne = '';
-            if (budget === '300-1000') {
-                packSelectionne = 'pack-starter';
+            if (budget === 'moins-300') {
+                packSelectionne = 'pack-essai-local'; // Pack Essai Local 99€
+            } else if (budget === '300-1000') {
+                packSelectionne = 'pack-accompagnement-pro'; // Pack Accompagnement Pro 500€
             } else if (budget === '1000-3000' || budget === 'plus-3000') {
-                packSelectionne = 'pack-premium';
+                packSelectionne = 'pack-solution-tout-en-un'; // Pack Solution Tout-en-Un 1900€
             } else {
                 packSelectionne = 'info';
             }
@@ -576,15 +493,9 @@
                 handleLandingFormSubmit(fakeEvent);
             }
             
-            // Rediriger vers la page adaptée au budget après soumission
+            // Rediriger vers la page tarifs avec le pack adapté
             setTimeout(() => {
-                let redirectUrl = '/landing/porteurs-projets/resultat-info.html';
-                if (budget === '300-1000') {
-                    redirectUrl = '/landing/porteurs-projets/resultat-starter.html';
-                } else if (budget === '1000-3000' || budget === 'plus-3000') {
-                    redirectUrl = '/landing/porteurs-projets/resultat-premium.html';
-                }
-                window.location.href = redirectUrl + '?budget=' + encodeURIComponent(budgetForRedirect) + '&pack=' + encodeURIComponent(packSelectionne);
+                window.location.href = '/tarifs?budget=' + encodeURIComponent(budgetForRedirect) + '&pack=' + encodeURIComponent(packSelectionne) + '&profil=porteur-projet';
             }, 1000);
         }
     </script>
