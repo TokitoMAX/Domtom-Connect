@@ -581,66 +581,6 @@
             if (typeof handleLandingFormSubmit === 'function') {
                 handleLandingFormSubmit(fakeEvent);
             }
-            
-            // Fonction pour obtenir les infos du pack selon le budget
-            function getPackInfo(budget) {
-                if (budget === 'moins-300') {
-                    return {
-                        name: 'Pack Essai Local',
-                        price: '99€',
-                        description: 'Tu as des doutes ? Teste pour moins de 100€'
-                    };
-                } else if (budget === '300-1000') {
-                    return {
-                        name: 'Pack Accompagnement Pro',
-                        price: '500€',
-                        description: 'On fait tout pour toi'
-                    };
-                } else if (budget === '1000-3000' || budget === 'plus-3000') {
-                    return {
-                        name: 'Pack Solution Tout-en-Un',
-                        price: '1 900€',
-                        description: 'Ton projet de A à Z'
-                    };
-                }
-                return null;
-            }
-            
-            // Afficher un message de confirmation au lieu de rediriger
-            const container = document.getElementById('quiz-questions-container');
-            const navigation = document.getElementById('quiz-navigation');
-            if (container) {
-                const packInfo = getPackInfo(budget);
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 3rem 1rem;">
-                        <div style="font-size: 4rem; margin-bottom: 1.5rem;">✓</div>
-                        <h2 style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
-                            Demande envoyée avec succès !
-                        </h2>
-                        <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
-                            Merci pour ta confiance ! Nous avons bien reçu toutes tes informations.
-                        </p>
-                        ${packInfo ? `
-                            <div style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; padding: 2rem; color: white; margin: 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
-                                <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">${packInfo.name}</h3>
-                                <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
-                                <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
-                            </div>
-                        ` : ''}
-                        <div style="background: #f8fafc; border-radius: 16px; padding: 2rem; margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                            <p style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 1rem; font-weight: 600;">
-                                📧 On te recontacte sous 24h
-                            </p>
-                            <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                                Nous allons examiner ta demande et te recontacter par email dans les 24 heures pour discuter de ton projet et du pack adapté à tes besoins.
-                            </p>
-                        </div>
-                    </div>
-                `;
-                if (navigation) {
-                    navigation.style.display = 'none';
-                }
-            }
         }
     </script>
 </body>

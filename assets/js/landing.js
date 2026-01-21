@@ -1078,40 +1078,8 @@ function handleLandingFormSubmit(event) {
     
     // Détecter si c'est l'étape 1 (formulaire court) ou étape 2 (formulaire complet)
     // Les prestataires, entreprises et investisseurs n'ont pas de formulaire de qualification, ils envoient directement
-    const isStep1 = (data.form_step === '1' && pageType === 'porteurs-projets') || (!data.nom_projet && pageType === 'porteurs-projets');
-    
-    // Si étape 1 (formulaire court) ET porteurs de projets, rediriger automatiquement vers la page de qualification
-    // Les autres profils (prestataires, entreprises, investisseurs) envoient directement
-    if (isStep1 && pageType === 'porteurs-projets') {
-        // Stocker les données de l'étape 1
-        sessionStorage.setItem('domtomConnectStep1', JSON.stringify(data));
-        
-        // Déterminer l'URL de redirection (seulement pour porteurs de projets)
-        let qualificationUrl = '/landing/porteurs-projets/qualification.html';
-        
-        // Envoyer les données de l'étape 1 en arrière-plan (ne pas attendre)
-        sendStep1Data(data, pageType).catch(err => {
-            console.error('Erreur envoi étape 1:', err);
-        });
-        
-        // Redirection automatique immédiate (pas besoin d'attendre)
-        // Afficher un message de redirection rapide
-        const submitButton = form.querySelector('button[type="submit"]');
-        if (submitButton) {
-            const buttonText = submitButton.querySelector('.button-text');
-            if (buttonText) {
-                buttonText.innerHTML = '<span style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg> Redirection...</span>';
-            }
-            submitButton.disabled = true;
-        }
-        
-        // Redirection automatique après un court délai pour permettre l'enregistrement
-        setTimeout(() => {
-            window.location.href = qualificationUrl;
-        }, 300);
-        
-        return;
-    }
+    // Ne plus rediriger vers le formulaire de qualification
+    // Le formulaire complet est maintenant soumis directement
     
     // Add tracking data
     data.lead_source = `landing-${pageType}`;
