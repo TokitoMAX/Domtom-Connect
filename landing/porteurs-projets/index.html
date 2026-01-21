@@ -525,136 +525,78 @@
                 return;
             }
             
+            // Mapper les données du quiz vers les noms de champs attendus par handleLandingFormSubmit
             const form = document.getElementById('landing-form');
-            const formData = new FormData(form);
-            Object.keys(data).forEach(key => {
-                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-                    formData.set(key, data[key]);
-                }
-            });
             
-            // Ajouter les résultats de validation
-            if (validation.credibilityScore) {
-                formData.set('credibility_score', validation.credibilityScore.score);
-                formData.set('credibility_level', validation.credibilityScore.level);
-            }
-            if (validation.inconsistencies.length > 0) {
-                formData.set('inconsistencies', JSON.stringify(validation.inconsistencies));
-            }
-            
-            // Préparer les données pour l'envoi
-            // Mapper les réponses du quiz vers les noms de champs attendus
-            const submitData = {
-                prenom: data.prenom || data.question_prenom || '',
-                nom: data.nom || data.question_nom || '',
-                email: data.email || data.question_email || '',
-                telephone: data.telephone || data.question_telephone || '',
-                ile: data.ile || data.question_ile || '',
-                nom_projet: data.nom_projet || data.question_nom_projet || '',
-                description_projet: data.description_projet || data.question_description_projet || '',
-                besoin: data.besoin || data.question_besoin || data.objectif_principal || data.question_objectif_principal || '',
-                budget: data.budget || data.question_budget || '',
-                certification: data.certification || data.question_certification || '',
-                profil: 'porteur-projet'
+            // Créer des inputs cachés dans le formulaire avec les bonnes valeurs
+            const fieldMapping = {
+                'prenom': data.prenom || data.question_prenom || '',
+                'nom': data.nom || data.question_nom || '',
+                'email': data.email || data.question_email || '',
+                'telephone': data.telephone || data.question_telephone || '',
+                'ile': data.ile || data.question_ile || '',
+                'origine': data.ile || data.question_ile || '',
+                'lieu_actuel': data.ile || data.question_ile || '',
+                'nom_projet': data.nom_projet || data.question_nom_projet || '',
+                'description_projet': data.description_projet || data.question_description_projet || '',
+                'besoin': data.besoin || data.question_besoin || data.objectif_principal || data.question_objectif_principal || '',
+                'objectif_principal': data.objectif_principal || data.question_objectif_principal || data.besoin || data.question_besoin || '',
+                'budget': data.budget || data.question_budget || '',
+                'certification': data.certification || data.question_certification || '',
+                'profil': 'porteur-projet'
             };
             
-            // Ajouter les résultats de validation
-            if (validation.credibilityScore) {
-                submitData.credibility_score = validation.credibilityScore.score;
-                submitData.credibility_level = validation.credibilityScore.level;
-            }
-            if (validation.inconsistencies.length > 0) {
-                submitData.inconsistencies = JSON.stringify(validation.inconsistencies);
-            }
-            
-            // Déterminer le pack selon le budget
-            const budget = submitData.budget;
-            let packSelectionne = '';
-            if (budget === 'moins-300') {
-                packSelectionne = 'pack-essai-local';
-            } else if (budget === '300-1000') {
-                packSelectionne = 'pack-accompagnement-pro';
-            } else if (budget === '1000-3000' || budget === 'plus-3000') {
-                packSelectionne = 'pack-solution-tout-en-un';
-            } else {
-                packSelectionne = 'info';
-            }
-            
-            submitData.pack_selectionne = packSelectionne;
-            
-            // Envoyer directement à Formspree
-            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
-            const formDataToSend = new FormData();
-            
-            // Ajouter toutes les données
-            Object.keys(submitData).forEach(key => {
-                if (submitData[key] !== null && submitData[key] !== undefined && submitData[key] !== '') {
-                    formDataToSend.append(key, submitData[key]);
+            // Ajouter les champs au formulaire
+            Object.keys(fieldMapping).forEach(key => {
+                let input = form.querySelector(`[name="${key}"]`);
+                if (!input) {
+                    input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    form.appendChild(input);
                 }
+                input.value = fieldMapping[key];
             });
             
-            // Ajouter les métadonnées
-            formDataToSend.append('lead_source', 'landing-porteurs-projets');
-            formDataToSend.append('page_url', window.location.href);
-            formDataToSend.append('timestamp', new Date().toISOString());
+            // Ajouter les résultats de validation si disponibles
+            if (validation.credibilityScore) {
+                let scoreInput = form.querySelector('[name="credibility_score"]');
+                if (!scoreInput) {
+                    scoreInput = document.createElement('input');
+                    scoreInput.type = 'hidden';
+                    scoreInput.name = 'credibility_score';
+                    form.appendChild(scoreInput);
+                }
+                scoreInput.value = validation.credibilityScore.score;
+                
+                let levelInput = form.querySelector('[name="credibility_level"]');
+                if (!levelInput) {
+                    levelInput = document.createElement('input');
+                    levelInput.type = 'hidden';
+                    levelInput.name = 'credibility_level';
+                    form.appendChild(levelInput);
+                }
+                levelInput.value = validation.credibilityScore.level;
+            }
             
-            // Envoyer à Formspree
-            fetch(formspreeUrl, {
-                method: 'POST',
-                body: formDataToSend,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('✅ Formulaire envoyé avec succès');
-                    // Afficher un message de succès
-                    const container = document.getElementById('quiz-questions-container');
-                    const navigation = document.getElementById('quiz-navigation');
-                    if (container) {
-                        container.innerHTML = `
-                            <div style="text-align: center; padding: 3rem 1rem;">
-                                <div style="font-size: 4rem; margin-bottom: 1.5rem;">✓</div>
-                                <h2 style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
-                                    Demande envoyée avec succès !
-                                </h2>
-                                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
-                                    Merci pour ta confiance ! Nous avons bien reçu toutes tes informations.
-                                </p>
-                                <div style="background: #f8fafc; border-radius: 16px; padding: 2rem; margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                                    <p style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 1rem; font-weight: 600;">
-                                        📧 On te recontacte sous 24h
-                                    </p>
-                                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                                        Nous allons examiner ta demande et te recontacter par email dans les 24 heures pour discuter de ton projet et du pack adapté à tes besoins.
-                                    </p>
-                                </div>
-                            </div>
-                        `;
-                        if (navigation) {
-                            navigation.style.display = 'none';
-                        }
-                    }
-                } else {
-                    return response.json().then(errData => {
-                        console.error('❌ Erreur lors de l\'envoi:', errData);
-                        alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalBtnText;
-                        }
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('❌ Erreur:', error);
-                alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+            // Créer un événement de soumission et appeler handleLandingFormSubmit
+            const submitEvent = {
+                preventDefault: () => {},
+                target: form,
+                currentTarget: form
+            };
+            
+            // Appeler handleLandingFormSubmit qui formate et envoie correctement les données
+            if (typeof handleLandingFormSubmit === 'function') {
+                handleLandingFormSubmit(submitEvent);
+            } else {
+                console.error('❌ handleLandingFormSubmit n\'est pas disponible');
+                alert('Une erreur est survenue. Veuillez réessayer.');
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;
                 }
-            });
+            }
         }
     </script>
 </body>
