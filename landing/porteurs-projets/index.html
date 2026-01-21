@@ -451,15 +451,6 @@
             const data = quiz.collectAllAnswers();
             data.profil = 'porteur-projet';
             
-            // Afficher un message de chargement
-            const submitBtn = event.target.querySelector('button[type="submit"]') || 
-                            document.querySelector('#quiz-btn-next[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = 'Vérification en cours...';
-            }
-            
             // Valider le formulaire
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);
@@ -472,6 +463,16 @@
                 const validationMessage = 'Erreurs détectées :\n' + 
                     validation.errors.map(e => `• ${e.message}`).join('\n');
                 alert(validationMessage);
+                
+                // Restaurer le bouton en cas d'erreur de validation
+                const submitBtn = event.target.querySelector('button[type="submit"]') || 
+                                document.querySelector('#quiz-btn-next[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    const originalBtnText = submitBtn.getAttribute('data-original-text') || 'Valider ma demande';
+                    submitBtn.innerHTML = originalBtnText;
+                }
+                return;
             } else {
                 // Afficher les avertissements
                 if (validation.warnings.length > 0) {
@@ -515,13 +516,15 @@
                 }
             }
             
-            // Restaurer le bouton
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-            
             if (!canSubmit) {
+                // Restaurer le bouton si l'utilisateur annule
+                const submitBtn = event.target.querySelector('button[type="submit"]') || 
+                                document.querySelector('#quiz-btn-next[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    const originalBtnText = submitBtn.getAttribute('data-original-text') || 'Valider ma demande';
+                    submitBtn.innerHTML = originalBtnText;
+                }
                 return;
             }
             
@@ -585,7 +588,15 @@
             Object.defineProperty(submitEvent, 'currentTarget', { value: form, writable: false });
             submitEvent.preventDefault = function() { this.defaultPrevented = true; };
             
+            // Sauvegarder le texte original du bouton pour handleLandingFormSubmit
+            const submitBtn = form.querySelector('button[type="submit"]') || 
+                            document.querySelector('#quiz-btn-next[type="submit"]');
+            if (submitBtn && !submitBtn.getAttribute('data-original-text')) {
+                submitBtn.setAttribute('data-original-text', submitBtn.textContent || submitBtn.innerHTML);
+            }
+            
             // Appeler handleLandingFormSubmit qui formate et envoie correctement les données
+            // Cette fonction gère maintenant complètement le bouton (état de chargement, restauration, etc.)
             if (typeof handleLandingFormSubmit === 'function') {
                 handleLandingFormSubmit(submitEvent);
             } else {
@@ -593,6 +604,7 @@
                 alert('Une erreur est survenue. Veuillez réessayer.');
                 if (submitBtn) {
                     submitBtn.disabled = false;
+                    const originalBtnText = submitBtn.getAttribute('data-original-text') || 'Valider ma demande';
                     submitBtn.innerHTML = originalBtnText;
                 }
             }

@@ -1615,6 +1615,8 @@ Certification acceptée: OUI
         }
     })
     .then(response => {
+        console.log('📧 Réponse Formspree reçue:', response.status, response.statusText);
+        
         if (response.ok) {
             console.log('✅ Email envoyé avec succès depuis la landing page:', {
                 pageType: pageType,
@@ -1623,6 +1625,22 @@ Certification acceptée: OUI
                 nom: data.nom,
                 prenom: data.prenom
             });
+            
+            // Restaurer le bouton même en cas de succès (avant d'afficher le message)
+            if (submitButton) {
+                submitButton.disabled = false;
+                const buttonText = submitButton.querySelector('.button-text');
+                const buttonLoader = submitButton.querySelector('.button-loader');
+                
+                if (buttonText) {
+                    buttonText.style.opacity = '1';
+                } else {
+                    submitButton.textContent = submitButton.getAttribute('data-original-text') || 'Envoyer';
+                }
+                if (buttonLoader) {
+                    buttonLoader.style.display = 'none';
+                }
+            }
             
             // Si étape 2 ou formulaire complet (tous les profils), afficher message de succès
             if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs' || pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
@@ -1693,8 +1711,12 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                 
                 // Afficher le message de succès avec animation
                 setTimeout(() => {
-                    // Show success message
-                    form.innerHTML = `
+                    // Vérifier si c'est un formulaire de quiz (avec quiz-container)
+                    const quizContainer = form.querySelector('.quiz-container');
+                    const quizQuestionsContainer = form.querySelector('#quiz-questions-container');
+                    const quizNavigation = form.querySelector('#quiz-navigation');
+                    
+                    const successHTML = `
                         <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
                             <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
                             <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">${successTitle}</h3>
@@ -1725,6 +1747,19 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                             }
                         </style>
                     `;
+                    
+                    // Si c'est un quiz, afficher dans le quiz-container ou quiz-questions-container
+                    if (quizContainer) {
+                        quizContainer.innerHTML = successHTML;
+                    } else if (quizQuestionsContainer) {
+                        quizQuestionsContainer.innerHTML = successHTML;
+                        if (quizNavigation) {
+                            quizNavigation.style.display = 'none';
+                        }
+                    } else {
+                        // Sinon, remplacer tout le formulaire (comportement par défaut)
+                        form.innerHTML = successHTML;
+                    }
                 }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
             }
         } else {
