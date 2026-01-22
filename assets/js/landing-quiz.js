@@ -222,10 +222,17 @@ class LandingQuiz {
     
     getValidQuestions() {
         // Retourner uniquement les questions qui doivent être affichées
+        // Définir les champs de base qui doivent TOUJOURS être affichés en premier
+        const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+        
         const filtered = this.questions.filter((question, index) => {
-            // Si on a des données pré-remplies depuis la page d'accueil, filtrer les questions déjà répondues
-            if (this.homepageData && this.isQuestionAlreadyAnswered(question)) {
-                return false; // Ne pas afficher cette question
+            const fieldName = question.fieldName || question.id;
+            const isBasicField = basicFields.includes(fieldName);
+            
+            // Ne JAMAIS filtrer les questions de base, même si pré-remplies
+            // Cela garantit qu'on commence toujours par les bases
+            if (!isBasicField && this.homepageData && this.isQuestionAlreadyAnswered(question)) {
+                return false; // Ne pas afficher cette question technique si déjà répondue
             }
             
             // Vérifier les conditions conditionnelles
@@ -257,7 +264,18 @@ class LandingQuiz {
             return essentialQuestions.slice(0, Math.min(5, this.questions.length));
         }
         
-        return filtered;
+        // Trier pour garantir que les questions de base sont en premier
+        const basicQuestions = filtered.filter(q => {
+            const fieldName = q.fieldName || q.id;
+            return basicFields.includes(fieldName);
+        });
+        const otherQuestions = filtered.filter(q => {
+            const fieldName = q.fieldName || q.id;
+            return !basicFields.includes(fieldName);
+        });
+        
+        // Retourner d'abord les questions de base, puis les autres
+        return [...basicQuestions, ...otherQuestions];
     }
     
     isQuestionAlreadyAnswered(question) {
