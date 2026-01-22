@@ -181,10 +181,29 @@
             // Trouver la question budget et insérer l'info pack après
             const budgetQuestion = document.querySelector('[data-question-id="budget_accompagnement"]');
             if (budgetQuestion) {
+                // Essayer plusieurs méthodes pour insérer le pack
                 const questionContent = budgetQuestion.querySelector('.quiz-question-content');
-                if (questionContent) {
+                const questionOptions = budgetQuestion.querySelector('.quiz-options');
+                const questionContainer = budgetQuestion.querySelector('.quiz-question-container');
+                
+                if (questionOptions) {
+                    // Insérer après les options radio
+                    questionOptions.insertAdjacentHTML('afterend', packInfoHTML);
+                } else if (questionContent) {
                     // Insérer après le contenu de la question
                     questionContent.insertAdjacentHTML('afterend', packInfoHTML);
+                } else if (questionContainer) {
+                    // Insérer après le container de la question
+                    questionContainer.insertAdjacentHTML('afterend', packInfoHTML);
+                } else {
+                    // En dernier recours, insérer après la question entière
+                    budgetQuestion.insertAdjacentHTML('afterend', packInfoHTML);
+                }
+            } else {
+                // Si la question n'est pas trouvée, essayer de trouver le container des questions
+                const quizContainer = document.getElementById('quiz-questions-container');
+                if (quizContainer) {
+                    quizContainer.insertAdjacentHTML('beforeend', packInfoHTML);
                 }
             }
         }
@@ -244,7 +263,7 @@
                 data.credibility_score = validation.credibilityScore.score;
                 data.credibility_level = validation.credibilityScore.level;
             }
-            if (validation.inconsistencies.length > 0) {
+                if (validation.inconsistencies.length > 0) {
                 data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
             

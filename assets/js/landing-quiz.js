@@ -236,14 +236,24 @@ class LandingQuiz {
         const hasTelephone = !!(this.homepageData.telephone);
         const hasIle = !!(this.homepageData.ile);
         
-        // Pour les porteurs-projets, vérifier aussi entreprise (nom_projet)
+        // Pour les porteurs-projets, vérifier aussi entreprise (nom_projet) si disponible
         if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
-            return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle;
+            // Pour les porteurs-projets, nom_projet peut venir de 'entreprise' dans homepageData
+            const hasNomProjet = !!(this.homepageData.entreprise || this.homepageData.nom_projet);
+            // Si toutes les infos de base sont là, on peut sauter les questions de base
+            return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle && hasNomProjet;
         }
         
-        // Pour les autres profils, vérifier aussi entreprise
+        // Pour les entreprises, vérifier aussi entreprise
+        if (this.profil === 'entreprise') {
+            const hasEntreprise = !!(this.homepageData.entreprise);
+            return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle && hasEntreprise;
+        }
+        
+        // Pour les autres profils (prestataires, investisseurs), vérifier aussi entreprise si disponible
         const hasEntreprise = !!(this.homepageData.entreprise);
-        return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle && hasEntreprise;
+        // Pour les prestataires et investisseurs, entreprise n'est pas obligatoire
+        return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle;
     }
     
     getValidQuestions() {
@@ -1299,16 +1309,46 @@ class LandingQuiz {
                 // Passer à la première question technique
                 // Maintenant que getValidQuestions() filtre les questions de base après affichage,
                 // la première question technique est à l'index 0 dans validQuestions
-                this.showStep(0);
+                // Mais il faut recalculer validQuestions car elles ont changé après avoir marqué basicQuestionsShown
+                this.basicQuestionsShown = true;
+                const newValidQuestions = this.getValidQuestions();
+                if (newValidQuestions.length > 0) {
+                    this.currentValidIndex = 0;
+                    this.showStep(0);
+                } else {
+                    console.warn('[Quiz] Aucune question technique trouvée après les questions de base');
+                }
                 return;
             }
             
             if (this.validateCurrentStep()) {
                 this.saveCurrentAnswer();
+                
+                // Recalculer l'index actuel dans validQuestions pour être sûr
+                const validQuestions = this.getValidQuestions();
+                const currentQuestion = validQuestions[this.currentValidIndex];
+                if (!currentQuestion) {
+                    // Si la question actuelle n'est pas trouvée, trouver l'index correct
+                    const container = document.getElementById('quiz-questions-container');
+                    const currentQuestionElement = container?.querySelector('[data-question-id]');
+                    if (currentQuestionElement) {
+                        const currentQuestionId = currentQuestionElement.getAttribute('data-question-id');
+                        const foundIndex = validQuestions.findIndex(q => q.id === currentQuestionId);
+                        if (foundIndex >= 0) {
+                            this.currentValidIndex = foundIndex;
+                        }
+                    }
+                }
+                
                 // Utiliser l'index stocké plutôt que de le recalculer
                 const nextIndex = this.currentValidIndex + 1;
-                console.log('[Quiz] Navigation: index actuel =', this.currentValidIndex, ', prochain index =', nextIndex);
-                this.showStep(nextIndex);
+                console.log('[Quiz] Navigation: index actuel =', this.currentValidIndex, ', prochain index =', nextIndex, ', total questions =', validQuestions.length);
+                
+                if (nextIndex < validQuestions.length) {
+                    this.showStep(nextIndex);
+                } else {
+                    console.warn('[Quiz] Index suivant hors limites:', nextIndex, 'sur', validQuestions.length);
+                }
             } else {
                 // Afficher un message d'erreur
                 const question = this.questions[this.currentStep];
