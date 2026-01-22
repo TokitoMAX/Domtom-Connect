@@ -493,9 +493,10 @@ class LandingQuiz {
             container.innerHTML = questionHTML;
             console.log('[Quiz] Question rendue dans le container');
             
-            // Restaurer la réponse si elle existe (avec un petit délai pour s'assurer que le DOM est prêt)
-            setTimeout(() => {
-                this.restoreAnswer(question);
+            // Ne pas restaurer automatiquement les réponses pour permettre à l'utilisateur de changer facilement
+            // Les réponses sont toujours sauvegardées mais ne sont pas pré-remplies quand on revient en arrière
+            // setTimeout(() => {
+            //     this.restoreAnswer(question);
                 
                 // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
                 // Utiliser un délai supplémentaire pour s'assurer que le DOM est complètement prêt
@@ -562,94 +563,71 @@ class LandingQuiz {
     }
     
     renderQuestion(question, index) {
-        // Vérifier si cette question a déjà une réponse sauvegardée
-        const hasSavedAnswer = this.answers[`question_${question.id}`] || 
-                              (question.fieldName && this.answers[question.fieldName]);
-        const editableHint = hasSavedAnswer && (question.type === 'radio' || question.type === 'select') 
-            ? '<p class="quiz-editable-hint" style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">💡 Vous pouvez modifier votre choix en cliquant sur une autre option</p>' 
-            : '';
-        
         let html = `
             <div class="quiz-question" data-question-id="${question.id}">
                 <div class="quiz-question-header">
                     <h2 class="quiz-question-title">${question.question}</h2>
                     ${question.description ? `<p class="quiz-question-description">${question.description}</p>` : ''}
-                    ${editableHint}
                 </div>
                 <div class="quiz-question-content">
         `;
         
         if (question.type === 'radio') {
-            // Vérifier d'abord dans les réponses par ID, puis par fieldName
-            const savedValue = this.answers[`question_${question.id}`] || 
-                             (question.fieldName ? this.answers[question.fieldName] : '') || 
-                             '';
+            // Ne pas pré-remplir les réponses pour permettre un changement facile
             html += '<div class="quiz-options">';
             question.options.forEach((option, optIndex) => {
                 const optionId = `q${question.id}_opt${optIndex}`;
-                const isChecked = savedValue === option.value;
                 html += `
-                    <label class="quiz-option ${isChecked ? 'quiz-option-selected' : ''}" for="${optionId}">
+                    <label class="quiz-option" for="${optionId}">
                         <input type="radio" 
                                id="${optionId}" 
                                name="question_${question.id}" 
-                               value="${option.value}"
-                               ${isChecked ? 'checked' : ''}>
+                               value="${option.value}">
                         <span class="quiz-option-label">${option.label}</span>
                     </label>
                 `;
             });
             html += '</div>';
         } else if (question.type === 'select') {
-            // Vérifier d'abord dans les réponses par ID, puis par fieldName
-            const savedValue = this.answers[`question_${question.id}`] || 
-                             (question.fieldName ? this.answers[question.fieldName] : '') || 
-                             '';
+            // Ne pas pré-remplir les réponses pour permettre un changement facile
             html += `<select name="question_${question.id}" class="quiz-select" id="question_${question.id}">`;
             html += `<option value="">${question.placeholder || 'Sélectionnez une option'}</option>`;
             question.options.forEach(option => {
-                html += `<option value="${option.value}" ${savedValue === option.value ? 'selected' : ''}>${option.label}</option>`;
+                html += `<option value="${option.value}">${option.label}</option>`;
             });
             html += '</select>';
         } else if (question.type === 'text' || question.type === 'email' || question.type === 'tel' || question.type === 'url') {
-            // Vérifier d'abord dans les réponses par ID, puis par fieldName
-            const answerValue = this.answers[`question_${question.id}`] || 
-                               (question.fieldName ? this.answers[question.fieldName] : '') || 
-                               '';
+            // Ne pas pré-remplir les réponses pour permettre un changement facile
             html += `
                 <input type="${question.type}" 
                        name="question_${question.id}" 
                        class="quiz-input" 
                        id="question_${question.id}"
                        placeholder="${question.placeholder || ''}"
-                       value="${answerValue}"
+                       value=""
                        ${question.required ? 'required' : ''}
                        ${question.pattern ? `pattern="${question.pattern}"` : ''}
                        ${question.maxlength ? `maxlength="${question.maxlength}"` : ''}>
             `;
         } else if (question.type === 'textarea') {
-            // Vérifier d'abord dans les réponses par ID, puis par fieldName
-            const answerValue = this.answers[`question_${question.id}`] || 
-                               (question.fieldName ? this.answers[question.fieldName] : '') || 
-                               '';
+            // Ne pas pré-remplir les réponses pour permettre un changement facile
             html += `
                 <textarea name="question_${question.id}" 
                           class="quiz-textarea" 
                           id="question_${question.id}"
                           placeholder="${question.placeholder || ''}"
                           rows="${question.rows || 4}"
-                          ${question.required ? 'required' : ''}>${answerValue}</textarea>
+                          ${question.required ? 'required' : ''}></textarea>
             `;
         } else if (question.type === 'checkbox') {
             const checkboxId = `question_${question.id}`;
-            const isChecked = this.answers[`question_${question.id}`] === 'oui';
+            // Ne pas pré-remplir les réponses pour permettre un changement facile
             html += `
                 <label class="quiz-checkbox-label" for="${checkboxId}">
                     <input type="checkbox" 
                            id="${checkboxId}" 
                            name="question_${question.id}" 
                            value="oui"
-                           ${isChecked ? 'checked' : ''}
                            ${question.required ? 'required' : ''}>
                     <span>${question.description || question.question}</span>
                 </label>
