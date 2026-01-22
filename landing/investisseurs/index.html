@@ -99,7 +99,6 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
         
-        // Questions simplifiées pour les investisseurs
         const investisseursQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
@@ -120,346 +119,219 @@
             ]},
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-
-        // Initialiser le quiz
+        
         let quiz;
-        document.addEventListener('DOMContentLoaded', () => {
+        
+        document.addEventListener('DOMContentLoaded', function() {
             quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
         });
 
-        // Gérer la soumission du formulaire
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
-            
             if (!quiz) return;
-            
-            // NETTOYER les données en cache avant de collecter (pour éviter les conflits)
-            // Réinitialiser les réponses pour forcer la collecte depuis les inputs actuels
-            quiz.answers = {};
-            
-            // S'assurer qu'on récupère les données fraîches depuis les inputs
-            quiz.questions.forEach(question => {
-                const input = document.getElementById(`question_${question.id}`) || 
-                             document.querySelector(`input[name="question_${question.id}"]`) ||
-                             document.querySelector(`select[name="question_${question.id}"]`) ||
-                             document.querySelector(`textarea[name="question_${question.id}"]`);
-                if (input) {
-                    // Forcer la sauvegarde de la valeur actuelle
-                    if (question.type === 'radio') {
-                        const checked = document.querySelector(`input[name="question_${question.id}"]:checked`);
-                        if (checked) {
-                            quiz.answers[`question_${question.id}`] = checked.value;
-                        }
-                    } else if (question.type === 'checkbox') {
-                        quiz.answers[`question_${question.id}`] = input.checked ? (input.value || 'OUI') : null;
-                    } else {
-                        quiz.answers[`question_${question.id}`] = input.value || null;
-                    }
-                }
-            });
             
             const data = quiz.collectAllAnswers();
             data.profil = 'investisseur';
             
-            // FORCER la récupération des champs de base depuis les inputs du DOM
-            // S'assurer que prénom, nom, email, telephone sont bien présents
-            const baseFields = [
-                { key: 'prenom', selectors: ['question_prenom', 'input[name="question_prenom"]', 'input[name="prenom"]'] },
-                { key: 'nom', selectors: ['question_nom', 'input[name="question_nom"]', 'input[name="nom"]'] },
-                { key: 'email', selectors: ['question_email', 'input[name="question_email"]', 'input[name="email"]', 'input[type="email"]'] },
-                { key: 'telephone', selectors: ['question_telephone', 'input[name="question_telephone"]', 'input[name="telephone"]', 'input[type="tel"]'] }
-            ];
+            // Validation silencieuse (sans alertes) - juste pour collecter les infos
+            const validator = new FormValidator();
+            const validation = await validator.validateForm(data);
             
-            baseFields.forEach(field => {
-                if (!data[field.key] || data[field.key].trim() === '') {
-                    for (const selector of field.selectors) {
-                        const input = document.getElementById(selector) || 
-                                     document.querySelector(selector);
-                        if (input && input.value && input.value.trim() !== '') {
-                            data[field.key] = input.value.trim();
-                            console.log(`✅ ${field.key} récupéré depuis le DOM:`, data[field.key]);
-                            break;
-                        }
-                    }
-                }
-            });
+            // Ajouter les résultats de validation aux données (pour l'email) mais ne pas bloquer
+            if (validation.credibilityScore) {
+                data.credibility_score = validation.credibilityScore.score;
+                data.credibility_level = validation.credibilityScore.level;
+            }
+            if (validation.inconsistencies.length > 0) {
+                data.inconsistencies = JSON.stringify(validation.inconsistencies);
+            }
             
-            // Vérification finale et logs
-            console.log('📝 Données collectées après nettoyage:', {
-                prenom: data.prenom,
-                nom: data.nom,
-                email: data.email,
-                telephone: data.telephone,
-                profil: data.profil
-            });
+            // Préparer les données pour l'envoi
+            const prenom = data.prenom || data.question_prenom || '';
+            const nom = data.nom || data.question_nom || '';
+            const email = data.email || data.question_email || '';
+            const telephone = data.telephone || data.question_telephone || '';
+            const ile = data.ile || data.question_ile || '';
+            const montant_investissement = data.montant_investissement || data.question_montant_investissement || '';
             
-            console.log('📝 Données collectées avant validation:', {
-                prenom: data.prenom,
-                nom: data.nom,
-                email: data.email
-            });
+            // Déterminer la cotisation selon le montant
+            let cotisationInfo = null;
+            if (montant_investissement === 'moins-50k') {
+                cotisationInfo = { montant: '29€/mois', annuel: '300€/an', description: 'Moins de 50 000€ d\'investissement' };
+            } else if (montant_investissement === '50k-200k') {
+                cotisationInfo = { montant: '49€/mois', annuel: '500€/an', description: '50 000€ à 200 000€ d\'investissement' };
+            } else if (montant_investissement === '200k-plus') {
+                cotisationInfo = { montant: '99€/mois', annuel: '1 000€/an', description: 'Plus de 200 000€ d\'investissement' };
+            }
             
-            // Afficher un message de chargement
+            // Préparer le message pour l'email
+            let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 INVESTISSEUR - NOUVELLE INSCRIPTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source: Landing Page investisseurs
+Date: ${new Date().toLocaleString('fr-FR')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 BLOC 1 - PROFIL & ORIGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${prenom}
+Nom: ${nom}
+Email: ${email}
+Téléphone: ${telephone || 'Non renseigné'}
+Territoire: ${ile || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 BLOC 2 - INVESTISSEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Montant d'investissement potentiel: ${montant_investissement || 'Non renseigné'}
+${cotisationInfo ? `Cotisation suggérée: ${cotisationInfo.montant} (ou ${cotisationInfo.annuel})` : ''}
+${cotisationInfo ? `Description: ${cotisationInfo.description}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Certification acceptée: OUI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Contacter ${prenom} ${nom} pour un appel découverte
+2. Discuter des opportunités d'investissement
+3. Présenter des projets qualifiés
+4. Définir ensemble la cotisation mensuelle
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+            
+            // Préparer FormData pour Formspree
+            const formDataToSend = new FormData();
+            formDataToSend.append('_to', 'domtomconnect@gmail.com');
+            formDataToSend.append('_subject', `💰 INVESTISSEUR - ${prenom} ${nom}${cotisationInfo ? ' - ' + cotisationInfo.montant : ''}`);
+            formDataToSend.append('_replyto', email);
+            formDataToSend.append('message', messageBody);
+            
+            // Données structurées
+            formDataToSend.append('Prénom', prenom);
+            formDataToSend.append('Nom', nom);
+            formDataToSend.append('Email', email);
+            formDataToSend.append('Téléphone', telephone || '');
+            formDataToSend.append('Territoire', ile || '');
+            formDataToSend.append('Montant investissement', montant_investissement || '');
+            formDataToSend.append('Profil', 'investisseur');
+            if (cotisationInfo) {
+                formDataToSend.append('Cotisation suggérée', `${cotisationInfo.montant} (ou ${cotisationInfo.annuel})`);
+            }
+            if (validation.credibilityScore) {
+                formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
+                formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);
+            }
+            
+            // Gérer le bouton
             const submitBtn = event.target.querySelector('button[type="submit"]') || 
                             document.querySelector('#quiz-btn-next[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+            const originalBtnText = submitBtn ? (submitBtn.textContent || submitBtn.innerHTML) : '';
+            
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Envoi en cours...';
+                submitBtn.innerHTML = 'Envoi en cours...';
             }
             
-            // PAS DE VALIDATION - ENVOYER DIRECTEMENT CE QUE L'UTILISATEUR A ÉCRIT
+            // Envoyer à Formspree
+            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
             
-            // Vérifier l'email mais ne PAS bloquer l'envoi
-            if (!data.email || data.email.trim() === '') {
-                console.warn('⚠️ Email manquant dans handleQuizFormSubmit, recherche dans tous les champs...');
+            fetch(formspreeUrl, {
+                method: 'POST',
+                body: formDataToSend,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('📧 Réponse Formspree:', response.status, response.statusText);
                 
-                // Chercher dans tous les inputs du formulaire
-                const allInputs = document.querySelectorAll('input, textarea, select');
-                for (const input of allInputs) {
-                    const value = input.value || '';
-                    if (value.includes('@') && value.includes('.')) {
-                        data.email = value.trim();
-                        console.log('✅ Email trouvé dans un input:', data.email);
-                        break;
-                    }
-                }
-                
-                // Si toujours pas d'email, utiliser une valeur par défaut
-                if (!data.email || data.email.trim() === '') {
-                    console.warn('⚠️ Utilisation d\'une valeur par défaut pour permettre l\'envoi');
-                    data.email = data.prenom && data.nom 
-                        ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
-                        : 'contact@domtomconnect-temp.com';
-                }
-            }
-            
-            console.log('✅ Email utilisé pour l\'envoi:', data.email);
-            
-            // Créer un FormData avec toutes les réponses
-            const form = document.getElementById('landing-form');
-            const formData = new FormData(form);
-            
-            // Ajouter toutes les réponses du quiz au FormData
-            // IMPORTANT: S'assurer que l'email est bien ajouté avec la clé "email"
-            Object.keys(data).forEach(key => {
-                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-                    formData.set(key, data[key]);
-                }
-            });
-            
-            // Vérification finale : s'assurer que l'email est bien dans le FormData
-            if (!formData.get('email') && !formData.get('question_email')) {
-                // Forcer l'ajout de l'email
-                formData.set('email', data.email);
-                console.log('✅ Email ajouté manuellement au FormData:', data.email);
-            }
-            
-            // Créer un objet data pour handleLandingFormSubmit
-            const submitData = {};
-            formData.forEach((value, key) => {
-                if (key !== 'website') {
-                    submitData[key] = value;
-                }
-            });
-            
-            // S'assurer que l'email est dans submitData (ne PAS bloquer si manquant)
-            if (!submitData.email) {
-                // Essayer de récupérer depuis data directement
-                if (data.email) {
-                    submitData.email = data.email;
-                    console.log('✅ Email ajouté à submitData depuis data:', data.email);
-                } else {
-                    // Utiliser une valeur par défaut pour permettre l'envoi
-                    submitData.email = data.prenom && data.nom 
-                        ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
-                        : 'contact@domtomconnect-temp.com';
-                    console.warn('⚠️ Email manquant, utilisation d\'une valeur par défaut:', submitData.email);
-                }
-            }
-            
-            console.log('✅ Données finales avant envoi à handleLandingFormSubmit:', {
-                email: submitData.email,
-                prenom: submitData.prenom,
-                nom: submitData.nom
-            });
-            
-            // FORCER l'ajout de tous les champs de base au formulaire AVANT l'appel à handleLandingFormSubmit
-            // Récupérer les valeurs DIRECTEMENT depuis les inputs du quiz
-            const getValueFromQuiz = (fieldName) => {
-                // Essayer plusieurs sélecteurs possibles
-                const selectors = [
-                    `#question_${fieldName}`,
-                    `input[name="question_${fieldName}"]`,
-                    `select[name="question_${fieldName}"]`,
-                    `input[name="${fieldName}"]`,
-                    `select[name="${fieldName}"]`
-                ];
-                
-                for (const selector of selectors) {
-                    const input = document.querySelector(selector);
-                    if (input) {
-                        if (input.type === 'radio') {
-                            const checked = document.querySelector(`input[name="${input.name}"]:checked`);
-                            if (checked) return checked.value;
-                        } else if (input.type === 'checkbox') {
-                            return input.checked ? (input.value || 'OUI') : '';
-                        } else {
-                            return input.value || '';
-                        }
-                    }
-                }
-                return '';
-            };
-            
-            // Récupérer les valeurs directement depuis les inputs
-            const prenomValue = getValueFromQuiz('prenom') || submitData.prenom || data.prenom || '';
-            const nomValue = getValueFromQuiz('nom') || submitData.nom || data.nom || '';
-            const emailValue = getValueFromQuiz('email') || submitData.email || data.email || '';
-            const telephoneValue = getValueFromQuiz('telephone') || submitData.telephone || data.telephone || '';
-            const ileValue = getValueFromQuiz('ile') || submitData.ile || data.ile || '';
-            
-            console.log('✅ Valeurs récupérées depuis les inputs:', {
-                prenom: prenomValue,
-                nom: nomValue,
-                email: emailValue,
-                telephone: telephoneValue,
-                ile: ileValue
-            });
-            
-            // Créer des inputs cachés pour garantir que toutes les données sont dans le FormData
-            const requiredFields = [
-                { name: 'prenom', value: prenomValue },
-                { name: 'nom', value: nomValue },
-                { name: 'email', value: emailValue },
-                { name: 'telephone', value: telephoneValue },
-                { name: 'ile', value: ileValue },
-                { name: 'profil', value: 'investisseur' }
-            ];
-            
-            requiredFields.forEach(field => {
-                // Supprimer tous les inputs existants avec ce nom
-                const existingInputs = form.querySelectorAll(`[name="${field.name}"], [name="question_${field.name}"]`);
-                existingInputs.forEach(input => input.remove());
-                
-                // Créer un nouvel input caché avec la valeur
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = field.name;
-                hiddenInput.value = field.value;
-                form.appendChild(hiddenInput);
-                console.log(`✅ Champ ${field.name} ajouté au formulaire:`, field.value);
-            });
-            
-            // Ajouter aussi tous les autres champs du quiz (simplifié)
-            const allQuizFields = [
-                'montant_mensuel', 'pourquoi_investir', 'certification'
-            ];
-            
-            allQuizFields.forEach(fieldName => {
-                const value = getValueFromQuiz(fieldName) || submitData[fieldName] || data[fieldName] || '';
-                
-                // Supprimer l'input existant s'il existe
-                const existingInput = form.querySelector(`[name="${fieldName}"], [name="question_${fieldName}"]`);
-                if (existingInput && existingInput.type === 'hidden') {
-                    existingInput.remove();
-                }
-                
-                // Créer un input caché pour garantir que la valeur est dans le FormData
-                if (value) {
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = fieldName;
-                    hiddenInput.value = value;
-                    form.appendChild(hiddenInput);
-                    console.log(`✅ Champ quiz ${fieldName} ajouté:`, value);
-                }
-            });
-            
-            // Ajouter aussi tous les autres champs de submitData qui ne sont pas déjà traités
-            Object.keys(submitData).forEach(key => {
-                if (!requiredFields.some(f => f.name === key) && !allQuizFields.includes(key)) {
-                    // Supprimer l'input existant s'il existe
-                    const existingInput = form.querySelector(`[name="${key}"]`);
-                    if (existingInput && existingInput.type === 'hidden') {
-                        existingInput.remove();
-                    }
+                if (response.ok) {
+                    console.log('✅ Email envoyé avec succès');
                     
-                    // Créer un input caché pour garantir que la valeur est dans le FormData
-                    if (submitData[key]) {
-                        const hiddenInput = document.createElement('input');
-                        hiddenInput.type = 'hidden';
-                        hiddenInput.name = key;
-                        hiddenInput.value = submitData[key];
-                        form.appendChild(hiddenInput);
-                    }
-                }
-            });
-            
-            // Vérification finale : s'assurer que les champs de base sont bien dans le formulaire
-            const finalFormData = new FormData(form);
-            console.log('✅ Vérification finale FormData:', {
-                prenom: finalFormData.get('prenom'),
-                nom: finalFormData.get('nom'),
-                email: finalFormData.get('email'),
-                telephone: finalFormData.get('telephone'),
-                profil: finalFormData.get('profil')
-            });
-            
-            // Créer un événement simulé avec les données
-            const fakeEvent = {
-                preventDefault: () => {},
-                target: form,
-                currentTarget: form
-            };
-            
-            // Appeler handleLandingFormSubmit
-            console.log('🔍 Vérification de handleLandingFormSubmit:', typeof handleLandingFormSubmit);
-            console.log('🔍 Formulaire:', form);
-            console.log('🔍 Données à envoyer:', submitData);
-            
-            // Attendre un peu pour s'assurer que tout est prêt
-            setTimeout(() => {
-                if (typeof handleLandingFormSubmit === 'function') {
-                    console.log('✅ Appel de handleLandingFormSubmit...');
-                    try {
-                        // Appeler directement avec l'événement
-                        handleLandingFormSubmit(fakeEvent);
-                        console.log('✅ handleLandingFormSubmit appelé avec succès');
-                    } catch (error) {
-                        console.error('❌ Erreur lors de l\'appel de handleLandingFormSubmit:', error);
-                        console.error('❌ Stack trace:', error.stack);
-                        alert('Erreur lors de l\'envoi: ' + error.message);
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalBtnText;
+                    // Afficher le message de succès
+                    const quizContainer = document.querySelector('.quiz-container');
+                    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+                    const quizNavigation = document.getElementById('quiz-navigation');
+                    
+                    const successHTML = `
+                        <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
+                            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">✓ Inscription envoyée avec succès !</h3>
+                            <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+                                Merci ${prenom ? prenom + ' !' : ' !'} 🎉
+
+Votre demande a bien été reçue et enregistrée.
+
+📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre demande dans quelques instants.
+
+📞 Nous vous recontacterons dans les 24-48 heures pour :
+• Discuter de vos opportunités d'investissement
+• Vous présenter des projets qualifiés
+• Définir ensemble votre cotisation mensuelle
+
+En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.
+                            </div>
+                            ${cotisationInfo ? `
+                                <div style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; padding: 2rem; color: white; margin: 2rem 0;">
+                                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">Cotisation suggérée</h3>
+                                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${cotisationInfo.montant}</div>
+                                    <div style="font-size: 1.2rem; margin-bottom: 0.5rem; color: rgba(255, 255, 255, 0.9);">ou ${cotisationInfo.annuel}</div>
+                                    <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${cotisationInfo.description}</p>
+                                </div>
+                            ` : ''}
+                            <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                        </div>
+                        <style>
+                            @keyframes fadeInSlide {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(20px);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0);
+                                }
+                            }
+                            @keyframes bounceIn {
+                                0% {
+                                    transform: scale(0);
+                                }
+                                50% {
+                                    transform: scale(1.2);
+                                }
+                                100% {
+                                    transform: scale(1);
+                                }
+                            }
+                        </style>
+                    `;
+                    
+                    if (quizContainer) {
+                        quizContainer.innerHTML = successHTML;
+                    } else if (quizQuestionsContainer) {
+                        quizQuestionsContainer.innerHTML = successHTML;
+                        if (quizNavigation) {
+                            quizNavigation.style.display = 'none';
                         }
                     }
                 } else {
-                    console.error('❌ handleLandingFormSubmit n\'est pas une fonction ! Type:', typeof handleLandingFormSubmit);
-                    console.error('❌ window.handleLandingFormSubmit:', window.handleLandingFormSubmit);
-                    // Essayer d'appeler depuis window
-                    if (window.handleLandingFormSubmit && typeof window.handleLandingFormSubmit === 'function') {
-                        console.log('✅ handleLandingFormSubmit trouvé dans window, appel...');
-                        try {
-                            window.handleLandingFormSubmit(fakeEvent);
-                        } catch (error) {
-                            console.error('❌ Erreur:', error);
-                            alert('Erreur lors de l\'envoi: ' + error.message);
-                            if (submitBtn) {
-                                submitBtn.disabled = false;
-                                submitBtn.innerHTML = originalBtnText;
-                            }
-                        }
-                    } else {
-                        alert('Erreur: Le formulaire ne peut pas être envoyé. Veuillez recharger la page.');
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalBtnText;
-                        }
-                    }
+                    return response.json().then(errData => {
+                        console.error('❌ Erreur lors de l\'envoi:', errData);
+                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                    });
                 }
-            }, 100);
+            })
+            .catch(error => {
+                console.error('❌ Erreur:', error);
+                alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            });
         }
     </script>
 </body>

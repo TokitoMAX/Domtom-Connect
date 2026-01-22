@@ -156,142 +156,213 @@
             const data = quiz.collectAllAnswers();
             data.profil = 'entreprise';
             
-            // Afficher un message de chargement
-            const submitBtn = event.target.querySelector('button[type="submit"]') || 
-                            document.querySelector('#quiz-btn-next[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Vérification en cours...';
-            }
-            
-            // Valider le formulaire
+            // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);
             
-            // Afficher les résultats de validation
-            let canSubmit = true;
-            
-            if (!validation.valid) {
-                canSubmit = false;
-                const validationMessage = '❌ Erreurs détectées :\n' + 
-                    validation.errors.map(e => `• ${e.message}`).join('\n');
-                alert(validationMessage);
-            } else {
-                // Afficher les avertissements
-                if (validation.warnings.length > 0) {
-                    const warnings = validation.warnings.map(w => `• ${w.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Avertissements détectés :\n\n' + warnings + 
-                        '\n\nSouhaitez-vous continuer malgré ces avertissements ?');
-                    if (!continueAnyway) {
-                        canSubmit = false;
-                    }
-                }
-                
-                // Afficher les incohérences
-                if (validation.inconsistencies.length > 0) {
-                    const inconsistencies = validation.inconsistencies.map(i => `• ${i.message}`).join('\n');
-                    const continueAnyway = confirm('⚠️ Incohérences détectées :\n\n' + inconsistencies + 
-                        '\n\nCes incohérences seront vérifiées lors de l\'appel de qualification.\n\nSouhaitez-vous continuer ?');
-                    if (!continueAnyway) {
-                        canSubmit = false;
-                    }
-                }
-                
-                // Afficher le score de crédibilité
-                if (validation.credibilityScore) {
-                    const score = validation.credibilityScore.score;
-                    const level = validation.credibilityScore.level;
-                    
-                    if (level === 'low') {
-                        const continueAnyway = confirm(`⚠️ Score de crédibilité faible : ${score}%\n\n` +
-                            `Votre score est en dessous du seuil recommandé (60%).\n` +
-                            `Cela peut être dû à :\n` +
-                            `• Preuves insuffisantes\n` +
-                            `• Incohérences dans vos réponses\n` +
-                            `• Informations incomplètes\n\n` +
-                            `Souhaitez-vous continuer ? Un appel de qualification approfondi sera nécessaire.`);
-                        if (!continueAnyway) {
-                            canSubmit = false;
-                        }
-                    } else if (level === 'medium') {
-                        alert(`ℹ️ Score de crédibilité : ${score}%\n\n` +
-                            `Votre score est acceptable mais une vérification approfondie sera effectuée lors de l'appel.`);
-                    }
-                }
-            }
-            
-            // Restaurer le bouton
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-            
-            if (!canSubmit) {
-                return;
-            }
-            
-            const form = document.getElementById('landing-form');
-            const formData = new FormData(form);
-            Object.keys(data).forEach(key => {
-                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-                    formData.set(key, data[key]);
-                }
-            });
-            
-            // Ajouter les résultats de validation
+            // Ajouter les résultats de validation aux données (pour l'email) mais ne pas bloquer
             if (validation.credibilityScore) {
-                formData.set('credibility_score', validation.credibilityScore.score);
-                formData.set('credibility_level', validation.credibilityScore.level);
+                data.credibility_score = validation.credibilityScore.score;
+                data.credibility_level = validation.credibilityScore.level;
             }
             if (validation.inconsistencies.length > 0) {
-                formData.set('inconsistencies', JSON.stringify(validation.inconsistencies));
+                data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
             
-            const submitData = {};
-            formData.forEach((value, key) => {
-                if (key !== 'website') submitData[key] = value;
-            });
-            const fakeEvent = { preventDefault: () => {}, target: form };
-            Object.keys(submitData).forEach(key => {
-                const input = form.querySelector(`[name="${key}"]`);
-                if (input) {
-                    if (input.type === 'checkbox' || input.type === 'radio') {
-                        input.checked = submitData[key] === input.value;
-                    } else {
-                        input.value = submitData[key];
+            // Préparer les données pour l'envoi
+            const prenom = data.prenom || data.question_prenom || '';
+            const nom = data.nom || data.question_nom || '';
+            const email = data.email || data.question_email || '';
+            const telephone = data.telephone || data.question_telephone || '';
+            const entreprise = data.entreprise || data.question_entreprise || '';
+            const ile = data.ile || data.question_ile || '';
+            const besoin = data.besoin || data.question_besoin || '';
+            const budget_accompagnement = data.budget_accompagnement || data.question_budget_accompagnement || '';
+            
+            // Déterminer le pack selon le budget
+            let packInfo = null;
+            if (budget_accompagnement === '300-1000') {
+                packInfo = { name: 'Pack Express', price: '800 €', description: 'Recherche de prestataires qualifiés' };
+            } else if (budget_accompagnement === '1000-3000') {
+                packInfo = { name: 'Pack Coordination', price: '1 500 €', description: 'Coordination complète de vos prestataires' };
+            } else if (budget_accompagnement === 'plus-3000') {
+                packInfo = { name: 'Pack Partenaire', price: '2 500 €', description: 'Partenariat stratégique complet' };
+            }
+            
+            // Préparer le message pour l'email
+            let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 ENTREPRISE - NOUVELLE INSCRIPTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source: Landing Page entreprises
+Date: ${new Date().toLocaleString('fr-FR')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 BLOC 1 - PROFIL & ORIGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${prenom}
+Nom: ${nom}
+Email: ${email}
+Téléphone: ${telephone || 'Non renseigné'}
+Entreprise: ${entreprise || 'Non renseigné'}
+Territoire: ${ile || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 BLOC 2 - BESOIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Besoin principal: ${besoin || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 BLOC 3 - BUDGET & PACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Budget: ${budget_accompagnement || 'Non renseigné'}
+${packInfo ? `Pack sélectionné: ${packInfo.name} (${packInfo.price})` : 'Pack: Non défini'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Certification acceptée: OUI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Contacter ${prenom} ${nom}${entreprise ? ' (' + entreprise + ')' : ''} pour un appel découverte gratuit
+2. Après l'appel, décider (oui/non) selon alignement avec mission
+3. Si oui, envoyer récap + lien paiement
+4. Planifier première session de travail
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+            
+            // Préparer FormData pour Formspree
+            const formDataToSend = new FormData();
+            formDataToSend.append('_to', 'domtomconnect@gmail.com');
+            formDataToSend.append('_subject', `🏢 ENTREPRISE${packInfo ? ' - ' + packInfo.name : ''} - ${entreprise || 'Nouvelle Entreprise'} - ${prenom} ${nom}`);
+            formDataToSend.append('_replyto', email);
+            formDataToSend.append('message', messageBody);
+            
+            // Données structurées
+            formDataToSend.append('Prénom', prenom);
+            formDataToSend.append('Nom', nom);
+            formDataToSend.append('Email', email);
+            formDataToSend.append('Téléphone', telephone || '');
+            formDataToSend.append('Entreprise', entreprise || '');
+            formDataToSend.append('Territoire', ile || '');
+            formDataToSend.append('Besoin', besoin || '');
+            formDataToSend.append('Budget Accompagnement', budget_accompagnement || '');
+            formDataToSend.append('Profil', 'entreprise');
+            if (packInfo) {
+                formDataToSend.append('Pack sélectionné', `${packInfo.name} (${packInfo.price})`);
+            }
+            if (validation.credibilityScore) {
+                formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
+                formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);
+            }
+            
+            // Gérer le bouton
+            const submitBtn = event.target.querySelector('button[type="submit"]') || 
+                            document.querySelector('#quiz-btn-next[type="submit"]');
+            const originalBtnText = submitBtn ? (submitBtn.textContent || submitBtn.innerHTML) : '';
+            
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Envoi en cours...';
+            }
+            
+            // Envoyer à Formspree
+            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
+            
+            fetch(formspreeUrl, {
+                method: 'POST',
+                body: formDataToSend,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('📧 Réponse Formspree:', response.status, response.statusText);
+                
+                if (response.ok) {
+                    console.log('✅ Email envoyé avec succès');
+                    
+                    // Afficher le message de succès
+                    const quizContainer = document.querySelector('.quiz-container');
+                    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+                    const quizNavigation = document.getElementById('quiz-navigation');
+                    
+                    const successHTML = `
+                        <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
+                            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">✓ Demande envoyée avec succès !</h3>
+                            <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+                                Merci ${prenom ? prenom + ' !' : ' !'} 🎉
+
+Votre demande a bien été reçue et enregistrée.
+
+📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre demande dans quelques instants.
+
+📞 Nous vous recontacterons dans les 24-48 heures pour :
+• Discuter de vos besoins en prestataires
+• Vous présenter notre réseau de prestataires vérifiés
+• Vous proposer des solutions adaptées à vos besoins
+
+En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.
+                            </div>
+                            ${packInfo ? `
+                                <div style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; padding: 2rem; color: white; margin: 2rem 0;">
+                                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">${packInfo.name}</h3>
+                                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
+                                    <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
+                                </div>
+                            ` : ''}
+                            <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                        </div>
+                        <style>
+                            @keyframes fadeInSlide {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(20px);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0);
+                                }
+                            }
+                            @keyframes bounceIn {
+                                0% {
+                                    transform: scale(0);
+                                }
+                                50% {
+                                    transform: scale(1.2);
+                                }
+                                100% {
+                                    transform: scale(1);
+                                }
+                            }
+                        </style>
+                    `;
+                    
+                    if (quizContainer) {
+                        quizContainer.innerHTML = successHTML;
+                    } else if (quizQuestionsContainer) {
+                        quizQuestionsContainer.innerHTML = successHTML;
+                        if (quizNavigation) {
+                            quizNavigation.style.display = 'none';
+                        }
                     }
+                } else {
+                    return response.json().then(errData => {
+                        console.error('❌ Erreur lors de l\'envoi:', errData);
+                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erreur:', error);
+                alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
                 }
             });
-            
-            // Déterminer le pack selon le budget pour la redirection
-            const budget = data.budget_accompagnement || submitData.budget_accompagnement;
-            let budgetForRedirect = budget;
-            
-            // Déterminer le pack sélectionné selon le budget
-            let packSelectionne = '';
-            if (budget === '300-1000') {
-                packSelectionne = 'pack-express'; // Pack Express 800€
-            } else if (budget === '1000-3000') {
-                packSelectionne = 'pack-coordination'; // Pack Coordination 1500€
-            } else if (budget === 'plus-3000') {
-                packSelectionne = 'pack-partenaire'; // Pack Partenaire 2500€
-            } else {
-                packSelectionne = 'info';
-            }
-            
-            sessionStorage.setItem('submittedBudget', budgetForRedirect);
-            sessionStorage.setItem('submittedPack', packSelectionne);
-            
-            // Soumettre le formulaire
-            if (typeof handleLandingFormSubmit === 'function') {
-                handleLandingFormSubmit(fakeEvent);
-            }
-            
-            // Rediriger vers la page tarifs après soumission (les entreprises verront les packs adaptés)
-            setTimeout(() => {
-                window.location.href = '/tarifs?budget=' + encodeURIComponent(budgetForRedirect) + '&pack=' + encodeURIComponent(packSelectionne) + '&profil=entreprise';
-            }, 1000);
         }
     </script>
 </body>
