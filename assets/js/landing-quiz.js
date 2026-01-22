@@ -13,6 +13,7 @@ class LandingQuiz {
         this.useSimplified = false;
         this.homepageData = null; // Données brutes du formulaire d'accueil
         this.isNavigating = false; // Flag pour éviter les navigations multiples simultanées
+        this.basicQuestionsShown = false; // Flag pour indiquer que les questions de base ont été affichées en groupe
         
         this.init();
     }
@@ -231,6 +232,11 @@ class LandingQuiz {
             const fieldName = question.fieldName || question.id;
             const isBasicField = basicFields.includes(fieldName);
             
+            // Si les questions de base ont déjà été affichées en groupe, ne plus les inclure
+            if (this.basicQuestionsShown && isBasicField) {
+                return false;
+            }
+            
             // Ne JAMAIS filtrer les questions de base, même si pré-remplies
             // Cela garantit qu'on commence toujours par les bases
             if (!isBasicField && this.homepageData && this.isQuestionAlreadyAnswered(question)) {
@@ -266,18 +272,24 @@ class LandingQuiz {
             return essentialQuestions.slice(0, Math.min(5, this.questions.length));
         }
         
-        // Trier pour garantir que les questions de base sont en premier
-        const basicQuestions = filtered.filter(q => {
-            const fieldName = q.fieldName || q.id;
-            return basicFields.includes(fieldName);
-        });
-        const otherQuestions = filtered.filter(q => {
-            const fieldName = q.fieldName || q.id;
-            return !basicFields.includes(fieldName);
-        });
-        
-        // Retourner d'abord les questions de base, puis les autres
-        return [...basicQuestions, ...otherQuestions];
+        // Si les questions de base n'ont pas encore été affichées, les mettre en premier
+        if (!this.basicQuestionsShown) {
+            // Trier pour garantir que les questions de base sont en premier
+            const basicQuestions = filtered.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                return basicFields.includes(fieldName);
+            });
+            const otherQuestions = filtered.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                return !basicFields.includes(fieldName);
+            });
+            
+            // Retourner d'abord les questions de base, puis les autres
+            return [...basicQuestions, ...otherQuestions];
+        } else {
+            // Si les questions de base ont déjà été affichées, retourner seulement les autres
+            return filtered;
+        }
     }
     
     isQuestionAlreadyAnswered(question) {
@@ -419,15 +431,17 @@ class LandingQuiz {
             }
         }
         
-        // Filtrer les questions de base si elles ont été affichées en groupe et qu'on est après
-        if (isFirstQuestionBasic && basicQuestionsCount > 1 && stepIndex >= basicQuestionsCount) {
-            // Retirer les questions de base de la liste pour éviter les doublons
-            questionsToUse = questionsToUse.filter(q => {
-                const fieldName = q.fieldName || q.id;
-                return !basicFields.includes(fieldName);
-            });
-            // Ajuster l'index car on a retiré des questions
+        // Si les questions de base ont déjà été affichées, getValidQuestions() les a déjà filtrées
+        // Donc on n'a plus besoin de les filtrer ici
+        // Mais on doit ajuster l'index si on est après le bloc de base
+        if (this.basicQuestionsShown && isFirstQuestionBasic && basicQuestionsCount > 1 && stepIndex >= basicQuestionsCount) {
+            // Les questions de base ne sont plus dans questionsToUse (déjà filtrées par getValidQuestions)
+            // On doit ajuster l'index pour correspondre à la nouvelle liste
             adjustedStepIndex = stepIndex - basicQuestionsCount;
+            // S'assurer que l'index est valide
+            if (adjustedStepIndex < 0) {
+                adjustedStepIndex = 0;
+            }
         }
         
         if (adjustedStepIndex >= questionsToUse.length) {
@@ -669,6 +683,8 @@ class LandingQuiz {
                         container.style.transform = 'translateY(0)';
                     }, 50);
                     
+                    // Marquer que les questions de base ont été affichées
+                    this.basicQuestionsShown = true;
                     this.isNavigating = false; // Réinitialiser le flag après affichage
                     return; // Sortir de la fonction, on a affiché les questions de base
                 } catch (error) {
@@ -1246,10 +1262,10 @@ class LandingQuiz {
                 // Supprimer l'attribut skipTo
                 delete nextBtn.dataset.skipTo;
                 
-                // Passer à la question suivante après les questions de base
-                // On passe directement après toutes les questions de base
-                // showStep va automatiquement filtrer les questions de base et passer à la première question technique
-                this.showStep(parseInt(skipTo));
+                // Passer à la première question technique
+                // Maintenant que getValidQuestions() filtre les questions de base après affichage,
+                // la première question technique est à l'index 0 dans validQuestions
+                this.showStep(0);
                 return;
             }
             
