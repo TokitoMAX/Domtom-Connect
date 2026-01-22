@@ -447,30 +447,46 @@ class LandingQuiz {
         const progressFill = document.getElementById('quiz-progress-fill');
         const stepIndicator = document.getElementById('quiz-step-indicator');
         
-        // Compter le nombre total de questions affichables
-        // Si on a affiché les questions de base en groupe, les compter comme 1 étape
-        const totalQuestions = isFirstQuestionBasic && basicQuestionsCount > 1 
-            ? (questionsToUse.length + 1)  // +1 pour le bloc de questions de base (après filtrage)
-            : questionsToUse.length;
+        // Calculer le nombre total de questions AVANT filtrage
+        // Utiliser la liste originale validQuestions pour avoir le vrai total
+        const originalTotalQuestions = validQuestions.length;
         
-        // Calculer le numéro de question actuelle
-        let currentQuestionNumber;
+        // Compter le nombre total d'étapes affichables
+        // Si on a affiché les questions de base en groupe, elles comptent comme 1 étape au lieu de N
+        let totalSteps;
+        let currentStepNumber;
+        
         if (isFirstQuestionBasic && basicQuestionsCount > 1) {
+            // Les questions de base groupées comptent pour 1 étape
+            // Les questions techniques restantes après filtrage
+            const technicalQuestionsCount = questionsToUse.length; // Après filtrage des questions de base
+            totalSteps = 1 + technicalQuestionsCount; // 1 pour le bloc de base + les questions techniques
+            
             if (stepIndex === 0) {
-                // On est sur le bloc de questions de base
-                currentQuestionNumber = 1;
+                // On est sur le bloc de questions de base (étape 1)
+                currentStepNumber = 1;
             } else {
                 // On est sur une question technique (après le bloc de base)
-                currentQuestionNumber = adjustedStepIndex + 2; // +2 car le bloc de base compte pour 1
+                // adjustedStepIndex commence à 0 pour la première question technique
+                currentStepNumber = 1 + adjustedStepIndex + 1; // 1 (bloc de base) + index technique + 1
             }
         } else {
-            currentQuestionNumber = adjustedStepIndex + 1;
+            // Pas de groupement, chaque question est une étape
+            totalSteps = originalTotalQuestions;
+            currentStepNumber = stepIndex + 1;
         }
         
         // Mettre à jour la barre de progression
-        const progress = (currentQuestionNumber / totalQuestions) * 100;
+        const progress = (currentStepNumber / totalSteps) * 100;
         progressFill.style.width = `${progress}%`;
-        stepIndicator.textContent = `Question ${currentQuestionNumber} sur ${totalQuestions}`;
+        
+        // Mettre à jour l'indicateur de progression
+        if (isFirstQuestionBasic && basicQuestionsCount > 1 && stepIndex === 0) {
+            // Sur le bloc de questions de base
+            stepIndicator.textContent = `Informations de base (${basicQuestionsCount} champs)`;
+        } else {
+            stepIndicator.textContent = `Question ${currentStepNumber} sur ${totalSteps}`;
+        }
         
         // Mettre à jour le pourcentage
         const progressPercent = document.getElementById('quiz-progress-percent');
@@ -481,9 +497,9 @@ class LandingQuiz {
         // Mettre à jour le temps estimé restant
         const progressTime = document.getElementById('quiz-progress-time');
         if (progressTime) {
-            const remainingQuestions = totalQuestions - currentQuestionNumber;
-            const estimatedMinutes = Math.ceil(remainingQuestions * 0.15);
-            if (remainingQuestions > 0) {
+            const remainingSteps = totalSteps - currentStepNumber;
+            const estimatedMinutes = Math.ceil(remainingSteps * 0.15);
+            if (remainingSteps > 0) {
                 progressTime.innerHTML = `<span>⏱️ Temps estimé restant : ~${estimatedMinutes} min</span>`;
             } else {
                 progressTime.innerHTML = `<span>✅ Presque terminé !</span>`;
@@ -576,11 +592,33 @@ class LandingQuiz {
                     container.innerHTML = basicQuestionsHTML;
                     
                     // Mettre à jour la progression pour refléter qu'on affiche plusieurs questions
-                    const totalQuestions = questionsToUse.length;
-                    const basicQuestionsCount = basicQuestions.length;
-                    const progress = (basicQuestionsCount / totalQuestions) * 100;
+                    // Les questions de base groupées comptent pour 1 étape
+                    const basicQuestionsCountLocal = basicQuestions.length;
+                    const technicalQuestionsCount = questionsToUse.length - basicQuestionsCountLocal;
+                    const totalSteps = 1 + technicalQuestionsCount; // 1 pour le bloc de base + les questions techniques
+                    const currentStepNumber = 1; // On est sur l'étape 1 (bloc de base)
+                    const progress = (currentStepNumber / totalSteps) * 100;
+                    
                     progressFill.style.width = `${progress}%`;
-                    stepIndicator.textContent = `Informations de base (${basicQuestionsCount} champs)`;
+                    stepIndicator.textContent = `Informations de base (${basicQuestionsCountLocal} champs)`;
+                    
+                    // Mettre à jour le pourcentage
+                    const progressPercent = document.getElementById('quiz-progress-percent');
+                    if (progressPercent) {
+                        progressPercent.textContent = `${Math.round(progress)}%`;
+                    }
+                    
+                    // Mettre à jour le temps estimé restant
+                    const progressTime = document.getElementById('quiz-progress-time');
+                    if (progressTime) {
+                        const remainingSteps = totalSteps - currentStepNumber;
+                        const estimatedMinutes = Math.ceil(remainingSteps * 0.15);
+                        if (remainingSteps > 0) {
+                            progressTime.innerHTML = `<span>⏱️ Temps estimé restant : ~${estimatedMinutes} min</span>`;
+                        } else {
+                            progressTime.innerHTML = `<span>✅ Presque terminé !</span>`;
+                        }
+                    }
                     
                     // Modifier le bouton suivant pour valider toutes les questions de base
                     if (nextBtn) {
