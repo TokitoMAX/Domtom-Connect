@@ -560,11 +560,13 @@ class LandingQuiz {
     }
     
     renderQuestion(question, index) {
+        // Pour type 'info', ne pas mettre la description dans le header (elle est dans le bloc info)
+        const showDescInHeader = question.description && question.type !== 'info';
         let html = `
             <div class="quiz-question" data-question-id="${question.id}">
                 <div class="quiz-question-header">
                     <h2 class="quiz-question-title">${question.question}</h2>
-                    ${question.description ? `<p class="quiz-question-description">${question.description}</p>` : ''}
+                    ${showDescInHeader ? `<p class="quiz-question-description">${question.description}</p>` : ''}
                 </div>
                 <div class="quiz-question-content">
         `;
