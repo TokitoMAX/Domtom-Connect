@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
     <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
+    <!-- Calendly widget script -->
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
 <body>
     <nav class="navbar">
@@ -460,7 +462,7 @@
                 data.credibility_score = validation.credibilityScore.score;
                 data.credibility_level = validation.credibilityScore.level;
             }
-            if (validation.inconsistencies.length > 0) {
+                if (validation.inconsistencies.length > 0) {
                 data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
             
@@ -597,10 +599,17 @@ Ta demande a bien été reçue et enregistrée.
 
 📧 Tu vas recevoir un email de confirmation avec le récapitulatif de ta demande dans quelques instants.
 
-📞 On te recontacte sous 24h pour :
-• Discuter de ton projet et de tes besoins
-• T'expliquer le pack adapté à ton budget
-• Planifier un appel découverte gratuit
+📞 Réserve ton appel découverte gratuit maintenant :
+
+                            <div style="margin: 2rem 0;">
+                                <!-- Widget Calendly - Remplacez 'votre-lien-calendly' par votre lien Calendly réel -->
+                                <div class="calendly-inline-widget" 
+                                     data-url="https://calendly.com/domtomconnect/30min" 
+                                     style="min-width:320px;height:700px;border-radius: 12px; overflow: hidden;">
+                                </div>
+                            </div>
+
+💡 <strong>Ou</strong> on te recontacte sous 24h si tu préfères qu'on te contacte directement.
 
 En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domtom Connect.
                             </div>
