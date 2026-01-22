@@ -562,11 +562,19 @@ class LandingQuiz {
     }
     
     renderQuestion(question, index) {
+        // Vérifier si cette question a déjà une réponse sauvegardée
+        const hasSavedAnswer = this.answers[`question_${question.id}`] || 
+                              (question.fieldName && this.answers[question.fieldName]);
+        const editableHint = hasSavedAnswer && (question.type === 'radio' || question.type === 'select') 
+            ? '<p class="quiz-editable-hint" style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem; font-style: italic;">💡 Vous pouvez modifier votre choix en cliquant sur une autre option</p>' 
+            : '';
+        
         let html = `
             <div class="quiz-question" data-question-id="${question.id}">
                 <div class="quiz-question-header">
                     <h2 class="quiz-question-title">${question.question}</h2>
                     ${question.description ? `<p class="quiz-question-description">${question.description}</p>` : ''}
+                    ${editableHint}
                 </div>
                 <div class="quiz-question-content">
         `;
@@ -579,13 +587,14 @@ class LandingQuiz {
             html += '<div class="quiz-options">';
             question.options.forEach((option, optIndex) => {
                 const optionId = `q${question.id}_opt${optIndex}`;
+                const isChecked = savedValue === option.value;
                 html += `
-                    <label class="quiz-option" for="${optionId}">
+                    <label class="quiz-option ${isChecked ? 'quiz-option-selected' : ''}" for="${optionId}">
                         <input type="radio" 
                                id="${optionId}" 
                                name="question_${question.id}" 
                                value="${option.value}"
-                               ${savedValue === option.value ? 'checked' : ''}>
+                               ${isChecked ? 'checked' : ''}>
                         <span class="quiz-option-label">${option.label}</span>
                     </label>
                 `;

@@ -195,6 +195,8 @@
     position: relative;
     overflow: hidden;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    /* Tout le label est cliquable - pas besoin de pointer-events */
 }
 
 .quiz-option::before {
@@ -218,6 +220,11 @@
 
 .quiz-option:hover::before {
     transform: scaleY(1);
+}
+
+.quiz-option:active {
+    transform: translateX(2px) scale(0.99);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
 
 .quiz-option input[type="radio"] {
