@@ -64,73 +64,7 @@
     <script src="../../assets/js/landing.js?v=1.0"></script>
     <script src="../../assets/js/lead-tracking.js?v=1.0"></script>
     <script>
-        // Questions simplifiées pour les prestataires (sans données pré-remplies)
-        const prestatairesQuestionsSimplified = [
-            { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
-            { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
-            { id: 'email', question: 'Quelle est votre adresse email ?', type: 'email', placeholder: 'votre@email.com', required: true, fieldName: 'email' },
-            { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'services', question: 'Quels services proposez-vous ?', type: 'radio', required: true, fieldName: 'services', options: [
-                { value: 'developpement', label: 'Développement web/mobile' },
-                { value: 'design', label: 'Design graphique / UI/UX' },
-                { value: 'marketing', label: 'Marketing digital / Communication' },
-                { value: 'comptabilite', label: 'Comptabilité / Fiscalité' },
-                { value: 'juridique', label: 'Juridique / Conseil' },
-                { value: 'coaching', label: 'Coaching / Formation' },
-                { value: 'autre', label: 'Autre service' }
-            ]},
-            { 
-                id: 'pourquoi_ecosysteme', 
-                question: 'Pourquoi souhaitez-vous rejoindre l\'écosystème Domtom Connect ?', 
-                type: 'textarea', 
-                placeholder: 'Expliquez votre motivation...', 
-                required: true, 
-                fieldName: 'pourquoi_ecosysteme', 
-                rows: 4,
-                description: 'Partagez avec nous ce qui vous motive à rejoindre notre réseau.'
-            },
-            { 
-                id: 'engagement_info', 
-                question: 'Engagement Requis', 
-                type: 'info', 
-                fieldName: 'engagement_info',
-                description: `
-                    <div style="background: #f8fafc; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border-left: 4px solid #00BFA6;">
-                        <p style="color: #1a1a1a; margin-bottom: 1rem; font-weight: 600;"><strong>Pas de paiement direct</strong> - Contribution au contenu en échange d'accès au réseau :</p>
-                        <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
-                            <li style="padding: 0.5rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                                <span style="color: #00BFA6; font-weight: 900;">→</span>
-                                <span>Création contenu avec Domtom Connect (articles, vidéos, podcasts)</span>
-                            </li>
-                            <li style="padding: 0.5rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                                <span style="color: #00BFA6; font-weight: 900;">→</span>
-                                <span>Partage expertises et retours d'expérience</span>
-                            </li>
-                            <li style="padding: 0.5rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                                <span style="color: #00BFA6; font-weight: 900;">→</span>
-                                <span>Contribution communauté entrepreneuriale ultramarine</span>
-                            </li>
-                        </ul>
-                        <p style="color: #6b7280; margin-top: 1rem; font-size: 0.95rem;"><strong>Avantages :</strong> Accès réseau clients qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
-                        <p style="color: #dc2626; margin-top: 1rem; font-weight: 600; font-size: 0.95rem;">⚠️ <strong>Important :</strong> Si vous cherchez uniquement des clients sans contribuer à l'écosystème, ce réseau n'est pas fait pour vous.</p>
-                    </div>
-                `
-            },
-            { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
-        ];
-        
-        // Questions simplifiées pour les prestataires
+        // Questions pour les prestataires
         const prestatairesQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
@@ -199,7 +133,7 @@
         // Initialiser le quiz
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
-            quiz = new LandingQuiz(prestatairesQuestions, 'landing-form', 'prestataire', prestatairesQuestionsSimplified);
+            quiz = new LandingQuiz(prestatairesQuestions, 'landing-form', 'prestataire', prestatairesQuestions);
         });
 
         // Gérer la soumission du formulaire
