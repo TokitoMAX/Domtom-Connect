@@ -383,14 +383,47 @@ class LandingQuiz {
             questionsToUse = this.questions;
         }
         
-        if (stepIndex >= questionsToUse.length) {
+        // Détecter si on a affiché les questions de base en groupe
+        const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+        const firstQuestion = questionsToUse[0];
+        const isFirstQuestionBasic = firstQuestion && basicFields.includes(firstQuestion.fieldName || firstQuestion.id);
+        const basicQuestionsCount = isFirstQuestionBasic ? questionsToUse.filter(q => {
+            const fieldName = q.fieldName || q.id;
+            return basicFields.includes(fieldName);
+        }).length : 0;
+        
+        // Si on a affiché les questions de base en groupe et qu'on est après, ajuster l'index
+        let adjustedStepIndex = stepIndex;
+        if (isFirstQuestionBasic && basicQuestionsCount > 1 && stepIndex > 0) {
+            // Si stepIndex est dans la plage des questions de base, sauter directement après
+            if (stepIndex < basicQuestionsCount) {
+                adjustedStepIndex = basicQuestionsCount;
+            }
+        }
+        
+        // Filtrer les questions de base si elles ont été affichées en groupe et qu'on est après
+        if (isFirstQuestionBasic && basicQuestionsCount > 1 && stepIndex >= basicQuestionsCount) {
+            // Retirer les questions de base de la liste pour éviter les doublons
+            questionsToUse = questionsToUse.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                return !basicFields.includes(fieldName);
+            });
+            // Ajuster l'index car on a retiré des questions
+            adjustedStepIndex = stepIndex - basicQuestionsCount;
+        }
+        
+        if (adjustedStepIndex >= questionsToUse.length) {
             // Toutes les questions sont terminées, soumettre
             console.log('[Quiz] Toutes les questions terminées, soumission...');
             this.submitForm();
             return;
         }
         
-        const question = questionsToUse[stepIndex];
+        if (adjustedStepIndex < 0) {
+            adjustedStepIndex = 0;
+        }
+        
+        const question = questionsToUse[adjustedStepIndex];
         if (!question) {
             console.error('[Quiz] Question introuvable à l\'index', stepIndex);
             return;
@@ -415,8 +448,24 @@ class LandingQuiz {
         const stepIndicator = document.getElementById('quiz-step-indicator');
         
         // Compter le nombre total de questions affichables
-        const totalQuestions = questionsToUse.length;
-        const currentQuestionNumber = stepIndex + 1;
+        // Si on a affiché les questions de base en groupe, les compter comme 1 étape
+        const totalQuestions = isFirstQuestionBasic && basicQuestionsCount > 1 
+            ? (questionsToUse.length + 1)  // +1 pour le bloc de questions de base (après filtrage)
+            : questionsToUse.length;
+        
+        // Calculer le numéro de question actuelle
+        let currentQuestionNumber;
+        if (isFirstQuestionBasic && basicQuestionsCount > 1) {
+            if (stepIndex === 0) {
+                // On est sur le bloc de questions de base
+                currentQuestionNumber = 1;
+            } else {
+                // On est sur une question technique (après le bloc de base)
+                currentQuestionNumber = adjustedStepIndex + 2; // +2 car le bloc de base compte pour 1
+            }
+        } else {
+            currentQuestionNumber = adjustedStepIndex + 1;
+        }
         
         // Mettre à jour la barre de progression
         const progress = (currentQuestionNumber / totalQuestions) * 100;
@@ -443,11 +492,15 @@ class LandingQuiz {
         
         // Afficher/masquer le bouton précédent
         if (prevBtn) {
-            prevBtn.style.display = stepIndex > 0 ? 'flex' : 'none';
+            // Si on a affiché les questions de base en groupe, permettre de revenir en arrière
+            const canGoBack = (isFirstQuestionBasic && basicQuestionsCount > 1 && adjustedStepIndex > 0) || 
+                              (!isFirstQuestionBasic && adjustedStepIndex > 0) ||
+                              (adjustedStepIndex === 0 && stepIndex > 0);
+            prevBtn.style.display = canGoBack ? 'flex' : 'none';
         }
         
         // Changer le texte du bouton suivant
-        const isLastQuestion = stepIndex === questionsToUse.length - 1;
+        const isLastQuestion = adjustedStepIndex === questionsToUse.length - 1;
         
         if (nextBtn) {
             if (isLastQuestion) {
@@ -505,13 +558,11 @@ class LandingQuiz {
         }
         
         // Détecter si on est au début et si les premières questions sont des questions de base
-        const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+        // (on utilise stepIndex original, pas adjustedStepIndex, car on veut détecter le vrai début)
         const isFirstStep = stepIndex === 0;
-        const firstQuestion = questionsToUse[0];
-        const isFirstQuestionBasic = firstQuestion && basicFields.includes(firstQuestion.fieldName || firstQuestion.id);
         
         // Si on est au début et que la première question est de base, afficher toutes les questions de base ensemble
-        if (isFirstStep && isFirstQuestionBasic) {
+        if (isFirstStep && isFirstQuestionBasic && basicQuestionsCount > 1) {
             const basicQuestions = questionsToUse.filter(q => {
                 const fieldName = q.fieldName || q.id;
                 return basicFields.includes(fieldName);
@@ -955,8 +1006,21 @@ class LandingQuiz {
         prevBtn.addEventListener('click', () => {
             this.saveCurrentAnswer();
             const validQuestions = this.getValidQuestions();
+            const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+            const firstQuestion = validQuestions[0];
+            const isFirstQuestionBasic = firstQuestion && basicFields.includes(firstQuestion.fieldName || firstQuestion.id);
+            const basicQuestionsCount = isFirstQuestionBasic ? validQuestions.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                return basicFields.includes(fieldName);
+            }).length : 0;
+            
             const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-            if (currentValidIndex > 0) {
+            
+            // Si on est sur la première question technique (après les questions de base groupées)
+            // et qu'on revient en arrière, on doit revenir au bloc de questions de base (index 0)
+            if (isFirstQuestionBasic && basicQuestionsCount > 1 && currentValidIndex === basicQuestionsCount) {
+                this.showStep(0); // Revenir au bloc de questions de base
+            } else if (currentValidIndex > 0) {
                 this.showStep(currentValidIndex - 1);
             }
         });
@@ -1114,6 +1178,8 @@ class LandingQuiz {
                 delete nextBtn.dataset.skipTo;
                 
                 // Passer à la question suivante après les questions de base
+                // On passe directement après toutes les questions de base
+                // showStep va automatiquement filtrer les questions de base et passer à la première question technique
                 this.showStep(parseInt(skipTo));
                 return;
             }
