@@ -223,10 +223,36 @@ class LandingQuiz {
         `;
     }
     
+    // Vérifier si toutes les questions de base sont déjà remplies depuis le formulaire initial
+    areBasicFieldsPrefilled() {
+        if (!this.homepageData) {
+            return false;
+        }
+        
+        // Vérifier les champs de base essentiels
+        const hasPrenom = !!(this.homepageData.prenom);
+        const hasNom = !!(this.homepageData.nom);
+        const hasEmail = !!(this.homepageData.email);
+        const hasTelephone = !!(this.homepageData.telephone);
+        const hasIle = !!(this.homepageData.ile);
+        
+        // Pour les porteurs-projets, vérifier aussi entreprise (nom_projet)
+        if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
+            return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle;
+        }
+        
+        // Pour les autres profils, vérifier aussi entreprise
+        const hasEntreprise = !!(this.homepageData.entreprise);
+        return hasPrenom && hasNom && hasEmail && hasTelephone && hasIle && hasEntreprise;
+    }
+    
     getValidQuestions() {
         // Retourner uniquement les questions qui doivent être affichées
-        // Définir les champs de base qui doivent TOUJOURS être affichés en premier
+        // Définir les champs de base qui peuvent être pré-remplis
         const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+        
+        // Vérifier si les questions de base sont déjà remplies depuis le formulaire initial
+        const basicFieldsPrefilled = this.areBasicFieldsPrefilled();
         
         const filtered = this.questions.filter((question, index) => {
             const fieldName = question.fieldName || question.id;
@@ -237,8 +263,12 @@ class LandingQuiz {
                 return false;
             }
             
-            // Ne JAMAIS filtrer les questions de base, même si pré-remplies
-            // Cela garantit qu'on commence toujours par les bases
+            // Si les questions de base sont pré-remplies depuis le formulaire initial, les sauter
+            if (isBasicField && basicFieldsPrefilled) {
+                return false; // Ne pas afficher les questions de base si déjà remplies
+            }
+            
+            // Filtrer les questions techniques si déjà répondues
             if (!isBasicField && this.homepageData && this.isQuestionAlreadyAnswered(question)) {
                 return false; // Ne pas afficher cette question technique si déjà répondue
             }
@@ -272,8 +302,8 @@ class LandingQuiz {
             return essentialQuestions.slice(0, Math.min(5, this.questions.length));
         }
         
-        // Si les questions de base n'ont pas encore été affichées, les mettre en premier
-        if (!this.basicQuestionsShown) {
+        // Si les questions de base ne sont pas pré-remplies et n'ont pas encore été affichées, les mettre en premier
+        if (!basicFieldsPrefilled && !this.basicQuestionsShown) {
             // Trier pour garantir que les questions de base sont en premier
             const basicQuestions = filtered.filter(q => {
                 const fieldName = q.fieldName || q.id;
@@ -287,7 +317,7 @@ class LandingQuiz {
             // Retourner d'abord les questions de base, puis les autres
             return [...basicQuestions, ...otherQuestions];
         } else {
-            // Si les questions de base ont déjà été affichées, retourner seulement les autres
+            // Si les questions de base sont pré-remplies ou déjà affichées, retourner seulement les autres
             return filtered;
         }
     }
@@ -616,8 +646,12 @@ class LandingQuiz {
         // (on utilise stepIndex original, pas adjustedStepIndex, car on veut détecter le vrai début)
         const isFirstStep = stepIndex === 0;
         
+        // Vérifier si les questions de base sont déjà pré-remplies depuis le formulaire initial
+        const basicFieldsPrefilled = this.areBasicFieldsPrefilled();
+        
         // Si on est au début et que la première question est de base, afficher toutes les questions de base ensemble
-        if (isFirstStep && isFirstQuestionBasic && basicQuestionsCount > 1) {
+        // MAIS seulement si elles ne sont pas déjà pré-remplies
+        if (isFirstStep && isFirstQuestionBasic && basicQuestionsCount > 1 && !basicFieldsPrefilled) {
             const basicQuestions = questionsToUse.filter(q => {
                 const fieldName = q.fieldName || q.id;
                 return basicFields.includes(fieldName);
