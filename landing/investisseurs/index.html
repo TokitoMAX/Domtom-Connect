@@ -329,21 +329,47 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                     
                     // Initialiser le widget Calendly après l'injection du HTML
                     setTimeout(() => {
-                        if (window.Calendly) {
-                            const calendlyWidget = document.querySelector('.calendly-inline-widget');
-                            if (calendlyWidget && !calendlyWidget.hasAttribute('data-processed')) {
-                                calendlyWidget.setAttribute('data-processed', 'true');
-                                window.Calendly.initInlineWidget({
-                                    url: 'https://calendly.com/domtomconnect/30min',
-                                    parentElement: calendlyWidget,
-                                    prefill: {
-                                        email: email || '',
-                                        name: `${prenom} ${nom}`.trim() || ''
+                        const calendlyWidget = document.querySelector('.calendly-inline-widget');
+                        if (calendlyWidget) {
+                            // Si Calendly est déjà chargé, initialiser directement
+                            if (window.Calendly && window.Calendly.initInlineWidget) {
+                                try {
+                                    window.Calendly.initInlineWidget({
+                                        url: 'https://calendly.com/domtomconnect/30min',
+                                        parentElement: calendlyWidget,
+                                        prefill: {
+                                            email: email || '',
+                                            name: `${prenom} ${nom}`.trim() || ''
+                                        }
+                                    });
+                                } catch (e) {
+                                    console.error('Erreur initialisation Calendly:', e);
+                                }
+                            } else {
+                                // Si Calendly n'est pas encore chargé, attendre qu'il le soit
+                                const checkCalendly = setInterval(() => {
+                                    if (window.Calendly && window.Calendly.initInlineWidget) {
+                                        clearInterval(checkCalendly);
+                                        try {
+                                            window.Calendly.initInlineWidget({
+                                                url: 'https://calendly.com/domtomconnect/30min',
+                                                parentElement: calendlyWidget,
+                                                prefill: {
+                                                    email: email || '',
+                                                    name: `${prenom} ${nom}`.trim() || ''
+                                                }
+                                            });
+                                        } catch (e) {
+                                            console.error('Erreur initialisation Calendly:', e);
+                                        }
                                     }
-                                });
+                                }, 100);
+                                
+                                // Arrêter après 10 secondes si Calendly ne se charge pas
+                                setTimeout(() => clearInterval(checkCalendly), 10000);
                             }
                         }
-                    }, 500);
+                    }, 1000);
                 } else {
                     return response.json().then(errData => {
                         console.error('❌ Erreur lors de l\'envoi:', errData);
