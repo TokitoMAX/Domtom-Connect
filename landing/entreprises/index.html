@@ -144,9 +144,86 @@
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
+        // Fonction pour déterminer le pack selon le budget
+        function getPackInfo(budget) {
+            if (budget === '300-1000') {
+                return { name: 'Pack Express', price: '800€', description: 'Recherche de prestataires qualifiés' };
+            } else if (budget === '1000-3000') {
+                return { name: 'Pack Coordination', price: '1 500€', description: 'Un projet complexe ? Multi-prestataires' };
+            } else if (budget === 'plus-3000') {
+                return { name: 'Pack Partenaire', price: '2 500€', description: 'Besoin récurrent ? Accompagnement 6-12 mois' };
+            }
+            return null;
+        }
+
+        // Fonction pour afficher le pack après sélection du budget
+        function showPackAfterBudget(budget) {
+            const packInfo = getPackInfo(budget);
+            if (!packInfo) return;
+
+            // Supprimer l'info pack précédente si elle existe
+            const existingPackInfo = document.getElementById('pack-info-entreprise');
+            if (existingPackInfo) {
+                existingPackInfo.remove();
+            }
+
+            // Créer l'élément d'info pack
+            const packInfoHTML = `
+                <div id="pack-info-entreprise" style="background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; padding: 2rem; color: white; margin: 2rem 0; animation: fadeInSlide 0.5s ease;">
+                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">${packInfo.name}</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
+                    <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
+                </div>
+            `;
+
+            // Trouver la question budget et insérer l'info pack après
+            const budgetQuestion = document.querySelector('[data-question-id="budget_accompagnement"]');
+            if (budgetQuestion) {
+                const questionContent = budgetQuestion.querySelector('.quiz-question-content');
+                if (questionContent) {
+                    // Insérer après le contenu de la question
+                    questionContent.insertAdjacentHTML('afterend', packInfoHTML);
+                }
+            }
+        }
+
         let quiz;
         document.addEventListener('DOMContentLoaded', () => {
             quiz = new LandingQuiz(entreprisesQuestions, 'landing-form', 'entreprise', entreprisesQuestionsSimplified);
+            
+            // Utiliser un MutationObserver pour détecter quand la question budget est affichée
+            const observer = new MutationObserver(() => {
+                const budgetQuestion = document.querySelector('[data-question-id="budget_accompagnement"]');
+                if (budgetQuestion) {
+                    // Attacher les listeners aux radio buttons
+                    const budgetInputs = budgetQuestion.querySelectorAll('input[type="radio"]');
+                    budgetInputs.forEach(input => {
+                        // Vérifier si le listener n'est pas déjà attaché
+                        if (!input.hasAttribute('data-pack-listener')) {
+                            input.setAttribute('data-pack-listener', 'true');
+                            input.addEventListener('change', (e) => {
+                                const selectedBudget = e.target.value;
+                                showPackAfterBudget(selectedBudget);
+                            });
+                        }
+                    });
+
+                    // Si une réponse est déjà sélectionnée, afficher le pack immédiatement
+                    const selectedBudget = budgetQuestion.querySelector('input[type="radio"]:checked');
+                    if (selectedBudget) {
+                        showPackAfterBudget(selectedBudget.value);
+                    }
+                }
+            });
+
+            // Observer les changements dans le container des questions
+            const quizContainer = document.getElementById('quiz-questions-container');
+            if (quizContainer) {
+                observer.observe(quizContainer, {
+                    childList: true,
+                    subtree: true
+                });
+            }
         });
 
         async function handleQuizFormSubmit(event) {
@@ -180,14 +257,7 @@
             const budget_accompagnement = data.budget_accompagnement || data.question_budget_accompagnement || '';
             
             // Déterminer le pack selon le budget
-            let packInfo = null;
-            if (budget_accompagnement === '300-1000') {
-                packInfo = { name: 'Pack Express', price: '800 €', description: 'Recherche de prestataires qualifiés' };
-            } else if (budget_accompagnement === '1000-3000') {
-                packInfo = { name: 'Pack Coordination', price: '1 500 €', description: 'Coordination complète de vos prestataires' };
-            } else if (budget_accompagnement === 'plus-3000') {
-                packInfo = { name: 'Pack Partenaire', price: '2 500 €', description: 'Partenariat stratégique complet' };
-            }
+            let packInfo = getPackInfo(budget_accompagnement);
             
             // Préparer le message pour l'email
             let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -311,6 +381,13 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                                     <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: white;">${packInfo.name}</h3>
                                     <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; color: white;">${packInfo.price}</div>
                                     <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
+                                </div>
+                            ` : ''}
+                            ${!packInfo && budget_accompagnement ? `
+                                <div style="background: #f8fafc; border-radius: 16px; padding: 2rem; margin-top: 2rem; border-left: 4px solid var(--primary-color);">
+                                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">
+                                        <strong>Note :</strong> Votre budget (${budget_accompagnement}) sera discuté lors de l'appel découverte pour déterminer le pack le plus adapté à vos besoins.
+                                    </p>
                                 </div>
                             ` : ''}
                             <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>

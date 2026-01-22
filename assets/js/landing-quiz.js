@@ -645,6 +645,13 @@ class LandingQuiz {
                     <span>${question.description || question.question}</span>
                 </label>
             `;
+        } else if (question.type === 'info') {
+            // Type info : affiche uniquement l'information, pas de champ de saisie
+            html += `
+                <div class="quiz-info-block">
+                    ${question.description || ''}
+                </div>
+            `;
         }
         
         if (question.clarification) {
@@ -1075,6 +1082,12 @@ class LandingQuiz {
     
     validateCurrentStep() {
         const question = this.questions[this.currentStep];
+        
+        // Les questions de type 'info' sont toujours valides (pas de champ de saisie)
+        if (question.type === 'info') {
+            return true;
+        }
+        
         if (!question.required) return true;
         
         if (question.type === 'radio') {
