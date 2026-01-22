@@ -7,6 +7,7 @@ class LandingQuiz {
         this.formId = formId;
         this.profil = profil;
         this.currentStep = 0;
+        this.currentValidIndex = 0; // Index actuel dans validQuestions
         this.answers = {};
         this.form = null;
         this.useSimplified = false;
@@ -376,6 +377,12 @@ class LandingQuiz {
         console.log('[Quiz] Questions valides:', validQuestions.length);
         console.log('[Quiz] Questions valides détaillées:', validQuestions.map(q => ({ id: q.id, question: q.question })));
         
+        // S'assurer que stepIndex est dans les limites
+        if (stepIndex >= validQuestions.length) {
+            console.warn('[Quiz] stepIndex hors limites, ajustement à', validQuestions.length - 1);
+            stepIndex = validQuestions.length - 1;
+        }
+        
         // SÉCURITÉ : Si aucune question valide, utiliser toutes les questions
         let questionsToUse = validQuestions;
         if (validQuestions.length === 0 && this.questions.length > 0) {
@@ -431,7 +438,10 @@ class LandingQuiz {
         const actualStep = this.getQuestionIndex(question.id);
         
         this.currentStep = actualStep;
+        // Stocker l'index actuel dans validQuestions pour la navigation
+        this.currentValidIndex = stepIndex;
         console.log('[Quiz] Question actuelle:', question.id, question.question);
+        console.log('[Quiz] Index valide actuel:', this.currentValidIndex);
         
         const container = document.getElementById('quiz-questions-container');
         if (!container) {
@@ -1052,7 +1062,8 @@ class LandingQuiz {
                 return basicFields.includes(fieldName);
             }).length : 0;
             
-            const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
+            // Utiliser l'index stocké plutôt que de le recalculer
+            const currentValidIndex = this.currentValidIndex;
             
             // Si on est sur la première question technique (après les questions de base groupées)
             // et qu'on revient en arrière, on doit revenir au bloc de questions de base (index 0)
@@ -1224,9 +1235,10 @@ class LandingQuiz {
             
             if (this.validateCurrentStep()) {
                 this.saveCurrentAnswer();
-                const validQuestions = this.getValidQuestions();
-                const currentValidIndex = validQuestions.findIndex(q => q.id === this.questions[this.currentStep].id);
-                this.showStep(currentValidIndex + 1);
+                // Utiliser l'index stocké plutôt que de le recalculer
+                const nextIndex = this.currentValidIndex + 1;
+                console.log('[Quiz] Navigation: index actuel =', this.currentValidIndex, ', prochain index =', nextIndex);
+                this.showStep(nextIndex);
             } else {
                 // Afficher un message d'erreur
                 const question = this.questions[this.currentStep];
@@ -1265,13 +1277,12 @@ class LandingQuiz {
                             // Passage automatique pour radio et select (sauf si c'est la dernière question)
                             if (this.validateCurrentStep()) {
                                 const validQuestions = this.getValidQuestions();
-                                const currentValidIndex = validQuestions.findIndex(q => q.id === question.id);
                                 
                                 // Ne pas passer automatiquement si c'est la dernière question ou si c'est un submit
-                                if (nextBtn.type !== 'submit' && currentValidIndex < validQuestions.length - 1) {
+                                if (nextBtn.type !== 'submit' && this.currentValidIndex < validQuestions.length - 1) {
                                     // Passage automatique après un court délai pour l'animation
                                     setTimeout(() => {
-                                        this.showStep(currentValidIndex + 1);
+                                        this.showStep(this.currentValidIndex + 1);
                                     }, 600);
                                 }
                             }
