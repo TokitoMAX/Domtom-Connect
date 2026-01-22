@@ -504,6 +504,64 @@ class LandingQuiz {
             // Le listener est déjà attaché dans initEvents() et fonctionne via la délégation
         }
         
+        // Détecter si on est au début et si les premières questions sont des questions de base
+        const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+        const isFirstStep = stepIndex === 0;
+        const firstQuestion = questionsToUse[0];
+        const isFirstQuestionBasic = firstQuestion && basicFields.includes(firstQuestion.fieldName || firstQuestion.id);
+        
+        // Si on est au début et que la première question est de base, afficher toutes les questions de base ensemble
+        if (isFirstStep && isFirstQuestionBasic) {
+            const basicQuestions = questionsToUse.filter(q => {
+                const fieldName = q.fieldName || q.id;
+                return basicFields.includes(fieldName);
+            });
+            
+            // Si on a plusieurs questions de base, les afficher ensemble
+            if (basicQuestions.length > 1) {
+                try {
+                    const basicQuestionsHTML = this.renderBasicQuestionsGroup(basicQuestions);
+                    console.log('[Quiz] Affichage groupé des questions de base');
+                    container.innerHTML = basicQuestionsHTML;
+                    
+                    // Mettre à jour la progression pour refléter qu'on affiche plusieurs questions
+                    const totalQuestions = questionsToUse.length;
+                    const basicQuestionsCount = basicQuestions.length;
+                    const progress = (basicQuestionsCount / totalQuestions) * 100;
+                    progressFill.style.width = `${progress}%`;
+                    stepIndicator.textContent = `Informations de base (${basicQuestionsCount} champs)`;
+                    
+                    // Modifier le bouton suivant pour valider toutes les questions de base
+                    if (nextBtn) {
+                        nextBtn.innerHTML = `
+                            Continuer
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        `;
+                        nextBtn.type = 'button';
+                        nextBtn.disabled = false;
+                        
+                        // Stocker le nombre de questions de base pour la navigation
+                        nextBtn.dataset.skipTo = basicQuestions.length;
+                    }
+                    
+                    // Animation d'entrée
+                    container.style.opacity = '0';
+                    container.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                        container.style.opacity = '1';
+                        container.style.transform = 'translateY(0)';
+                    }, 50);
+                    
+                    return; // Sortir de la fonction, on a affiché les questions de base
+                } catch (error) {
+                    console.error('[Quiz] Erreur lors du rendu des questions de base:', error);
+                }
+            }
+        }
+        
         // Créer et afficher la question
         try {
             const questionHTML = this.renderQuestion(question, stepIndex);
@@ -575,6 +633,92 @@ class LandingQuiz {
         if (form) {
             form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         }
+    }
+    
+    renderBasicQuestionsGroup(basicQuestions) {
+        // Afficher toutes les questions de base ensemble dans un layout en grille
+        let html = `
+            <div class="quiz-basic-questions-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+        `;
+        
+        basicQuestions.forEach((question, index) => {
+            const fieldName = question.fieldName || question.id;
+            const isSelect = question.type === 'select';
+            const isTextarea = question.type === 'textarea';
+            
+            // Les selects et textareas prennent toute la largeur
+            const gridColumn = (isSelect || isTextarea) ? 'span 2' : '';
+            
+            html += `
+                <div class="quiz-basic-question" style="grid-column: ${gridColumn};">
+                    <label for="question_${question.id}" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary, #1a1a1a);">
+                        ${question.question}
+                        ${question.required ? '<span style="color: #ef4444;">*</span>' : ''}
+                    </label>
+            `;
+            
+            if (question.type === 'select') {
+                html += `
+                    <select name="question_${question.id}" class="quiz-select" id="question_${question.id}" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;" ${question.required ? 'required' : ''}>
+                        <option value="">${question.placeholder || 'Sélectionnez une option'}</option>
+                `;
+                question.options.forEach(option => {
+                    html += `<option value="${option.value}">${option.label}</option>`;
+                });
+                html += '</select>';
+            } else if (question.type === 'textarea') {
+                html += `
+                    <textarea name="question_${question.id}" 
+                              class="quiz-textarea" 
+                              id="question_${question.id}"
+                              placeholder="${question.placeholder || ''}"
+                              rows="${question.rows || 3}"
+                              style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; transition: border-color 0.2s;"
+                              ${question.required ? 'required' : ''}></textarea>
+                `;
+            } else {
+                // Input text, email, tel, etc.
+                html += `
+                    <input type="${question.type}" 
+                           name="question_${question.id}" 
+                           class="quiz-input" 
+                           id="question_${question.id}"
+                           placeholder="${question.placeholder || ''}"
+                           value=""
+                           style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;"
+                           ${question.required ? 'required' : ''}
+                           ${question.pattern ? `pattern="${question.pattern}"` : ''}
+                           ${question.maxlength ? `maxlength="${question.maxlength}"` : ''}>
+                `;
+            }
+            
+            html += '</div>';
+        });
+        
+        html += '</div>';
+        
+        // Ajouter un style pour le focus
+        html += `
+            <style>
+                .quiz-basic-questions-group input:focus,
+                .quiz-basic-questions-group select:focus,
+                .quiz-basic-questions-group textarea:focus {
+                    outline: none;
+                    border-color: var(--primary-color, #00BFA6);
+                    box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.1);
+                }
+                @media (max-width: 768px) {
+                    .quiz-basic-questions-group {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .quiz-basic-question {
+                        grid-column: span 1 !important;
+                    }
+                }
+            </style>
+        `;
+        
+        return html;
     }
     
     renderQuestion(question, index) {
@@ -889,6 +1033,89 @@ class LandingQuiz {
                     this.form.dispatchEvent(submitEvent);
                 }
                 return false;
+            }
+            
+            // Vérifier si on doit sauter plusieurs questions (questions de base groupées)
+            const skipTo = nextBtn.dataset.skipTo;
+            if (skipTo) {
+                // Valider toutes les questions de base avant de continuer
+                const basicFields = ['prenom', 'nom', 'email', 'telephone', 'ile', 'origine', 'lieu_actuel', 'entreprise'];
+                const validQuestions = this.getValidQuestions();
+                const basicQuestions = validQuestions.slice(0, parseInt(skipTo));
+                
+                let allValid = true;
+                const firstInvalidField = [];
+                basicQuestions.forEach(q => {
+                    const fieldName = q.fieldName || q.id;
+                    const input = document.getElementById(`question_${q.id}`);
+                    if (input && q.required) {
+                        if (q.type === 'checkbox') {
+                            if (!input.checked) {
+                                allValid = false;
+                                if (firstInvalidField.length === 0) {
+                                    firstInvalidField.push(input);
+                                }
+                            }
+                        } else if (q.type === 'radio') {
+                            const checked = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                            if (!checked) {
+                                allValid = false;
+                            }
+                        } else {
+                            const value = input.value ? input.value.trim() : '';
+                            if (!value) {
+                                allValid = false;
+                                if (firstInvalidField.length === 0) {
+                                    firstInvalidField.push(input);
+                                }
+                            } else if (q.type === 'email' && value) {
+                                // Validation basique de l'email
+                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                if (!emailRegex.test(value)) {
+                                    allValid = false;
+                                    if (firstInvalidField.length === 0) {
+                                        firstInvalidField.push(input);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Focus sur le premier champ invalide
+                if (!allValid && firstInvalidField.length > 0) {
+                    firstInvalidField[0].focus();
+                    firstInvalidField[0].style.borderColor = '#ef4444';
+                    setTimeout(() => {
+                        firstInvalidField[0].style.borderColor = '';
+                    }, 3000);
+                }
+                
+                if (!allValid) {
+                    // Afficher un message d'erreur
+                    const invalidCount = basicQuestions.filter(q => {
+                        const input = document.getElementById(`question_${q.id}`);
+                        if (!input || !q.required) return false;
+                        if (q.type === 'checkbox') return !input.checked;
+                        if (q.type === 'radio') return !document.querySelector(`input[name="question_${q.id}"]:checked`);
+                        return !input.value || input.value.trim() === '';
+                    }).length;
+                    
+                    alert(`⚠️ Veuillez remplir ${invalidCount} champ${invalidCount > 1 ? 's' : ''} obligatoire${invalidCount > 1 ? 's' : ''} avant de continuer.`);
+                    return;
+                }
+                
+                // Sauvegarder toutes les réponses de base
+                basicQuestions.forEach(q => {
+                    this.saveAnswer(q);
+                });
+                
+                // Supprimer l'attribut skipTo
+                delete nextBtn.dataset.skipTo;
+                
+                // Passer à la question suivante après les questions de base
+                this.showStep(parseInt(skipTo));
+                return;
             }
             
             if (this.validateCurrentStep()) {
