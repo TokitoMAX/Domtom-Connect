@@ -655,6 +655,24 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                             quizNavigation.style.display = 'none';
                         }
                     }
+                    
+                    // Initialiser le widget Calendly après l'injection du HTML
+                    setTimeout(() => {
+                        if (window.Calendly) {
+                            const calendlyWidget = document.querySelector('.calendly-inline-widget');
+                            if (calendlyWidget && !calendlyWidget.hasAttribute('data-processed')) {
+                                calendlyWidget.setAttribute('data-processed', 'true');
+                                window.Calendly.initInlineWidget({
+                                    url: 'https://calendly.com/domtomconnect/30min',
+                                    parentElement: calendlyWidget,
+                                    prefill: {
+                                        email: email || '',
+                                        name: `${prenom} ${nom}`.trim() || ''
+                                    }
+                                });
+                            }
+                        }
+                    }, 500);
                 } else {
                     return response.json().then(errData => {
                         console.error('❌ Erreur lors de l\'envoi:', errData);
