@@ -495,12 +495,10 @@ class LandingQuiz {
             
             // Ne pas restaurer automatiquement les réponses pour permettre à l'utilisateur de changer facilement
             // Les réponses sont toujours sauvegardées mais ne sont pas pré-remplies quand on revient en arrière
-            // setTimeout(() => {
-            //     this.restoreAnswer(question);
-                
-                // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
-                // Utiliser un délai supplémentaire pour s'assurer que le DOM est complètement prêt
-                setTimeout(() => {
+            
+            // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
+            // Utiliser un délai pour s'assurer que le DOM est complètement prêt
+            setTimeout(() => {
                     if (question.type === 'checkbox') {
                         const checkbox = document.getElementById(`question_${question.id}`);
                         const nextBtn = document.getElementById('quiz-btn-next');
@@ -534,7 +532,6 @@ class LandingQuiz {
                         }
                     }
                 }, 50);
-            }, 50);
             
             // Animation d'entrée
             container.style.opacity = '0';
