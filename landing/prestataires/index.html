@@ -230,6 +230,7 @@
             const telephone = data.telephone || data.question_telephone || '';
             const ile = data.ile || data.question_ile || '';
             const services = data.services || data.question_services || '';
+            const pourquoi_ecosysteme = data.pourquoi_ecosysteme || data.question_pourquoi_ecosysteme || '';
             
             // Préparer le message pour l'email
             let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -251,6 +252,11 @@ Territoire: ${ile || 'Non renseigné'}
 💼 BLOC 2 - SERVICES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Services proposés: ${services || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 BLOC 3 - MOTIVATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pourquoi rejoindre l'écosystème: ${pourquoi_ecosysteme || 'Non renseigné'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ VALIDATION
@@ -281,7 +287,7 @@ Certification acceptée: OUI
             formDataToSend.append('Téléphone', telephone || '');
             formDataToSend.append('Territoire', ile || '');
             formDataToSend.append('Services proposés', services || '');
-            formDataToSend.append('Pourquoi rejoindre l\'écosystème', pourquoi_ecosysteme || '');
+            formDataToSend.append('Pourquoi rejoindre l\'écosystème', pourquoi_ecosysteme);
             formDataToSend.append('Profil', 'prestataire');
             if (validation.credibilityScore) {
                 formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
