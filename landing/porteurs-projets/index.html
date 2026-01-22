@@ -529,6 +529,23 @@ Certification acceptée: OUI
 3. Si oui, envoyer récap + lien paiement
 4. Planifier première session de travail
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 DONNÉES COMPLÈTES COLLECTÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${Object.keys(data).filter(key => {
+    // Exclure les champs déjà affichés et les champs techniques
+    const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+    const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'nom_projet', 'description_projet', 'besoin', 'budget'];
+    return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
+}).map(key => {
+    const value = data[key];
+    if (value && value !== '' && value !== null && value !== undefined) {
+        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        return `${label}: ${value}`;
+    }
+    return null;
+}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
             
             // Préparer FormData pour Formspree
@@ -549,6 +566,20 @@ Certification acceptée: OUI
             formDataToSend.append('Besoin', besoin || '');
             formDataToSend.append('Budget', budget || '');
             formDataToSend.append('Profil', 'porteur-projet');
+            
+            // Ajouter TOUTES les autres données collectées
+            Object.keys(data).forEach(key => {
+                const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+                const alreadyAdded = ['prenom', 'nom', 'email', 'telephone', 'ile', 'nom_projet', 'description_projet', 'besoin', 'budget'];
+                if (!excludedKeys.includes(key) && !alreadyAdded.includes(key) && !key.startsWith('question_')) {
+                    const value = data[key];
+                    if (value && value !== '' && value !== null && value !== undefined) {
+                        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                        formDataToSend.append(label, String(value));
+                    }
+                }
+            });
+            
             if (packInfo) {
                 formDataToSend.append('Pack sélectionné', `${packInfo.name} (${packInfo.price})`);
             }

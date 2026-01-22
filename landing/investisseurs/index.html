@@ -202,6 +202,23 @@ Certification acceptée: OUI
 3. Présenter des projets qualifiés
 4. Définir ensemble la cotisation mensuelle
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 DONNÉES COMPLÈTES COLLECTÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${Object.keys(data).filter(key => {
+    // Exclure les champs déjà affichés et les champs techniques
+    const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+    const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'montant_investissement'];
+    return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
+}).map(key => {
+    const value = data[key];
+    if (value && value !== '' && value !== null && value !== undefined) {
+        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        return `${label}: ${value}`;
+    }
+    return null;
+}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
             
             // Préparer FormData pour Formspree
@@ -219,6 +236,20 @@ Certification acceptée: OUI
             formDataToSend.append('Territoire', ile || '');
             formDataToSend.append('Montant investissement', montant_investissement || '');
             formDataToSend.append('Profil', 'investisseur');
+            
+            // Ajouter TOUTES les autres données collectées
+            Object.keys(data).forEach(key => {
+                const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+                const alreadyAdded = ['prenom', 'nom', 'email', 'telephone', 'ile', 'montant_investissement'];
+                if (!excludedKeys.includes(key) && !alreadyAdded.includes(key) && !key.startsWith('question_')) {
+                    const value = data[key];
+                    if (value && value !== '' && value !== null && value !== undefined) {
+                        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                        formDataToSend.append(label, String(value));
+                    }
+                }
+            });
+            
             if (cotisationInfo) {
                 formDataToSend.append('Cotisation suggérée', `${cotisationInfo.montant} (ou ${cotisationInfo.annuel})`);
             }

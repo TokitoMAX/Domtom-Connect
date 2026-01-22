@@ -205,6 +205,23 @@ Certification acceptée: OUI
 3. Après validation, intégrer au réseau
 4. Présenter les opportunités disponibles
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 DONNÉES COMPLÈTES COLLECTÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${Object.keys(data).filter(key => {
+    // Exclure les champs déjà affichés et les champs techniques
+    const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+    const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'services', 'pourquoi_ecosysteme'];
+    return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
+}).map(key => {
+    const value = data[key];
+    if (value && value !== '' && value !== null && value !== undefined) {
+        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        return `${label}: ${value}`;
+    }
+    return null;
+}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
             
             // Préparer FormData pour Formspree
@@ -221,8 +238,22 @@ Certification acceptée: OUI
             formDataToSend.append('Téléphone', telephone || '');
             formDataToSend.append('Territoire', ile || '');
             formDataToSend.append('Services proposés', services || '');
-            formDataToSend.append('Pourquoi rejoindre l\'écosystème', pourquoi_ecosysteme);
+            formDataToSend.append('Pourquoi rejoindre l\'écosystème', pourquoi_ecosysteme || '');
             formDataToSend.append('Profil', 'prestataire');
+            
+            // Ajouter TOUTES les autres données collectées
+            Object.keys(data).forEach(key => {
+                const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+                const alreadyAdded = ['prenom', 'nom', 'email', 'telephone', 'ile', 'services', 'pourquoi_ecosysteme'];
+                if (!excludedKeys.includes(key) && !alreadyAdded.includes(key) && !key.startsWith('question_')) {
+                    const value = data[key];
+                    if (value && value !== '' && value !== null && value !== undefined) {
+                        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                        formDataToSend.append(label, String(value));
+                    }
+                }
+            });
+            
             if (validation.credibilityScore) {
                 formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
                 formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);

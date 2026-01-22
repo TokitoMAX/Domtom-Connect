@@ -1611,20 +1611,35 @@ class LandingQuiz {
                 const question = this.questions.find(q => q.id === questionId);
                 if (question) {
                     const fieldName = question.fieldName || questionId;
-                    if (this.answers[key] && (!data[fieldName] || data[fieldName] !== this.answers[key])) {
-                        data[fieldName] = this.answers[key];
+                    const answerValue = this.answers[key];
+                    if (answerValue !== null && answerValue !== undefined && answerValue !== '') {
+                        // Toujours utiliser la réponse du quiz si elle existe (priorité sur données pré-remplies)
+                        data[fieldName] = answerValue;
+                        // Ajouter aussi avec le préfixe question_ pour compatibilité
+                        data[`question_${fieldName}`] = answerValue;
+                        data[`question_${questionId}`] = answerValue;
                     }
                 } else {
                     // Si pas de question trouvée, utiliser directement la clé sans "question_"
                     const fieldName = questionId;
-                    if (this.answers[key] && !data[fieldName]) {
-                        data[fieldName] = this.answers[key];
+                    const answerValue = this.answers[key];
+                    if (answerValue !== null && answerValue !== undefined && answerValue !== '') {
+                        if (!data[fieldName]) {
+                            data[fieldName] = answerValue;
+                        }
+                        // Ajouter aussi avec le préfixe question_ pour compatibilité
+                        data[`question_${fieldName}`] = answerValue;
                     }
                 }
             } else {
                 // Données directes (pas de préfixe "question_")
-                if (this.answers[key] && !data[key]) {
-                    data[key] = this.answers[key];
+                const answerValue = this.answers[key];
+                if (answerValue !== null && answerValue !== undefined && answerValue !== '') {
+                    if (!data[key]) {
+                        data[key] = answerValue;
+                    }
+                    // Ajouter aussi avec le préfixe question_ pour compatibilité
+                    data[`question_${key}`] = answerValue;
                 }
             }
         });
