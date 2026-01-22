@@ -12,6 +12,7 @@ class LandingQuiz {
         this.form = null;
         this.useSimplified = false;
         this.homepageData = null; // Données brutes du formulaire d'accueil
+        this.isNavigating = false; // Flag pour éviter les navigations multiples simultanées
         
         this.init();
     }
@@ -371,7 +372,17 @@ class LandingQuiz {
     
     showStep(stepIndex) {
         console.log('[Quiz] showStep appelé avec stepIndex:', stepIndex);
-        if (stepIndex < 0) return;
+        if (stepIndex < 0) {
+            this.isNavigating = false;
+            return;
+        }
+        
+        // Éviter les navigations multiples simultanées
+        if (this.isNavigating) {
+            console.log('[Quiz] Navigation déjà en cours, ignoré');
+            return;
+        }
+        this.isNavigating = true;
         
         const validQuestions = this.getValidQuestions();
         console.log('[Quiz] Questions valides:', validQuestions.length);
@@ -422,6 +433,7 @@ class LandingQuiz {
         if (adjustedStepIndex >= questionsToUse.length) {
             // Toutes les questions sont terminées, soumettre
             console.log('[Quiz] Toutes les questions terminées, soumission...');
+            this.isNavigating = false;
             this.submitForm();
             return;
         }
@@ -433,15 +445,18 @@ class LandingQuiz {
         const question = questionsToUse[adjustedStepIndex];
         if (!question) {
             console.error('[Quiz] Question introuvable à l\'index', stepIndex);
+            this.isNavigating = false;
             return;
         }
         const actualStep = this.getQuestionIndex(question.id);
         
         this.currentStep = actualStep;
         // Stocker l'index actuel dans validQuestions pour la navigation
+        // IMPORTANT: stepIndex est l'index dans validQuestions (avant filtrage)
         this.currentValidIndex = stepIndex;
         console.log('[Quiz] Question actuelle:', question.id, question.question);
-        console.log('[Quiz] Index valide actuel:', this.currentValidIndex);
+        console.log('[Quiz] Index valide actuel:', this.currentValidIndex, 'sur', validQuestions.length);
+        console.log('[Quiz] stepIndex:', stepIndex, 'adjustedStepIndex:', adjustedStepIndex);
         
         const container = document.getElementById('quiz-questions-container');
         if (!container) {
@@ -654,9 +669,11 @@ class LandingQuiz {
                         container.style.transform = 'translateY(0)';
                     }, 50);
                     
+                    this.isNavigating = false; // Réinitialiser le flag après affichage
                     return; // Sortir de la fonction, on a affiché les questions de base
                 } catch (error) {
                     console.error('[Quiz] Erreur lors du rendu des questions de base:', error);
+                    this.isNavigating = false; // Réinitialiser le flag en cas d'erreur
                 }
             }
         }
@@ -715,9 +732,12 @@ class LandingQuiz {
                 container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
                 container.style.opacity = '1';
                 container.style.transform = 'translateY(0)';
+                // Réinitialiser le flag après l'animation
+                this.isNavigating = false;
             }, 50);
         } catch (error) {
             console.error('[Quiz] Erreur lors du rendu de la question:', error);
+            this.isNavigating = false; // Réinitialiser le flag en cas d'erreur
             container.innerHTML = `
                 <div class="quiz-error" style="padding: 2rem; text-align: center; color: #ef4444;">
                     <p>Erreur lors de l'affichage de la question. Veuillez rafraîchir la page.</p>
@@ -1276,13 +1296,23 @@ class LandingQuiz {
                             
                             // Passage automatique pour radio et select (sauf si c'est la dernière question)
                             if (this.validateCurrentStep()) {
+                                // Sauvegarder la réponse avant de passer à la suivante
+                                this.saveCurrentAnswer();
+                                
                                 const validQuestions = this.getValidQuestions();
                                 
+                                // Trouver l'index actuel dans validQuestions
+                                const currentQuestionId = question.id;
+                                const currentIndex = validQuestions.findIndex(q => q.id === currentQuestionId);
+                                
+                                console.log('[Quiz] Passage auto - Question actuelle:', currentQuestionId, 'Index:', currentIndex);
+                                
                                 // Ne pas passer automatiquement si c'est la dernière question ou si c'est un submit
-                                if (nextBtn.type !== 'submit' && this.currentValidIndex < validQuestions.length - 1) {
+                                if (nextBtn.type !== 'submit' && currentIndex >= 0 && currentIndex < validQuestions.length - 1) {
                                     // Passage automatique après un court délai pour l'animation
                                     setTimeout(() => {
-                                        this.showStep(this.currentValidIndex + 1);
+                                        console.log('[Quiz] Passage automatique à l\'index:', currentIndex + 1);
+                                        this.showStep(currentIndex + 1);
                                     }, 600);
                                 }
                             }
