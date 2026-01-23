@@ -448,7 +448,7 @@
                         <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
                         <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">Inscription confirmée !</h3>
                         <p style="color: rgba(255, 255, 255, 0.95); line-height: 1.7; margin-bottom: 1.5rem;">
-                            Merci pour ton inscription ! Tu recevras un email de confirmation avec tous les détails du webinaire dès que la date sera fixée.
+                            Merci pour ton inscription ! <strong style="color: white;">Tu vas recevoir un email de confirmation dans quelques instants</strong> avec tous les détails du webinaire. Nous te confirmerons la date et l'heure dès qu'elles seront fixées.
                         </p>
                         <div style="background: rgba(255, 255, 255, 0.2); padding: 2rem; border-radius: 12px; margin-top: 1.5rem; border: 2px solid rgba(255, 255, 255, 0.4);">
                             <div style="text-align: center; margin-bottom: 1rem;">
@@ -471,12 +471,15 @@
                                     <li>📋 Tous les rappels et informations importantes</li>
                                 </ul>
                             </div>
-                            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
-                                <p style="color: white; font-weight: 700; font-size: 1.15rem; margin: 0 0 0.5rem 0;">
-                                    🔄 Redirection automatique dans quelques secondes...
+                            <div style="text-align: center; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-bottom: 1rem;">
+                                <p style="color: white; font-weight: 700; font-size: 1.15rem; margin: 0 0 1rem 0;">
+                                    📱 Rejoins maintenant le groupe WhatsApp
                                 </p>
-                                <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin: 0;">
-                                    Tu vas être redirigé(e) vers le groupe WhatsApp pour ne rien manquer de l'événement
+                                <a href="https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: #25D366; color: white; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); transition: transform 0.2s; margin-bottom: 1rem;">
+                                    📱 Rejoindre le groupe WhatsApp maintenant
+                                </a>
+                                <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                                    Ou tu seras redirigé(e) automatiquement dans quelques secondes
                                 </p>
                             </div>
                         </div>
@@ -625,12 +628,62 @@ Profil: ${profil || 'Non renseigné'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
             
-            // Préparer FormData pour Formspree
+            // Message de confirmation pour l'utilisateur
+            const confirmationMessage = `Bonjour ${prenom},
+
+Merci pour ton inscription au premier webinaire Domtom Connect !
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ TON INSCRIPTION EST CONFIRMÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nous te confirmerons la date et l'heure du webinaire très prochainement.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱 IMPORTANT : REJOINS LE GROUPE WHATSAPP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Le groupe WhatsApp est notre canal principal de communication pour cet événement.
+
+🔗 Rejoins le groupe ici : https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg
+
+Dans le groupe, tu recevras :
+• 📅 La date et l'heure du webinaire en premier
+• 🔗 Le lien de connexion directement
+• 💬 Les échanges avec les autres participants
+• 📋 Tous les rappels et informations importantes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 AU PROGRAMME DU WEBINAIRE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Présentation de Domtom Connect : qui nous sommes, notre mission
+• Notre fonctionnement concret : comment nous opérons
+• Plus-value à court, moyen et long terme
+• Nos services et accompagnements
+• Comprendre tes besoins : partage avec nous tes défis
+• Questions-réponses en direct
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+À très bientôt !
+
+L'équipe Domtom Connect
+https://domtomconnect.com`;
+            
+            // Préparer FormData pour Formspree (email admin)
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
             formDataToSend.append('_subject', `🎯 Inscription Webinaire - ${prenom} ${nom}`);
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
+            
+            // Envoyer un email de confirmation séparé à l'utilisateur
+            const confirmationFormData = new FormData();
+            confirmationFormData.append('_to', email);
+            confirmationFormData.append('_subject', '✅ Confirmation d\'inscription - Webinaire Domtom Connect');
+            confirmationFormData.append('_from', 'domtomconnect@gmail.com');
+            confirmationFormData.append('message', confirmationMessage);
             
             // Données structurées
             formDataToSend.append('Prénom', prenom);
@@ -654,7 +707,8 @@ Profil: ${profil || 'Non renseigné'}
             const formspreeUrl = 'https://formspree.io/f/myzbqepy';
             
             try {
-                const response = await fetch(formspreeUrl, {
+                // Envoyer l'email à l'admin
+                const adminResponse = await fetch(formspreeUrl, {
                     method: 'POST',
                     body: formDataToSend,
                     headers: {
@@ -662,7 +716,18 @@ Profil: ${profil || 'Non renseigné'}
                     }
                 });
                 
-                if (response.ok) {
+                // Envoyer l'email de confirmation à l'utilisateur
+                const confirmationResponse = await fetch(formspreeUrl, {
+                    method: 'POST',
+                    body: confirmationFormData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (adminResponse.ok && confirmationResponse.ok) {
+                    console.log('✅ Emails envoyés avec succès (admin + confirmation)');
+                    
                     // Afficher le message de succès
                     form.style.display = 'none';
                     const successMessage = document.getElementById('success-message');
@@ -673,13 +738,27 @@ Profil: ${profil || 'Non renseigné'}
                     // Scroll vers le message de succès
                     successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
-                    // Rediriger vers le groupe WhatsApp après 3 secondes
+                    // Rediriger vers le groupe WhatsApp après 5 secondes (plus de temps pour voir le bouton)
                     setTimeout(() => {
                         window.location.href = 'https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg';
-                    }, 3000);
+                    }, 5000);
                 } else {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                    // Même si la confirmation échoue, on affiche le succès si l'admin a reçu l'email
+                    if (adminResponse.ok) {
+                        console.warn('⚠️ Email admin envoyé mais confirmation échouée');
+                        form.style.display = 'none';
+                        const successMessage = document.getElementById('success-message');
+                        if (successMessage) {
+                            successMessage.classList.add('show');
+                        }
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => {
+                            window.location.href = 'https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg';
+                        }, 5000);
+                    } else {
+                        const errData = await adminResponse.json();
+                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                    }
                 }
             } catch (error) {
                 console.error('❌ Erreur:', error);
