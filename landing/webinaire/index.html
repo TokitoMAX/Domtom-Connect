@@ -599,7 +599,57 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
-            // Validation
+            // Validation simple : s'assurer que les données sont réelles
+            const errors = [];
+            
+            // Validation email : format valide
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                errors.push('Veuillez entrer une adresse email valide (exemple : nom@email.com)');
+            }
+            
+            // Validation téléphone : format valide si renseigné
+            if (telephone && telephone.trim()) {
+                const phoneDigits = telephone.replace(/\D/g, '');
+                // Un vrai numéro doit avoir entre 10 et 15 chiffres
+                if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+                    errors.push('Veuillez entrer un numéro de téléphone valide (10 à 15 chiffres)');
+                }
+            }
+            
+            // Validation prénom : doit être un vrai prénom
+            if (!prenom || prenom.trim().length < 2) {
+                errors.push('Veuillez entrer votre prénom');
+            } else {
+                // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
+                const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
+                if (!nameRegex.test(prenom)) {
+                    errors.push('Le prénom contient des caractères invalides. Veuillez entrer votre vrai prénom.');
+                }
+            }
+            
+            // Validation nom : doit être un vrai nom
+            if (!nom || nom.trim().length < 2) {
+                errors.push('Veuillez entrer votre nom');
+            } else {
+                // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
+                const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
+                if (!nameRegex.test(nom)) {
+                    errors.push('Le nom contient des caractères invalides. Veuillez entrer votre vrai nom.');
+                }
+            }
+            
+            // Afficher les erreurs si présentes
+            if (errors.length > 0) {
+                alert(errors.join('\n\n'));
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
+                return;
+            }
+            
+            // Validation basique avec FormValidator (sans être trop strict)
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);
             
