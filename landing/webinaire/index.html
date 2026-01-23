@@ -687,11 +687,13 @@ https://domtomconnect.com`;
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
             
-            // Envoyer un email de confirmation séparé à l'utilisateur
+            // Préparer email de confirmation pour l'utilisateur (utiliser le même endpoint mais avec _cc)
+            // Note: Formspree enverra une copie à l'utilisateur avec _cc
             const confirmationFormData = new FormData();
-            confirmationFormData.append('_to', email);
+            confirmationFormData.append('_to', 'domtomconnect@gmail.com');
+            confirmationFormData.append('_cc', email); // Copie à l'utilisateur
             confirmationFormData.append('_subject', '✅ Confirmation d\'inscription - Webinaire Domtom Connect');
-            confirmationFormData.append('_from', 'domtomconnect@gmail.com');
+            confirmationFormData.append('_replyto', 'domtomconnect@gmail.com');
             confirmationFormData.append('message', confirmationMessage);
             
             // Données structurées
@@ -725,7 +727,7 @@ https://domtomconnect.com`;
                     }
                 });
                 
-                // Envoyer l'email de confirmation à l'utilisateur
+                // Envoyer l'email de confirmation à l'utilisateur (avec _cc)
                 const confirmationResponse = await fetch(formspreeUrl, {
                     method: 'POST',
                     body: confirmationFormData,
@@ -734,10 +736,14 @@ https://domtomconnect.com`;
                     }
                 });
                 
-                if (adminResponse.ok && confirmationResponse.ok) {
-                    console.log('✅ Emails envoyés avec succès (admin + confirmation)');
+                if (adminResponse.ok) {
+                    if (confirmationResponse.ok) {
+                        console.log('✅ Emails envoyés avec succès (admin + confirmation utilisateur)');
+                    } else {
+                        console.warn('⚠️ Email admin envoyé mais confirmation échouée');
+                    }
                     
-                    // Afficher le message de succès
+                    // Afficher le message de succès même si la confirmation échoue
                     form.style.display = 'none';
                     const successMessage = document.getElementById('success-message');
                     if (successMessage) {
@@ -747,19 +753,8 @@ https://domtomconnect.com`;
                     // Scroll vers le message de succès
                     successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
-                    // Même si la confirmation échoue, on affiche le succès si l'admin a reçu l'email
-                    if (adminResponse.ok) {
-                        console.warn('⚠️ Email admin envoyé mais confirmation échouée');
-                        form.style.display = 'none';
-                        const successMessage = document.getElementById('success-message');
-                        if (successMessage) {
-                            successMessage.classList.add('show');
-                        }
-                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    } else {
-                        const errData = await adminResponse.json();
-                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
-                    }
+                    const errData = await adminResponse.json();
+                    throw new Error(errData.error || 'Erreur lors de l\'envoi');
                 }
             } catch (error) {
                 console.error('❌ Erreur:', error);
