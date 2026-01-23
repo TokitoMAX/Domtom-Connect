@@ -656,43 +656,68 @@
     <script src="../../assets/js/form-security.js?v=1.0"></script>
     
     <script>
+        // Fonction pour afficher les erreurs dans le formulaire
+        function displayErrors(errors, errorFields) {
+            const errorMessage = document.getElementById('error-message');
+            const errorList = document.getElementById('error-list');
+            
+            if (!errorMessage || !errorList) {
+                console.error('Éléments d\'erreur non trouvés dans le DOM');
+                return;
+            }
+            
+            if (errors.length > 0) {
+                // Afficher le message d'erreur
+                errorMessage.classList.add('show');
+                errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
+                
+                // Mettre en évidence les champs en erreur
+                errorFields.forEach(fieldId => {
+                    const fieldGroup = document.getElementById(fieldId + '-group');
+                    if (fieldGroup) {
+                        fieldGroup.classList.add('error');
+                    }
+                });
+                
+                // Scroll vers le message d'erreur
+                setTimeout(() => {
+                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            } else {
+                // Cacher le message d'erreur et retirer les classes d'erreur
+                errorMessage.classList.remove('show');
+                document.querySelectorAll('.form-group').forEach(group => {
+                    group.classList.remove('error');
+                });
+            }
+        }
+        
         async function handleWebinarSubmit(event) {
             event.preventDefault();
             
-            const form = event.target;
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Fonction pour afficher les erreurs dans le formulaire
-            function displayErrors(errors, errorFields) {
-                const errorMessage = document.getElementById('error-message');
-                const errorList = document.getElementById('error-list');
+            try {
+                const form = event.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
                 
-                if (errors.length > 0) {
-                    // Afficher le message d'erreur
-                    errorMessage.classList.add('show');
-                    errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                    
-                    // Mettre en évidence les champs en erreur
-                    errorFields.forEach(fieldId => {
-                        const fieldGroup = document.getElementById(fieldId + '-group');
-                        if (fieldGroup) {
-                            fieldGroup.classList.add('error');
-                        }
-                    });
-                    
-                    // Scroll vers le message d'erreur
-                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    // Cacher le message d'erreur et retirer les classes d'erreur
-                    errorMessage.classList.remove('show');
-                    document.querySelectorAll('.form-group').forEach(group => {
-                        group.classList.remove('error');
-                    });
+                // Extraire les données du formulaire
+                const prenom = data.prenom || '';
+                const nom = data.nom || '';
+                const email = data.email || '';
+                const telephone = data.telephone || '';
+                const territoire = data.territoire || '';
+                const profil = data.profil || '';
+                
+                // Gérer le bouton
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn ? submitBtn.textContent : '';
+                
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Inscription en cours...';
                 }
-            }
             
-            // Validation simple : s'assurer que les données sont réelles
+                // Validation simple : s'assurer que les données sont réelles
             const errors = [];
             const errorFields = [];
             
@@ -792,6 +817,7 @@
             
             // Afficher les erreurs si présentes
             if (errors.length > 0) {
+                console.log('Erreurs de validation:', errors);
                 displayErrors(errors, errorFields);
                 if (submitBtn) {
                     submitBtn.disabled = false;
@@ -804,16 +830,19 @@
             }
             
             // Validation basique avec FormValidator (sans être trop strict)
-            const validator = new FormValidator();
-            const validation = await validator.validateForm(data);
-            
-            // Préparer les données pour l'envoi
-            const prenom = data.prenom || '';
-            const nom = data.nom || '';
-            const email = data.email || '';
-            const telephone = data.telephone || '';
-            const territoire = data.territoire || '';
-            const profil = data.profil || '';
+            console.log('Validation passée, envoi en cours...');
+            let validation = { valid: true };
+            try {
+                if (typeof FormValidator !== 'undefined') {
+                    const validator = new FormValidator();
+                    validation = await validator.validateForm(data);
+                } else {
+                    console.warn('FormValidator non disponible, validation basique uniquement');
+                }
+            } catch (validationError) {
+                console.warn('Erreur lors de la validation FormValidator:', validationError);
+                // On continue quand même
+            }
             
             // Préparer le message pour l'email
             const messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -909,15 +938,6 @@ https://domtomconnect.com`;
             formDataToSend.append('Profil', profil || '');
             formDataToSend.append('Type', 'webinaire-inscription');
             
-            // Gérer le bouton
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.textContent : '';
-            
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Inscription en cours...';
-            }
-            
             // Envoyer à Formspree
             const formspreeUrl = 'https://formspree.io/f/myzbqepy';
             
@@ -963,9 +983,21 @@ https://domtomconnect.com`;
             } catch (error) {
                 console.error('❌ Erreur:', error);
                 alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                const form = event.target;
+                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = originalBtnText;
+                    submitBtn.textContent = 'M\'inscrire au webinaire';
+                }
+            }
+            } catch (outerError) {
+                console.error('❌ Erreur critique dans handleWebinarSubmit:', outerError);
+                alert('Une erreur inattendue est survenue. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                const form = event.target;
+                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'M\'inscrire au webinaire';
                 }
             }
         }
