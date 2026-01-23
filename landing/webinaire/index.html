@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>Premier Webinaire Domtom Connect - Inscription Gratuite</title>
+    <meta name="description" content="Rejoins le premier webinaire Domtom Connect et découvre comment connecter ton projet aux meilleurs prestataires des territoires ultramarins. Inscription gratuite.">
+    <meta name="keywords" content="webinaire domtom connect, entrepreneur ultramarin, prestataires DOM-TOM, réseau entrepreneurial, webinaire gratuit antilles, webinaire réunion, webinaire guyane">
+    <meta name="author" content="Domtom Connect">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://domtomconnect.com/landing/webinaire">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://domtomconnect.com/landing/webinaire">
+    <meta property="og:title" content="Premier Webinaire Domtom Connect - Inscription Gratuite">
+    <meta property="og:description" content="Rejoins le premier webinaire Domtom Connect et découvre comment connecter ton projet aux meilleurs prestataires des territoires ultramarins.">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Domtom Connect">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://domtomconnect.com/landing/webinaire">
+    <meta property="twitter:title" content="Premier Webinaire Domtom Connect - Inscription Gratuite">
+    <meta property="twitter:description" content="Rejoins le premier webinaire Domtom Connect et découvre comment connecter ton projet aux meilleurs prestataires des territoires ultramarins.">
+    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    
+    <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
+    
+    <style>
+        .webinar-hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, #00BFA6 0%, #0F3D2E 100%);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .webinar-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .webinar-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .webinar-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .webinar-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .webinar-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3rem;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        
+        .webinar-date-placeholder {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+        }
+        
+        .webinar-date-placeholder .date-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .webinar-date-placeholder .date-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .webinar-form-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .webinar-form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00BFA6, #00A896, #00BFA6);
+            background-size: 300% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .webinar-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group select {
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.1);
+        }
+        
+        .form-submit-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);
+            margin-top: 0.5rem;
+        }
+        
+        .form-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 191, 166, 0.4);
+        }
+        
+        .form-submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .webinar-benefits {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .benefit-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+        
+        .webinar-details {
+            padding: 80px 0;
+        }
+        
+        .details-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .details-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        
+        .details-list li {
+            padding: 1rem 0;
+            padding-left: 2.5rem;
+            position: relative;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .details-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: fadeInSlide 0.5s ease;
+        }
+        
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .webinar-hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+            
+            .webinar-form-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="webinar-hero">
+        <div class="container">
+            <div class="webinar-content">
+                <div class="webinar-badge">🎯 Premier Webinaire</div>
+                <h1>Rejoins le premier webinaire Domtom Connect</h1>
+                <p class="webinar-subtitle">
+                    Découvre comment connecter ton projet aux meilleurs prestataires des territoires ultramarins. 
+                    Apprends les stratégies pour réussir ton projet entrepreneurial dans les îles.
+                </p>
+                
+                <div class="webinar-date-placeholder">
+                    <div class="date-label">Date à venir</div>
+                    <div class="date-text">📅 Date à confirmer prochainement</div>
+                </div>
+                
+                <div class="webinar-form-container">
+                    <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-primary); font-size: 1.75rem;">
+                        Inscris-toi gratuitement
+                    </h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);">
+                        Sois notifié en premier dès que la date sera annoncée
+                    </p>
+                    
+                    <form class="webinar-form" id="webinar-form" onsubmit="handleWebinarSubmit(event)">
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input type="text" id="prenom" name="prenom" required placeholder="Ton prénom">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input type="text" id="nom" name="nom" required placeholder="Ton nom">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="ton@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="territoire">Territoire</label>
+                            <select id="territoire" name="territoire">
+                                <option value="">Sélectionne ton territoire</option>
+                                <option value="martinique">Martinique</option>
+                                <option value="guadeloupe">Guadeloupe</option>
+                                <option value="reunion">La Réunion</option>
+                                <option value="guyane">Guyane</option>
+                                <option value="mayotte">Mayotte</option>
+                                <option value="polynesie">Polynésie française</option>
+                                <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                                <option value="diaspora">Diaspora</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profil">Quel est ton profil ?</label>
+                            <select id="profil" name="profil">
+                                <option value="">Sélectionne ton profil</option>
+                                <option value="porteur-projet">Porteur de projet</option>
+                                <option value="prestataire">Prestataire</option>
+                                <option value="entreprise">Entreprise</option>
+                                <option value="investisseur">Investisseur</option>
+                                <option value="curieux">Curieux / Autre</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="form-submit-btn">
+                            M'inscrire au webinaire
+                        </button>
+                    </form>
+                    
+                    <div class="success-message" id="success-message">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">Inscription confirmée !</h3>
+                        <p style="color: rgba(255, 255, 255, 0.95); line-height: 1.7;">
+                            Merci pour ton inscription ! Tu recevras un email de confirmation avec tous les détails du webinaire dès que la date sera fixée.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="webinar-benefits">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 style="margin-bottom: 1rem;">Ce que tu vas découvrir</h2>
+                <p style="font-size: 1.125rem; color: var(--text-secondary);">
+                    Un webinaire complet pour t'aider à réussir ton projet entrepreneurial dans les territoires ultramarins
+                </p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <h3>Trouver les bons prestataires</h3>
+                    <p>Découvre comment identifier et contacter les meilleurs prestataires pour ton projet dans les territoires ultramarins.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌐</div>
+                    <h3>Construire ton réseau</h3>
+                    <p>Apprends à développer un réseau solide d'entrepreneurs et de professionnels dans les îles françaises et au-delà.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💡</div>
+                    <h3>Stratégies éprouvées</h3>
+                    <p>Reçois des conseils pratiques et des stratégies qui fonctionnent réellement pour les projets ultramarins.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Accélérer ton projet</h3>
+                    <p>Évite les erreurs courantes et accélère le développement de ton projet avec les bonnes méthodes.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3>Échanges et questions</h3>
+                    <p>Pose tes questions en direct et échange avec d'autres entrepreneurs qui partagent tes défis.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎁</div>
+                    <h3>Ressources exclusives</h3>
+                    <p>Accède à des ressources et outils exclusifs réservés aux participants du webinaire.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="webinar-details">
+        <div class="container">
+            <div class="details-content">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Au programme</h2>
+                
+                <ul class="details-list">
+                    <li>Introduction à Domtom Connect et sa mission</li>
+                    <li>Les défis spécifiques des entrepreneurs ultramarins</li>
+                    <li>Comment trouver et choisir les bons prestataires</li>
+                    <li>Stratégies de networking dans les territoires insulaires</li>
+                    <li>Cas pratiques et retours d'expérience</li>
+                    <li>Questions-réponses en direct</li>
+                    <li>Présentation des services et accompagnements Domtom Connect</li>
+                </ul>
+                
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--gray-50); border-radius: 16px;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">💡 Pourquoi participer ?</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 0;">
+                        Ce webinaire est l'occasion parfaite de découvrir comment Domtom Connect peut t'aider à concrétiser ton projet. 
+                        Que tu sois porteur de projet, prestataire, ou simplement curieux de découvrir notre approche, 
+                        tu repartiras avec des informations précieuses et des contacts utiles.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../../assets/js/form-validation.js?v=1.0"></script>
+    <script src="../../assets/js/form-security.js?v=1.0"></script>
+    
+    <script>
+        async function handleWebinarSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Validation
+            const validator = new FormValidator();
+            const validation = await validator.validateForm(data);
+            
+            // Préparer les données pour l'envoi
+            const prenom = data.prenom || '';
+            const nom = data.nom || '';
+            const email = data.email || '';
+            const telephone = data.telephone || '';
+            const territoire = data.territoire || '';
+            const profil = data.profil || '';
+            
+            // Préparer le message pour l'email
+            const messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 INSCRIPTION WEBINAIRE DOMTOM CONNECT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Date: ${new Date().toLocaleString('fr-FR')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 INFORMATIONS PARTICIPANT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prénom: ${prenom}
+Nom: ${nom}
+Email: ${email}
+Téléphone: ${telephone || 'Non renseigné'}
+Territoire: ${territoire || 'Non renseigné'}
+Profil: ${profil || 'Non renseigné'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 PROCHAINES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Confirmer la date du webinaire
+2. Envoyer un email de confirmation à ${email}
+3. Envoyer les détails de connexion quelques jours avant
+4. Rappel la veille du webinaire
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+            
+            // Préparer FormData pour Formspree
+            const formDataToSend = new FormData();
+            formDataToSend.append('_to', 'domtomconnect@gmail.com');
+            formDataToSend.append('_subject', `🎯 Inscription Webinaire - ${prenom} ${nom}`);
+            formDataToSend.append('_replyto', email);
+            formDataToSend.append('message', messageBody);
+            
+            // Données structurées
+            formDataToSend.append('Prénom', prenom);
+            formDataToSend.append('Nom', nom);
+            formDataToSend.append('Email', email);
+            formDataToSend.append('Téléphone', telephone || '');
+            formDataToSend.append('Territoire', territoire || '');
+            formDataToSend.append('Profil', profil || '');
+            formDataToSend.append('Type', 'webinaire-inscription');
+            
+            // Gérer le bouton
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.textContent : '';
+            
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Inscription en cours...';
+            }
+            
+            // Envoyer à Formspree
+            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
+            
+            try {
+                const response = await fetch(formspreeUrl, {
+                    method: 'POST',
+                    body: formDataToSend,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Afficher le message de succès
+                    form.style.display = 'none';
+                    const successMessage = document.getElementById('success-message');
+                    if (successMessage) {
+                        successMessage.classList.add('show');
+                    }
+                    
+                    // Scroll vers le message de succès
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                }
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
