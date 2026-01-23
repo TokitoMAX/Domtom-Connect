@@ -608,12 +608,53 @@
                 errors.push('Veuillez entrer une adresse email valide (exemple : nom@email.com)');
             }
             
-            // Validation téléphone : format valide si renseigné
+            // Validation téléphone : format valide et cohérent avec le territoire
             if (telephone && telephone.trim()) {
                 const phoneDigits = telephone.replace(/\D/g, '');
                 // Un vrai numéro doit avoir entre 10 et 15 chiffres
                 if (phoneDigits.length < 10 || phoneDigits.length > 15) {
                     errors.push('Veuillez entrer un numéro de téléphone valide (10 à 15 chiffres)');
+                } else if (territoire && territoire !== 'autre' && territoire !== 'diaspora') {
+                    // Vérifier la cohérence avec le territoire (indicatifs téléphoniques)
+                    const territoryIndicators = {
+                        'martinique': ['596', '0596', '0696', '0697'],
+                        'guadeloupe': ['590', '0590', '0690', '0691'],
+                        'reunion': ['262', '0262', '0692', '0693'],
+                        'guyane': ['594', '0594', '0694'],
+                        'mayotte': ['262', '0262', '0639'],
+                        'polynesie': ['689', '0689'],
+                        'nouvelle-caledonie': ['687', '0687']
+                    };
+                    
+                    const indicators = territoryIndicators[territoire];
+                    if (indicators) {
+                        // Vérifier si le numéro contient l'indicatif du territoire
+                        let isCoherent = false;
+                        
+                        // Format international avec +33
+                        if (phoneDigits.startsWith('33')) {
+                            const withoutCountryCode = phoneDigits.substring(2);
+                            isCoherent = indicators.some(ind => {
+                                const code = ind.replace(/^0/, ''); // Enlever le 0 initial
+                                return withoutCountryCode.startsWith(code);
+                            });
+                        }
+                        // Format local (commence par 0)
+                        else if (phoneDigits.startsWith('0')) {
+                            isCoherent = indicators.some(ind => phoneDigits.startsWith(ind));
+                        }
+                        // Format sans 0 initial
+                        else {
+                            isCoherent = indicators.some(ind => {
+                                const code = ind.replace(/^0/, '');
+                                return phoneDigits.startsWith(code);
+                            });
+                        }
+                        
+                        if (!isCoherent) {
+                            errors.push(`Le numéro de téléphone ne correspond pas au territoire sélectionné (${territoire}). Veuillez vérifier votre numéro.`);
+                        }
+                    }
                 }
             }
             
