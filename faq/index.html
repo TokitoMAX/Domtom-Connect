@@ -125,8 +125,19 @@
             </a>
             <div class="nav-content">
                 <div class="nav-links">
-                    <a href="/services">Trouver des prestataires</a>
+                    <div class="nav-dropdown" style="position: relative;">
+                        <a href="/services" class="nav-dropdown-toggle">Trouver des prestataires <span style="font-size: 0.7rem;">▼</span></a>
+                        <div class="nav-dropdown-menu" style="position: absolute; top: 100%; left: 0; background: var(--white); border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); padding: 1rem 0; min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; margin-top: 8px;">
+                            <a href="/services" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Tous les territoires</a>
+                            <a href="/territoires/guadeloupe" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Guadeloupe</a>
+                            <a href="/territoires/martinique" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Martinique</a>
+                            <a href="/territoires/reunion" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">La Réunion</a>
+                            <a href="/territoires/guyane" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Guyane</a>
+                            <a href="/territoires/mayotte" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Mayotte</a>
+                        </div>
+                    </div>
                     <a href="/blog">Blog</a>
+                    <a href="/landing/webinaire">Webinaire</a>
                     <a href="/a-propos">À propos</a>
                     <a href="/tarifs">Tarifs</a>
                 </div>
@@ -312,25 +323,13 @@
 
     <footer class="footer">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">Ressources</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 0.5rem;"><a href="/faq" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">FAQ</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/ressources" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Glossaire & Ressources</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/diaspora" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Diaspora Ultramarine</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">Territoires</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 0.5rem;"><a href="/territoires/guadeloupe" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Guadeloupe</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/territoires/martinique" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Martinique</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/territoires/reunion" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">La Réunion</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/territoires/guyane" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Guyane</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="/territoires/mayotte" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Mayotte</a></li>
-                    </ul>
-                </div>
+            <div style="margin-bottom: 2rem;">
+                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">Ressources</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                    <li><a href="/faq" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">FAQ</a></li>
+                    <li><a href="/ressources" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Glossaire & Ressources</a></li>
+                    <li><a href="/diaspora" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Diaspora Ultramarine</a></li>
+                </ul>
             </div>
             <p>&copy; 2025 Domtom Connect. Tous droits réservés.</p>
             <div class="footer-social">

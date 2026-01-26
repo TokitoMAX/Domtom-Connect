@@ -46,6 +46,29 @@ function calculateROI() {
 // Calculer automatiquement au chargement de la page si les valeurs sont présentes
 document.addEventListener('DOMContentLoaded', function() {
     calculateROI();
+    
+    // Gestion du dropdown menu
+    const dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+        const menu = dropdown.querySelector('.nav-dropdown-menu');
+        
+        if (toggle && menu) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isOpen = menu.style.opacity === '1';
+                if (isOpen) {
+                    menu.style.opacity = '0';
+                    menu.style.visibility = 'hidden';
+                    menu.style.transform = 'translateY(-10px)';
+                } else {
+                    menu.style.opacity = '1';
+                    menu.style.visibility = 'visible';
+                    menu.style.transform = 'translateY(0)';
+                }
+            });
+        }
+    });
 });
 
 // Fonction pour faire défiler vers le formulaire d'inscription

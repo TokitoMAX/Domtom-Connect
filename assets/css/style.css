@@ -394,6 +394,27 @@ p {
     transform: translateX(0) scale(1);
 }
 
+/* Dropdown Menu */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-toggle {
+    cursor: pointer;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown-menu a:hover {
+    background: var(--gray-50);
+    color: var(--primary-color);
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
