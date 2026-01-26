@@ -401,13 +401,23 @@ p {
 
 .nav-dropdown-toggle {
     cursor: pointer;
+    position: relative;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown:focus-within .nav-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto;
+}
+
+.nav-dropdown-menu {
+    pointer-events: none;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    pointer-events: auto;
 }
 
 .nav-dropdown-menu a:hover {
