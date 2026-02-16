@@ -32,11 +32,11 @@
             padding: 0 1.5rem;
         }
 
-        /* ===== ÉTAPE 1 : HOOK / PROBLÈME ===== */
+        /* ===== HERO PRO ===== */
         .sales-hero {
-            background: linear-gradient(135deg, #00BFA6 0%, #00A896 50%, #009E8A 100%);
+            background: linear-gradient(145deg, #0d9488 0%, #0f766e 40%, #115e59 100%);
             color: white;
-            padding: 6rem 0 4rem;
+            padding: 7rem 0 5rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -46,23 +46,12 @@
         .sales-hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate(0, 0);
-            }
-
-            100% {
-                transform: translate(50px, 50px);
-            }
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.6;
         }
 
         .sales-hero-content {
@@ -70,102 +59,270 @@
             z-index: 2;
         }
 
-        .sales-hero h1 {
-            font-size: clamp(2.5rem, 7vw, 4.5rem);
-            font-weight: 900;
+        .sales-hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             margin-bottom: 1.5rem;
-            line-height: 1.1;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 0.8s ease-out;
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .sales-hero h1 {
+            font-size: clamp(2.25rem, 6vw, 3.75rem);
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.6s ease-out 0.1s both;
         }
 
         .sales-hero .subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-size: clamp(1.05rem, 2.5vw, 1.35rem);
             margin-bottom: 2rem;
             opacity: 0.95;
             font-weight: 400;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
         }
 
         .sales-hero .cta-primary {
             display: inline-block;
             background: white;
-            color: #00BFA6;
-            padding: 1.25rem 3rem;
-            border-radius: 50px;
-            font-size: 1.15rem;
+            color: #0f766e;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.05rem;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: all 0.25s ease;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
         }
 
         .sales-hero .cta-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== ÉTAPE 2 : SOLUTION / OFFRES ===== */
+        /* Barre de confiance */
+        .trust-bar {
+            background: #fff;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+        }
+
+        .trust-bar .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .trust-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .trust-bar-item svg {
+            flex-shrink: 0;
+            color: #0d9488;
+        }
+
+        /* Ancrage Pour qui */
+        .anchor-who {
+            background: #f8fafc;
+            padding: 1rem 0;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .anchor-who .container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .anchor-who a {
+            display: inline-block;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #64748b;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .anchor-who a:hover {
+            color: #0d9488;
+            background: rgba(13, 148, 136, 0.08);
+        }
+
+        .anchor-who a.anchor-active {
+            background: #0d9488;
+            color: white;
+            border-color: #0d9488;
+        }
+
+        /* Section "Ce que tu vis" */
+        .pain-section {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 4rem 0;
+        }
+
+        .pain-section h2 {
+            text-align: center;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pain-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+            transition: all 0.25s ease;
+        }
+
+        .pain-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+
+        .pain-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pain-card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .pain-card.pain-porteurs { border-left: 4px solid #0d9488; }
+        .pain-card.pain-entreprises { border-left: 4px solid #7c3aed; }
+
+        /* Bloc garantie */
+        .guarantee-bar {
+            background: linear-gradient(90deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            margin: 0 auto 3rem;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .guarantee-bar strong {
+            color: #065f46;
+            font-size: 1rem;
+        }
+
+        .guarantee-bar span {
+            color: #047857;
+            font-size: 0.95rem;
+        }
+
+        /* ===== OFFRES ===== */
         .pricing-section {
-            padding: 5rem 0;
-            background: #f9fafb;
+            padding: 4rem 0 5rem;
+            background: #fff;
         }
 
         .profile-section-block {
             margin-bottom: 4rem;
         }
 
+        .profile-section-block[id="porteurs"] { scroll-margin-top: 180px; }
+        .profile-section-block[id="entreprises"] { scroll-margin-top: 180px; }
+
         .profile-header-section {
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             padding: 0;
             text-align: center;
         }
 
         .profile-title-main {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 900;
-            color: #1a1a1a;
-            margin-bottom: 1rem;
-            letter-spacing: -0.5px;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
         }
 
         .profile-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            color: #6b7280;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            color: #64748b;
             line-height: 1.6;
-            max-width: 700px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
+            gap: 2rem;
+            margin-top: 2.5rem;
         }
 
         .pricing-card {
             background: white;
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -1px rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
+            border: 1px solid #e5e7eb;
         }
 
         .pricing-card::before {
@@ -315,46 +472,114 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         }
 
-        /* ===== ÉTAPE 3 : ACTION / CTA FINAL ===== */
+        /* FAQ courte */
+        .sales-faq {
+            background: #f8fafc;
+            padding: 4rem 0;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .sales-faq h2 {
+            text-align: center;
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2rem;
+        }
+
+        .sales-faq-list {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .sales-faq-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .sales-faq-item strong {
+            color: #0f172a;
+            font-size: 1rem;
+        }
+
+        .sales-faq-item p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin: 0.5rem 0 0 0;
+            line-height: 1.6;
+        }
+
+        /* CTA final pro */
         .final-cta {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
             color: white;
-            padding: 5rem 0;
+            padding: 5rem 2rem;
             text-align: center;
         }
 
         .final-cta h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 900;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             color: white;
+            letter-spacing: -0.02em;
         }
 
         .final-cta p {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            margin-bottom: 2.5rem;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            margin-bottom: 2rem;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 520px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .final-cta .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
+            background: #0d9488;
             color: white;
-            padding: 1.25rem 3.5rem;
-            border-radius: 50px;
-            font-size: 1.2rem;
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 10px 40px rgba(0, 191, 166, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(13, 148, 136, 0.4);
+            transition: all 0.25s ease;
         }
 
         .final-cta .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(0, 191, 166, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(13, 148, 136, 0.5);
+            background: #0f766e;
+        }
+
+        /* Sticky CTA mobile */
+        .sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+            z-index: 999;
+        }
+
+        .sticky-cta a {
+            display: block;
+            text-align: center;
+            background: #0d9488;
+            color: white;
+            padding: 0.9rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
         }
 
         /* Modal */
@@ -472,15 +697,46 @@
             transform: translateY(-2px);
         }
 
+        /* Modal pro */
+        .pack-modal-content {
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .pack-modal-header p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin: 0 0 1.25rem 0;
+        }
+
+        .pack-modal-form .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 1rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sales-hero {
-                padding: 4rem 0 3rem;
+                padding: 5rem 0 3.5rem;
             }
+
+            .trust-bar .container { gap: 1rem; }
+            .trust-bar-item { font-size: 0.85rem; }
+
+            .anchor-who { top: 70px; }
+            .anchor-who a { padding: 0.5rem 1rem; font-size: 0.9rem; }
+
+            .pain-section { padding: 3rem 0; }
+            .guarantee-bar { flex-direction: column; text-align: center; padding: 1rem; }
 
             .pricing-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1.5rem;
             }
 
             .pricing-card.popular {
@@ -488,13 +744,16 @@
             }
 
             .pricing-section {
-                padding: 3rem 0;
+                padding: 3rem 0 4rem;
             }
 
             .profile-section-block {
                 margin-top: 3rem !important;
                 padding-top: 3rem !important;
             }
+
+            .sticky-cta { display: block; }
+            .final-cta { padding-bottom: 5rem; }
         }
     </style>
 </head>
@@ -528,41 +787,71 @@
         </div>
     </nav>
 
-    <!-- ÉTAPE 1 : HOOK / PROBLÈME -->
+    <!-- Hero -->
     <section class="sales-hero">
         <div class="container">
             <div class="sales-hero-content">
+                <p class="sales-hero-badge">Packs sans engagement • Réponse sous 24h</p>
                 <h1>On t'enlève la charge mentale</h1>
-                <p class="subtitle">Trouver et cadrer les bons prestataires locaux, c'est chronophage et stressant. On s'en occupe pour toi : tu gardes le cap, on gère la recherche et la coordination.</p>
-                <a href="#packs" class="cta-primary">Voir les packs →</a>
+                <p class="subtitle">Trouver et cadrer les bons prestataires locaux, c'est chronophage et stressant. On s'en occupe : tu gardes le cap, on gère la recherche et la coordination.</p>
+                <a href="#packs" class="cta-primary">Voir les packs</a>
             </div>
         </div>
     </section>
 
-    <!-- Contexte : ce que tu vis aujourd'hui -->
-    <section style="background: #f9fafb; padding: 3rem 0;">
+    <!-- Barre de confiance -->
+    <div class="trust-bar">
         <div class="container">
-            <div style="max-width: 900px; margin: 0 auto;">
-                <h2 style="text-align: center; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; color: #1a1a1a; margin-bottom: 2rem;">Ce que porteurs et entreprises vivent vraiment</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-                    <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 4px solid #00BFA6;">
-                        <h3 style="font-size: 1.1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1rem;">Porteurs de projet / Entrepreneurs</h3>
-                        <p style="font-size: 0.95rem; color: #6b7280; line-height: 1.7; margin: 0;">Chercher un bon prestataire (site, branding, com, dev…) est complexe et chronophage. Tu as peur de te tromper, de mal briefer, de te faire « survendre ». Tu manques de clarté : quoi faire en priorité, avec quel budget, dans quel ordre.</p>
-                    </div>
-                    <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 4px solid #8B5CF6;">
-                        <h3 style="font-size: 1.1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1rem;">Entreprises</h3>
-                        <p style="font-size: 0.95rem; color: #6b7280; line-height: 1.7; margin: 0;">Sur le terrain vous avez besoin de solutions rapides et locales, mais vous perdez du temps à chercher, comparer, organiser. Vous externalisez pour gagner en flexibilité, mais vous manquez de temps pour sourcer et sécuriser les bons partenaires.</p>
-                    </div>
+            <span class="trust-bar-item">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Réponse sous 24h
+            </span>
+            <span class="trust-bar-item">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Prestataires vérifiés
+            </span>
+            <span class="trust-bar-item">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                Territoires ultramarins
+            </span>
+        </div>
+    </div>
+
+    <!-- Ce que tu vis vraiment -->
+    <section class="pain-section">
+        <div class="container">
+            <h2>Ce que porteurs et entreprises vivent vraiment</h2>
+            <div class="pain-grid">
+                <div class="pain-card pain-porteurs">
+                    <h3>Porteurs de projet / Entrepreneurs</h3>
+                    <p>Chercher un bon prestataire (site, branding, com, dev…) est complexe et chronophage. Tu as peur de te tromper, de mal briefer, de te faire « survendre ». Tu manques de clarté : quoi faire en priorité, avec quel budget, dans quel ordre.</p>
+                </div>
+                <div class="pain-card pain-entreprises">
+                    <h3>Entreprises</h3>
+                    <p>Sur le terrain vous avez besoin de solutions rapides et locales, mais vous perdez du temps à chercher, comparer, organiser. Vous externalisez pour gagner en flexibilité, mais vous manquez de temps pour sourcer et sécuriser les bons partenaires.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ÉTAPE 2 : SOLUTION / OFFRES -->
+    <!-- Ancrage Pour qui -->
+    <div class="anchor-who">
+        <div class="container">
+            <a href="#porteurs" class="anchor-active">Je suis porteur de projet</a>
+            <a href="#entreprises">Je suis entreprise</a>
+        </div>
+    </div>
+
+    <!-- Offres -->
     <section class="pricing-section" id="packs">
         <div class="container">
+            <div class="guarantee-bar">
+                <strong>✓ Premier appel découverte gratuit</strong>
+                <span>— On comprend ton besoin avant de te proposer un pack.</span>
+            </div>
+
             <!-- Porteurs de Projets -->
-            <div class="profile-section-block">
+            <div class="profile-section-block" id="porteurs">
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Porteurs de Projets / Entrepreneurs</h2>
@@ -682,7 +971,7 @@
             </div>
 
             <!-- Entreprises -->
-            <div class="profile-section-block"
+            <div class="profile-section-block" id="entreprises"
                 style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
                 <div class="profile-header-section">
                     <div>
@@ -890,14 +1179,40 @@
         </div>
     </section>
 
-    <!-- ÉTAPE 3 : ACTION / CTA FINAL -->
-    <section class="final-cta">
+    <!-- FAQ courte -->
+    <section class="sales-faq">
         <div class="container">
-            <h2>Prêt à démarrer ?</h2>
-            <p>Remplis le formulaire et on te recontacte sous 24h avec tous les détails</p>
-            <a href="/#inscription-form" class="cta-button">Commencer maintenant →</a>
+            <h2>Questions fréquentes</h2>
+            <div class="sales-faq-list">
+                <div class="sales-faq-item">
+                    <strong>Quel délai pour être recontacté ?</strong>
+                    <p>Sous 24h ouvrées après envoi du formulaire. On te propose un créneau pour un premier échange (gratuit).</p>
+                </div>
+                <div class="sales-faq-item">
+                    <strong>Y a-t-il un engagement ?</strong>
+                    <p>Non. Tu choisis un pack après avoir échangé avec nous. Aucune facturation tant qu’on n’a pas validé ensemble le périmètre.</p>
+                </div>
+                <div class="sales-faq-item">
+                    <strong>Vous intervenez sur quels territoires ?</strong>
+                    <p>Guadeloupe, Martinique, La Réunion, Guyane, Mayotte, Polynésie française, Nouvelle-Calédonie, et diaspora.</p>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- CTA final -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Prêt à enlever ce poids ?</h2>
+            <p>Remplis le formulaire : on te recontacte sous 24h et on te propose un premier échange gratuit.</p>
+            <a href="#packs" class="cta-button">Choisir mon pack</a>
+        </div>
+    </section>
+
+    <!-- Sticky CTA mobile -->
+    <div class="sticky-cta">
+        <a href="#packs">Choisir mon pack</a>
+    </div>
 
     <!-- Modal -->
     <div class="pack-modal" id="packModal">
@@ -929,8 +1244,10 @@
                     <option value="autre">Autre</option>
                 </select>
                 <button type="submit">Envoyer ma demande</button>
-                <p style="text-align: center; font-size: 0.8rem; color: #6b7280; margin-top: 1rem;">🔒 Vos données sont
-                    sécurisées</p>
+                <p class="secure-note">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    Vos données sont sécurisées. Sans engagement.
+                </p>
             </form>
         </div>
     </div>
@@ -952,6 +1269,29 @@
 
     <script src="../assets/js/script.js?v=2"></script>
     <script>
+        (function() {
+            var anchorPorteurs = document.querySelector('.anchor-who a[href="#porteurs"]');
+            var anchorEntreprises = document.querySelector('.anchor-who a[href="#entreprises"]');
+            if (anchorPorteurs && anchorEntreprises) {
+                function updateAnchor() {
+                    var porteurs = document.getElementById('porteurs');
+                    var entreprises = document.getElementById('entreprises');
+                    if (!porteurs || !entreprises) return;
+                    var rectP = porteurs.getBoundingClientRect();
+                    var rectE = entreprises.getBoundingClientRect();
+                    var top = 200;
+                    if (rectE.top <= top) {
+                        anchorPorteurs.classList.remove('anchor-active');
+                        anchorEntreprises.classList.add('anchor-active');
+                    } else {
+                        anchorPorteurs.classList.add('anchor-active');
+                        anchorEntreprises.classList.remove('anchor-active');
+                    }
+                }
+                window.addEventListener('scroll', function() { requestAnimationFrame(updateAnchor); });
+                window.addEventListener('resize', updateAnchor);
+            }
+        })();
         function openPackModal(packName, packPrice, profil) {
             const modal = document.getElementById('packModal');
             document.getElementById('modalPackName').textContent = packName;
