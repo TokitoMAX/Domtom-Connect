@@ -32,100 +32,65 @@
             padding: 0 1.5rem;
         }
 
-        /* ===== HERO PRO ===== */
+        /* ===== HERO — style page tarifs pro ===== */
         .sales-hero {
-            background: linear-gradient(145deg, #0d9488 0%, #0f766e 40%, #115e59 100%);
-            color: white;
-            padding: 7rem 0 5rem;
+            background: #fff;
+            padding: 6rem 0 4rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
             margin-top: 80px;
-        }
-
-        .sales-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.6;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .sales-hero-content {
             position: relative;
-            z-index: 2;
-        }
-
-        .sales-hero-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(8px);
-            color: white;
-            padding: 0.5rem 1.25rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.3);
-            animation: fadeInUp 0.6s ease-out;
+            max-width: 720px;
+            margin: 0 auto;
         }
 
         .sales-hero h1 {
-            font-size: clamp(2.25rem, 6vw, 3.75rem);
-            font-weight: 900;
-            margin-bottom: 1.25rem;
-            line-height: 1.15;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
             letter-spacing: -0.03em;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
-            animation: fadeInUp 0.6s ease-out 0.1s both;
+            color: #0f172a;
         }
 
         .sales-hero .subtitle {
-            font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-            margin-bottom: 2rem;
-            opacity: 0.95;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            margin-bottom: 1.75rem;
+            color: #64748b;
             font-weight: 400;
-            max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
             line-height: 1.6;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
         }
 
         .sales-hero .cta-primary {
             display: inline-block;
-            background: white;
-            color: #0f766e;
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            font-weight: 700;
+            background: #0d9488;
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            transition: all 0.25s ease;
-            animation: fadeInUp 0.6s ease-out 0.3s both;
+            transition: all 0.2s ease;
         }
 
         .sales-hero .cta-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            background: #0f766e;
+            transform: translateY(-1px);
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Barre de confiance */
         .trust-bar {
-            background: #fff;
-            padding: 1rem 0;
-            border-bottom: 1px solid #e5e7eb;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+            background: #f8fafc;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .trust-bar .container {
@@ -133,15 +98,15 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .trust-bar-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #4b5563;
+            font-size: 0.875rem;
+            color: #64748b;
             font-weight: 500;
         }
 
@@ -150,10 +115,10 @@
             color: #0d9488;
         }
 
-        /* Ancrage Pour qui */
+        /* Onglets Porteurs / Entreprises */
         .anchor-who {
-            background: #f8fafc;
-            padding: 1rem 0;
+            background: #fff;
+            padding: 0 0 1rem;
             position: sticky;
             top: 80px;
             z-index: 100;
@@ -163,118 +128,97 @@
         .anchor-who .container {
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.25rem;
             flex-wrap: wrap;
         }
 
         .anchor-who a {
             display: inline-block;
-            padding: 0.6rem 1.25rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.9375rem;
             font-weight: 600;
             color: #64748b;
             text-decoration: none;
             transition: all 0.2s ease;
-            border: 2px solid transparent;
         }
 
         .anchor-who a:hover {
-            color: #0d9488;
-            background: rgba(13, 148, 136, 0.08);
+            color: #0f172a;
+            background: #f1f5f9;
         }
 
         .anchor-who a.anchor-active {
-            background: #0d9488;
+            background: #0f172a;
             color: white;
-            border-color: #0d9488;
         }
 
-        /* Section "Ce que tu vis" */
+        /* Contexte — compact */
         .pain-section {
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 4rem 0;
+            background: #f8fafc;
+            padding: 3rem 0;
         }
 
         .pain-section h2 {
             text-align: center;
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            font-weight: 800;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 700;
             color: #0f172a;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
         }
 
         .pain-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         .pain-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
             border: 1px solid #e2e8f0;
-            transition: all 0.25s ease;
-        }
-
-        .pain-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            border-color: #cbd5e1;
         }
 
         .pain-card h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             color: #0f172a;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .pain-card p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #64748b;
-            line-height: 1.65;
+            line-height: 1.55;
             margin: 0;
         }
 
-        .pain-card.pain-porteurs { border-left: 4px solid #0d9488; }
-        .pain-card.pain-entreprises { border-left: 4px solid #7c3aed; }
+        .pain-card.pain-porteurs { border-left: 3px solid #0d9488; }
+        .pain-card.pain-entreprises { border-left: 3px solid #7c3aed; }
 
-        /* Bloc garantie */
+        /* Garantie — discret */
         .guarantee-bar {
-            background: linear-gradient(90deg, #ecfdf5 0%, #d1fae5 100%);
-            border: 1px solid #a7f3d0;
-            padding: 1.25rem 2rem;
-            border-radius: 12px;
-            margin: 0 auto 3rem;
-            max-width: 700px;
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            margin: 0 auto 2.5rem;
+            max-width: 480px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
-        }
-
-        .guarantee-bar strong {
-            color: #065f46;
-            font-size: 1rem;
-        }
-
-        .guarantee-bar span {
-            color: #047857;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: #0f766e;
         }
 
         /* ===== OFFRES ===== */
         .pricing-section {
-            padding: 4rem 0 5rem;
+            padding: 3rem 0 4rem;
             background: #fff;
         }
 
@@ -315,14 +259,19 @@
         }
 
         .pricing-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -1px rgba(0,0,0,0.04);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem 1.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
             position: relative;
             overflow: hidden;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #e2e8f0;
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
         }
 
         .pricing-card::before {
@@ -335,16 +284,6 @@
             background: linear-gradient(90deg, #00BFA6, #00A896);
             transform: scaleX(0);
             transition: transform 0.4s ease;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 191, 166, 0.25);
-            border-color: #00BFA6;
-        }
-
-        .pricing-card:hover::before {
-            transform: scaleX(1);
         }
 
         .pricing-card.popular {
@@ -429,6 +368,57 @@
             color: #6b7280;
             display: block;
             margin-top: 0.5rem;
+        }
+
+        .pack-situation {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.5;
+            margin: 1rem 0 0.5rem 0;
+            padding-left: 1rem;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .pack-result {
+            font-size: 0.95rem;
+            color: #0f172a;
+            font-weight: 500;
+            line-height: 1.5;
+            margin: 0.5rem 0 1rem 0;
+            padding-left: 1rem;
+            border-left: 3px solid #0d9488;
+        }
+
+        .pack-inclus {
+            font-size: 0.9rem;
+            color: #475569;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .pack-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.65;
+        }
+
+        .pack-list li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+        }
+
+        .pack-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #0d9488;
         }
 
         .pack-cta {
@@ -819,7 +809,7 @@
     <!-- Ce que tu vis vraiment -->
     <section class="pain-section">
         <div class="container">
-            <h2>Ce que porteurs et entreprises vivent vraiment</h2>
+            <h2>Côté porteurs, côté entreprises</h2>
             <div class="pain-grid">
                 <div class="pain-card pain-porteurs">
                     <h3>Porteurs de projet / Entrepreneurs</h3>
@@ -845,8 +835,7 @@
     <section class="pricing-section" id="packs">
         <div class="container">
             <div class="guarantee-bar">
-                <strong>Premier échange gratuit</strong>
-                <span>sans engagement</span>
+                Premier échange gratuit, sans engagement
             </div>
 
             <!-- Porteurs de Projets -->
@@ -935,7 +924,7 @@
 
             <!-- Entreprises -->
             <div class="profile-section-block" id="entreprises"
-                style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
+                style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid #e2e8f0;">
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Entreprises</h2>
@@ -975,27 +964,15 @@
                             1 500€
                             <small>TTC</small>
                         </div>
-                        <div style="background: rgba(239, 68, 68, 0.06); padding: 1rem; border-radius: 12px; margin: 1rem 0; border-left: 3px solid #ef4444;">
-                            <p style="font-size: 0.85rem; color: #374151; margin: 0; font-weight: 600;">Problème ciblé</p>
-                            <p style="font-size: 0.9rem; color: #6b7280; margin: 0.35rem 0 0 0; line-height: 1.5;">Les projets multi-prestataires se transforment vite en chaos : mails partout, infos qui se perdent, délais qui dérivent.</p>
-                        </div>
-                        <div style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 12px; margin: 0.75rem 0; border-left: 3px solid #F59E0B;">
-                            <p style="font-size: 0.85rem; color: #b45309; margin: 0; font-weight: 600;">La transformation</p>
-                            <p style="font-size: 0.9rem; color: #374151; margin: 0.35rem 0 0 0; line-height: 1.5;">Vous passez de <em>« chacun travaille dans son coin »</em> à <strong>« un point de coordination unique qui connecte les prestas locaux et vos équipes »</strong>.</p>
-                        </div>
-                        <p style="font-size: 0.85rem; color: #6b7280; margin: 0.75rem 0 0.25rem 0; font-weight: 600;">Ce que vous gagnez</p>
-                        <ul style="list-style: none; padding: 0; margin: 0 0 1rem 0; font-size: 0.85rem; color: #6b7280; line-height: 1.6;">
-                            <li style="padding: 0.2rem 0;">✓ Moins de friction, moins de risques de blocage.</li>
-                            <li style="padding: 0.2rem 0;">✓ Meilleure lisibilité du projet.</li>
-                            <li style="padding: 0.2rem 0;">✓ Meilleure exploitation des prestataires locaux, sans perdre le contrôle central.</li>
-                        </ul>
-                        <p style="font-size: 0.95rem; color: #6b7280; margin: 1rem 0; font-weight: 600;">Dans le pack, concrètement :</p>
-                        <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #6b7280; line-height: 1.7;">
-                            <li style="padding: 0.35rem 0;">→ Cadrage du projet multi-prestataires avec votre équipe (objectifs, planning, rôles).</li>
-                            <li style="padding: 0.35rem 0;">→ Sourcing et sélection des différents prestataires locaux nécessaires (par métier / lot).</li>
-                            <li style="padding: 0.35rem 0;">→ Organisation d’un lancement structuré (réunion de kick-off, alignement des prestataires entre eux et avec vos équipes).</li>
-                            <li style="padding: 0.35rem 0;">→ Coordination du lancement pendant une période donnée (ex. premier mois) : suivi des points clés, relais d’informations, ajustement si besoin.</li>
-                            <li style="padding: 0.35rem 0;">→ 1 synthèse de lancement (ce qui est en place, qui fait quoi, prochaines étapes).</li>
+                        <p class="pack-situation">Projets multi-prestataires = souvent le chaos : mails partout, infos qui se perdent, délais qui dérivent.</p>
+                        <p class="pack-result">Après : un point de coordination unique entre prestas locaux et vos équipes.</p>
+                        <p class="pack-inclus">Dans le pack :</p>
+                        <ul class="pack-list">
+                            <li>Cadrage du projet multi-prestataires avec votre équipe (objectifs, planning, rôles).</li>
+                            <li>Sourcing et sélection des prestataires locaux nécessaires (par métier / lot).</li>
+                            <li>Organisation d'un lancement structuré (kick-off, alignement des prestataires et de vos équipes).</li>
+                            <li>Coordination du lancement (ex. premier mois) : suivi des points clés, relais d'informations, ajustement si besoin.</li>
+                            <li>1 synthèse de lancement (ce qui est en place, qui fait quoi, prochaines étapes).</li>
                         </ul>
                         <div class="pack-cta">
                             <button onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')">Demander ce pack</button>
@@ -1010,27 +987,15 @@
                             2 500€
                             <small>TTC</small>
                         </div>
-                        <div style="background: rgba(239, 68, 68, 0.06); padding: 1rem; border-radius: 12px; margin: 1rem 0; border-left: 3px solid #ef4444;">
-                            <p style="font-size: 0.85rem; color: #374151; margin: 0; font-weight: 600;">Problème ciblé</p>
-                            <p style="font-size: 0.9rem; color: #6b7280; margin: 0.35rem 0 0 0; line-height: 1.5;">Vous avez régulièrement besoin de prestataires locaux sur plusieurs sites, mais à chaque fois il faut tout recommencer.</p>
-                        </div>
-                        <div style="background: rgba(99, 102, 241, 0.08); padding: 1rem; border-radius: 12px; margin: 0.75rem 0; border-left: 3px solid #6366F1;">
-                            <p style="font-size: 0.85rem; color: #4338ca; margin: 0; font-weight: 600;">La transformation</p>
-                            <p style="font-size: 0.9rem; color: #374151; margin: 0.35rem 0 0 0; line-height: 1.5;">Vous passez de <em>« on subit les urgences »</em> à <strong>« on a un partenaire qui connaît nos besoins, notre niveau d'exigence, et qui anticipe »</strong>.</p>
-                        </div>
-                        <p style="font-size: 0.85rem; color: #6b7280; margin: 0.75rem 0 0.25rem 0; font-weight: 600;">Ce que vous gagnez</p>
-                        <ul style="list-style: none; padding: 0; margin: 0 0 1rem 0; font-size: 0.85rem; color: #6b7280; line-height: 1.6;">
-                            <li style="padding: 0.2rem 0;">✓ Continuité, moins de stress en interne.</li>
-                            <li style="padding: 0.2rem 0;">✓ Visibilité sur l'écosystème local et le pipeline de prestas.</li>
-                            <li style="padding: 0.2rem 0;">✓ Un interlocuteur unique côté Domtom Connect qui simplifie la vie des équipes.</li>
-                        </ul>
-                        <p style="font-size: 0.95rem; color: #6b7280; margin: 1rem 0; font-weight: 600;">Dans le pack, concrètement :</p>
-                        <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #6b7280; line-height: 1.7;">
-                            <li style="padding: 0.35rem 0;">→ Relation de partenariat sur 6 à 12 mois.</li>
-                            <li style="padding: 0.35rem 0;">→ Prise en charge des demandes récurrentes en prestataires locaux (réception du besoin, cadrage, sourcing, short-list).</li>
-                            <li style="padding: 0.35rem 0;">→ Accès prioritaire à notre réseau de prestataires vérifiés.</li>
-                            <li style="padding: 0.35rem 0;">→ Mise en relation prioritaire et suivi régulier de la qualité des mises en relation.</li>
-                            <li style="padding: 0.35rem 0;">→ Points réguliers (mensuels ou trimestriels) pour ajuster les besoins, anticiper les projets à venir et améliorer le dispositif.</li>
+                        <p class="pack-situation">Besoin récurrent de prestataires locaux sur plusieurs sites, et à chaque fois tout recommencer.</p>
+                        <p class="pack-result">Après : un partenaire qui connaît vos besoins et anticipe.</p>
+                        <p class="pack-inclus">Dans le pack :</p>
+                        <ul class="pack-list">
+                            <li>Relation de partenariat sur 6 à 12 mois.</li>
+                            <li>Prise en charge des demandes récurrentes (réception du besoin, cadrage, sourcing, short-list).</li>
+                            <li>Accès prioritaire au réseau de prestataires vérifiés.</li>
+                            <li>Mise en relation prioritaire et suivi de la qualité.</li>
+                            <li>Points réguliers (mensuels ou trimestriels) pour ajuster les besoins et anticiper les projets.</li>
                         </ul>
                         <div class="pack-cta">
                             <button onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')">Demander ce pack</button>
