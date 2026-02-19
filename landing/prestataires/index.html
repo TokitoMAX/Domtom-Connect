@@ -144,6 +144,39 @@
             const data = quiz.collectAllAnswers();
             data.profil = 'prestataire';
             
+            // Filet de sécurité : récupérer depuis quiz.answers si data est incomplet (questions de base hors DOM)
+            const fallbacks = [
+                ['prenom', 'question_prenom'],
+                ['nom', 'question_nom'],
+                ['email', 'question_email'],
+                ['telephone', 'question_telephone'],
+                ['ile', 'question_ile']
+            ];
+            fallbacks.forEach(([field, key]) => {
+                if ((!data[field] || !String(data[field]).trim()) && quiz.answers[key]) {
+                    data[field] = String(quiz.answers[key]).trim();
+                }
+            });
+            
+            // Bloquer l'envoi si champs obligatoires manquants ou email invalide
+            const emailVal = (data.email || data.question_email || '').trim();
+            const nomVal = (data.nom || data.question_nom || '').trim();
+            const telVal = (data.telephone || data.question_telephone || '').trim();
+            const ileVal = (data.ile || data.question_ile || '').trim();
+            const emailInvalide = !emailVal || emailVal === 'email-manquant@domtomconnect.com' || !emailVal.includes('@');
+            if (emailInvalide || !nomVal || !telVal || !ileVal) {
+                const champs = [];
+                if (!(data.prenom || data.question_prenom)) champs.push('Prénom');
+                if (!nomVal) champs.push('Nom');
+                if (emailInvalide) champs.push('Email');
+                if (!telVal) champs.push('Téléphone');
+                if (!ileVal) champs.push('Territoire');
+                if (champs.length) {
+                    alert('Pour envoyer votre candidature, merci de remplir tous les champs obligatoires : ' + champs.join(', ') + '.');
+                    return;
+                }
+            }
+            
             // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);

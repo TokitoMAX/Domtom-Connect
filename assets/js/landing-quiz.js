@@ -1298,9 +1298,28 @@ class LandingQuiz {
                     return;
                 }
                 
-                // Sauvegarder toutes les réponses de base
+                // Sauvegarder toutes les réponses de base (première passe)
                 basicQuestions.forEach(q => {
                     this.saveAnswer(q);
+                });
+                // Double lecture depuis le DOM pour ne rien perdre (les inputs vont être supprimés au showStep)
+                basicQuestions.forEach(q => {
+                    const input = document.getElementById(`question_${q.id}`);
+                    if (input) {
+                        let val = null;
+                        if (q.type === 'radio') {
+                            const checked = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                            val = checked ? checked.value : null;
+                        } else if (q.type === 'checkbox') {
+                            val = input.checked ? (input.value || 'OUI') : null;
+                        } else {
+                            val = input.value ? input.value.trim() : null;
+                        }
+                        if (val) {
+                            this.answers[`question_${q.id}`] = val;
+                            if (q.fieldName) this.answers[q.fieldName] = val;
+                        }
+                    }
                 });
                 
                 // Supprimer l'attribut skipTo
@@ -1799,9 +1818,9 @@ class LandingQuiz {
             console.log('✅ Email déjà présent dans data:', data.email);
         }
         
-        // FORCER le mapping des champs de base (prenom, nom, email, telephone) depuis les réponses
+        // FORCER le mapping des champs de base (prenom, nom, email, telephone, ile) depuis les réponses
         // Même si le mapping précédent a échoué, forcer la récupération depuis les réponses
-        const baseFields = ['prenom', 'nom', 'email', 'telephone'];
+        const baseFields = ['prenom', 'nom', 'email', 'telephone', 'ile'];
         baseFields.forEach(fieldName => {
             if (!data[fieldName] || data[fieldName].trim() === '') {
                 // Chercher la question correspondante
@@ -1818,6 +1837,18 @@ class LandingQuiz {
                         data[fieldName] = value.trim();
                         console.log(`✅ ${fieldName} récupéré depuis les réponses:`, data[fieldName]);
                     }
+                }
+            }
+        });
+        
+        // Pass final : pour toute question, si data[fieldName] est vide, prendre this.answers
+        this.questions.forEach(question => {
+            const fieldName = question.fieldName || question.id;
+            const current = data[fieldName];
+            if (!current || (typeof current === 'string' && current.trim() === '')) {
+                const fromAnswers = this.answers[`question_${question.id}`] || this.answers[question.id] || (question.fieldName ? this.answers[question.fieldName] : null);
+                if (fromAnswers && (typeof fromAnswers !== 'string' || fromAnswers.trim() !== '')) {
+                    data[fieldName] = typeof fromAnswers === 'string' ? fromAnswers.trim() : fromAnswers;
                 }
             }
         });
@@ -1886,10 +1917,9 @@ class LandingQuiz {
             }
         }
         
-        // Si TOUJOURS pas d'email, utiliser une valeur par défaut pour permettre l'envoi
+        // Ne pas inventer d'email : si manquant, on laisse vide pour que la soumission soit refusée côté landing
         if (!data.email || data.email.trim() === '') {
-            console.error('❌ Email toujours manquant, utilisation d\'une valeur par défaut');
-            data.email = 'email-manquant@domtomconnect.com'; // Valeur par défaut pour permettre l'envoi
+            data.email = '';
         }
         
         return data;
