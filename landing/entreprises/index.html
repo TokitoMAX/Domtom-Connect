@@ -254,6 +254,13 @@
             const data = quiz.collectAllAnswers();
             data.profil = 'entreprise';
             
+            // Filet de sécurité : récupérer depuis quiz.answers si data est incomplet
+            [['prenom', 'question_prenom'], ['nom', 'question_nom'], ['email', 'question_email'], ['telephone', 'question_telephone'], ['ile', 'question_ile'], ['entreprise', 'question_entreprise']].forEach(([field, key]) => {
+                if ((!data[field] || !String(data[field]).trim()) && quiz.answers[key]) {
+                    data[field] = String(quiz.answers[key]).trim();
+                }
+            });
+            
             // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);

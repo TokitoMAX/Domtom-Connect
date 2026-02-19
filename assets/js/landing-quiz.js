@@ -1706,14 +1706,15 @@ class LandingQuiz {
         const formData = new FormData(this.form);
         const data = {};
         
-        // En premier : lire les champs cachés persistants (remplis en temps réel au bloc 1)
+        // En premier : lire TOUS les champs cachés persistants (remplis en temps réel au bloc 1)
         const hiddenContainer = document.getElementById('quiz-hidden-fields');
         if (hiddenContainer) {
-            ['prenom', 'nom', 'email', 'telephone', 'ile'].forEach(field => {
-                const input = hiddenContainer.querySelector(`input[name="${field}"]`);
-                if (input && input.value != null) {
+            const hiddenInputs = hiddenContainer.querySelectorAll('input[type="hidden"][name]');
+            hiddenInputs.forEach(input => {
+                const name = input.getAttribute('name');
+                if (name && input.value != null) {
                     const v = String(input.value).trim();
-                    if (v) data[field] = v;
+                    if (v) data[name] = v;
                 }
             });
         }
@@ -1946,15 +1947,15 @@ class LandingQuiz {
             }
         });
         
-        // Dernier recours : compléter depuis les champs cachés si un champ de base est encore vide
+        // Dernier recours : compléter depuis les champs cachés si un champ est encore vide
         if (hiddenContainer) {
-            ['prenom', 'nom', 'email', 'telephone', 'ile'].forEach(field => {
-                const current = data[field];
+            hiddenContainer.querySelectorAll('input[type="hidden"][name]').forEach(input => {
+                const name = input.getAttribute('name');
+                if (!name) return;
+                const current = data[name];
                 if (!current || (typeof current === 'string' && current.trim() === '')) {
-                    const input = hiddenContainer.querySelector(`input[name="${field}"]`);
-                    if (input && input.value && input.value.trim()) {
-                        data[field] = input.value.trim();
-                    }
+                    const v = input.value != null ? String(input.value).trim() : '';
+                    if (v) data[name] = v;
                 }
             });
         }
