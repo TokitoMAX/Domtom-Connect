@@ -750,6 +750,47 @@ class LandingQuiz {
                         nextBtn.dataset.skipTo = basicQuestions.length;
                     }
                     
+                    // Synchroniser en temps réel chaque champ du bloc de base vers les champs cachés (et this.answers)
+                    setTimeout(() => {
+                        const hiddenContainer = document.getElementById('quiz-hidden-fields');
+                        if (hiddenContainer) {
+                            basicQuestions.forEach(q => {
+                                const fieldName = q.fieldName || q.id;
+                                const visibleInput = container.querySelector(`#question_${q.id}`) ||
+                                                     container.querySelector(`input[name="question_${q.id}"]`) ||
+                                                     container.querySelector(`select[name="question_${q.id}"]`) ||
+                                                     container.querySelector(`textarea[name="question_${q.id}"]`);
+                                if (!visibleInput) return;
+                                let hiddenInput = hiddenContainer.querySelector(`input[name="${fieldName}"]`);
+                                if (!hiddenInput) {
+                                    hiddenInput = document.createElement('input');
+                                    hiddenInput.type = 'hidden';
+                                    hiddenInput.name = fieldName;
+                                    hiddenContainer.appendChild(hiddenInput);
+                                }
+                                const sync = () => {
+                                    let val = '';
+                                    if (q.type === 'radio') {
+                                        const checked = container.querySelector(`input[name="question_${q.id}"]:checked`);
+                                        val = checked ? checked.value : '';
+                                    } else if (q.type === 'checkbox') {
+                                        val = visibleInput.checked ? (visibleInput.value || 'OUI') : '';
+                                    } else {
+                                        val = (visibleInput.value || '').trim();
+                                    }
+                                    hiddenInput.value = val;
+                                    if (val) {
+                                        this.answers[`question_${q.id}`] = val;
+                                        if (q.fieldName) this.answers[q.fieldName] = val;
+                                    }
+                                };
+                                visibleInput.addEventListener('input', sync);
+                                visibleInput.addEventListener('change', sync);
+                                sync(); // valeur initiale
+                            });
+                        }
+                    }, 50);
+                    
                     // Animation d'entrée
                     container.style.opacity = '0';
                     container.style.transform = 'translateY(20px)';
@@ -1665,6 +1706,18 @@ class LandingQuiz {
         const formData = new FormData(this.form);
         const data = {};
         
+        // En premier : lire les champs cachés persistants (remplis en temps réel au bloc 1)
+        const hiddenContainer = document.getElementById('quiz-hidden-fields');
+        if (hiddenContainer) {
+            ['prenom', 'nom', 'email', 'telephone', 'ile'].forEach(field => {
+                const input = hiddenContainer.querySelector(`input[name="${field}"]`);
+                if (input && input.value != null) {
+                    const v = String(input.value).trim();
+                    if (v) data[field] = v;
+                }
+            });
+        }
+        
         // Ajouter d'abord toutes les données pré-remplies (même si les questions ne sont pas affichées)
         if (this.homepageData) {
             // Mapper les données du formulaire d'accueil
@@ -1893,8 +1946,7 @@ class LandingQuiz {
             }
         });
         
-        // Dernier recours : champs cachés persistants (remplis au clic « Continuer » depuis le DOM)
-        const hiddenContainer = document.getElementById('quiz-hidden-fields');
+        // Dernier recours : compléter depuis les champs cachés si un champ de base est encore vide
         if (hiddenContainer) {
             ['prenom', 'nom', 'email', 'telephone', 'ile'].forEach(field => {
                 const current = data[field];
