@@ -177,6 +177,7 @@ class LandingQuiz {
             <input type="hidden" name="lead_source" value="landing-${this.profil}">
             <input type="hidden" name="form_step" value="complete">
             <input type="text" name="website" tabindex="-1" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" autocomplete="off" aria-hidden="true">
+            <div class="quiz-hidden-fields" id="quiz-hidden-fields" style="display:none"></div>
             
             <!-- Barre de progression -->
             <div class="quiz-progress-container">
@@ -221,6 +222,37 @@ class LandingQuiz {
                 </button>
             </div>
         `;
+    }
+    
+    /**
+     * Met à jour les champs cachés persistants (prenom, nom, email, telephone, ile) dans le formulaire
+     * pour que FormData les inclue à la soumission. values peut être un objet partiel ; sinon on lit this.answers.
+     */
+    syncBasicFieldsToHiddenInputs(values = null) {
+        const container = document.getElementById('quiz-hidden-fields');
+        if (!container) return;
+        const basicNames = ['prenom', 'nom', 'email', 'telephone', 'ile'];
+        const data = values || {};
+        if (!values) {
+            basicNames.forEach(field => {
+                const v = this.answers[field] || this.answers[`question_${field}`];
+                if (v) data[field] = typeof v === 'string' ? v.trim() : v;
+            });
+        }
+        basicNames.forEach(field => {
+            const val = data[field];
+            if (val === undefined || val === null) return;
+            const str = typeof val === 'string' ? val.trim() : String(val);
+            if (!str) return;
+            let input = container.querySelector(`input[name="${field}"]`);
+            if (!input) {
+                input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = field;
+                container.appendChild(input);
+            }
+            input.value = str;
+        });
     }
     
     // Vérifier si toutes les questions de base sont déjà remplies depuis le formulaire initial
@@ -1321,6 +1353,8 @@ class LandingQuiz {
                         }
                     }
                 });
+                // Persister dans des champs cachés du formulaire pour que la soumission les inclue
+                this.syncBasicFieldsToHiddenInputs();
                 
                 // Supprimer l'attribut skipTo
                 delete nextBtn.dataset.skipTo;
@@ -1590,6 +1624,9 @@ class LandingQuiz {
     collectAllAnswers() {
         // Sauvegarder la réponse actuelle
         this.saveCurrentAnswer();
+        // Synchroniser les champs de base (prenom, nom, email, telephone, ile) vers des inputs cachés
+        // pour que FormData les inclue même s'ils ne sont plus dans le DOM
+        this.syncBasicFieldsToHiddenInputs();
         
         // IMPORTANT: Sauvegarder TOUTES les réponses visibles dans le formulaire avant de collecter
         // Cela garantit que même si on est à la dernière étape, toutes les réponses précédentes sont sauvegardées
