@@ -1330,17 +1330,18 @@ class LandingQuiz {
                     return;
                 }
                 
-                // Sauvegarder toutes les réponses de base (première passe)
+                // Lire les valeurs directement depuis le formulaire (scope this.form pour éviter conflits d'IDs)
+                const basicValuesFromDOM = {};
                 basicQuestions.forEach(q => {
-                    this.saveAnswer(q);
-                });
-                // Double lecture depuis le DOM pour ne rien perdre (les inputs vont être supprimés au showStep)
-                basicQuestions.forEach(q => {
-                    const input = document.getElementById(`question_${q.id}`);
+                    const fieldName = q.fieldName || q.id;
+                    const input = this.form.querySelector(`#question_${q.id}`) ||
+                                 this.form.querySelector(`input[name="question_${q.id}"]`) ||
+                                 this.form.querySelector(`select[name="question_${q.id}"]`) ||
+                                 this.form.querySelector(`textarea[name="question_${q.id}"]`);
                     if (input) {
                         let val = null;
                         if (q.type === 'radio') {
-                            const checked = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                            const checked = this.form.querySelector(`input[name="question_${q.id}"]:checked`);
                             val = checked ? checked.value : null;
                         } else if (q.type === 'checkbox') {
                             val = input.checked ? (input.value || 'OUI') : null;
@@ -1348,13 +1349,15 @@ class LandingQuiz {
                             val = input.value ? input.value.trim() : null;
                         }
                         if (val) {
+                            basicValuesFromDOM[fieldName] = val;
                             this.answers[`question_${q.id}`] = val;
                             if (q.fieldName) this.answers[q.fieldName] = val;
                         }
                     }
+                    this.saveAnswer(q);
                 });
-                // Persister dans des champs cachés du formulaire pour que la soumission les inclue
-                this.syncBasicFieldsToHiddenInputs();
+                // Écrire immédiatement dans les champs cachés du formulaire (source = DOM, pas this.answers)
+                this.syncBasicFieldsToHiddenInputs(basicValuesFromDOM);
                 
                 // Supprimer l'attribut skipTo
                 delete nextBtn.dataset.skipTo;
@@ -1889,6 +1892,20 @@ class LandingQuiz {
                 }
             }
         });
+        
+        // Dernier recours : champs cachés persistants (remplis au clic « Continuer » depuis le DOM)
+        const hiddenContainer = document.getElementById('quiz-hidden-fields');
+        if (hiddenContainer) {
+            ['prenom', 'nom', 'email', 'telephone', 'ile'].forEach(field => {
+                const current = data[field];
+                if (!current || (typeof current === 'string' && current.trim() === '')) {
+                    const input = hiddenContainer.querySelector(`input[name="${field}"]`);
+                    if (input && input.value && input.value.trim()) {
+                        data[field] = input.value.trim();
+                    }
+                }
+            });
+        }
         
         // Log pour debug si email toujours manquant
         if (!data.email || data.email.trim() === '') {
