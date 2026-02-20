@@ -137,13 +137,22 @@ function handleNewsletterSubmit(event) {
 function handleFormSubmit(event) {
     event.preventDefault();
     
-    // Récupérer les données du formulaire
+    // Récupérer les données du formulaire (trim pour éviter espaces seuls)
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
+    const raw = Object.fromEntries(formData);
+    const data = {};
+    Object.keys(raw).forEach(k => { data[k] = typeof raw[k] === 'string' ? raw[k].trim() : raw[k]; });
     
-    // Validation basique
-    if (!data.prenom || !data.nom || !data.email || !data.telephone || !data.ile || !data.profil) {
-        alert('Veuillez remplir tous les champs obligatoires.');
+    // Validation : tous les champs obligatoires doivent être remplis
+    const manquants = [];
+    if (!data.prenom) manquants.push('Prénom');
+    if (!data.nom) manquants.push('Nom');
+    if (!data.email) manquants.push('Email');
+    if (!data.telephone) manquants.push('Téléphone');
+    if (!data.ile) manquants.push('Île/territoire');
+    if (!data.profil) manquants.push('Profil');
+    if (manquants.length) {
+        alert('Pour envoyer votre inscription, merci de remplir tous les champs obligatoires : ' + manquants.join(', ') + '.');
         return;
     }
     

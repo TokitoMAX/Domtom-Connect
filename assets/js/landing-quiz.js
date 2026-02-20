@@ -890,6 +890,7 @@ class LandingQuiz {
     renderBasicQuestionsGroup(basicQuestions) {
         // Afficher toutes les questions de base ensemble dans un layout en grille
         let html = `
+            <p style="font-size: 0.85rem; color: var(--text-muted, #6b7280); margin-bottom: 1rem;">Tous les champs ci-dessous sont <strong>obligatoires</strong> pour que l'on puisse vous recontacter.</p>
             <div class="quiz-basic-questions-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
         `;
         

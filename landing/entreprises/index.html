@@ -261,6 +261,28 @@
                 }
             });
             
+            // Bloquer l'envoi si champs obligatoires manquants
+            const prenomVal = (data.prenom || data.question_prenom || '').trim();
+            const nomVal = (data.nom || data.question_nom || '').trim();
+            const emailVal = (data.email || data.question_email || '').trim();
+            const telVal = (data.telephone || data.question_telephone || '').trim();
+            const ileVal = (data.ile || data.question_ile || '').trim();
+            const entrepriseVal = (data.entreprise || data.question_entreprise || '').trim();
+            const emailInvalide = !emailVal || !emailVal.includes('@');
+            if (emailInvalide || !prenomVal || !nomVal || !telVal || !ileVal || !entrepriseVal) {
+                const champs = [];
+                if (!prenomVal) champs.push('Prénom');
+                if (!nomVal) champs.push('Nom');
+                if (emailInvalide) champs.push('Email');
+                if (!telVal) champs.push('Téléphone');
+                if (!ileVal) champs.push('Territoire');
+                if (!entrepriseVal) champs.push('Nom de l\'entreprise');
+                if (champs.length) {
+                    alert('Pour envoyer votre inscription, merci de remplir tous les champs obligatoires : ' + champs.join(', ') + '.');
+                    return;
+                }
+            }
+            
             // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);

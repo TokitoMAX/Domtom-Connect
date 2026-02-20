@@ -808,11 +808,11 @@
         </div>
     </section>
 
-    <!-- Ancrage : porteur ou entreprise, direct -->
+    <!-- Ancrage : entreprise ou porteur (entreprise en premier = cible CA) -->
     <div class="anchor-who">
         <div class="container">
-            <a href="#porteurs" class="anchor-active">Je suis porteur de projet</a>
-            <a href="#entreprises">Je suis entreprise</a>
+            <a href="#entreprises" class="anchor-active">Je suis entreprise</a>
+            <a href="#porteurs">Je suis porteur de projet</a>
         </div>
     </div>
 
@@ -820,15 +820,16 @@
     <section class="pricing-section" id="packs">
         <div class="container">
             <div class="guarantee-bar">
-                Premier échange gratuit, sans engagement
+                Packs payants pour entreprises et porteurs de projet. Premier échange gratuit, sans engagement.
             </div>
 
-            <!-- Porteurs de Projets -->
-            <div class="profile-section-block" id="porteurs">
+            <!-- Porteurs de projet (après Entreprises dans l'ordre visuel ; ancrage #porteurs) -->
+            <div class="profile-section-block" id="porteurs"
+                style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid #e2e8f0;">
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Porteurs de projet / Entrepreneurs</h2>
-                        <p class="profile-subtitle">Choisis le pack qui correspond à ton besoin.</p>
+                        <p class="profile-subtitle">Choisis le pack qui correspond à ton besoin. Premier échange gratuit.</p>
                     </div>
                 </div>
 
@@ -916,13 +917,12 @@
                 </div>
             </div>
 
-            <!-- Entreprises -->
-            <div class="profile-section-block" id="entreprises"
-                style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid #e2e8f0;">
+            <!-- Entreprises (en premier dans la page : cible CA) -->
+            <div class="profile-section-block" id="entreprises">
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Entreprises</h2>
-                        <p class="profile-subtitle">Choisissez le pack qui correspond à votre besoin.</p>
+                        <p class="profile-subtitle">Choisissez le pack qui correspond à votre besoin. Premier échange gratuit.</p>
                     </div>
                 </div>
 
@@ -1051,21 +1051,21 @@
                 </div>
             </div>
 
-            <!-- Investisseurs -->
+            <!-- Option : Investir dans Domtom Connect (à part des packs Porteurs / Entreprises / Prestataires) -->
             <div class="profile-section-block"
                 style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
                 <div class="profile-header-section">
                     <div>
-                        <h2 class="profile-title-main">Investisseurs</h2>
-                        <p class="profile-subtitle">Tu es investisseur ? Accède à des projets qualifiés et vérifiés des
-                            territoires ultramarins</p>
+                        <p style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Option</p>
+                        <h2 class="profile-title-main">Investir dans Domtom Connect</h2>
+                        <p class="profile-subtitle">Vous souhaitez investir dans notre structure et soutenir l'écosystème ? Accès au réseau d'investisseurs, projets qualifiés des territoires ultramarins. On en parle ensemble.</p>
                     </div>
                 </div>
 
                 <div
                     style="background: white; border-radius: 24px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 2rem auto;">
                     <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #1a1a1a;">Cotisation
-                        Mensuelle Variable</h3>
+                        mensuelle (selon profil)</h3>
                     <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Selon votre capacité d'investissement
                             :</strong></p>
                     <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
@@ -1089,10 +1089,9 @@
                         • Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses
                         écosystème ultramarin</p>
                     <a href="/landing/investisseurs"
-                        style="display: inline-block; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); color: white; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3); transition: all 0.3s ease;"
-                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 191, 166, 0.4)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 191, 166, 0.3)'">Découvrir
-                        les opportunités →</a>
+                        style="display: inline-block; background: transparent; color: #F59E0B; border: 2px solid #F59E0B; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.2s ease;"
+                        onmouseover="this.style.background='#F59E0B'; this.style.color='white';"
+                        onmouseout="this.style.background='transparent'; this.style.color='#F59E0B';">En savoir plus et nous contacter →</a>
                 </div>
             </div>
         </div>
@@ -1199,16 +1198,21 @@
                     var rectP = porteurs.getBoundingClientRect();
                     var rectE = entreprises.getBoundingClientRect();
                     var top = 200;
-                    if (rectE.top <= top) {
+                    if (rectE.top <= top && rectE.bottom > 0) {
                         anchorPorteurs.classList.remove('anchor-active');
                         anchorEntreprises.classList.add('anchor-active');
-                    } else {
-                        anchorPorteurs.classList.add('anchor-active');
+                    } else if (rectP.top <= top && rectP.bottom > 0) {
                         anchorEntreprises.classList.remove('anchor-active');
+                        anchorPorteurs.classList.add('anchor-active');
                     }
                 }
                 window.addEventListener('scroll', function() { requestAnimationFrame(updateAnchor); });
                 window.addEventListener('resize', updateAnchor);
+                updateAnchor();
+                // Au chargement, afficher d’abord la section Entreprises (cible CA)
+                if (!window.location.hash && document.getElementById('entreprises')) {
+                    document.getElementById('entreprises').scrollIntoView({ behavior: 'instant', block: 'start' });
+                }
             }
         })();
         function openPackModal(packName, packPrice, profil) {
