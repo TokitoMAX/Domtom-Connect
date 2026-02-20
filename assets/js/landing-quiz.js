@@ -672,8 +672,10 @@ class LandingQuiz {
                     </svg>
                 `;
                 nextBtn.type = 'button';
-                // Réactiver le bouton au cas où il serait désactivé (sauf si c'est une checkbox)
-                if (question.type !== 'checkbox') {
+                // Désactiver "Suivant" tant que la question obligatoire n'est pas remplie (on ne peut pas passer sans répondre)
+                if (question.required) {
+                    nextBtn.disabled = true;
+                } else {
                     nextBtn.disabled = false;
                 }
             }
@@ -735,7 +737,7 @@ class LandingQuiz {
                         }
                     }
                     
-                    // Modifier le bouton suivant pour valider toutes les questions de base
+                    // Modifier le bouton suivant : désactivé tant que tous les champs obligatoires ne sont pas remplis
                     if (nextBtn) {
                         nextBtn.innerHTML = `
                             Continuer
@@ -744,9 +746,7 @@ class LandingQuiz {
                             </svg>
                         `;
                         nextBtn.type = 'button';
-                        nextBtn.disabled = false;
-                        
-                        // Stocker le nombre de questions de base pour la navigation
+                        nextBtn.disabled = true;
                         nextBtn.dataset.skipTo = basicQuestions.length;
                     }
                     
@@ -788,6 +788,37 @@ class LandingQuiz {
                                 visibleInput.addEventListener('change', sync);
                                 sync(); // valeur initiale
                             });
+                            // Activer "Continuer" uniquement quand tous les champs obligatoires du bloc sont remplis
+                            const checkBasicValid = () => {
+                                let allValid = true;
+                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                basicQuestions.forEach(q => {
+                                    if (!q.required) return;
+                                    const el = container.querySelector(`#question_${q.id}`) || container.querySelector(`input[name="question_${q.id}"]`) || container.querySelector(`select[name="question_${q.id}"]`);
+                                    if (!el) { allValid = false; return; }
+                                    let ok = false;
+                                    if (q.type === 'radio') ok = !!container.querySelector(`input[name="question_${q.id}"]:checked`);
+                                    else if (q.type === 'checkbox') ok = el.checked;
+                                    else if (el.value && el.value.trim()) ok = q.type !== 'email' || emailRegex.test(el.value.trim());
+                                    if (!ok) allValid = false;
+                                });
+                                const btn = document.getElementById('quiz-btn-next');
+                                if (btn) btn.disabled = !allValid;
+                            };
+                            basicQuestions.forEach(q => {
+                                if (q.type === 'radio') {
+                                    container.querySelectorAll(`input[name="question_${q.id}"]`).forEach(el => {
+                                        el.addEventListener('change', checkBasicValid);
+                                    });
+                                } else {
+                                    const el = container.querySelector(`#question_${q.id}`) || container.querySelector(`input[name="question_${q.id}"]`) || container.querySelector(`select[name="question_${q.id}"]`);
+                                    if (el) {
+                                        el.addEventListener('input', checkBasicValid);
+                                        el.addEventListener('change', checkBasicValid);
+                                    }
+                                }
+                            });
+                            checkBasicValid();
                         }
                     }, 50);
                     
@@ -824,26 +855,35 @@ class LandingQuiz {
             // Pour les checkboxes, activer/désactiver le bouton suivant selon l'état
             // Utiliser un délai pour s'assurer que le DOM est complètement prêt
             setTimeout(() => {
+                    const nextBtn = document.getElementById('quiz-btn-next');
                     if (question.type === 'checkbox') {
                         const checkbox = document.getElementById(`question_${question.id}`);
-                        const nextBtn = document.getElementById('quiz-btn-next');
-                        
                         if (checkbox && nextBtn) {
-                            // Pour TOUS les profils, activer/désactiver le bouton selon l'état de la checkbox
-                            // Le bouton est déjà configuré comme "submit" pour la dernière question
                             nextBtn.disabled = !checkbox.checked;
-                            
-                            // Listener pour activer/désactiver le bouton quand la checkbox change
                             checkbox.addEventListener('change', () => {
                                 nextBtn.disabled = !checkbox.checked;
                                 this.saveCurrentAnswer();
                             });
-                            
-                            // Si la checkbox est déjà cochée (restauration), activer le bouton
-                            if (checkbox.checked) {
-                                nextBtn.disabled = false;
-                            }
+                            if (checkbox.checked) nextBtn.disabled = false;
                         }
+                    } else if (question.required && nextBtn) {
+                        // Activer "Suivant" uniquement quand le champ obligatoire est rempli (text, email, tel, textarea, select, radio)
+                        const updateNextState = () => {
+                            nextBtn.disabled = !this.validateCurrentStep();
+                        };
+                        const input = document.getElementById(`question_${question.id}`) ||
+                                     this.form.querySelector(`select[name="question_${question.id}"]`) ||
+                                     this.form.querySelector(`textarea[name="question_${question.id}"]`);
+                        if (input) {
+                            input.addEventListener('input', updateNextState);
+                            input.addEventListener('change', updateNextState);
+                            updateNextState();
+                        }
+                        const radios = this.form.querySelectorAll(`input[name="question_${question.id}"]`);
+                        radios.forEach(r => {
+                            r.addEventListener('change', updateNextState);
+                        });
+                        updateNextState();
                     }
                     
                     // Si c'est la question budget, ajouter un listener pour afficher l'info pack
@@ -1448,16 +1488,24 @@ class LandingQuiz {
                     console.warn('[Quiz] Index suivant hors limites:', nextIndex, 'sur', validQuestions.length);
                 }
             } else {
-                // Afficher un message d'erreur
+                // Bloquer : afficher un message et mettre en évidence le champ à remplir
                 const question = this.questions[this.currentStep];
                 const input = document.querySelector(`input[name="question_${question.id}"]:checked`) ||
-                             document.getElementById(`question_${question.id}`);
+                             document.getElementById(`question_${question.id}`) ||
+                             this.form.querySelector(`select[name="question_${question.id}"]`) ||
+                             this.form.querySelector(`textarea[name="question_${question.id}"]`);
+                const msg = question.type === 'radio' ? 'Veuillez sélectionner une option avant de continuer.' :
+                            question.type === 'select' ? 'Veuillez choisir une option avant de continuer.' :
+                            'Veuillez remplir ce champ avant de continuer.';
+                alert('⚠️ ' + msg);
                 if (input) {
                     input.focus();
                     input.style.borderColor = '#ef4444';
+                    input.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.2)';
                     setTimeout(() => {
                         input.style.borderColor = '';
-                    }, 2000);
+                        input.style.boxShadow = '';
+                    }, 3000);
                 }
             }
         });
@@ -1662,7 +1710,12 @@ class LandingQuiz {
             return input && input.checked;
         } else {
             const input = document.getElementById(`question_${question.id}`);
-            return input && input.value && input.value.trim() !== '';
+            if (!input || !input.value || input.value.trim() === '') return false;
+            if (question.type === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(input.value.trim());
+            }
+            return true;
         }
     }
     
