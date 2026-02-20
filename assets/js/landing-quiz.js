@@ -928,7 +928,15 @@ class LandingQuiz {
     }
     
     renderBasicQuestionsGroup(basicQuestions) {
-        // Afficher toutes les questions de base ensemble dans un layout en grille
+        // Afficher toutes les questions de base ensemble ; préremplir depuis page d'accueil (this.answers)
+        const escapeHtml = (s) => {
+            if (s == null || s === '') return '';
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        };
         let html = `
             <p style="font-size: 0.85rem; color: var(--text-muted, #6b7280); margin-bottom: 1rem;">Tous les champs ci-dessous sont <strong>obligatoires</strong> pour que l'on puisse vous recontacter.</p>
             <div class="quiz-basic-questions-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
@@ -938,8 +946,9 @@ class LandingQuiz {
             const fieldName = question.fieldName || question.id;
             const isSelect = question.type === 'select';
             const isTextarea = question.type === 'textarea';
+            const prefilled = this.answers[`question_${question.id}`] ?? this.answers[fieldName] ?? (question.fieldName ? this.answers[question.fieldName] : null);
+            const prefilledStr = prefilled != null && prefilled !== '' ? String(prefilled).trim() : '';
             
-            // Les selects et textareas prennent toute la largeur
             const gridColumn = (isSelect || isTextarea) ? 'span 2' : '';
             
             html += `
@@ -956,7 +965,8 @@ class LandingQuiz {
                         <option value="">${question.placeholder || 'Sélectionnez une option'}</option>
                 `;
                 question.options.forEach(option => {
-                    html += `<option value="${option.value}">${option.label}</option>`;
+                    const selected = prefilledStr && (option.value === prefilledStr || option.value === prefilled) ? ' selected' : '';
+                    html += `<option value="${escapeHtml(option.value)}"${selected}>${escapeHtml(option.label)}</option>`;
                 });
                 html += '</select>';
             } else if (question.type === 'textarea') {
@@ -964,20 +974,19 @@ class LandingQuiz {
                     <textarea name="question_${question.id}" 
                               class="quiz-textarea" 
                               id="question_${question.id}"
-                              placeholder="${question.placeholder || ''}"
+                              placeholder="${escapeHtml(question.placeholder || '')}"
                               rows="${question.rows || 3}"
                               style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; transition: border-color 0.2s;"
-                              ${question.required ? 'required' : ''}></textarea>
+                              ${question.required ? 'required' : ''}>${escapeHtml(prefilledStr)}</textarea>
                 `;
             } else {
-                // Input text, email, tel, etc.
                 html += `
                     <input type="${question.type}" 
                            name="question_${question.id}" 
                            class="quiz-input" 
                            id="question_${question.id}"
-                           placeholder="${question.placeholder || ''}"
-                           value=""
+                           placeholder="${escapeHtml(question.placeholder || '')}"
+                           value="${escapeHtml(prefilledStr)}"
                            style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;"
                            ${question.required ? 'required' : ''}
                            ${question.pattern ? `pattern="${question.pattern}"` : ''}
@@ -1773,15 +1782,20 @@ class LandingQuiz {
             });
         }
         
-        // Ajouter d'abord toutes les données pré-remplies (même si les questions ne sont pas affichées)
+        // Fusionner en premier les données de la page d'accueil pour ne jamais les perdre
         if (this.homepageData) {
-            // Mapper les données du formulaire d'accueil
             if (this.homepageData.prenom) data.prenom = this.homepageData.prenom;
             if (this.homepageData.nom) data.nom = this.homepageData.nom;
             if (this.homepageData.email) data.email = this.homepageData.email;
             if (this.homepageData.telephone) data.telephone = this.homepageData.telephone;
-            
-            // Mapper selon le profil
+            if (this.homepageData.ile) data.ile = this.homepageData.ile;
+            if (this.homepageData.profil) data.profil = this.homepageData.profil;
+            if (this.homepageData.entreprise) data.entreprise = this.homepageData.entreprise;
+            if (this.homepageData.detail) data.detail = this.homepageData.detail;
+            if (this.homepageData.secteur) data.secteur = this.homepageData.secteur;
+            if (this.homepageData.services) data.services = this.homepageData.services;
+            if (this.homepageData['type-investissement']) data.type_investissement = this.homepageData['type-investissement'];
+            if (this.homepageData.besoin) data.besoin = this.homepageData.besoin;
             if (this.profil === 'porteur-projet' || this.profil === 'porteurs-projets') {
                 if (this.homepageData.ile) {
                     data.origine = this.homepageData.ile;
@@ -1791,18 +1805,9 @@ class LandingQuiz {
                 if (this.homepageData.entreprise) data.nom_projet = this.homepageData.entreprise;
                 if (this.homepageData.detail) data.description_projet = this.homepageData.detail;
             } else {
-                if (this.homepageData.ile) data.ile = this.homepageData.ile;
-                if (this.homepageData.entreprise) data.entreprise = this.homepageData.entreprise;
                 if (this.homepageData.detail) data.description = this.homepageData.detail;
             }
-            
-            if (this.homepageData.secteur) {
-                data.secteur = this.homepageData.secteur;
-                data.secteur_activite = this.homepageData.secteur;
-            }
-            if (this.homepageData.services) data.services = this.homepageData.services;
-            if (this.homepageData['type-investissement']) data.type_investissement = this.homepageData['type-investissement'];
-            if (this.homepageData.besoin) data.besoin = this.homepageData.besoin;
+            if (this.homepageData.secteur) data.secteur_activite = this.homepageData.secteur;
         }
         
         // Ajouter les réponses du quiz (celles qui ont été répondues dans le quiz)

@@ -576,38 +576,47 @@ function updateFormFields() {
     if (!profilSelect || !profilSelect.value) return;
     
     const profil = profilSelect.value;
-    
-    // Récupérer les données du formulaire de la page d'accueil
     const form = profilSelect.closest('form');
-    if (form) {
-        const formData = new FormData(form);
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-            if (value) {
-                data[key] = value;
-            }
-        }
-        
-        // Stocker les données dans sessionStorage pour préremplir la landing page
-        if (Object.keys(data).length > 0) {
-            sessionStorage.setItem('domtomConnectHomepageData', JSON.stringify(data));
-        }
+    if (!form) return;
+    
+    // Récupérer et valider les données avant toute redirection
+    const formData = new FormData(form);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        data[key] = typeof value === 'string' ? value.trim() : value;
     }
     
-    // Redirection automatique vers la landing page correspondante
+    // Ne pas rediriger sans les infos obligatoires : cohérence avec la landing (pas de re-saisie)
+    const manquants = [];
+    if (!data.prenom) manquants.push('Prénom');
+    if (!data.nom) manquants.push('Nom');
+    if (!data.email) manquants.push('Email');
+    if (!data.telephone) manquants.push('Téléphone');
+    if (!data.ile) manquants.push('Île / territoire');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (data.email && !emailRegex.test(data.email)) {
+        manquants.push('Email (format valide)');
+    }
+    if (manquants.length) {
+        alert('Veuillez remplir tous les champs obligatoires avant de continuer : ' + manquants.join(', ') + '.');
+        return;
+    }
+    
+    // Stocker les données pour préremplir la landing (éviter de redemander les mêmes infos)
+    sessionStorage.setItem('domtomConnectHomepageData', JSON.stringify(data));
+    
+    // Redirection vers la landing correspondante
     const landingPages = {
         'porteur-projet': '/landing/porteurs-projets',
-        'entrepreneur': '/landing/porteurs-projets', // Fusionné avec porteurs-projets
+        'entrepreneur': '/landing/porteurs-projets',
         'prestataire': '/landing/prestataires',
         'entreprise': '/landing/entreprises',
         'investisseur': '/landing/investisseurs',
-        'professionnel': '/landing/entreprises' // Fusionné avec entreprises
+        'professionnel': '/landing/entreprises'
     };
     
     if (landingPages[profil]) {
-        // Redirection automatique immédiate
         window.location.href = landingPages[profil];
-        return;
     }
 }
 
