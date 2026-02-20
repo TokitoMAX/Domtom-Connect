@@ -1257,11 +1257,11 @@
 
             let message = `Nouvelle demande d'information :\n\n`;
             message += `📦 Pack : ${data.pack_name}\n`;
-            message += `💰 Prix : ${data.pack_price}\n`;
-            message += `👤 Profil : ${data.profil}\n\n`;
-            message += `👤 Nom : ${data.prenom} ${data.nom}\n`;
-            message += `📧 Email : ${data.email}\n`;
-            message += `📞 Téléphone : ${data.telephone}\n`;
+            message += `Prix : ${data.pack_price}\n`;
+            message += `Profil : ${data.profil}\n\n`;
+            message += `Nom : ${data.prenom} ${data.nom}\n`;
+            message += `Email : ${data.email}\n`;
+            message += `Téléphone : ${data.telephone}\n`;
             message += `🌴 Territoire : ${data.ile}\n`;
 
             formDataToSend.append('message', message);
@@ -1275,7 +1275,7 @@
                     if (response.ok) {
                         form.innerHTML = `
                         <div style="text-align: center; padding: 2rem 0;">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+                            <div style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 700;">Demande envoyée</div>
                             <h3 style="color: #00BFA6; margin-bottom: 1rem; font-size: 1.5rem;">Demande envoyée !</h3>
                             <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
                                 Merci ! Nous allons t'envoyer tous les détails du <strong>${data.pack_name}</strong> par email dans les 24h.

@@ -310,15 +310,11 @@
             let packInfo = getPackInfo(budget_accompagnement);
             
             // Préparer le message pour l'email
-            let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏢 ENTREPRISE - NOUVELLE INSCRIPTION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            let messageBody = `ENTREPRISE - NOUVELLE INSCRIPTION
 Source: Landing Page entreprises
 Date: ${new Date().toLocaleString('fr-FR')}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 BLOC 1 - PROFIL & ORIGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 1 - PROFIL & ORIGINE
 Prénom: ${prenom}
 Nom: ${nom}
 Email: ${email}
@@ -326,33 +322,23 @@ Téléphone: ${telephone || 'Non renseigné'}
 Entreprise: ${entreprise || 'Non renseigné'}
 Territoire: ${ile || 'Non renseigné'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 BLOC 2 - BESOIN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 2 - BESOIN
 Besoin principal: ${besoin || 'Non renseigné'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 BLOC 3 - BUDGET & PACK
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 3 - BUDGET & PACK
 Budget: ${budget_accompagnement || 'Non renseigné'}
 ${packInfo ? `Pack sélectionné: ${packInfo.name} (${packInfo.price})` : 'Pack: Non défini'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ VALIDATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VALIDATION
 Certification acceptée: OUI
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📞 PROCHAINES ÉTAPES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROCHAINES ÉTAPES
 1. Contacter ${prenom} ${nom}${entreprise ? ' (' + entreprise + ')' : ''} pour un appel découverte gratuit
 2. Après l'appel, décider (oui/non) selon alignement avec mission
 3. Si oui, envoyer récap + lien paiement
 4. Planifier première session de travail
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 DONNÉES COMPLÈTES COLLECTÉES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DONNÉES COMPLÈTES
 ${Object.keys(data).filter(key => {
     // Exclure les champs déjà affichés et les champs techniques
     const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
@@ -365,14 +351,11 @@ ${Object.keys(data).filter(key => {
         return `${label}: ${value}`;
     }
     return null;
-}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
             
-            // Préparer FormData pour Formspree
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
-            formDataToSend.append('_subject', `🏢 ENTREPRISE${packInfo ? ' - ' + packInfo.name : ''} - ${entreprise || 'Nouvelle Entreprise'} - ${prenom} ${nom}`);
+            formDataToSend.append('_subject', `ENTREPRISE${packInfo ? ' - ' + packInfo.name : ''} - ${entreprise || 'Nouvelle Entreprise'} - ${prenom} ${nom}`);
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
             
@@ -460,7 +443,7 @@ Votre demande a bien été reçue et enregistrée.
                                 </div>
                             </div>
 
-💡 <strong>Ou</strong> nous vous recontactons sous 24h si vous préférez qu'on vous contacte directement.
+Ou nous vous recontactons sous 24h si vous préférez qu'on vous contacte directement.
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.
                             </div>
@@ -559,13 +542,13 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                     }, 1000);
                 } else {
                     return response.json().then(errData => {
-                        console.error('❌ Erreur lors de l\'envoi:', errData);
+                        console.error('Erreur lors de l\'envoi:', errData);
                         throw new Error(errData.error || 'Erreur lors de l\'envoi');
                     });
                 }
             })
             .catch(error => {
-                console.error('❌ Erreur:', error);
+                console.error('Erreur:', error);
                 alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
                 if (submitBtn) {
                     submitBtn.disabled = false;

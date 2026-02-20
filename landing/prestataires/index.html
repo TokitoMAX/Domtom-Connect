@@ -200,47 +200,34 @@
             const pourquoi_ecosysteme = data.pourquoi_ecosysteme || data.question_pourquoi_ecosysteme || '';
             
             // Préparer le message pour l'email
-            let messageBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💼 PRESTATAIRE - NOUVELLE CANDIDATURE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            let messageBody = `PRESTATAIRE - NOUVELLE CANDIDATURE
 Source: Landing Page prestataires
 Date: ${new Date().toLocaleString('fr-FR')}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 BLOC 1 - PROFIL & ORIGINE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 1 - PROFIL & ORIGINE
 Prénom: ${prenom}
 Nom: ${nom}
 Email: ${email}
 Téléphone: ${telephone || 'Non renseigné'}
 Territoire: ${ile || 'Non renseigné'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💼 BLOC 2 - SERVICES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 2 - SERVICES
 Services proposés: ${services || 'Non renseigné'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💡 BLOC 3 - MOTIVATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BLOC 3 - MOTIVATION
 Pourquoi rejoindre l'écosystème: ${pourquoi_ecosysteme || 'Non renseigné'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ VALIDATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VALIDATION
 Certification acceptée: OUI
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📞 PROCHAINES ÉTAPES
+PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. Contacter ${prenom} ${nom} pour un appel de qualification
 2. Vérifier les compétences et l'expérience
 3. Après validation, intégrer au réseau
 4. Présenter les opportunités disponibles
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 DONNÉES COMPLÈTES COLLECTÉES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DONNÉES COMPLÈTES
 ${Object.keys(data).filter(key => {
     // Exclure les champs déjà affichés et les champs techniques
     const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
@@ -253,14 +240,11 @@ ${Object.keys(data).filter(key => {
         return `${label}: ${value}`;
     }
     return null;
-}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
             
-            // Préparer FormData pour Formspree
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
-            formDataToSend.append('_subject', `💼 PRESTATAIRE - ${prenom} ${nom} - ${services || 'Nouveau Prestataire'}`);
+            formDataToSend.append('_subject', `PRESTATAIRE - ${prenom} ${nom} - ${services || 'Nouveau Prestataire'}`);
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
             
@@ -316,7 +300,7 @@ ${Object.keys(data).filter(key => {
                 console.log('📧 Réponse Formspree:', response.status, response.statusText);
                 
                 if (response.ok) {
-                    console.log('✅ Email envoyé avec succès');
+                    console.log('Email envoyé avec succès');
                     
                     // Afficher le message de succès
                     const quizContainer = document.querySelector('.quiz-container');
@@ -325,16 +309,15 @@ ${Object.keys(data).filter(key => {
                     
                     const successHTML = `
                         <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
-                            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
-                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">✓ Candidature envoyée avec succès !</h3>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">Candidature envoyée avec succès</h3>
                             <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">
-                                Merci ${prenom ? prenom + ' !' : ' !'} 🎉
+                                Merci ${prenom ? prenom + ',' : ''}
 
-Votre candidature a bien été reçue et enregistrée. 
+Votre candidature a bien été reçue et enregistrée.
 
-📧 Vous allez recevoir un email de confirmation avec le récapitulatif de votre candidature dans quelques instants.
+Vous allez recevoir un email de confirmation avec le récapitulatif dans quelques instants.
 
-📞 Réservez votre appel de qualification maintenant :
+Réservez votre appel de qualification maintenant :
 
                             <div style="margin: 2rem 0;">
                                 <!-- Widget Calendly - Remplacez 'votre-lien-calendly' par votre lien Calendly réel -->
@@ -344,7 +327,7 @@ Votre candidature a bien été reçue et enregistrée.
                                 </div>
                             </div>
 
-💡 <strong>Ou</strong> nous vous recontactons sous 24-48h si vous préférez qu'on vous contacte directement.
+Ou nous vous recontactons sous 24-48h si vous préférez qu'on vous contacte directement.
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.
                             </div>
@@ -429,13 +412,13 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                     }, 1000);
                 } else {
                     return response.json().then(errData => {
-                        console.error('❌ Erreur lors de l\'envoi:', errData);
+                        console.error('Erreur lors de l\'envoi:', errData);
                         throw new Error(errData.error || 'Erreur lors de l\'envoi');
                     });
                 }
             })
             .catch(error => {
-                console.error('❌ Erreur:', error);
+                console.error('Erreur:', error);
                 alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
                 if (submitBtn) {
                     submitBtn.disabled = false;

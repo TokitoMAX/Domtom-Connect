@@ -106,7 +106,7 @@ function handleNewsletterSubmit(event) {
     })
     .then(response => {
         if (response.ok) {
-            submitButton.textContent = '✓ Inscrit !';
+            submitButton.textContent = 'Inscrit';
             submitButton.style.background = '#10b981';
             form.reset();
             
@@ -169,18 +169,17 @@ function handleFormSubmit(event) {
     // Préparer les données pour Formspree avec un format clair pour l'email
     const formDataToSend = new FormData();
     
-    // Déterminer le profil clairement
     let profilLabel = '';
     if (data.profil === 'entreprise') {
-        profilLabel = '🏢 ENTREPRISE';
+        profilLabel = 'ENTREPRISE';
     } else if (data.profil === 'prestataire') {
-        profilLabel = '💼 PRESTATAIRE';
+        profilLabel = 'PRESTATAIRE';
     } else if (data.profil === 'porteur-projet') {
-        profilLabel = '🚀 PORTEUR DE PROJET';
+        profilLabel = 'PORTEUR DE PROJET';
     } else if (data.profil === 'investisseur') {
-        profilLabel = '💰 INVESTISSEUR';
+        profilLabel = 'INVESTISSEUR';
     } else {
-        profilLabel = '👤 ' + (data.profil || 'AUTRE').toUpperCase();
+        profilLabel = (data.profil || 'AUTRE').toUpperCase();
     }
     
     // Configuration email
@@ -190,15 +189,11 @@ function handleFormSubmit(event) {
     
     // Construire le message de manière claire selon le profil
     let messageBody = `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${profilLabel} - NOUVELLE INSCRIPTION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Source: Formulaire principal
 Date: ${new Date().toLocaleString('fr-FR')}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 CONTACT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTACT
 Prénom: ${data.prenom}
 Nom: ${data.nom}
 Email: ${data.email}
@@ -207,75 +202,51 @@ Territoire: ${data.ile}
 Profil: ${data.profil}
 `;
     
-    // Informations spécifiques selon le profil
     if (data.entreprise) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏢 ENTREPRISE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ENTREPRISE
 Nom de l'entreprise: ${data.entreprise}
 `;
     }
-    
     if (data.services) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💼 SERVICES PROPOSÉS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SERVICES PROPOSÉS
 ${data.services}
 `;
     }
-    
     if (data.secteur) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏭 SECTEUR D'ACTIVITÉ
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTEUR D'ACTIVITÉ
 ${data.secteur}
 `;
     }
-    
     if (data['type-investissement']) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 TYPE D'INVESTISSEMENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TYPE D'INVESTISSEMENT
 ${data['type-investissement']}
 `;
     }
-    
     if (data.besoin) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 BESOIN PRINCIPAL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BESOIN PRINCIPAL
 ${data.besoin}
 `;
     }
-    
     if (data.detail) {
         messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 DÉTAILS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DÉTAILS
 ${data.detail}
 `;
     }
-    
     messageBody += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 OPTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Newsletter: ${data.newsletter ? '✅ Oui' : '❌ Non'}
+OPTIONS
+Newsletter: ${data.newsletter ? 'Oui' : 'Non'}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📞 PROCHAINES ÉTAPES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROCHAINES ÉTAPES
 1. Contacter ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''} pour un appel
 2. Après l'appel, décider (oui/non)
 3. Si oui, ajouter à l'écosystème WhatsApp
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+`;
 
     formDataToSend.append('message', messageBody);
     
@@ -371,7 +342,7 @@ Newsletter: ${data.newsletter ? 'Oui' : 'Non'}
 function showLoadingState() {
     const submitButton = document.querySelector('.inscription-form .cta-button');
     if (submitButton) {
-        submitButton.innerHTML = '⏳ Envoi en cours...';
+        submitButton.innerHTML = 'Envoi en cours...';
         submitButton.disabled = true;
     }
 }
@@ -380,7 +351,7 @@ function showLoadingState() {
 function hideLoadingState() {
     const submitButton = document.querySelector('.inscription-form .cta-button');
     if (submitButton) {
-        submitButton.innerHTML = '🟢 Je rejoins Domtom Connect';
+        submitButton.innerHTML = 'Je rejoins Domtom Connect';
         submitButton.disabled = false;
     }
 }
@@ -651,19 +622,19 @@ function updateFormFields2() {
         besoinField.style.display = 'block';
         detailField.style.display = 'block';
         detailTextarea.placeholder = 'Parle-nous des besoins de votre entreprise (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Type de prestataires recherchés ? Secteur d\'activité ? Budget disponible ? Délais ?';
+        detailHint.textContent = 'Exemples : Type de prestataires recherchés ? Secteur d\'activité ? Budget disponible ? Délais ?';
         detailTextarea.rows = 4;
     } else if (profil === 'prestataire') {
         servicesField.style.display = 'block';
         detailField.style.display = 'block';
         detailTextarea.placeholder = 'Décris tes services, ton expérience et tes tarifs (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Années d\'expérience, projets réalisés, tarifs indicatifs, disponibilité, territoires couverts...';
+        detailHint.textContent = 'Exemples : Années d\'expérience, projets réalisés, tarifs indicatifs, disponibilité, territoires couverts...';
         detailTextarea.rows = 4;
     } else if (profil === 'investisseur') {
         investissementField.style.display = 'block';
         detailField.style.display = 'block';
         detailTextarea.placeholder = 'Décris tes critères d\'investissement et tes attentes (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
+        detailHint.textContent = 'Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
         detailTextarea.rows = 4;
     }
     
@@ -681,11 +652,11 @@ function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
     if (!besoin) return;
     
     const hints = {
-        'trouver-prestataires': '💡 Détaille : Quels types de prestataires ? Pour quel projet ? Budget disponible ? Délais ?',
-        'rejoindre-communaute': '💡 Détaille : Pourquoi rejoindre ? Que cherches-tu ? Comment veux-tu contribuer ?',
-        'developper-projet': '💡 Détaille : Stade actuel du projet ? Besoins spécifiques ? Obstacles rencontrés ?',
-        'trouver-partenaires': '💡 Détaille : Type de partenaires recherchés ? Secteur ? Objectifs du partenariat ?',
-        'autre-besoin': '💡 Détaille : Explique ton besoin spécifique et comment on peut t\'aider.'
+        'trouver-prestataires': 'Détaille : Quels types de prestataires ? Pour quel projet ? Budget disponible ? Délais ?',
+        'rejoindre-communaute': 'Détaille : Pourquoi rejoindre ? Que cherches-tu ? Comment veux-tu contribuer ?',
+        'developper-projet': 'Détaille : Stade actuel du projet ? Besoins spécifiques ? Obstacles rencontrés ?',
+        'trouver-partenaires': 'Détaille : Type de partenaires recherchés ? Secteur ? Objectifs du partenariat ?',
+        'autre-besoin': 'Détaille : Explique ton besoin spécifique et comment on peut t\'aider.'
     };
     
     if (hints[besoin]) {

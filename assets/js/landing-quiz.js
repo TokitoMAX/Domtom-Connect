@@ -199,7 +199,7 @@ class LandingQuiz {
                     <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
                 </div>
                 <div class="quiz-progress-time" id="quiz-progress-time">
-                    <span>⏱️ Temps estimé restant : ~${Math.ceil(this.questions.length * 0.15)} min</span>
+                    <span>Temps estimé restant : ~${Math.ceil(this.questions.length * 0.15)} min</span>
                 </div>
             </div>
             
@@ -611,9 +611,9 @@ class LandingQuiz {
             const remainingSteps = totalSteps - currentStepNumber;
             const estimatedMinutes = Math.ceil(remainingSteps * 0.15);
             if (remainingSteps > 0) {
-                progressTime.innerHTML = `<span>⏱️ Temps estimé restant : ~${estimatedMinutes} min</span>`;
+                progressTime.innerHTML = `<span>Temps estimé restant : ~${estimatedMinutes} min</span>`;
             } else {
-                progressTime.innerHTML = `<span>✅ Presque terminé !</span>`;
+                progressTime.innerHTML = `<span>Presque terminé</span>`;
             }
         }
         
@@ -731,9 +731,9 @@ class LandingQuiz {
                         const remainingSteps = totalSteps - currentStepNumber;
                         const estimatedMinutes = Math.ceil(remainingSteps * 0.15);
                         if (remainingSteps > 0) {
-                            progressTime.innerHTML = `<span>⏱️ Temps estimé restant : ~${estimatedMinutes} min</span>`;
+                            progressTime.innerHTML = `<span>Temps estimé restant : ~${estimatedMinutes} min</span>`;
                         } else {
-                            progressTime.innerHTML = `<span>✅ Presque terminé !</span>`;
+                            progressTime.innerHTML = `<span>Presque terminé</span>`;
                         }
                     }
                     
