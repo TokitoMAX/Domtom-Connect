@@ -42,17 +42,16 @@
 
 ---
 
-## Service Recrutement (Match & Suivi Culturel)
+## Service Accompagnement recrutement & Match culturel
 
-**Position** : Offre à part (pas un pack prestataires), pour les entreprises qui recrutent (CDI, CDD, alternance, etc.) en Antilles, Guyane, diaspora.
+**Position** : On **accompagne le recrutement** des entreprises (elles embauchent, nous on structure le process) : recherche ou tri des CV, entretiens (savoir faire, savoir être), fit avec l’environnement et les objectifs, suivi après validation. Offre à part (pas un pack prestataires), pour les entreprises qui recrutent (CDI, CDD, alternance) en Antilles, Guyane, diaspora.
 
-**Message** : « On ne vous envoie pas juste des CV. On vous présente des candidats qui matchent votre mentalité et votre territoire, puis on suit leur intégration pour sécuriser le recrutement. »
+**Message** : « De la recherche ou du tri des CV aux entretiens (savoir faire, savoir être), au fit avec votre environnement et vos objectifs, jusqu’au suivi des candidats après validation. »
 
-**Sur la page Tarifs** : 4e bloc (après Partenaire), titre « Recrutement & Match culturel », promesse courte, CTA « En savoir plus » ou « Nous contacter », tarif « Sur devis » tant que le pricing n’est pas fixé.
+**Sur la page Tarifs** : 4e bloc (après Partenaire), titre « Accompagnement recrutement & Match culturel », promesse courte, CTA « En savoir plus et nous contacter », tarif « Sur devis » tant que le pricing n’est pas fixé.
 
 ---
 
 ## Cohérence avec la landing Entreprises
 
-- Formulaire « besoin » : garder les options actuelles (Trouver des prestataires, Développer un projet, Trouver des partenaires).
-- Optionnel : ajouter « Recruter un profil (CDI, CDD, alternance) » pour orienter vers le service Match & Suivi Culturel.
+- Formulaire « besoin » : option « Accompagnement recrutement (match culturel + suivi) » pour orienter vers ce service.

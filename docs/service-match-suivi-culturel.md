@@ -1,7 +1,9 @@
-# Service Match & Suivi Culturel – Recrutement Antilles, Guyane & Diaspora
+# Service Accompagnement Recrutement & Match Culturel – Antilles, Guyane & Diaspora
 
-**Nom du service** : Service Match & Suivi Culturel – Domtom Connect  
+**Nom du service** : Accompagnement Recrutement & Match Culturel – Domtom Connect  
 **Statut** : Idée / à formaliser (pricing à définir)
+
+**Positionnement** : On **accompagne le recrutement** des entreprises (c’est elles qui embauchent). Concrètement : recherche ou tri des CV, réunions / entretiens de recrutement (savoir faire, savoir être), vérification du fit avec l’environnement et les objectifs de l’entreprise, suivi des candidats après validation du chef d’entreprise.
 
 **Cible** : Antilles, Guyane, diaspora (entreprises et candidats de ces territoires et de la diaspora).
 
@@ -38,11 +40,11 @@ Le rôle d’intermédiaire **humain + culturel** répond exactement à ça.
 
 **Une phrase simple :**
 
-> « On ne t’envoie pas juste des CV. On t’aide à choisir des personnes qui matchent ta mentalité, ta vision et ton territoire, puis on suit leur intégration pour sécuriser ton recrutement. »
+> « On n’envoie pas juste des CV. On accompagne ton recrutement : sourcing ou tri, entretiens (savoir faire, savoir être), fit avec ton environnement et tes objectifs, suivi après validation. »
 
 **Version un peu plus longue :**
 
-> « On devient ton intermédiaire de confiance pour te présenter des candidats qui collent à ta vision, à ta mentalité et à ton environnement, puis on suit leur intégration pour sécuriser ton recrutement. »
+> « On accompagne ton recrutement de A à Z : recherche ou tri des candidats, entretiens centrés sur le match culturel et les compétences, vérification que l’environnement et les objectifs de ton entreprise collent avec le candidat, suivi des candidats après ta validation. »
 
 ---
 
@@ -107,5 +109,5 @@ Le rôle d’intermédiaire **humain + culturel** répond exactement à ça.
 ## 9. Utilisation pour le site
 
 - **Page Tarifs** : ajouter un bloc « Recrutement & intégration » ou « Match & Suivi Culturel » une fois le pricing fixé.
-- **Landing Entreprises** : mentionner l’option recrutement dans les besoins (« Recruter un profil clé »).
-- **FAQ** : prévoir une question du type « Vous accompagnez aussi le recrutement ? ».
+- **Landing Entreprises** : option « Accompagnement recrutement (match culturel + suivi) » dans les besoins.
+- **FAQ** : prévoir une question du type « Vous accompagnez le recrutement ? ».
