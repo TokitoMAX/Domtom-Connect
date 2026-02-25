@@ -370,6 +370,29 @@
             margin-top: 0.5rem;
         }
 
+        .pack-price-devis {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .pack-cta-link {
+            display: block;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            background: #0d9488;
+            color: white;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .pack-cta-link:hover {
+            background: #0f766e;
+        }
+
         .pack-situation {
             font-size: 0.95rem;
             color: #475569;
@@ -933,7 +956,7 @@
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Entreprises</h2>
-                        <p class="profile-subtitle">Choisissez le pack qui correspond à votre besoin. Premier échange gratuit.</p>
+                        <p class="profile-subtitle">Un besoin ponctuel, un projet multi-prestataires ou un partenaire sur la durée. Choisissez le pack qui correspond à votre situation. Premier échange gratuit.</p>
                     </div>
                 </div>
 
@@ -941,12 +964,12 @@
                     <!-- Pack Express -->
                     <div class="pricing-card">
                         <div class="pack-name" style="color: #EF4444;">Pack Express</div>
-                        <h3 class="pack-title">Recherche de prestataires qualifiés</h3>
+                        <h3 class="pack-title">Besoin ponctuel ? Short-list de prestataires qualifiés</h3>
                         <div class="pack-price">
                             800€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Une short-list qualifiée de prestataires locaux, prêts à intervenir.</p>
+                        <p class="pack-result pack-result--short">Une short-list de 3 à 5 prestataires locaux + mise en relation. Vous choisissez et vous lancez.</p>
                         <p class="pack-delai">Sous 2 à 3 semaines : short-list + mise en relation.</p>
                         <ul class="pack-list pack-list--short">
                             <li>1 brief (30–45 min) avec vos équipes</li>
@@ -968,12 +991,12 @@
                     <!-- Pack Coordination -->
                     <div class="pricing-card">
                         <div class="pack-name" style="color: #F59E0B;">Pack Coordination</div>
-                        <h3 class="pack-title">Un projet complexe ? Multi-prestataires</h3>
+                        <h3 class="pack-title">Projet complexe ? On coordonne pour vous</h3>
                         <div class="pack-price">
                             1 500€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Un point de coordination unique entre prestas locaux et vos équipes.</p>
+                        <p class="pack-result pack-result--short">Un point de coordination unique : cadrage, sélection par lot, lancement (kick-off), coordination sur le 1er mois.</p>
                         <p class="pack-delai">Cadrage et lancement sous 3 semaines, puis coordination sur le 1er mois.</p>
                         <ul class="pack-list pack-list--short">
                             <li>Cadrage projet multi-prestataires</li>
@@ -995,12 +1018,12 @@
                     <!-- Pack Partenaire -->
                     <div class="pricing-card">
                         <div class="pack-name" style="color: #6366F1;">Pack Partenaire</div>
-                        <h3 class="pack-title">Besoin récurrent ? Service continu 6-12 mois</h3>
+                        <h3 class="pack-title">Besoins récurrents ? Partenaire 6 à 12 mois</h3>
                         <div class="pack-price">
                             2 500€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Un partenaire qui connaît vos besoins et anticipe.</p>
+                        <p class="pack-result pack-result--short">Un partenaire qui connaît vos besoins : demandes récurrentes (sourcing, short-list), accès prioritaire, points réguliers.</p>
                         <p class="pack-delai">Partenariat 6 à 12 mois. Réponse sous 48h, short-list selon la demande.</p>
                         <ul class="pack-list pack-list--short">
                             <li>Partenariat 6 à 12 mois</li>
@@ -1016,6 +1039,24 @@
                         </details>
                         <div class="pack-cta">
                             <button onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')">Demander ce pack</button>
+                        </div>
+                    </div>
+
+                    <!-- Recrutement & Match culturel -->
+                    <div class="pricing-card pricing-card-recrutement">
+                        <div class="pack-name" style="color: #0d9488;">Recrutement & Match culturel</div>
+                        <h3 class="pack-title">Recruter en Antilles, Guyane, diaspora ?</h3>
+                        <div class="pack-price pack-price-devis">Sur devis</div>
+                        <p class="pack-result pack-result--short">On ne vous envoie pas juste des CV. On vous présente des candidats qui matchent votre mentalité et votre territoire, puis on suit leur intégration pour sécuriser le recrutement.</p>
+                        <p class="pack-delai">Antilles, Guyane, diaspora. CDI, CDD, alternance.</p>
+                        <ul class="pack-list pack-list--short">
+                            <li>Entretien avec le dirigeant (vision, culture, profil recherché)</li>
+                            <li>Sourcing et sélection candidats (fit culturel, adaptation)</li>
+                            <li>Short-list 2–3 candidats + fiches « pourquoi ce profil vous correspond »</li>
+                            <li>Suivi intégration (2 sem., 1 mois, 3 mois) + bilan</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="/landing/entreprises/" class="pack-cta-link">En savoir plus et nous contacter</a>
                         </div>
                     </div>
                 </div>
