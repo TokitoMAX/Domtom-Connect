@@ -389,6 +389,61 @@ Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et
 
 ---
 
+## 🛠️ Outils pour attirer des leads
+
+**Idée :** Proposer des **outils à vendre** (ou à donner contre email) pour faire venir des gens qui ne sont pas encore prêts à prendre un pack. Ils découvrent la valeur, on récupère un contact, on les fait monter vers Découverte puis Starter/Premium.
+
+### Pourquoi ça marche
+
+- **Premier contact à faible friction** — Plus facile de payer 19€ ou de donner son email pour un guide que de s’engager sur 99€ ou 500€.
+- **Qualification** — Quelqu’un qui achète un outil (même 9€) est déjà engagé ; les leads sont plus chauds.
+- **Confiance** — Il a déjà “acheté” Domtom Connect une fois ; le passage au Pack Découverte ou Starter est plus naturel.
+- **Trafic et SEO** — Une page “Guide prestataires DOM-TOM” ou “Checklist projet” attire des recherches et peut convertir en lead ou en vente d’outil.
+
+### Deux types d’outils
+
+| Type | Exemple | Objectif |
+|------|--------|----------|
+| **Gratuit contre email** (lead magnet) | Guide PDF, checklist, template brief | Récupérer l’email, nourrir en newsletter, proposer l’appel découverte ou un pack. |
+| **Payant (petit prix)** | Guide 19€, checklist 9€, audit express 49€ | Attirer des gens qui ne veulent pas s’engager tout de suite ; premier achat = lead chaud, puis upsell vers 99€ / 500€. |
+
+### Exemples d’outils à vendre (ou à donner)
+
+1. **Guide PDF « Trouver un prestataire fiable en DOM-TOM »** (gratuit ou 9–19€)  
+   - Contenu : spécificités territoires, red flags, questions à poser, où chercher.  
+   - CTA en fin de guide : « Tu veux qu’on le fasse pour toi ? → Pack Découverte 99€ » ou « Appel découverte gratuit ».
+
+2. **Checklist « 10 questions à poser à un prestataire »** (gratuit ou 9€)  
+   - Format : PDF ou page dédiée.  
+   - CTA : « Besoin de prestataires déjà vérifiés ? → Découverte 99€ ».
+
+3. **Template « Brief prestataire » (adapté DOM-TOM)** (gratuit ou 9–14€)  
+   - Document Word/PDF modifiable.  
+   - CTA : « On peut te trouver les prestataires ET les contacter pour toi → Starter 500€ ».
+
+4. **Audit express payant (ex. 29–49€)**  
+   - Appel 20–30 min : diagnostic projet + recommandations.  
+   - À la fin : « Pour la suite, on peut te proposer le Pack Découverte ou le Starter selon ton besoin. »
+
+5. **Pack « Kit démarrage projet »** (19–29€)  
+   - Guide + checklist + template dans un seul lien.  
+   - Positionné comme entrée de gamme avant le Pack Découverte.
+
+### Règle d’entonnoir
+
+- **Page outil** → CTA : téléchargement (email) ou achat (petit prix).  
+- **Après téléchargement / achat** → Email de suivi avec rappel de la méthode Domtom Connect + lien vers **appel découverte** ou **Pack Découverte 99€**.  
+- **Jamais vendre l’outil sans proposer la suite** : chaque outil doit mentionner clairement « Si tu veux qu’on s’en occupe pour toi → Pack Découverte / Starter ».
+
+### À faire concrètement
+
+- [ ] Choisir 1 ou 2 outils (ex. guide + checklist) en priorité — gratuits ou payants.
+- [ ] Créer une page dédiée par outil (ou une page « Ressources » avec tous les outils).
+- [ ] Mettre un formulaire (email) ou un bouton d’achat + email de suivi qui propose l’appel découverte ou un pack.
+- [ ] Sur le site et en com’, rappeler que ces outils sont le premier pas ; la suite = nos packs (réseau vérifié, accompagnement).
+
+---
+
 ## ✅ Checklist de Validation
 
 Pour chaque pack et chaque message, s'assurer que :
