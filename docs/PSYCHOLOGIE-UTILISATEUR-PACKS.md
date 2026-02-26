@@ -6,6 +6,19 @@ Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et
 
 ---
 
+## 🏆 Ce qui nous rend incontournables
+
+**À ancrer dans chaque message et chaque page :**
+
+1. **Réseau vérifié, pas une simple liste** — On ne livre pas des noms trouvés sur Google : chaque prestataire est qualifié, vérifié et adapté au projet. La qualité du réseau est le cœur du service.
+2. **Méthode claire** — Recherche → Qualification → Contact → Négociation → Suivi. Le client sait ce qu’il achète et pourquoi ce n’est pas reproductible seul sans temps et compétences.
+3. **Accompagnement réel** — Négociation, vérification des devis, médiation si besoin. On ne disparaît pas après la remise des contacts.
+4. **Montée en gamme naturelle** — Découverte pour tester, Starter pour déléguer, Premium pour déléguer tout. Chaque pack a un rôle précis ; le passage au supérieur doit être évident quand le besoin grandit.
+
+**Règle :** Chaque argument (site, email, appel) doit faire comprendre *pourquoi choisir Domtom Connect* plutôt qu’une recherche perso ou un concurrent. Le prix doit être justifié par la valeur (gain de temps, qualité, sécurité), pas présenté seul.
+
+---
+
 ## 💡 Pack Découverte (99€) - Pourquoi le Prendre ?
 
 ### Profils d'utilisateurs qui choisissent ce pack :
@@ -310,23 +323,23 @@ Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et
 ### Pour le Pack Découverte (99€)
 
 **Message pour "Curieux Prudent" :**
-> "Teste notre service pour 99€. On recherche 2-3 prestataires vérifiés adaptés à ton projet. Tu découvres la qualité de notre réseau sans risque. Si ça te convient, passe au Starter pour qu'on s'en occupe pour toi."
+> "Teste notre service pour 99€. On ne te donne pas une liste Google : on recherche, on qualifie et on te livre 2-3 prestataires vérifiés adaptés à ton projet. Tu découvres la qualité du réseau sans risque. Si ça te convient, passe au Starter pour qu'on s'en occupe pour toi."
 
 **Message pour "Autonome" :**
-> "Tu aimes gérer toi-même ? Parfait. Pour 99€, on te donne une liste de 2-3 prestataires vérifiés avec leurs coordonnées. Tu les contactes, tu négocies, tu gères. On te donne juste les contacts qualifiés."
+> "Tu aimes gérer toi-même ? Parfait. Pour 99€, on te donne 2-3 prestataires déjà vérifiés et qualifiés — pas des noms trouvés au hasard. Tu les contactes, tu négocies, tu gères. On te donne juste les contacts de confiance."
 
 **Message pour "Premier Pas" :**
-> "Première fois avec Domtom Connect ? Commence par le Pack Découverte à 99€. On recherche 2-3 prestataires vérifiés pour ton projet. Tu découvres notre méthode et notre qualité. Si ça te plaît, on peut t'accompagner avec le Starter."
+> "Première fois avec Domtom Connect ? Commence par le Pack Découverte à 99€. Tu découvres notre méthode : recherche, qualification, contacts vérifiés. Si ça te plaît, on peut t'accompagner avec le Starter pour qu'on gère tout à ta place."
 
 ---
 
 ### Pour le Pack Starter (500€)
 
 **Message pour "Occupé" :**
-> "Tu n'as pas le temps de chercher ? On s'en occupe pour toi. On recherche, on qualifie, on contacte, on négocie. Tu te concentres sur ton projet, on gère les prestataires. 500€ pour gagner 20-30h de temps."
+> "Tu n'as pas le temps de chercher ? On s'en occupe pour toi : recherche, qualification, contact, négociation. Ce n'est pas une simple liste — on gère les prestataires pour que tu te concentres sur ton projet. 500€ pour gagner 20-30h de temps."
 
 **Message pour "Incertain" :**
-> "Tu ne sais pas comment bien choisir ? On t'accompagne. On recherche 5-8 prestataires, on les qualifie, on négocie pour toi, on vérifie les devis. Tu es accompagné à chaque étape. 500€ pour éviter les erreurs coûteuses."
+> "Tu ne sais pas comment bien choisir ? On t'accompagne vraiment : 5-8 prestataires qualifiés, négociation pour toi, vérification des devis, médiation si besoin. Tu n'es pas seul face aux prestataires. 500€ pour éviter les erreurs coûteuses."
 
 **Message pour "Projet Important" :**
 > "Ton projet est important ? Ne prends pas de risques. On fait une recherche approfondie, on qualifie chaque prestataire, on t'accompagne dans les négociations. 500€ pour la qualité et la sécurité."
@@ -339,10 +352,10 @@ Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et
 ### Pour le Pack Premium (1900€)
 
 **Message pour "Projet Complexe" :**
-> "Projet complexe avec plusieurs prestataires ? On gère tout pour toi. Recherche élargie, gestion complète, coordination, suivi hebdomadaire. Tu te concentres sur ton projet, on gère tous les prestataires. 1900€ pour la tranquillité."
+> "Projet complexe avec plusieurs prestataires ? On gère tout pour toi : recherche élargie sur notre réseau vérifié, coordination, suivi hebdomadaire. Tu te concentres sur ton projet, on gère tous les prestataires. 1900€ pour la tranquillité."
 
 **Message pour "Business Owner" :**
-> "Tu n'as pas le temps ? On gère tout. Recherche, qualification, négociation, gestion, coordination, rapports mensuels. Ton temps vaut plus que 1900€. On est ton partenaire opérationnel."
+> "Tu n'as pas le temps ? On gère tout — pas un intermédiaire qui disparaît après la remise des contacts : recherche, qualification, négociation, gestion, rapports mensuels. Ton temps vaut plus que 1900€. On est ton partenaire opérationnel."
 
 **Message pour "Paranoïaque Qualité" :**
 > "Tu veux la meilleure qualité ? On fait un audit approfondi de chaque prestataire, on garantit le résultat, on médie proactivement. 1900€ pour toutes les garanties et la tranquillité d'esprit."
@@ -378,12 +391,14 @@ Comprendre les motivations réelles des utilisateurs pour choisir chaque pack et
 
 ## ✅ Checklist de Validation
 
-Pour chaque pack, s'assurer que :
+Pour chaque pack et chaque message, s'assurer que :
 - ✅ La motivation est claire
 - ✅ Le frein est identifié et adressé
 - ✅ Le message correspond au profil
-- ✅ La valeur est perçue
+- ✅ La valeur est perçue (gain de temps, qualité, sécurité — pas seulement le prix)
 - ✅ L'upsell est naturel
+- ✅ **On rappelle pourquoi nous** : réseau vérifié, méthode, accompagnement (au moins un de ces piliers dans chaque message)
+- ✅ Le client comprend ce qu’il aurait en faisant sans nous (temps perdu, risque, qualité incertaine)
 
 ---
 
