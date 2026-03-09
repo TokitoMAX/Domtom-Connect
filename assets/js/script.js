@@ -162,6 +162,13 @@ function handleFormSubmit(event) {
         alert('Veuillez entrer une adresse email valide.');
         return;
     }
+
+    // --- LOGIQUE D'AUTOMATISATION ET DE FILTRAGE (PIVOT SAAS) ---
+    if (typeof scoreLeadAndRedirect === 'function') {
+        if (scoreLeadAndRedirect(formData)) {
+            return; // Arrêter si le lead est redirigé vers l'audit auto
+        }
+    }
     
     // Afficher un message de confirmation
     showLoadingState();
@@ -470,12 +477,6 @@ function initCTAButtons() {
     }
 }
 
-// Fonction pour gérer l'inscription par email dans le hero (supprimée car pas présente dans le nouveau design)
-function initEmailSignup() {
-    // Cette fonction n'est plus nécessaire avec le nouveau design
-    // L'inscription se fait uniquement via le formulaire principal
-}
-
 // Fonction pour ajouter des effets de parallaxe subtils
 function initParallaxEffects() {
     const parallaxElements = document.querySelectorAll('.hero-visual, .vision-visual, .testimonial-visual, .transformation-visual');
@@ -527,18 +528,14 @@ function init() {
     initNavigation();
     initScrollAnimations();
     initCTAButtons();
-    initEmailSignup();
     initParallaxEffects();
     initFAQ();
     initLogoLinks();
     
-    // Pré-remplir l'email si disponible (fonctionnalité supprimée du nouveau design)
-    // L'inscription se fait uniquement via le formulaire principal
-    
     // Initialiser les formulaires dynamiques
     initDynamicForms();
     
-    console.log('Domtom Connect - Page d\'adhésion initialisée');
+    console.log('Domtom Connect - Initialisé avec automatisation');
 }
 
 // Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 1)
@@ -557,7 +554,7 @@ function updateFormFields() {
         data[key] = typeof value === 'string' ? value.trim() : value;
     }
     
-    // Ne pas rediriger sans les infos obligatoires : cohérence avec la landing (pas de re-saisie)
+    // Ne pas rediriger sans les infos obligatoires
     const manquants = [];
     if (!data.prenom) manquants.push('Prénom');
     if (!data.nom) manquants.push('Nom');
@@ -573,7 +570,7 @@ function updateFormFields() {
         return;
     }
     
-    // Stocker les données pour préremplir la landing (éviter de redemander les mêmes infos)
+    // Stocker les données pour préremplir la landing
     sessionStorage.setItem('domtomConnectHomepageData', JSON.stringify(data));
     
     // Redirection vers la landing correspondante
@@ -664,32 +661,58 @@ function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
     }
 }
 
-// Cette fonction n'est plus nécessaire car la redirection est automatique
-function updateLandingPageCTA(profil) {
-    // Fonction conservée pour compatibilité mais non utilisée (redirection automatique dans updateFormFields)
-}
-
 // Initialiser les formulaires dynamiques
 function initDynamicForms() {
-    // Vérifier si les formulaires existent
     const profilSelect1 = document.getElementById('profil-select');
     const profilSelect2 = document.getElementById('profil-select-2');
     
     if (profilSelect1) {
         profilSelect1.addEventListener('change', updateFormFields);
-        // Déclencher l'update au chargement si une valeur est déjà sélectionnée
-        if (profilSelect1.value) {
-            updateFormFields();
-        }
+        if (profilSelect1.value) updateFormFields();
     }
     
     if (profilSelect2) {
         profilSelect2.addEventListener('change', updateFormFields2);
-        // Déclencher l'update au chargement si une valeur est déjà sélectionnée
-        if (profilSelect2.value) {
-            updateFormFields2();
-        }
+        if (profilSelect2.value) updateFormFields2();
     }
+}
+
+// --- FONCTIONS D'AUTOMATISATION (PIVOT SAAS) ---
+
+/**
+ * Gère le paiement Stripe (Simulé pour le MVP)
+ */
+function startStripePayment(packName, amount) {
+    console.log(`Initialisation paiement Stripe pour ${packName} (${amount}€)`);
+    const confirmPayment = confirm(`Vous allez être redirigé vers le paiement sécurisé de ${amount}€ pour le ${packName}. Voulez-vous continuer ?`);
+    if (confirmPayment) {
+        alert("Paiement réussi (Simulation). Redirection vers votre Audit Flash IA...");
+        window.location.href = "#"; 
+    }
+}
+
+/**
+ * Lead Scoring & Filtrage Automatique : Redirige les petits budgets vers le produit auto à 99€
+ */
+function scoreLeadAndRedirect(formData) {
+    const budget = parseInt(formData.get('budget')) || 0;
+    const profil = formData.get('profil');
+    
+    console.log(`Scoring du lead: Profil=${profil}, Budget=${budget}`);
+
+    // LOGIQUE DE FILTRAGE : Si budget trop faible (< 1000€) -> redirection vers PDF à 99€
+    if (profil === 'porteur-projet' && budget < 1000) {
+        alert("Analyse IA : Votre projet est idéal pour notre 'Audit Flash IA' (99€). Vous obtiendrez votre dossier complet immédiatement.");
+        window.location.href = "tarifs.html"; 
+        return true; // Stop Formspree
+    }
+    
+    // Si budget élevé (> 10k) -> Signalement prioritaire
+    if (budget > 10000) {
+        formData.append('priority_tag', 'HIGH_VALUE_ELITE');
+    }
+
+    return false; // Continue vers Formspree
 }
 
 // Démarrer l'application

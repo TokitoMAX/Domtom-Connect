@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annuaire Elite - Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fdfdfd;
+            color: #1e293b;
+        }
+
+        .marketplace-header {
+            background: white;
+            padding: 2rem;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-bar {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 2;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+        }
+
+        .filter-select {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            background: white;
+        }
+
+        .directory-grid {
+            max-width: 1200px;
+            margin: 4rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 0 2rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        .badge-elite {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #fef9c3;
+            color: #854d0e;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid #fde047;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .profile-role {
+            font-size: 0.9rem;
+            color: #00bfa6;
+            font-weight: 600;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            border-right: 1px solid #f1f5f9;
+            flex: 1;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            display: block;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            height: 4.5rem;
+            overflow: hidden;
+        }
+
+        .btn-contact {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-contact.primary {
+            background: #0f172a;
+            color: white;
+        }
+
+        .btn-contact.primary:hover {
+            background: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="marketplace-header">
+        <div
+            style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+            <a href="/"
+                style="text-decoration: none; font-weight: 700; color: var(--primary-color); font-size: 1.5rem;">Domtom
+                Connect</a>
+            <a href="/registration/provider.html" class="nav-link" style="font-weight: 600;">Vous êtes prestataire ?</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-query" class="search-input"
+                placeholder="Quel talent recherchez-vous ? (ex: Architecture, Marketing...)">
+            <select id="territory-filter" class="filter-select">
+                <option value="">Toutes les îles</option>
+                <option value="GP">Guadeloupe</option>
+                <option value="MQ">Martinique</option>
+                <option value="GF">Guyane</option>
+                <option value="RE">Réunion</option>
+            </select>
+            <button class="btn-contact primary" style="width: auto; padding: 0 2rem;"
+                onclick="filterDirectory()">Rechercher</button>
+        </div>
+    </header>
+
+    <main class="directory-grid" id="expert-grid">
+        <!-- Profil Type 1 -->
+        <article class="profile-card" data-territory="MQ" data-specialty="logistique">
+            <span class="badge-elite">VERIFIÉ TERRAIN</span>
+            <div class="profile-header">
+                <img src="https://ui-avatars.com/api/?name=Emma+L&background=00bfa6&color=fff" class="avatar"
+                    alt="Emma L.">
+                <div>
+                    <h3 class="profile-name">Emma L.</h3>
+                    <span class="profile-role">Conseil en Logistique & Import</span>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-value">450€</span>
+                    <span class="stat-label">TJM</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">Martinique</span>
+                    <span class="stat-label">Zone</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Projets</span>
+                </div>
+            </div>
+            <p class="profile-bio">Spécialiste de l'acheminement de marchandises vers les Antilles. Je vous aide à
+                optimiser vos coûts d'octroi de mer et vos délais de transit...</p>
+            <button class="btn-contact primary">Voir le profil complet</button>
+        </article>
+
+        <!-- Profil Type 2 -->
+        <article class="profile-card" data-territory="GP" data-specialty="digital">
+            <div class="profile-header">
+                <img src="https://ui-avatars.com/api/?name=Marc+D&background=3b82f6&color=fff" class="avatar"
+                    alt="Marc D.">
+                <div>
+                    <h3 class="profile-name">Marc D.</h3>
+                    <span class="profile-role">Développeur Web Fullstack</span>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-value">550€</span>
+                    <span class="stat-label">TJM</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">Guadeloupe</span>
+                    <span class="stat-label">Zone</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">Projets</span>
+                </div>
+            </div>
+            <p class="profile-bio">Maîtrise complète de l'écosystème digital local. J'accompagne les entreprises
+                guadeloupéennes dans leur transformation numérique...</p>
+            <button class="btn-contact primary">Voir le profil complet</button>
+        </article>
+    </main>
+
+    <script>
+        function filterDirectory() {
+            const query = document.getElementById('search-query').value.toLowerCase();
+            const territory = document.getElementById('territory-filter').value;
+            const cards = document.querySelectorAll('.profile-card');
+
+            cards.forEach(card => {
+                const name = card.querySelector('.profile-name').innerText.toLowerCase();
+                const role = card.querySelector('.profile-role').innerText.toLowerCase();
+                const bio = card.querySelector('.profile-bio').innerText.toLowerCase();
+                const cardTerritory = card.getAttribute('data-territory');
+
+                const matchesSearch = name.includes(query) || role.includes(query) || bio.includes(query);
+                const matchesTerritory = territory === "" || cardTerritory === territory;
+
+                if (matchesSearch && matchesTerritory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('search-query').addEventListener('input', filterDirectory);
+        document.getElementById('territory-filter').addEventListener('change', filterDirectory);
+    </script>
+</body>
+
+</html>

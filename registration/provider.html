@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devenir Prestataire Elite - Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00bfa6 0%, #007d6d 100%);
+            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f8fafc;
+        }
+
+        .reg-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            flex: 1;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 50px;
+        }
+
+        .step.active {
+            background: var(--primary-color);
+        }
+
+        .hero-mini {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-mini h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transform: translateY(0);
+            transition: 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 191, 166, 0.2);
+        }
+
+        .info-box {
+            background: #f0fdfa;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 5px solid #00bfa6;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reg-container">
+        <div class="hero-mini">
+            <h1>Rejoignez l'Elite des Antilles</h1>
+            <p>Monétisez vos compétences localement. Plus qu'un simple annuaire, une marketplace de confiance.</p>
+        </div>
+
+        <div class="info-box">
+            <strong>🚀 Pourquoi nous rejoindre ?</strong>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Domtom Connect est la seule plateforme qui vérifie votre
+                expertise terrain. Accédez à des missions qualifiées en Guadeloupe, Martinique, Guyane et Réunion.</p>
+        </div>
+
+        <form action="#" id="provider-reg">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" placeholder="Ex: Jean">
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" placeholder="Ex: Dupont">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>VOTRE SPÉCIALITÉ PRINCIPALE</label>
+                <select>
+                    <option value="">Sélectionnez un métier</option>
+                    <option value="btp">BTP / Rénovation</option>
+                    <option value="digital">Digital / Marketing</option>
+                    <option value="logistique">Logistique / Import</option>
+                    <option value="legal">Juridique / Fiscalité</option>
+                    <option value="conseil">Conseil Stratégique</option>
+                </select>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Tarif Journalier Moyen (TJM)</label>
+                    <input type="number" placeholder="Ex: 450">
+                </div>
+                <div class="form-group">
+                    <label>Zone Principal d'Intervention</label>
+                    <select>
+                        <option value="GP">Guadeloupe</option>
+                        <option value="MQ">Martinique</option>
+                        <option value="GF">Guyane</option>
+                        <option value="RE">Réunion</option>
+                        <option value="YT">Mayotte</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Présentez votre expertise Dom-Tom</label>
+                <textarea rows="4"
+                    placeholder="Qu'est-ce qui vous différencie d'un prestataire métropolitain ? Partagez vos expériences locales..."></textarea>
+            </div>
+
+            <div
+                style="margin: 2rem 0; padding: 1rem; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                <label style="margin-bottom: 0;">📸 Portfolio / Références</label>
+                <input type="file" style="border: none; padding: 0.5rem 0;">
+            </div>
+
+            <button type="submit" class="btn-register">Créer mon profil "Elite" →</button>
+            <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">L'inscription est
+                gratuite. Des options de visibilité premium sont disponibles après validation.</p>
+        </form>
+        <script>
+            document.getElementById('provider-reg').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const btn = this.querySelector('.btn-register');
+                const originalText = btn.innerText;
+                btn.innerText = "Création du profil...";
+                btn.disabled = true;
+
+                // Simulation d'envoi
+                setTimeout(() => {
+                    alert("Félicitations ! Votre profil est en cours de validation par notre IA 'Elite'. Vous recevrez un mail dès qu'il sera visible sur la marketplace.");
+                    window.location.href = "../marketplace/directory.html";
+                }, 2000);
+            });
+        </script>
+</body>
+
+</html>
