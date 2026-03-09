@@ -13,8 +13,43 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.75;
     color: #1a1a1a;
+    /* Couleur de texte par défaut sombre */
     background-color: #ffffff;
     overflow-x: hidden;
+}
+
+/* Utilitaires de Section */
+.section-padding {
+    padding: 100px 0;
+}
+
+.bg-light {
+    background-color: var(--white);
+    color: var(--text-primary);
+}
+
+.bg-gray {
+    background-color: var(--gray-50);
+    color: var(--text-primary);
+}
+
+.bg-dark {
+    background-color: var(--gray-900);
+    color: var(--white);
+}
+
+.light-section p,
+.light-section h1,
+.light-section h2,
+.light-section h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark-section p,
+.dark-section h1,
+.dark-section h2,
+.dark-section h3 {
+    color: var(--white) !important;
 }
 
 /* Label visible uniquement pour les lecteurs d'écran */
@@ -126,23 +161,27 @@ body {
     --primary-color: #008F7A;
     --primary-dark: #007362;
     --accent-color: #008F7A;
-    --text-primary: #000000;
-    --text-secondary: #4B5563;
-    --text-muted: #9CA3AF;
-    --white: #FFFFFF;
+    --white: #ffffff;
     --bg-light: #F9FAFB;
 
     /* Gris Techniques */
-    --gray-50: #F9FAFB;
-    --gray-100: #F3F4F6;
-    --gray-200: #E5E7EB;
-    --gray-300: #D1D5DB;
-    --gray-400: #9CA3AF;
-    --gray-500: #6B7280;
-    --gray-600: #4B5563;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    /* Texte secondaire plus sombre */
+    --gray-600: #4b5563;
     --gray-700: #374151;
-    --gray-800: #1F2937;
+    --gray-800: #1f2937;
     --gray-900: #111827;
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    /* Amélioration du contraste */
+    --text-muted: #6b7280;
+    /* Amélioration du contraste */
 
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -151,6 +190,7 @@ body {
     --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
     --gradient-hero: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+    --gradient-ose: linear-gradient(135deg, #008F7A 0%, #007362 100%);
 
     --border-radius-sm: 4px;
     --border-radius: 8px;
@@ -1072,55 +1112,47 @@ p {
     line-height: 1.75;
 }
 
-/* Why Collaborate Section */
-.why-collaborate-section {
-    position: relative;
-    overflow: hidden;
-}
-
-.collaborate-grid {
+/* Collaboration Section (4 Piliers) */
+.collaboration-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2.5rem;
+    margin-top: 48px;
 }
 
-.collaborate-card {
+.collaboration-card {
     background: var(--white);
-    border-radius: 24px;
-    padding: 2.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray-100);
 }
 
-.collaborate-card:hover {
+.collaboration-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
 }
 
-.collaborate-card-prestataires {
-    border-top: 4px solid #00BFA6;
+.collaboration-card .card-icon {
+    font-size: 3rem;
+    margin-bottom: 24px;
+    display: block;
 }
 
-.collaborate-card-prestataires:hover {
-    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.25);
+.collaboration-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+    font-weight: 700;
 }
 
-.collaborate-card-porteurs {
-    border-top: 4px solid #3B82F6;
-}
-
-.collaborate-card-porteurs:hover {
-    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.25);
-}
-
-.collaborate-card-entreprises {
-    border-top: 4px solid #8B5CF6;
-}
-
-.collaborate-card-entreprises:hover {
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
+.collaboration-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
 }
 
 /* Vision Section */
@@ -2202,6 +2234,116 @@ p {
 
     .section-header {
         margin-bottom: 4rem;
+    }
+
+    /* Grille OSE */
+    .ose-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 48px;
+    }
+
+    .ose-card {
+        background: var(--white);
+        padding: 40px;
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--gray-200);
+        transition: all 0.3s ease;
+        text-align: left;
+    }
+
+    .ose-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+
+    .ose-icon {
+        width: 56px;
+        height: 56px;
+        background: var(--gray-100);
+        color: var(--primary-color);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    .ose-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+    }
+
+    .ose-card p {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 992px) {
+        .ose-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Comparison Section */
+    .comparison-section {
+        padding: 100px 0;
+        background: var(--white);
+    }
+
+    .comparison-wrapper {
+        max-width: 900px;
+        margin: 48px auto 0;
+        background: var(--white);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        border: 1px solid var(--gray-200);
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .comparison-table th {
+        background: var(--gray-50);
+        padding: 20px 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--gray-200);
+    }
+
+    .comparison-table td {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--gray-100);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+    }
+
+    .comparison-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .comparison-table td.highlight {
+        color: var(--primary-color);
+        font-weight: 700;
+        background: rgba(0, 143, 122, 0.05);
+    }
+
+    @media (max-width: 768px) {
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px;
+            font-size: 0.85rem;
+        }
     }
 
     .features-grid,
