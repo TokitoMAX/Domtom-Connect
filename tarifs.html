@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- SEO Meta Tags -->
     <title>Tarifs par Profil - Besoin & Budget | Domtom Connect</title>
-    <meta name="description" content="Découvrez nos tarifs adaptés à chaque profil : porteurs de projets (99€, 500€, 1900€), entreprises (800€, 1500€, 2500€), prestataires et investisseurs. Options de paiement flexibles.">
-    <meta name="keywords" content="tarifs domtom connect, prix accompagnement, pack découverte, pack starter, pack complet, tarifs prestataires, tarifs investisseurs">
+    <meta name="description"
+        content="Découvrez nos tarifs adaptés à chaque profil : porteurs de projets (99€, 500€, 1900€), entreprises (800€, 1500€, 2500€), prestataires et investisseurs. Options de paiement flexibles.">
+    <meta name="keywords"
+        content="tarifs domtom connect, prix accompagnement, pack découverte, pack starter, pack complet, tarifs prestataires, tarifs investisseurs">
     <meta name="author" content="Domtom Connect">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/tarifs">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/tarifs">
     <meta property="og:title" content="Tarifs par Profil - Besoin & Budget | Domtom Connect">
-    <meta property="og:description" content="Des offres adaptées à chaque profil avec des engagements clairs. Packs de 99€ à 2500€ avec options de paiement flexibles.">
+    <meta property="og:description"
+        content="Des offres adaptées à chaque profil avec des engagements clairs. Packs de 99€ à 2500€ avec options de paiement flexibles.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Domtom Connect">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://domtomconnect.com/tarifs">
     <meta property="twitter:title" content="Tarifs par Profil - Besoin & Budget | Domtom Connect">
-    <meta property="twitter:description" content="Des offres adaptées à chaque profil avec des engagements clairs. Packs de 99€ à 2500€ avec options de paiement flexibles.">
+    <meta property="twitter:description"
+        content="Des offres adaptées à chaque profil avec des engagements clairs. Packs de 99€ à 2500€ avec options de paiement flexibles.">
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
-    
+
     <link rel="stylesheet" href="assets/css/style.css?v=5.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    
+
     <style>
         .pricing-hero {
             background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
@@ -44,7 +49,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .pricing-hero::before {
             content: '';
             position: absolute;
@@ -55,12 +60,12 @@
             background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
             opacity: 0.3;
         }
-        
+
         .pricing-hero .container {
             position: relative;
             z-index: 1;
         }
-        
+
         .pricing-hero h1 {
             color: white;
             margin-bottom: 0.75rem;
@@ -68,7 +73,7 @@
             font-weight: 900;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .pricing-hero p {
             color: rgba(255, 255, 255, 0.95);
             font-size: clamp(1.1rem, 2.8vw, 1.35rem);
@@ -77,14 +82,14 @@
             padding: 0 1rem;
             font-weight: 400;
         }
-        
+
         /* Section principale - Packs Porteurs de Projets */
         .pricing-main {
             background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
             padding: 4.5rem 0;
             position: relative;
         }
-        
+
         .pricing-main::before {
             content: '';
             position: absolute;
@@ -94,12 +99,12 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(0, 191, 166, 0.2), transparent);
         }
-        
+
         .section-header {
             text-align: center;
             margin-bottom: 3rem;
         }
-        
+
         .section-title {
             font-size: clamp(2rem, 5vw, 2.75rem);
             margin-bottom: 0.75rem;
@@ -107,13 +112,13 @@
             font-weight: 900;
             letter-spacing: -0.5px;
         }
-        
+
         .section-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
             display: block;
         }
-        
+
         .section-subtitle {
             font-size: clamp(1.05rem, 2.8vw, 1.25rem);
             color: var(--text-secondary);
@@ -122,7 +127,7 @@
             padding: 0 1rem;
             line-height: 1.6;
         }
-        
+
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -131,7 +136,7 @@
             margin: 0 auto;
             padding: 0 1.5rem;
         }
-        
+
         .price-card {
             background: white;
             border-radius: 28px;
@@ -145,7 +150,7 @@
             overflow: hidden;
             min-height: 380px;
         }
-        
+
         .price-card::after {
             content: '';
             position: absolute;
@@ -157,28 +162,28 @@
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
-        
+
         .price-card:hover {
             transform: translateY(-12px);
             box-shadow: 0 20px 50px rgba(0, 191, 166, 0.25);
             border-color: var(--primary-color);
         }
-        
+
         .price-card:hover::after {
             transform: scaleX(1);
         }
-        
+
         .price-card.popular {
             border: 3px solid #10b981;
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
             transform: scale(1.05);
         }
-        
+
         .price-card.popular::after {
             background: linear-gradient(90deg, #10b981, #059669);
             height: 5px;
         }
-        
+
         .price-card.popular::before {
             content: "MOST POPULAR";
             position: absolute;
@@ -195,17 +200,17 @@
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
             text-transform: uppercase;
         }
-        
+
         .price-card.featured {
             border: 3px solid var(--primary-color);
             background: linear-gradient(135deg, rgba(0, 191, 166, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
         }
-        
+
         .price-card.featured::after {
             background: linear-gradient(90deg, var(--primary-color), var(--primary-color));
             height: 5px;
         }
-        
+
         .price-card.featured::before {
             content: "PREMIUM ⭐";
             position: absolute;
@@ -222,7 +227,7 @@
             box-shadow: 0 4px 15px rgba(0, 191, 166, 0.4);
             text-transform: uppercase;
         }
-        
+
         .pack-name {
             font-size: clamp(1.15rem, 3vw, 1.35rem);
             font-weight: 800;
@@ -231,7 +236,7 @@
             letter-spacing: -0.3px;
             text-transform: uppercase;
         }
-        
+
         .pack-title {
             font-size: clamp(1.5rem, 4vw, 1.85rem);
             font-weight: 800;
@@ -241,7 +246,7 @@
             letter-spacing: -0.5px;
             min-height: 3.5rem;
         }
-        
+
         .price-amount {
             font-size: clamp(3.5rem, 8vw, 5rem);
             font-weight: 900;
@@ -250,7 +255,7 @@
             line-height: 1;
             letter-spacing: -2px;
         }
-        
+
         .price-amount small {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             font-weight: 500;
@@ -259,12 +264,12 @@
             margin-top: 0.5rem;
             letter-spacing: 0;
         }
-        
+
         .price-cta {
             margin-top: auto;
             padding-top: 2rem;
         }
-        
+
         .price-cta .cta-button {
             width: 100%;
             display: block;
@@ -281,17 +286,17 @@
             border: none;
             font-family: inherit;
         }
-        
+
         .price-cta .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 191, 166, 0.3);
             background: linear-gradient(135deg, #00A896 0%, #009E8A 100%);
         }
-        
+
         .price-cta .cta-button:active {
             transform: translateY(0);
         }
-        
+
         /* Modal pour "En savoir plus" */
         .pack-modal {
             display: none;
@@ -307,11 +312,11 @@
             padding: 1rem;
             backdrop-filter: blur(4px);
         }
-        
+
         .pack-modal.active {
             display: flex;
         }
-        
+
         .pack-modal-content {
             background: white;
             border-radius: 24px;
@@ -324,18 +329,19 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease-out;
         }
-        
+
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .pack-modal-close {
             position: absolute;
             top: 1.25rem;
@@ -353,40 +359,40 @@
             border-radius: 50%;
             transition: all 0.2s ease;
         }
-        
+
         .pack-modal-close:hover {
             background: var(--gray-100);
             color: var(--text-primary);
         }
-        
+
         .pack-modal-header {
             margin-bottom: 1.5rem;
         }
-        
+
         .pack-modal-header h3 {
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
-        
+
         .pack-modal-header .pack-modal-price {
             font-size: 2rem;
             font-weight: 900;
             color: var(--primary-color);
             margin-bottom: 0.75rem;
         }
-        
+
         .pack-modal-header p {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
+
         .pack-modal-form {
             margin-top: 1.5rem;
         }
-        
+
         .pack-modal-form input,
         .pack-modal-form select {
             width: 100%;
@@ -398,13 +404,13 @@
             transition: border-color 0.2s ease;
             font-family: inherit;
         }
-        
+
         .pack-modal-form input:focus,
         .pack-modal-form select:focus {
             outline: none;
             border-color: var(--primary-color);
         }
-        
+
         .pack-modal-form button {
             width: 100%;
             padding: 1rem 2rem;
@@ -418,46 +424,46 @@
             transition: all 0.3s ease;
             margin-top: 0.5rem;
         }
-        
+
         .pack-modal-form button:hover {
             background: var(--primary-color-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
         }
-        
+
         .pack-modal-form button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
-        
+
         .pack-modal-privacy {
             text-align: center;
             font-size: 0.8rem;
             color: var(--text-secondary);
             margin-top: 1rem;
         }
-        
+
         /* Sections autres profils */
         .profile-section {
             padding: 4rem 0;
         }
-        
+
         .profile-section:nth-child(even) {
             background: var(--gray-50);
         }
-        
+
         .profile-header {
             text-align: center;
             margin-bottom: 3rem;
         }
-        
+
         .profile-icon {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             display: block;
         }
-        
+
         .profile-title h2 {
             font-size: clamp(2rem, 5vw, 2.5rem);
             margin-bottom: 0.75rem;
@@ -465,7 +471,7 @@
             font-weight: 900;
             letter-spacing: -0.5px;
         }
-        
+
         .profile-title p {
             font-size: clamp(1.05rem, 2.8vw, 1.2rem);
             color: var(--text-secondary);
@@ -473,7 +479,7 @@
             margin: 0 auto;
             padding: 0 1rem;
         }
-        
+
         .profile-packs {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -482,7 +488,7 @@
             margin: 0 auto;
             padding: 0 1.5rem;
         }
-        
+
         .profile-pack-card {
             background: white;
             border-radius: 20px;
@@ -491,13 +497,13 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
-        
+
         .profile-pack-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 30px rgba(0, 191, 166, 0.2);
             border-color: var(--primary-color);
         }
-        
+
         .profile-pack-name {
             font-size: clamp(0.95rem, 2.5vw, 1.1rem);
             font-weight: 800;
@@ -506,7 +512,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .profile-pack-badge {
             display: inline-block;
             padding: 0.375rem 0.875rem;
@@ -517,22 +523,22 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .profile-pack-badge.urgence {
             background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
             color: white;
         }
-        
+
         .profile-pack-badge.projet {
             background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
             color: white;
         }
-        
+
         .profile-pack-badge.partenaire {
             background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
             color: white;
         }
-        
+
         .profile-pack-title {
             font-size: clamp(1.25rem, 3.5vw, 1.5rem);
             font-weight: 800;
@@ -540,7 +546,7 @@
             margin-bottom: 0.75rem;
             line-height: 1.3;
         }
-        
+
         .profile-pack-price {
             font-size: clamp(2.25rem, 5.5vw, 3rem);
             font-weight: 900;
@@ -549,26 +555,26 @@
             line-height: 1;
             letter-spacing: -1px;
         }
-        
+
         .profile-pack-price small {
             font-size: clamp(0.9rem, 2.2vw, 1.05rem);
             font-weight: 500;
             color: var(--text-secondary);
         }
-        
+
         .profile-pack-benefit {
             color: var(--text-secondary);
             font-size: clamp(0.9rem, 2.2vw, 0.95rem);
             margin-bottom: 1.25rem;
             line-height: 1.5;
         }
-        
+
         .profile-pack-features {
             list-style: none;
             padding: 0;
             margin: 0 0 1.5rem 0;
         }
-        
+
         .profile-pack-features li {
             padding: 0.625rem 0;
             font-size: clamp(0.875rem, 2.2vw, 0.95rem);
@@ -578,7 +584,7 @@
             line-height: 1.4;
             color: var(--text-secondary);
         }
-        
+
         .profile-pack-features li::before {
             content: "✓";
             color: var(--primary-color);
@@ -586,7 +592,7 @@
             flex-shrink: 0;
             font-size: 1.1rem;
         }
-        
+
         .profile-special {
             background: white;
             border-radius: 24px;
@@ -596,27 +602,27 @@
             margin: 0 auto;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
-        
+
         .profile-special h3 {
             font-size: clamp(1.5rem, 4vw, 1.85rem);
             margin-bottom: 1rem;
             color: var(--text-primary);
             font-weight: 800;
         }
-        
+
         .profile-special p {
             color: var(--text-secondary);
             font-size: clamp(0.95rem, 2.5vw, 1.05rem);
             line-height: 1.7;
             margin-bottom: 1.25rem;
         }
-        
+
         .profile-special ul {
             list-style: none;
             padding: 0;
             margin: 0 0 1.5rem 0;
         }
-        
+
         .profile-special li {
             padding: 0.75rem 0;
             font-size: clamp(0.9rem, 2.5vw, 1rem);
@@ -626,7 +632,7 @@
             color: var(--text-secondary);
             line-height: 1.6;
         }
-        
+
         .profile-special li::before {
             content: "→";
             color: var(--primary-color);
@@ -634,73 +640,79 @@
             flex-shrink: 0;
             font-size: 1.2rem;
         }
-        
+
         .cta-button-container {
             text-align: center;
             margin-top: 2.5rem;
         }
-        
+
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .pricing-hero {
                 padding: 2.5rem 0 2rem 0 !important;
                 margin-top: 70px;
             }
-            
+
             .pricing-main {
                 padding: 3rem 0;
             }
-            
+
             .pricing-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
                 padding: 0 1rem;
             }
-            
+
             .price-card {
                 padding: 2.5rem 2rem;
             }
-            
+
             .price-card.popular {
                 transform: scale(1);
             }
-            
+
             .price-card.popular::before,
             .price-card.featured::before {
                 font-size: 0.65rem;
                 padding: 0.4rem 1.25rem;
             }
-            
+
             .profile-section {
                 padding: 3rem 0;
             }
-            
+
             .profile-packs {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
         }
-        
+
         @media (max-width: 480px) {
             .price-card {
                 padding: 2rem 1.5rem;
             }
-            
+
             .price-amount {
                 font-size: 3rem;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
-                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
-                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil"
+                onclick="window.location.href='/'; return false;"
+                style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo"
+                    onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;"
+                    style="cursor: pointer;">Domtom Connect</span>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="primary-navigation">
+            <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
+                aria-controls="primary-navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -715,7 +727,8 @@
                 </div>
                 <div class="nav-actions">
                     <a href="#inscription-form">
-                        <button class="nav-button" type="button" onclick="window.location.href='/#inscription-form'; return false;">
+                        <button class="nav-button" type="button"
+                            onclick="window.location.href='/#inscription-form'; return false;">
                             <span>Rejoindre maintenant</span>
                         </button>
                     </a>
@@ -738,31 +751,34 @@
             <div class="section-header">
                 <span class="section-icon">🚀</span>
                 <h2 class="section-title">Porteurs de Projets / Entrepreneurs</h2>
-                <p class="section-subtitle">Trouve les prestataires locaux vérifiés qui font décoller ton projet</p>
+                <p class="section-subtitle">Obtenez votre diagnostic de faisabilité et vos contacts locaux en 15
+                    minutes, sans attendre.</p>
                 <p class="section-subtitle" style="margin-top: 0.5rem; font-weight: 500; color: var(--primary-color);">
-                    On commence toujours par un appel découverte gratuit pour comprendre ton projet, puis tu choisis le pack adapté.
+                    L'IA analyse votre projet et vous livre un dossier complet pour avancer seul et vite.
                 </p>
             </div>
-            
+
             <div class="pricing-grid">
                 <!-- Pack Découverte 99€ -->
                 <div class="price-card popular">
-                    <div class="pack-name" style="color: #10b981;">Pack Essai Local</div>
-                    <h3 class="pack-title">Teste la qualité pour moins de 100€</h3>
+                    <div class="pack-name" style="color: #10b981;">Pack Audit Flash IA</div>
+                    <h3 class="pack-title">Votre dossier complet en 15 minutes</h3>
                     <ul class="profile-pack-features" style="text-align: left; margin-bottom: 0;">
-                        <li>Appel de 30 min pour clarifier ton besoin</li>
-                        <li>1 prestataire local vérifié proposé</li>
-                        <li>Conseils rapides pour la suite (même si tu n’es pas encore prêt)</li>
+                        <li>Audit de faisabilité immédiat par IA</li>
+                        <li>Estimation budget local & délais réels</li>
+                        <li>Top 3 contacts prestataires qualifiés</li>
                     </ul>
                     <div class="price-amount">
                         99€
                         <small>TTC</small>
                     </div>
                     <div class="price-cta">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">En savoir plus →</button>
+                        <button class="cta-button primary"
+                            onclick="openPackModal('Pack Audit Flash IA', '99€', 'porteur-projet')">Démarrer l'Audit
+                            →</button>
                     </div>
                 </div>
-                
+
                 <!-- Pack Starter 500€ -->
                 <div class="price-card">
                     <div class="pack-name" style="color: #3B82F6;">Pack Accompagnement Pro</div>
@@ -772,10 +788,12 @@
                         <small>TTC</small>
                     </div>
                     <div class="price-cta">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Accompagnement Pro', '500€', 'porteur-projet')">En savoir plus →</button>
+                        <button class="cta-button primary"
+                            onclick="openPackModal('Pack Accompagnement Pro', '500€', 'porteur-projet')">En savoir plus
+                            →</button>
                     </div>
                 </div>
-                
+
                 <!-- Pack Complet 1900€ -->
                 <div class="price-card featured">
                     <div class="pack-name" style="color: #8B5CF6;">Pack Solution Tout-en-Un</div>
@@ -785,7 +803,9 @@
                         <small>TTC</small>
                     </div>
                     <div class="price-cta">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">En savoir plus →</button>
+                        <button class="cta-button primary"
+                            onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">En savoir
+                            plus →</button>
                     </div>
                 </div>
             </div>
@@ -812,10 +832,11 @@
                         800€ <small>TTC</small>
                     </div>
                     <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Express', '800€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
+                        <button class="cta-button primary" onclick="openPackModal('Pack Express', '800€', 'entreprise')"
+                            style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
-                
+
                 <!-- Pack Projet -->
                 <div class="profile-pack-card">
                     <div class="profile-pack-badge projet">Pack Coordination</div>
@@ -825,10 +846,12 @@
                         1 500€ <small>TTC</small>
                     </div>
                     <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
+                        <button class="cta-button primary"
+                            onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')"
+                            style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
-                
+
                 <!-- Pack Partenaire Continu -->
                 <div class="profile-pack-card">
                     <div class="profile-pack-badge partenaire">Pack Partenaire</div>
@@ -838,7 +861,9 @@
                         2 500€ <small>TTC</small>
                     </div>
                     <div class="price-cta" style="padding-top: 1.5rem; margin-top: 0;">
-                        <button class="cta-button primary" onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')" style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
+                        <button class="cta-button primary"
+                            onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')"
+                            style="padding: 0.875rem 1.5rem; font-size: 0.95rem;">En savoir plus →</button>
                     </div>
                 </div>
             </div>
@@ -864,12 +889,13 @@
                     <li>Partage expertises et retours d'expérience</li>
                     <li>Contribution communauté entrepreneuriale ultramarine</li>
                 </ul>
-                <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Accès réseau clients qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
+                <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Accès réseau clients
+                    qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
                 <div class="cta-button-container" style="margin-top: 1.5rem;">
                     <a href="/prestataires" class="cta-button primary">Rejoindre en tant que prestataire →</a>
                 </div>
             </div>
-            
+
             <!-- Investisseurs -->
             <div class="profile-header">
                 <span class="profile-icon">💰</span>
@@ -886,7 +912,9 @@
                     <li><strong>50k-200k€</strong> : 49€/mois (ou 500€/an)</li>
                     <li><strong>Plus de 200k€</strong> : 99€/mois (ou 1 000€/an)</li>
                 </ul>
-                <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Réseau investisseurs • Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses écosystème ultramarin</p>
+                <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Réseau investisseurs •
+                    Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses
+                    écosystème ultramarin</p>
                 <div class="cta-button-container" style="margin-top: 1.5rem;">
                     <a href="/investisseurs" class="cta-button primary">Découvrir les opportunités →</a>
                 </div>
@@ -899,8 +927,10 @@
             <p>&copy; 2025 Domtom Connect. Créé en novembre 2025. Tous droits réservés.</p>
             <div class="footer-social">
                 <span>Suivez-nous :</span>
-                <a href="https://www.tiktok.com/@domtomconnect?_r=1&_t=ZN-91JOe22RD7e" target="_blank" rel="noopener">TikTok</a>
-                <a href="https://www.instagram.com/domtomconnect?igsh=MWdybHh4ajBqNzhhdg==" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.tiktok.com/@domtomconnect?_r=1&_t=ZN-91JOe22RD7e" target="_blank"
+                    rel="noopener">TikTok</a>
+                <a href="https://www.instagram.com/domtomconnect?igsh=MWdybHh4ajBqNzhhdg==" target="_blank"
+                    rel="noopener">Instagram</a>
                 <a href="https://www.youtube.com/@domtomconnect" target="_blank" rel="noopener">YouTube</a>
                 <a href="https://open.spotify.com/show/domtomconnect" target="_blank" rel="noopener">Spotify</a>
                 <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" rel="noopener">LinkedIn</a>
@@ -954,60 +984,60 @@
             const modalPackNameInput = document.getElementById('modalPackNameInput');
             const modalPackPriceInput = document.getElementById('modalPackPriceInput');
             const modalPackProfilInput = document.getElementById('modalPackProfilInput');
-            
+
             modalPackName.textContent = packName;
             modalPackPrice.textContent = packPrice;
             modalPackNameInput.value = packName;
             modalPackPriceInput.value = packPrice;
             modalPackProfilInput.value = profil;
-            
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-        
+
         // Fonction pour fermer le modal
         function closePackModal() {
             const modal = document.getElementById('packModal');
             modal.classList.remove('active');
             document.body.style.overflow = '';
         }
-        
+
         // Fermer le modal en cliquant en dehors
-        document.getElementById('packModal').addEventListener('click', function(e) {
+        document.getElementById('packModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closePackModal();
             }
         });
-        
+
         // Fermer le modal avec Escape
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePackModal();
             }
         });
-        
+
         // Gérer la soumission du formulaire
         function handlePackModalSubmit(event) {
             event.preventDefault();
-            
+
             const form = event.target;
             const submitButton = document.getElementById('packModalSubmit');
             const originalText = submitButton.textContent;
-            
+
             // Désactiver le bouton
             submitButton.disabled = true;
             submitButton.textContent = 'Envoi en cours...';
-            
+
             // Récupérer les données
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
-            
+
             // Préparer les données pour Formspree
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
             formDataToSend.append('_subject', `📦 Demande d'info - ${data.pack_name} (${data.pack_price})`);
             formDataToSend.append('_replyto', data.email);
-            
+
             // Construire le message
             let message = `Nouvelle demande d'information sur un pack :\n\n`;
             message += `📦 Pack : ${data.pack_name}\n`;
@@ -1017,9 +1047,9 @@
             message += `📧 Email : ${data.email}\n`;
             message += `📞 Téléphone : ${data.telephone}\n`;
             message += `🌴 Territoire : ${data.ile}\n`;
-            
+
             formDataToSend.append('message', message);
-            
+
             // Envoyer via Formspree
             fetch('https://formspree.io/f/myzbqepy', {
                 method: 'POST',
@@ -1028,10 +1058,10 @@
                     'Accept': 'application/json'
                 }
             })
-            .then(response => {
-                if (response.ok) {
-                    // Afficher message de succès
-                    form.innerHTML = `
+                .then(response => {
+                    if (response.ok) {
+                        // Afficher message de succès
+                        form.innerHTML = `
                         <div style="text-align: center; padding: 2rem 0;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
                             <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">Demande envoyée !</h3>
@@ -1041,17 +1071,18 @@
                             <button type="button" onclick="closePackModal()" class="cta-button primary" style="padding: 0.875rem 2rem; font-size: 1rem;">Fermer</button>
                         </div>
                     `;
-                } else {
-                    throw new Error('Erreur lors de l\'envoi');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Une erreur est survenue. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com');
-                submitButton.disabled = false;
-                submitButton.textContent = originalText;
-            });
+                    } else {
+                        throw new Error('Erreur lors de l\'envoi');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com');
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                });
         }
     </script>
 </body>
+
 </html>
