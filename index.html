@@ -192,7 +192,7 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
-                    <a href="register-choice.html" title="Accès réservé aux membres">Talents 🔒</a>
+                    <a href="register-choice.html" title="Accès réservé aux membres">Talents</a>
                     <a href="/tarifs.html">Solutions</a>
                     <a href="login.html">Connexion</a>
                 </div>
@@ -215,24 +215,10 @@
                 </p>
 
                 <div class="hero-actions">
-                    <a href="/tarifs.html" class="cta-button primary">Solutions Entreprises</a>
-                    <a href="register-choice.html" class="cta-button secondary">Accéder à l'Annuaire 🔒</a>
+                    <a href="register-choice.html" class="cta-button primary">Commencer maintenant</a>
+                    <a href="/tarifs.html" class="cta-button secondary">Nos Solutions</a>
                 </div>
 
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-value">500+</span>
-                        <span class="stat-label">Experts Validés</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">4</span>
-                        <span class="stat-label">Territoires</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">24h</span>
-                        <span class="stat-label">Réactivité</span>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
@@ -267,7 +253,7 @@
                     <div class="ose-icon">03</div>
                     <h3>Exécution</h3>
                     <p>Déploiement haute performance via notre réseau d'experts certifiés, tous équipés des outils de
-                        pilotage **SoloPrice Pro**.</p>
+                        pilotage SoloPrice Pro.</p>
                 </div>
             </div>
         </div>
@@ -288,27 +274,7 @@
                         <li>Annonces de missions premium</li>
                     </ul>
                     <div class="soloprice-actions">
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button emerald">Essayer
-                            l'outil gratuitement</a>
-                        <p class="subtext">Offert à tous nos membres experts certifiés.</p>
-                    </div>
-                </div>
-                <div class="soloprice-widget">
-                    <div class="tjm-simulator card">
-                        <h3>Simulateur de TJM</h3>
-                        <div class="input-group">
-                            <label>Salaire net souhaité / mois</label>
-                            <input type="number" value="4000" id="target-salary">
-                        </div>
-                        <div class="input-group">
-                            <label>Jours travaillés / mois</label>
-                            <input type="number" value="18" id="work-days">
-                        </div>
-                        <div class="result-area">
-                            <span class="label">Votre TJM cible :</span>
-                            <span class="value" id="tjm-result">485 €</span>
-                            <p class="charges-info">Inclut charges sociales et frais de fonctionnement estimé.</p>
-                        </div>
+                        <a href="register-choice.html" class="cta-button emerald">Accéder à la Suite Business</a>
                     </div>
                 </div>
             </div>
@@ -326,16 +292,16 @@
             <div class="collaboration-grid">
                 <!-- Entreprises -->
                 <div class="collaboration-card">
-                    <div class="card-icon">🏢</div>
+                    <div class="card-icon"></div>
                     <h3>Entreprises & Institutions</h3>
                     <p>Sécurisez vos opérations locales. Audit de performance, sourcing d'experts qualifiés et
                         coordination de projets complexes.</p>
-                    <a href="/tarifs.html" class="cta-button primary">Voir nos Solutions</a>
+                    <a href="register-choice.html" class="cta-button primary">Voir nos Solutions</a>
                 </div>
 
                 <!-- Investisseurs -->
                 <div class="collaboration-card">
-                    <div class="card-icon">💰</div>
+                    <div class="card-icon"></div>
                     <h3>Investisseurs</h3>
                     <p>Découvrez des opportunités vérifiées. Accédez à un flux de projets audités et prêts pour
                         injection de
@@ -345,7 +311,7 @@
 
                 <!-- Porteurs de Projets -->
                 <div class="collaboration-card">
-                    <div class="card-icon">🚀</div>
+                    <div class="card-icon"></div>
                     <h3>Porteurs de Projets</h3>
                     <p>Propulsez votre ambition. Du premier diagnostic IA à la mise en relation avec vos futurs
                         partenaires.</p>
@@ -354,11 +320,11 @@
 
                 <!-- Experts -->
                 <div class="collaboration-card">
-                    <div class="card-icon">🛡️</div>
+                    <div class="card-icon"></div>
                     <h3>Experts & Freelances</h3>
-                    <p>Rejoignez l'élite. Bénéficiez de missions premium et de la <strong>Suite Soloprice Pro</strong>
-                        offerte pour votre gestion.</p>
-                    <a href="/registration/provider.html" class="cta-button secondary">Postuler</a>
+                    <p>Rejoignez l'élite. Bénéficiez de missions premium et de la Suite SoloPrice Pro
+                        pour votre gestion.</p>
+                    <a href="register-choice.html" class="cta-button secondary">Postuler</a>
                 </div>
             </div>
         </div>
@@ -583,25 +549,6 @@
     <script src="assets/js/exit-intent.js?v=2.0"></script>
     <script src="assets/js/lead-tracking.js?v=1.0"></script>
 
-    <!-- TJM Simulator Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const salaryInput = document.getElementById('target-salary');
-            const daysInput = document.getElementById('work-days');
-            const resultDisplay = document.getElementById('tjm-result');
-
-            function calculateTJM() {
-                const salary = parseFloat(salaryInput.value) || 0;
-                const days = parseFloat(daysInput.value) || 1;
-                // Formule simplifiée : (Salaire Net * 1.8 pour charges/frais) / Jours travaillés
-                const tjm = (salary * 1.8) / days;
-                resultDisplay.textContent = Math.round(tjm) + ' €';
-            }
-
-            salaryInput.addEventListener('input', calculateTJM);
-            daysInput.addEventListener('input', calculateTJM);
-        });
-    </script>
 </body>
 
 </html>

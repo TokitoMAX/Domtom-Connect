@@ -2350,114 +2350,55 @@ p {
 
     /* Section SoloPrice Pro */
     .soloprice-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
     }
 
     .soloprice-text h2 {
         color: var(--white) !important;
         margin-bottom: 24px;
+        font-size: 2.5rem;
     }
 
     .soloprice-text p {
         color: var(--gray-300) !important;
+        font-size: 1.25rem;
     }
 
     .feature-list {
         list-style: none;
         padding: 0;
-        margin: 32px 0;
+        margin: 40px 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        width: 100%;
     }
 
     .feature-list li {
         position: relative;
-        padding-left: 28px;
-        margin-bottom: 12px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
         color: var(--gray-100);
         font-weight: 500;
+        transition: all 0.2s ease;
     }
 
-    .feature-list li::before {
-        content: "✓";
-        position: absolute;
-        left: 0;
-        color: var(--emerald-color);
-        font-weight: 800;
+    .feature-list li:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--emerald-color);
     }
 
     .soloprice-actions .subtext {
         font-size: 0.85rem;
         color: var(--gray-400);
         margin-top: 12px;
-    }
-
-    /* TJM Simulator Widget */
-    .tjm-simulator {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        padding: 32px;
-        border-radius: 24px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .tjm-simulator h3 {
-        color: var(--white) !important;
-        font-size: 1.25rem;
-        margin-bottom: 24px;
-        text-align: center;
-    }
-
-    .input-group {
-        margin-bottom: 20px;
-    }
-
-    .input-group label {
-        display: block;
-        color: var(--gray-400);
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-
-    .input-group input {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 12px 16px;
-        border-radius: 10px;
-        color: var(--white);
-        font-size: 1rem;
-        font-weight: 600;
-    }
-
-    .result-area {
-        margin-top: 32px;
-        padding-top: 32px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        text-align: center;
-    }
-
-    .result-area .label {
-        display: block;
-        color: var(--gray-400);
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-    }
-
-    .result-area .value {
-        display: block;
-        color: var(--emerald-color);
-        font-size: 3rem;
-        font-weight: 800;
-        margin-bottom: 8px;
-    }
-
-    .charges-info {
-        font-size: 0.75rem;
-        color: var(--gray-500);
     }
 
     .badge.emerald {
