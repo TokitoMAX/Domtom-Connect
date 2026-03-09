@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Inscription Porteur de Projet – Domtom Connect</title>
+    <meta name="description"
+        content="Démarrez votre projet aux Antilles ou en Guyane avec l'aide des meilleurs experts.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+
+    <style>
+        .onboarding-page {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding: 80px 24px;
+        }
+
+        .onboarding-container {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .onboarding-card {
+            background: var(--white);
+            padding: 48px;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            background: var(--bg-light);
+            transition: all 0.2s ease;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .onboarding-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .onboarding-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body class="onboarding-page">
+
+    <div class="onboarding-container">
+        <header class="onboarding-header">
+            <a href="/">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="header-logo">
+            </a>
+            <h1 class="auth-title">Démarrer votre projet</h1>
+            <p class="auth-subtitle">Parlez-nous de votre besoin pour que nous puissions vous accompagner.</p>
+        </header>
+
+        <main class="onboarding-card">
+            <h2 class="section-title">Informations de base</h2>
+            <form class="form-grid" id="onboardingForm" onsubmit="handleOnboarding(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Type de Projet *</label>
+                        <select class="form-select" name="project_type" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="construction">Construction / BTP</option>
+                            <option value="digital">Digital / IT</option>
+                            <option value="business">Commerce / Business</option>
+                            <option value="agri">Agriculture / Agro</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Territoire D'intérêt *</label>
+                        <select class="form-select" name="territory" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="martinique">Martinique</option>
+                            <option value="guadeloupe">Guadeloupe</option>
+                            <option value="guyane">Guyane</option>
+                            <option value="reunion">La Réunion</option>
+                            <option value="diaspora">Diaspora / Global</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description du projet *</label>
+                    <textarea class="form-textarea" name="description"
+                        placeholder="Décrivez brièvement votre projet, vos objectifs et vos besoins spécifiques..."
+                        required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Budget estimé</label>
+                    <select class="form-select" name="budget">
+                        <option value="small">
+                            < 5 000€</option>
+                        <option value="medium">5 000€ - 20 000€</option>
+                        <option value="large">20 000€ - 100 000€</option>
+                        <option value="enterprise">> 100 000€</option>
+                    </select>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--gray-100); margin: 8px 0;">
+
+                <h2 class="section-title" style="margin-bottom: 12px;">Contact</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nom complet *</label>
+                        <input type="text" class="form-input" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">E-mail professionnel *</label>
+                        <input type="email" class="form-input" name="email" placeholder="john@entreprise.com" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 12px;" id="submitBtn">
+                    Soumettre mon projet
+                </button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        function handleOnboarding(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Envoi en cours...';
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+
+            fetch('https://formspree.io/f/myzbqepy', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('onboardingForm').innerHTML = `
+                        <div style="text-align: center; padding: 40px 0;">
+                            <div style="font-size: 3rem; margin-bottom: 24px;">🚀</div>
+                            <h2 style="font-weight: 800; margin-bottom: 12px;">Projet envoyé !</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 32px;">Nous analysons votre demande. Vous recevrez un e-mail de confirmation sous peu.</p>
+                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                        </div>
+                    `;
+                } else {
+                    btn.disabled = false;
+                    btn.textContent = 'Erreur - Réessayer';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -194,120 +194,47 @@
                 <div class="nav-links">
                     <a href="/marketplace/directory.html">Talents</a>
                     <a href="/tarifs.html">Solutions</a>
-                    <a href="#" class="nav-link-muted">Connexion</a>
+                    <a href="login.html">Connexion</a>
                 </div>
                 <div class="nav-actions">
-                    <a href="#inscription-form">
-                        <button class="cta-button primary" type="button" onclick="scrollToForm()">
-                            Démarrer
-                        </button>
-                    </a>
+                    <a href="register-choice.html" class="cta-button primary">Démarrer</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- BLOC 1 - Hero avec formulaire -->
-    <section class="hero-section" id="inscription-form">
+    <!-- Hero Section -->
+    <header class="hero-section">
         <div class="container">
-            <div class="hero-content hero-content-with-form">
-                <div class="hero-text">
-                    <h1 class="hero-title">Accélérez vos projets aux Antilles et en Guyane</h1>
-                    <p class="hero-subtitle">
-                        La plateforme de mise en relation haute performance pour entreprises, investisseurs et experts
-                        de la Diaspora.
-                    </p>
+            <div class="hero-content">
+                <h1 class="hero-title">Accélérez vos projets aux Antilles et en Guyane</h1>
+                <p class="hero-subtitle">
+                    La plateforme d'ingénierie et de sourcing haute performance connectant entreprises, investisseurs et
+                    experts de la Diaspora.
+                </p>
 
-                    <div class="hero-trust-badges">
-                        <div class="trust-badge">Experts vérifiés</div>
-                        <div class="trust-badge">Accès Diaspora</div>
-                        <div class="trust-badge">Sécurisé</div>
-                    </div>
-
-                    <div style="margin-top: 2.5rem;">
-                        <a href="/marketplace/directory.html" class="cta-button primary">Consulter l'annuaire
-                            experts</a>
-                    </div>
+                <div class="hero-actions">
+                    <a href="register-choice.html" class="cta-button primary">Démarrer un projet</a>
+                    <a href="/marketplace/directory.html" class="cta-button secondary">Trouver un expert</a>
                 </div>
-                <div class="form-content hero-form" style="position: relative;">
-                    <!-- Badge de confiance renforcé -->
-                    <div
-                        style="position: absolute; top: -15px; right: 20px; background: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3); z-index: 10;">
-                        100% Sécurisé · RGPD
-                    </div>
 
-                    <div style="margin-bottom: 1.75rem;">
-                        <h2 class="hero-form-title">Démarre maintenant</h2>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">500+</span>
+                        <span class="stat-label">Experts Validés</span>
                     </div>
-                    <div style="margin-bottom: 1rem; text-align: center;">
-                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">
-                            <span style="color: var(--primary-color);">Formulaire simple</span> · 6 champs · 2 minutes
-                        </p>
-                        <p style="margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--text-muted);">
-                            Tous les champs sont <strong>obligatoires</strong> pour que l’on puisse vous recontacter.
-                        </p>
+                    <div class="stat-item">
+                        <span class="stat-value">4</span>
+                        <span class="stat-label">Territoires</span>
                     </div>
-                    <form class="inscription-form" onsubmit="handleFormSubmit(event)">
-                        <div class="form-group">
-                            <label for="hp-prenom" class="sr-only">Prénom</label>
-                            <input type="text" id="hp-prenom" name="prenom" placeholder="Ex: Marie" required
-                                aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-nom" class="sr-only">Nom</label>
-                            <input type="text" id="hp-nom" name="nom" placeholder="Ex: Dupont" required
-                                aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-email" class="sr-only">Email</label>
-                            <input type="email" id="hp-email" name="email" placeholder="Ex: marie.dupont@email.com"
-                                required aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-telephone" class="sr-only">Téléphone</label>
-                            <input type="tel" id="hp-telephone" name="telephone" placeholder="Ex: 06 12 34 56 78"
-                                required aria-required="true">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="hp-ile" class="sr-only">Île / territoire</label>
-                            <select id="hp-ile" name="ile" required aria-required="true">
-                                <option value="">Sélectionnez votre île/territoire *</option>
-                                <option value="martinique">Martinique</option>
-                                <option value="guadeloupe">Guadeloupe</option>
-                                <option value="guyane">Guyane</option>
-                                <option value="reunion">La Réunion</option>
-                                <option value="mayotte">Mayotte</option>
-                                <option value="diaspora">Diaspora (France Hexagone, Europe...)</option>
-                                <option value="international">International (USA, Pologne, Monde...)</option>
-                                <option value="autre">Autre</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="profil-select" class="sr-only">Profil</label>
-                            <select name="profil" id="profil-select" required aria-required="true"
-                                onchange="updateFormFields()">
-                                <option value="">Votre profil * (obligatoire)</option>
-                                <option value="porteur-projet">Porteur de projet / Entrepreneur</option>
-                                <option value="entreprise-locale">Entreprise Locale</option>
-                                <option value="entreprise-inter">Entreprise Internationale / Investisseur</option>
-                                <option value="prestataire">Expert / Prestataire</option>
-                                <option value="partenaire-global">Partenaire Global / Institutionnel</option>
-                            </select>
-                        </div>
-
-                        <p
-                            style="color: var(--text-muted); font-size: 0.75rem; text-align: center; margin-top: 1rem; line-height: 1.4;">
-                            <strong style="color: var(--primary-color);">Questions ?</strong> On répond sous 24h • <a
-                                href="mailto:domtomconnect@gmail.com"
-                                style="color: var(--primary-color); text-decoration: underline;">domtomconnect@gmail.com</a><br>
-                            <span style="color: var(--text-muted);">Pas de spam, juste de la valeur pour faire décoller
-                                ton projet.</span>
-                        </p>
-                    </form>
+                    <div class="stat-item">
+                        <span class="stat-value">24h</span>
+                        <span class="stat-label">Réactivité</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
     <!-- BLOC 2 - Bénéfices clairs -->
     <section class="features-section" id="features">

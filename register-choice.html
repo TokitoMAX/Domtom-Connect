@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Rejoindre – Domtom Connect</title>
+    <meta name="description" content="Choisissez votre profil pour rejoindre l'écosystème Domtom Connect.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 600px;
+            padding: 48px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            background: var(--white);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .choice-card {
+            padding: 32px;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .choice-card:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-light);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .choice-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .choice-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .choice-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .auth-footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-card">
+        <header class="auth-header">
+            <a href="/">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="auth-logo">
+            </a>
+            <h1 class="auth-title">Comment souhaitez-vous rejoindre ?</h1>
+            <p class="auth-subtitle">Sélectionnez le profil qui correspond à votre besoin.</p>
+        </header>
+
+        <div class="choice-grid">
+            <!-- Client Choice -->
+            <a href="/registration/client.html" class="choice-card">
+                <div class="choice-icon">🏢</div>
+                <div>
+                    <h2 class="choice-title">Je cherche un expert</h2>
+                    <p class="choice-desc">Pour piloter un projet aux Antilles/Guyane ou sourcer des prestataires
+                        locaux.</p>
+                </div>
+            </a>
+
+            <!-- Provider Choice -->
+            <a href="/registration/provider.html" class="choice-card">
+                <div class="choice-icon">💼</div>
+                <div>
+                    <h2 class="choice-title">Je suis un expert</h2>
+                    <p class="choice-desc">Pour rejoindre l'écosystème, proposer vos services et collaborer sur des
+                        projets.</p>
+                </div>
+            </a>
+        </div>
+
+        <footer class="auth-footer">
+            <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+        </footer>
+    </main>
+
+</body>
+
+</html>

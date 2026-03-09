@@ -4,211 +4,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devenir Prestataire Elite - Domtom Connect</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Devenir Expert – Domtom Connect</title>
+    <meta name="description"
+        content="Rejoignez l'écosystème Domtom Connect et proposez votre expertise aux projets des Antilles et de la Guyane.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #00bfa6 0%, #007d6d 100%);
-            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        .onboarding-page {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding: 80px 24px;
         }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f8fafc;
+        .onboarding-container {
+            max-width: 640px;
+            margin: 0 auto;
         }
 
-        .reg-container {
-            max-width: 800px;
-            margin: 4rem auto;
-            padding: 3rem;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        .onboarding-card {
+            background: var(--white);
+            padding: 48px;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-xl);
         }
 
-        .step-indicator {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: var(--text-primary);
         }
 
-        .step {
-            flex: 1;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 50px;
+        .form-grid {
+            display: grid;
+            gap: 24px;
         }
 
-        .step.active {
-            background: var(--primary-color);
-        }
-
-        .hero-mini {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero-mini h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #475569;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 8px;
         }
 
-        .btn-register {
+        .form-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
             width: 100%;
-            padding: 1.25rem;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transform: translateY(0);
-            transition: 0.3s;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            background: var(--bg-light);
+            transition: all 0.2s ease;
         }
 
-        .btn-register:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 191, 166, 0.2);
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .onboarding-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
         }
 
         .info-box {
-            background: #f0fdfa;
-            padding: 1.5rem;
-            border-radius: 16px;
-            border-left: 5px solid #00bfa6;
-            margin-bottom: 2rem;
+            background: var(--bg-light);
+            border: 1px solid var(--gray-200);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .onboarding-card {
+                padding: 32px 24px;
+            }
         }
     </style>
 </head>
 
-<body>
-    <div class="reg-container">
-        <div class="hero-mini">
-            <h1>Le Hub de l'Expertise Outre-mer</h1>
-            <p>Monétisez vos compétences auprès d'une audience locale et internationale. Rejoignez le réseau de
-                confiance n°1 des Antilles, de la Guyane et de la Diaspora.</p>
-        </div>
+<body class="onboarding-page">
 
-        <div class="info-box">
-            <strong>🚀 Pourquoi nous rejoindre ?</strong>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Domtom Connect est la seule plateforme qui vérifie votre
-                expertise terrain. Accédez à des missions qualifiées en Guadeloupe, Martinique, Guyane et Réunion.</p>
-        </div>
+    <div class="onboarding-container">
+        <header class="onboarding-header">
+            <a href="/">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="header-logo">
+            </a>
+            <h1 class="auth-title">Rejoindre le réseau Elite</h1>
+            <p class="auth-subtitle">Monétisez votre expertise et collaborez sur les meilleurs projets Outre-mer.</p>
+        </header>
 
-        <form action="#" id="provider-reg">
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Prénom</label>
-                    <input type="text" placeholder="Ex: Jean">
-                </div>
-                <div class="form-group">
-                    <label>Nom</label>
-                    <input type="text" placeholder="Ex: Dupont">
-                </div>
+        <main class="onboarding-card">
+            <div class="info-box">
+                <strong>💡 Pourquoi postuler ?</strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary);">Accédez à des missions qualifiées, boostez
+                    votre visibilité locale et rejoignez une communauté d'experts validés.</p>
             </div>
 
-            <div class="form-group">
-                <label>VOTRE SPÉCIALITÉ PRINCIPALE</label>
-                <select>
-                    <option value="">Sélectionnez un métier</option>
-                    <option value="btp">BTP / Rénovation / Immobilier</option>
-                    <option value="digital">Digital / Tech / IA</option>
-                    <option value="logistique">Logistique / Import-Export</option>
-                    <option value="legal">Juridique / Fiscalité / Finance</option>
-                    <option value="conseil">Conseil Stratégique / RH</option>
-                    <option value="marketing">Marketing / Communication</option>
-                    <option value="sante">Santé / Bien-être</option>
-                </select>
-            </div>
-
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Tarif Journalier Moyen (TJM)</label>
-                    <input type="number" placeholder="Ex: 450">
+            <form class="form-grid" id="providerForm" onsubmit="handleProviderSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom *</label>
+                        <input type="text" class="form-input" name="first_name" placeholder="Jean" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom *</label>
+                        <input type="text" class="form-input" name="last_name" placeholder="Dupont" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label>Zone Principal d'Intervention</label>
-                    <select>
-                        <option value="GP">Guadeloupe</option>
-                        <option value="MQ">Martinique</option>
-                        <option value="GF">Guyane</option>
-                        <option value="RE">Réunion</option>
-                        <option value="YT">Mayotte</option>
-                        <option value="DIASPORA">Diaspora (Global)</option>
-                        <option value="INT">International (USA, Europe...)</option>
+                    <label class="form-label">E-mail professionnel *</label>
+                    <input type="email" class="form-input" name="email" placeholder="jean@expertise.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Spécialité principale *</label>
+                    <select class="form-select" name="specialty" required>
+                        <option value="">Sélectionnez un domaine...</option>
+                        <option value="btp">BTP / Rénovation</option>
+                        <option value="digital">Digital / IT / IA</option>
+                        <option value="legal">Juridique / Finance</option>
+                        <option value="marketing">Marketing / Comm</option>
+                        <option value="conseil">Conseil Stratégique</option>
+                        <option value="sante">Santé / Bien-être</option>
                     </select>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Présentez votre expertise Dom-Tom</label>
-                <textarea rows="4"
-                    placeholder="Qu'est-ce qui vous différencie d'un prestataire métropolitain ? Partagez vos expériences locales..."></textarea>
-            </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">TJM Estimé (€)</label>
+                        <input type="number" class="form-input" name="tjm" placeholder="450">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Zone d'intervention *</label>
+                        <select class="form-select" name="territory" required>
+                            <option value="GP">Guadeloupe</option>
+                            <option value="MQ">Martinique</option>
+                            <option value="GF">Guyane</option>
+                            <option value="RE">Réunion</option>
+                            <option value="DIASPORA">Diaspora (Global)</option>
+                        </select>
+                    </div>
+                </div>
 
-            <div
-                style="margin: 2rem 0; padding: 1rem; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
-                <label style="margin-bottom: 0;">📸 Portfolio / Références</label>
-                <input type="file" style="border: none; padding: 0.5rem 0;">
-            </div>
+                <div class="form-group">
+                    <label class="form-label">Votre expertise terrain (DOM-TOM) *</label>
+                    <textarea class="form-textarea" name="expertise_domtom"
+                        placeholder="Quelles sont vos expériences marquantes sur ces territoires ?" required></textarea>
+                </div>
 
-            <button type="submit" class="btn-register">Créer mon profil "Elite" →</button>
-            <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">L'inscription est
-                gratuite. Des options de visibilité premium sont disponibles après validation.</p>
-        </form>
-        <script>
-            document.getElementById('provider-reg').addEventListener('submit', function (e) {
-                e.preventDefault();
+                <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 12px;" id="submitBtn">
+                    Créer mon profil d'expert
+                </button>
+            </form>
+        </main>
+    </div>
 
-                const btn = this.querySelector('.btn-register');
-                const originalText = btn.innerText;
-                btn.innerText = "Création du profil...";
-                btn.disabled = true;
+    <script>
+        function handleProviderSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Envoi...';
 
-                // Simulation d'envoi
-                setTimeout(() => {
-                    alert("Félicitations ! Votre profil est en cours de validation par notre IA 'Elite'. Vous recevrez un mail dès qu'il sera visible sur la marketplace.");
-                    window.location.href = "../marketplace/directory.html";
-                }, 2000);
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+
+            fetch('https://formspree.io/f/myzbqepy', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('providerForm').innerHTML = `
+                        <div style="text-align: center; padding: 40px 0;">
+                            <div style="font-size: 3rem; margin-bottom: 24px;">✨</div>
+                            <h2 style="font-weight: 800; margin-bottom: 12px;">Profil en cours de validation</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 32px;">Notre équipe analyse votre profil. Vous recevrez une réponse sous 48h.</p>
+                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                        </div>
+                    `;
+                } else {
+                    btn.disabled = false;
+                    btn.textContent = 'Erreur - Réessayer';
+                }
             });
-        </script>
+        }
+    </script>
 </body>
 
 </html>

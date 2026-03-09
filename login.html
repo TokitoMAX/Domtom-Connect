@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Connexion – Domtom Connect</title>
+    <meta name="description"
+        content="Connectez-vous à votre espace Domtom Connect pour gérer vos projets ou proposer votre expertise.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 48px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            background: var(--white);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            transition: all 0.2s ease;
+            background: var(--bg-light);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-auth {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-social {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-social:hover {
+            background: var(--bg-light);
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-card">
+        <header class="auth-header">
+            <a href="/">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="auth-logo">
+            </a>
+            <h1 class="auth-title">Demat, Bienvenue</h1>
+            <p class="auth-subtitle">Connectez-vous à votre espace personnel.</p>
+        </header>
+
+        <form class="auth-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" class="form-input" placeholder="nom@exemple.com" required>
+            </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="password">Mot de passe</label>
+                    <a href="#"
+                        style="font-size: 0.75rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Oublié
+                        ?</a>
+                </div>
+                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 8px;">Se connecter</button>
+        </form>
+
+        <div class="social-auth">
+            <button class="btn-social">
+                <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="">
+                Continuer avec Google
+            </button>
+        </div>
+
+        <footer class="auth-footer">
+            <p>Pas encore inscrit ? <a href="register-choice.html">Créer un compte</a></p>
+        </footer>
+    </main>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            alert(`Simulation de connexion pour : ${email}`);
+            // Redirection vers le dashboard après connexion (si applicable)
+            // window.location.href = '/dashboard.html';
+        }
+    </script>
+</body>
+
+</html>
