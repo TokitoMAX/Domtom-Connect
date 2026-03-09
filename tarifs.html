@@ -719,9 +719,9 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
-                    <a href="/services">Trouver des prestataires</a>
+                    <a href="/marketplace/directory.html">Marketplace</a>
                     <a href="/blog">Blog</a>
-                    <a href="/landing/webinaire">Webinaire</a>
+                    <a href="/territoires">Territoires</a>
                     <a href="/a-propos">À propos</a>
                     <a href="/tarifs">Tarifs</a>
                 </div>
@@ -749,32 +749,33 @@
     <section class="pricing-main">
         <div class="container">
             <div class="section-header">
-                <span class="section-icon">🚀</span>
-                <h2 class="section-title">Porteurs de Projets / Entrepreneurs</h2>
-                <p class="section-subtitle">Obtenez votre diagnostic de faisabilité et vos contacts locaux en 15
-                    minutes, sans attendre.</p>
+                <span class="section-icon">🌍</span>
+                <h2 class="section-title">Entreprendre & Investir</h2>
+                <p class="section-subtitle">Obtenez votre diagnostic de faisabilité et accédez à notre réseau de
+                    confiance aux Antilles, en Guyane et dans la Diaspora.</p>
                 <p class="section-subtitle" style="margin-top: 0.5rem; font-weight: 500; color: var(--primary-color);">
-                    L'IA analyse votre projet et vous livre un dossier complet pour avancer seul et vite.
+                    Que vous soyez local, en hexagone ou à l'international (US, Europe), nos packs s'adaptent à votre
+                    ambition.
                 </p>
             </div>
 
             <div class="pricing-grid">
                 <!-- Pack Découverte 99€ -->
                 <div class="price-card popular">
-                    <div class="pack-name" style="color: #10b981;">Pack Audit Flash IA</div>
-                    <h3 class="pack-title">Votre dossier complet en 15 minutes</h3>
+                    <div class="pack-name" style="color: #10b981;">Pack Audit & Mise en Relation</div>
+                    <h3 class="pack-title">Votre dossier de faisabilité & Contacts Elite</h3>
                     <ul class="profile-pack-features" style="text-align: left; margin-bottom: 0;">
-                        <li>Audit de faisabilité immédiat par IA</li>
+                        <li>Audit de faisabilité territoriale détaillé</li>
                         <li>Estimation budget local & délais réels</li>
-                        <li>Top 3 contacts prestataires qualifiés</li>
+                        <li>Accès direct au Top 3 Experts du territoire</li>
                     </ul>
                     <div class="price-amount">
                         99€
-                        <small>TTC</small>
+                        <small>TTC / Projet</small>
                     </div>
                     <div class="price-cta">
-                        <button class="cta-button primary" onclick="startStripePayment('Pack Audit Flash IA', 99)">Payer
-                            et Démarrer l'IA →</button>
+                        <button class="cta-button primary" onclick="startStripePayment('Pack Audit Flash', 99)">Payer
+                            et Démarrer l'Audit →</button>
                     </div>
                 </div>
 
@@ -876,17 +877,18 @@
             <div class="profile-header">
                 <span class="profile-icon">💼</span>
                 <div class="profile-title">
-                    <h2>Prestataires</h2>
-                    <p>Rejoins notre réseau vérifié et accède à des clients qualifiés</p>
+                    <h2>Prestataires & Experts</h2>
+                    <p>Rejoins notre réseau d'élite (Locaux, Diaspora & Internationaux) et accède à des missions
+                        qualifiées.</p>
                 </div>
             </div>
             <div class="profile-special" style="margin-bottom: 3rem;">
                 <h3>Engagement Requis</h3>
                 <p><strong>Pas de paiement direct</strong> - Contribution au contenu en échange d'accès au réseau :</p>
                 <ul>
-                    <li>Création contenu avec Domtom Connect (articles, vidéos, podcasts)</li>
-                    <li>Partage expertises et retours d'expérience</li>
-                    <li>Contribution communauté entrepreneuriale ultramarine</li>
+                    <li>Expertise locale ou maîtrise des enjeux Outre-mer (Diaspora/Inter)</li>
+                    <li>Création de contenu expert (articles, études de cas, webinars)</li>
+                    <li>Partage de réseau et mentorat pour les entrepreneurs locaux</li>
                 </ul>
                 <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Accès réseau clients
                     qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
@@ -907,9 +909,9 @@
                 <h3>Cotisation Mensuelle Variable</h3>
                 <p><strong>Selon votre capacité d'investissement :</strong></p>
                 <ul>
-                    <li><strong>Moins de 50k€</strong> : À partir de 29€/mois (ou 300€/an)</li>
-                    <li><strong>50k-200k€</strong> : 49€/mois (ou 500€/an)</li>
-                    <li><strong>Plus de 200k€</strong> : 99€/mois (ou 1 000€/an)</li>
+                    <li><strong>Investisseur Individuel / Diaspora</strong> : À partir de 49€/mois</li>
+                    <li><strong>Business Angel / Fonds Privé</strong> : 99€/mois</li>
+                    <li><strong>Global Partner / Institutionnel</strong> : Sur devis</li>
                 </ul>
                 <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Avantages :</strong> Réseau investisseurs •
                     Projets qualifiés vérifiés • Mises en relation prioritaires • Événements exclusifs • Analyses
@@ -956,15 +958,14 @@
                 <input type="email" name="email" placeholder="Email *" required>
                 <input type="tel" name="telephone" placeholder="Téléphone *" required>
                 <select name="ile" required>
-                    <option value="">Votre territoire *</option>
+                    <option value="">Votre territoire principal *</option>
                     <option value="martinique">Martinique</option>
                     <option value="guadeloupe">Guadeloupe</option>
                     <option value="reunion">La Réunion</option>
                     <option value="guyane">Guyane</option>
                     <option value="mayotte">Mayotte</option>
-                    <option value="polynesie">Polynésie française</option>
-                    <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
-                    <option value="diaspora">Diaspora</option>
+                    <option value="diaspora">Diaspora (Global)</option>
+                    <option value="international">International (USA, Europe...)</option>
                     <option value="autre">Autre</option>
                 </select>
                 <button type="submit" id="packModalSubmit">Envoyer ma demande</button>
