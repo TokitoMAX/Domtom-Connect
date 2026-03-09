@@ -1,30 +1,27 @@
-// Configuration Supabase-Client (MVP)
-// À remplacer par vos propres clés Supabase
-const SUPABASE_URL = 'https://your-project-url.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+// Configuration Supabase - Domtom Connect
+const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
 
-// Initialisation (à inclure via CDN dans les fichiers HTML)
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialisation (CDN: <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>)
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 async function signInWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
             redirectTo: window.location.origin + '/dashboard.html'
         }
     });
-
-    if (error) console.error('Erreur Auth:', error.message);
+    if (error) console.error('Erreur Auth Google:', error.message);
 }
 
 async function signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await _supabase.auth.signOut();
     if (error) console.error('Erreur Déconnexion:', error.message);
     window.location.href = '/login.html';
 }
 
 async function getSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await _supabase.auth.getSession();
     return session;
 }
