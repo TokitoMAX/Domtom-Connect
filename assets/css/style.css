@@ -141,12 +141,12 @@ body {
     --gray-800: #1F2937;
     --gray-900: #111827;
 
-    /* Élévation & Bordures (Style SaaS) */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* Élévation & Bordures (Style SaaS) - Renforcé pour un aspect premium */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
     /* Suppression des gradients complexes pour plus de sobriété */
     --gradient-hero: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
@@ -2360,14 +2360,15 @@ p {
         /* Réduction : 2.5rem → 1.5rem */
     }
 
-    /* Cacher le quiz intégré sur mobile (déjà un lien dans le hero) */
+    /* Réactivation du quiz et de la vidéo sur mobile */
     .quiz-section-mobile {
-        display: none;
+        display: block;
+        margin: 2rem 0;
     }
 
-    /* Cacher la vidéo YouTube sur mobile (chargement lourd, data) */
     .video-section-mobile {
-        display: none;
+        display: block;
+        margin: 2rem 0;
     }
 
     .inscription-form {

@@ -172,7 +172,7 @@
         </form>
 
         <div class="social-auth">
-            <button class="btn-social">
+            <button class="btn-social" onclick="handleGoogleLogin()">
                 <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="">
                 Continuer avec Google
             </button>
@@ -183,13 +183,18 @@
         </footer>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
     <script>
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
+            // Pour le MVP, on simule ou on utilise Supabase Auth par email
             alert(`Simulation de connexion pour : ${email}`);
-            // Redirection vers le dashboard après connexion (si applicable)
-            // window.location.href = '/dashboard.html';
+        }
+
+        async function handleGoogleLogin() {
+            signInWithGoogle();
         }
     </script>
 </body>

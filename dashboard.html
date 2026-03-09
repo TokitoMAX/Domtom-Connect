@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace – Domtom Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <style>
+        .dashboard-container {
+            padding: 120px 0 60px;
+            min-height: 80vh;
+            background: var(--bg-light);
+        }
+
+        .user-header {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 2rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .tier-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <div class="nav-content">
+                <button onclick="handleLogout()" class="cta-button secondary">Déconnexion</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="container">
+            <div class="user-header">
+                <div class="user-info">
+                    <span class="tier-badge" id="user-tier">Chargement...</span>
+                    <h1 id="user-name">Bienvenue</h1>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Mes Projets</h3>
+                    <p>Aucun projet en cours. <a href="/register-choice.html">Démarrer un projet</a></p>
+                </div>
+                <div class="card">
+                    <h3>Ressources Pro</h3>
+                    <p id="pro-content">Contenu réservé aux membres Pro.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        async function checkSession() {
+            const session = await getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('user-name').textContent = `Bienvenue, ${session.user.user_metadata.full_name || session.user.email}`;
+            // Simulation de tier
+            document.getElementById('user-tier').textContent = 'Membre Basic';
+        }
+
+        function handleLogout() {
+            signOut();
+        }
+
+        checkSession();
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,20 +20,24 @@
             box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
             animation: scaleIn 0.5s ease-out;
         }
+
         .success-icon::before {
             content: '🎉';
             font-size: 3rem;
         }
+
         @keyframes scaleIn {
             from {
                 transform: scale(0);
                 opacity: 0;
             }
+
             to {
                 transform: scale(1);
                 opacity: 1;
             }
         }
+
         .premium-card {
             background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
             border-radius: 20px;
@@ -43,6 +48,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .premium-card::before {
             content: '';
             position: absolute;
@@ -50,22 +56,27 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: pulse 3s ease-in-out infinite;
         }
+
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 0.5;
             }
+
             50% {
                 transform: scale(1.1);
                 opacity: 0.3;
             }
         }
+
         .premium-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             color: white;
             padding: 0.5rem 1.5rem;
@@ -73,40 +84,46 @@
             font-weight: 600;
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
+
         .premium-feature {
             padding: 1rem 0;
             display: flex;
             align-items: start;
             gap: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
+
         .premium-feature:last-child {
             border-bottom: none;
         }
+
         .premium-feature:hover {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding-left: 0.5rem;
             border-radius: 8px;
         }
+
         .premium-icon {
             color: white;
             font-size: 1.5rem;
             flex-shrink: 0;
         }
+
         .steps-card {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 2rem;
             margin: 2rem 0;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="container">
@@ -117,14 +134,16 @@
         </div>
     </nav>
 
-    <section class="landing-hero" style="padding: 120px 0 60px; min-height: auto; background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);">
+    <section class="landing-hero"
+        style="padding: 120px 0 60px; min-height: auto; background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);">
         <div class="container">
             <div class="landing-content" style="max-width: 900px; margin: 0 auto; text-align: center; color: white;">
                 <div class="success-icon"></div>
                 <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: white; margin-bottom: 1rem;">
                     Merci pour votre inscription !
                 </h1>
-                <p style="font-size: clamp(1.1rem, 2vw, 1.25rem); color: rgba(255,255,255,0.95); margin-bottom: 2rem; line-height: 1.8;">
+                <p
+                    style="font-size: clamp(1.1rem, 2vw, 1.25rem); color: rgba(255,255,255,0.95); margin-bottom: 2rem; line-height: 1.8;">
                     Votre demande pour le <strong>Pack Premium</strong> a bien été reçue.
                 </p>
 
@@ -133,61 +152,81 @@
                     <h2 style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
                         1 900€ TTC
                     </h2>
-                    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
+                    <div
+                        style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
                         <p style="margin: 0; color: white; font-weight: 600; font-size: 1.05rem;">
                             Paiement en 2 fois : 950€ à la commande + 950€ à la livraison
                         </p>
                     </div>
                     <p style="color: rgba(255,255,255,0.95); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">
-                        Excellent ! Avec le Pack Premium, Domtom Connect t'accompagne de A à Z : recherche de prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des prestataires pour toi.
+                        Excellent ! Avec le Pack Premium, Domtom Connect t'accompagne de A à Z : recherche de
+                        prestataires adaptés, accompagnement de ton projet du début à la fin, et gestion complète des
+                        prestataires pour toi.
                     </p>
                     <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Recherche approfondie</strong> : Je cherche des prestataires selon tes besoins et ton budget</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Recherche
+                                    approfondie</strong> : Je cherche des prestataires selon tes besoins et ton
+                                budget</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Accompagnement complet</strong> : Ton projet accompagné du début jusqu'à la fin</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Accompagnement
+                                    complet</strong> : Ton projet accompagné du début jusqu'à la fin</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Gestion des prestataires</strong> : Je m'occupe de la coordination, du suivi et de la communication</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Gestion des
+                                    prestataires</strong> : Je m'occupe de la coordination, du suivi et de la
+                                communication</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Réponse à tes besoins</strong> : Structuration, conseils stratégiques, optimisation</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Réponse à tes
+                                    besoins</strong> : Structuration, conseils stratégiques, optimisation</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Suivi personnalisé</strong> : Optimisation continue de tes relations avec les prestataires</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Suivi
+                                    personnalisé</strong> : Optimisation continue de tes relations avec les
+                                prestataires</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Support prioritaire</strong> : Disponible pour toutes tes questions et besoins</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Support
+                                    prioritaire</strong> : Disponible pour toutes tes questions et besoins</span>
                         </li>
                         <li class="premium-feature">
-                            <span class="premium-icon"></span>
-                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Résultat garanti</strong> : Mise en relation réussie avec des prestataires adaptés</span>
+                            <span class="premium-icon">✓</span>
+                            <span style="color: rgba(255,255,255,0.95); line-height: 1.6;"><strong>Résultat
+                                    garanti</strong> : Mise en relation réussie avec des prestataires adaptés</span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="steps-card">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <h3
+                        style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
                         <span>Prochaines étapes</span>
                     </h3>
-                    <ol style="text-align: left; color: rgba(255,255,255,0.95); line-height: 2.2; padding-left: 1.5rem; font-size: 1.05rem;">
-                        <li style="margin-bottom: 0.75rem;">Nous allons examiner votre demande dans les <strong>24-48 heures</strong></li>
-                        <li style="margin-bottom: 0.75rem;">Si votre projet correspond à notre mission, nous vous contacterons pour un <strong>appel de qualification</strong></li>
-                        <li style="margin-bottom: 0.75rem;">Lors de l'appel, nous discuterons de vos besoins et confirmerons le Pack Premium</li>
-                        <li style="margin-bottom: 0.75rem;">Une fois validé, vous recevrez les détails de paiement (acompte de 950€)</li>
+                    <ol
+                        style="text-align: left; color: rgba(255,255,255,0.95); line-height: 2.2; padding-left: 1.5rem; font-size: 1.05rem;">
+                        <li style="margin-bottom: 0.75rem;">Nous allons examiner votre demande dans les <strong>24-48
+                                heures</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Si votre projet correspond à notre mission, nous vous
+                            contacterons pour un <strong>appel de qualification</strong></li>
+                        <li style="margin-bottom: 0.75rem;">Lors de l'appel, nous discuterons de vos besoins et
+                            confirmerons le Pack Premium</li>
+                        <li style="margin-bottom: 0.75rem;">Une fois validé, vous recevrez les détails de paiement
+                            (acompte de 950€)</li>
                         <li>Nous commencerons la recherche proactive de prestataires dès réception de l'acompte</li>
                     </ol>
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <a href="/" class="cta-button" style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px; background: white; color: #3B82F6; font-weight: 600; transition: all 0.3s ease;">
+                    <a href="/" class="cta-button"
+                        style="text-decoration: none; display: inline-block; margin: 0.5rem; padding: 1rem 2rem; border-radius: 12px; background: white; color: #3B82F6; font-weight: 600; transition: all 0.3s ease;">
                         Retour à l'accueil
                     </a>
                 </div>
@@ -195,5 +234,5 @@
         </div>
     </section>
 </body>
-</html>
 
+</html>
