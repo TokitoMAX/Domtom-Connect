@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Créer un compte – Domtom Connect</title>
+    <meta name="description" content="Rejoignez l'écosystème Domtom Connect.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 48px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            background: var(--white);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .social-auth {
+            margin-bottom: 24px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .divider span {
+            padding: 0 12px;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-card">
+        <header class="auth-header">
+            <a href="/">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="auth-logo">
+            </a>
+            <h1 class="auth-title">Créer votre compte</h1>
+            <p class="auth-subtitle">Rejoignez le réseau des Antilles-Guyane.</p>
+        </header>
+
+        <div class="social-auth">
+            <button class="cta-button secondary"
+                style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+                Continuer avec Google
+            </button>
+        </div>
+
+        <div class="divider">
+            <span>OU</span>
+        </div>
+
+        <form class="auth-form">
+            <div class="input-group">
+                <label>Nom complet</label>
+                <input type="text" placeholder="Prénom Nom" required>
+            </div>
+            <div class="input-group">
+                <label>Email professionnel</label>
+                <input type="email" placeholder="nom@entreprise.com" required>
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="cta-button primary" style="padding: 14px;">Créer mon compte</button>
+        </form>
+
+        <footer class="auth-footer">
+            <p>Déjà inscrit ? <a href="../login.html">Se connecter</a></p>
+        </footer>
+    </main>
+
+</body>
+
+</html>

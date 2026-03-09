@@ -36,8 +36,8 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
-                    <a href="/marketplace/directory.html">Talents</a>
-                    <a href="/tarifs.html">Solutions</a>
+                    <a href="register-choice.html" title="Accès réservé aux membres">Talents</a>
+                    <a href="tarifs.html">Solutions</a>
                     <a href="login.html">Connexion</a>
                 </div>
                 <div class="nav-actions">
@@ -50,17 +50,18 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="directory-header">
+    <header class="directory-header bg-dark dark-section">
         <div class="container">
             <div class="section-header">
-                <h1>Solutions & Tarifs</h1>
-                <p>Des packs conçus pour l'efficacité, la rapidité et la réussite de vos projets.</p>
+                <h1 style="color: var(--white) !important;">Solutions & Tarifs</h1>
+                <p style="color: var(--gray-300) !important;">Des packs conçus pour l'efficacité, la rapidité et la
+                    réussite de vos projets.</p>
             </div>
         </div>
     </header>
 
     <!-- Section 1 : Porteurs de Projets -->
-    <section class="pricing-section">
+    <section class="pricing-section section-padding bg-light light-section">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Accès & Sourcing</h2>
@@ -77,11 +78,10 @@
                         <li>Diagnostic de faisabilité territoriale</li>
                         <li>Analyse des coûts et délais locaux</li>
                         <li>Introduction directe (Top 3 Experts)</li>
-                        <li>Accès Marketplace illimité</li>
+                        <li>Accès Annuaire illimité</li>
                     </ul>
                     <div class="tier-price">99€ <span>TTC / Projet</span></div>
-                    <button class="cta-button primary" onclick="startStripePayment('Audit Flash', 99)">Démarrer
-                        l'Audit</button>
+                    <a href="registration/basic.html" class="cta-button primary">Démarrer l'Audit</a>
                 </article>
 
                 <!-- Pack Accompagnement -->
@@ -91,12 +91,11 @@
                     <ul class="tier-features">
                         <li>Tout le contenu du Pack Audit</li>
                         <li>Gestion des appels d'offres locaux</li>
-                        <li>Sourcing experts diaspora / internationaux</li>
+                        <li>Sourcing experts diaspora</li>
                         <li>Suivi opérationnel bi-mensuel</li>
                     </ul>
-                    <div class="tier-price">500€ <span>TTC</span></div>
-                    <button class="cta-button primary"
-                        onclick="openPackModal('Accompagnement Pro', '500€', 'porteur-projet')">Sélectionner</button>
+                    <div class="tier-price" style="color: var(--emerald-color) !important;">500€ <span>TTC</span></div>
+                    <a href="registration/basic.html" class="cta-button primary">Sélectionner</a>
                 </article>
 
                 <!-- Pack A à Z -->
@@ -110,105 +109,65 @@
                         <li>Rapport de performance hebdomadaire</li>
                     </ul>
                     <div class="tier-price">1900€ <span>TTC</span></div>
-                    <button class="cta-button primary"
-                        onclick="openPackModal('Tout-en-Un', '1900€', 'porteur-projet')">Sélectionner</button>
+                    <a href="registration/basic.html" class="cta-button primary">Sélectionner</a>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- Section 2 : Entreprises -->
-    <section class="pricing-section" style="background: var(--bg-light); border-top: 1px solid var(--gray-100);">
+    <!-- Section 2 : Entreprises & Experts -->
+    <section class="pricing-section bg-dark dark-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Coordination & Opérations</h2>
-                <p class="section-subtitle">Solutions sur mesure pour les entreprises nécessitant une réactivité
-                    maximale et une gestion multi-prestataires.</p>
+                <h2 class="section-title" style="color: var(--white) !important;">Expertise & Performance</h2>
+                <p class="section-subtitle" style="color: var(--gray-300) !important;">Solutions pour les décideurs et
+                    opportunités pour les talents.</p>
             </div>
 
             <div class="pricing-tier-grid">
-                <!-- Pack Express -->
-                <article class="price-card">
-                    <span class="tier-name">Urgence</span>
-                    <h3 class="tier-title">Intervention Express</h3>
-                    <ul class="tier-features">
-                        <li>Réponse et sourcing sous 48h</li>
-                        <li>Analyse critique immédiate</li>
-                        <li>Mise en relation d'urgence</li>
+                <!-- Entreprises -->
+                <article class="price-card"
+                    style="background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1);">
+                    <h3 class="tier-title" style="color: var(--white) !important;">Entreprises</h3>
+                    <p style="color: var(--gray-400) !important; font-size: 0.9rem; margin-bottom: 24px;">Audit de
+                        performance, sourcing d'experts et coordination multi-pays.</p>
+                    <ul class="tier-features" style="color: var(--gray-200) !important;">
+                        <li>Sourcing sous 48h</li>
+                        <li>Pilotage technique</li>
+                        <li>Veille territoriale</li>
                     </ul>
-                    <div class="tier-price">800€ <span>TTC</span></div>
-                    <button class="cta-button primary"
-                        onclick="openPackModal('Intervention Express', '800€', 'entreprise')">Sélectionner</button>
-                </article>
-
-                <!-- Pack Coordination -->
-                <article class="price-card">
-                    <span class="tier-name">Projet</span>
-                    <h3 class="tier-title">Coordination Technique</h3>
-                    <ul class="tier-features">
-                        <li>Pilotage multi-prestataires</li>
-                        <li>Gestion des plannings croisés</li>
-                        <li>Contrôle qualité livrables</li>
-                    </ul>
-                    <div class="tier-price">1500€ <span>TTC</span></div>
-                    <button class="cta-button primary"
-                        onclick="openPackModal('Coordination Technique', '1500€', 'entreprise')">Sélectionner</button>
-                </article>
-
-                <!-- Pack Partenaire -->
-                <article class="price-card">
-                    <span class="tier-name">Annuel</span>
-                    <h3 class="tier-title">Partenariat Stratégique</h3>
-                    <ul class="tier-features">
-                        <li>Accompagnement 6-12 mois</li>
-                        <li>Veille territoriale continue</li>
-                        <li>Tarifs préférentiels réseau</li>
-                    </ul>
-                    <div class="tier-price">2500€ <span>TTC</span></div>
-                    <button class="cta-button primary"
-                        onclick="openPackModal('Partenariat Stratégique', '2500€', 'entreprise')">Sélectionner</button>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 3 : Prestataires & Investisseurs -->
-    <section class="pricing-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Réseau & Partenariats</h2>
-                <p class="section-subtitle">Intégrez l'écosystème Domtom Connect en tant qu'expert ou investisseur.</p>
-            </div>
-
-            <div class="pricing-tier-grid">
-                <!-- Prestataires -->
-                <article class="profile-card-special">
-                    <h3 class="tier-title">Experts & Talents</h3>
-                    <p>Accès gratuit au réseau en échange d'une contribution active à l'écosystème (contenu, mentorat,
-                        partage d'expertise).</p>
-                    <ul class="tier-features">
-                        <li>Visibilité marketplace accrue</li>
-                        <li>Accès aux appels d'offres privés</li>
-                        <li>Networking Elite Diaspora</li>
-                    </ul>
-                    <a href="/registration/provider.html" class="cta-button secondary" style="width: 100%;">Rejoindre le
-                        Réseau</a>
+                    <div class="tier-price" style="color: var(--white) !important;">Sur Mesure</div>
+                    <a href="registration/basic.html" class="cta-button primary">Demander un Audit</a>
                 </article>
 
                 <!-- Investisseurs -->
-                <article class="profile-card-special">
-                    <h3 class="tier-title">Investisseurs</h3>
-                    <p>Accédez en exclusivité aux projets vérifiés et à forte croissance sur les territoires
-                        ultramarins.</p>
-                    <ul class="tier-features">
-                        <li>Deal-flow qualifié</li>
-                        <li>Analyses sectorielles trimestrielles</li>
+                <article class="price-card"
+                    style="background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1);">
+                    <h3 class="tier-title" style="color: var(--white) !important;">Investisseurs</h3>
+                    <p style="color: var(--gray-400) !important; font-size: 0.9rem; margin-bottom: 24px;">Accès au
+                        deal-flow qualifié des projets validés par Domtom Connect.</p>
+                    <ul class="tier-features" style="color: var(--gray-200) !important;">
+                        <li>Deal-flow vérifié</li>
+                        <li>Analyses sectorielles</li>
                         <li>Mises en relation VIP</li>
                     </ul>
-                    <div class="tier-price" style="font-size: 1.5rem; margin: 24px 0;">Dès 49€ <span>/ mois</span></div>
-                    <button class="cta-button primary" style="width: 100%;"
-                        onclick="openPackModal('Accès Investisseur', 'Dès 49€', 'investisseur')">Demander
-                        l'accès</button>
+                    <div class="tier-price" style="color: var(--emerald-color) !important;">Dès 49€<span>/mois</span>
+                    </div>
+                    <a href="registration/basic.html" class="cta-button secondary">Accéder au Flux</a>
+                </article>
+
+                <!-- Experts -->
+                <article class="price-card featured" style="border-color: var(--emerald-color);">
+                    <h3 class="tier-title" style="color: var(--white) !important;">Experts & Talents</h3>
+                    <p style="color: var(--gray-400) !important; font-size: 0.9rem; margin-bottom: 24px;">Rejoignez
+                        l'élite et accédez aux meilleures missions des Antilles-Guyane.</p>
+                    <ul class="tier-features" style="color: var(--gray-200) !important;">
+                        <li>Missions Premium</li>
+                        <li>Suite SoloPrice Pro</li>
+                        <li>Networking Networking Elite Diaspora</li>
+                    </ul>
+                    <div class="tier-price" style="color: var(--emerald-color) !important;">Gratuit <span>*</span></div>
+                    <a href="registration/basic.html" class="cta-button emerald">Postuler</a>
                 </article>
             </div>
         </div>
@@ -225,9 +184,9 @@
                 </div>
                 <div class="footer-links">
                     <div class="footer-col">
-                        <h4>Platforme</h4>
-                        <a href="/marketplace/directory.html">Talents</a>
-                        <a href="/tarifs.html">Solutions</a>
+                        <h4>Plateforme</h4>
+                        <a href="register-choice.html">Talents</a>
+                        <a href="tarifs.html">Solutions</a>
                     </div>
                     <div class="footer-col">
                         <h4>Ressources</h4>
