@@ -133,7 +133,7 @@
         </header>
 
         <div class="social-auth">
-            <button class="cta-button secondary"
+            <button class="cta-button secondary" onclick="handleGoogleSignUp()"
                 style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
                 Continuer avec Google
@@ -165,6 +165,25 @@
         </footer>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        // Redirection immédiate si déjà connecté
+        window.addEventListener('load', async () => {
+            const { data: { session } } = await window.supabase.createClient(
+                'https://vlpzmxddgdjjtrpbtksd.supabase.co',
+                'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF'
+            ).auth.getSession();
+
+            if (session) {
+                window.location.href = '../dashboard.html';
+            }
+        });
+
+        async function handleGoogleSignUp() {
+            signInWithGoogle();
+        }
+    </script>
 </body>
 
 </html>

@@ -9,7 +9,9 @@ async function signInWithGoogle() {
     const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: window.location.origin + '/dashboard.html'
+            redirectTo: window.location.origin.includes('localhost')
+                ? window.location.origin + '/dashboard.html'
+                : 'https://vlpzmxddgdjjtrpbtksd.supabase.co/auth/v1/callback'
         }
     });
     if (error) console.error('Erreur Auth Google:', error.message);

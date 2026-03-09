@@ -196,6 +196,14 @@
         async function handleGoogleLogin() {
             signInWithGoogle();
         }
+
+        // Redirection si déjà connecté
+        window.addEventListener('load', async () => {
+            const session = await getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        });
     </script>
 </body>
 
