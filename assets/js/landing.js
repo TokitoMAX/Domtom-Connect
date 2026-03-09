@@ -1,29 +1,29 @@
 // Landing Pages functionality
 
 // Initialiser le suivi du temps de remplissage pour tous les formulaires de landing
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const landingForm = document.getElementById('landing-form');
     const qualificationForm = document.getElementById('qualification-form');
-    
+
     if (landingForm && window.formSecurity) {
         window.formSecurity.initFillTimeTracking(landingForm);
     }
-    
+
     if (qualificationForm && window.formSecurity) {
         window.formSecurity.initFillTimeTracking(qualificationForm);
     }
-    
+
     // Pré-remplir le formulaire de la landing page avec les données de la page d'accueil
     if (landingForm) {
         prefillLandingForm(landingForm);
     }
-    
+
     // Gérer les champs conditionnels pour "Autre"
     initConditionalFields();
-    
+
     // Pré-remplir le formulaire de qualification si des données sont stockées
     prefillQualificationForm();
-    
+
     // Initialiser l'expérience premium du formulaire
     if (landingForm) {
         initPremiumFormExperience(landingForm);
@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialiser l'expérience premium du formulaire
 function initPremiumFormExperience(form) {
     if (!form) return;
-    
+
     // Compteur de progression en temps réel
     updateCompletionCounter(form);
-    
+
     // Écouter les changements sur tous les champs
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach((input, index) => {
@@ -47,9 +47,9 @@ function initPremiumFormExperience(form) {
         input.style.animationDelay = `${index * 0.05}s`;
         input.style.animation = 'slideIn 0.4s ease-out';
         input.style.animationFillMode = 'both';
-        
+
         // Événement sur le focus
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
             const wrapper = this.closest('.field-wrapper');
             if (wrapper) {
                 wrapper.classList.add('field-focused');
@@ -58,9 +58,9 @@ function initPremiumFormExperience(form) {
             }
             animateFieldFocus(this);
         });
-        
+
         // Événement sur le blur
-        input.addEventListener('blur', function() {
+        input.addEventListener('blur', function () {
             const wrapper = this.closest('.field-wrapper');
             if (wrapper) {
                 wrapper.classList.remove('field-focused');
@@ -70,43 +70,43 @@ function initPremiumFormExperience(form) {
             updateCompletionCounter(form);
             validateField(this);
         });
-        
+
         // Événement sur le changement
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             updateCompletionCounter(form);
             validateField(this);
             showEncouragement(form);
         });
-        
+
         // Événement sur le changement pour les selects
         if (input.tagName === 'SELECT') {
-            input.addEventListener('change', function() {
+            input.addEventListener('change', function () {
                 updateCompletionCounter(form);
                 validateField(this);
                 showEncouragement(form);
             });
         }
     });
-    
+
     // Gérer les radio buttons avec animations
     const radios = form.querySelectorAll('input[type="radio"]');
     radios.forEach(radio => {
-        radio.addEventListener('change', function() {
+        radio.addEventListener('change', function () {
             updateCompletionCounter(form);
             showEncouragement(form);
             animateRadioSelection(this);
         });
     });
-    
+
     // Effet ripple sur le bouton
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) {
-        submitButton.addEventListener('click', function(e) {
+        submitButton.addEventListener('click', function (e) {
             createRippleEffect(e, this);
         });
-        
+
         // Effet hover sur le bouton avec animation
-        submitButton.addEventListener('mouseenter', function() {
+        submitButton.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
             this.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.5)';
             const buttonBg = this.querySelector('.button-bg');
@@ -117,13 +117,13 @@ function initPremiumFormExperience(form) {
                 }, 600);
             }
         });
-        
-        submitButton.addEventListener('mouseleave', function() {
+
+        submitButton.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
         });
     }
-    
+
     // Initialiser le compteur
     updateCompletionCounter(form);
 }
@@ -135,13 +135,13 @@ function updateCompletionCounter(form) {
     const counterText = document.getElementById('completion-text');
     const progressBar = form?.querySelector('.progress-bar-enhanced');
     const progressPercentage = form?.querySelector('.progress-percentage');
-    
+
     if (!counter || !form) return;
-    
+
     // Compter les champs remplis (éviter de compter plusieurs fois les groupes radio)
     const allRequired = Array.from(form.querySelectorAll('input[required], select[required], textarea[required]'));
     const uniqueFields = new Set();
-    
+
     allRequired.forEach(field => {
         if (field.type === 'radio') {
             uniqueFields.add(field.name);
@@ -149,10 +149,10 @@ function updateCompletionCounter(form) {
             uniqueFields.add(field.name || field.id);
         }
     });
-    
+
     const totalFields = uniqueFields.size;
     let filledCount = 0;
-    
+
     uniqueFields.forEach(fieldName => {
         const field = form.querySelector(`[name="${fieldName}"]`);
         if (field) {
@@ -166,9 +166,9 @@ function updateCompletionCounter(form) {
             }
         }
     });
-    
+
     const percentage = totalFields > 0 ? Math.round((filledCount / totalFields) * 100) : 0;
-    
+
     // Mettre à jour l'affichage avec animation
     if (counterNumber) {
         const oldValue = parseInt(counterNumber.textContent) || 0;
@@ -183,22 +183,22 @@ function updateCompletionCounter(form) {
             }, 300);
         }
     }
-    
+
     if (counterText) {
         counterText.textContent = `${filledCount} sur ${totalFields} champs remplis`;
     }
-    
+
     // Mettre à jour la barre de progression (pour étape 1, on reste à 50% max)
     if (progressBar && form.id === 'landing-form') {
         const currentStepProgress = (percentage / 100) * 50;
         progressBar.style.width = currentStepProgress + '%';
     }
-    
+
     if (progressPercentage && form.id === 'landing-form') {
         const finalPercentage = Math.round(50 + (percentage / 100) * 50);
         progressPercentage.textContent = finalPercentage + '%';
     }
-    
+
     // Animation du compteur
     if (counter) {
         counter.style.transition = 'all 0.3s ease';
@@ -213,16 +213,16 @@ function updateCompletionCounter(form) {
 function validateField(field) {
     const wrapper = field.closest('.field-wrapper');
     if (!wrapper) return;
-    
+
     const isValid = field.checkValidity() && (field.value && field.value.trim() !== '');
     const checkIcon = wrapper.querySelector('.field-check');
-    
+
     if (isValid && checkIcon) {
         checkIcon.style.opacity = '1';
         checkIcon.style.transform = 'scale(1)';
         field.style.borderColor = '#10b981';
         field.style.background = 'linear-gradient(to right, #f0fdf4 0%, #ffffff 5%)';
-        
+
         // Animation de succès
         wrapper.style.animation = 'successPulse 0.5s ease';
         setTimeout(() => {
@@ -238,12 +238,12 @@ function validateField(field) {
 function showEncouragement(form) {
     const encouragementMsg = document.getElementById('encouragement-msg');
     const encouragementText = document.getElementById('encouragement-text');
-    
+
     if (!encouragementMsg || !encouragementText || form.id !== 'landing-form') return;
-    
+
     const allRequired = Array.from(form.querySelectorAll('input[required], select[required], textarea[required]'));
     const uniqueFields = new Set();
-    
+
     allRequired.forEach(field => {
         if (field.type === 'radio') {
             uniqueFields.add(field.name);
@@ -251,7 +251,7 @@ function showEncouragement(form) {
             uniqueFields.add(field.name || field.id);
         }
     });
-    
+
     let filledCount = 0;
     uniqueFields.forEach(fieldName => {
         const field = form.querySelector(`[name="${fieldName}"]`);
@@ -266,20 +266,20 @@ function showEncouragement(form) {
             }
         }
     });
-    
+
     const totalFields = uniqueFields.size;
     const percentage = totalFields > 0 ? (filledCount / totalFields) * 100 : 0;
-    
+
     const messages = [
-        { threshold: 0, text: '🚀 Commencez par remplir vos informations de contact' },
-        { threshold: 25, text: '✨ Excellent début ! Continuez comme ça' },
-        { threshold: 50, text: '💪 Vous y êtes presque ! Encore quelques champs' },
-        { threshold: 75, text: '🎉 Presque terminé ! Plus qu\'un dernier effort' },
-        { threshold: 100, text: '✅ Parfait ! Vous pouvez maintenant envoyer votre demande' }
+        { threshold: 0, text: 'Commencez par remplir vos informations de contact' },
+        { threshold: 25, text: 'Excellent début ! Continuez comme ça' },
+        { threshold: 50, text: 'Vous y êtes presque ! Encore quelques champs' },
+        { threshold: 75, text: 'Presque terminé ! Plus qu\'un dernier effort' },
+        { threshold: 100, text: 'Parfait ! Vous pouvez maintenant envoyer votre demande' }
     ];
-    
+
     const message = messages.slice().reverse().find(m => percentage >= m.threshold) || messages[0];
-    
+
     if (percentage > 0 && percentage < 100) {
         encouragementText.textContent = message.text;
         encouragementMsg.style.display = 'block';
@@ -328,17 +328,17 @@ function animateRadioSelection(radio) {
 function createRippleEffect(event, button) {
     const ripple = button.querySelector('.button-ripple');
     if (!ripple) return;
-    
+
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
     const x = event.clientX - rect.left - size / 2;
     const y = event.clientY - rect.top - size / 2;
-    
+
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = x + 'px';
     ripple.style.top = y + 'px';
     ripple.style.animation = 'none';
-    
+
     setTimeout(() => {
         ripple.style.animation = 'ripple 0.6s ease-out';
     }, 10);
@@ -349,10 +349,10 @@ function initConditionalFields() {
     // Lien avec territoires
     const lienTerritoiresRadios = document.querySelectorAll('input[name="lien_territoires"]');
     const lienTerritoiresAutre = document.querySelector('input[name="lien_territoires_autre"]');
-    
+
     if (lienTerritoiresRadios.length && lienTerritoiresAutre) {
         lienTerritoiresRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     lienTerritoiresAutre.style.display = 'block';
                     lienTerritoiresAutre.required = true;
@@ -364,14 +364,14 @@ function initConditionalFields() {
             });
         });
     }
-    
+
     // Objectif principal (porteurs-projets)
     const objectifRadios = document.querySelectorAll('input[name="objectif_principal"]');
     const objectifAutre = document.querySelector('input[name="objectif_principal_autre"]');
-    
+
     if (objectifRadios.length && objectifAutre) {
         objectifRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     objectifAutre.style.display = 'block';
                     objectifAutre.required = true;
@@ -383,14 +383,14 @@ function initConditionalFields() {
             });
         });
     }
-    
+
     // Objectif (investisseurs, professionnels)
     const objectifRadiosGeneric = document.querySelectorAll('input[name="objectif"]');
     const objectifAutreGeneric = document.querySelector('input[name="objectif_autre"]');
-    
+
     if (objectifRadiosGeneric.length && objectifAutreGeneric) {
         objectifRadiosGeneric.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     objectifAutreGeneric.style.display = 'block';
                     objectifAutreGeneric.required = true;
@@ -402,13 +402,13 @@ function initConditionalFields() {
             });
         });
     }
-    
+
     // Besoin (entreprises)
     const besoinSelect = document.querySelector('select[name="besoin"]');
     const besoinAutre = document.querySelector('input[name="besoin_autre"]');
-    
+
     if (besoinSelect && besoinAutre) {
-        besoinSelect.addEventListener('change', function() {
+        besoinSelect.addEventListener('change', function () {
             if (this.value === 'autre') {
                 besoinAutre.style.display = 'block';
                 besoinAutre.required = true;
@@ -419,13 +419,13 @@ function initConditionalFields() {
             }
         });
     }
-    
+
     // Services (prestataires)
     const servicesSelect = document.querySelector('select[name="services"]');
     const servicesAutre = document.querySelector('input[name="services_autre"]');
-    
+
     if (servicesSelect && servicesAutre) {
-        servicesSelect.addEventListener('change', function() {
+        servicesSelect.addEventListener('change', function () {
             if (this.value === 'autre') {
                 servicesAutre.style.display = 'block';
                 servicesAutre.required = true;
@@ -436,13 +436,13 @@ function initConditionalFields() {
             }
         });
     }
-    
+
     // Secteur d'activité (entreprises)
     const secteurSelect = document.querySelector('select[name="secteur_activite"]');
     const secteurAutre = document.querySelector('input[name="secteur_activite_autre"]');
-    
+
     if (secteurSelect && secteurAutre) {
-        secteurSelect.addEventListener('change', function() {
+        secteurSelect.addEventListener('change', function () {
             if (this.value === 'autre') {
                 secteurAutre.style.display = 'block';
                 secteurAutre.required = true;
@@ -453,13 +453,13 @@ function initConditionalFields() {
             }
         });
     }
-    
+
     // Type de prestations (entreprises)
     const typePrestationsSelect = document.querySelector('select[name="type_prestations"]');
     const typePrestationsAutre = document.querySelector('input[name="type_prestations_autre"]');
-    
+
     if (typePrestationsSelect && typePrestationsAutre) {
-        typePrestationsSelect.addEventListener('change', function() {
+        typePrestationsSelect.addEventListener('change', function () {
             if (this.value === 'autre') {
                 typePrestationsAutre.style.display = 'block';
                 typePrestationsAutre.required = true;
@@ -470,13 +470,13 @@ function initConditionalFields() {
             }
         });
     }
-    
+
     // Statut juridique (prestataires)
     const statutJuridiqueSelect = document.querySelector('select[name="statut_juridique"]');
     const statutJuridiqueAutre = document.querySelector('input[name="statut_juridique_autre"]');
-    
+
     if (statutJuridiqueSelect && statutJuridiqueAutre) {
-        statutJuridiqueSelect.addEventListener('change', function() {
+        statutJuridiqueSelect.addEventListener('change', function () {
             if (this.value === 'autre') {
                 statutJuridiqueAutre.style.display = 'block';
                 statutJuridiqueAutre.required = true;
@@ -487,14 +487,14 @@ function initConditionalFields() {
             }
         });
     }
-    
+
     // Motivation (investisseurs)
     const motivationRadios = document.querySelectorAll('input[name="motivation"]');
     const motivationAutre = document.querySelector('input[name="motivation_autre"]');
-    
+
     if (motivationRadios.length && motivationAutre) {
         motivationRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     motivationAutre.style.display = 'block';
                     motivationAutre.required = true;
@@ -506,14 +506,14 @@ function initConditionalFields() {
             });
         });
     }
-    
+
     // Attentes (investisseurs)
     const attentesRadios = document.querySelectorAll('input[name="attentes"]');
     const attentesAutre = document.querySelector('input[name="attentes_autre"]');
-    
+
     if (attentesRadios.length && attentesAutre) {
         attentesRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     attentesAutre.style.display = 'block';
                     attentesAutre.required = true;
@@ -525,14 +525,14 @@ function initConditionalFields() {
             });
         });
     }
-    
+
     // Critères (investisseurs)
     const criteresRadios = document.querySelectorAll('input[name="criteres"]');
     const criteresAutre = document.querySelector('input[name="criteres_autre"]');
-    
+
     if (criteresRadios.length && criteresAutre) {
         criteresRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'autre') {
                     criteresAutre.style.display = 'block';
                     criteresAutre.required = true;
@@ -629,10 +629,10 @@ function determinePackAndPayment(budget, engagement) {
             action: 'Redirection vers newsletter/ressources'
         };
     }
-    
+
     // Déterminer le pack selon le budget
     let packInfo = null;
-    
+
     if (budget === '300-1000') {
         packInfo = {
             pack: 'starter',
@@ -655,7 +655,7 @@ function determinePackAndPayment(budget, engagement) {
             action: 'Qualification nécessaire'
         };
     }
-    
+
     // Adapter les facilités de paiement selon l'engagement
     if (engagement === 'oui') {
         // Engagement clair : paiement standard
@@ -700,7 +700,7 @@ function determinePackAndPayment(budget, engagement) {
             };
         }
     }
-    
+
     return packInfo;
 }
 
@@ -895,14 +895,14 @@ function getPrestatairesPrecedentsLabel(value) {
 // Pré-remplir le formulaire de la landing page avec les données de la page d'accueil
 function prefillLandingForm(form) {
     if (!form) return;
-    
+
     // Récupérer les données stockées de la page d'accueil
     const storedData = sessionStorage.getItem('domtomConnectHomepageData');
     if (storedData) {
         try {
             const data = JSON.parse(storedData);
             console.log('Données récupérées pour préremplissage:', data);
-            
+
             // Préremplir les champs correspondants
             if (data.prenom) {
                 const prenomField = form.querySelector('input[name="prenom"]');
@@ -912,7 +912,7 @@ function prefillLandingForm(form) {
                     prenomField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-            
+
             if (data.nom) {
                 const nomField = form.querySelector('input[name="nom"]');
                 if (nomField) {
@@ -921,7 +921,7 @@ function prefillLandingForm(form) {
                     nomField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-            
+
             if (data.email) {
                 const emailField = form.querySelector('input[name="email"]');
                 if (emailField) {
@@ -930,7 +930,7 @@ function prefillLandingForm(form) {
                     emailField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-            
+
             if (data.telephone) {
                 const telField = form.querySelector('input[name="telephone"]');
                 if (telField) {
@@ -939,7 +939,7 @@ function prefillLandingForm(form) {
                     telField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-            
+
             // Gérer les nouveaux champs pour porteurs-projets
             if (data.origine) {
                 const origineField = form.querySelector('select[name="origine"]');
@@ -963,14 +963,14 @@ function prefillLandingForm(form) {
                     ileField.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-            
+
             // Mettre à jour le compteur de progression après préremplissage
             setTimeout(() => {
                 if (typeof updateCompletionCounter === 'function') {
                     updateCompletionCounter(form);
                 }
             }, 200);
-            
+
             console.log('Préremplissage terminé');
         } catch (e) {
             console.error('Erreur lors de la récupération des données de la page d\'accueil:', e);
@@ -984,7 +984,7 @@ function prefillLandingForm(form) {
 function prefillQualificationForm() {
     const qualificationForm = document.getElementById('qualification-form');
     if (!qualificationForm) return;
-    
+
     // Récupérer les données stockées de l'étape 1
     const storedData = sessionStorage.getItem('domtomConnectStep1');
     if (storedData) {
@@ -1000,11 +1000,11 @@ function prefillQualificationForm() {
 
 function handleLandingFormSubmit(event) {
     event.preventDefault();
-    
+
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
-    
+
     // FORCER la récupération des champs de base depuis le FormData
     // Si les champs sont manquants, essayer de les récupérer depuis les inputs du formulaire
     if (!data.prenom || data.prenom.trim() === '') {
@@ -1035,7 +1035,7 @@ function handleLandingFormSubmit(event) {
             formData.set('telephone', data.telephone);
         }
     }
-    
+
     // Log pour debug
     console.log('📧 handleLandingFormSubmit - Données après nettoyage:', {
         prenom: data.prenom,
@@ -1044,14 +1044,14 @@ function handleLandingFormSubmit(event) {
         telephone: data.telephone,
         profil: data.profil
     });
-    
+
     // Log pour debug
     console.log('📧 handleLandingFormSubmit - Données reçues:', {
         email: data.email,
         question_email: data.question_email,
         formDataEntries: Array.from(formData.entries()).filter(([key]) => key.includes('email') || key === 'email')
     });
-    
+
     // Vérification de sécurité (anti-bot) - SEULEMENT pour les bots évidents (honeypot)
     if (window.formSecurity) {
         const securityCheck = window.formSecurity.secureFormSubmission(form, data);
@@ -1063,7 +1063,7 @@ function handleLandingFormSubmit(event) {
         }
         // Pour tout le reste, on continue et on envoie
     }
-    
+
     // Get landing page type
     let pageType = 'porteurs-projets'; // default
     if (window.location.pathname.includes('prestataires')) {
@@ -1075,17 +1075,17 @@ function handleLandingFormSubmit(event) {
     } else if (window.location.pathname.includes('investisseurs')) {
         pageType = 'investisseurs';
     }
-    
+
     // Détecter si c'est l'étape 1 (formulaire court) ou étape 2 (formulaire complet)
     // Les prestataires, entreprises et investisseurs n'ont pas de formulaire de qualification, ils envoient directement
     // Ne plus rediriger vers le formulaire de qualification
     // Le formulaire complet est maintenant soumis directement
-    
+
     // Add tracking data
     data.lead_source = `landing-${pageType}`;
     data.page_url = window.location.href;
     data.timestamp = new Date().toISOString();
-    
+
     // Track the lead
     if (window.trackLead) {
         window.trackLead({
@@ -1094,31 +1094,31 @@ function handleLandingFormSubmit(event) {
             email: data.email
         });
     }
-    
+
     // Show loading state
     const submitButton = form.querySelector('button[type="submit"]');
     const buttonText = submitButton ? submitButton.querySelector('.button-text') : null;
     const buttonLoader = submitButton ? submitButton.querySelector('.button-loader') : null;
     const originalText = buttonText ? buttonText.textContent : submitButton ? submitButton.textContent : '';
-    
+
     if (submitButton) {
-    submitButton.disabled = true;
+        submitButton.disabled = true;
         if (buttonText) {
             buttonText.style.opacity = '0';
         } else {
-    submitButton.textContent = 'Envoi en cours...';
+            submitButton.textContent = 'Envoi en cours...';
         }
         if (buttonLoader) {
             buttonLoader.style.display = 'block';
         }
     }
-    
+
     // Send to Formspree (même endpoint que le formulaire principal)
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
-    
+
     // Déterminer le profil clairement (priorité à data.profil, puis pageType, puis URL)
     let profil = data.profil || pageType;
-    
+
     // Si profil n'est toujours pas défini, essayer de le détecter depuis l'URL
     if (!profil || profil === 'porteurs-projets') {
         if (window.location.pathname.includes('prestataires')) {
@@ -1131,12 +1131,12 @@ function handleLandingFormSubmit(event) {
             profil = 'porteur-projet';
         }
     }
-    
+
     // Normaliser les valeurs de profil
     if (profil === 'porteurs-projets') profil = 'porteur-projet';
     if (profil === 'entrepreneurs') profil = 'porteur-projet';
     if (profil === 'professionnels') profil = 'entreprise';
-    
+
     let profilLabel = '';
     if (profil === 'entreprise' || pageType === 'entreprises') {
         profilLabel = '🏢 ENTREPRISE';
@@ -1149,28 +1149,28 @@ function handleLandingFormSubmit(event) {
     } else {
         profilLabel = '👤 ' + (profil || 'NON_DEFINI').toUpperCase();
     }
-    
+
     // S'assurer que data.profil est défini pour les logs
     if (!data.profil) {
         data.profil = profil;
     }
-    
+
     // Préparer les données au format FormData (comme le formulaire principal)
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     const projetNom = data.nom_projet || data.entreprise || '';
     formDataToSend.append('_subject', `${profilLabel} - ${projetNom ? projetNom + ' - ' : ''}${data.prenom} ${data.nom}`);
-    
+
     // Valider et normaliser l'email pour _replyto
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     // Récupérer l'email depuis plusieurs sources possibles
-    let replyToEmail = data.email || 
-                       data['question_email'] || 
-                       formData.get('email') || 
-                       formData.get('question_email') || 
-                       '';
-    
+    let replyToEmail = data.email ||
+        data['question_email'] ||
+        formData.get('email') ||
+        formData.get('question_email') ||
+        '';
+
     // Si toujours pas d'email, chercher dans le DOM
     if (!replyToEmail || replyToEmail.trim() === '') {
         const emailInput = form.querySelector('input[type="email"], input[name="email"], input[name="question_email"], input[id*="email"]');
@@ -1178,16 +1178,16 @@ function handleLandingFormSubmit(event) {
             replyToEmail = emailInput.value;
         }
     }
-    
+
     // Nettoyer l'email (supprimer les espaces)
     if (replyToEmail) {
         replyToEmail = replyToEmail.trim();
     }
-    
+
     // Vérifier que l'email est valide, mais ne PAS bloquer l'envoi
     if (!replyToEmail || !emailRegex.test(replyToEmail)) {
         console.warn('⚠️ Email invalide ou manquant, recherche dans tous les champs...');
-        
+
         // Dernière tentative : chercher dans TOUS les inputs du formulaire
         const allInputs = form.querySelectorAll('input, textarea, select');
         for (const input of allInputs) {
@@ -1198,22 +1198,22 @@ function handleLandingFormSubmit(event) {
                 break;
             }
         }
-        
+
         // Si toujours pas d'email valide, utiliser une valeur par défaut
         if (!replyToEmail || !emailRegex.test(replyToEmail)) {
             console.warn('⚠️ Utilisation d\'une valeur par défaut pour permettre l\'envoi');
-            replyToEmail = data.prenom && data.nom 
+            replyToEmail = data.prenom && data.nom
                 ? `${data.prenom.toLowerCase()}.${data.nom.toLowerCase()}@domtomconnect-temp.com`
                 : 'contact@domtomconnect-temp.com';
         }
     }
-    
+
     // S'assurer que data.email est défini pour la suite
     data.email = replyToEmail;
     console.log('📧 Email final utilisé pour l\'envoi:', data.email);
-    
+
     formDataToSend.append('_replyto', replyToEmail);
-    
+
     // Construire le message de manière claire selon le profil
     let messageBody = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1249,7 +1249,7 @@ ${data.besoins_virtuel ? `Besoins spécifiques (digital): ${data.besoins_virtuel
 ${data.besoins_hybride ? `Besoins spécifiques (hybride): ${data.besoins_hybride}` : ''}
 `;
     }
-    
+
     // Bloc 3 - Objectifs & horizon
     if (data.objectif_principal || data.horizon) {
         messageBody += `
@@ -1260,12 +1260,12 @@ Objectif principal: ${getObjectifPrincipalLabel(data.objectif_principal, data.ob
 Horizon: ${getHorizonLabel(data.horizon)}
 `;
     }
-    
+
     // Bloc 4 - Pack, Budget & engagement
     if (data.budget || data.engagement) {
         // Déterminer le pack et les facilités de paiement selon budget + engagement
         const packInfo = determinePackAndPayment(data.budget, data.engagement);
-        
+
         let packSection = '';
         if (packInfo.pack) {
             packSection = `
@@ -1279,7 +1279,7 @@ Pack: ${packInfo.packName}
 Plan: ${packInfo.paymentPlan}
 Action: ${packInfo.action}`;
         }
-        
+
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 BLOC 4 - BUDGET & ENGAGEMENT
@@ -1289,13 +1289,13 @@ Engagement: ${getEngagementLabel(data.engagement)}
 ${packSection}
 `;
     }
-    
+
     if (data.commentaires) {
         messageBody += `
 Commentaires additionnels: ${data.commentaires}
 `;
     }
-    
+
     // Certification pour porteurs-projets
     if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.certification) {
         messageBody += `
@@ -1305,7 +1305,7 @@ Commentaires additionnels: ${data.commentaires}
 Certification acceptée: OUI
 `;
     }
-    
+
     // Ajouter le pack dans les données structurées pour porteurs-projets
     if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet')) {
         if (data.budget || data.engagement) {
@@ -1321,7 +1321,7 @@ Certification acceptée: OUI
             }
         }
     }
-    
+
     // Informations spécifiques selon le profil (pour compatibilité avec anciens formulaires)
     if (data.entreprise) {
         messageBody += `
@@ -1331,7 +1331,7 @@ Certification acceptée: OUI
 Nom de l'entreprise: ${data.entreprise}
 `;
     }
-    
+
     // Informations spécifiques pour Prestataires
     if (pageType === 'prestataires' || data.services) {
         messageBody += `
@@ -1359,7 +1359,7 @@ Taux de satisfaction client: ${getTauxSatisfactionLabel(data.taux_satisfaction) 
 Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
     }
-    
+
     if (data.secteur) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1368,7 +1368,7 @@ Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 ${data.secteur}
 `;
     }
-    
+
     if (data.besoin) {
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1377,14 +1377,14 @@ ${data.secteur}
 ${data.besoin}
 `;
     }
-    
+
     // Informations spécifiques pour Investisseurs (simplifié)
     if (pageType === 'investisseurs') {
         const montantLabel = data.montant_mensuel === '29' ? '29€/mois (ou 300€/an) - Moins de 50 000€ d\'investissement' :
-                           data.montant_mensuel === '49' ? '49€/mois (ou 500€/an) - 50 000€ à 200 000€ d\'investissement' :
-                           data.montant_mensuel === '99' ? '99€/mois (ou 1 000€/an) - Plus de 200 000€ d\'investissement' :
-                           data.montant_mensuel || 'Non renseigné';
-        
+            data.montant_mensuel === '49' ? '49€/mois (ou 500€/an) - 50 000€ à 200 000€ d\'investissement' :
+                data.montant_mensuel === '99' ? '99€/mois (ou 1 000€/an) - Plus de 200 000€ d\'investissement' :
+                    data.montant_mensuel || 'Non renseigné';
+
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 INVESTISSEUR - INFORMATIONS
@@ -1395,7 +1395,7 @@ Pourquoi investir dans les territoires ultramarins:
 ${data.pourquoi_investir || 'Non renseigné'}
 `;
     }
-    
+
     // Informations spécifiques pour Entreprises
     if (pageType === 'entreprises') {
         // Normaliser le budget pour utiliser la fonction determinePackAndPayment
@@ -1404,17 +1404,17 @@ ${data.pourquoi_investir || 'Non renseigné'}
             const budgetValue = data.budget_accompagnement;
             if (budgetValue === '300-1000' || budgetValue.includes('300-1 000') || budgetValue.includes('300-1000')) {
                 normalizedBudget = '300-1000';
-            } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' || 
-                      budgetValue.includes('1 000-3 000') || budgetValue.includes('plus de 3 000')) {
+            } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' ||
+                budgetValue.includes('1 000-3 000') || budgetValue.includes('plus de 3 000')) {
                 normalizedBudget = '1000-3000';
             } else if (budgetValue === 'moins-300' || budgetValue.includes('moins de 300')) {
                 normalizedBudget = 'moins-300';
             }
         }
-        
+
         // Déterminer le pack et les facilités selon budget + engagement
         const packInfo = determinePackAndPayment(normalizedBudget, data.engagement);
-        
+
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏢 ENTREPRISE - QUALIFICATION
@@ -1454,7 +1454,7 @@ Ancienneté entreprise: ${getAncienneteEntrepriseLabel(data.anciennete_entrepris
 Prestataires précédents: ${getPrestatairesPrecedentsLabel(data.prestataires_precedents) || 'Non renseigné'}
 Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
 `;
-        
+
         // Ajouter les informations de pack dans FormData
         if (packInfo.pack) {
             formDataToSend.append('Pack Recommandé', `${packInfo.packName} (${packInfo.packPrice})`);
@@ -1468,7 +1468,7 @@ Certification acceptée: ${data.certification ? 'OUI' : 'NON'}
             formDataToSend.append('Éligible', 'Non');
         }
     }
-    
+
     // Informations spécifiques pour Autre
     if (pageType === 'autre') {
         messageBody += `
@@ -1479,10 +1479,10 @@ Rôle/Profil: ${data.role_profil || 'Non renseigné'}
 Besoin: ${data.besoin || 'Non renseigné'}
 `;
     }
-    
+
     // Construire les prochaines étapes selon l'étape
     if (isStep1) {
-    messageBody += `
+        messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1504,9 +1504,9 @@ Besoin: ${data.besoin || 'Non renseigné'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
     }
-    
+
     formDataToSend.append('message', messageBody);
-    
+
     // Données structurées
     formDataToSend.append('Prénom', data.prenom);
     formDataToSend.append('Nom', data.nom);
@@ -1534,7 +1534,7 @@ Besoin: ${data.besoin || 'Non renseigné'}
     if (data.services) formDataToSend.append('Services', data.services);
     if (data.secteur) formDataToSend.append('Secteur', data.secteur);
     if (data.entreprise) formDataToSend.append('Entreprise', data.entreprise);
-    
+
     // Informations spécifiques pour Prestataires
     if (pageType === 'prestataires') {
         if (data.statut_juridique) formDataToSend.append('Statut juridique', data.statut_juridique === 'autre' ? (data.statut_juridique_autre || 'Autre') : getStatutJuridiqueLabel(data.statut_juridique));
@@ -1553,7 +1553,7 @@ Besoin: ${data.besoin || 'Non renseigné'}
         if (data.taux_satisfaction) formDataToSend.append('Taux satisfaction', getTauxSatisfactionLabel(data.taux_satisfaction));
         if (data.certification) formDataToSend.append('Certification', 'OUI');
     }
-    
+
     // Informations spécifiques pour Entreprises
     if (pageType === 'entreprises') {
         if (data.site_web) formDataToSend.append('Site web', data.site_web);
@@ -1572,7 +1572,7 @@ Besoin: ${data.besoin || 'Non renseigné'}
         if (data.prestataires_precedents) formDataToSend.append('Prestataires précédents', getPrestatairesPrecedentsLabel(data.prestataires_precedents));
         if (data.certification) formDataToSend.append('Certification', 'OUI');
     }
-    
+
     // Nouvelles données selon profil
     if (data.type_investissement) formDataToSend.append('Type investissement', data.type_investissement);
     if (data.montant_investissement) formDataToSend.append('Montant investissement', data.montant_investissement);
@@ -1583,14 +1583,14 @@ Besoin: ${data.besoin || 'Non renseigné'}
     if (data.role_profil) formDataToSend.append('Rôle/Profil', data.role_profil);
     if (data.objectif) formDataToSend.append('Objectif', data.objectif === 'autre' ? (data.objectif_autre || 'Autre') : data.objectif);
     if (data.besoin && typeof data.besoin === 'string' && data.besoin.length > 50) formDataToSend.append('Besoin', data.besoin);
-    
+
     // Champs spécifiques pour Investisseurs
     if (pageType === 'investisseurs') {
         if (data.motivation) formDataToSend.append('Motivation', data.motivation === 'autre' ? (data.motivation_autre || 'Autre') : data.motivation);
         if (data.attentes) formDataToSend.append('Attentes', data.attentes === 'autre' ? (data.attentes_autre || 'Autre') : data.attentes);
         if (data.criteres) formDataToSend.append('Critères', data.criteres === 'autre' ? (data.criteres_autre || 'Autre') : data.criteres);
         if (data.certification) formDataToSend.append('Certification', 'OUI');
-        
+
         // Ajouter certification dans le message body pour investisseurs
         if (data.certification) {
             messageBody += `
@@ -1601,12 +1601,12 @@ Certification acceptée: OUI
 `;
         }
     }
-    
+
     // Ajouter certification pour porteurs-projets dans les données structurées
     if ((pageType === 'porteurs-projets' || pageType === 'porteur-projet') && data.certification) {
         formDataToSend.append('Certification', 'OUI');
     }
-    
+
     fetch(formspreeUrl, {
         method: 'POST',
         body: formDataToSend,
@@ -1614,46 +1614,46 @@ Certification acceptée: OUI
             'Accept': 'application/json'
         }
     })
-    .then(response => {
-        console.log('📧 Réponse Formspree reçue:', response.status, response.statusText);
-        
-        if (response.ok) {
-            console.log('✅ Email envoyé avec succès depuis la landing page:', {
-                pageType: pageType,
-                profil: profilLabel,
-                email: data.email,
-                nom: data.nom,
-                prenom: data.prenom
-            });
-            
-            // Restaurer le bouton même en cas de succès (avant d'afficher le message)
-            if (submitButton) {
-                submitButton.disabled = false;
-                const buttonText = submitButton.querySelector('.button-text');
-                const buttonLoader = submitButton.querySelector('.button-loader');
-                
-                if (buttonText) {
-                    buttonText.style.opacity = '1';
-                } else {
-                    submitButton.textContent = submitButton.getAttribute('data-original-text') || 'Envoyer';
+        .then(response => {
+            console.log('📧 Réponse Formspree reçue:', response.status, response.statusText);
+
+            if (response.ok) {
+                console.log('✅ Email envoyé avec succès depuis la landing page:', {
+                    pageType: pageType,
+                    profil: profilLabel,
+                    email: data.email,
+                    nom: data.nom,
+                    prenom: data.prenom
+                });
+
+                // Restaurer le bouton même en cas de succès (avant d'afficher le message)
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    const buttonText = submitButton.querySelector('.button-text');
+                    const buttonLoader = submitButton.querySelector('.button-loader');
+
+                    if (buttonText) {
+                        buttonText.style.opacity = '1';
+                    } else {
+                        submitButton.textContent = submitButton.getAttribute('data-original-text') || 'Envoyer';
+                    }
+                    if (buttonLoader) {
+                        buttonLoader.style.display = 'none';
+                    }
                 }
-                if (buttonLoader) {
-                    buttonLoader.style.display = 'none';
-                }
-            }
-            
-            // Si étape 2 ou formulaire complet (tous les profils), afficher message de succès
-            if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs' || pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
-                // Nettoyer les données stockées
-                sessionStorage.removeItem('domtomConnectStep1');
-                
-                // Message de succès personnalisé selon le profil
-                let successTitle = '✓ Inscription envoyée !';
-                let successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.';
-                
-                if (pageType === 'prestataires') {
-                    successTitle = '✓ Candidature envoyée avec succès !';
-                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+
+                // Si étape 2 ou formulaire complet (tous les profils), afficher message de succès
+                if (!isStep1 || pageType === 'prestataires' || pageType === 'entreprises' || pageType === 'investisseurs' || pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
+                    // Nettoyer les données stockées
+                    sessionStorage.removeItem('domtomConnectStep1');
+
+                    // Message de succès personnalisé selon le profil
+                    let successTitle = '✓ Inscription envoyée !';
+                    let successMessage = 'Merci ! Nous avons bien reçu votre demande. Nous vous contacterons très prochainement pour discuter de votre projet.';
+
+                    if (pageType === 'prestataires') {
+                        successTitle = '✓ Candidature envoyée avec succès !';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre candidature a bien été reçue et enregistrée. 
 
@@ -1665,9 +1665,9 @@ Votre candidature a bien été reçue et enregistrée.
 • Planifier votre intégration dans notre écosystème
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                } else if (pageType === 'entreprises') {
-                    successTitle = '✓ Demande envoyée avec succès !';
-                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                    } else if (pageType === 'entreprises') {
+                        successTitle = '✓ Demande envoyée avec succès !';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre demande a bien été reçue et enregistrée.
 
@@ -1679,9 +1679,9 @@ Votre demande a bien été reçue et enregistrée.
 • Vous proposer des solutions adaptées à vos besoins
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                } else if (pageType === 'investisseurs') {
-                    successTitle = '✓ Inscription envoyée avec succès !';
-                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                    } else if (pageType === 'investisseurs') {
+                        successTitle = '✓ Inscription envoyée avec succès !';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Votre demande a bien été reçue et enregistrée.
 
@@ -1693,9 +1693,9 @@ Votre demande a bien été reçue et enregistrée.
 • Définir ensemble votre cotisation mensuelle
 
 En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                } else if (pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
-                    successTitle = '✓ Demande envoyée avec succès !';
-                    successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
+                    } else if (pageType === 'porteurs-projets' || pageType === 'porteur-projet') {
+                        successTitle = '✓ Demande envoyée avec succès !';
+                        successMessage = `Merci ${data.prenom ? data.prenom + ' !' : ' !'} 🎉
 
 Ta demande a bien été reçue et enregistrée.
 
@@ -1707,16 +1707,16 @@ Ta demande a bien été reçue et enregistrée.
 • Planifier un appel découverte gratuit
 
 En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domtom Connect.`;
-                }
-                
-                // Afficher le message de succès avec animation
-                setTimeout(() => {
-                    // Vérifier si c'est un formulaire de quiz (avec quiz-container)
-                    const quizContainer = form.querySelector('.quiz-container');
-                    const quizQuestionsContainer = form.querySelector('#quiz-questions-container');
-                    const quizNavigation = form.querySelector('#quiz-navigation');
-                    
-                    const successHTML = `
+                    }
+
+                    // Afficher le message de succès avec animation
+                    setTimeout(() => {
+                        // Vérifier si c'est un formulaire de quiz (avec quiz-container)
+                        const quizContainer = form.querySelector('.quiz-container');
+                        const quizQuestionsContainer = form.querySelector('#quiz-questions-container');
+                        const quizNavigation = form.querySelector('#quiz-navigation');
+
+                        const successHTML = `
                         <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
                             <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
                             <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">${successTitle}</h3>
@@ -1747,117 +1747,117 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                             }
                         </style>
                     `;
-                    
-                    // Si c'est un quiz, afficher dans le quiz-container ou quiz-questions-container
-                    if (quizContainer) {
-                        quizContainer.innerHTML = successHTML;
-                    } else if (quizQuestionsContainer) {
-                        quizQuestionsContainer.innerHTML = successHTML;
-                        if (quizNavigation) {
-                            quizNavigation.style.display = 'none';
+
+                        // Si c'est un quiz, afficher dans le quiz-container ou quiz-questions-container
+                        if (quizContainer) {
+                            quizContainer.innerHTML = successHTML;
+                        } else if (quizQuestionsContainer) {
+                            quizQuestionsContainer.innerHTML = successHTML;
+                            if (quizNavigation) {
+                                quizNavigation.style.display = 'none';
+                            }
+                        } else {
+                            // Sinon, remplacer tout le formulaire (comportement par défaut)
+                            form.innerHTML = successHTML;
                         }
-                    } else {
-                        // Sinon, remplacer tout le formulaire (comportement par défaut)
-                        form.innerHTML = successHTML;
-                    }
-                }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
-            }
-        } else {
-            return response.json().then(errData => {
-                console.error('❌ Erreur lors de l\'envoi de l\'email:', errData);
-                
-                // Gérer les erreurs de validation de Formspree
-                let errorMessage = 'Erreur lors de l\'envoi du formulaire.';
-                
-                if (errData.errors && Array.isArray(errData.errors) && errData.errors.length > 0) {
-                    // Formspree retourne des erreurs de validation détaillées
-                    const validationErrors = errData.errors.map(err => {
-                        if (typeof err === 'string') return err;
-                        if (err.message) return err.message;
-                        if (err.field) return `${err.field}: ${err.message || 'Erreur de validation'}`;
-                        return JSON.stringify(err);
-                    }).join('\n');
-                    errorMessage = `Erreurs de validation détectées :\n\n${validationErrors}\n\nVeuillez vérifier vos informations et réessayer.`;
-                } else if (errData.error) {
-                    // Message d'erreur générique de Formspree
-                    const errorLower = errData.error.toLowerCase();
-                    
-                    // Gérer les erreurs de rate limiting
-                    if (errorLower.includes('trop de soumissions') || 
-                        errorLower.includes('too many submissions') || 
-                        errorLower.includes('rate limit') ||
-                        errorLower.includes('rate limiting')) {
-                        errorMessage = '⏱️ Trop de soumissions récentes\n\n' +
-                            'Pour éviter le spam, nous limitons le nombre de soumissions par période.\n\n' +
-                            'Veuillez patienter quelques minutes avant de réessayer.\n\n' +
-                            'Si le problème persiste, contactez-nous directement à :\n' +
-                            'domtomconnect@gmail.com';
-                    } else if (errorLower.includes('validation')) {
-                        errorMessage = 'Certains champs du formulaire ne sont pas valides. Veuillez vérifier vos informations et réessayer.';
-                    } else {
-                        errorMessage = errData.error;
-                    }
+                    }, 300); // Petit délai pour s'assurer que les alertes précédentes sont fermées
                 }
-                
-                throw new Error(errorMessage);
+            } else {
+                return response.json().then(errData => {
+                    console.error('❌ Erreur lors de l\'envoi de l\'email:', errData);
+
+                    // Gérer les erreurs de validation de Formspree
+                    let errorMessage = 'Erreur lors de l\'envoi du formulaire.';
+
+                    if (errData.errors && Array.isArray(errData.errors) && errData.errors.length > 0) {
+                        // Formspree retourne des erreurs de validation détaillées
+                        const validationErrors = errData.errors.map(err => {
+                            if (typeof err === 'string') return err;
+                            if (err.message) return err.message;
+                            if (err.field) return `${err.field}: ${err.message || 'Erreur de validation'}`;
+                            return JSON.stringify(err);
+                        }).join('\n');
+                        errorMessage = `Erreurs de validation détectées :\n\n${validationErrors}\n\nVeuillez vérifier vos informations et réessayer.`;
+                    } else if (errData.error) {
+                        // Message d'erreur générique de Formspree
+                        const errorLower = errData.error.toLowerCase();
+
+                        // Gérer les erreurs de rate limiting
+                        if (errorLower.includes('trop de soumissions') ||
+                            errorLower.includes('too many submissions') ||
+                            errorLower.includes('rate limit') ||
+                            errorLower.includes('rate limiting')) {
+                            errorMessage = '⏱️ Trop de soumissions récentes\n\n' +
+                                'Pour éviter le spam, nous limitons le nombre de soumissions par période.\n\n' +
+                                'Veuillez patienter quelques minutes avant de réessayer.\n\n' +
+                                'Si le problème persiste, contactez-nous directement à :\n' +
+                                'domtomconnect@gmail.com';
+                        } else if (errorLower.includes('validation')) {
+                            errorMessage = 'Certains champs du formulaire ne sont pas valides. Veuillez vérifier vos informations et réessayer.';
+                        } else {
+                            errorMessage = errData.error;
+                        }
+                    }
+
+                    throw new Error(errorMessage);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('❌ Erreur détaillée lors de l\'envoi de l\'email:', error);
+            console.error('❌ Données du formulaire:', data);
+            console.error('❌ Profil détecté:', profil, 'PageType:', pageType);
+
+            // Essayer d'envoyer un email de secours avec les données disponibles
+            console.warn('⚠️ Tentative d\'envoi d\'email de secours...');
+            const fallbackFormData = new FormData();
+            fallbackFormData.append('_to', 'domtomconnect@gmail.com');
+            fallbackFormData.append('_subject', `⚠️ ERREUR ENVOI - ${profilLabel} - ${data.prenom || 'NOM_MANQUANT'} ${data.nom || 'PRENOM_MANQUANT'}`);
+            fallbackFormData.append('_replyto', data.email || 'domtomconnect@gmail.com');
+            fallbackFormData.append('message', `ERREUR LORS DE L'ENVOI DU FORMULAIRE\n\nProfil: ${profilLabel}\nPage: ${window.location.href}\nErreur: ${error.message}\n\nDonnées disponibles:\n${JSON.stringify(data, null, 2)}`);
+
+            fetch('https://formspree.io/f/myzbqepy', {
+                method: 'POST',
+                body: fallbackFormData,
+                headers: { 'Accept': 'application/json' }
+            }).catch(fallbackError => {
+                console.error('❌ Échec de l\'envoi de secours:', fallbackError);
             });
-        }
-    })
-    .catch(error => {
-        console.error('❌ Erreur détaillée lors de l\'envoi de l\'email:', error);
-        console.error('❌ Données du formulaire:', data);
-        console.error('❌ Profil détecté:', profil, 'PageType:', pageType);
-        
-        // Essayer d'envoyer un email de secours avec les données disponibles
-        console.warn('⚠️ Tentative d\'envoi d\'email de secours...');
-        const fallbackFormData = new FormData();
-        fallbackFormData.append('_to', 'domtomconnect@gmail.com');
-        fallbackFormData.append('_subject', `⚠️ ERREUR ENVOI - ${profilLabel} - ${data.prenom || 'NOM_MANQUANT'} ${data.nom || 'PRENOM_MANQUANT'}`);
-        fallbackFormData.append('_replyto', data.email || 'domtomconnect@gmail.com');
-        fallbackFormData.append('message', `ERREUR LORS DE L'ENVOI DU FORMULAIRE\n\nProfil: ${profilLabel}\nPage: ${window.location.href}\nErreur: ${error.message}\n\nDonnées disponibles:\n${JSON.stringify(data, null, 2)}`);
-        
-        fetch('https://formspree.io/f/myzbqepy', {
-            method: 'POST',
-            body: fallbackFormData,
-            headers: { 'Accept': 'application/json' }
-        }).catch(fallbackError => {
-            console.error('❌ Échec de l\'envoi de secours:', fallbackError);
+
+            // Message d'erreur plus informatif
+            let errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre formulaire.';
+
+            // Si le message contient "Validation errors", le rendre plus clair
+            if (errorMessage.toLowerCase().includes('validation errors') || errorMessage.toLowerCase().includes('validation error')) {
+                errorMessage = 'Certains champs du formulaire ne sont pas valides.\n\nVeuillez vérifier que tous les champs obligatoires sont correctement remplis et réessayer.\n\nSi le problème persiste, contactez-nous directement à domtomconnect@gmail.com';
+            }
+
+            alert(errorMessage);
+            if (submitButton) {
+                submitButton.disabled = false;
+                const buttonText = submitButton.querySelector('.button-text');
+                const buttonLoader = submitButton.querySelector('.button-loader');
+
+                if (buttonText) {
+                    buttonText.style.opacity = '1';
+                    buttonText.textContent = originalText;
+                }
+                if (buttonLoader) {
+                    buttonLoader.style.display = 'none';
+                }
+
+                if (!buttonText && !buttonLoader) {
+                    submitButton.textContent = originalText || 'Envoyer';
+                }
+            }
         });
-        
-        // Message d'erreur plus informatif
-        let errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre formulaire.';
-        
-        // Si le message contient "Validation errors", le rendre plus clair
-        if (errorMessage.toLowerCase().includes('validation errors') || errorMessage.toLowerCase().includes('validation error')) {
-            errorMessage = 'Certains champs du formulaire ne sont pas valides.\n\nVeuillez vérifier que tous les champs obligatoires sont correctement remplis et réessayer.\n\nSi le problème persiste, contactez-nous directement à domtomconnect@gmail.com';
-        }
-        
-        alert(errorMessage);
-        if (submitButton) {
-            submitButton.disabled = false;
-            const buttonText = submitButton.querySelector('.button-text');
-            const buttonLoader = submitButton.querySelector('.button-loader');
-            
-            if (buttonText) {
-                buttonText.style.opacity = '1';
-                buttonText.textContent = originalText;
-            }
-            if (buttonLoader) {
-                buttonLoader.style.display = 'none';
-            }
-            
-            if (!buttonText && !buttonLoader) {
-                submitButton.textContent = originalText || 'Envoyer';
-            }
-        }
-    });
 }
 
 // Fonction pour envoyer les données de l'étape 1 en arrière-plan
 async function sendStep1Data(data, pageType) {
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
     const formDataToSend = new FormData();
-    
+
     // Déterminer le label selon le type de page
     let profilLabel = '🚀 PORTEUR DE PROJET / ENTREPRENEUR - ÉTAPE 1';
     if (pageType === 'prestataires') {
@@ -1867,11 +1867,11 @@ async function sendStep1Data(data, pageType) {
     } else if (pageType === 'investisseurs') {
         profilLabel = '💰 INVESTISSEUR - ÉTAPE 1';
     }
-    
+
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     formDataToSend.append('_subject', `${profilLabel} - ${data.prenom} ${data.nom}`);
     formDataToSend.append('_replyto', data.email);
-    
+
     let messageBody = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${profilLabel} - DEMANDE D'APPEL
@@ -1910,7 +1910,7 @@ ${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data
     if (data.lieu_actuel) formDataToSend.append('Lieu actuel', data.lieu_actuel);
     if (data.ile) formDataToSend.append('Territoire', data.ile); // Compatibilité ancien formulaire
     if (data.lien_territoires) formDataToSend.append('Lien territoires', getLienTerritoiresLabel(data.lien_territoires, data.lien_territoires_autre)); // Compatibilité ancien formulaire
-    
+
     // Envoyer en arrière-plan (ne pas attendre la réponse)
     return fetch(formspreeUrl, {
         method: 'POST',
@@ -1919,34 +1919,34 @@ ${data.lien_territoires ? `Lien avec territoires: ${getLienTerritoiresLabel(data
             'Accept': 'application/json'
         }
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('✅ Email étape 1 envoyé avec succès:', {
-                pageType: pageType,
-                profil: profilLabel,
-                email: data.email,
-                nom: data.nom,
-                prenom: data.prenom
-            });
-        } else {
-            console.error('❌ Erreur lors de l\'envoi de l\'email étape 1:', response.status);
-        }
-        return response;
-    })
-    .catch(error => {
-        console.error('❌ Erreur lors de l\'envoi de l\'étape 1:', error);
-        throw error;
-    });
+        .then(response => {
+            if (response.ok) {
+                console.log('✅ Email étape 1 envoyé avec succès:', {
+                    pageType: pageType,
+                    profil: profilLabel,
+                    email: data.email,
+                    nom: data.nom,
+                    prenom: data.prenom
+                });
+            } else {
+                console.error('❌ Erreur lors de l\'envoi de l\'email étape 1:', response.status);
+            }
+            return response;
+        })
+        .catch(error => {
+            console.error('❌ Erreur lors de l\'envoi de l\'étape 1:', error);
+            throw error;
+        });
 }
 
 // Fonction pour gérer le formulaire de qualification (étape 2)
 function handleQualificationFormSubmit(event) {
     event.preventDefault();
-    
+
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
-    
+
     // Récupérer les données de l'étape 1
     const step1Data = sessionStorage.getItem('domtomConnectStep1');
     let step1 = {};
@@ -1957,10 +1957,10 @@ function handleQualificationFormSubmit(event) {
             console.error('Erreur lors de la récupération des données étape 1:', e);
         }
     }
-    
+
     // Fusionner les données des deux étapes
     const completeData = { ...step1, ...data, form_step: '2' };
-    
+
     // Vérification de sécurité (anti-bot)
     if (window.formSecurity) {
         const securityCheck = window.formSecurity.secureFormSubmission(form, completeData);
@@ -1970,9 +1970,9 @@ function handleQualificationFormSubmit(event) {
             return;
         }
     }
-    
+
     const pageType = 'porteurs-projets';
-    
+
     // Track the lead
     if (window.trackLead) {
         window.trackLead({
@@ -1981,15 +1981,15 @@ function handleQualificationFormSubmit(event) {
             email: completeData.email || step1.email
         });
     }
-    
+
     // Show loading state
     const submitButton = form.querySelector('button[type="submit"]') || document.getElementById('submit-btn-step2');
     const originalText = submitButton ? submitButton.textContent : '';
-    
+
     if (submitButton) {
         const buttonText = submitButton.querySelector('.button-text');
         const buttonLoader = submitButton.querySelector('.button-loader');
-        
+
         if (buttonText) {
             buttonText.style.opacity = '0.5';
         }
@@ -1997,22 +1997,22 @@ function handleQualificationFormSubmit(event) {
             buttonLoader.style.display = 'block';
         }
         submitButton.disabled = true;
-        
+
         if (!buttonText && !buttonLoader) {
             submitButton.textContent = 'Envoi en cours...';
         }
     }
-    
+
     // Send to Formspree
     const formspreeUrl = 'https://formspree.io/f/myzbqepy';
     const profilLabel = '🚀 PORTEUR DE PROJET - QUALIFICATION COMPLÈTE';
-    
+
     const formDataToSend = new FormData();
     formDataToSend.append('_to', 'domtomconnect@gmail.com');
     const projetNom = completeData.nom_projet || '';
     formDataToSend.append('_subject', `${profilLabel} - ${projetNom ? projetNom + ' - ' : ''}${completeData.prenom} ${completeData.nom}`);
     formDataToSend.append('_replyto', completeData.email);
-    
+
     // Construire le message complet
     let messageBody = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2049,7 +2049,7 @@ ${completeData.besoins_virtuel ? `Besoins spécifiques (digital): ${completeData
 ${completeData.besoins_hybride ? `Besoins spécifiques (hybride): ${completeData.besoins_hybride}` : ''}
 `;
     }
-    
+
     // Bloc 3 - Objectifs & horizon
     if (completeData.objectif_principal || completeData.horizon) {
         messageBody += `
@@ -2060,12 +2060,12 @@ Objectif principal: ${getObjectifPrincipalLabel(completeData.objectif_principal,
 Horizon: ${getHorizonLabel(completeData.horizon)}
 `;
     }
-    
+
     // Bloc 4 - Budget & engagement
     if (completeData.budget || completeData.engagement) {
         // Déterminer le pack et les facilités de paiement selon budget + engagement
         const packInfo = determinePackAndPayment(completeData.budget, completeData.engagement);
-        
+
         let packSection = '';
         if (packInfo.pack) {
             packSection = `
@@ -2079,7 +2079,7 @@ Pack: ${packInfo.packName}
 Plan: ${packInfo.paymentPlan}
 Action: ${packInfo.action}`;
         }
-        
+
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 BLOC 4 - BUDGET & ENGAGEMENT
@@ -2089,17 +2089,17 @@ Engagement: ${getEngagementLabel(completeData.engagement)}
 ${packSection}
 `;
     }
-    
+
     if (completeData.commentaires) {
         messageBody += `
 Commentaires additionnels: ${completeData.commentaires}
 `;
     }
-    
+
     // Adapter les prochaines étapes selon l'engagement
     const packInfo = determinePackAndPayment(completeData.budget, completeData.engagement);
     let prochainesEtapes = '';
-    
+
     if (completeData.engagement === 'oui') {
         prochainesEtapes = `
 1. ⚡ PRIORITÉ : Contacter ${completeData.prenom} ${completeData.nom}${completeData.nom_projet ? ' (' + completeData.nom_projet + ')' : ''} rapidement (engagement clair)
@@ -2120,7 +2120,7 @@ Commentaires additionnels: ${completeData.commentaires}
 3. Proposer newsletter/ressources gratuites
 4. Suivi à froid dans 2-3 semaines`;
     }
-    
+
     messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📞 PROCHAINES ÉTAPES
@@ -2128,9 +2128,9 @@ Commentaires additionnels: ${completeData.commentaires}
 ${prochainesEtapes}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-    
+
     formDataToSend.append('message', messageBody);
-    
+
     // Données structurées
     formDataToSend.append('Prénom', completeData.prenom);
     formDataToSend.append('Nom', completeData.nom);
@@ -2167,7 +2167,7 @@ ${prochainesEtapes}
         }
     }
     if (completeData.commentaires) formDataToSend.append('Commentaires', completeData.commentaires);
-    
+
     fetch(formspreeUrl, {
         method: 'POST',
         body: formDataToSend,
@@ -2175,56 +2175,56 @@ ${prochainesEtapes}
             'Accept': 'application/json'
         }
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('✅ Email qualification complète envoyé avec succès:', {
-                pageType: pageType,
-                profil: profilLabel,
-                email: completeData.email,
-                nom: completeData.nom,
-                prenom: completeData.prenom,
-                projet: completeData.nom_projet
-            });
-            
-            // Nettoyer les données stockées
-            sessionStorage.removeItem('domtomConnectStep1');
-            
-            // Show success message
-            form.innerHTML = `
+        .then(response => {
+            if (response.ok) {
+                console.log('✅ Email qualification complète envoyé avec succès:', {
+                    pageType: pageType,
+                    profil: profilLabel,
+                    email: completeData.email,
+                    nom: completeData.nom,
+                    prenom: completeData.prenom,
+                    projet: completeData.nom_projet
+                });
+
+                // Nettoyer les données stockées
+                sessionStorage.removeItem('domtomConnectStep1');
+
+                // Show success message
+                form.innerHTML = `
                 <div style="text-align: center; padding: 2rem 0;">
                     <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">✓ Qualification envoyée !</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Merci ! Nous avons toutes les informations nécessaires. Nous vous contacterons très prochainement pour planifier votre appel de diagnostic.</p>
                     <a href="/merci.html" class="cta-button primary">Voir les prochaines étapes</a>
                 </div>
             `;
-        } else {
-            return response.json().then(errData => {
-                console.error('❌ Erreur lors de l\'envoi de l\'email de qualification:', errData);
-                throw new Error(errData.error || 'Erreur lors de l\'envoi');
-            });
-        }
-    })
-    .catch(error => {
-        console.error('❌ Erreur détaillée lors de l\'envoi de l\'email de qualification:', error);
-        const errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement.';
-        alert(errorMessage);
-        
-        if (submitButton) {
-            const buttonText = submitButton.querySelector('.button-text');
-            const buttonLoader = submitButton.querySelector('.button-loader');
-            
-            if (buttonText) {
-                buttonText.style.opacity = '1';
+            } else {
+                return response.json().then(errData => {
+                    console.error('❌ Erreur lors de l\'envoi de l\'email de qualification:', errData);
+                    throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                });
             }
-            if (buttonLoader) {
-                buttonLoader.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('❌ Erreur détaillée lors de l\'envoi de l\'email de qualification:', error);
+            const errorMessage = error.message || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement.';
+            alert(errorMessage);
+
+            if (submitButton) {
+                const buttonText = submitButton.querySelector('.button-text');
+                const buttonLoader = submitButton.querySelector('.button-loader');
+
+                if (buttonText) {
+                    buttonText.style.opacity = '1';
+                }
+                if (buttonLoader) {
+                    buttonLoader.style.display = 'none';
+                }
+                submitButton.disabled = false;
+
+                if (!buttonText && !buttonLoader) {
+                    submitButton.textContent = originalText;
+                }
             }
-            submitButton.disabled = false;
-            
-            if (!buttonText && !buttonLoader) {
-                submitButton.textContent = originalText;
-            }
-        }
-    });
+        });
 }
 
