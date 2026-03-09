@@ -171,22 +171,24 @@
     <script>
         // Redirection immédiate si déjà connecté
         window.addEventListener('load', async () => {
-            const { data: { session } } = await window.supabase.createClient(
-                'https://vlpzmxddgdjjtrpbtksd.supabase.co',
-                'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF'
-            ).auth.getSession();
-
-            if (session) {
-                window.location.href = '../dashboard.html';
+            try {
+                const session = await getSession();
+                if (session) {
+                    window.location.href = '../dashboard.html';
+                }
+            } catch (err) {
+                console.error("Erreur de session:", err);
             }
         });
 
         async function handleGoogleSignUp() {
+            console.log("Tentative de connexion Google...");
             try {
                 await signInWithGoogle();
             } catch (err) {
+                console.error("Détails erreur Google:", err);
                 const errorEl = document.getElementById('authError');
-                errorEl.textContent = "Erreur Google : " + err.message;
+                errorEl.textContent = "Erreur Google : " + (err.error_description || err.message || "Problème de configuration");
                 errorEl.style.display = 'block';
             }
         }
