@@ -219,24 +219,32 @@ p {
     }
 }
 
-/* Navigation v3.0 */
+/* Navigation v3.0+ High Performance */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--gray-100);
     z-index: 1000;
-    padding: 16px 0;
-    transition: all 0.3s ease;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .navbar.scrolled {
-    padding: 12px 0;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95);
     box-shadow: var(--shadow-sm);
 }
 
@@ -245,6 +253,7 @@ p {
     align-items: center;
     gap: 12px;
     text-decoration: none;
+    transition: opacity 0.2s ease;
 }
 
 .nav-logo {
@@ -254,34 +263,34 @@ p {
 }
 
 .nav-brand-name {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.125rem;
+    font-weight: 800;
     color: var(--text-primary);
-}
-
-.nav-content {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-left: auto;
+    letter-spacing: -0.02em;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 24px;
 }
 
 .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color 0.1s ease;
+    letter-spacing: 0.02em;
 }
 
 .nav-links a:hover {
     color: var(--text-primary);
+}
+
+.nav-link-muted {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .nav-lang {
