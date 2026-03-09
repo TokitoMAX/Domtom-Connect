@@ -99,9 +99,20 @@
                 window.location.href = 'login.html';
                 return;
             }
-            document.getElementById('user-name').textContent = `Bienvenue, ${session.user.user_metadata.full_name || session.user.email}`;
-            // Simulation de tier
-            document.getElementById('user-tier').textContent = 'Membre Basic';
+            const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
+            document.getElementById('user-name').textContent = `Bienvenue, ${name}`;
+
+            // Affichage de l'email sous le nom
+            const userInfo = document.querySelector('.user-info');
+            const emailPara = document.createElement('p');
+            emailPara.textContent = session.user.email;
+            emailPara.style.color = 'var(--text-secondary)';
+            emailPara.style.fontSize = '0.9rem';
+            emailPara.style.marginTop = '4px';
+            userInfo.appendChild(emailPara);
+
+            // Simulation de tier selon metadata ou email
+            document.getElementById('user-tier').textContent = 'Membre Classique';
         }
 
         function handleLogout() {

@@ -144,20 +144,21 @@
             <span>OU</span>
         </div>
 
-        <form class="auth-form">
+        <form class="auth-form" id="signupForm">
             <div class="input-group">
                 <label>Nom complet</label>
-                <input type="text" placeholder="Prénom Nom" required>
+                <input type="text" id="fullName" placeholder="Prénom Nom" required>
             </div>
             <div class="input-group">
                 <label>Email professionnel</label>
-                <input type="email" placeholder="nom@entreprise.com" required>
+                <input type="email" id="email" placeholder="nom@entreprise.com" required>
             </div>
             <div class="input-group">
                 <label>Mot de passe</label>
-                <input type="password" placeholder="••••••••" required>
+                <input type="password" id="password" placeholder="••••••••" required>
             </div>
             <button type="submit" class="cta-button primary" style="padding: 14px;">Créer mon compte</button>
+            <p id="authError" style="color: #ff4d4d; font-size: 0.85rem; text-align: center; display: none;"></p>
         </form>
 
         <footer class="auth-footer">
@@ -181,8 +182,39 @@
         });
 
         async function handleGoogleSignUp() {
-            signInWithGoogle();
+            try {
+                await signInWithGoogle();
+            } catch (err) {
+                const errorEl = document.getElementById('authError');
+                errorEl.textContent = "Erreur Google : " + err.message;
+                errorEl.style.display = 'block';
+            }
         }
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('fullName').value;
+            const errorEl = document.getElementById('authError');
+            const submitBtn = e.target.querySelector('button');
+
+            try {
+                errorEl.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Création...';
+
+                await signUpWithEmail(email, password, fullName);
+
+                // Redirection vers page d'attente
+                window.location.href = 'verify-email.html';
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Créer mon compte';
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            }
+        });
     </script>
 </body>
 

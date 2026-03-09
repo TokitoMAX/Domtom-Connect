@@ -2,7 +2,7 @@
 const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
 
-// Initialisation (CDN: <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>)
+// Initialisation
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 async function signInWithGoogle() {
@@ -14,7 +14,31 @@ async function signInWithGoogle() {
                 : 'https://vlpzmxddgdjjtrpbtksd.supabase.co/auth/v1/callback'
         }
     });
-    if (error) console.error('Erreur Auth Google:', error.message);
+    if (error) throw error;
+}
+
+async function signUpWithEmail(email, password, fullName) {
+    const { data, error } = await _supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                full_name: fullName
+            },
+            emailRedirectTo: window.location.origin + '/login.html'
+        }
+    });
+    if (error) throw error;
+    return data;
+}
+
+async function signInWithEmail(email, password) {
+    const { data, error } = await _supabase.auth.signInWithPassword({
+        email,
+        password
+    });
+    if (error) throw error;
+    return data;
 }
 
 async function signOut() {
