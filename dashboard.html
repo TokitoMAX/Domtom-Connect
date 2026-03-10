@@ -227,7 +227,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            Profil
+            Statut
         </a>
     </nav>
 
@@ -237,8 +237,8 @@
                 style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu
                 Principal</span>
             <a href="#" class="sidebar-link active">Vue d'ensemble</a>
-            <a href="registration/onboarding.html" class="sidebar-link">Mon Profil</a>
             <a href="marketplace/directory.html" class="sidebar-link">Annuaire Talents</a>
+            <a href="registration/onboarding.html" class="sidebar-link">Changer de Statut / Rôle</a>
 
             <span
                 style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Externe</span>
@@ -250,8 +250,15 @@
                 </svg>
                 Retour à l'accueil
             </a>
-            <a href="#" onclick="handleLogout()" class="sidebar-link" style="color: #ef4444; margin-top: 24px;">
+
+            <span
+                style="font-size: 0.75rem; font-weight: 600; color: #ef4444; text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Danger
+                Zone</span>
+            <a href="#" onclick="handleLogout()" class="sidebar-link" style="color: var(--text-secondary);">
                 Déconnexion
+            </a>
+            <a href="#" onclick="handleDeleteAccount()" class="sidebar-link" style="color: #ef4444; font-weight: 600;">
+                Supprimer mon compte
             </a>
         </aside>
 
@@ -305,13 +312,13 @@
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Mon Profil Public</div>
-                        <p class="card-desc">Votre profil est visible dans l'annuaire par les entreprises et porteurs de projets.</p>
-                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Modifier mon profil</a>
+                        <p class="card-desc">C'est ce que les entreprises voient dans l'annuaire (Bio, Compétences, TJM, Territoire).</p>
+                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Vérifier mes infos publiques</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Mes Missions</div>
-                        <p class="card-desc">Vous n'avez aucune mission active pour le moment. Consultez l'annuaire ou attendez d'être contacté.</p>
-                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Explorer l'écosystème</a>
+                        <div class="card-title">Explorer le Réseau</div>
+                        <p class="card-desc">Découvrez les autres profils et opportunités de l'écosystème Outre-mer.</p>
+                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Voir les Talents</a>
                     </div>
                 `;
             } else if (role === 'entreprise') {
@@ -328,9 +335,14 @@
                         <a href="marketplace/directory.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
                     </div>
                     <div class="dash-card">
+                        <div class="card-title">SoloPrice Pro <span class="badge" style="background: #f1f5f9; color: var(--text-secondary); font-size: 0.7rem;">Découverte</span></div>
+                        <p class="card-desc">Découvrez l'outil phare utilisé par nos freelances pour gérer leurs devis et trésorerie.</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Découvrir le SaaS</a>
+                    </div>
+                    <div class="dash-card">
                         <div class="card-title">Publier un Projet</div>
                         <p class="card-desc">Soumettez-nous votre besoin pour que nous le diffusions à notre réseau fermé d'experts.</p>
-                        <a href="mailto:domtomconnect@gmail.com?subject=Nouveau%20Projet" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Nous contacter</a>
+                        <a href="mailto:domtomconnect@gmail.com?subject=Nouveau%20Projet" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Nous contacter</a>
                     </div>
                 `;
             } else {
@@ -339,15 +351,20 @@
                 roleBadge.style.background = "rgba(100, 116, 139, 0.1)";
 
                 cardsContainer.innerHTML = `
-                    <div class="dash-card">
-                        <div class="card-title">L'Annuaire</div>
-                        <p class="card-desc">Découvrez les profils des meilleurs freelances et experts de l'écosystème Outre-mer.</p>
-                        <a href="marketplace/directory.html" class="cta-button primary" style="margin-top: auto; justify-content: center;">Voir les Talents</a>
-                    </div>
                     <div class="dash-card highlight" style="border-color: var(--gray-300); background: var(--gray-50);">
                         <div class="card-title">Devenir Indépendant</div>
                         <p class="card-desc">Passez au niveau supérieur. Créez un profil Expert pour proposer vos services et accéder à SoloPrice Pro.</p>
-                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; background: white;">Créer un profil Expert</a>
+                        <a href="registration/onboarding.html" class="cta-button primary" style="margin-top: auto; justify-content: center; background: var(--text-primary);">Devenir Expert</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">L'Annuaire</div>
+                        <p class="card-desc">Découvrez les profils des meilleurs freelances et experts de l'écosystème Outre-mer.</p>
+                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les Talents</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">SoloPrice Pro <span class="badge" style="background: #f1f5f9; color: var(--text-secondary); font-size: 0.7rem;">Découverte</span></div>
+                        <p class="card-desc">Découvrez notre outil de gestion financière pour freelances (accessible avec un profil Expert).</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Découvrir l'outil</a>
                     </div>
                 `;
             }
@@ -355,6 +372,25 @@
 
         function handleLogout() {
             signOut();
+        }
+
+        async function handleDeleteAccount() {
+            if (confirm("Êtes-vous sûr de vouloir supprimer définitivement votre compte Domtom Connect ? Cette action effacera également votre profil de l'annuaire de manière permanente.")) {
+                try {
+                    // Si on a une fonction backend pour supprimer, on l'appelle.
+                    // Sinon, ici en JS front, on appelle la fct RPC ou un update explicite
+                    const { error } = await _supabase.rpc('delete_user_account');
+                    if (error) {
+                        // Plan B si pas de RPC paramétrée : demander à l'Admin
+                        alert("Pour des raisons de sécurité, veuillez envoyer un email à domtomconnect@gmail.com pour confirmer la suppression (RGPD).");
+                    } else {
+                        alert("Compte supprimé avec succès.");
+                        window.location.href = '/login.html';
+                    }
+                } catch (e) {
+                    alert("Pour valider la suppression de vos données, veuillez nous contacter à domtomconnect@gmail.com. (Conformité RGPD)");
+                }
+            }
         }
 
         loadDashboard();
