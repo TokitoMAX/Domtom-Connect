@@ -7,127 +7,266 @@
     <title>Mon Espace – Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.0">
     <style>
-        .dashboard-container {
-            padding: 120px 0 60px;
-            min-height: 80vh;
-            background: var(--bg-light);
+        body {
+            background-color: var(--bg-light);
         }
 
-        .user-header {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--border-radius-lg);
-            margin-bottom: 2rem;
-            border: 1px solid var(--gray-200);
-            box-shadow: var(--shadow);
+        .dashboard-layout {
             display: flex;
-            justify-content: space-between;
+            min-height: 100vh;
+            padding-top: 64px;
+            /* Hauteur de la navbar */
+        }
+
+        /* Sidebar simplifiée (Desktop) */
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+        }
+
+        .sidebar-link {
+            display: flex;
             align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        .user-info h1 {
-            margin: 0;
-            font-size: 1.5rem;
+        .sidebar-link:hover {
+            background: var(--gray-50);
+            color: var(--text-primary);
         }
 
-        .tier-badge {
+        .sidebar-link.active {
             background: var(--primary-color);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            color: var(--white);
         }
 
-        .dashboard-grid {
+        /* Contenu principal */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        /* Grilles et Cartes façon Linear */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--border-radius-lg);
+        .dash-card {
+            background: var(--white);
             border: 1px solid var(--gray-200);
-            box-shadow: var(--shadow);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dash-card:hover {
+            border-color: var(--gray-300);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .dash-card.highlight {
+            border: 1px solid var(--emerald-color);
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                /* Remplacé par le menu burger si besoin, ou on s'en passe sur mobile pour se concentrer sur les cartes */
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="container">
+        <div class="container" style="width: 100%; max-width: 100%; padding: 0 24px;">
             <a href="/" class="nav-brand">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <div class="nav-content">
-                <button onclick="handleLogout()" class="cta-button secondary">Déconnexion</button>
+            <div class="nav-content" style="gap: 16px;">
+                <a href="marketplace/directory.html"
+                    style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;">Talents</a>
+                <button onclick="handleLogout()" class="cta-button secondary"
+                    style="padding: 6px 16px; font-size: 0.85rem;">Déconnexion</button>
             </div>
         </div>
     </nav>
 
-    <main class="dashboard-container">
-        <div class="container">
-            <div class="user-header">
-                <div class="user-info">
-                    <span class="tier-badge" id="user-tier">Chargement...</span>
-                    <h1 id="user-name">Bienvenue</h1>
-                </div>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <span
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu
+                Principal</span>
+            <a href="#" class="sidebar-link active">Vue d'ensemble</a>
+            <a href="registration/onboarding.html" class="sidebar-link">Mon Profil</a>
+            <a href="marketplace/directory.html" class="sidebar-link">Annuaire Talents</a>
+        </aside>
+
+        <main class="main-content">
+            <div class="header-section">
+                <span class="role-badge" id="user-role-badge">Chargement...</span>
+                <h1 id="user-greeting" style="font-size: 2rem; margin-bottom: 8px;">Bonjour.</h1>
+                <p style="color: var(--text-secondary); margin: 0;">Bienvenue dans votre espace Domtom Connect.</p>
             </div>
 
-            <div class="dashboard-grid">
-                <div class="card">
-                    <h3>Mes Projets</h3>
-                    <p>Aucun projet en cours. <a href="/register-choice.html">Démarrer un projet</a></p>
-                </div>
-                <div class="card" style="border: 2px solid var(--emerald-color); background: var(--bg-light);">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                        <h3 style="margin: 0;">L'outil Financier des Experts</h3>
-                        <span class="badge emerald" style="font-size: 0.7rem;">SaaS Partenaire</span>
-                    </div>
-                    <p style="margin-bottom: 20px;">Dopez votre rentabilité et sécurisez vos projets en Outre-mer avec
-                        <strong>SoloPrice Pro</strong>. Calculez votre TJM, gérez votre trésorerie et éditez vos devis
-                        en toute confiance.</p>
-                    <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button emerald"
-                        style="width: 100%; text-align: center; display: block;">Découvrir SoloPrice Pro</a>
-                </div>
+            <!-- Contenu dynamique selon le rôle -->
+            <div class="cards-grid" id="dashboard-cards">
+                <!-- Rempli par le JS -->
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        async function checkSession() {
+        async function loadDashboard() {
             const session = await getSession();
             if (!session) {
                 window.location.href = 'login.html';
                 return;
             }
+
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
-            document.getElementById('user-name').textContent = `Bienvenue, ${name}`;
+            const role = session.user.user_metadata.role;
 
-            // Affichage de l'email sous le nom
-            const userInfo = document.querySelector('.user-info');
-            const emailPara = document.createElement('p');
-            emailPara.textContent = session.user.email;
-            emailPara.style.color = 'var(--text-secondary)';
-            emailPara.style.fontSize = '0.9rem';
-            emailPara.style.marginTop = '4px';
-            userInfo.appendChild(emailPara);
+            document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
-            // Simulation de tier selon metadata ou email
-            document.getElementById('user-tier').textContent = 'Membre Classique';
+            if (!role) {
+                // Si pas de rôle, on force l'onboarding
+                window.location.href = 'registration/onboarding.html';
+                return;
+            }
+
+            const roleBadge = document.getElementById('user-role-badge');
+            const cardsContainer = document.getElementById('dashboard-cards');
+
+            if (role === 'expert') {
+                roleBadge.textContent = "Profil Expert";
+                cardsContainer.innerHTML = `
+                    <div class="dash-card highlight">
+                        <div class="card-title">
+                            SoloPrice Pro <span class="badge emerald" style="font-size: 0.7rem;">Outil Inclus</span>
+                        </div>
+                        <p class="card-desc">Accédez à votre suite de gestion financière : calcul TJM, gestion de trésorerie et devis.</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center;">Ouvrir SoloPrice Pro</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Mon Profil Public</div>
+                        <p class="card-desc">Votre profil est visible dans l'annuaire par les entreprises et porteurs de projets.</p>
+                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Modifier mon profil</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Mes Missions</div>
+                        <p class="card-desc">Vous n'avez aucune mission active pour le moment. Consultez l'annuaire ou attendez d'être contacté.</p>
+                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Explorer l'écosystème</a>
+                    </div>
+                `;
+            } else if (role === 'entreprise') {
+                roleBadge.textContent = "Profil Entreprise";
+                roleBadge.style.color = "#0284c7";
+                roleBadge.style.background = "rgba(2, 132, 199, 0.1)";
+
+                cardsContainer.innerHTML = `
+                    <div class="dash-card highlight" style="border-color: #0284c7; background: linear-gradient(180deg, rgba(2, 132, 199, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
+                        <div class="card-title">
+                            Trouver un Talent
+                        </div>
+                        <p class="card-desc">Accédez à notre base d'experts vérifiés aux Antilles, en Guyane, Réunion et dans la diaspora.</p>
+                        <a href="marketplace/directory.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Publier un Projet</div>
+                        <p class="card-desc">Soumettez-nous votre besoin pour que nous le diffusions à notre réseau fermé d'experts.</p>
+                        <a href="mailto:domtomconnect@gmail.com?subject=Nouveau%20Projet" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Nous contacter</a>
+                    </div>
+                `;
+            } else {
+                roleBadge.textContent = "Profil Basique";
+                roleBadge.style.color = "#64748b";
+                roleBadge.style.background = "rgba(100, 116, 139, 0.1)";
+
+                cardsContainer.innerHTML = `
+                    <div class="dash-card">
+                        <div class="card-title">L'Annuaire</div>
+                        <p class="card-desc">Découvrez les profils des meilleurs freelances et experts de l'écosystème Outre-mer.</p>
+                        <a href="marketplace/directory.html" class="cta-button primary" style="margin-top: auto; justify-content: center;">Voir les Talents</a>
+                    </div>
+                    <div class="dash-card highlight" style="border-color: var(--gray-300); background: var(--gray-50);">
+                        <div class="card-title">Devenir Indépendant</div>
+                        <p class="card-desc">Passez au niveau supérieur. Créez un profil Expert pour proposer vos services et accéder à SoloPrice Pro.</p>
+                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; background: white;">Créer un profil Expert</a>
+                    </div>
+                `;
+            }
         }
 
         function handleLogout() {
             signOut();
         }
 
-        checkSession();
+        loadDashboard();
     </script>
 </body>
 
