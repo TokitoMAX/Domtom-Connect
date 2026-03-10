@@ -138,85 +138,124 @@
             <a href="/">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="header-logo">
             </a>
-            <h1 class="auth-title">Rejoindre le réseau Elite</h1>
-            <p class="auth-subtitle">Monétisez votre expertise et collaborez sur les meilleurs projets Outre-mer.</p>
+            <h1 class="auth-title">Intégrer le Réseau d'Experts</h1>
+            <p class="auth-subtitle">Accédez à des projets stratégiques, consolidez votre réseau et boostez votre
+                rentabilité.</p>
         </header>
 
         <main class="onboarding-card">
-            <div class="info-box">
-                <strong>💡 Pourquoi postuler ?</strong>
-                <p style="font-size: 0.875rem; color: var(--text-secondary);">Accédez à des missions qualifiées, boostez
-                    votre visibilité locale et rejoignez une communauté d'experts validés.</p>
+            <div class="info-box" style="border-left: 4px solid var(--primary-color);">
+                <strong style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    Pourquoi postuler ?
+                </strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.5;">
+                    Rejoindre Domtom Connect, c'est accéder à des <strong>décideurs qualifiés</strong> Outre-mer.
+                    Vous intégrez un écosystème fermé, avec un accès inclus à <strong>SoloPrice Pro</strong> pour
+                    piloter votre facturation.
+                </p>
             </div>
 
             <form class="form-grid" id="providerForm" onsubmit="handleProviderSubmit(event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Prénom *</label>
-                        <input type="text" class="form-input" name="first_name" placeholder="Jean" required>
+                        <input type="text" class="form-input" name="first_name" placeholder="Ex: Thomas" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Nom *</label>
-                        <input type="text" class="form-input" name="last_name" placeholder="Dupont" required>
+                        <input type="text" class="form-input" name="last_name" placeholder="Ex: Durant" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">E-mail professionnel *</label>
-                    <input type="email" class="form-input" name="email" placeholder="jean@expertise.com" required>
+                    <input type="email" class="form-input" name="email" placeholder="thomas@expertise-conseil.com"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Spécialité principale *</label>
                     <select class="form-select" name="specialty" required>
-                        <option value="">Sélectionnez un domaine...</option>
-                        <option value="btp">BTP / Rénovation</option>
-                        <option value="digital">Digital / IT / IA</option>
-                        <option value="legal">Juridique / Finance</option>
-                        <option value="marketing">Marketing / Comm</option>
-                        <option value="conseil">Conseil Stratégique</option>
-                        <option value="sante">Santé / Bien-être</option>
+                        <option value="">Sélectionnez votre domaine d'expertise...</option>
+                        <option value="tech_dev">Développement & Engineering</option>
+                        <option value="data_ia">Data, IA & Analytics</option>
+                        <option value="marketing_growth">Marketing & Growth</option>
+                        <option value="consulting">Conseil Stratégique / Finance</option>
+                        <option value="legal">Expertise Juridique</option>
+                        <option value="btp">Ingénierie BTP & Architecture</option>
+                        <option value="autre">Autre spécialité</option>
                     </select>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">TJM Estimé (€)</label>
-                        <input type="number" class="form-input" name="tjm" placeholder="450">
+                        <label class="form-label">Votre TJM Actuel (€)</label>
+                        <input type="number" class="form-input" name="tjm" placeholder="Ex: 550">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Zone d'intervention *</label>
+                        <label class="form-label">Zone d'intervention privilégiée *</label>
                         <select class="form-select" name="territory" required>
-                            <option value="GP">Guadeloupe</option>
+                            <option value="">Sélectionnez...</option>
+                            <option value="GP">Guadeloupe / St-Martin</option>
                             <option value="MQ">Martinique</option>
                             <option value="GF">Guyane</option>
-                            <option value="RE">Réunion</option>
-                            <option value="DIASPORA">Diaspora (Global)</option>
+                            <option value="RE">La Réunion</option>
+                            <option value="DIASPORA">Diaspora & Full Remote</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Votre expertise terrain (DOM-TOM) *</label>
+                    <label class="form-label">Motivations et Expertise Terrain *</label>
                     <textarea class="form-textarea" name="expertise_domtom"
-                        placeholder="Quelles sont vos expériences marquantes sur ces territoires ?" required></textarea>
+                        placeholder="Quelles sont vos expériences techniques marquantes sur ces territoires ? Pourquoi intégrer le réseau ?"
+                        required></textarea>
                 </div>
 
-                <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 12px;" id="submitBtn">
-                    Créer mon profil d'expert
+                <button type="submit" class="cta-button primary"
+                    style="width: 100%; margin-top: 12px; padding: 16px; font-size: 1rem;" id="submitBtn">
+                    Soumettre ma candidature
                 </button>
+                <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 16px;">
+                    Sélection rigoureuse par nos équipes pour garantir la qualité du réseau.
+                </p>
             </form>
         </main>
     </div>
 
+    <script src="../assets/js/form-security.js"></script>
     <script>
         function handleProviderSubmit(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Envoi...';
+            const form = event.target;
 
-            const formData = new FormData(event.target);
+            // Validations Anti-Fake (si dispo)
+            const firstName = form.querySelector('input[name="first_name"]').value;
+            const lastName = form.querySelector('input[name="last_name"]').value;
+            const fullName = firstName + " " + lastName;
+            const emailField = form.querySelector('input[name="email"]').value;
+            const descField = form.querySelector('textarea[name="expertise_domtom"]').value;
+
+            if (window.formSecurity) {
+                if (!window.formSecurity.isValidName(fullName) || !window.formSecurity.isValidEmail(emailField)) {
+                    alert("Veuillez saisir des informations réelles et professionnelles.");
+                    return;
+                }
+                if (!window.formSecurity.isValidText(descField, 30)) {
+                    alert("Votre description est trop courte. Merci d'expliquer vos motivations et votre expertise (minimum 30 caractères).");
+                    return;
+                }
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Envoi sécurisé en cours...';
+
+            const formData = new FormData(form);
             const data = Object.fromEntries(formData);
 
             fetch('https://formspree.io/f/myzbqepy', {
@@ -228,14 +267,17 @@
                     document.getElementById('providerForm').innerHTML = `
                         <div style="text-align: center; padding: 40px 0;">
                             <div style="font-size: 3rem; margin-bottom: 24px;">✨</div>
-                            <h2 style="font-weight: 800; margin-bottom: 12px;">Profil en cours de validation</h2>
-                            <p style="color: var(--text-secondary); margin-bottom: 32px;">Notre équipe analyse votre profil. Vous recevrez une réponse sous 48h.</p>
-                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                            <h2 style="font-weight: 800; margin-bottom: 12px;">Candidature reçue</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
+                                Notre équipe Growth & Talent analyse votre profil.<br>
+                                Si votre expertise correspond à nos besoins actuels, nous vous contacterons sous 48h.
+                            </p>
+                            <a href="/" class="cta-button secondary" style="border: 1px solid var(--gray-200); justify-content: center;">Retour à l'accueil</a>
                         </div>
                     `;
                 } else {
                     btn.disabled = false;
-                    btn.textContent = 'Erreur - Réessayer';
+                    btn.textContent = 'Erreur réseau - Réessayer';
                 }
             });
         }

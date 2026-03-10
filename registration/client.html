@@ -124,85 +124,125 @@
             <a href="/">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="header-logo">
             </a>
-            <h1 class="auth-title">Démarrer votre projet</h1>
-            <p class="auth-subtitle">Parlez-nous de votre besoin pour que nous puissions vous accompagner.</p>
+            <h1 class="auth-title">Confier un Projet Stratégique</h1>
+            <p class="auth-subtitle">Accédez à l'élite des freelances et experts pour vos projets sur les territoires
+                d'Outre-mer.</p>
         </header>
 
         <main class="onboarding-card">
-            <h2 class="section-title">Informations de base</h2>
+            <h2 class="section-title">Quel est votre besoin ?</h2>
             <form class="form-grid" id="onboardingForm" onsubmit="handleOnboarding(event)">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Type de Projet *</label>
+                        <label class="form-label">Secteur d'Activité *</label>
                         <select class="form-select" name="project_type" required>
                             <option value="">Sélectionnez...</option>
-                            <option value="construction">Construction / BTP</option>
-                            <option value="digital">Digital / IT</option>
-                            <option value="business">Commerce / Business</option>
-                            <option value="agri">Agriculture / Agro</option>
-                            <option value="autre">Autre</option>
+                            <option value="tech_digital">Tech & Digital</option>
+                            <option value="btp_ing">Ingénierie & BTP</option>
+                            <option value="conseil_strat">Conseil Stratégique / Finance</option>
+                            <option value="marketing_sales">Growth & Marketing</option>
+                            <option value="autre">Autre secteur</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Territoire D'intérêt *</label>
+                        <label class="form-label">Territoire Cible *</label>
                         <select class="form-select" name="territory" required>
                             <option value="">Sélectionnez...</option>
                             <option value="martinique">Martinique</option>
                             <option value="guadeloupe">Guadeloupe</option>
                             <option value="guyane">Guyane</option>
                             <option value="reunion">La Réunion</option>
-                            <option value="diaspora">Diaspora / Global</option>
+                            <option value="ocean_indien">Océan Indien</option>
+                            <option value="diaspora">Diaspora / Multi-Territoires</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Description du projet *</label>
+                    <label class="form-label">Brief du projet & Objectifs *</label>
                     <textarea class="form-textarea" name="description"
-                        placeholder="Décrivez brièvement votre projet, vos objectifs et vos besoins spécifiques..."
+                        placeholder="Décrivez le contexte, vos objectifs de rentabilité ou de croissance, et les compétences recherchées..."
                         required></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Budget estimé</label>
-                    <select class="form-select" name="budget">
-                        <option value="small">
-                            < 5 000€</option>
-                        <option value="medium">5 000€ - 20 000€</option>
-                        <option value="large">20 000€ - 100 000€</option>
-                        <option value="enterprise">> 100 000€</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Budget alloué</label>
+                        <select class="form-select" name="budget">
+                            <option value="medium">5 000€ - 15 000€</option>
+                            <option value="large">15 000€ - 50 000€</option>
+                            <option value="enterprise">50 000€ - 150 000€</option>
+                            <option value="corporate">> 150 000€</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Délai de démarrage attendu</label>
+                        <select class="form-select" name="timeline">
+                            <option value="urgent">Immédiat (ASAP)</option>
+                            <option value="one_month">Dans le mois</option>
+                            <option value="three_months">D'ici 3 mois</option>
+                            <option value="exploration">Phase de cadrage (Exploration)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <hr style="border: 0; border-top: 1px solid var(--gray-100); margin: 8px 0;">
 
-                <h2 class="section-title" style="margin-bottom: 12px;">Contact</h2>
+                <h2 class="section-title" style="margin-bottom: 12px; font-size: 1.25rem;">Coordonnées du Décideur</h2>
                 <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nom de l'entreprise *</label>
+                        <input type="text" class="form-input" name="company" placeholder="Corporate Corp" required>
+                    </div>
                     <div class="form-group">
                         <label class="form-label">Nom complet *</label>
                         <input type="text" class="form-input" name="name" placeholder="John Doe" required>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">E-mail professionnel *</label>
-                        <input type="email" class="form-input" name="email" placeholder="john@entreprise.com" required>
-                    </div>
                 </div>
 
-                <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 12px;" id="submitBtn">
-                    Soumettre mon projet
+                <div class="form-group">
+                    <label class="form-label">E-mail professionnel *</label>
+                    <input type="email" class="form-input" name="email" placeholder="john@entreprise.com" required>
+                </div>
+
+                <button type="submit" class="cta-button primary"
+                    style="width: 100%; margin-top: 12px; padding: 16px; font-size: 1rem;" id="submitBtn">
+                    Soumettre la demande
                 </button>
+                <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 16px;">
+                    Vos données sont confidentielles. Un Project Manager Domtom Connect vous contactera sous 24h.
+                </p>
             </form>
         </main>
     </div>
 
+    <script src="../assets/js/form-security.js"></script>
     <script>
         function handleOnboarding(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Envoi en cours...';
+            const form = event.target;
 
-            const formData = new FormData(event.target);
+            // Validations Anti-Fake (si dispo)
+            const nameField = form.querySelector('input[name="name"]').value;
+            const emailField = form.querySelector('input[name="email"]').value;
+            const descField = form.querySelector('textarea[name="description"]').value;
+
+            if (window.formSecurity) {
+                if (!window.formSecurity.isValidName(nameField) || !window.formSecurity.isValidEmail(emailField)) {
+                    alert("Veuillez saisir un nom et un email professionnel valides.");
+                    return;
+                }
+                if (!window.formSecurity.isValidText(descField, 20)) {
+                    alert("Votre brief projet est trop court ou semble invalide. Merci de détailler votre besoin.");
+                    return;
+                }
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Envoi sécurisé en cours...';
+
+            const formData = new FormData(form);
             const data = Object.fromEntries(formData);
 
             fetch('https://formspree.io/f/myzbqepy', {
@@ -213,15 +253,18 @@
                 if (response.ok) {
                     document.getElementById('onboardingForm').innerHTML = `
                         <div style="text-align: center; padding: 40px 0;">
-                            <div style="font-size: 3rem; margin-bottom: 24px;">🚀</div>
-                            <h2 style="font-weight: 800; margin-bottom: 12px;">Projet envoyé !</h2>
-                            <p style="color: var(--text-secondary); margin-bottom: 32px;">Nous analysons votre demande. Vous recevrez un e-mail de confirmation sous peu.</p>
-                            <a href="/" class="cta-button primary">Retour à l'accueil</a>
+                            <div style="font-size: 3rem; margin-bottom: 24px;">✅</div>
+                            <h2 style="font-weight: 800; margin-bottom: 12px;">Dossier reçu.</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
+                                Un Project Manager analyse votre demande et les profils correspondants.<br>
+                                Nous vous appelons sous 24 à 48 heures.
+                            </p>
+                            <a href="/" class="cta-button secondary" style="border: 1px solid var(--gray-200); justify-content: center;">Retour à l'accueil</a>
                         </div>
                     `;
                 } else {
                     btn.disabled = false;
-                    btn.textContent = 'Erreur - Réessayer';
+                    btn.textContent = 'Erreur serveur - Réessayer';
                 }
             });
         }
