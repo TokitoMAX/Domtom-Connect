@@ -253,37 +253,36 @@
             </div>
 
             <div class="collaboration-grid">
-                <!-- Entreprises -->
+                <!-- Entreprises & Corporate -->
                 <div class="collaboration-card">
                     <div class="card-icon"></div>
-                    <h3>Entreprises & Institutions</h3>
-                    <p>Sécurisez vos opérations locales. Audit de performance, sourcing d'experts qualifiés et
-                        coordination de projets complexes.</p>
+                    <h3>PME & Corporate</h3>
+                    <p>Sécurisez vos opérations locales. Confiez vos projets aux meilleurs indépendants qualifiés sur
+                        les marchés d'Outre-mer.</p>
                 </div>
 
-                <!-- Investisseurs -->
+                <!-- Agences & Studios -->
                 <div class="collaboration-card">
                     <div class="card-icon"></div>
-                    <h3>Investisseurs</h3>
-                    <p>Découvrez des opportunités vérifiées. Accédez à un flux de projets audités et prêts pour
-                        injection de
-                        capitaux.</p>
+                    <h3>Agences & Studios</h3>
+                    <p>Renforcez vos équipes en marque blanche. Trouvez des talents locaux pour du renfort technique ou
+                        créatif.</p>
                 </div>
 
-                <!-- Porteurs de Projets -->
+                <!-- Décideurs Publics -->
                 <div class="collaboration-card">
                     <div class="card-icon"></div>
-                    <h3>Porteurs de Projets</h3>
-                    <p>Propulsez votre ambition. Du premier diagnostic IA à la mise en relation avec vos futurs
-                        partenaires.</p>
+                    <h3>Institutions & Public</h3>
+                    <p>Digitalisez et optimisez vos services. Accès direct à l'élite des consultants et ingénieurs de la
+                        diaspora.</p>
                 </div>
 
                 <!-- Experts -->
                 <div class="collaboration-card">
                     <div class="card-icon"></div>
                     <h3>Experts & Freelances</h3>
-                    <p>Rejoignez l'élite. Bénéficiez de missions premium et de la Suite SoloPrice Pro
-                        pour votre gestion.</p>
+                    <p>Bénéficiez de missions premium, développez votre réseau, et facturez sereinement avec la Suite
+                        SoloPrice Pro.</p>
                 </div>
             </div>
         </div>
@@ -303,38 +302,39 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Qui peut rejoindre ?</h3>
+                        <h3>Comment fonctionne la plateforme ?</h3>
                         <span class="faq-icon">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Porteurs de projets, entreprises, prestataires, ou membres de la diaspora ultramarine.</p>
+                        <p>Domtom Connect connecte les porteurs de projets aux meilleurs freelances et experts pour
+                            accélérer leurs opérations Outre-mer, de la qualification à l'aide sur le closing via
+                            SoloPrice Pro.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>L'adhésion est-elle payante ?</h3>
+                        <h3>Quel est le modèle d'intégration ?</h3>
                         <span class="faq-icon">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>On s’appelle, on voit ce dont tu as besoin (et ton budget). Ensuite tu choisis un pack si ça
-                            matche. Pas d’inscription forcée.</p>
+                        <p>L'accès aux ressources et au réseau public est libre. Pour les experts, l'accès aux missions
+                            premium et à la suite SoloPrice nécessite une validation de nos équipes et la sélection d'un
+                            plan adapté.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Comment vous contacter ?</h3>
+                        <h3>Garantissez-vous les paiements ?</h3>
                         <span class="faq-icon">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Par email à <a href="mailto:domtomconnect@gmail.com"
-                                style="color: var(--primary-color);">domtomconnect@gmail.com</a>. On répond sous 24h.
-                        </p>
+                        <p>Via SoloPrice Pro, les experts peuvent structurer, chiffrer et sécuriser leurs contrats avec
+                            des acomptes clairs. Notre objectif : zéro retard de paiement dans le réseau.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Section Newsletter (en bas, hors du flow principal) -->
     <section class="newsletter-section"
         style="background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(0, 168, 150, 0.05) 100%); padding: 4rem 0;">
@@ -492,13 +492,13 @@
                     extraLinks = '<a href="dashboard.html">Mon Espace</a>';
                 }
 
-                navLinks.innerHTML = extraLinks + '<a href="dashboard.html" style="font-size: 0.85rem; display: inline-flex; align-items: center; padding: 6px 14px; border: 1px solid var(--gray-200); border-radius: 20px; background: var(--gray-50); color: var(--text-primary); text-decoration: none; font-weight: 500; transition: all 0.2s;">Profil</a>';
+                navLinks.innerHTML = extraLinks + '<a href="dashboard.html" class="nav-profil-badge">Profil</a>';
 
                 // Bouton Profil / Déconnexion
                 navActions.innerHTML = `
-                    <div class="user-menu-wrapper" style="display: flex; align-items: center; gap: 15px;">
-                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">Hello, ${name}</span>
-                        <button onclick="signOut()" class="cta-button secondary" style="padding: 8px 16px; font-size: 0.8rem;">Déconnexion</button>
+                    <div class="user-menu-wrapper">
+                        <span class="user-greeting">Hello, ${name}</span>
+                        <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
                     </div>
                 `;
             }
