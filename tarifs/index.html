@@ -82,8 +82,15 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Barre de confiance */
@@ -196,8 +203,13 @@
             margin: 0;
         }
 
-        .pain-card.pain-porteurs { border-left: 3px solid #0d9488; }
-        .pain-card.pain-entreprises { border-left: 3px solid #7c3aed; }
+        .pain-card.pain-porteurs {
+            border-left: 3px solid #0d9488;
+        }
+
+        .pain-card.pain-entreprises {
+            border-left: 3px solid #7c3aed;
+        }
 
         /* Garantie — discret */
         .guarantee-bar {
@@ -226,8 +238,13 @@
             margin-bottom: 4rem;
         }
 
-        .profile-section-block[id="porteurs"] { scroll-margin-top: 180px; }
-        .profile-section-block[id="entreprises"] { scroll-margin-top: 180px; }
+        .profile-section-block[id="porteurs"] {
+            scroll-margin-top: 180px;
+        }
+
+        .profile-section-block[id="entreprises"] {
+            scroll-margin-top: 180px;
+        }
 
         .profile-header-section {
             margin-bottom: 2.5rem;
@@ -262,7 +279,7 @@
             background: #fff;
             border-radius: 16px;
             padding: 2rem 1.75rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
             transition: box-shadow 0.2s ease, border-color 0.2s ease;
             position: relative;
             overflow: hidden;
@@ -270,7 +287,7 @@
         }
 
         .pricing-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
             border-color: #cbd5e1;
         }
 
@@ -538,7 +555,7 @@
             padding: 1.25rem 1.5rem;
             margin-bottom: 0.75rem;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
 
         .sales-faq-item strong {
@@ -606,7 +623,7 @@
             right: 0;
             background: white;
             padding: 0.75rem 1rem;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
             z-index: 999;
         }
 
@@ -765,14 +782,32 @@
                 padding: 5rem 0 3.5rem;
             }
 
-            .trust-bar .container { gap: 1rem; }
-            .trust-bar-item { font-size: 0.85rem; }
+            .trust-bar .container {
+                gap: 1rem;
+            }
 
-            .anchor-who { top: 70px; }
-            .anchor-who a { padding: 0.5rem 1rem; font-size: 0.9rem; }
+            .trust-bar-item {
+                font-size: 0.85rem;
+            }
 
-            .pain-section { padding: 3rem 0; }
-            .guarantee-bar { flex-direction: column; text-align: center; padding: 1rem; }
+            .anchor-who {
+                top: 70px;
+            }
+
+            .anchor-who a {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .pain-section {
+                padding: 3rem 0;
+            }
+
+            .guarantee-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
 
             .pricing-grid {
                 grid-template-columns: 1fr;
@@ -792,8 +827,13 @@
                 padding-top: 3rem !important;
             }
 
-            .sticky-cta { display: block; }
-            .final-cta { padding-bottom: 5rem; }
+            .sticky-cta {
+                display: block;
+            }
+
+            .final-cta {
+                padding-bottom: 5rem;
+            }
         }
     </style>
 </head>
@@ -860,11 +900,34 @@
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Porteurs de projet / Entrepreneurs</h2>
-                        <p class="profile-subtitle">Selon ton besoin et ton budget : Essai (99€), Pro (500€) ou Tout-en-Un (1900€). On en parle avant.</p>
+                        <p class="profile-subtitle">Selon ton besoin et ton budget : Essai (99€), Pro (500€) ou
+                            Tout-en-Un (1900€). On en parle avant.</p>
                     </div>
                 </div>
 
                 <div class="pricing-grid">
+                    <!-- Pack GRATUIT -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #64748b;">Accès Découverte</div>
+                        <h3 class="pack-title">Démarre ton projet gratuitement</h3>
+                        <div class="pack-price">
+                            0€
+                            <small>Gratuit</small>
+                        </div>
+                        <p class="pack-result pack-result--short">Explore l'écosystème et prépare ton besoin sans frais.
+                        </p>
+                        <ul class="pack-list pack-list--short">
+                            <li>Création de profil basique</li>
+                            <li>Consultation de l'annuaire (limité)</li>
+                            <li>1 dépôt de projet simple</li>
+                            <li>Accès aux guides ressources</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="/registration/basic.html" class="pack-cta-link"
+                                style="background: #94a3b8;">S'inscrire gratuitement</a>
+                        </div>
+                    </div>
+
                     <!-- Pack 99€ -->
                     <div class="pricing-card popular">
                         <div class="pack-name" style="color: #10b981;">Pack Essai Local</div>
@@ -873,7 +936,8 @@
                             99€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">1 à 2 prestataires vérifiés + un cap clair pour avancer.</p>
+                        <p class="pack-result pack-result--short">1 à 2 prestataires vérifiés + un cap clair pour
+                            avancer.</p>
                         <p class="pack-delai">Sous 2 semaines : fiches prestataires + mise en relation.</p>
                         <ul class="pack-list pack-list--short">
                             <li>1 appel découverte (30–45 min)</li>
@@ -884,14 +948,19 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                            <li style="padding: 0.35rem 0;">1 appel découverte (30–45 min) pour comprendre ton projet, ton contexte et ton budget.</li>
-                            <li style="padding: 0.35rem 0;">Clarification de ton besoin principal (priorité n°1 à traiter maintenant).</li>
-                            <li style="padding: 0.35rem 0;">Recherche ciblée de 1 à 2 prestataires locaux adaptés dans le réseau Domtom Connect.</li>
-                            <li style="padding: 0.35rem 0;">1 à 2 fiches prestataires, mise en relation, mini récap (écrit ou audio).</li>
+                                <li style="padding: 0.35rem 0;">1 appel découverte (30–45 min) pour comprendre ton
+                                    projet, ton contexte et ton budget.</li>
+                                <li style="padding: 0.35rem 0;">Clarification de ton besoin principal (priorité n°1 à
+                                    traiter maintenant).</li>
+                                <li style="padding: 0.35rem 0;">Recherche ciblée de 1 à 2 prestataires locaux adaptés
+                                    dans le réseau Domtom Connect.</li>
+                                <li style="padding: 0.35rem 0;">1 à 2 fiches prestataires, mise en relation, mini récap
+                                    (écrit ou audio).</li>
                             </ul>
                         </details>
                         <div class="pack-cta popular">
-                            <button onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">Demander ce pack</button>
+                            <button onclick="openPackModal('Pack Essai Local', '99€', 'porteur-projet')">Demander ce
+                                pack</button>
                         </div>
                     </div>
 
@@ -903,8 +972,10 @@
                             500€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Quelqu'un filtre, cadre et sécurise pour toi. Tu restes décisionnaire.</p>
-                        <p class="pack-delai">Sous 3 semaines : short-list 3 à 5 prestataires + premiers contacts organisés.</p>
+                        <p class="pack-result pack-result--short">Quelqu'un filtre, cadre et sécurise pour toi. Tu
+                            restes décisionnaire.</p>
+                        <p class="pack-delai">Sous 3 semaines : short-list 3 à 5 prestataires + premiers contacts
+                            organisés.</p>
                         <ul class="pack-list pack-list--short">
                             <li>1 appel cadrage (60–90 min)</li>
                             <li>Reformulation de ton besoin + fiches prestataires</li>
@@ -914,11 +985,14 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                                <li>1 appel cadrage approfondi, reformulation du besoin, recherche et présélection de 3 à 5 prestataires, fiches détaillées, organisation des contacts, 1 appel de suivi.</li>
+                                <li>1 appel cadrage approfondi, reformulation du besoin, recherche et présélection de 3
+                                    à 5 prestataires, fiches détaillées, organisation des contacts, 1 appel de suivi.
+                                </li>
                             </ul>
                         </details>
                         <div class="pack-cta">
-                            <button onclick="openPackModal('Pack Pro', '500€', 'porteur-projet')">Demander ce pack</button>
+                            <button onclick="openPackModal('Pack Pro', '500€', 'porteur-projet')">Demander ce
+                                pack</button>
                         </div>
                     </div>
 
@@ -930,8 +1004,10 @@
                             1 900€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Une équipe autour de toi, un plan, le projet en route pour de vrai.</p>
-                        <p class="pack-delai">En 4 à 8 semaines : projet cadré, prestataires en place, démarrage coordonné.</p>
+                        <p class="pack-result pack-result--short">Une équipe autour de toi, un plan, le projet en route
+                            pour de vrai.</p>
+                        <p class="pack-delai">En 4 à 8 semaines : projet cadré, prestataires en place, démarrage
+                            coordonné.</p>
                         <ul class="pack-list pack-list--short">
                             <li>1 diagnostic complet</li>
                             <li>Plan de projet (qui fait quoi, dans quel ordre)</li>
@@ -941,11 +1017,15 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                                <li>Diagnostic complet, plan de projet, recherche et mise en relation (branding, site, com, juridique…), priorisation des actions, coordination 4 à 8 semaines, 2 à 4 points de suivi.</li>
+                                <li>Diagnostic complet, plan de projet, recherche et mise en relation (branding, site,
+                                    com, juridique…), priorisation des actions, coordination 4 à 8 semaines, 2 à 4
+                                    points de suivi.</li>
                             </ul>
                         </details>
                         <div class="pack-cta featured">
-                            <button onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">Demander ce pack</button>
+                            <button
+                                onclick="openPackModal('Pack Solution Tout-en-Un', '1900€', 'porteur-projet')">Demander
+                                ce pack</button>
                         </div>
                     </div>
                 </div>
@@ -956,11 +1036,32 @@
                 <div class="profile-header-section">
                     <div>
                         <h2 class="profile-title-main">Entreprises</h2>
-                        <p class="profile-subtitle">Ponctuel (Express 800€), projet complexe (Coordination 1500€), récurrent (Partenaire 2500€). Ou accompagnement recrutement sur devis.</p>
+                        <p class="profile-subtitle">Ponctuel (Express 800€), projet complexe (Coordination 1500€),
+                            récurrent (Partenaire 2500€). Ou accompagnement recrutement sur devis.</p>
                     </div>
                 </div>
 
                 <div class="pricing-grid">
+                    <!-- Pack GRATUIT Entreprise -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #64748b;">Accès Annuaire</div>
+                        <h3 class="pack-title">Trouvez vos premiers talents</h3>
+                        <div class="pack-price">
+                            0€
+                            <small>Gratuit</small>
+                        </div>
+                        <p class="pack-result pack-result--short">Parcourez notre réseau d'experts sans engagement.</p>
+                        <ul class="pack-list pack-list--short">
+                            <li>Recherche filtrée d'experts</li>
+                            <li>Consultation des profils publics</li>
+                            <li>Dépôt d'offre de mission (limité)</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="/registration/client.html" class="pack-cta-link" style="background: #94a3b8;">Créer
+                                un compte pro</a>
+                        </div>
+                    </div>
+
                     <!-- Pack Express -->
                     <div class="pricing-card">
                         <div class="pack-name" style="color: #EF4444;">Pack Express</div>
@@ -969,7 +1070,8 @@
                             800€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Une short-list de 3 à 5 prestataires locaux + mise en relation. Vous choisissez et vous lancez.</p>
+                        <p class="pack-result pack-result--short">Une short-list de 3 à 5 prestataires locaux + mise en
+                            relation. Vous choisissez et vous lancez.</p>
                         <p class="pack-delai">Sous 2 à 3 semaines : short-list + mise en relation.</p>
                         <ul class="pack-list pack-list--short">
                             <li>1 brief (30–45 min) avec vos équipes</li>
@@ -980,11 +1082,13 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                                <li>Brief, sourcing ciblé, short-list qualifiée avec profil/spécialités/localisation, recommandation argumentée, mise en relation facilitée.</li>
+                                <li>Brief, sourcing ciblé, short-list qualifiée avec profil/spécialités/localisation,
+                                    recommandation argumentée, mise en relation facilitée.</li>
                             </ul>
                         </details>
                         <div class="pack-cta">
-                            <button onclick="openPackModal('Pack Express', '800€', 'entreprise')">Demander ce pack</button>
+                            <button onclick="openPackModal('Pack Express', '800€', 'entreprise')">Demander ce
+                                pack</button>
                         </div>
                     </div>
 
@@ -996,8 +1100,10 @@
                             1 500€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Un point de coordination unique : cadrage, sélection par lot, lancement (kick-off), coordination sur le 1er mois.</p>
-                        <p class="pack-delai">Cadrage et lancement sous 3 semaines, puis coordination sur le 1er mois.</p>
+                        <p class="pack-result pack-result--short">Un point de coordination unique : cadrage, sélection
+                            par lot, lancement (kick-off), coordination sur le 1er mois.</p>
+                        <p class="pack-delai">Cadrage et lancement sous 3 semaines, puis coordination sur le 1er mois.
+                        </p>
                         <ul class="pack-list pack-list--short">
                             <li>Cadrage projet multi-prestataires</li>
                             <li>Sourcing et sélection par métier / lot</li>
@@ -1007,11 +1113,13 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                                <li>Cadrage, sourcing et sélection, organisation lancement (kick-off), coordination (ex. 1er mois), synthèse de lancement.</li>
+                                <li>Cadrage, sourcing et sélection, organisation lancement (kick-off), coordination (ex.
+                                    1er mois), synthèse de lancement.</li>
                             </ul>
                         </details>
                         <div class="pack-cta">
-                            <button onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')">Demander ce pack</button>
+                            <button onclick="openPackModal('Pack Coordination', '1500€', 'entreprise')">Demander ce
+                                pack</button>
                         </div>
                     </div>
 
@@ -1023,8 +1131,10 @@
                             2 500€
                             <small>TTC</small>
                         </div>
-                        <p class="pack-result pack-result--short">Un partenaire qui connaît vos besoins : demandes récurrentes (sourcing, short-list), accès prioritaire, points réguliers.</p>
-                        <p class="pack-delai">Partenariat 6 à 12 mois. Réponse sous 48h, short-list selon la demande.</p>
+                        <p class="pack-result pack-result--short">Un partenaire qui connaît vos besoins : demandes
+                            récurrentes (sourcing, short-list), accès prioritaire, points réguliers.</p>
+                        <p class="pack-delai">Partenariat 6 à 12 mois. Réponse sous 48h, short-list selon la demande.
+                        </p>
                         <ul class="pack-list pack-list--short">
                             <li>Partenariat 6 à 12 mois</li>
                             <li>Demandes récurrentes (cadrage, sourcing, short-list)</li>
@@ -1034,20 +1144,26 @@
                         <details class="pack-details">
                             <summary>Voir le détail du pack</summary>
                             <ul class="pack-list">
-                                <li>Relation 6 à 12 mois, prise en charge des demandes récurrentes, accès prioritaire, mise en relation prioritaire, suivi qualité, points réguliers mensuels ou trimestriels.</li>
+                                <li>Relation 6 à 12 mois, prise en charge des demandes récurrentes, accès prioritaire,
+                                    mise en relation prioritaire, suivi qualité, points réguliers mensuels ou
+                                    trimestriels.</li>
                             </ul>
                         </details>
                         <div class="pack-cta">
-                            <button onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')">Demander ce pack</button>
+                            <button onclick="openPackModal('Pack Partenaire', '2500€', 'entreprise')">Demander ce
+                                pack</button>
                         </div>
                     </div>
 
                     <!-- Accompagnement recrutement & Match culturel -->
                     <div class="pricing-card pricing-card-recrutement">
                         <div class="pack-name" style="color: #0d9488;">Accompagnement recrutement & Match culturel</div>
-                        <h3 class="pack-title">Recruter en Antilles, Guyane, diaspora ? On accompagne votre recrutement.</h3>
+                        <h3 class="pack-title">Recruter en Antilles, Guyane, diaspora ? On accompagne votre recrutement.
+                        </h3>
                         <div class="pack-price pack-price-devis">Sur devis</div>
-                        <p class="pack-result pack-result--short">De la recherche ou du tri des CV aux entretiens (savoir faire, savoir être), au fit avec votre environnement et vos objectifs, jusqu’au suivi des candidats après validation.</p>
+                        <p class="pack-result pack-result--short">De la recherche ou du tri des CV aux entretiens
+                            (savoir faire, savoir être), au fit avec votre environnement et vos objectifs, jusqu’au
+                            suivi des candidats après validation.</p>
                         <p class="pack-delai">Antilles, Guyane, diaspora. CDI, CDD, alternance.</p>
                         <ul class="pack-list pack-list--short">
                             <li>Cadrage avec le dirigeant (vision, culture, profil recherché)</li>
@@ -1073,36 +1189,50 @@
                     </div>
                 </div>
 
-                <div
-                    style="background: white; border-radius: 24px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 2rem auto;">
-                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #1a1a1a;">Engagement
-                        Requis</h3>
-                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Pas de paiement direct</strong> -
-                        Contribution au contenu en échange d'accès au réseau :</p>
-                    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                        <li
-                            style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                            <span style="color: #00BFA6; font-weight: 900;">→</span>
-                            <span>Création contenu avec Domtom Connect (articles, vidéos, podcasts)</span>
-                        </li>
-                        <li
-                            style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                            <span style="color: #00BFA6; font-weight: 900;">→</span>
-                            <span>Partage expertises et retours d'expérience</span>
-                        </li>
-                        <li
-                            style="padding: 0.75rem 0; color: #6b7280; display: flex; align-items: start; gap: 0.75rem;">
-                            <span style="color: #00BFA6; font-weight: 900;">→</span>
-                            <span>Contribution communauté entrepreneuriale ultramarine</span>
-                        </li>
-                    </ul>
-                    <p style="color: #6b7280; margin-bottom: 1.5rem;"><strong>Avantages :</strong> Accès réseau clients
-                        qualifiés • Visibilité accrue • Mises en relation prioritaires • Réseau local + diaspora</p>
-                    <a href="/landing/prestataires"
-                        style="display: inline-block; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); color: white; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3); transition: all 0.3s ease;"
-                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 191, 166, 0.4)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 191, 166, 0.3)'">Rejoindre
-                        en tant que prestataire →</a>
+                <div class="pricing-grid" style="max-width: 1000px; margin: 2rem auto;">
+                    <!-- Modèle Gratuit / Contribution -->
+                    <div class="pricing-card">
+                        <div class="pack-name" style="color: #0d9488;">Accès Contribution</div>
+                        <h3 class="pack-title">Rejoins le réseau gratuitement</h3>
+                        <div class="pack-price">
+                            0€
+                            <small>Via contribution</small>
+                        </div>
+                        <p style="color: #6b7280; margin-bottom: 1.5rem; font-size: 0.9rem;"><strong>Engagement Requis
+                                :</strong> Création de contenu ou partage d'expertise en échange de l'accès.</p>
+                        <ul class="pack-list pack-list--short">
+                            <li>Profil dans l'annuaire</li>
+                            <li>Accès aux leads (pay-per-lead)</li>
+                            <li>SoloPrice Pro (Mode Découverte)</li>
+                            <li>Badge "Membre Réseau"</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="/landing/prestataires" class="pack-cta-link">Rejoindre le réseau</a>
+                        </div>
+                    </div>
+
+                    <!-- Modèle Payant / Pro -->
+                    <div class="pricing-card featured">
+                        <div class="pack-name" style="color: #8B5CF6;">Abonnement PRO</div>
+                        <h3 class="pack-title">Boostez votre activité d'expert</h3>
+                        <div class="pack-price">
+                            29€
+                            <small>/ mois (HT)</small>
+                        </div>
+                        <p class="pack-result pack-result--short">Priorité maximale et outils premium pour les sérieux.
+                        </p>
+                        <ul class="pack-list pack-list--short">
+                            <li><strong>Visibilité Prioritaire</strong> (Top annuaire)</li>
+                            <li><strong>Badge "Vérifié"</strong> Confiance +</li>
+                            <li><strong>Accès Illimité</strong> aux leads B2B</li>
+                            <li><strong>SoloPrice Pro FULL</strong> Inclus</li>
+                        </ul>
+                        <div class="pack-cta featured">
+                            <button
+                                onclick="openPackModal('Abonnement PRO Prestataire', '29€/mois', 'prestataire')">Devenir
+                                PRO</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1111,9 +1241,13 @@
                 style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
                 <div class="profile-header-section">
                     <div>
-                        <p style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Option</p>
+                        <p
+                            style="font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+                            Option</p>
                         <h2 class="profile-title-main">Investir dans Domtom Connect</h2>
-                        <p class="profile-subtitle">Vous souhaitez investir dans notre structure et soutenir l'écosystème ? Accès au réseau d'investisseurs, projets qualifiés des territoires ultramarins. On en parle ensemble.</p>
+                        <p class="profile-subtitle">Vous souhaitez investir dans notre structure et soutenir
+                            l'écosystème ? Accès au réseau d'investisseurs, projets qualifiés des territoires
+                            ultramarins. On en parle ensemble.</p>
                     </div>
                 </div>
 
@@ -1146,7 +1280,8 @@
                     <a href="/landing/investisseurs"
                         style="display: inline-block; background: transparent; color: #F59E0B; border: 2px solid #F59E0B; padding: 1.1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.2s ease;"
                         onmouseover="this.style.background='#F59E0B'; this.style.color='white';"
-                        onmouseout="this.style.background='transparent'; this.style.color='#F59E0B';">En savoir plus et nous contacter →</a>
+                        onmouseout="this.style.background='transparent'; this.style.color='#F59E0B';">En savoir plus et
+                        nous contacter →</a>
                 </div>
             </div>
         </div>
@@ -1159,15 +1294,18 @@
             <div class="sales-faq-list">
                 <div class="sales-faq-item">
                     <strong>Quel délai pour être recontacté ?</strong>
-                    <p>Sous 24h ouvrées après envoi du formulaire. On te propose un créneau pour un premier échange (gratuit).</p>
+                    <p>Sous 24h ouvrées après envoi du formulaire. On te propose un créneau pour un premier échange
+                        (gratuit).</p>
                 </div>
                 <div class="sales-faq-item">
                     <strong>Y a-t-il un engagement ?</strong>
-                    <p>Non. Tu choisis un pack après avoir échangé avec nous. Aucune facturation tant qu’on n’a pas validé ensemble le périmètre.</p>
+                    <p>Non. Tu choisis un pack après avoir échangé avec nous. Aucune facturation tant qu’on n’a pas
+                        validé ensemble le périmètre.</p>
                 </div>
                 <div class="sales-faq-item">
                     <strong>Vous intervenez sur quels territoires ?</strong>
-                    <p>Guadeloupe, Martinique, La Réunion, Guyane, Mayotte, Polynésie française, Nouvelle-Calédonie, et diaspora.</p>
+                    <p>Guadeloupe, Martinique, La Réunion, Guyane, Mayotte, Polynésie française, Nouvelle-Calédonie, et
+                        diaspora.</p>
                 </div>
             </div>
         </div>
@@ -1218,7 +1356,10 @@
                 </select>
                 <button type="submit">Envoyer ma demande</button>
                 <p class="secure-note">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
                     Vos données sont sécurisées. Sans engagement.
                 </p>
             </form>
@@ -1242,7 +1383,7 @@
 
     <script src="../assets/js/script.js?v=2"></script>
     <script>
-        (function() {
+        (function () {
             var anchorPorteurs = document.querySelector('.anchor-who a[href="#porteurs"]');
             var anchorEntreprises = document.querySelector('.anchor-who a[href="#entreprises"]');
             if (anchorPorteurs && anchorEntreprises) {
@@ -1261,7 +1402,7 @@
                         anchorPorteurs.classList.add('anchor-active');
                     }
                 }
-                window.addEventListener('scroll', function() { requestAnimationFrame(updateAnchor); });
+                window.addEventListener('scroll', function () { requestAnimationFrame(updateAnchor); });
                 window.addEventListener('resize', updateAnchor);
                 updateAnchor();
                 // Au chargement, afficher d’abord la section Entreprises (cible CA)

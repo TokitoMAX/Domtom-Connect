@@ -50,6 +50,69 @@
             color: var(--text-primary);
         }
 
+        /* Utility Widgets */
+        .utility-widget {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            margin-top: 24px;
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-50);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .checklist-item:last-child {
+            border: none;
+        }
+
+        .checklist-checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--gray-300);
+            cursor: pointer;
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .directory-item {
+            padding: 12px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .directory-item:hover {
+            border-color: var(--primary-color);
+            background: white;
+        }
+
         .sidebar-link.active {
             background: var(--primary-color);
             color: var(--white);
@@ -186,6 +249,93 @@
                 text-align: center;
             }
         }
+
+        /* Job Board Premium Styles */
+        .job-board-section {
+            margin-top: 40px;
+        }
+
+        .job-board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .job-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .job-card.locked {
+            border-color: #fca5a5;
+            background: #fef2f2;
+        }
+
+        .job-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .job-client-blurred {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(15, 61, 46, 0.5);
+            background: #e2e8f0;
+            border-radius: 4px;
+            padding: 2px 8px;
+            user-select: none;
+        }
+
+        .job-action {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+            min-width: 250px;
+        }
+
+        .premium-lock-btn {
+            background: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .premium-lock-btn:hover {
+            background: #dc2626;
+        }
     </style>
 </head>
 
@@ -263,15 +413,17 @@
         </aside>
 
         <main class="main-content">
-            <div class="header-section">
-                <span class="role-badge" id="user-role-badge">Chargement...</span>
-                <h1 id="user-greeting" style="font-size: 2rem; margin-bottom: 8px;">Bonjour.</h1>
-                <p style="color: var(--text-secondary); margin: 0;">Bienvenue dans votre espace Domtom Connect.</p>
-            </div>
+            <div id="dashboard-content">
+                <div class="header-section">
+                    <span class="role-badge" id="user-role-badge">Chargement...</span>
+                    <h1 id="user-greeting" style="font-size: 2rem; margin-bottom: 8px;">Bonjour.</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Bienvenue dans votre espace Domtom Connect.</p>
+                </div>
 
-            <!-- Contenu dynamique selon le rôle -->
-            <div class="cards-grid" id="dashboard-cards">
-                <!-- Rempli par le JS -->
+                <!-- Contenu dynamique selon le rôle -->
+                <div class="cards-grid" id="dashboard-cards">
+                    <!-- Rempli par le JS -->
+                </div>
             </div>
         </main>
     </div>
@@ -287,7 +439,9 @@
             }
 
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
-            const role = session.user.user_metadata.role;
+            const profile = await getProfile(session.user.id);
+            const role = profile ? profile.role : session.user.user_metadata.role;
+            const tier = profile ? (profile.subscription_tier || 'free') : 'free';
 
             document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
@@ -299,16 +453,21 @@
 
             const roleBadge = document.getElementById('user-role-badge');
             const cardsContainer = document.getElementById('dashboard-cards');
+            const dashboardContent = document.getElementById('dashboard-content');
 
-            if (role === 'expert') {
-                roleBadge.textContent = "Profil Expert";
+
+            if (role === 'expert' || role === 'prestataire') {
+                const isPro = tier === 'pro';
+                roleBadge.textContent = isPro ? "Profil Expert PRO" : "Profil Expert (Gratuit)";
+                if (isPro) roleBadge.style.background = "#8B5CF6";
+
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight">
+                    <div class="dash-card ${isPro ? 'highlight' : ''}" style="${isPro ? 'border-color: #8B5CF6;' : ''}">
                         <div class="card-title">
-                            SoloPrice Pro <span class="badge emerald" style="font-size: 0.7rem;">Outil Inclus</span>
+                            SoloPrice Pro <span class="badge ${isPro ? 'emerald' : ''}" style="font-size: 0.7rem;">${isPro ? 'FULL' : 'Mode Découverte'}</span>
                         </div>
-                        <p class="card-desc">Accédez à votre suite de gestion financière : calcul TJM, gestion de trésorerie et devis.</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center;">Ouvrir SoloPrice Pro</a>
+                        <p class="card-desc">${isPro ? 'Accédez à votre suite complète sans limites.' : 'Testez l\'outil pour vos 3 premiers devis.'}</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; ${isPro ? 'background: #8B5CF6;' : 'background: var(--gray-600);'}">Ouvrir SoloPrice Pro</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Mon Profil Public</div>
@@ -321,6 +480,66 @@
                         <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Voir les Talents</a>
                     </div>
                 `;
+
+                // Add Job Board Premium Section
+                const jobBoardHTML = `
+                    <div class="job-board-section">
+                        <div class="job-board-header">
+                            <div>
+                                <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Appels d'offres Privés</h2>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Accédez aux projets B2B exclusifs de notre réseau.</p>
+                            </div>
+                            ${!isPro ? '<span class="badge" style="background: #fee2e2; color: #ef4444;">Accès Limité (Free)</span>' : '<span class="badge" style="background: #ecfdf5; color: #10b981;">Accès Illimité (PRO)</span>'}
+                        </div>
+
+                        <!-- Job Card 1 -->
+                        <div class="job-card ${!isPro ? 'locked' : ''}">
+                            <div class="job-info">
+                                <h3>Refonte Globale E-commerce (PrestaShop)</h3>
+                                <div class="job-meta">
+                                    <span>📍 Martinique (Hybride)</span>
+                                    <span style="color: var(--emerald-color); font-weight: 700;">💰 Budget estimé: 15 000€ - 25 000€</span>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; max-width: 600px;">
+                                    Client : <span class="${!isPro ? 'job-client-blurred' : ''}">${isPro ? 'Groupe Bernard Hayot (GBH)' : 'Groupe Bernard Hayot'}</span><br>
+                                    Nous recherchons un expert senior pour auditer et refondre notre tunnel de vente actuel.
+                                </p>
+                            </div>
+                            <div class="job-action">
+                                ${!isPro ? `
+                                    <span style="font-size: 0.8rem; color: #ef4444; font-weight: 600;">🔒 Coordonnées bloquées</span>
+                                    <a href="/tarifs" class="premium-lock-btn">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 16px; height: 16px; stroke-width: 2;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                        </svg>
+                                        Devenir PRO pour voir
+                                    </a>
+                                ` : `
+                                    <button class="cta-button primary" style="background: #10b981;">Répondre à l'offre</button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EXPERT UTILITY: LOCAL DIRECTORY -->
+                    <div class="utility-widget">
+                        <div class="widget-title">
+                            <span>📂 Synergie Locale (Partenaires)</span>
+                            <span class="badge" style="font-size: 0.7rem; background: #e0f2fe; color: #0369a1;">Nouveau</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Retrouvez les contacts clés pour vos activités aux Antilles-Guyane.</p>
+                        <div class="directory-grid">
+                            <div class="directory-item">⚖️ Avocats Spé.</div>
+                            <div class="directory-item">📊 Comptables IT</div>
+                            <div class="directory-item">🏢 Espaces Co-working</div>
+                            <div class="directory-item">🤝 CCI / BPI Contacts</div>
+                        </div>
+                    </div>
+                `;
+
+                // On insère le Job Board juste après la grille de cartes
+                cardsContainer.insertAdjacentHTML('afterend', jobBoardHTML);
+
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
                 roleBadge.style.color = "#0284c7";
@@ -339,34 +558,74 @@
                         <p class="card-desc">Découvrez l'outil phare utilisé par nos freelances pour gérer leurs devis et trésorerie.</p>
                         <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Découvrir le SaaS</a>
                     </div>
-                    <div class="dash-card">
-                        <div class="card-title">Publier un Projet</div>
-                        <p class="card-desc">Soumettez-nous votre besoin pour que nous le diffusions à notre réseau fermé d'experts.</p>
-                        <a href="mailto:domtomconnect@gmail.com?subject=Nouveau%20Projet" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Nous contacter</a>
-                    </div>
-                `;
-            } else {
-                roleBadge.textContent = "Profil Basique";
-                roleBadge.style.color = "#64748b";
-                roleBadge.style.background = "rgba(100, 116, 139, 0.1)";
-
-                cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: var(--gray-300); background: var(--gray-50);">
-                        <div class="card-title">Devenir Indépendant</div>
-                        <p class="card-desc">Passez au niveau supérieur. Créez un profil Expert pour proposer vos services et accéder à SoloPrice Pro.</p>
-                        <a href="registration/onboarding.html" class="cta-button primary" style="margin-top: auto; justify-content: center; background: var(--text-primary);">Devenir Expert</a>
+                        <div class="card-title">Recrutement Express</div>
+                        <p class="card-desc">Publiez votre besoin et recevez des propositions sous 48h.</p>
+                        <a href="registration/client.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Publier un besoin</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">L'Annuaire</div>
-                        <p class="card-desc">Découvrez les profils des meilleurs freelances et experts de l'écosystème Outre-mer.</p>
+                        <div class="card-title">Annuaire Strategique</div>
+                        <p class="card-desc">Parcourez les profils des meilleurs freelances et experts de l'écosystème.</p>
                         <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les Talents</a>
                     </div>
-                    <div class="dash-card">
-                        <div class="card-title">SoloPrice Pro <span class="badge" style="background: #f1f5f9; color: var(--text-secondary); font-size: 0.7rem;">Découverte</span></div>
-                        <p class="card-desc">Découvrez notre outil de gestion financière pour freelances (accessible avec un profil Expert).</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Découvrir l'outil</a>
+                `;
+
+                // COMPANY UTILITY: FAVORITES
+                const utilityHTML = `
+                    <div class="utility-widget">
+                        <div class="widget-title">
+                            <span>⭐ Mes Talents Favoris</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; padding: 20px 0;">
+                            Vous n'avez pas encore de favoris.<br>
+                            <a href="marketplace/directory.html" style="color: var(--primary-color);">Parcourir l'annuaire</a> pour en ajouter.
+                        </p>
                     </div>
                 `;
+                dashboardContent.insertAdjacentHTML('beforeend', utilityHTML);
+
+            } else {
+                // Rôle par défaut / Basique
+                roleBadge.textContent = "Porteur de Projet";
+                cardsContainer.innerHTML = `
+                    <div class="dash-card">
+                        <div class="card-title">Lancer un Projet</div>
+                        <p class="card-desc">Décrivez votre besoin pour obtenir un premier cadrage gratuit.</p>
+                        <a href="registration/client.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Démarrer</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Ressources & Guides</div>
+                        <p class="card-desc">Accédez aux guides pratiques pour réussir vos projets Outre-mer.</p>
+                        <a href="/faq/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les guides</a>
+                    </div>
+                `;
+
+                // BASIC UTILITY: PROJECT CHECKLIST
+                const utilityHTML = `
+                    <div class="utility-widget">
+                        <div class="widget-title">
+                            <span>✅ Ma Checklist Projet</span>
+                        </div>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <span>Cadrage du besoin (Objectifs & Budget)</span>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <span>Choix du statut juridique DOM-TOM</span>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <span>Rédaction du cahier des charges simplifié</span>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" class="checklist-checkbox">
+                                <span>Sourcing des experts sur Domtom Connect</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                dashboardContent.insertAdjacentHTML('beforeend', utilityHTML);
             }
         }
 

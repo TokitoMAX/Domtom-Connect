@@ -81,6 +81,8 @@ async function upsertProfile(userId, data) {
         bio: data.bio || null,
         company_name: data.company_name || null,
         needs: data.needs || null,
+        subscription_tier: data.subscription_tier || 'free',
+        subscription_status: data.subscription_status || 'active',
     };
 
     // Supprimer les clés undefined pour ne pas écraser les données existantes
