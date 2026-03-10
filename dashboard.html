@@ -455,90 +455,107 @@
             const cardsContainer = document.getElementById('dashboard-cards');
             const dashboardContent = document.getElementById('dashboard-content');
 
-
             if (role === 'expert' || role === 'prestataire') {
                 const isPro = tier === 'pro';
                 roleBadge.textContent = isPro ? "Profil Expert PRO" : "Profil Expert (Gratuit)";
                 if (isPro) roleBadge.style.background = "#8B5CF6";
 
                 cardsContainer.innerHTML = `
-                    <div class="dash-card ${isPro ? 'highlight' : ''}" style="${isPro ? 'border-color: #8B5CF6;' : ''}">
-                        <div class="card-title">
-                            SoloPrice Pro <span class="badge ${isPro ? 'emerald' : ''}" style="font-size: 0.7rem;">${isPro ? 'FULL' : 'Mode Découverte'}</span>
-                        </div>
-                        <p class="card-desc">${isPro ? 'Accédez à votre suite complète sans limites.' : 'Testez l\'outil pour vos 3 premiers devis.'}</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; ${isPro ? 'background: #8B5CF6;' : 'background: var(--gray-600);'}">Ouvrir SoloPrice Pro</a>
+                    <div class="dash-card highlight" style="border-color: #8B5CF6;">
+                        <div class="card-title">SoloPrice Elite <span class="badge ${isPro ? 'emerald' : ''}" style="font-size: 0.7rem;">${isPro ? 'FULL' : 'Mode Découverte'}</span></div>
+                        <p class="card-desc">${isPro ? 'Gérez vos devis, factures et trésorerie sans aucune limite.' : 'Testez l\'outil gratuitement pour vos 3 premiers devis.'}</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #8B5CF6;">Ouvrir SoloPrice</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Mon Profil Public</div>
-                        <p class="card-desc">C'est ce que les entreprises voient dans l'annuaire (Bio, Compétences, TJM, Territoire).</p>
-                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Vérifier mes infos publiques</a>
+                        <div class="card-title">Badge de Confiance</div>
+                        <p class="card-desc">Obtenez le label "Expert Vérifié" pour rassurer vos clients locaux.</p>
+                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Finaliser ma vérification</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Explorer le Réseau</div>
-                        <p class="card-desc">Découvrez les autres profils et opportunités de l'écosystème Outre-mer.</p>
-                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Voir les Talents</a>
+                        <div class="card-title">Accès aux Leads</div>
+                        <p class="card-desc">Consultez les besoins des entreprises et porteurs de projets.</p>
+                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Voir le Job Board</a>
                     </div>
                 `;
 
-                // Add Job Board Premium Section
+                // EXPERT SAAS UI: JOB BOARD PREVIEW
                 const jobBoardHTML = `
                     <div class="job-board-section">
                         <div class="job-board-header">
                             <div>
-                                <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Appels d'offres Privés</h2>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Accédez aux projets B2B exclusifs de notre réseau.</p>
+                                <h2 style="font-size: 1.5rem; margin-bottom: 4px;">Opportunités Business</h2>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Missions disponibles dans le réseau Domtom Connect.</p>
                             </div>
-                            ${!isPro ? '<span class="badge" style="background: #fee2e2; color: #ef4444;">Accès Limité (Free)</span>' : '<span class="badge" style="background: #ecfdf5; color: #10b981;">Accès Illimité (PRO)</span>'}
+                            ${!isPro ? '<span class="badge" style="background: #fee2e2; color: #ef4444;">Détails bloqués (Free)</span>' : '<span class="badge" style="background: #ecfdf5; color: #10b981;">Accès Intégral (PRO)</span>'}
                         </div>
 
-                        <!-- Job Card 1 -->
                         <div class="job-card ${!isPro ? 'locked' : ''}">
                             <div class="job-info">
-                                <h3>Refonte Globale E-commerce (PrestaShop)</h3>
+                                <h3>Expertise Cloud & Sécurité IT</h3>
                                 <div class="job-meta">
-                                    <span>📍 Martinique (Hybride)</span>
-                                    <span style="color: var(--emerald-color); font-weight: 700;">💰 Budget estimé: 15 000€ - 25 000€</span>
+                                    <span>📍 Martinique / Guadeloupe / Guyane</span>
+                                    <span style="color: var(--emerald-color); font-weight: 700;">💰 Budget: 12 000€ - 20 000€</span>
                                 </div>
-                                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; max-width: 600px;">
-                                    Client : <span class="${!isPro ? 'job-client-blurred' : ''}">${isPro ? 'Groupe Bernard Hayot (GBH)' : 'Groupe Bernard Hayot'}</span><br>
-                                    Nous recherchons un expert senior pour auditer et refondre notre tunnel de vente actuel.
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 8px;">
+                                    Un client recherche un accompagnement sur la migration de son infrastructure locale vers le cloud...
                                 </p>
                             </div>
                             <div class="job-action">
                                 ${!isPro ? `
-                                    <span style="font-size: 0.8rem; color: #ef4444; font-weight: 600;">🔒 Coordonnées bloquées</span>
-                                    <a href="/tarifs" class="premium-lock-btn">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 16px; height: 16px; stroke-width: 2;">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                                        </svg>
-                                        Devenir PRO pour voir
-                                    </a>
+                                    <a href="/tarifs" class="premium-lock-btn">Activer mon accès PRO</a>
                                 ` : `
-                                    <button class="cta-button primary" style="background: #10b981;">Répondre à l'offre</button>
+                                    <button class="cta-button primary">Contacter le client</button>
                                 `}
                             </div>
                         </div>
                     </div>
+                `;
+                cardsContainer.insertAdjacentHTML('afterend', jobBoardHTML);
 
-                    <!-- EXPERT UTILITY: LOCAL DIRECTORY -->
-                    <div class="utility-widget">
-                        <div class="widget-title">
-                            <span>📂 Synergie Locale (Partenaires)</span>
-                            <span class="badge" style="font-size: 0.7rem; background: #e0f2fe; color: #0369a1;">Nouveau</span>
+                // AUTHORITY SUITE: PR & CONTENT MACHINE
+                const authoritySuiteHTML = `
+                    <div class="saas-widget" style="border-color: #8B5CF6; background: linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(255, 255, 255, 0) 100%);">
+                        <div class="widget-header">
+                            <div class="widget-title">🚀 Ma visibilité & Autorité</div>
+                            ${isPro ? '<span class="badge" style="background: #8B5CF6; color: white;">Pack Autorité Activé</span>' : '<span class="badge" style="background: #f1f5f9; color: var(--text-secondary);">Pack Standard</span>'}
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Retrouvez les contacts clés pour vos activités aux Antilles-Guyane.</p>
-                        <div class="directory-grid">
-                            <div class="directory-item">⚖️ Avocats Spé.</div>
-                            <div class="directory-item">📊 Comptables IT</div>
-                            <div class="directory-item">🏢 Espaces Co-working</div>
-                            <div class="directory-item">🤝 CCI / BPI Contacts</div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
+                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
+                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">📢 Mes Posts du Mois</h4>
+                                <div style="display: flex; gap: 4px; margin-bottom: 12px;">
+                                    <div style="flex: 1; height: 4px; background: #8B5CF6; border-radius: 2px;"></div>
+                                    <div style="flex: 1; height: 4px; background: #8B5CF6; border-radius: 2px;"></div>
+                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
+                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
+                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
+                                </div>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px;">2/5 posts générés par l'IA ce mois-ci.</p>
+                                <button class="cta-button secondary" style="width: 100%; font-size: 0.75rem; padding: 8px;">Voir mes brouillons</button>
+                            </div>
+
+                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
+                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">🎙️ Podcast Spotlight</h4>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px;">Votre interview "L'Écho des Experts" est prête à être programmée.</p>
+                                <button class="cta-button secondary" style="width: 100%; font-size: 0.75rem; padding: 8px;">Réserver mon créneau</button>
+                            </div>
+
+                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
+                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">🏆 Rank Annuaire</h4>
+                                <div style="font-size: 1.2rem; font-weight: 700; color: #8B5CF6; margin: 8px 0;">#1 <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-secondary);">dans votre domaine</span></div>
+                                <p style="font-size: 0.7rem; color: var(--text-secondary);">Grâce à votre pack Visibilité Elite.</p>
+                            </div>
                         </div>
+
+                        ${!isPro ? `
+                            <div class="premium-upgrade-box" style="background: white; border-style: solid; border-color: #8B5CF6; margin-top: 24px;">
+                                <p style="font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;">Boostez votre autorité locale (Contenu + Podcast + Rank #1)</p>
+                                <a href="/tarifs" class="cta-button primary" style="width: 100%; justify-content: center; background: #8B5CF6;">Activer le Pack Autorité (49€/mois)</a>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
-
-                // On insère le Job Board juste après la grille de cartes
-                cardsContainer.insertAdjacentHTML('afterend', jobBoardHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', authoritySuiteHTML);
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
@@ -546,86 +563,87 @@
                 roleBadge.style.background = "rgba(2, 132, 199, 0.1)";
 
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: #0284c7; background: linear-gradient(180deg, rgba(2, 132, 199, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
-                        <div class="card-title">
-                            Trouver un Talent
-                        </div>
-                        <p class="card-desc">Accédez à notre base d'experts vérifiés aux Antilles, en Guyane, Réunion et dans la diaspora.</p>
-                        <a href="marketplace/directory.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
-                    </div>
-                    <div class="dash-card">
-                        <div class="card-title">SoloPrice Pro <span class="badge" style="background: #f1f5f9; color: var(--text-secondary); font-size: 0.7rem;">Découverte</span></div>
-                        <p class="card-desc">Découvrez l'outil phare utilisé par nos freelances pour gérer leurs devis et trésorerie.</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Découvrir le SaaS</a>
-                    </div>
+                    <div class="dash-card highlight" style="border-color: #0284c7;">
                         <div class="card-title">Recrutement Express</div>
                         <p class="card-desc">Publiez votre besoin et recevez des propositions sous 48h.</p>
                         <a href="registration/client.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Publier un besoin</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Annuaire Strategique</div>
-                        <p class="card-desc">Parcourez les profils des meilleurs freelances et experts de l'écosystème.</p>
-                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les Talents</a>
+                        <div class="card-title">Smart Match</div>
+                        <p class="card-desc">L'IA pré-sélectionne le Top 3 des profils correspondants à votre secteur.</p>
+                        <a href="/tarifs" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Activer le Sourcing IA</a>
                     </div>
                 `;
 
                 // COMPANY UTILITY: FAVORITES
-                const utilityHTML = `
-                    <div class="utility-widget">
-                        <div class="widget-title">
-                            <span>⭐ Mes Talents Favoris</span>
-                        </div>
+                const favoritesHTML = `
+                    <div class="saas-widget">
+                        <div class="widget-title">⭐ Mes Talents Favoris</div>
                         <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; padding: 20px 0;">
                             Vous n'avez pas encore de favoris.<br>
                             <a href="marketplace/directory.html" style="color: var(--primary-color);">Parcourir l'annuaire</a> pour en ajouter.
                         </p>
                     </div>
                 `;
-                dashboardContent.insertAdjacentHTML('beforeend', utilityHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', favoritesHTML);
 
             } else {
-                // Rôle par défaut / Basique
-                roleBadge.textContent = "Porteur de Projet";
+                roleBadge.textContent = "L'Outil de Cadrage";
                 cardsContainer.innerHTML = `
-                    <div class="dash-card">
-                        <div class="card-title">Lancer un Projet</div>
-                        <p class="card-desc">Décrivez votre besoin pour obtenir un premier cadrage gratuit.</p>
-                        <a href="registration/client.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Démarrer</a>
+                    <div class="dash-card highlight" style="border-color: var(--primary-color);">
+                        <div class="card-title">Lancer mon Projet</div>
+                        <p class="card-desc">Posez les bases de votre projet pour obtenir votre fiche de cadrage gratuite.</p>
+                        <a href="registration/client.html" class="cta-button primary" style="margin-top: auto; justify-content: center;">Démarrer le Scoping</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Ressources & Guides</div>
-                        <p class="card-desc">Accédez aux guides pratiques pour réussir vos projets Outre-mer.</p>
-                        <a href="/faq/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les guides</a>
+                        <div class="card-title">Audit Flash IA (Pack 99€)</div>
+                        <p class="card-desc">Obtenez un rapport complet de 10 pages + Pack Légal (NDA, Contrats).</p>
+                        <a href="/tarifs" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Générer mon Audit</a>
                     </div>
                 `;
 
-                // BASIC UTILITY: PROJECT CHECKLIST
-                const utilityHTML = `
-                    <div class="utility-widget">
-                        <div class="widget-title">
-                            <span>✅ Ma Checklist Projet</span>
+                // PROJECT OWNER SAAS UI: PROGRESS WIDGET
+                const scoperHTML = `
+                    <div class="saas-widget">
+                        <div class="widget-header">
+                            <div class="widget-title">⭐ Mon Audit Flash IA</div>
+                            ${tier === 'paid' ? '<span class="badge emerald">Pack Activé</span>' : '<span class="badge" style="background: #f1f5f9; color: var(--text-secondary);">En attente</span>'}
                         </div>
-                        <div class="checklist">
-                            <div class="checklist-item">
-                                <input type="checkbox" class="checklist-checkbox">
-                                <span>Cadrage du besoin (Objectifs & Budget)</span>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" class="checklist-checkbox">
-                                <span>Choix du statut juridique DOM-TOM</span>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" class="checklist-checkbox">
-                                <span>Rédaction du cahier des charges simplifié</span>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" class="checklist-checkbox">
-                                <span>Sourcing des experts sur Domtom Connect</span>
+                        
+                        <div class="tool-progress-container">
+                            <div class="tool-progress-bar" style="width: 25%;"></div>
+                        </div>
+
+                        <div class="tool-step">
+                            <div class="step-icon done">✓</div>
+                            <div class="step-content">
+                                <h4>Étape 1 : Fiche de Cadrage</h4>
+                                <p>C'est ici qu'on définit le "Quoi" et le "Pourquoi". Gratuit.</p>
                             </div>
                         </div>
+                        
+                        <div class="tool-step">
+                            <div class="step-icon">2</div>
+                            <div class="step-content">
+                                <h4>Étape 2 : Analyse Technique & Budget</h4>
+                                <p>Débloquez le rapport complet pour voir le benchmark local (Antilles-Guyane).</p>
+                            </div>
+                        </div>
+
+                        ${tier !== 'paid' ? `
+                            <div class="premium-upgrade-box">
+                                <p style="font-size: 0.85rem; margin-bottom: 12px; font-weight: 600;">Débloquer mon dossier complet (Audit + Pack Légal)</p>
+                                <a href="/tarifs" class="cta-button primary" style="width: 100%; justify-content: center;">Générer le rapport (99€)</a>
+                            </div>
+                        ` : `
+                            <div class="premium-upgrade-box" style="background: #ecfdf5; border-style: solid; border-color: #10b981;">
+                                <p style="font-size: 0.85rem; margin-bottom: 12px; font-weight: 600; color: #064e3b;">Votre Audit est prêt !</p>
+                                <button class="cta-button primary" style="width: 100%; justify-content: center; background: #10b981;">Télécharger mon Rapport PDF</button>
+                            </div>
+                        `}
                     </div>
                 `;
-                dashboardContent.insertAdjacentHTML('beforeend', utilityHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', scoperHTML);
             }
         }
 

@@ -129,34 +129,44 @@
         function renderProfileCard(profile) {
             const name = profile.full_name || 'Anonyme';
             const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            const isPro = profile.tier === 'pro'; // Simulate PRO tier for display
+
             const avatar = profile.avatar_url
                 ? `<img src="${profile.avatar_url}" class="avatar" alt="${name}">`
-                : `<div class="avatar" style="background: #111827; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1.2rem;">${initials}</div>`;
+                : `<div class="avatar" style="background: ${isPro ? '#8B5CF6' : '#111827'}; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1.2rem;">${initials}</div>`;
 
             return `
-                <div class="profile-card">
+                <div class="profile-card" style="${isPro ? 'border: 2px solid #8B5CF6; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);' : ''}">
+                    ${isPro ? '<div class="pro-ribbon" style="position: absolute; top: 12px; right: 12px; background: #8B5CF6; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">PRO Authority</div>' : ''}
                     <div class="profile-header">
                         ${avatar}
                         <div class="profile-info">
-                            <h3>${name}</h3>
+                            <h3 style="display: flex; align-items: center; gap: 6px;">
+                                ${name}
+                                ${profile.verified ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#10b981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
+                            </h3>
                             <div class="profile-role">${profile.skills || 'Expert Domtom Connect'}</div>
                         </div>
                     </div>
                     <div class="profile-stats">
                         <div class="stat-item">
-                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : 'N/A'}</span>
+                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : '500€'}</span>
                             <span class="stat-label">TJM</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-value">${profile.territory || '—'}</span>
+                            <span class="stat-value">${profile.territory || 'Antilles'}</span>
                             <span class="stat-label">Zone</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-value">${profile.verified ? '✓' : '—'}</span>
-                            <span class="stat-label">Vérifié</span>
+                            <span class="stat-value">${isPro ? 'Top 1%' : 'Actif'}</span>
+                            <span class="stat-label">Statut</span>
                         </div>
                     </div>
-                    ${profile.bio ? `<p class="profile-bio">${profile.bio}</p>` : ''}
+                    ${profile.bio ? `<p class="profile-bio" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.5;">${profile.bio}</p>` : `<p class="profile-bio" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.5;">Expert passionné par le développement économique des territoires d'Outre-mer.</p>`}
+                    
+                    <div style="margin-top: auto; padding-top: 16px;">
+                        <button class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px;">Voir le Portfolio</button>
+                    </div>
                 </div>
             `;
         }
