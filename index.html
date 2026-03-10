@@ -192,8 +192,7 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="register-choice.html" title="Accès réservé aux membres">Talents</a>
-                    <a href="tarifs.html">Solutions</a>
+                    <a href="#" title="Accès réservé aux membres">Talents</a>
                     <a href="login.html" id="login-link">Connexion</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -216,48 +215,12 @@
 
                 <div class="hero-actions">
                     <a href="register-choice.html" class="cta-button primary">Commencer maintenant</a>
-                    <a href="tarifs.html" class="cta-button secondary">Nos Solutions</a>
                 </div>
 
             </div>
         </div>
     </header>
 
-    <!-- SECTION OSE - Notre Méthode -->
-    <section class="section-padding bg-gray light-section" id="methode-ose">
-        <div class="container">
-            <div class="section-header">
-                <h2>La Méthode OSE</h2>
-                <p>Un framework rigoureux pour sécuriser votre croissance.</p>
-            </div>
-
-            <div class="ose-grid">
-                <!-- 01. Objectif -->
-                <div class="ose-card">
-                    <div class="ose-icon">01</div>
-                    <h3>Objectif</h3>
-                    <p>Diagnostic d'affaires immédiat. Nous analysons la faisabilité technique et financière de votre
-                        projet pour sécuriser vos premiers pas.</p>
-                </div>
-
-                <!-- 02. Stratégie -->
-                <div class="ose-card">
-                    <div class="ose-icon">02</div>
-                    <h3>Stratégie</h3>
-                    <p>Ingénierie de projet sur-mesure. Audit des ressources locales, structuration budgétaire et choix
-                        des meilleurs leviers de croissance.</p>
-                </div>
-
-                <!-- 03. Exécution -->
-                <div class="ose-card">
-                    <div class="ose-icon">03</div>
-                    <h3>Exécution</h3>
-                    <p>Déploiement haute performance via notre réseau d'experts certifiés, tous équipés des outils de
-                        pilotage SoloPrice Pro.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- SECTION SOLOPRICE PRO - L'outil des Experts -->
     <section class="section-padding bg-dark dark-section" id="soloprice">
@@ -296,7 +259,6 @@
                     <h3>Entreprises & Institutions</h3>
                     <p>Sécurisez vos opérations locales. Audit de performance, sourcing d'experts qualifiés et
                         coordination de projets complexes.</p>
-                    <a href="tarifs.html" class="cta-button primary">Voir nos Solutions</a>
                 </div>
 
                 <!-- Investisseurs -->
@@ -306,7 +268,6 @@
                     <p>Découvrez des opportunités vérifiées. Accédez à un flux de projets audités et prêts pour
                         injection de
                         capitaux.</p>
-                    <a href="register-choice.html" class="cta-button secondary">Accéder au Flux</a>
                 </div>
 
                 <!-- Porteurs de Projets -->
@@ -315,7 +276,6 @@
                     <h3>Porteurs de Projets</h3>
                     <p>Propulsez votre ambition. Du premier diagnostic IA à la mise en relation avec vos futurs
                         partenaires.</p>
-                    <a href="register-choice.html" class="cta-button emerald">Démarrer</a>
                 </div>
 
                 <!-- Experts -->
@@ -324,7 +284,6 @@
                     <h3>Experts & Freelances</h3>
                     <p>Rejoignez l'élite. Bénéficiez de missions premium et de la Suite SoloPrice Pro
                         pour votre gestion.</p>
-                    <a href="register-choice.html" class="cta-button secondary">Postuler</a>
                 </div>
             </div>
         </div>
@@ -568,11 +527,13 @@
                     extraLinks = '<a href="dashboard.html">🚀 Missions</a>';
                 } else if (role === 'entreprise') {
                     extraLinks = '<a href="dashboard.html">🏢 Projets</a>';
+                } else if (role === 'basique') {
+                    extraLinks = '<a href="marketplace/directory.html">📇 Annuaire</a>';
                 } else {
                     extraLinks = '<a href="dashboard.html">🏠 Mon Espace</a>';
                 }
 
-                navLinks.innerHTML = extraLinks + '<a href="tarifs.html">Solutions</a>';
+                navLinks.innerHTML = extraLinks + '<a href="registration/onboarding.html" style="font-size:0.8rem; opacity:0.7">Changer de profil</a>';
 
                 // Bouton Profil / Déconnexion
                 navActions.innerHTML = `

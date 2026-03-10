@@ -4,151 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>Trouver un Expert aux Antilles et en Guyane – Domtom Connect</title>
-    <meta name="description"
-        content="Annuaire sélectif des meilleurs prestataires et experts pour vos projets en Guadeloupe, Martinique, Guyane et Réunion.">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- Styles -->
+    <title>Annuaire des Prestataires – Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+            <a href="/" class="nav-brand">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links">
-                    <a href="/marketplace/directory.html">Talents</a>
-                    <a href="/tarifs.html">Solutions</a>
-                    <a href="/login.html">Connexion</a>
-                </div>
-                <div class="nav-actions">
-                    <a href="/register-choice.html" class="cta-button primary">Démarrer</a>
-                </div>
+            <div class="nav-content">
+                <a href="../index.html">Retour à l'accueil</a>
             </div>
         </div>
     </nav>
 
-    <header class="directory-header">
-        <div class="container">
-            <div class="section-header">
-                <h1>Annuaire des Experts</h1>
-                <p>Trouvez les meilleurs talents pour vos projets aux Antilles et en Guyane.</p>
-            </div>
-            <div class="search-bar-v3">
-                <div class="search-input-wrapper">
-                    <input type="text" id="search-query" class="search-input"
-                        placeholder="Expertise (ex: Marketing, Architecture...)">
-                </div>
-                <div class="search-select-wrapper">
-                    <select id="territory-filter" class="filter-select">
-                        <option value="">Tous les territoires</option>
-                        <option value="GP">Guadeloupe</option>
-                        <option value="MQ">Martinique</option>
-                        <option value="GF">Guyane</option>
-                        <option value="RE">Réunion</option>
-                        <option value="DIASPORA">Diaspora</option>
-                    </select>
-                </div>
-                <button class="cta-button primary" onclick="filterDirectory()">Rechercher</button>
-            </div>
-        </div>
-    </header>
+    <main class="container" style="padding-top: 120px;">
+        <h1>Annuaire des Prestataires</h1>
+        <p>Retrouvez ici les meilleurs experts validés par Domtom Connect.</p>
 
-    <main class="container">
-        <div class="directory-grid" id="expert-grid">
-            <!-- Les profils seront chargés dynamiquement ou ajoutés au fur et à mesure de la validation -->
-            <div class="placeholder-card"
-                style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--gray-50); border-radius: var(--border-radius-lg); border: 2px dashed var(--gray-300);">
-                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Réseau en cours de validation</h3>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem;">
-                    Nous sélectionnons rigoureusement nos partenaires pour vous garantir une expertise d'excellence. Les
-                    profils vérifiés seront affichés ici prochainement.
-                </p>
-                <a href="/registration/provider.html" class="cta-button primary">Rejoindre le réseau en tant
-                    qu'expert</a>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px;">
+            <div class="card"
+                style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                <h3>Loic VILLERONCE</h3>
+                <p>Expert Stratégie & Développement</p>
+                <span class="badge emerald">Vérifié</span>
             </div>
+            <!-- Plus de profils ici -->
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div style="margin-bottom: 2rem;">
-                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">
-                    Ressources Globales</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem;">
-                    <li><a href="/faq/index.html"
-                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">FAQ &
-                            Aide</a></li>
-                    <li><a href="/marketplace/directory.html"
-                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Marketplace</a>
-                    </li>
-                    <li><a href="/diaspora/index.html"
-                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Espace
-                            Diaspora</a></li>
-                    <li><a href="/territoires/index.html"
-                            style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Territoires</a>
-                    </li>
-                </ul>
-            </div>
-            <p>&copy; 2025 Domtom Connect. Tous droits réservés.</p>
-            <div class="footer-social">
-                <a href="https://www.tiktok.com/@domtomconnect" target="_blank">TikTok</a>
-                <a href="https://www.instagram.com/domtomconnect" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/company/domtomconnect" target="_blank">LinkedIn</a>
-                <a href="mailto:domtomconnect@gmail.com">Email</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        function filterDirectory() {
-            const query = document.getElementById('search-query').value.toLowerCase();
-            const territory = document.getElementById('territory-filter').value;
-            const cards = document.querySelectorAll('.profile-card');
-
-            cards.forEach(card => {
-                const name = card.querySelector('.profile-name').innerText.toLowerCase();
-                const role = card.querySelector('.profile-role').innerText.toLowerCase();
-                const bio = card.querySelector('.profile-bio').innerText.toLowerCase();
-                const cardTerritory = card.getAttribute('data-territory');
-
-                const matchesSearch = name.includes(query) || role.includes(query) || bio.includes(query);
-                const matchesTerritory = territory === "" || cardTerritory === territory;
-
-                if (matchesSearch && matchesTerritory) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        document.getElementById('search-query').addEventListener('input', filterDirectory);
-        document.getElementById('territory-filter').addEventListener('change', filterDirectory);
-    </script>
-    <script src="../assets/js/script.js?v=2"></script>
 </body>
-
-</html>
 
 </html>
