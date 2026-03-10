@@ -123,16 +123,67 @@
             margin-bottom: 24px;
         }
 
+        /* Mobile Bottom Nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
+            padding: 12px 24px;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .mobile-nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .mobile-nav-link svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
-                /* Remplacé par le menu burger si besoin, ou on s'en passe sur mobile pour se concentrer sur les cartes */
             }
 
             .main-content {
                 margin-left: 0;
                 padding: 24px;
+                padding-bottom: 100px;
+                /* Space for bottom nav */
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .nav-content {
+                display: none;
+                /* Cache les boutons desktop sur mobile pour la navbar du haut */
+            }
+
+            .header-section {
+                text-align: center;
             }
         }
     </style>
@@ -140,18 +191,44 @@
 
 <body>
     <nav class="navbar">
-        <div class="container" style="width: 100%; max-width: 100%; padding: 0 24px;">
+        <div class="container"
+            style="width: 100%; max-width: 100%; padding: 0 24px; display: flex; justify-content: space-between; align-items: center;">
             <a href="/" class="nav-brand">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <div class="nav-content" style="gap: 16px;">
+            <div class="nav-content" style="gap: 16px; display: flex; align-items: center;">
                 <a href="marketplace/directory.html"
                     style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;">Talents</a>
                 <button onclick="handleLogout()" class="cta-button secondary"
                     style="padding: 6px 16px; font-size: 0.85rem;">Déconnexion</button>
             </div>
         </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            Accueil
+        </a>
+        <a href="#" class="mobile-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            Dashboard
+        </a>
+        <a href="registration/onboarding.html" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Profil
+        </a>
     </nav>
 
     <div class="dashboard-layout">
@@ -162,6 +239,20 @@
             <a href="#" class="sidebar-link active">Vue d'ensemble</a>
             <a href="registration/onboarding.html" class="sidebar-link">Mon Profil</a>
             <a href="marketplace/directory.html" class="sidebar-link">Annuaire Talents</a>
+
+            <span
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Externe</span>
+            <a href="/" class="sidebar-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    style="width: 18px; height: 18px; margin-right: 8px; display: inline-block; vertical-align: text-bottom;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Retour à l'accueil
+            </a>
+            <a href="#" onclick="handleLogout()" class="sidebar-link" style="color: #ef4444; margin-top: 24px;">
+                Déconnexion
+            </a>
         </aside>
 
         <main class="main-content">
