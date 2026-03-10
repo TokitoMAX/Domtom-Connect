@@ -49,3 +49,9 @@ async function getSession() {
     const { data: { session } } = await _supabase.auth.getSession();
     return session;
 }
+
+// Fonction utilitaire pour vérifier si l'utilisateur a déjà choisi un rôle
+async function checkUserRole(session) {
+    if (!session) return null;
+    return session.user.user_metadata.role || null;
+}

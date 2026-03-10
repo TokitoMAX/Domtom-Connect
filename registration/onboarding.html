@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choisissez votre profil – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    <style>
+        .onboarding-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            padding: 24px;
+        }
+
+        .onboarding-card {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .onboarding-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .onboarding-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .role-card {
+            background: white;
+            padding: 40px 24px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .role-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .role-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .role-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .role-card.active {
+            border-color: var(--primary-color);
+            background: #f0fdf4;
+        }
+    </style>
+</head>
+
+<body class="onboarding-page">
+
+    <main class="onboarding-card">
+        <h1 class="onboarding-title">Bienvenue sur Domtom Connect</h1>
+        <p class="onboarding-subtitle">Pour personnaliser votre expérience, dites-nous qui vous êtes :</p>
+
+        <div class="role-grid">
+            <div class="role-card" onclick="selectRole('expert')">
+                <span class="role-icon">🚀</span>
+                <h3 class="role-name">Expert / Indépendant</h3>
+                <p class="role-desc">Je souhaite proposer mes services, gérer mon TJM et trouver des missions en
+                    Outre-mer.</p>
+            </div>
+
+            <div class="role-card" onclick="selectRole('entreprise')">
+                <span class="role-icon">🏢</span>
+                <h3 class="role-name">Entreprise</h3>
+                <p class="role-desc">Je recherche des talents, je souhaite publier des projets et piloter mes
+                    recrutements.</p>
+            </div>
+
+            <div class="role-card" onclick="selectRole('basique')">
+                <span class="role-icon">📖</span>
+                <h3 class="role-name">Curieux / Basique</h3>
+                <p class="role-desc">Je souhaite accéder aux ressources, à l'annuaire et suivre l'actualité de
+                    l'écosystème.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        async function selectRole(role) {
+            try {
+                const session = await getSession();
+                if (!session) {
+                    window.location.href = '../login.html';
+                    return;
+                }
+
+                // Mise à jour des métadonnées utilisateur via Supabase Auth
+                const { data, error } = await _supabase.auth.updateUser({
+                    data: { role: role }
+                });
+
+                if (error) throw error;
+
+                // Redirection vers le dashboard qui s'adaptera au rôle
+                window.location.href = '../dashboard.html';
+            } catch (err) {
+                alert("Erreur lors de la sélection : " + err.message);
+            }
+        }
+    </script>
+</body>
+
+</html>
