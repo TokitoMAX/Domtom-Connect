@@ -167,6 +167,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/form-security.js"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
         // Redirection immédiate si déjà connecté
@@ -195,14 +196,23 @@
 
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const fullName = document.getElementById('fullName').value;
+            const fullName = document.getElementById('fullName').value.trim();
             const errorEl = document.getElementById('authError');
             const submitBtn = e.target.querySelector('button');
 
             try {
                 errorEl.style.display = 'none';
+
+                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
+                if (!window.formSecurity.isValidName(fullName)) {
+                    throw new Error("Veuillez saisir un prénom et nom valides pour rejoindre le réseau.");
+                }
+                if (!window.formSecurity.isValidEmail(email)) {
+                    throw new Error("L'adresse email fournie semble invalide ou suspecte.");
+                }
+
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Création...';
 

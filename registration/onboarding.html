@@ -198,6 +198,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/form-security.js"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
         let selectedRole = '';
@@ -228,14 +229,34 @@
             let metadata = { role: finalRole };
 
             if (finalRole === 'expert') {
-                metadata.skills = document.getElementById('expert-skills').value;
-                metadata.tjm = document.getElementById('expert-tjm').value;
+                metadata.skills = document.getElementById('expert-skills').value.trim();
+                metadata.tjm = document.getElementById('expert-tjm').value.trim();
                 metadata.territory = document.getElementById('expert-territory').value;
-                metadata.bio = document.getElementById('expert-bio').value;
+                metadata.bio = document.getElementById('expert-bio').value.trim();
+
+                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
+                if (metadata.skills && !window.formSecurity.isValidText(metadata.skills, 3)) {
+                    alert("Vos compétences semblent invalides. Veuillez saisir de vraies compétences.");
+                    return;
+                }
+                if (metadata.bio && !window.formSecurity.isValidText(metadata.bio, 20)) {
+                    alert("Votre biographie est trop courte ou invalide. Veuillez rédiger une vraie description (min. 20 caractères).");
+                    return;
+                }
             } else if (finalRole === 'entreprise') {
-                metadata.company_name = document.getElementById('entreprise-name').value;
-                metadata.needs = document.getElementById('entreprise-needs').value;
+                metadata.company_name = document.getElementById('entreprise-name').value.trim();
+                metadata.needs = document.getElementById('entreprise-needs').value.trim();
                 metadata.territory = document.getElementById('entreprise-territory').value;
+
+                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
+                if (!window.formSecurity.isValidName(metadata.company_name)) {
+                    alert("Le nom de votre entreprise semble invalide.");
+                    return;
+                }
+                if (metadata.needs && !window.formSecurity.isValidText(metadata.needs, 20)) {
+                    alert("La description de vos besoins est trop courte ou invalide. Veuillez rédiger un texte clair.");
+                    return;
+                }
             }
 
             try {
