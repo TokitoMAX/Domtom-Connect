@@ -46,12 +46,24 @@ async function signOut() {
 }
 
 async function getSession() {
-    const { data: { session } } = await _supabase.auth.getSession();
+    const { data: { session }, error } = await _supabase.auth.getSession();
+    if (error) {
+        console.error("Erreur session:", error.message);
+        return null;
+    }
     return session;
+}
+
+async function updateUserProfile(data) {
+    const { data: user, error } = await _supabase.auth.updateUser({
+        data: data
+    });
+    if (error) throw error;
+    return user;
 }
 
 // Fonction utilitaire pour vérifier si l'utilisateur a déjà choisi un rôle
 async function checkUserRole(session) {
-    if (!session) return null;
+    if (!session || !session.user) return null;
     return session.user.user_metadata.role || null;
 }
