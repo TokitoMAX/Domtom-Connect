@@ -97,10 +97,18 @@
             const emptyState = document.getElementById('empty-state');
 
             try {
-                // Récupère les utilisateurs avec rôle "expert" enregistrés dans Supabase
-                // Une table "profiles" publique sera nécessaire pour lister les experts
-                // Pour l'instant, on affiche l'état vide honnêtement
-                emptyState.style.display = 'block';
+                const territory = document.getElementById('territory-filter').value;
+                const experts = await getExperts({ territory: territory || undefined });
+
+                if (!experts.length) {
+                    emptyState.style.display = 'block';
+                    container.style.display = 'none';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+                container.style.display = 'grid';
+                container.innerHTML = experts.map(profile => renderProfileCard(profile)).join('');
 
             } catch (err) {
                 console.error('Erreur chargement profils :', err);
@@ -108,7 +116,40 @@
             }
         }
 
-        init();
+        function renderProfileCard(profile) {
+            const name = profile.full_name || 'Anonyme';
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            const avatar = profile.avatar_url
+                ? `<img src="${profile.avatar_url}" class="avatar" alt="${name}">`
+                : `<div class="avatar" style="background: #111827; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1.2rem;">${initials}</div>`;
+
+            return `
+                <div class="profile-card">
+                    <div class="profile-header">
+                        ${avatar}
+                        <div class="profile-info">
+                            <h3>${name}</h3>
+                            <div class="profile-role">${profile.skills || 'Expert Domtom Connect'}</div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : 'N/A'}</span>
+                            <span class="stat-label">TJM</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${profile.territory || '—'}</span>
+                            <span class="stat-label">Zone</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${profile.verified ? '✓' : '—'}</span>
+                            <span class="stat-label">Vérifié</span>
+                        </div>
+                    </div>
+                    ${profile.bio ? `<p class="profile-bio">${profile.bio}</p>` : ''}
+                </div>
+            `;
+        }
     </script>
 </body>
 

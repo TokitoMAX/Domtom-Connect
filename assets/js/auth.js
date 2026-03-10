@@ -55,11 +55,72 @@ async function getSession() {
 }
 
 async function updateUserProfile(data) {
+    // Met à jour les métadonnées d'authentification
     const { data: user, error } = await _supabase.auth.updateUser({
         data: data
     });
     if (error) throw error;
+
+    // Synchronise aussi dans la table publique profiles
+    const session = await getSession();
+    if (session) {
+        await upsertProfile(session.user.id, data);
+    }
     return user;
+}
+
+// Écrit ou met à jour le profil dans la table Supabase `profiles`
+async function upsertProfile(userId, data) {
+    const profileData = {
+        id: userId,
+        full_name: data.full_name,
+        role: data.role,
+        skills: data.skills || null,
+        tjm: data.tjm ? parseInt(data.tjm) : null,
+        territory: data.territory || null,
+        bio: data.bio || null,
+        company_name: data.company_name || null,
+        needs: data.needs || null,
+    };
+
+    // Supprimer les clés undefined pour ne pas écraser les données existantes
+    Object.keys(profileData).forEach(key => {
+        if (profileData[key] === undefined) delete profileData[key];
+    });
+
+    const { error } = await _supabase
+        .from('profiles')
+        .upsert(profileData, { onConflict: 'id' });
+
+    if (error) console.error('Erreur upsert profile:', error.message);
+}
+
+// Lit le profil complet d'un utilisateur depuis la table profiles
+async function getProfile(userId) {
+    const { data, error } = await _supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+    if (error) return null;
+    return data;
+}
+
+// Retourne la liste des experts validés pour l'annuaire
+async function getExperts({ territory } = {}) {
+    let query = _supabase
+        .from('profiles')
+        .select('*')
+        .eq('role', 'expert');
+
+    if (territory) {
+        query = query.eq('territory', territory);
+    }
+
+    const { data, error } = await query.order('created_at', { ascending: false });
+    if (error) throw error;
+    return data || [];
 }
 
 // Fonction utilitaire pour vérifier si l'utilisateur a déjà choisi un rôle

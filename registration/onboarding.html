@@ -131,6 +131,25 @@
                 <input type="number" id="expert-tjm" placeholder="Ex: 500"
                     style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
             </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Territoire principal</label>
+                <select id="expert-territory"
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <option value="">Sélectionnez votre territoire</option>
+                    <option value="Guadeloupe">Guadeloupe</option>
+                    <option value="Martinique">Martinique</option>
+                    <option value="Guyane">Guyane</option>
+                    <option value="Réunion">Réunion</option>
+                    <option value="Mayotte">Mayotte</option>
+                    <option value="France métropolitaine">France métropolitaine</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Bio courte (visible dans
+                    l'annuaire)</label>
+                <textarea id="expert-bio" placeholder="Décrivez votre expertise en 2-3 phrases..."
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; min-height: 80px;"></textarea>
+            </div>
             <button onclick="finishOnboarding('expert')" class="cta-button primary"
                 style="width: 100%; padding: 15px; font-weight: 700; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;">Finaliser
                 mon profil Expert</button>
@@ -143,6 +162,18 @@
                     Secteur</label>
                 <input type="text" id="entreprise-name" placeholder="Ex: Tech Antilles - Environnement"
                     style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Territoire principal</label>
+                <select id="entreprise-territory"
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <option value="">Sélectionnez votre territoire</option>
+                    <option value="Guadeloupe">Guadeloupe</option>
+                    <option value="Martinique">Martinique</option>
+                    <option value="Guyane">Guyane</option>
+                    <option value="Réunion">Réunion</option>
+                    <option value="Mayotte">Mayotte</option>
+                </select>
             </div>
             <div class="form-group" style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; margin-bottom: 8px;">Besoins immédiats</label>
@@ -191,9 +222,12 @@
             if (finalRole === 'expert') {
                 metadata.skills = document.getElementById('expert-skills').value;
                 metadata.tjm = document.getElementById('expert-tjm').value;
+                metadata.territory = document.getElementById('expert-territory').value;
+                metadata.bio = document.getElementById('expert-bio').value;
             } else if (finalRole === 'entreprise') {
                 metadata.company_name = document.getElementById('entreprise-name').value;
                 metadata.needs = document.getElementById('entreprise-needs').value;
+                metadata.territory = document.getElementById('entreprise-territory').value;
             }
 
             try {
