@@ -192,7 +192,7 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="#" title="Accès réservé aux membres">Talents</a>
+                    <a href="login.html" title="Connectez-vous pour voir les talents">Talents</a>
                     <a href="login.html" id="login-link">Connexion</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -289,48 +289,7 @@
         </div>
     </section>
 
-    <!-- SECTION COMPARATIF - Domtom Connect vs le "Gratuit" -->
-    <section id="comparatif" class="comparison-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Efficacité vs Gratuité</h2>
-                <p>La rapidité d'exécution est votre avantage compétitif majeur.</p>
-            </div>
-            <div class="comparison-wrapper">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Critères</th>
-                            <th>Solutions Publiques</th>
-                            <th>Domtom Connect</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Délai moyen</td>
-                            <td>Plusieurs mois</td>
-                            <td class="highlight">Génération immédiate</td>
-                        </tr>
-                        <tr>
-                            <td>Qualité réseau</td>
-                            <td>Annuaire passif</td>
-                            <td class="highlight">Experts actifs & vérifiés</td>
-                        </tr>
-                        <tr>
-                            <td>Accompagnement</td>
-                            <td>Conseil théorique</td>
-                            <td class="highlight">Exécution & Gestion</td>
-                        </tr>
-                        <tr>
-                            <td>Disponibilité</td>
-                            <td>Horaires bureau</td>
-                            <td class="highlight">24h/24 - 7j/7</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+
 
 
 
@@ -524,13 +483,13 @@
                 // Ajouter liens personnalisés selon rôle
                 let extraLinks = '';
                 if (role === 'expert') {
-                    extraLinks = '<a href="dashboard.html">🚀 Missions</a>';
+                    extraLinks = '<a href="dashboard.html">Missions</a>';
                 } else if (role === 'entreprise') {
-                    extraLinks = '<a href="dashboard.html">🏢 Projets</a>';
+                    extraLinks = '<a href="dashboard.html">Projets</a>';
                 } else if (role === 'basique') {
-                    extraLinks = '<a href="marketplace/directory.html">📇 Annuaire</a>';
+                    extraLinks = '<a href="marketplace/directory.html">Talents</a>';
                 } else {
-                    extraLinks = '<a href="dashboard.html">🏠 Mon Espace</a>';
+                    extraLinks = '<a href="dashboard.html">Mon Espace</a>';
                 }
 
                 navLinks.innerHTML = extraLinks + '<a href="registration/onboarding.html" style="font-size:0.8rem; opacity:0.7">Changer de profil</a>';
