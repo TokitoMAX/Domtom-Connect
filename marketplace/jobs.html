@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offres de Mission – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <style>
+        /* Bandeau CTA publication */
+        .expert-cta-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .expert-cta-banner p {
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .expert-cta-banner strong {
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Cartes Mission */
+        .premium-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border-color: #d1d5db;
+        }
+
+        .premium-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .company-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #475569;
+            border: 1px solid var(--gray-200);
+        }
+
+        .premium-info h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+            line-height: 1.3;
+        }
+
+        .premium-role {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .premium-bio {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .premium-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--gray-200);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tag.tag-type {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0284c7;
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        .tag.tag-price {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .premium-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            border-top: 1px solid var(--gray-100);
+            padding-top: 20px;
+        }
+
+        .btn-premium-contact {
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-premium-contact:hover {
+            background: #059669;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(16px);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.open .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+
+        .modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 16px;
+        }
+
+        .modal .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .modal .form-group input:focus,
+        .modal .form-group select:focus,
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .modal .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        @media (max-width: 560px) {
+            .modal .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .expert-cta-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-brand">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="directory.html">Annuaire</a>
+                    <a href="#" class="active">Missions</a>
+                    <a href="../messages.html">Messagerie</a>
+                </div>
+                <div class="nav-actions" id="nav-actions"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="directory-header">
+        <div class="container">
+            <div class="section-header">
+                <h1>Offres de Mission</h1>
+                <p>Découvrez les missions et opportunités de collaboration proposées par les entreprises du réseau.</p>
+            </div>
+            <div class="search-bar-v3">
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-input" placeholder="Mots-clés (ex: React, Juridique)...">
+                </div>
+                <div class="search-select-wrapper">
+                    <select id="type-filter">
+                        <option value="">Tous les types</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="CDI">CDI</option>
+                        <option value="CDD">CDD</option>
+                        <option value="Stage / Alternance">Stage / Alternance</option>
+                    </select>
+                </div>
+                <div class="search-select-wrapper">
+                    <select id="territory-filter">
+                        <option value="">Tous les territoires</option>
+                        <option value="Martinique">Martinique</option>
+                        <option value="Guadeloupe">Guadeloupe</option>
+                        <option value="Guyane">Guyane</option>
+                        <option value="Diaspora (France hexagonale)">Diaspora</option>
+                        <option value="Réunion">Réunion</option>
+                        <option value="Mayotte">Mayotte</option>
+                        <option value="Télétravail">Télétravail (100%)</option>
+                    </select>
+                </div>
+                <button class="cta-button primary" style="padding: 12px 24px;" onclick="loadJobs()">Rechercher</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 32px;">
+
+        <!-- Bandeau entreprise/porteur de projet -->
+        <div class="expert-cta-banner" id="company-banner" style="display:none;">
+            <div>
+                <p><strong>Vous cherchez un talent ?</strong></p>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">Publiez une offre de
+                    mission pour recevoir des candidatures de nos experts directement dans votre messagerie.</p>
+            </div>
+            <button class="cta-button primary" style="white-space:nowrap;background:#0ea5e9;border:none;"
+                onclick="openJobModal()">
+                Publier une mission
+            </button>
+        </div>
+
+        <div class="directory-grid" id="jobs-container" style="display: none;"></div>
+
+        <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucune offre ne correspond à votre recherche.
+            </p>
+            <p style="color: var(--text-muted);">
+                Revenez plus tard ou modifiez vos filtres.
+            </p>
+        </div>
+    </main>
+
+    <!-- MODAL OFFRE DE MISSION -->
+    <div class="modal-overlay" id="job-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Publier une mission</h2>
+                <button class="modal-close" onclick="closeJobModal()">×</button>
+            </div>
+
+            <form id="job-form" onsubmit="saveJob(event)">
+                <div class="form-group">
+                    <label>Titre de la mission *</label>
+                    <input type="text" id="j-title" required placeholder="ex: Développeur front-end Freelance">
+                </div>
+
+                <div class="form-group">
+                    <label>Description détaillée *</label>
+                    <textarea id="j-description" required
+                        placeholder="Décrivez le besoin, les objectifs, le contexte..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type de contrat *</label>
+                        <select id="j-type" required>
+                            <option value="">Choisir</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="CDI">CDI</option>
+                            <option value="CDD">CDD</option>
+                            <option value="Stage / Alternance">Stage / Alternance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Localisation *</label>
+                        <select id="j-territory" required>
+                            <option value="">Choisir</option>
+                            <option value="Télétravail">100% Télétravail</option>
+                            <option value="Martinique">Martinique</option>
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Guyane">Guyane</option>
+                            <option value="Diaspora (France hexagonale)">Diaspora (France hexagonale)</option>
+                            <option value="Réunion">Réunion</option>
+                            <option value="Mayotte">Mayotte</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Budget ou Rémunération (optionnel)</label>
+                    <input type="text" id="j-budget" placeholder="ex: 400€/jour, 40k€/an, À débattre...">
+                </div>
+
+                <div style="display:flex;gap:12px;margin-top:24px;">
+                    <button type="submit" class="cta-button primary" id="modal-save-btn"
+                        style="background:#0ea5e9;border:none;flex:1;">Publier l'offre</button>
+                    <button type="button" class="cta-button secondary" onclick="closeJobModal()">Annuler</button>
+                </div>
+                <p id="modal-feedback" style="display:none;margin-top:12px;font-size:0.8rem;font-weight:600;"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        let currentUserId = null;
+        let currentUserRole = null;
+        let cachedProfiles = {}; // Cache pour les entreprises
+
+        async function init() {
+            const session = await getSession();
+            if (!session) { window.location.href = '../login.html'; return; }
+
+            currentUserId = session.user.id;
+            currentUserRole = session.user.user_metadata?.role || null;
+            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+
+            document.getElementById('nav-actions').innerHTML = `
+                <div class="user-menu-wrapper">
+                    <span class="user-greeting">Bonjour, ${name}</span>
+                    <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
+                </div>
+            `;
+
+            if (currentUserRole === 'company' || currentUserRole === 'project_owner') {
+                document.getElementById('company-banner').style.display = 'flex';
+            }
+
+            await loadJobs();
+        }
+
+        async function loadJobs() {
+            const container = document.getElementById('jobs-container');
+            const emptyState = document.getElementById('empty-state');
+            try {
+                const searchTxt = document.getElementById('search-input').value.toLowerCase();
+                const typeFilter = document.getElementById('type-filter').value;
+                const territoryFilter = document.getElementById('territory-filter').value;
+
+                let query = _supabase
+                    .from('job_offers')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('created_at', { ascending: false });
+
+                if (typeFilter) query = query.eq('mission_type', typeFilter);
+                if (territoryFilter) query = query.eq('territory', territoryFilter);
+
+                // Note: la recherche full-text viendra s'ajouter en JS si Supabase FTS non setup
+                const { data: jobs, error } = await query;
+
+                if (error) throw error;
+
+                let filteredJobs = jobs;
+                if (searchTxt) {
+                    filteredJobs = jobs.filter(j =>
+                        j.title.toLowerCase().includes(searchTxt) ||
+                        j.description.toLowerCase().includes(searchTxt)
+                    );
+                }
+
+                if (!filteredJobs || !filteredJobs.length) {
+                    emptyState.style.display = 'block';
+                    container.style.display = 'none';
+                    return;
+                }
+
+                // Récupérer les infos des entreprises
+                const companyIds = [...new Set(filteredJobs.map(j => j.company_id))];
+                const idsToFetch = companyIds.filter(id => !cachedProfiles[id]);
+
+                if (idsToFetch.length > 0) {
+                    const { data: companyProfiles } = await _supabase
+                        .from('profiles')
+                        .select('id, full_name, avatar_url')
+                        .in('id', idsToFetch);
+
+                    if (companyProfiles) {
+                        companyProfiles.forEach(p => cachedProfiles[p.id] = p);
+                    }
+                }
+
+                emptyState.style.display = 'none';
+                container.style.display = 'grid';
+                container.innerHTML = filteredJobs.map(renderJobCard).join('');
+            } catch (err) {
+                console.error('Erreur chargement missions :', err);
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function renderJobCard(job) {
+            const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise Anonyme' };
+            const name = company.full_name;
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+            const avatar = company.avatar_url
+                ? `<img src="${company.avatar_url}" class="company-avatar" alt="${name}">`
+                : `<div class="company-avatar">${initials}</div>`;
+
+            const budgetTag = job.budget ? `<span class="tag tag-price">💶 ${job.budget}</span>` : '';
+            const typeTag = `<span class="tag tag-type">💼 ${job.mission_type}</span>`;
+            const zoneTag = `<span class="tag">📍 ${job.territory === 'Diaspora' ? 'Diaspora (France hexagonale)' : job.territory}</span>`;
+
+            // Nettoyage description (br au lieu de n)
+            const safeDesc = job.description.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\\n/g, "<br>");
+
+            const timeObj = new Date(job.created_at);
+            const dateStr = !isNaN(timeObj) ? timeObj.toLocaleDateString() : '';
+
+            // Bouton
+            let actionBtn = '';
+            if (currentUserId === job.company_id) {
+                actionBtn = `<button class="btn-premium-contact" style="background:var(--gray-200);color:var(--text-secondary);cursor:default;">Votre offre</button>`;
+            } else if (currentUserRole === 'expert' || currentUserRole === 'prestataire') {
+                actionBtn = `<a href="../messages.html?to=${job.company_id}" class="btn-premium-contact">Postuler (Message)</a>`;
+            } else {
+                actionBtn = `<button class="btn-premium-contact" style="background:var(--gray-200);color:var(--text-secondary);cursor:not-allowed;" title="Réservé aux experts">Postuler (Message)</button>`;
+            }
+
+            return `
+                <div class="premium-card">
+                    <div class="premium-card-header">
+                        ${avatar}
+                        <div class="premium-info">
+                            <div class="premium-role" style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 2px;">${name} • ${dateStr}</div>
+                            <h3>${job.title}</h3>
+                        </div>
+                    </div>
+
+                    <p class="premium-bio">${safeDesc}</p>
+
+                    <div class="premium-tags">
+                        ${typeTag}
+                        ${zoneTag}
+                        ${budgetTag}
+                    </div>
+                    
+                    <div class="premium-actions">
+                        ${actionBtn}
+                    </div>
+                </div>
+            `;
+        }
+
+        function openJobModal() {
+            document.getElementById('job-modal').classList.add('open');
+        }
+
+        function closeJobModal() {
+            document.getElementById('job-modal').classList.remove('open');
+            document.getElementById('job-form').reset();
+            document.getElementById('modal-feedback').style.display = 'none';
+        }
+
+        async function saveJob(event) {
+            event.preventDefault();
+            const btn = document.getElementById('modal-save-btn');
+            btn.textContent = 'Publication...';
+            btn.disabled = true;
+
+            const data = {
+                company_id: currentUserId,
+                title: document.getElementById('j-title').value.trim(),
+                description: document.getElementById('j-description').value.trim(),
+                mission_type: document.getElementById('j-type').value,
+                territory: document.getElementById('j-territory').value,
+                budget: document.getElementById('j-budget').value.trim() || null,
+                is_active: true
+            };
+
+            const { error } = await _supabase.from('job_offers').insert([data]);
+
+            if (error) {
+                const fb = document.getElementById('modal-feedback');
+                fb.textContent = 'Erreur : ' + error.message;
+                fb.style.color = '#ef4444';
+                fb.style.display = 'block';
+                btn.textContent = 'Publier l\'offre';
+                btn.disabled = false;
+                return;
+            }
+
+            closeJobModal();
+            btn.textContent = 'Publier l\'offre';
+            btn.disabled = false;
+            await loadJobs();
+        }
+
+        // Fermer en cliquant sur l'overlay
+        document.getElementById('job-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeJobModal();
+        });
+
+        // Entrée pour filtrer le champs de recherche
+        document.getElementById('search-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') loadJobs();
+        });
+        document.getElementById('type-filter').addEventListener('change', loadJobs);
+        document.getElementById('territory-filter').addEventListener('change', loadJobs);
+
+        init();
+    </script>
+    <script src="../assets/js/script.js?v=2.2"></script>
+</body>
+
+</html>
