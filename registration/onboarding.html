@@ -203,13 +203,32 @@
     <script>
         let selectedRole = '';
 
+        // Garde de session : vérifie que l'user est connecté et n'a pas déjà un rôle
+        window.addEventListener('load', async () => {
+            try {
+                const session = await getSession();
+                if (!session) {
+                    // Pas connecté → login
+                    window.location.href = '../login.html';
+                    return;
+                }
+                const role = session.user?.user_metadata?.role || null;
+                if (role) {
+                    // Rôle déjà défini → pas besoin de repasser par l'onboarding
+                    window.location.href = '../dashboard.html';
+                }
+            } catch (err) {
+                console.error('Erreur session onboarding:', err);
+            }
+        });
+
         function goToStep2(role) {
             selectedRole = role;
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
 
             if (role === 'expert') {
-                document.getElementById('step-2-title').textContent = "Profil Expert";
+                document.getElementById('step-2-title').textContent = "Profil Expert / Indépendant";
                 document.getElementById('expert-form').style.display = 'block';
                 document.getElementById('entreprise-form').style.display = 'none';
             } else if (role === 'entreprise') {

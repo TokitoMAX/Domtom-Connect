@@ -23,7 +23,7 @@ async function signUpWithEmail(email, password, fullName) {
             data: {
                 full_name: fullName
             },
-            emailRedirectTo: window.location.origin + '/login.html'
+            emailRedirectTo: window.location.origin + '/registration/onboarding.html'
         }
     });
     if (error) throw error;

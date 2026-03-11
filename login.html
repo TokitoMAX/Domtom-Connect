@@ -199,9 +199,15 @@
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Connexion...';
 
-                await signInWithEmail(email, password);
+                const data = await signInWithEmail(email, password);
 
-                window.location.href = 'dashboard.html';
+                // Si pas encore de rôle défini → onboarding, sinon dashboard
+                const role = data?.user?.user_metadata?.role || null;
+                if (!role) {
+                    window.location.href = 'registration/onboarding.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } catch (err) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Se connecter';
@@ -224,7 +230,12 @@
         window.addEventListener('load', async () => {
             const session = await getSession();
             if (session) {
-                window.location.href = 'dashboard.html';
+                const role = session.user?.user_metadata?.role || null;
+                if (!role) {
+                    window.location.href = 'registration/onboarding.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             }
         });
     </script>
