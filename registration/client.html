@@ -160,31 +160,16 @@
         </header>
 
         <main class="onboarding-card">
-            <div class="form-group" style="margin-bottom: 24px;">
-                <label class="form-label">Vous êtes *</label>
-                <div class="toggle-group">
-                    <div class="toggle-btn active" onclick="setProfileType('individual')">Particulier</div>
-                    <div class="toggle-btn" onclick="setProfileType('business')">Entreprise</div>
-                </div>
-            </div>
-
-            <h2 class="section-title">Quel est votre besoin ?</h2>
+            <h2 class="section-title">Décrivez votre besoin</h2>
             <form class="form-grid" id="onboardingForm" onsubmit="handleOnboarding(event)">
-                <input type="hidden" name="profile_type" id="profileType" value="individual">
+                <input type="hidden" name="profile_type" id="profileType" value="project_owner">
 
-                <div id="businessFields" style="display: none; grid-gap: 24px;">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Nom de la société *</label>
-                            <input type="text" class="form-input" name="company_name" placeholder="Ex: Batipro SARL">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">SIRET *</label>
-                            <input type="text" class="form-input" name="siret" placeholder="123 456 789 00012">
-                        </div>
-                    </div>
-                    <hr style="border: 0; border-top: 1px solid var(--gray-100); margin: 8px 0;">
+                <div class="form-group">
+                    <label class="form-label">Titre du Projet / Mission *</label>
+                    <input type="text" class="form-input" name="project_title"
+                        placeholder="Ex: Création site e-commerce, Audit BTP..." required>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Secteur d'Activité *</label>
@@ -214,56 +199,59 @@
                 <div class="form-group">
                     <label class="form-label">Brief du projet & Objectifs *</label>
                     <textarea class="form-textarea" name="description"
-                        placeholder="Décrivez le contexte, vos objectifs de rentabilité ou de croissance, et les compétences recherchées..."
+                        placeholder="Décrivez le contexte, vos objectifs et les compétences recherchées..."
                         required></textarea>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Budget alloué</label>
+                        <label class="form-label">Budget estimé</label>
                         <select class="form-select" name="budget">
+                            <option value="discovery">À définir (Étude)</option>
+                            <option value="small">
+                                < 5 000€</option>
                             <option value="medium">5 000€ - 15 000€</option>
                             <option value="large">15 000€ - 50 000€</option>
-                            <option value="enterprise">50 000€ - 150 000€</option>
-                            <option value="corporate">> 150 000€</option>
+                            <option value="enterprise">> 50 000€</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Délai de démarrage attendu</label>
+                        <label class="form-label">Urgence</label>
                         <select class="form-select" name="timeline">
                             <option value="urgent">Immédiat (ASAP)</option>
                             <option value="one_month">Dans le mois</option>
                             <option value="three_months">D'ici 3 mois</option>
-                            <option value="exploration">Phase de cadrage (Exploration)</option>
+                            <option value="exploration">Veille / Exploration</option>
                         </select>
                     </div>
                 </div>
 
                 <hr style="border: 0; border-top: 1px solid var(--gray-100); margin: 8px 0;">
 
-                <h2 class="section-title" style="margin-bottom: 12px; font-size: 1.25rem;">Coordonnées du Décideur</h2>
+                <h2 class="section-title" style="margin-bottom: 12px; font-size: 1.25rem;">Vos Coordonnées</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Nom de l'entreprise *</label>
-                        <input type="text" class="form-input" name="company" placeholder="Corporate Corp" required>
+                        <label class="form-label">Nom de l'entité (ou Nom propre) *</label>
+                        <input type="text" class="form-input" name="company" placeholder="Ex: Jean Dupont / Tech SARL"
+                            required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Nom complet *</label>
-                        <input type="text" class="form-input" name="name" placeholder="John Doe" required>
+                        <label class="form-label">Numéro SIRET (Optionnel)</label>
+                        <input type="text" class="form-input" name="siret" placeholder="Pour vérification Business">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">E-mail professionnel *</label>
-                    <input type="email" class="form-input" name="email" placeholder="john@entreprise.com" required>
+                    <input type="email" class="form-input" name="email" placeholder="email@domaine.com" required>
                 </div>
 
                 <button type="submit" class="cta-button primary"
                     style="width: 100%; margin-top: 12px; padding: 16px; font-size: 1rem;" id="submitBtn">
-                    Soumettre la demande
+                    Soumettre mon besoin
                 </button>
                 <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 16px;">
-                    Vos données sont confidentielles. Un Project Manager Domtom Connect vous contactera sous 24h.
+                    Vos données sont confidentielles. Un expert Domtom Connect vous contactera sous 24h.
                 </p>
             </form>
         </main>
@@ -271,39 +259,27 @@
 
     <script src="../assets/js/form-security.js"></script>
     <script>
-        function setProfileType(type) {
-            document.getElementById('profileType').value = type;
-            const btns = document.querySelectorAll('.toggle-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-
-            if (type === 'business') {
-                btns[1].classList.add('active');
-                document.getElementById('businessFields').style.display = 'grid';
-                document.querySelectorAll('#businessFields input').forEach(i => i.required = true);
-            } else {
-                btns[0].classList.add('active');
-                document.getElementById('businessFields').style.display = 'none';
-                document.querySelectorAll('#businessFields input').forEach(i => i.required = false);
-            }
-        }
-
         function handleOnboarding(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
             const form = event.target;
 
             // Validations Anti-Fake (si dispo)
-            const nameField = form.querySelector('input[name="name"]').value;
             const emailField = form.querySelector('input[name="email"]').value;
             const descField = form.querySelector('textarea[name="description"]').value;
+            const companyField = form.querySelector('input[name="company"]').value;
 
             if (window.formSecurity) {
-                if (!window.formSecurity.isValidName(nameField) || !window.formSecurity.isValidEmail(emailField)) {
-                    alert("Veuillez saisir un nom et un email professionnel valides.");
+                if (!window.formSecurity.isValidEmail(emailField)) {
+                    alert("Veuillez saisir un email professionnel valide.");
                     return;
                 }
-                if (!window.formSecurity.isValidText(descField, 20)) {
-                    alert("Votre brief projet est trop court ou semble invalide. Merci de détailler votre besoin.");
+                if (!window.formSecurity.isValidText(descField, 15)) {
+                    alert("Votre brief projet est trop court. Merci de détailler votre besoin.");
+                    return;
+                }
+                if (!window.formSecurity.isValidName(companyField)) {
+                    alert("Veuillez saisir un nom d'entité ou nom propre valide.");
                     return;
                 }
             }

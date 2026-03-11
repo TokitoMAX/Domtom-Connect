@@ -961,31 +961,77 @@
                 </div>
             </div>
 
-            <!-- Entreprises -->
+            <!-- Entreprises & Porteurs de Projets -->
             <div class="profile-section-block" id="entreprises"
                 style="margin-top: 5rem; padding-top: 5rem; border-top: 1px solid var(--gray-100);">
                 <div class="profile-header-section">
                     <h2 class="profile-title-main">Pour les Entreprises & Porteurs</h2>
-                    <p class="profile-subtitle">Sécurisez vos investissements et trouvez vos partenaires de confiance.
-                    </p>
+                    <p class="profile-subtitle">Sécurisez vos investissements et trouvez vos partenaires de confiance
+                        avec nos solutions B2B.</p>
                 </div>
 
-                <div class="pricing-grid" style="max-width: 900px; margin: 2rem auto;">
+                <div class="pricing-grid">
+                    <!-- Pack STARTER -->
                     <div class="pricing-card">
-                        <div class="pack-name">Accompagnement Sur-Mesure</div>
-                        <h3 class="pack-title">Leads & Gestion de Projet</h3>
+                        <div class="pack-name">Starter</div>
+                        <h3 class="pack-title">Découverte & Test</h3>
+                        <div class="pack-price">
+                            0€
+                            <small>Gratuit</small>
+                        </div>
+                        <p class="pack-result">Publiez votre besoin et recevez des candidatures librement.</p>
+                        <ul class="pack-list">
+                            <li>1 publication de mission</li>
+                            <li>Candidatures illimitées</li>
+                            <li>Outil de discussion interne</li>
+                            <li>Guides de cadrage projet</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="../registration/client.html" class="pack-cta-link"
+                                style="background: #94a3b8;">Publier un besoin</a>
+                        </div>
+                    </div>
+
+                    <!-- Pack BUSINESS -->
+                    <div class="pricing-card popular" style="border-color: #7c3aed;">
+                        <div class="pack-name">Business</div>
+                        <h3 class="pack-title">Matchmaking & Gain de temps</h3>
+                        <div class="pack-price">
+                            99€
+                            <small>/ mois (HT)</small>
+                        </div>
+                        <p class="pack-result">Nous trions les meilleurs profils pour vous. Concentrez-vous sur
+                            l'essentiel.</p>
+                        <ul class="pack-list">
+                            <li><strong>Matchmaking</strong> : Sourcing de 3 experts vérifiés par mission</li>
+                            <li>Publications illimitées</li>
+                            <li>Badge "Entreprise Premium"</li>
+                            <li>Support prioritaire 24h/7j</li>
+                        </ul>
+                        <div class="pack-cta popular">
+                            <button
+                                onclick="openPackModal('Pack Business Entreprise', '99€/mois', 'Entreprise')">Choisir
+                                Business</button>
+                        </div>
+                    </div>
+
+                    <!-- Pack ENTERPRISE -->
+                    <div class="pricing-card">
+                        <div class="pack-name">Enterprise</div>
+                        <h3 class="pack-title">Gestion Déléguée</h3>
                         <div class="pack-price" style="font-size: 2.5rem;">
                             Sur Devis
                         </div>
-                        <p class="pack-result">Qualification de besoin, sourcing d'experts et coordination de la
-                            livraison.</p>
+                        <p class="pack-result">Confiez-nous la coordination complète de vos projets stratégiques.</p>
                         <ul class="pack-list">
-                            <li>Diagnostic de faisabilité technique.</li>
-                            <li>Sourcing manuel de 3 experts vérifiés.</li>
-                            <li>Garantie de livraison et suivi de projet.</li>
+                            <li>Project Manager dédié</li>
+                            <li>Contrats & Paiements sécurisés</li>
+                            <li>Sourcing international (Diaspora)</li>
+                            <li>Garantie de livraison Domtom Connect</li>
                         </ul>
                         <div class="pack-cta">
-                            <a href="../registration/client.html" class="pack-cta-link">Soumettre un besoin</a>
+                            <button
+                                onclick="openPackModal('Pack Enterprise', 'Sur Devis', 'Entreprise')">Contactez-nous</button>
                         </div>
                     </div>
                 </div>
