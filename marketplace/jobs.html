@@ -162,6 +162,28 @@
             background: #059669;
         }
 
+        /* Paywall & Blur */
+        .locked-data {
+            filter: blur(5px);
+            user-select: none;
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .premium-lock-badge {
+            background: #fef2f2;
+            color: #ef4444;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #fee2e2;
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         /* Modal */
         .modal-overlay {
             position: fixed;
@@ -423,6 +445,35 @@
         </div>
     </div>
 
+    <!-- MODAL PREMIUM (Conversion) -->
+    <div class="modal-overlay" id="premium-modal">
+        <div class="modal" style="max-width: 480px; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 20px;">🛡️</div>
+            <h2 style="font-size: 1.5rem; margin-bottom: 12px;">Authority Pack requis</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px; line-height: 1.5;">
+                Les détails des missions stratégiques et l'accès direct aux clients sont réservés aux membres de
+                l'**Authority Pack**.
+            </p>
+            <div
+                style="background: var(--bg-light); border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 30px;">
+                <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary);">Inclus
+                    dans le pack :</p>
+                <ul
+                    style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
+                    <li>✅ Déblocage illimité des missions</li>
+                    <li>✅ Aide au Closing AI (Via SoloPrice)</li>
+                    <li>✅ Badge Expert Vérifié</li>
+                    <li>✅ Passage prioritaire sur le Podcast</li>
+                </ul>
+            </div>
+            <a href="../dashboard.html" class="cta-button primary"
+                style="width: 100%; justify-content: center; background: #10b981;">Activer mon pack (49€/mois)</a>
+            <button onclick="closePremiumModal()"
+                style="background: none; border: none; color: var(--text-muted); font-size: 0.8rem; margin-top: 15px; cursor: pointer; text-decoration: underline;">Plus
+                tard</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
@@ -495,7 +546,7 @@
                 if (idsToFetch.length > 0) {
                     const { data: companyProfiles } = await _supabase
                         .from('profiles')
-                        .select('id, full_name, avatar_url')
+                        .select('id, full_name, avatar_url, subscription_tier')
                         .in('id', idsToFetch);
 
                     if (companyProfiles) {
@@ -531,22 +582,32 @@
             const timeObj = new Date(job.created_at);
             const dateStr = !isNaN(timeObj) ? timeObj.toLocaleDateString() : '';
 
+            // Paywall Logic
+            const session = _supabase.auth.getSession();
+            // Simuler pour la démo ou checker profile.subscription_tier
+            const isPremium = false; // À remplacer par check profile.subscription_tier === 'authority'
+
+            const displayName = isPremium ? name : "Entreprise Vérifiée";
+            const nameClass = isPremium ? "" : "locked-data";
+            const lockBadge = isPremium ? "" : `<span class="premium-lock-badge">🔒 Authority</span>`;
+
             // Bouton
             let actionBtn = '';
             if (currentUserId === job.company_id) {
                 actionBtn = `<button class="btn-premium-contact" style="background:var(--gray-200);color:var(--text-secondary);cursor:default;">Votre offre</button>`;
-            } else if (currentUserRole === 'expert' || currentUserRole === 'prestataire') {
-                actionBtn = `<a href="../messages.html?to=${job.company_id}" class="btn-premium-contact">Postuler (Message)</a>`;
+            } else if (isPremium) {
+                actionBtn = `<a href="../messages.html?to=${job.company_id}" class="btn-premium-contact">Postuler (Direct)</a>`;
             } else {
-                actionBtn = `<button class="btn-premium-contact" style="background:var(--gray-200);color:var(--text-secondary);cursor:not-allowed;" title="Réservé aux experts">Postuler (Message)</button>`;
+                actionBtn = `<button onclick="openPremiumModal()" class="btn-premium-contact" style="background:#ef4444;">Débloquer pour postuler</button>`;
             }
 
             return `
-                <div class="premium-card">
                     <div class="premium-card-header">
                         ${avatar}
                         <div class="premium-info">
-                            <div class="premium-role" style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 2px;">${name} • ${dateStr}</div>
+                            <div class="premium-role" style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 2px;">
+                                <span class="${nameClass}">${displayName}</span> ${lockBadge} • ${dateStr}
+                            </div>
                             <h3>${job.title}</h3>
                         </div>
                     </div>
@@ -574,6 +635,14 @@
             document.getElementById('job-modal').classList.remove('open');
             document.getElementById('job-form').reset();
             document.getElementById('modal-feedback').style.display = 'none';
+        }
+
+        function openPremiumModal() {
+            document.getElementById('premium-modal').classList.add('open');
+        }
+
+        function closePremiumModal() {
+            document.getElementById('premium-modal').classList.remove('open');
         }
 
         async function saveJob(event) {
