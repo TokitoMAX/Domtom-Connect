@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messagerie – Domtom Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <style>
+        body {
+            background-color: var(--bg-light);
+            overflow: hidden;
+            /* Eviter double scroll */
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            height: 100vh;
+        }
+
+        /* Sidebar identique */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-100);
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px 32px;
+            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .sidebar-logo span {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid var(--gray-100);
+            margin: 12px 0;
+        }
+
+        .sidebar-danger a {
+            color: #ef4444 !important;
+        }
+
+        /* Messagerie Layout */
+        .messaging-container {
+            display: flex;
+            height: 100vh;
+            background: white;
+        }
+
+        /* Liste des conversations (Gauche) */
+        .conversations-list {
+            width: 320px;
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+        }
+
+        .conversations-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--gray-200);
+            background: white;
+        }
+
+        .conversations-header h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .conversations-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            transition: background 0.2s;
+            background: white;
+        }
+
+        .conversation-item:hover {
+            background: #f1f5f9;
+        }
+
+        .conversation-item.active {
+            background: #e0f2fe;
+            border-left: 3px solid #0284c7;
+            padding-left: 21px;
+        }
+
+        .conv-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-primary);
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .conv-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conv-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 0 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .conv-preview {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Zone de chat (Droite) */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            position: relative;
+        }
+
+        .chat-header {
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: white;
+            z-index: 10;
+        }
+
+        .chat-header .conv-avatar {
+            width: 48px;
+            height: 48px;
+        }
+
+        .chat-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .chat-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 2px 0 0 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            max-width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message.received .message-bubble {
+            background: white;
+            border: 1px solid var(--gray-200);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.sent .message-bubble {
+            background: #111827;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            align-self: flex-end;
+        }
+
+        .message.received .message-time {
+            align-self: flex-start;
+        }
+
+        .chat-input-area {
+            padding: 20px 32px;
+            border-top: 1px solid var(--gray-200);
+            background: white;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            background: #f8fafc;
+            border: 1px solid var(--gray-200);
+            border-radius: 24px;
+            padding: 8px 16px;
+            align-items: flex-end;
+        }
+
+        .chat-input-wrapper textarea {
+            flex: 1;
+            border: none;
+            background: transparent;
+            resize: none;
+            padding: 8px 0;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            max-height: 120px;
+            outline: none;
+        }
+
+        .btn-send {
+            background: #10b981;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s;
+            margin-bottom: 2px;
+        }
+
+        .btn-send:hover {
+            background: #059669;
+        }
+
+        .btn-send:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+        }
+
+        /* Empty State Chat */
+        .chat-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #fafafa;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .chat-empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            color: var(--gray-300);
+        }
+
+        .chat-empty-state p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Loader */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #10b981;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .messaging-container {
+                flex-direction: column;
+            }
+
+            .conversations-list {
+                width: 100%;
+                height: 35vh;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+
+            /* Hide list if chat open on mobile, etc. (To refine later if needed) */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="assets/images/logo-domtomconnect.png" alt="DC">
+                <span>Domtom Connect</span>
+            </div>
+
+            <p class="sidebar-section-label">Menu principal</p>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">Vue d'ensemble</a></li>
+                <li><a href="marketplace/directory.html">Annuaire Talents</a></li>
+                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="messages.html" class="active">Messagerie</a></li>
+            </ul>
+
+            <hr class="sidebar-divider">
+            <p class="sidebar-section-label">Externe</p>
+            <ul class="sidebar-nav">
+                <li><a href="index.html">← Retour à l'accueil</a></li>
+            </ul>
+
+            <hr class="sidebar-divider">
+            <p class="sidebar-section-label" style="color: #ef4444;">Danger Zone</p>
+            <ul class="sidebar-nav sidebar-danger">
+                <li><a href="#" onclick="signOut()">Déconnexion</a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENU -->
+        <main class="messaging-container">
+
+            <!-- Liste des discussions -->
+            <div class="conversations-list">
+                <div class="conversations-header">
+                    <h2>Messages</h2>
+                </div>
+                <div class="conversations-items" id="conv-list">
+                    <div class="loader" id="conv-loader"></div>
+                    <!-- JS injectera les conversations ici -->
+                </div>
+            </div>
+
+            <!-- Dashboard Chat -->
+            <div class="chat-area">
+                <!-- Empty State (Par défaut) -->
+                <div class="chat-empty-state" id="chat-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <p>Sélectionnez une conversation pour commencer</p>
+                </div>
+
+                <!-- Chat Actif -->
+                <div id="chat-active" style="display:none; flex-direction:column; height: 100%;">
+                    <div class="chat-header">
+                        <div class="conv-avatar" id="active-avatar">DC</div>
+                        <div>
+                            <h3 id="active-name">Chargement...</h3>
+                            <p id="active-role">Expert Domtom Connect</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="chat-thread">
+                        <div class="loader" id="msg-loader" style="display:none;"></div>
+                        <!-- Messages injectés ici -->
+                    </div>
+
+                    <div class="chat-input-area">
+                        <form class="chat-input-wrapper" onsubmit="sendMessage(event)">
+                            <textarea id="message-input" placeholder="Écrivez votre message..." rows="1"
+                                oninput="autoResize(this)" required></textarea>
+                            <button type="submit" class="btn-send" id="btn-send">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        // Logique de chat à venir dans la prochaine étape
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight < 120 ? textarea.scrollHeight : 120) + 'px';
+        }
+
+        async function initMessages() {
+            const session = await getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            // Pour le moment on cache le loader en attendant la BDD
+            document.getElementById('conv-loader').style.display = 'none';
+        }
+
+        window.onload = initMessages;
+    </script>
+</body>
+
+</html>
