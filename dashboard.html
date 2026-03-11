@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Espace – Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <!-- PayPal SDK -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture"
+        data-sdk-integration-source="button-factory"></script>
+
     <style>
         body {
             background-color: var(--bg-light);
@@ -475,7 +480,7 @@
                     </div>
                 `;
 
-                // === PACKS HYBRIDES : 1 one-shot + 1 abonnement ===
+                // === PACKS HYBRIDES ===
                 const packsHTML = `
                     <div style="margin-top:40px;">
                         <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Développez votre clientèle</p>
@@ -484,55 +489,55 @@
 
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
 
-                            <!-- PACK 1 : PRÉSENCE (gratuit) -->
+                            <!-- PACK 1 : PRÉSENCE -->
                             <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
                                 <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Présence</div>
                                 <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
-                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit · Pour toujours</p>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Pour toujours</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li>✓ &nbsp;Fiche profil dans l'annuaire public</li>
-                                    <li>✓ &nbsp;Accès au fil du réseau</li>
-                                    <li>✓ &nbsp;Mise en relation basique</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Badge Expert Vérifié</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus réseaux sociaux</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Podcast & leads premium</li>
+                                    <li>— Fiche profil dans l'annuaire public</li>
+                                    <li>— Accès au fil du réseau</li>
+                                    <li>— Mise en relation basique</li>
+                                    <li style="color:var(--gray-300);">— Badge Expert Vérifié</li>
+                                    <li style="color:var(--gray-300);">— Contenus réseaux sociaux</li>
+                                    <li style="color:var(--gray-300);">— Podcast & leads premium</li>
                                 </ul>
                                 <div style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted);">Votre plan actuel</div>
                             </div>
 
-                            <!-- PACK 2 : COUP DE PROJECTEUR (59€ one-shot) -->
+                            <!-- PACK 2 : COUP DE PROJECTEUR -->
                             <div style="background:white;border:2px solid #10b981;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(16,185,129,0.12);">
-                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">⭐ Recommandé pour commencer</div>
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Recommandé pour commencer</div>
                                 <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Coup de Projecteur</div>
                                 <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">59€</div>
-                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Paiement unique · Sans abonnement</p>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Paiement unique — Sans abonnement</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Badge <strong>Expert Vérifié</strong> 🔵 (permanent)</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;<strong>4 posts</strong> créés & publiés pour vos réseaux</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Boost annuaire pendant <strong>30 jours</strong></li>
-                                    <li>✓ &nbsp;Accès aux leads & missions du mois</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus récurrents chaque mois</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Interview podcast</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— Badge <strong>Expert Vérifié</strong> (permanent)</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>4 posts</strong> créés & publiés pour vos réseaux</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— Boost annuaire pendant <strong>30 jours</strong></li>
+                                    <li>— Accès aux leads & missions du mois</li>
+                                    <li style="color:var(--gray-300);">— Contenus récurrents chaque mois</li>
+                                    <li style="color:var(--gray-300);">— Interview podcast</li>
                                 </ul>
-                                <a href="mailto:domtomconnect@gmail.com?subject=Coup de Projecteur - ${name}" class="cta-button primary" style="width:100%;justify-content:center;background:#10b981;border:none;">Je veux mon Projecteur →</a>
-                                <p style="text-align:center;font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Paiement sécurisé · Badge permanent acquis</p>
+                                <div id="paypal-projecteur" style="margin-top:4px;"></div>
+                                <p style="text-align:center;font-size:0.7rem;color:var(--text-muted);margin-top:10px;">Paiement sécurisé — Badge permanent acquis</p>
                             </div>
 
-                            <!-- PACK 3 : INFLUENCE CONTINUE (39€/mois) -->
+                            <!-- PACK 3 : INFLUENCE CONTINUE -->
                             <div style="background:linear-gradient(160deg,#1e1b4b 0%,#312e81 100%);border:1.5px solid #6366f1;border-radius:16px;padding:28px;position:relative;">
                                 <div style="font-size:0.75rem;font-weight:700;color:#a5b4fc;text-transform:uppercase;margin-bottom:12px;">Influence Continue</div>
                                 <div style="font-size:2rem;font-weight:800;color:white;margin-bottom:4px;">39€<span style="font-size:1rem;font-weight:400;color:#a5b4fc">/mois</span></div>
-                                <p style="font-size:0.8rem;font-weight:600;color:#a5b4fc;margin-bottom:16px;">Abonnement · Sans engagement minimum</p>
+                                <p style="font-size:0.8rem;font-weight:600;color:#a5b4fc;margin-bottom:16px;">Abonnement — Sans engagement minimum</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:#e0e7ff;">
-                                    <li>✓ &nbsp;Tout le pack Coup de Projecteur</li>
-                                    <li style="font-weight:600;color:white;">✓ &nbsp;TOP 3 annuaire dans votre secteur 🏆</li>
-                                    <li style="font-weight:600;color:white;">✓ &nbsp;<strong>8 posts/mois</strong> rédigés & publiés pour vous</li>
-                                    <li style="font-weight:600;color:white;">✓ &nbsp;1 interview podcast 🎙️ <em>(tous les 3 mois)</em></li>
-                                    <li>✓ &nbsp;Accès prioritaire aux grands comptes</li>
-                                    <li>✓ &nbsp;Rapport mensuel de visibilité</li>
+                                    <li>— Tout le pack Coup de Projecteur</li>
+                                    <li style="font-weight:600;color:white;">— Position TOP 3 dans votre secteur</li>
+                                    <li style="font-weight:600;color:white;">— <strong>8 posts/mois</strong> rédigés & publiés pour vous</li>
+                                    <li style="font-weight:600;color:white;">— 1 interview podcast <em>(tous les 3 mois)</em></li>
+                                    <li>— Accès prioritaire aux grands comptes</li>
+                                    <li>— Rapport mensuel de visibilité</li>
                                 </ul>
-                                <a href="mailto:domtomconnect@gmail.com?subject=Influence Continue - ${name}" class="cta-button" style="width:100%;justify-content:center;background:white;color:#312e81;font-weight:700;border:none;">Passer en Influence Continue →</a>
-                                <p style="text-align:center;font-size:0.7rem;color:#a5b4fc;margin-top:8px;">Résiliation en 1 clic · Sans frais cachés</p>
+                                <div id="paypal-influence" style="margin-top:4px;"></div>
+                                <p style="text-align:center;font-size:0.7rem;color:#a5b4fc;margin-top:10px;">Résiliation en 1 clic — Sans frais cachés</p>
                             </div>
 
                         </div>
@@ -540,6 +545,38 @@
                 `;
                 dashboardContent.insertAdjacentHTML('beforeend', packsHTML);
 
+                // === PAYPAL SMART BUTTONS ===
+                if (typeof paypal !== 'undefined') {
+                    // Coup de Projecteur — 59€ paiement unique
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'pay', height: 40, tagline: false },
+                        createOrder: function (data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{ description: 'Coup de Projecteur — Domtom Connect', amount: { currency_code: 'EUR', value: '59.00' } }]
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                            return actions.order.capture().then(function () {
+                                alert('Paiement confirmé. Votre Pack Coup de Projecteur est activé. Domtom Connect vous contactera sous 24h.');
+                            });
+                        }
+                    }).render('#paypal-projecteur');
+
+                    // Influence Continue — 39€/mois
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'white', shape: 'rect', label: 'pay', height: 40, tagline: false },
+                        createOrder: function (data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{ description: 'Influence Continue (1er mois) — Domtom Connect', amount: { currency_code: 'EUR', value: '39.00' } }]
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                            return actions.order.capture().then(function () {
+                                alert('Paiement confirmé. Votre abonnement Influence Continue est activé. Domtom Connect vous contactera sous 24h.');
+                            });
+                        }
+                    }).render('#paypal-influence');
+                }
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
