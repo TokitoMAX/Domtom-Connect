@@ -322,7 +322,11 @@
                 if (response.ok) {
                     document.getElementById('onboardingForm').innerHTML = `
                         <div style="text-align: center; padding: 40px 0;">
-                            <div style="font-size: 3rem; margin-bottom: 24px;">✅</div>
+                            <div style="margin-bottom: 24px;">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
                             <h2 style="font-weight: 800; margin-bottom: 12px;">Dossier reçu.</h2>
                             <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
                                 Un Project Manager analyse votre demande et les profils correspondants.<br>

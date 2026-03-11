@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Choisis ton Pack - Domtom Connect</title>
+    <title>Solutions & Tarifs – Domtom Connect</title>
     <meta name="description"
-        content="Packs Porteurs de projet (99€, 500€, 1 900€) et Entreprises (800€, 1 500€, 2 500€). Contenu concret de chaque pack détaillé.">
+        content="La solution d'accélération pour les experts et entreprises d'Outre-mer. Découvrez le Pack Autorité.">
 
     <link rel="stylesheet" href="../assets/css/style.css?v=6.0">
 
@@ -842,27 +842,21 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="nav-toggle" type="button" aria-label="Menu" id="mobile-menu-btn">
+                <span></span><span></span><span></span>
             </button>
             <div class="nav-content" id="primary-navigation">
-                <div class="nav-links">
-                    <a href="/services">Trouver des prestataires</a>
-                    <a href="/blog">Blog</a>
-                    <a href="/landing/webinaire">Webinaire</a>
-                    <a href="/a-propos">À propos</a>
-                    <a href="/tarifs">Tarifs</a>
+                <div class="nav-links" id="nav-links-container">
+                    <a href="../marketplace/directory.html">Talents</a>
+                    <a href="../tarifs/index.html" class="active">Solutions</a>
                 </div>
-                <div class="nav-actions">
-                    <a href="/#inscription-form">
-                        <button class="nav-button" type="button">Rejoindre maintenant</button>
-                    </a>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
@@ -872,9 +866,12 @@
     <section class="sales-hero">
         <div class="container">
             <div class="sales-hero-content">
-                <h1>Prestataires locaux : on trouve, on cadre, on met en relation</h1>
-                <p class="subtitle">Tu gardes la main. On s’appelle d’abord, sans engagement.</p>
-                <a href="#packs" class="cta-primary">Choisir un pack</a>
+                <h1>Solutions & Accélération</h1>
+                <p class="subtitle">Des outils de haute performance pour les acteurs du changement en Outre-mer.</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <a href="#experts" class="cta-primary">Côté Expert</a>
+                    <a href="#entreprises" class="cta-primary" style="background: var(--text-primary);">Côté Projet</a>
+                </div>
             </div>
         </div>
     </section>
@@ -931,93 +928,64 @@
                 </div>
             </div>
 
-            <!-- Entreprises (en premier dans la page : cible CA) -->
-            <div class="profile-section-block" id="entreprises">
-                <div class="profile-header-section">
-                    <div>
-                        <h2 class="profile-title-main">Entreprises</h2>
-                        <p class="profile-subtitle">Accédez aux meilleurs talents des DOM-TOM pour vos besoins métiers.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="pricing-grid">
-                    <!-- Pack GRATUIT Entreprise -->
-                    <div class="pricing-card">
-                        <div class="pack-name" style="color: #64748b;">Accès Annuaire</div>
-                        <h3 class="pack-title">Trouvez vos premiers talents</h3>
-                        <div class="pack-price">
-                            0€
-                            <small>Gratuit</small>
-                        </div>
-                        <p class="pack-result pack-result--short">Parcourez notre réseau d'experts sans engagement.</p>
-                        <ul class="pack-list pack-list--short">
-                            <li>Recherche filtrée d'experts</li>
-                            <li>Consultation des profils publics</li>
-                            <li>Dépôt d'offre de mission (limité)</li>
-                        </ul>
-                        <div class="pack-cta">
-                            <a href="/registration/client.html" class="pack-cta-link" style="background: #94a3b8;">Créer
-                                un compte pro</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
             <!-- Prestataires -->
-            <div class="profile-section-block"
-                style="margin-top: 5rem; padding-top: 5rem; border-top: 2px solid #e5e7eb;">
+            <div class="profile-section-block" id="experts">
                 <div class="profile-header-section">
-                    <div>
-                        <h2 class="profile-title-main">Prestataires</h2>
-                        <p class="profile-subtitle">Tu es prestataire ? Rejoins notre réseau vérifié et accède à des
-                            clients qualifiés</p>
-                    </div>
+                    <h2 class="profile-title-main">Pour les Experts & Talents</h2>
+                    <p class="profile-subtitle">Devenez la référence de votre secteur et accédez à l'élite des projets
+                        ultramarins.</p>
                 </div>
 
-                <div class="pricing-grid" style="max-width: 1000px; margin: 2rem auto;">
-                    <!-- Modèle Gratuit / Contribution -->
-                    <div class="pricing-card">
-                        <div class="pack-name" style="color: #0d9488;">Accès Contribution</div>
-                        <h3 class="pack-title">Rejoins le réseau gratuitement</h3>
-                        <div class="pack-price">
-                            0€
-                            <small>Via contribution</small>
-                        </div>
-                        <p style="color: #6b7280; margin-bottom: 1.5rem; font-size: 0.9rem;"><strong>Engagement Requis
-                                :</strong> Création de contenu ou partage d'expertise en échange de l'accès.</p>
-                        <ul class="pack-list pack-list--short">
-                            <li>Profil dans l'annuaire</li>
-                            <li>Accès aux leads (pay-per-lead)</li>
-                            <li>SoloPrice Pro (Mode Découverte)</li>
-                            <li>Badge "Membre Réseau"</li>
-                        </ul>
-                        <div class="pack-cta">
-                            <a href="/landing/prestataires" class="pack-cta-link">Rejoindre le réseau</a>
-                        </div>
-                    </div>
-
+                <div class="pricing-grid" style="max-width: 900px; margin: 2rem auto;">
                     <!-- Pack AUTORITÉ PRESTATAIRE -->
-                    <div class="pricing-card featured" style="border-color: #8B5CF6;">
-                        <div class="pack-name" style="color: #8B5CF6;">Pack Autorité & Visibilité</div>
-                        <h3 class="pack-title">Deviens la référence de ton secteur</h3>
+                    <div class="pricing-card featured" style="border-color: var(--primary-color);">
+                        <div class="pack-name">Pack Autorité & Visibilité</div>
+                        <h3 class="pack-title">Le standard de l'excellence</h3>
                         <div class="pack-price">
                             49€
                             <small>/ mois (HT)</small>
                         </div>
-                        <p class="pack-result pack-result--short">Bâtis ton image d'expert local et booste ta
-                            visibilité.</p>
-                        <ul class="pack-list pack-list--short">
+                        <p class="pack-result">Bâtissez votre image d'expert local et boostez votre visibilité auprès
+                            des décideurs.</p>
+                        <ul class="pack-list">
                             <li><strong>Visibilité Elite</strong> : Rank #1 dans l'annuaire + Badge "Référence".</li>
-                            <li><strong>Content Hub</strong> : 5 publications par mois sur nos réseaux.</li>
-                            <li><strong>Podcast Spotlight</strong> : Mise en avant dans "L'Écho des Experts".</li>
-                            <li><strong>SoloPrice Elite</strong> : Suite de gestion complète incluse.</li>
+                            <li><strong>Content Hub</strong> : Diffusion de vos expertises sur nos réseaux.</li>
+                            <li><strong>Podcast Spotlight</strong> : Passage prioritaire dans nos formats media.</li>
+                            <li><strong>SoloPrice Elite</strong> : Suite de gestion complète débloquée.</li>
                         </ul>
                         <div class="pack-cta featured">
-                            <button
-                                onclick="openPackModal('Pack Autorité & Visibilité', '49€/mois', 'prestataire')">Bâtir
-                                mon Autorité</button>
+                            <a href="../registration/provider.html" class="pack-cta-link"
+                                style="background: var(--primary-color);">Démarrer mon Ascension</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entreprises -->
+            <div class="profile-section-block" id="entreprises"
+                style="margin-top: 5rem; padding-top: 5rem; border-top: 1px solid var(--gray-100);">
+                <div class="profile-header-section">
+                    <h2 class="profile-title-main">Pour les Entreprises & Porteurs</h2>
+                    <p class="profile-subtitle">Sécurisez vos investissements et trouvez vos partenaires de confiance.
+                    </p>
+                </div>
+
+                <div class="pricing-grid" style="max-width: 900px; margin: 2rem auto;">
+                    <div class="pricing-card">
+                        <div class="pack-name">Accompagnement Sur-Mesure</div>
+                        <h3 class="pack-title">Leads & Gestion de Projet</h3>
+                        <div class="pack-price" style="font-size: 2.5rem;">
+                            Sur Devis
+                        </div>
+                        <p class="pack-result">Qualification de besoin, sourcing d'experts et coordination de la
+                            livraison.</p>
+                        <ul class="pack-list">
+                            <li>Diagnostic de faisabilité technique.</li>
+                            <li>Sourcing manuel de 3 experts vérifiés.</li>
+                            <li>Garantie de livraison et suivi de projet.</li>
+                        </ul>
+                        <div class="pack-cta">
+                            <a href="../registration/client.html" class="pack-cta-link">Soumettre un besoin</a>
                         </div>
                     </div>
                 </div>
@@ -1235,7 +1203,7 @@
 
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
-            formDataToSend.append('_subject', `📦 Demande - ${data.pack_name} (${data.pack_price})`);
+            formDataToSend.append('_subject', `Demande - ${data.pack_name} (${data.pack_price})`);
             formDataToSend.append('_replyto', data.email);
 
             let message = `Nouvelle demande d'information :\n\n`;
@@ -1245,7 +1213,7 @@
             message += `Nom : ${data.prenom} ${data.nom}\n`;
             message += `Email : ${data.email}\n`;
             message += `Téléphone : ${data.telephone}\n`;
-            message += `🌴 Territoire : ${data.ile}\n`;
+            message += `Territoire : ${data.ile}\n`;
 
             formDataToSend.append('message', message);
 
@@ -1258,8 +1226,7 @@
                     if (response.ok) {
                         form.innerHTML = `
                         <div style="text-align: center; padding: 2rem 0;">
-                            <div style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 700;">Demande envoyée</div>
-                            <h3 style="color: #00BFA6; margin-bottom: 1rem; font-size: 1.5rem;">Demande envoyée !</h3>
+                            <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">Demande envoyée !</h3>
                             <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">
                                 Merci ! Nous allons t'envoyer tous les détails du <strong>${data.pack_name}</strong> par email dans les 24h.
                             </p>

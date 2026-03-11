@@ -1,102 +1,31 @@
-// Fonction pour calculer le ROI
-function calculateROI() {
-    const tauxHoraire = parseFloat(document.getElementById('taux-horaire')?.value) || 0;
-    const heuresRecherche = parseFloat(document.getElementById('heures-recherche')?.value) || 0;
-    const prixService = 1900; // Prix du pack en euros
-    
-    if (tauxHoraire > 0 && heuresRecherche > 0) {
-        const coutTemps = Math.round(tauxHoraire * heuresRecherche);
-        const economies = Math.max(0, coutTemps - prixService);
-        
-        // Afficher les résultats
-        const resultsDiv = document.getElementById('roi-results');
-        const coutTempsSpan = document.getElementById('cout-temps');
-        const heuresCalcSpan = document.getElementById('heures-calc');
-        const tauxCalcSpan = document.getElementById('taux-calc');
-        const montantEconomiesSpan = document.getElementById('montant-economies');
-        const coutTotalTxtSpan = document.getElementById('cout-total-txt');
-        
-        if (resultsDiv && coutTempsSpan && heuresCalcSpan && tauxCalcSpan && montantEconomiesSpan && coutTotalTxtSpan) {
-            coutTempsSpan.textContent = coutTemps.toLocaleString('fr-FR') + '€';
-            heuresCalcSpan.textContent = heuresRecherche;
-            tauxCalcSpan.textContent = tauxHoraire;
-            
-            if (economies > 0) {
-                montantEconomiesSpan.textContent = economies.toLocaleString('fr-FR') + '€';
-                montantEconomiesSpan.style.color = 'var(--primary-color)';
-                resultsDiv.style.display = 'block';
-            } else if (coutTemps > 0) {
-                montantEconomiesSpan.textContent = 'Tu économises ton temps et évites les risques';
-                montantEconomiesSpan.style.color = 'var(--primary-color)';
-                resultsDiv.style.display = 'block';
-            } else {
-                resultsDiv.style.display = 'none';
-            }
-            
-            coutTotalTxtSpan.textContent = coutTemps.toLocaleString('fr-FR') + '€ en temps';
-        }
-    } else {
-        const resultsDiv = document.getElementById('roi-results');
-        if (resultsDiv) {
-            resultsDiv.style.display = 'none';
-        }
-    }
-}
-
-// Calculer automatiquement au chargement de la page si les valeurs sont présentes
-document.addEventListener('DOMContentLoaded', function() {
-    calculateROI();
-    
-    // Le dropdown fonctionne au survol via CSS, pas besoin de JavaScript pour desktop
-    // Pour mobile, le menu hamburger gère l'affichage
-});
-
-// Fonction pour faire défiler vers le formulaire d'inscription
-function scrollToForm() {
-    const formSection = document.getElementById('inscription-form');
-    if (formSection) {
-        formSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
-
-// Fonction pour faire défiler vers les fonctionnalités
-function scrollToFeatures() {
-    const featuresSection = document.getElementById('features');
-    if (featuresSection) {
-        featuresSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
+/**
+ * Domtom Connect v3.0+ 
+ * Core Script - Minimalist & Professional
+ */
 
 // Configuration Formspree
 const FORMSFREE_ENDPOINT = 'https://formspree.io/f/myzbqepy';
 
-// Fonction pour gérer la soumission du formulaire newsletter
+/**
+ * Newsletter Submission
+ */
 function handleNewsletterSubmit(event) {
     event.preventDefault();
-    
+
     const form = event.target;
     const email = form.email.value;
     const submitButton = form.querySelector('button[type="submit"]');
     const originalText = submitButton.textContent;
-    
-    // Désactiver le bouton
+
     submitButton.disabled = true;
     submitButton.textContent = 'Inscription...';
-    
-    // Préparer les données
+
     const formData = new FormData();
     formData.append('email', email);
     formData.append('newsletter', 'yes');
     formData.append('_subject', 'Nouvelle inscription newsletter - L\'Écho Ultramarin');
     formData.append('_to', 'domtomconnect@gmail.com');
-    
-    // Envoyer à Formspree
+
     fetch(FORMSFREE_ENDPOINT, {
         method: 'POST',
         body: formData,
@@ -104,342 +33,58 @@ function handleNewsletterSubmit(event) {
             'Accept': 'application/json'
         }
     })
-    .then(response => {
-        if (response.ok) {
-            submitButton.textContent = 'Inscrit';
-            submitButton.style.background = '#10b981';
-            form.reset();
-            
-            // Réactiver après 3 secondes
+        .then(response => {
+            if (response.ok) {
+                submitButton.textContent = 'Inscrit';
+                submitButton.style.background = '#10b981';
+                form.reset();
+
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                    submitButton.style.background = '';
+                }, 3000);
+            } else {
+                throw new Error('Erreur');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            submitButton.textContent = 'Erreur';
+            submitButton.style.background = '#ef4444';
+
             setTimeout(() => {
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
                 submitButton.style.background = '';
             }, 3000);
-        } else {
-            throw new Error('Erreur lors de l\'inscription');
-        }
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        submitButton.textContent = 'Erreur, réessayez';
-        submitButton.style.background = '#ef4444';
-        
-        setTimeout(() => {
-            submitButton.disabled = false;
-            submitButton.textContent = originalText;
-            submitButton.style.background = '';
-        }, 3000);
-    });
-}
-
-// Fonction pour gérer la soumission du formulaire
-function handleFormSubmit(event) {
-    event.preventDefault();
-    
-    // Récupérer les données du formulaire (trim pour éviter espaces seuls)
-    const formData = new FormData(event.target);
-    const raw = Object.fromEntries(formData);
-    const data = {};
-    Object.keys(raw).forEach(k => { data[k] = typeof raw[k] === 'string' ? raw[k].trim() : raw[k]; });
-    
-    // Validation : tous les champs obligatoires doivent être remplis
-    const manquants = [];
-    if (!data.prenom) manquants.push('Prénom');
-    if (!data.nom) manquants.push('Nom');
-    if (!data.email) manquants.push('Email');
-    if (!data.telephone) manquants.push('Téléphone');
-    if (!data.ile) manquants.push('Île/territoire');
-    if (!data.profil) manquants.push('Profil');
-    if (manquants.length) {
-        alert('Pour envoyer votre inscription, merci de remplir tous les champs obligatoires : ' + manquants.join(', ') + '.');
-        return;
-    }
-    
-    // Validation email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        alert('Veuillez entrer une adresse email valide.');
-        return;
-    }
-
-    // --- LOGIQUE D'AUTOMATISATION ET DE FILTRAGE (PIVOT SAAS) ---
-    if (typeof scoreLeadAndRedirect === 'function') {
-        if (scoreLeadAndRedirect(formData)) {
-            return; // Arrêter si le lead est redirigé vers l'audit auto
-        }
-    }
-    
-    // Afficher un message de confirmation
-    showLoadingState();
-    
-    // Préparer les données pour Formspree avec un format clair pour l'email
-    const formDataToSend = new FormData();
-    
-    let profilLabel = '';
-    if (data.profil === 'entreprise') {
-        profilLabel = 'ENTREPRISE';
-    } else if (data.profil === 'prestataire') {
-        profilLabel = 'PRESTATAIRE';
-    } else if (data.profil === 'porteur-projet') {
-        profilLabel = 'PORTEUR DE PROJET';
-    } else if (data.profil === 'investisseur') {
-        profilLabel = 'INVESTISSEUR';
-    } else {
-        profilLabel = (data.profil || 'AUTRE').toUpperCase();
-    }
-    
-    // Configuration email
-    formDataToSend.append('_to', 'domtomconnect@gmail.com');
-    formDataToSend.append('_subject', `${profilLabel} - ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''}`);
-    formDataToSend.append('_replyto', data.email);
-    
-    // Construire le message de manière claire selon le profil
-    let messageBody = `
-${profilLabel} - NOUVELLE INSCRIPTION
-Source: Formulaire principal
-Date: ${new Date().toLocaleString('fr-FR')}
-
-CONTACT
-Prénom: ${data.prenom}
-Nom: ${data.nom}
-Email: ${data.email}
-Téléphone: ${data.telephone}
-Territoire: ${data.ile}
-Profil: ${data.profil}
-`;
-    
-    if (data.entreprise) {
-        messageBody += `
-ENTREPRISE
-Nom de l'entreprise: ${data.entreprise}
-`;
-    }
-    if (data.services) {
-        messageBody += `
-SERVICES PROPOSÉS
-${data.services}
-`;
-    }
-    if (data.secteur) {
-        messageBody += `
-SECTEUR D'ACTIVITÉ
-${data.secteur}
-`;
-    }
-    if (data['type-investissement']) {
-        messageBody += `
-TYPE D'INVESTISSEMENT
-${data['type-investissement']}
-`;
-    }
-    if (data.besoin) {
-        messageBody += `
-BESOIN PRINCIPAL
-${data.besoin}
-`;
-    }
-    if (data.detail) {
-        messageBody += `
-DÉTAILS
-${data.detail}
-`;
-    }
-    messageBody += `
-OPTIONS
-Newsletter: ${data.newsletter ? 'Oui' : 'Non'}
-
-PROCHAINES ÉTAPES
-1. Contacter ${data.prenom} ${data.nom}${data.entreprise ? ' (' + data.entreprise + ')' : ''} pour un appel
-2. Après l'appel, décider (oui/non)
-3. Si oui, ajouter à l'écosystème WhatsApp
-`;
-
-    formDataToSend.append('message', messageBody);
-    
-    // Données structurées pour Formspree (pour traitement automatique si besoin)
-    formDataToSend.append('Prénom', data.prenom);
-    formDataToSend.append('Nom', data.nom);
-    formDataToSend.append('Email', data.email);
-    formDataToSend.append('Téléphone', data.telephone);
-    formDataToSend.append('Île/Territoire', data.ile);
-    formDataToSend.append('Profil', data.profil);
-    if (data.entreprise) {
-        formDataToSend.append('Entreprise', data.entreprise);
-    }
-    if (data.secteur) {
-        formDataToSend.append('Secteur', data.secteur);
-    }
-    if (data.services) {
-        formDataToSend.append('Services', data.services);
-    }
-    if (data['type-investissement']) {
-        formDataToSend.append('Type investissement', data['type-investissement']);
-    }
-    if (data.besoin) {
-        formDataToSend.append('Besoin', data.besoin);
-    }
-    if (data.detail) {
-        formDataToSend.append('Détails', data.detail);
-    }
-    formDataToSend.append('Newsletter', data.newsletter ? 'Oui' : 'Non');
-    
-    // Vérifier si Formspree est configuré
-    if (FORMSFREE_ENDPOINT.includes('YOUR_FORM_ID')) {
-        // Si non configuré, utiliser mailto: comme solution de secours
-        console.warn('Formspree non configuré. Utilisation de mailto: comme solution de secours.');
-        sendViaMailto(data);
-    } else {
-        // Envoyer via Formspree
-        fetch(FORMSFREE_ENDPOINT, {
-            method: 'POST',
-            body: formDataToSend,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                hideLoadingState();
-                redirectToThankYou();
-            } else {
-                return response.json().then(data => {
-                    throw new Error(data.error || 'Erreur lors de l\'envoi');
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors de l\'envoi via Formspree:', error);
-            // En cas d'erreur, utiliser mailto: comme solution de secours
-            alert('Erreur lors de l\'envoi. Ouverture de votre client email...');
-            sendViaMailto(data);
         });
-    }
 }
 
-// Fonction de secours pour envoyer via mailto:
-function sendViaMailto(data) {
-    const emailSubject = encodeURIComponent(`Nouvelle inscription - ${data.prenom} ${data.nom}`);
-    const emailBody = encodeURIComponent(`
-Nouvelle inscription Domtom Connect
-
-Informations personnelles:
-- Prénom: ${data.prenom}
-- Nom: ${data.nom}
-- Email: ${data.email}
-- Téléphone: ${data.telephone}
-- Île/Territoire: ${data.ile}
-- Profil: ${data.profil}
-
-${data.message ? `Message/Projet:\n${data.message}` : ''}
-
-Newsletter: ${data.newsletter ? 'Oui' : 'Non'}
-    `.trim());
-    
-    const mailtoLink = `mailto:domtomconnect@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-    window.location.href = mailtoLink;
-    
-    setTimeout(() => {
-        hideLoadingState();
-        redirectToThankYou();
-    }, 1000);
-}
-
-// Fonction pour afficher l'état de chargement
-function showLoadingState() {
-    const submitButton = document.querySelector('.inscription-form .cta-button');
-    if (submitButton) {
-        submitButton.innerHTML = 'Envoi en cours...';
-        submitButton.disabled = true;
-    }
-}
-
-// Fonction pour masquer l'état de chargement
-function hideLoadingState() {
-    const submitButton = document.querySelector('.inscription-form .cta-button');
-    if (submitButton) {
-        submitButton.innerHTML = 'Je rejoins Domtom Connect';
-        submitButton.disabled = false;
-    }
-}
-
-// Fonction pour rediriger vers la page de remerciement
-function redirectToThankYou() {
-    // Stocker les données dans le localStorage pour la page de remerciement
-    const formData = new FormData(document.querySelector('.inscription-form'));
-    const data = Object.fromEntries(formData);
-    localStorage.setItem('domtomConnectData', JSON.stringify(data));
-    
-    // Rediriger vers la page de remerciement
-    window.location.href = 'merci.html';
-}
-
-// Navigation moderne (menu burger + état collant)
+/**
+ * Mobile Navigation Logic
+ */
 function initNavigation() {
-    const navbar = document.querySelector('.navbar');
     const navToggle = document.querySelector('.nav-toggle');
     const navContent = document.querySelector('.nav-content');
 
-    if (!navbar || !navToggle || !navContent) {
-        return;
-    }
+    if (!navToggle || !navContent) return;
 
-    const closeMenu = () => {
-        navContent.classList.remove('is-open');
-        navToggle.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-    };
-
-    const toggleMenu = () => {
+    navToggle.addEventListener('click', () => {
         const isOpen = navContent.classList.toggle('is-open');
         navToggle.classList.toggle('is-open', isOpen);
-        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    };
-
-    navToggle.addEventListener('click', (event) => {
-        event.stopPropagation();
-        toggleMenu();
-    });
-
-    navContent.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            closeMenu();
-        });
     });
 }
 
-// Gérer les clics sur le logo et le nom pour revenir à l'accueil
-function initLogoLinks() {
-    // Utiliser un délai pour s'assurer que le DOM est complètement chargé
-    setTimeout(function() {
-        const navBrand = document.getElementById('logo-home') || document.querySelector('.nav-brand');
-        if (navBrand) {
-            // Supprimer tous les event listeners existants et en ajouter un nouveau
-            navBrand.onclick = function(e) {
-                        e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                        window.location.href = '/';
-                return false;
-            };
-            
-            // Forcer le style pour être sûr que c'est cliquable
-            navBrand.style.cursor = 'pointer';
-            navBrand.style.pointerEvents = 'auto';
-            navBrand.style.zIndex = '9999';
-            navBrand.style.position = 'relative';
-        }
-    }, 100);
-}
-
-
-// Fonction pour ajouter des animations au scroll
+/**
+ * Scroll Animations (Intersection Observer)
+ */
 function initScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -447,273 +92,39 @@ function initScrollAnimations() {
             }
         });
     }, observerOptions);
-    
-    // Observer les éléments à animer
-    const animatedElements = document.querySelectorAll('.feature-card, .service-card, .faq-item, .hero-card, .vision-card, .testimonial-card, .transformation-card');
+
+    const animatedElements = document.querySelectorAll('.feature-card, .service-card, .faq-item, .hero-card, .dash-card');
     animatedElements.forEach(el => {
         el.classList.add('scroll-animate');
         observer.observe(el);
     });
 }
 
-// Fonction pour gérer les boutons CTA
-function initCTAButtons() {
-    // Tous les boutons CTA qui doivent rediriger vers le formulaire
-    const ctaButtons = document.querySelectorAll('.cta-button[onclick="scrollToForm()"]');
-    ctaButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            scrollToForm();
-        });
-    });
-    
-    // Bouton "Découvrir" dans le hero
-    const discoverButton = document.querySelector('.hero-actions .cta-button.secondary');
-    if (discoverButton) {
-        discoverButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            scrollToFeatures();
-        });
-    }
-}
-
-// Fonction pour ajouter des effets de parallaxe subtils
-function initParallaxEffects() {
-    const parallaxElements = document.querySelectorAll('.hero-visual, .vision-visual, .testimonial-visual, .transformation-visual');
-
-    if (!parallaxElements.length) {
-        return;
-    }
-
-    parallaxElements.forEach(element => {
-        element.style.transform = '';
-    });
-}
-
-// Fonction pour gérer les FAQ (expand/collapse)
+/**
+ * FAQ Toggle Logic
+ */
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
-    
+
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        
-        if (question && answer) {
+        if (question) {
             question.addEventListener('click', () => {
-                const isOpen = item.classList.contains('active');
-                
-                // Fermer tous les autres éléments
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // Toggle l'élément actuel
                 item.classList.toggle('active');
             });
         }
     });
 }
 
-// Fonction d'initialisation principale
+/**
+ * Initialize all components
+ */
 function init() {
-    // Attendre que le DOM soit chargé
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-        return;
-    }
-    
-    // Initialiser toutes les fonctionnalités
     initNavigation();
     initScrollAnimations();
-    initCTAButtons();
-    initParallaxEffects();
     initFAQ();
-    initLogoLinks();
-    
-    // Initialiser les formulaires dynamiques
-    initDynamicForms();
-    
-    console.log('Domtom Connect - Initialisé avec automatisation');
+    console.log('Domtom Connect v3.0+ initialized');
 }
 
-// Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 1)
-function updateFormFields() {
-    const profilSelect = document.getElementById('profil-select');
-    if (!profilSelect || !profilSelect.value) return;
-    
-    const profil = profilSelect.value;
-    const form = profilSelect.closest('form');
-    if (!form) return;
-    
-    // Récupérer et valider les données avant toute redirection
-    const formData = new FormData(form);
-    const data = {};
-    for (let [key, value] of formData.entries()) {
-        data[key] = typeof value === 'string' ? value.trim() : value;
-    }
-    
-    // Ne pas rediriger sans les infos obligatoires
-    const manquants = [];
-    if (!data.prenom) manquants.push('Prénom');
-    if (!data.nom) manquants.push('Nom');
-    if (!data.email) manquants.push('Email');
-    if (!data.telephone) manquants.push('Téléphone');
-    if (!data.ile) manquants.push('Île / territoire');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (data.email && !emailRegex.test(data.email)) {
-        manquants.push('Email (format valide)');
-    }
-    if (manquants.length) {
-        alert('Veuillez remplir tous les champs obligatoires avant de continuer : ' + manquants.join(', ') + '.');
-        return;
-    }
-    
-    // Stocker les données pour préremplir la landing
-    sessionStorage.setItem('domtomConnectHomepageData', JSON.stringify(data));
-    
-    // Redirection vers la landing correspondante
-    const landingPages = {
-        'porteur-projet': '/landing/porteurs-projets',
-        'entrepreneur': '/landing/porteurs-projets',
-        'prestataire': '/landing/prestataires',
-        'entreprise': '/landing/entreprises',
-        'investisseur': '/landing/investisseurs',
-        'professionnel': '/landing/entreprises'
-    };
-    
-    if (landingPages[profil]) {
-        window.location.href = landingPages[profil];
-    }
-}
-
-// Fonction pour mettre à jour les champs du formulaire selon le profil (Formulaire 2)
-function updateFormFields2() {
-    const profil = document.getElementById('profil-select-2').value;
-    const secteurField = document.getElementById('secteur-field-2');
-    const servicesField = document.getElementById('services-field-2');
-    const investissementField = document.getElementById('investissement-field-2');
-    const besoinField = document.getElementById('besoin-field-2');
-    const detailField = document.getElementById('detail-field-2');
-    const detailTextarea = document.getElementById('detail-textarea-2');
-    const detailHint = document.getElementById('detail-hint-2');
-    
-    // Masquer tous les champs conditionnels
-    secteurField.style.display = 'none';
-    servicesField.style.display = 'none';
-    investissementField.style.display = 'none';
-    besoinField.style.display = 'none';
-    detailField.style.display = 'none';
-    
-    // Afficher les champs pertinents selon le profil
-    if (profil === 'porteur-projet' || profil === 'entrepreneur') {
-        secteurField.style.display = 'block';
-        besoinField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous de ton projet en quelques lignes (optionnel mais recommandé)';
-        detailHint.textContent = '💡 Exemples : Quelle est ton idée ? À quel stade es-tu ? Quels sont tes besoins spécifiques ? Budget estimé ?';
-        detailTextarea.rows = 4;
-    } else if (profil === 'entreprise' || profil === 'professionnel') {
-        secteurField.style.display = 'block';
-        besoinField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Parle-nous des besoins de votre entreprise (optionnel mais recommandé)';
-        detailHint.textContent = 'Exemples : Type de prestataires recherchés ? Secteur d\'activité ? Budget disponible ? Délais ?';
-        detailTextarea.rows = 4;
-    } else if (profil === 'prestataire') {
-        servicesField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes services, ton expérience et tes tarifs (optionnel mais recommandé)';
-        detailHint.textContent = 'Exemples : Années d\'expérience, projets réalisés, tarifs indicatifs, disponibilité, territoires couverts...';
-        detailTextarea.rows = 4;
-    } else if (profil === 'investisseur') {
-        investissementField.style.display = 'block';
-        detailField.style.display = 'block';
-        detailTextarea.placeholder = 'Décris tes critères d\'investissement et tes attentes (optionnel mais recommandé)';
-        detailHint.textContent = 'Exemples : Montants investis, secteurs privilégiés, stade des projets, conditions, territoires d\'intérêt...';
-        detailTextarea.rows = 4;
-    }
-    
-    // Ajouter un listener pour mettre à jour le hint selon le besoin sélectionné
-    const besoinSelect = besoinField.querySelector('select');
-    if (besoinSelect && besoinField.style.display === 'block') {
-        besoinSelect.addEventListener('change', function() {
-            updateDetailHintBasedOnBesoin(detailTextarea, detailHint, besoinSelect.value, profil);
-        });
-    }
-}
-
-// Fonction pour mettre à jour le hint du champ détail selon le besoin sélectionné
-function updateDetailHintBasedOnBesoin(textarea, hint, besoin, profil) {
-    if (!besoin) return;
-    
-    const hints = {
-        'trouver-prestataires': 'Détaille : Quels types de prestataires ? Pour quel projet ? Budget disponible ? Délais ?',
-        'rejoindre-communaute': 'Détaille : Pourquoi rejoindre ? Que cherches-tu ? Comment veux-tu contribuer ?',
-        'developper-projet': 'Détaille : Stade actuel du projet ? Besoins spécifiques ? Obstacles rencontrés ?',
-        'trouver-partenaires': 'Détaille : Type de partenaires recherchés ? Secteur ? Objectifs du partenariat ?',
-        'autre-besoin': 'Détaille : Explique ton besoin spécifique et comment on peut t\'aider.'
-    };
-    
-    if (hints[besoin]) {
-        hint.textContent = hints[besoin];
-    }
-}
-
-// Initialiser les formulaires dynamiques
-function initDynamicForms() {
-    const profilSelect1 = document.getElementById('profil-select');
-    const profilSelect2 = document.getElementById('profil-select-2');
-    
-    if (profilSelect1) {
-        profilSelect1.addEventListener('change', updateFormFields);
-        if (profilSelect1.value) updateFormFields();
-    }
-    
-    if (profilSelect2) {
-        profilSelect2.addEventListener('change', updateFormFields2);
-        if (profilSelect2.value) updateFormFields2();
-    }
-}
-
-// --- FONCTIONS D'AUTOMATISATION (PIVOT SAAS) ---
-
-/**
- * Gère le paiement Stripe (Simulé pour le MVP)
- */
-function startStripePayment(packName, amount) {
-    console.log(`Initialisation paiement Stripe pour ${packName} (${amount}€)`);
-    const confirmPayment = confirm(`Vous allez être redirigé vers le paiement sécurisé de ${amount}€ pour le ${packName}. Voulez-vous continuer ?`);
-    if (confirmPayment) {
-        alert("Paiement réussi (Simulation). Redirection vers votre Audit Flash IA...");
-        window.location.href = "#"; 
-    }
-}
-
-/**
- * Lead Scoring & Filtrage Automatique : Redirige les petits budgets vers le produit auto à 99€
- */
-function scoreLeadAndRedirect(formData) {
-    const budget = parseInt(formData.get('budget')) || 0;
-    const profil = formData.get('profil');
-    
-    console.log(`Scoring du lead: Profil=${profil}, Budget=${budget}`);
-
-    // LOGIQUE DE FILTRAGE : Si budget trop faible (< 1000€) -> redirection vers PDF à 99€
-    if (profil === 'porteur-projet' && budget < 1000) {
-        alert("Analyse IA : Votre projet est idéal pour notre 'Audit Flash IA' (99€). Vous obtiendrez votre dossier complet immédiatement.");
-        window.location.href = "tarifs.html"; 
-        return true; // Stop Formspree
-    }
-    
-    // Si budget élevé (> 10k) -> Signalement prioritaire
-    if (budget > 10000) {
-        formData.append('priority_tag', 'HIGH_VALUE_ELITE');
-    }
-
-    return false; // Continue vers Formspree
-}
-
-// Démarrer l'application
-init();
+// Global initialization
+document.addEventListener('DOMContentLoaded', init);
