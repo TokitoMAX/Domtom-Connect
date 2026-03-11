@@ -494,7 +494,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        // Logique de chat à venir dans la prochaine étape
+        let currentUserId = null;
+        let activeConversationId = null;
+        let realtimeChannel = null;
+        let cachedProfiles = {};
+
         function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = (textarea.scrollHeight < 120 ? textarea.scrollHeight : 120) + 'px';
@@ -503,12 +507,247 @@
         async function initMessages() {
             const session = await getSession();
             if (!session) { window.location.href = 'login.html'; return; }
+            currentUserId = session.user.id;
 
-            // Pour le moment on cache le loader en attendant la BDD
-            document.getElementById('conv-loader').style.display = 'none';
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetUserId = urlParams.get('to');
+
+            if (targetUserId && targetUserId !== currentUserId) {
+                await ensureConversationWith(targetUserId);
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            await loadConversations();
         }
 
-        window.onload = initMessages;
+        async function ensureConversationWith(targetUserId) {
+            const { data: myConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+            const myConvIds = myConvs ? myConvs.map(c => c.conversation_id) : [];
+
+            if (myConvIds.length > 0) {
+                const { data: shared } = await _supabase.from('conversation_participants')
+                    .select('conversation_id')
+                    .in('conversation_id', myConvIds)
+                    .eq('user_id', targetUserId);
+
+                if (shared && shared.length > 0) {
+                    activeConversationId = shared[0].conversation_id;
+                    return;
+                }
+            }
+
+            const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({}).select().single();
+            if (errConv || !newConv) { console.error("Erreur création conv", errConv); return; }
+
+            const newConvId = newConv.id;
+
+            await _supabase.from('conversation_participants').insert([
+                { conversation_id: newConvId, user_id: currentUserId },
+                { conversation_id: newConvId, user_id: targetUserId }
+            ]);
+
+            activeConversationId = newConvId;
+        }
+
+        async function loadConversations() {
+            const loader = document.getElementById('conv-loader');
+            const convListEl = document.getElementById('conv-list');
+            loader.style.display = 'block';
+
+            const { data: myConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+
+            if (!myConvs || myConvs.length === 0) {
+                loader.style.display = 'none';
+                convListEl.innerHTML = '<p style="padding: 24px; color: var(--text-muted); text-align: center; font-size: 0.9rem;">Aucune conversation.</p>';
+                return;
+            }
+            const convIds = myConvs.map(c => c.conversation_id);
+
+            const { data: otherParticipants } = await _supabase.from('conversation_participants')
+                .select('conversation_id, user_id')
+                .in('conversation_id', convIds)
+                .neq('user_id', currentUserId);
+
+            if (!otherParticipants || otherParticipants.length === 0) {
+                loader.style.display = 'none';
+                return;
+            }
+
+            const otherUserIds = otherParticipants.map(p => p.user_id);
+
+            const { data: profiles } = await _supabase.from('profiles')
+                .select('id, full_name, avatar_url, title, skills')
+                .in('id', otherUserIds);
+
+            loader.style.display = 'none';
+            if (!profiles) return;
+
+            profiles.forEach(p => cachedProfiles[p.id] = p);
+
+            convListEl.innerHTML = '';
+
+            otherParticipants.forEach(participant => {
+                const profile = cachedProfiles[participant.user_id];
+                if (!profile) return;
+
+                const convId = participant.conversation_id;
+                const name = profile.full_name || 'Anonyme';
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                const avatar = profile.avatar_url
+                    ? `<img src="${profile.avatar_url}" class="conv-avatar">`
+                    : `<div class="conv-avatar">${initials}</div>`;
+
+                const isActive = (convId === activeConversationId);
+
+                const item = document.createElement('div');
+                item.className = 'conversation-item' + (isActive ? ' active' : '');
+                item.id = 'conv-item-' + convId;
+                item.onclick = () => selectConversation(convId, profile);
+
+                item.innerHTML = `
+                    ${avatar}
+                    <div class="conv-info">
+                        <p class="conv-name">${name}</p>
+                        <p class="conv-preview">${profile.title || profile.skills || 'Cliquez pour ouvrir'}</p>
+                    </div>
+                `;
+                convListEl.appendChild(item);
+            });
+
+            if (activeConversationId) {
+                const participantInfo = otherParticipants.find(p => p.conversation_id === activeConversationId);
+                if (participantInfo && cachedProfiles[participantInfo.user_id]) {
+                    selectConversation(activeConversationId, cachedProfiles[participantInfo.user_id]);
+                }
+            } else if (otherParticipants.length > 0) {
+                const first = otherParticipants[0];
+                selectConversation(first.conversation_id, cachedProfiles[first.user_id]);
+            }
+        }
+
+        async function selectConversation(convId, profile) {
+            activeConversationId = convId;
+
+            document.querySelectorAll('.conversation-item').forEach(el => el.classList.remove('active'));
+            const currentItem = document.getElementById('conv-item-' + convId);
+            if (currentItem) currentItem.classList.add('active');
+
+            document.getElementById('chat-empty').style.display = 'none';
+            document.getElementById('chat-active').style.display = 'flex';
+
+            const name = profile.full_name || 'Anonyme';
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('active-name').textContent = name;
+            document.getElementById('active-role').textContent = profile.title || profile.skills || 'Expert Domtom Connect';
+
+            const avatarEl = document.getElementById('active-avatar');
+            if (profile.avatar_url) {
+                avatarEl.style.background = 'transparent';
+                avatarEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+            } else {
+                avatarEl.style.background = 'var(--gray-200)';
+                avatarEl.innerHTML = initials;
+            }
+
+            subscribeToMessages(convId);
+            await loadMessages(convId);
+        }
+
+        async function loadMessages(convId) {
+            const thread = document.getElementById('chat-thread');
+            document.getElementById('msg-loader').style.display = 'block';
+
+            Array.from(thread.children).forEach(child => {
+                if (child.id !== 'msg-loader') child.remove();
+            });
+
+            const { data: messages, error } = await _supabase
+                .from('messages')
+                .select('*')
+                .eq('conversation_id', convId)
+                .order('created_at', { ascending: true });
+
+            document.getElementById('msg-loader').style.display = 'none';
+            if (error) { console.error("Erreur messages", error); return; }
+
+            if (messages) messages.forEach(msg => appendMessage(msg));
+            scrollToBottom();
+        }
+
+        function appendMessage(msg) {
+            const thread = document.getElementById('chat-thread');
+            const isMe = (msg.sender_id === currentUserId);
+
+            const timeObj = new Date(msg.created_at);
+            const time = !isNaN(timeObj) ? timeObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            const el = document.createElement('div');
+            el.className = 'message ' + (isMe ? 'sent' : 'received');
+
+            const escapedContent = msg.content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
+            el.innerHTML = `
+                <div class="message-bubble">${escapedContent}</div>
+                <div class="message-time">${time}</div>
+            `;
+
+            thread.appendChild(el);
+        }
+
+        function scrollToBottom() {
+            const thread = document.getElementById('chat-thread');
+            thread.scrollTop = thread.scrollHeight;
+        }
+
+        async function sendMessage(e) {
+            e.preventDefault();
+            if (!activeConversationId) return;
+
+            const input = document.getElementById('message-input');
+            const content = input.value.trim();
+            if (!content) return;
+
+            input.value = '';
+            input.style.height = 'auto';
+
+            const tempMsg = {
+                sender_id: currentUserId,
+                content: content,
+                created_at: new Date().toISOString()
+            };
+
+            appendMessage(tempMsg);
+            scrollToBottom();
+
+            const { error } = await _supabase.from('messages').insert({
+                conversation_id: activeConversationId,
+                sender_id: currentUserId,
+                content: content
+            });
+
+            if (error) console.error("Send error", error);
+        }
+
+        function subscribeToMessages(convId) {
+            if (realtimeChannel) _supabase.removeChannel(realtimeChannel);
+
+            realtimeChannel = _supabase.channel('messages_channel_' + convId)
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'messages',
+                    filter: `conversation_id=eq.${convId}`
+                }, payload => {
+                    const newMsg = payload.new;
+                    if (newMsg.sender_id !== currentUserId) {
+                        appendMessage(newMsg);
+                        scrollToBottom();
+                    }
+                })
+                .subscribe();
+        }
+
+        window.addEventListener('load', initMessages);
     </script>
 </body>
 
