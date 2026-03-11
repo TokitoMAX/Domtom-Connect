@@ -230,14 +230,15 @@
                     <span class="badge emerald">Partenaire Exclusif</span>
                     <h2>Dopez votre rentabilité avec SoloPrice Pro</h2>
                     <p>La suite de gestion financière conçue par des experts, pour les experts des DOM-TOM.</p>
-                    <ul class="feature-list">
-                        <li>Calculateur de TJM Stratégique</li>
-                        <li>Gestion de Trésorerie & Cash-flow</li>
-                        <li>Closing & Scoping de projets complexes</li>
-                        <li>Annonces de missions premium</li>
-                    </ul>
+                    <div class="feature-list">
+                        <div class="feature-list-item">Calculateur de TJM Stratégique</div>
+                        <div class="feature-list-item">Gestion de Trésorerie &amp; Cash-flow</div>
+                        <div class="feature-list-item">Closing &amp; Scoping de projets complexes</div>
+                        <div class="feature-list-item">Annonces de missions premium</div>
+                    </div>
                     <div class="soloprice-actions">
-                        <a href="register-choice.html" class="cta-button emerald">Accéder à la Suite Business</a>
+                        <a href="register-choice.html" class="cta-button emerald" id="soloprice-cta">Accéder à la Suite
+                            Business</a>
                     </div>
                 </div>
             </div>
@@ -245,7 +246,7 @@
     </section>
 
     <!-- SECTION LES 4 PILIERS -->
-    <section class="section-padding bg-light light-section" id="cibles">
+    <section class="section-padding bg-light light-section" id="cibles" data-hide-logged-in>
         <div class="container">
             <div class="section-header">
                 <h2>4 Profils, 1 Réseau</h2>
@@ -480,6 +481,18 @@
                 if (loginLink) loginLink.style.display = 'none';
                 if (startButton) startButton.style.display = 'none';
 
+                // Masquer les sections non pertinentes quand connecté
+                document.querySelectorAll('[data-hide-logged-in]').forEach(el => {
+                    el.style.display = 'none';
+                });
+
+                // Mettre à jour le CTA SoloPrice pour les connectés
+                const solopriceCta = document.getElementById('soloprice-cta');
+                if (solopriceCta) {
+                    solopriceCta.href = 'dashboard.html';
+                    solopriceCta.textContent = 'Accéder à mon Dashboard';
+                }
+
                 // Ajouter liens personnalisés selon rôle
                 let extraLinks = '';
                 if (role === 'expert') {
@@ -492,12 +505,12 @@
                     extraLinks = '<a href="dashboard.html">Mon Espace</a>';
                 }
 
-                navLinks.innerHTML = extraLinks + '<a href="dashboard.html" class="nav-profil-badge">Profil</a>';
+                navLinks.innerHTML = extraLinks;
 
-                // Bouton Profil / Déconnexion
+                // Bouton d'action avec profil + déconnexion
                 navActions.innerHTML = `
                     <div class="user-menu-wrapper">
-                        <span class="user-greeting">Hello, ${name}</span>
+                        <a href="dashboard.html" class="cta-button secondary nav-profil-btn">👤 ${name}</a>
                         <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
                     </div>
                 `;
