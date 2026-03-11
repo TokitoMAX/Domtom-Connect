@@ -9,25 +9,178 @@
     <style>
         /* Bandeau CTA expert */
         .expert-cta-banner {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 1.5px solid #bbf7d0;
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            border: 1px solid #374151;
             border-radius: 12px;
-            padding: 20px 24px;
+            padding: 24px 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
 
         .expert-cta-banner p {
-            font-size: 0.9rem;
-            color: #166534;
+            font-size: 0.95rem;
+            color: #e5e7eb;
             margin: 0;
+            line-height: 1.5;
         }
 
         .expert-cta-banner strong {
             font-weight: 700;
+            color: white;
+        }
+
+        /* Nouvelles Cartes Premium */
+        .premium-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border-color: #d1d5db;
+        }
+
+        .premium-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .premium-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            border: 1px solid var(--gray-200);
+        }
+
+        .premium-info h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .premium-role {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .premium-sector {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+        .premium-bio {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .premium-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--gray-200);
+        }
+
+        .tag.tag-available {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .tag.tag-price {
+            background: rgba(15, 23, 42, 0.05);
+            color: #0f172a;
+        }
+
+        .premium-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            border-top: 1px solid var(--gray-100);
+            padding-top: 20px;
+        }
+
+        .btn-premium-contact {
+            background: #111827;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-premium-contact:hover {
+            background: #1f2937;
+        }
+
+        .btn-premium-linkedin {
+            background: white;
+            color: #0284c7;
+            border: 1.5px solid #0284c7;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-premium-linkedin:hover {
+            background: #f0f9ff;
         }
 
         /* Modal */
@@ -390,39 +543,45 @@
             const verified = profile.verified;
 
             const avatar = profile.avatar_url
-                ? `<img src="${profile.avatar_url}" class="avatar" alt="${name}">`
-                : `<div class="avatar" style="background:#111827;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1.2rem;">${initials}</div>`;
+                ? `<img src="${profile.avatar_url}" class="premium-avatar" alt="${name}">`
+                : `<div class="premium-avatar">${initials}</div>`;
+
+            const sectorHtml = profile.sector ? `<div class="premium-sector">${profile.sector}</div>` : '';
+            const bioHtml = profile.bio ? `<p class="premium-bio">${profile.bio}</p>` : `<p class="premium-bio" style="font-style:italic; color:var(--gray-400);">Pas de description renseignée.</p>`;
+
+            const tjmTag = profile.tjm ? `<span class="tag tag-price">${profile.tjm}€ / jour</span>` : '';
+            const zoneTag = profile.territory ? `<span class="tag">📍 ${profile.territory}</span>` : '';
+            const statusTag = `<span class="tag ${profile.available ? 'tag-available' : ''}">${profile.available ? '● Disponible' : 'Occupé'}</span>`;
+
+            const linkedinBtn = profile.linkedin_url
+                ? `<a href="${profile.linkedin_url}" target="_blank" class="btn-premium-linkedin">LinkedIn</a>`
+                : '';
 
             return `
-                <div class="profile-card">
-                    <div class="profile-header">
+                <div class="premium-card">
+                    <div class="premium-card-header">
                         ${avatar}
-                        <div class="profile-info">
-                            <h3 style="display:flex;align-items:center;gap:6px;">
+                        <div class="premium-info">
+                            <h3>
                                 ${name}
-                                ${verified ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#10b981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
+                                ${verified ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="#10b981" style="flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
                             </h3>
-                            <div class="profile-role">${profile.title || profile.skills || 'Expert Domtom Connect'}</div>
+                            <div class="premium-role">${profile.title || profile.skills || 'Expert Domtom Connect'}</div>
+                            ${sectorHtml}
                         </div>
                     </div>
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : 'N/A'}</span>
-                            <span class="stat-label">TJM</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value">${profile.territory || '—'}</span>
-                            <span class="stat-label">Zone</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" style="color:${profile.available ? '#10b981' : 'var(--text-muted)'}">${profile.available ? 'Disponible' : 'Occupé'}</span>
-                            <span class="stat-label">Statut</span>
-                        </div>
+
+                    ${bioHtml}
+
+                    <div class="premium-tags">
+                        ${statusTag}
+                        ${tjmTag}
+                        ${zoneTag}
                     </div>
-                    ${profile.bio ? `<p class="profile-bio" style="font-size:0.85rem;color:var(--text-secondary);margin-top:12px;line-height:1.5;">${profile.bio}</p>` : ''}
-                    <div style="margin-top:auto;padding-top:16px;display:flex;gap:8px;">
-                        ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="flex:1;text-align:center;font-size:0.8rem;padding:8px;">LinkedIn</a>` : ''}
-                        <button class="cta-button secondary" style="flex:1;font-size:0.8rem;padding:8px;">Contacter</button>
+                    
+                    <div class="premium-actions">
+                        ${linkedinBtn}
+                        <a href="mailto:?subject=Contact via Domtom Connect - ${name}" class="btn-premium-contact">Contacter</a>
                     </div>
                 </div>
             `;
