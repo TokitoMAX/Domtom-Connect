@@ -94,6 +94,36 @@
             box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
         }
 
+        #businessFields {
+            display: none;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--bg-light);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            border-color: var(--primary-color);
+            background: var(--white);
+            color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
         .onboarding-header {
             text-align: center;
             margin-bottom: 48px;
@@ -130,8 +160,31 @@
         </header>
 
         <main class="onboarding-card">
+            <div class="form-group" style="margin-bottom: 24px;">
+                <label class="form-label">Vous êtes *</label>
+                <div class="toggle-group">
+                    <div class="toggle-btn active" onclick="setProfileType('individual')">Particulier</div>
+                    <div class="toggle-btn" onclick="setProfileType('business')">Entreprise</div>
+                </div>
+            </div>
+
             <h2 class="section-title">Quel est votre besoin ?</h2>
             <form class="form-grid" id="onboardingForm" onsubmit="handleOnboarding(event)">
+                <input type="hidden" name="profile_type" id="profileType" value="individual">
+
+                <div id="businessFields" style="display: none; grid-gap: 24px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nom de la société *</label>
+                            <input type="text" class="form-input" name="company_name" placeholder="Ex: Batipro SARL">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SIRET *</label>
+                            <input type="text" class="form-input" name="siret" placeholder="123 456 789 00012">
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid var(--gray-100); margin: 8px 0;">
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Secteur d'Activité *</label>
@@ -218,6 +271,22 @@
 
     <script src="../assets/js/form-security.js"></script>
     <script>
+        function setProfileType(type) {
+            document.getElementById('profileType').value = type;
+            const btns = document.querySelectorAll('.toggle-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            if (type === 'business') {
+                btns[1].classList.add('active');
+                document.getElementById('businessFields').style.display = 'grid';
+                document.querySelectorAll('#businessFields input').forEach(i => i.required = true);
+            } else {
+                btns[0].classList.add('active');
+                document.getElementById('businessFields').style.display = 'none';
+                document.querySelectorAll('#businessFields input').forEach(i => i.required = false);
+            }
+        }
+
         function handleOnboarding(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
