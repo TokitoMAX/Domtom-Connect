@@ -440,13 +440,16 @@
 
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
             const profile = await getProfile(session.user.id);
-            const role = profile ? profile.role : session.user.user_metadata.role;
+
+            // Priorité : user_metadata.role (source de vérité sync avec onboarding)
+            // Fallback : profile.role (table Supabase)
+            const role = session.user.user_metadata.role || (profile ? profile.role : null);
             const tier = profile ? (profile.subscription_tier || 'free') : 'free';
 
             document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
             if (!role) {
-                // Si pas de rôle, on force l'onboarding
+                // Si pas de rôle du tout, on force l'onboarding
                 window.location.href = 'registration/onboarding.html';
                 return;
             }
