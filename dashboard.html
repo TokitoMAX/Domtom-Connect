@@ -459,72 +459,86 @@
             const dashboardContent = document.getElementById('dashboard-content');
 
             if (role === 'expert' || role === 'prestataire') {
-                const isPro = tier === 'pro';
-                roleBadge.textContent = isPro ? "Profil Expert PRO" : "Profil Expert (Gratuit)";
-                if (isPro) roleBadge.style.background = "#8B5CF6";
+                roleBadge.textContent = "Profil Expert";
 
+                // Résumé rapide en haut
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: #8B5CF6;">
-                        <div class="card-title">SoloPrice Elite <span class="badge ${isPro ? 'emerald' : ''}" style="font-size: 0.7rem;">${isPro ? 'FULL' : 'Mode Découverte'}</span></div>
-                        <p class="card-desc">Gérez vos devis, factures et trésorerie simplement.</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #8B5CF6;">Ouvrir SoloPrice</a>
+                    <div class="dash-card highlight" style="border-color: #10b981;">
+                        <div class="card-title">SoloPrice Pro <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">Inclus</span></div>
+                        <p class="card-desc">Gérez vos devis, factures et cash-flow — l'outil financier des indépendants DOM-TOM.</p>
+                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#10b981;">Ouvrir SoloPrice Pro →</a>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Badge de Confiance</div>
-                        <p class="card-desc">Obtenez le label "Expert Vérifié" pour rassurer vos clients locaux.</p>
-                        <a href="registration/onboarding.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Finaliser ma vérification</a>
-                    </div>
-                    <div class="dash-card">
-                        <div class="card-title">Accès aux Leads</div>
-                        <p class="card-desc">Consultez les besoins des entreprises et porteurs de projets.</p>
-                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top: auto; justify-content: center; border: 1px solid var(--gray-200); color: var(--text-primary);">Voir le Job Board</a>
+                        <div class="card-title">Leads & Missions</div>
+                        <p class="card-desc">Accédez aux projets des entreprises et institutionnels Outre-mer qui cherchent votre expertise.</p>
+                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top:auto;justify-content:center;">Voir les missions</a>
                     </div>
                 `;
 
-                // AUTHORITY SUITE: MANUAL SERVICE
-                const authoritySuiteHTML = `
-                    <div class="saas-widget" style="border-color: #8B5CF6; background: linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(255, 255, 255, 0) 100%);">
-                        <div class="widget-header">
-                            <div class="widget-title">🚀 Ma visibilité & Autorité</div>
-                            ${isPro ? '<span class="badge" style="background: #8B5CF6; color: white;">Pack Autorité Activé</span>' : '<span class="badge" style="background: #f1f5f9; color: var(--text-secondary);">Pack Standard</span>'}
+                // === 3 PACKS STRATÉGIQUES ===
+                const packsHTML = `
+                    <div style="margin-top:40px;">
+                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Boostez votre activité</p>
+                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Choisissez votre niveau de visibilité</h2>
+                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Les experts qui activent leur visibilité génèrent <strong>3x plus de contacts</strong> sur Domtom Connect.</p>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+
+                            <!-- PACK 1 : RÉSEAU (gratuit) -->
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;position:relative;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Réseau</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">Pour poser les bases et rejoindre le réseau.</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li>✓ &nbsp;Profil dans l'annuaire public</li>
+                                    <li>✓ &nbsp;Accès à SoloPrice Pro (mode découverte)</li>
+                                    <li>✓ &nbsp;Fil d'actualité du réseau</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Accès aux leads premium</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Badge Expert Vérifié</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Boost visibilité annuaire</li>
+                                </ul>
+                                <div style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted);">Votre plan actuel</div>
+                            </div>
+
+                            <!-- PACK 2 : VISIBILITÉ (29€) — LE PLUS CHOISI -->
+                            <div style="background:white;border:2px solid #10b981;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(16,185,129,0.12);">
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">⭐ Le plus choisi</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Visibilité</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">29€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">Pour décrocher vos premières missions premium.</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li>✓ &nbsp;Tout le pack Réseau</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Badge <strong>Expert Vérifié</strong> 🔵</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Accès complet aux leads & missions</li>
+                                    <li>✓ &nbsp;Position boostée dans l'annuaire</li>
+                                    <li>✓ &nbsp;SoloPrice Pro complet (devis, factures, TJM)</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus & podcast spotlight</li>
+                                </ul>
+                                <a href="mailto:domtomconnect@gmail.com?subject=Pack Visibilité - ${name}" class="cta-button primary" style="width:100%;justify-content:center;background:#10b981;border:none;">Activer le Pack Visibilité →</a>
+                                <p style="text-align:center;font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Sans engagement · Résiliation facile</p>
+                            </div>
+
+                            <!-- PACK 3 : AUTORITÉ (69€) — ANCRE HAUTE -->
+                            <div style="background:linear-gradient(160deg,#1e1b4b 0%,#312e81 100%);border:1.5px solid #6366f1;border-radius:16px;padding:28px;position:relative;">
+                                <div style="font-size:0.75rem;font-weight:700;color:#a5b4fc;text-transform:uppercase;margin-bottom:12px;">Autorité</div>
+                                <div style="font-size:2rem;font-weight:800;color:white;margin-bottom:4px;">69€<span style="font-size:1rem;font-weight:400;color:#a5b4fc">/mois</span></div>
+                                <p style="font-size:0.85rem;color:#c7d2fe;margin-bottom:20px;line-height:1.5;">Pour devenir la référence incontournable de votre secteur.</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:#e0e7ff;">
+                                    <li>✓ &nbsp;Tout le pack Visibilité</li>
+                                    <li style="font-weight:600;color:white;">✓ &nbsp;TOP 3 annuaire dans votre secteur 🏆</li>
+                                    <li style="font-weight:600;color:white;">✓ &nbsp;3 contenus/mois rédigés pour vous</li>
+                                    <li style="font-weight:600;color:white;">✓ &nbsp;Interview podcast "L'Écho des Experts"</li>
+                                    <li>✓ &nbsp;Accès prioritaire aux grands comptes</li>
+                                    <li>✓ &nbsp;Reporting mensuel de visibilité</li>
+                                </ul>
+                                <a href="mailto:domtomconnect@gmail.com?subject=Pack Autorité - ${name}" class="cta-button" style="width:100%;justify-content:center;background:white;color:#312e81;font-weight:700;border:none;">Devenir une Autorité →</a>
+                                <p style="text-align:center;font-size:0.7rem;color:#a5b4fc;margin-top:8px;">Places limitées · Sur sélection</p>
+                            </div>
+
                         </div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
-                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
-                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">📢 Mes Contenus du Mois</h4>
-                                <div style="display: flex; gap: 4px; margin-bottom: 12px;">
-                                    <div style="flex: 1; height: 4px; background: #8B5CF6; border-radius: 2px;"></div>
-                                    <div style="flex: 1; height: 4px; background: #8B5CF6; border-radius: 2px;"></div>
-                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
-                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
-                                    <div style="flex: 1; height: 4px; background: var(--gray-100); border-radius: 2px;"></div>
-                                </div>
-                                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px;">2/5 publications programmées ce mois-ci.</p>
-                                <button class="cta-button secondary" style="width: 100%; font-size: 0.75rem; padding: 8px;">Gérer mes publications</button>
-                            </div>
-
-                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
-                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">🎙️ Podcast Spotlight</h4>
-                                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px;">Votre interview "L'Écho des Experts" est prête pour le prochain créneau.</p>
-                                <button class="cta-button secondary" style="width: 100%; font-size: 0.75rem; padding: 8px;">Planifier mon passage</button>
-                            </div>
-
-                            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--gray-100);">
-                                <h4 style="font-size: 0.85rem; margin-bottom: 8px;">🏆 Rang Annuaire</h4>
-                                <div style="font-size: 1.2rem; font-weight: 700; color: #8B5CF6; margin: 8px 0;">TOP 1% <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-secondary);">dans votre domaine</span></div>
-                                <p style="font-size: 0.7rem; color: var(--text-secondary);">Grâce à votre pack Visibilité Elite.</p>
-                            </div>
-                        </div>
-
-                        ${!isPro ? `
-                            <div class="premium-upgrade-box" style="background: white; border-style: solid; border-color: #8B5CF6; margin-top: 24px;">
-                                <p style="font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;">Activez votre Autorité (Visibilité + 5 Contenus + Podcast)</p>
-                                <a href="/tarifs" class="cta-button primary" style="width: 100%; justify-content: center; background: #8B5CF6;">Activer le Pack Autorité (49€/mois)</a>
-                            </div>
-                        ` : ''}
                     </div>
                 `;
-                dashboardContent.insertAdjacentHTML('beforeend', authoritySuiteHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', packsHTML);
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
