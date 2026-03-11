@@ -306,23 +306,30 @@
 
             <div id="page-header" style="margin-bottom: 32px;">
                 <p id="role-badge"
-                    style="font-size:0.75rem;font-weight:700;background:rgba(16,185,129,0.1);color:#10b981;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;">
-                    PROFIL EXPERT</p>
-                <h1 style="font-size:1.8rem;font-weight:800;margin-bottom:6px;" id="page-title">Mon Profil</h1>
-                <p style="color:var(--text-secondary);" id="page-subtitle">Complétez votre profil pour apparaître dans
-                    l'annuaire.</p>
+                    style="font-size:0.75rem;font-weight:700;background:var(--bg-light);color:var(--text-muted);padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;">
+                    Mon compte</p>
+                <h1 style="font-size:1.8rem;font-weight:800;margin-bottom:6px;">Mon Profil</h1>
+                <p style="color:var(--text-secondary);" id="page-subtitle">Renseignez vos informations. Elles seront
+                    sauvegardées sur votre compte.</p>
             </div>
 
-            <!-- Statut annonce -->
-            <div class="status-bar">
+            <!-- Statut annonce (visible uniquement pour les experts) -->
+            <div class="status-bar" id="listing-status-bar" style="display:none;">
                 <div style="display:flex;align-items:center;">
                     <span class="status-dot" id="listing-dot"></span>
                     <span id="listing-status-text"
-                        style="font-size:0.875rem;font-weight:600;color:var(--text-secondary);">Annonce non
-                        publiée</span>
+                        style="font-size:0.875rem;font-weight:600;color:var(--text-secondary);">Annonce non publiée dans
+                        l'annuaire</span>
                 </div>
                 <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.8rem;padding:8px 16px;"
                     onclick="toggleEditMode()">
+                    Modifier mon profil
+                </button>
+            </div>
+            <!-- Bouton edition pour les non-experts -->
+            <div id="non-expert-edit-bar" style="display:none;margin-bottom:24px;">
+                <button id="edit-toggle-btn-basic" class="cta-button secondary"
+                    style="font-size:0.8rem;padding:8px 16px;" onclick="toggleEditMode()">
                     Modifier mon profil
                 </button>
             </div>
@@ -419,8 +426,7 @@
 
                 <!-- Actions -->
                 <div class="form-actions" id="form-actions" style="display:none;">
-                    <button type="submit" class="cta-button primary" id="save-btn">Enregistrer & Publier dans
-                        l'annuaire</button>
+                    <button type="submit" class="cta-button primary" id="save-btn">Enregistrer</button>
                     <button type="button" class="cta-button secondary" onclick="cancelEdit()">Annuler</button>
                 </div>
 
@@ -445,7 +451,32 @@
             if (!session) { window.location.href = 'login.html'; return; }
 
             currentUserId = session.user.id;
+            const role = session.user.user_metadata?.role || null;
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+            const isExpert = (role === 'expert' || role === 'prestataire');
+
+            // Adapter le badge rôle
+            const badgeEl = document.getElementById('role-badge');
+            if (role === 'expert' || role === 'prestataire') {
+                badgeEl.textContent = 'Expert / Indépendant';
+                badgeEl.style.background = 'rgba(16,185,129,0.1)';
+                badgeEl.style.color = '#10b981';
+            } else if (role === 'entreprise') {
+                badgeEl.textContent = 'Entreprise';
+                badgeEl.style.background = 'rgba(2,132,199,0.1)';
+                badgeEl.style.color = '#0284c7';
+            } else {
+                badgeEl.textContent = 'Porteur de Projet';
+            }
+
+            // Afficher la bonne barre d'action
+            if (isExpert) {
+                document.getElementById('listing-status-bar').style.display = 'flex';
+                document.getElementById('save-btn').textContent = 'Enregistrer & Publier dans l\'annuaire';
+            } else {
+                document.getElementById('non-expert-edit-bar').style.display = 'block';
+                document.getElementById('save-btn').textContent = 'Enregistrer mon profil';
+            }
 
             // Pré-remplir nom depuis auth
             document.getElementById('full_name').value = name;
@@ -459,7 +490,7 @@
 
             if (profile) {
                 fillForm(profile);
-                updateListingStatus(profile.listed);
+                if (isExpert) updateListingStatus(profile.listed);
             }
 
             // Toggle dispo
@@ -515,7 +546,11 @@
                 if (el) el.disabled = true;
             });
             document.getElementById('form-actions').style.display = 'none';
-            document.getElementById('edit-toggle-btn').style.display = 'inline-flex';
+            // Réafficher le bon bouton d'édition
+            const expertBar = document.getElementById('edit-toggle-btn');
+            const basicBar = document.getElementById('edit-toggle-btn-basic');
+            if (expertBar) expertBar.style.display = 'inline-flex';
+            if (basicBar) basicBar.style.display = 'inline-flex';
         }
 
         async function saveProfile(event) {
@@ -524,6 +559,7 @@
             btn.textContent = 'Enregistrement...';
             btn.disabled = true;
 
+            const isExpert = (document.getElementById('role-badge').textContent === 'Expert / Indépendant');
             const profileData = {
                 id: currentUserId,
                 full_name: document.getElementById('full_name').value.trim(),
@@ -535,8 +571,7 @@
                 tjm: parseInt(document.getElementById('tjm').value) || null,
                 linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
                 available: document.getElementById('available').checked,
-                listed: true,
-                role: 'expert',
+                listed: isExpert ? true : false,
                 updated_at: new Date().toISOString()
             };
 
@@ -554,10 +589,13 @@
             }
 
             // Succès
-            updateListingStatus(true);
+            const isExp = (document.getElementById('role-badge').textContent === 'Expert / Indépendant');
+            if (isExp) updateListingStatus(true);
             cancelEdit();
             const feedback = document.getElementById('save-feedback');
-            feedback.textContent = 'Profil enregistré. Votre annonce est visible dans l\'annuaire.';
+            feedback.textContent = isExp
+                ? 'Profil enregistré. Votre annonce est visible dans l\'annuaire.'
+                : 'Profil enregistré avec succès.';
             feedback.style.color = '#10b981';
             feedback.style.display = 'block';
             setTimeout(() => feedback.style.display = 'none', 4000);
