@@ -6,6 +6,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Annuaire des Experts – Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=3.4">
+    <style>
+        /* Bandeau CTA expert */
+        .expert-cta-banner {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1.5px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .expert-cta-banner p {
+            font-size: 0.9rem;
+            color: #166534;
+            margin: 0;
+        }
+
+        .expert-cta-banner strong {
+            font-weight: 700;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(16px);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.open .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+
+        .modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 16px;
+        }
+
+        .modal .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .modal .form-group input:focus,
+        .modal .form-group select:focus,
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .modal .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        @media (max-width: 560px) {
+            .modal .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .expert-cta-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -17,18 +154,14 @@
             </a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
                 aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
                     <a href="../index.html">Accueil</a>
                     <a href="#">Annuaire</a>
                 </div>
-                <div class="nav-actions" id="nav-actions">
-                    <!-- Rempli dynamiquement par JS selon la session -->
-                </div>
+                <div class="nav-actions" id="nav-actions"></div>
             </div>
         </div>
     </nav>
@@ -39,7 +172,6 @@
                 <h1>Annuaire des Experts</h1>
                 <p>Trouvez les meilleurs talents de la diaspora et des territoires d'Outre-mer.</p>
             </div>
-
             <div class="search-bar-v3">
                 <div class="search-input-wrapper">
                     <input type="text" id="search-input" placeholder="Rechercher une compétence, un nom...">
@@ -54,72 +186,197 @@
                         <option value="Mayotte">Mayotte</option>
                     </select>
                 </div>
-                <button class="cta-button primary" style="padding: 12px 24px;">Filtrer</button>
+                <button class="cta-button primary" style="padding: 12px 24px;" onclick="loadProfiles()">Filtrer</button>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <div class="directory-grid" id="profiles-container" style="display: none;">
-            <!-- Profils injectés dynamiquement depuis Supabase -->
+    <main class="container" style="padding-top: 32px;">
+
+        <!-- Bandeau expert (visible uniquement si connecté en tant qu'expert) -->
+        <div class="expert-cta-banner" id="expert-banner" style="display:none;">
+            <p><strong>Vous êtes expert sur Domtom Connect.</strong> Publiez votre annonce pour apparaître dans cet
+                annuaire et être contacté par des clients.</p>
+            <button class="cta-button primary" style="white-space:nowrap;background:#10b981;border:none;"
+                id="listing-btn" onclick="openListingModal()">
+                Publier mon annonce
+            </button>
         </div>
+
+        <div class="directory-grid" id="profiles-container" style="display: none;"></div>
 
         <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
             <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun expert n'a encore rejoint l'annuaire.</p>
             <p style="color: var(--text-muted);">
                 Revenez bientôt ou
-                <a href="../registration/onboarding.html" style="color: var(--emerald-color); font-weight: 600;">
-                    créez votre profil Expert
-                </a>.
+                <a href="../profile.html" style="color: #10b981; font-weight: 600;">créez votre profil Expert</a>.
             </p>
         </div>
     </main>
 
+    <!-- MODAL ANNONCE -->
+    <div class="modal-overlay" id="listing-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Publier mon annonce</h2>
+                <button class="modal-close" onclick="closeListingModal()">×</button>
+            </div>
+
+            <form id="listing-form" onsubmit="saveListing(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nom complet *</label>
+                        <input type="text" id="m-full_name" required placeholder="Marie Dupont">
+                    </div>
+                    <div class="form-group">
+                        <label>Titre / Expertise *</label>
+                        <input type="text" id="m-title" required placeholder="Développeur Web Full-Stack">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Bio courte *</label>
+                    <textarea id="m-bio" required placeholder="Décrivez votre activité en 2-3 phrases..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Secteur *</label>
+                        <select id="m-sector" required>
+                            <option value="">Choisir</option>
+                            <option>IT & Digital</option>
+                            <option>Juridique & Conseil</option>
+                            <option>BTP & Ingénierie</option>
+                            <option>Santé & Bien-être</option>
+                            <option>Finance & Comptabilité</option>
+                            <option>Marketing & Communication</option>
+                            <option>Formation & Coaching</option>
+                            <option>Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Territoire *</label>
+                        <select id="m-territory" required>
+                            <option value="">Choisir</option>
+                            <option>Martinique</option>
+                            <option>Guadeloupe</option>
+                            <option>Guyane</option>
+                            <option>Réunion</option>
+                            <option>Mayotte</option>
+                            <option>Diaspora (France hexagonale)</option>
+                            <option>International</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Compétences clés</label>
+                        <input type="text" id="m-skills" placeholder="React, Droit fiscal, Gestion de projet...">
+                    </div>
+                    <div class="form-group">
+                        <label>TJM indicatif (€)</label>
+                        <input type="number" id="m-tjm" placeholder="450" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lien LinkedIn (optionnel)</label>
+                    <input type="url" id="m-linkedin_url" placeholder="https://linkedin.com/in/votre-profil">
+                </div>
+
+                <div style="display:flex;gap:12px;margin-top:8px;">
+                    <button type="submit" class="cta-button primary" id="modal-save-btn"
+                        style="background:#10b981;border:none;flex:1;">Publier dans l'annuaire</button>
+                    <button type="button" class="cta-button secondary" onclick="closeListingModal()">Annuler</button>
+                </div>
+                <p id="modal-feedback" style="display:none;margin-top:12px;font-size:0.8rem;font-weight:600;"></p>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
+        let currentUserId = null;
+        let currentUserRole = null;
+        let hasExistingListing = false;
+
         async function init() {
             const session = await getSession();
+            if (!session) { window.location.href = '../login.html'; return; }
 
-            // Rediriger vers login si pas connecté
-            if (!session) {
-                window.location.href = '../login.html';
-                return;
-            }
+            currentUserId = session.user.id;
+            currentUserRole = session.user.user_metadata?.role || null;
+            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
 
-            // Mettre à jour la navbar avec le vrai nom de l'utilisateur
-            const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
             document.getElementById('nav-actions').innerHTML = `
                 <div class="user-menu-wrapper">
-                    <span class="user-greeting">Hello, ${name}</span>
-                    <button onclick="signOut()" class="cta-button secondary nav-logout-btn">
-                        Déconnexion
-                    </button>
+                    <span class="user-greeting">Bonjour, ${name}</span>
+                    <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
                 </div>
             `;
 
-            // Charger les profils
+            // Afficher le bandeau expert
+            if (currentUserRole === 'expert' || currentUserRole === 'prestataire') {
+                // Vérifier si une annonce existe déjà
+                const { data: profile } = await _supabase
+                    .from('profiles')
+                    .select('full_name, title, bio, sector, territory, skills, tjm, linkedin_url, listed')
+                    .eq('id', currentUserId)
+                    .single();
+
+                document.getElementById('expert-banner').style.display = 'flex';
+
+                if (profile && profile.listed) {
+                    hasExistingListing = true;
+                    document.getElementById('listing-btn').textContent = 'Modifier mon annonce';
+                    // Pré-remplir le modal
+                    prefillModal(profile, name);
+                } else {
+                    prefillModal({ full_name: name }, name);
+                }
+            }
+
             await loadProfiles();
+        }
+
+        function prefillModal(profile, fallbackName) {
+            document.getElementById('m-full_name').value = profile.full_name || fallbackName || '';
+            document.getElementById('m-title').value = profile.title || '';
+            document.getElementById('m-bio').value = profile.bio || '';
+            document.getElementById('m-sector').value = profile.sector || '';
+            document.getElementById('m-territory').value = profile.territory || '';
+            document.getElementById('m-skills').value = profile.skills || '';
+            document.getElementById('m-tjm').value = profile.tjm || '';
+            document.getElementById('m-linkedin_url').value = profile.linkedin_url || '';
+            document.getElementById('modal-title').textContent = hasExistingListing ? 'Modifier mon annonce' : 'Publier mon annonce';
+            document.getElementById('modal-save-btn').textContent = hasExistingListing ? 'Mettre à jour' : 'Publier dans l\'annuaire';
         }
 
         async function loadProfiles() {
             const container = document.getElementById('profiles-container');
             const emptyState = document.getElementById('empty-state');
-
             try {
                 const territory = document.getElementById('territory-filter').value;
-                const experts = await getExperts({ territory: territory || undefined });
+                let query = _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('listed', true)
+                    .in('role', ['expert', 'prestataire']);
 
-                if (!experts.length) {
+                if (territory) query = query.eq('territory', territory);
+
+                const { data: experts } = await query;
+
+                if (!experts || !experts.length) {
                     emptyState.style.display = 'block';
                     container.style.display = 'none';
                     return;
                 }
-
                 emptyState.style.display = 'none';
                 container.style.display = 'grid';
-                container.innerHTML = experts.map(profile => renderProfileCard(profile)).join('');
-
+                container.innerHTML = experts.map(renderProfileCard).join('');
             } catch (err) {
                 console.error('Erreur chargement profils :', err);
                 emptyState.style.display = 'block';
@@ -129,47 +386,101 @@
         function renderProfileCard(profile) {
             const name = profile.full_name || 'Anonyme';
             const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-            const isPro = profile.tier === 'pro'; // Simulate PRO tier for display
+            const verified = profile.verified;
 
             const avatar = profile.avatar_url
                 ? `<img src="${profile.avatar_url}" class="avatar" alt="${name}">`
-                : `<div class="avatar" style="background: ${isPro ? '#8B5CF6' : '#111827'}; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1.2rem;">${initials}</div>`;
+                : `<div class="avatar" style="background:#111827;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1.2rem;">${initials}</div>`;
 
             return `
-                <div class="profile-card" style="${isPro ? 'border: 2px solid #8B5CF6; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);' : ''}">
-                    ${isPro ? '<div class="pro-ribbon" style="position: absolute; top: 12px; right: 12px; background: #8B5CF6; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">PRO Authority</div>' : ''}
+                <div class="profile-card">
                     <div class="profile-header">
                         ${avatar}
                         <div class="profile-info">
-                            <h3 style="display: flex; align-items: center; gap: 6px;">
+                            <h3 style="display:flex;align-items:center;gap:6px;">
                                 ${name}
-                                ${profile.verified ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#10b981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
+                                ${verified ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#10b981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
                             </h3>
-                            <div class="profile-role">${profile.skills || 'Expert Domtom Connect'}</div>
+                            <div class="profile-role">${profile.title || profile.skills || 'Expert Domtom Connect'}</div>
                         </div>
                     </div>
                     <div class="profile-stats">
                         <div class="stat-item">
-                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : '500€'}</span>
+                            <span class="stat-value">${profile.tjm ? profile.tjm + '€' : 'N/A'}</span>
                             <span class="stat-label">TJM</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-value">${profile.territory || 'Antilles'}</span>
+                            <span class="stat-value">${profile.territory || '—'}</span>
                             <span class="stat-label">Zone</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-value">${isPro ? 'Top 1%' : 'Actif'}</span>
+                            <span class="stat-value" style="color:${profile.available ? '#10b981' : 'var(--text-muted)'}">${profile.available ? 'Disponible' : 'Occupé'}</span>
                             <span class="stat-label">Statut</span>
                         </div>
                     </div>
-                    ${profile.bio ? `<p class="profile-bio" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.5;">${profile.bio}</p>` : `<p class="profile-bio" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.5;">Expert passionné par le développement économique des territoires d'Outre-mer.</p>`}
-                    
-                    <div style="margin-top: auto; padding-top: 16px;">
-                        <button class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px;">Voir le Portfolio</button>
+                    ${profile.bio ? `<p class="profile-bio" style="font-size:0.85rem;color:var(--text-secondary);margin-top:12px;line-height:1.5;">${profile.bio}</p>` : ''}
+                    <div style="margin-top:auto;padding-top:16px;display:flex;gap:8px;">
+                        ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="flex:1;text-align:center;font-size:0.8rem;padding:8px;">LinkedIn</a>` : ''}
+                        <button class="cta-button secondary" style="flex:1;font-size:0.8rem;padding:8px;">Contacter</button>
                     </div>
                 </div>
             `;
         }
+
+        function openListingModal() {
+            document.getElementById('listing-modal').classList.add('open');
+        }
+
+        function closeListingModal() {
+            document.getElementById('listing-modal').classList.remove('open');
+        }
+
+        async function saveListing(event) {
+            event.preventDefault();
+            const btn = document.getElementById('modal-save-btn');
+            btn.textContent = 'Publication...';
+            btn.disabled = true;
+
+            const data = {
+                id: currentUserId,
+                full_name: document.getElementById('m-full_name').value.trim(),
+                title: document.getElementById('m-title').value.trim(),
+                bio: document.getElementById('m-bio').value.trim(),
+                sector: document.getElementById('m-sector').value,
+                territory: document.getElementById('m-territory').value,
+                skills: document.getElementById('m-skills').value.trim(),
+                tjm: parseInt(document.getElementById('m-tjm').value) || null,
+                linkedin_url: document.getElementById('m-linkedin_url').value.trim() || null,
+                role: 'expert',
+                listed: true,
+                available: true,
+                updated_at: new Date().toISOString()
+            };
+
+            const { error } = await _supabase.from('profiles').upsert(data, { onConflict: 'id' });
+
+            if (error) {
+                const fb = document.getElementById('modal-feedback');
+                fb.textContent = 'Erreur : ' + error.message;
+                fb.style.color = '#ef4444';
+                fb.style.display = 'block';
+                btn.textContent = hasExistingListing ? 'Mettre à jour' : 'Publier dans l\'annuaire';
+                btn.disabled = false;
+                return;
+            }
+
+            hasExistingListing = true;
+            document.getElementById('listing-btn').textContent = 'Modifier mon annonce';
+            closeListingModal();
+            await loadProfiles();
+        }
+
+        // Fermer en cliquant sur l'overlay
+        document.getElementById('listing-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeListingModal();
+        });
+
+        init();
     </script>
     <script src="../assets/js/script.js?v=2.2"></script>
 </body>

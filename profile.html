@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil – Domtom Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <style>
+        body {
+            background-color: var(--bg-light);
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar identique au dashboard */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-100);
+            padding: 32px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px 32px;
+            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .sidebar-logo span {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .sidebar-section-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar-nav a.active,
+        .sidebar-nav a:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid var(--gray-100);
+            margin: 12px 0;
+        }
+
+        .sidebar-danger a {
+            color: #ef4444 !important;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 40px 48px;
+            max-width: 760px;
+        }
+
+        /* Statut badge */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border: 1px solid var(--gray-100);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .status-dot.published {
+            background: #10b981;
+        }
+
+        /* Formulaire profil */
+        .profile-form-card {
+            background: white;
+            border: 1px solid var(--gray-100);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .profile-form-card h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: white;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-group input:disabled,
+        .form-group select:disabled,
+        .form-group textarea:disabled {
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            cursor: default;
+        }
+
+        /* Toggle disponibilité */
+        .availability-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .toggle-switch .slider {
+            position: absolute;
+            inset: 0;
+            background: var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-switch .slider::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch input:checked+.slider {
+            background: #10b981;
+        }
+
+        .toggle-switch input:checked+.slider::before {
+            transform: translateX(20px);
+        }
+
+        /* Boutons */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: 24px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="assets/images/logo-domtomconnect.png" alt="DC">
+                <span>Domtom Connect</span>
+            </div>
+
+            <p class="sidebar-section-label">Menu principal</p>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">Vue d'ensemble</a></li>
+                <li><a href="marketplace/directory.html">Annuaire Talents</a></li>
+                <li><a href="profile.html" class="active">Mon Profil</a></li>
+            </ul>
+
+            <hr class="sidebar-divider">
+            <p class="sidebar-section-label">Externe</p>
+            <ul class="sidebar-nav">
+                <li><a href="index.html">← Retour à l'accueil</a></li>
+            </ul>
+
+            <hr class="sidebar-divider">
+            <p class="sidebar-section-label" style="color: #ef4444;">Danger Zone</p>
+            <ul class="sidebar-nav sidebar-danger">
+                <li><a href="#" onclick="signOut()">Déconnexion</a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENU -->
+        <main class="main-content">
+
+            <div id="page-header" style="margin-bottom: 32px;">
+                <p id="role-badge"
+                    style="font-size:0.75rem;font-weight:700;background:rgba(16,185,129,0.1);color:#10b981;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;">
+                    PROFIL EXPERT</p>
+                <h1 style="font-size:1.8rem;font-weight:800;margin-bottom:6px;" id="page-title">Mon Profil</h1>
+                <p style="color:var(--text-secondary);" id="page-subtitle">Complétez votre profil pour apparaître dans
+                    l'annuaire.</p>
+            </div>
+
+            <!-- Statut annonce -->
+            <div class="status-bar">
+                <div style="display:flex;align-items:center;">
+                    <span class="status-dot" id="listing-dot"></span>
+                    <span id="listing-status-text"
+                        style="font-size:0.875rem;font-weight:600;color:var(--text-secondary);">Annonce non
+                        publiée</span>
+                </div>
+                <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.8rem;padding:8px 16px;"
+                    onclick="toggleEditMode()">
+                    Modifier mon profil
+                </button>
+            </div>
+
+            <!-- Formulaire -->
+            <form id="profile-form" onsubmit="saveProfile(event)">
+
+                <div class="profile-form-card">
+                    <h2>Informations principales</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nom complet</label>
+                            <input type="text" id="full_name" name="full_name" placeholder="Ex : Marie Dupont" required
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Titre / Expertise</label>
+                            <input type="text" id="title" name="title" placeholder="Ex : Développeur Web Full-Stack"
+                                disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bio courte</label>
+                        <textarea id="bio" name="bio" placeholder="Décrivez votre activité en 2-3 phrases..."
+                            disabled></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Secteur</label>
+                            <select id="sector" name="sector" disabled>
+                                <option value="">Choisir un secteur</option>
+                                <option value="IT & Digital">IT & Digital</option>
+                                <option value="Juridique & Conseil">Juridique & Conseil</option>
+                                <option value="BTP & Ingénierie">BTP & Ingénierie</option>
+                                <option value="Santé & Bien-être">Santé & Bien-être</option>
+                                <option value="Finance & Comptabilité">Finance & Comptabilité</option>
+                                <option value="Marketing & Communication">Marketing & Communication</option>
+                                <option value="Formation & Coaching">Formation & Coaching</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Territoire</label>
+                            <select id="territory" name="territory" disabled>
+                                <option value="">Choisir un territoire</option>
+                                <option value="Martinique">Martinique</option>
+                                <option value="Guadeloupe">Guadeloupe</option>
+                                <option value="Guyane">Guyane</option>
+                                <option value="Réunion">Réunion</option>
+                                <option value="Mayotte">Mayotte</option>
+                                <option value="Diaspora">Diaspora (France hexagonale)</option>
+                                <option value="International">International</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-form-card">
+                    <h2>Informations complémentaires</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Compétences clés</label>
+                            <input type="text" id="skills" name="skills"
+                                placeholder="Ex : React, Droit fiscal, Gestion de projet" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>TJM indicatif (€)</label>
+                            <input type="number" id="tjm" name="tjm" placeholder="Ex : 450" min="0" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lien LinkedIn (optionnel)</label>
+                        <input type="url" id="linkedin_url" name="linkedin_url"
+                            placeholder="https://linkedin.com/in/votre-profil" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Disponibilité</label>
+                        <div class="availability-toggle">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="available" name="available" disabled>
+                                <span class="slider"></span>
+                            </label>
+                            <span id="availability-label" style="font-size:0.875rem;color:var(--text-secondary);">Non
+                                disponible</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions" id="form-actions" style="display:none;">
+                    <button type="submit" class="cta-button primary" id="save-btn">Enregistrer & Publier dans
+                        l'annuaire</button>
+                    <button type="button" class="cta-button secondary" onclick="cancelEdit()">Annuler</button>
+                </div>
+
+            </form>
+
+            <p id="save-feedback" style="display:none;margin-top:12px;font-size:0.85rem;color:#10b981;font-weight:600;">
+            </p>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        let currentUserId = null;
+        let isEditing = false;
+
+        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills', 'tjm', 'linkedin_url', 'available'];
+
+        window.addEventListener('load', async () => {
+            const session = await getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            currentUserId = session.user.id;
+            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+
+            // Pré-remplir nom depuis auth
+            document.getElementById('full_name').value = name;
+
+            // Charger profil existant depuis Supabase
+            const { data: profile } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUserId)
+                .single();
+
+            if (profile) {
+                fillForm(profile);
+                updateListingStatus(profile.listed);
+            }
+
+            // Toggle dispo
+            document.getElementById('available').addEventListener('change', function () {
+                document.getElementById('availability-label').textContent = this.checked ? 'Disponible pour missions' : 'Non disponible';
+            });
+        });
+
+        function fillForm(profile) {
+            if (profile.full_name) document.getElementById('full_name').value = profile.full_name;
+            if (profile.title) document.getElementById('title').value = profile.title;
+            if (profile.bio) document.getElementById('bio').value = profile.bio;
+            if (profile.sector) document.getElementById('sector').value = profile.sector;
+            if (profile.territory) document.getElementById('territory').value = profile.territory;
+            if (profile.skills) document.getElementById('skills').value = profile.skills;
+            if (profile.tjm) document.getElementById('tjm').value = profile.tjm;
+            if (profile.linkedin_url) document.getElementById('linkedin_url').value = profile.linkedin_url;
+            document.getElementById('available').checked = !!profile.available;
+            document.getElementById('availability-label').textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
+        }
+
+        function updateListingStatus(listed) {
+            const dot = document.getElementById('listing-dot');
+            const text = document.getElementById('listing-status-text');
+            const subtitle = document.getElementById('page-subtitle');
+            if (listed) {
+                dot.classList.add('published');
+                text.textContent = 'Annonce publiée dans l\'annuaire';
+                text.style.color = '#10b981';
+                subtitle.textContent = 'Votre fiche est visible dans l\'annuaire. Modifiez vos informations à tout moment.';
+            } else {
+                dot.classList.remove('published');
+                text.textContent = 'Annonce non publiée';
+                text.style.color = 'var(--text-secondary)';
+            }
+        }
+
+        function toggleEditMode() {
+            isEditing = true;
+            FIELDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = false;
+            });
+            document.getElementById('form-actions').style.display = 'flex';
+            document.getElementById('edit-toggle-btn').style.display = 'none';
+            document.getElementById('save-feedback').style.display = 'none';
+        }
+
+        function cancelEdit() {
+            isEditing = false;
+            FIELDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = true;
+            });
+            document.getElementById('form-actions').style.display = 'none';
+            document.getElementById('edit-toggle-btn').style.display = 'inline-flex';
+        }
+
+        async function saveProfile(event) {
+            event.preventDefault();
+            const btn = document.getElementById('save-btn');
+            btn.textContent = 'Enregistrement...';
+            btn.disabled = true;
+
+            const profileData = {
+                id: currentUserId,
+                full_name: document.getElementById('full_name').value.trim(),
+                title: document.getElementById('title').value.trim(),
+                bio: document.getElementById('bio').value.trim(),
+                sector: document.getElementById('sector').value,
+                territory: document.getElementById('territory').value,
+                skills: document.getElementById('skills').value.trim(),
+                tjm: parseInt(document.getElementById('tjm').value) || null,
+                linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
+                available: document.getElementById('available').checked,
+                listed: true,
+                role: 'expert',
+                updated_at: new Date().toISOString()
+            };
+
+            const { error } = await _supabase
+                .from('profiles')
+                .upsert(profileData, { onConflict: 'id' });
+
+            if (error) {
+                btn.textContent = 'Enregistrer & Publier dans l\'annuaire';
+                btn.disabled = false;
+                document.getElementById('save-feedback').textContent = 'Erreur : ' + error.message;
+                document.getElementById('save-feedback').style.color = '#ef4444';
+                document.getElementById('save-feedback').style.display = 'block';
+                return;
+            }
+
+            // Succès
+            updateListingStatus(true);
+            cancelEdit();
+            const feedback = document.getElementById('save-feedback');
+            feedback.textContent = 'Profil enregistré. Votre annonce est visible dans l\'annuaire.';
+            feedback.style.color = '#10b981';
+            feedback.style.display = 'block';
+            setTimeout(() => feedback.style.display = 'none', 4000);
+        }
+    </script>
+</body>
+
+</html>
