@@ -337,6 +337,21 @@
             <!-- Formulaire -->
             <form id="profile-form" onsubmit="saveProfile(event)">
 
+                <div class="profile-form-card" style="border: 2px solid var(--primary-color);">
+                    <h2 style="color: var(--primary-color);">Type de compte</h2>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Comment utilisez-vous Domtom Connect ?</label>
+                        <select id="user_role" name="user_role" disabled
+                            style="font-weight:600; font-size:1rem; padding: 12px 16px; border-width:2px; background:#f8fafc;">
+                            <option value="expert">Expert / Indépendant (Proposer mes services)</option>
+                            <option value="entreprise">Entreprise (Recruter & publier des besoins)</option>
+                            <option value="basique">Porteur de Projet (Lancer mon projet)</option>
+                        </select>
+                        <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">Modifiez cette option
+                            pour changer votre tableau de bord et vos accès.</p>
+                    </div>
+                </div>
+
                 <div class="profile-form-card">
                     <h2>Informations principales</h2>
 
@@ -381,9 +396,9 @@
                                 <option value="Martinique">Martinique</option>
                                 <option value="Guadeloupe">Guadeloupe</option>
                                 <option value="Guyane">Guyane</option>
+                                <option value="Diaspora">Diaspora (France hexagonale)</option>
                                 <option value="Réunion">Réunion</option>
                                 <option value="Mayotte">Mayotte</option>
-                                <option value="Diaspora">Diaspora (France hexagonale)</option>
                                 <option value="International">International</option>
                             </select>
                         </div>
@@ -411,7 +426,7 @@
                             placeholder="https://linkedin.com/in/votre-profil" disabled>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="availability-group" style="display:none;">
                         <label>Disponibilité</label>
                         <div class="availability-toggle">
                             <label class="toggle-switch">
@@ -455,28 +470,48 @@
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
             const isExpert = (role === 'expert' || role === 'prestataire');
 
-            // Adapter le badge rôle
+            // Adapter le badge rôle et le sélecteur
             const badgeEl = document.getElementById('role-badge');
+            const roleSelect = document.getElementById('user_role');
+
             if (role === 'expert' || role === 'prestataire') {
                 badgeEl.textContent = 'Expert / Indépendant';
                 badgeEl.style.background = 'rgba(16,185,129,0.1)';
                 badgeEl.style.color = '#10b981';
+                roleSelect.value = 'expert';
             } else if (role === 'entreprise') {
                 badgeEl.textContent = 'Entreprise';
                 badgeEl.style.background = 'rgba(2,132,199,0.1)';
                 badgeEl.style.color = '#0284c7';
+                roleSelect.value = 'entreprise';
             } else {
                 badgeEl.textContent = 'Porteur de Projet';
+                roleSelect.value = 'basique';
             }
 
-            // Afficher la bonne barre d'action
-            if (isExpert) {
-                document.getElementById('listing-status-bar').style.display = 'flex';
-                document.getElementById('save-btn').textContent = 'Enregistrer & Publier dans l\'annuaire';
-            } else {
-                document.getElementById('non-expert-edit-bar').style.display = 'block';
-                document.getElementById('save-btn').textContent = 'Enregistrer mon profil';
+            // Gestion de l'affichage du bouton (dynamique lors du changement de rôle dans le select)
+            function updateEditBar(checkRole) {
+                const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
+                if (isExp) {
+                    document.getElementById('listing-status-bar').style.display = 'flex';
+                    document.getElementById('non-expert-edit-bar').style.display = 'none';
+                    document.getElementById('save-btn').textContent = 'Enregistrer & Publier dans l\'annuaire';
+                    document.getElementById('availability-group').style.display = 'block';
+                } else {
+                    document.getElementById('listing-status-bar').style.display = 'none';
+                    document.getElementById('non-expert-edit-bar').style.display = 'block';
+                    document.getElementById('save-btn').textContent = 'Enregistrer mon profil';
+                    document.getElementById('availability-group').style.display = 'none';
+                }
             }
+
+            // Affichage initial
+            updateEditBar(roleSelect.value);
+
+            // Evènement sur changement de rôle dans le sélecteur form
+            roleSelect.addEventListener('change', function () {
+                updateEditBar(this.value);
+            });
 
             // Pré-remplir nom depuis auth
             document.getElementById('full_name').value = name;
@@ -530,6 +565,7 @@
 
         function toggleEditMode() {
             isEditing = true;
+            FIELDS.push('user_role');
             FIELDS.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.disabled = false;
@@ -559,46 +595,70 @@
             btn.textContent = 'Enregistrement...';
             btn.disabled = true;
 
-            const isExpert = (document.getElementById('role-badge').textContent === 'Expert / Indépendant');
+            const selectedRole = document.getElementById('user_role').value;
+            const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
+
+            // Mise à jour de la session auth (user_metadata)
+            const { error: authError } = await _supabase.auth.updateUser({
+                data: { role: selectedRole }
+            });
+
+            if (authError) {
+                showError('Erreur de session : ' + authError.message);
+                resetBtn(btn, isExpert);
+                return;
+            }
+
+            // Options de sauvegarde base de données profil
             const profileData = {
                 id: currentUserId,
                 full_name: document.getElementById('full_name').value.trim(),
-                title: document.getElementById('title').value.trim(),
-                bio: document.getElementById('bio').value.trim(),
-                sector: document.getElementById('sector').value,
-                territory: document.getElementById('territory').value,
-                skills: document.getElementById('skills').value.trim(),
+                title: document.getElementById('title').value.trim() || null,
+                bio: document.getElementById('bio').value.trim() || null,
+                sector: document.getElementById('sector').value || null,
+                territory: document.getElementById('territory').value || null,
+                skills: document.getElementById('skills').value.trim() || null,
                 tjm: parseInt(document.getElementById('tjm').value) || null,
                 linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
                 available: document.getElementById('available').checked,
+                role: selectedRole,
+                // On met à `false` automatiquement si on quitte le mode Expert
                 listed: isExpert ? true : false,
                 updated_at: new Date().toISOString()
             };
 
-            const { error } = await _supabase
+            const { error: dbError } = await _supabase
                 .from('profiles')
                 .upsert(profileData, { onConflict: 'id' });
 
-            if (error) {
-                btn.textContent = 'Enregistrer & Publier dans l\'annuaire';
-                btn.disabled = false;
-                document.getElementById('save-feedback').textContent = 'Erreur : ' + error.message;
-                document.getElementById('save-feedback').style.color = '#ef4444';
-                document.getElementById('save-feedback').style.display = 'block';
+            if (dbError) {
+                showError('Erreur base de données : ' + dbError.message);
+                resetBtn(btn, isExpert);
                 return;
             }
 
             // Succès
-            const isExp = (document.getElementById('role-badge').textContent === 'Expert / Indépendant');
-            if (isExp) updateListingStatus(true);
-            cancelEdit();
             const feedback = document.getElementById('save-feedback');
-            feedback.textContent = isExp
-                ? 'Profil enregistré. Votre annonce est visible dans l\'annuaire.'
-                : 'Profil enregistré avec succès.';
+            feedback.textContent = 'Ajustements enregistrés. Actualisation...';
             feedback.style.color = '#10b981';
             feedback.style.display = 'block';
-            setTimeout(() => feedback.style.display = 'none', 4000);
+
+            // Rafraîchir la page pour redessiner correctement le badge et menu selon le nouveau rôle
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+
+        function showError(msg) {
+            const fb = document.getElementById('save-feedback');
+            fb.textContent = msg;
+            fb.style.color = '#ef4444';
+            fb.style.display = 'block';
+        }
+
+        function resetBtn(btn, isExpert) {
+            btn.textContent = isExpert ? 'Enregistrer & Publier dans l\'annuaire' : 'Enregistrer mon profil';
+            btn.disabled = false;
         }
     </script>
 </body>
