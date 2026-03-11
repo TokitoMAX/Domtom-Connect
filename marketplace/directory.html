@@ -312,11 +312,15 @@
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
                     <a href="../index.html">Accueil</a>
-                    <a href="#" class="active">Annuaire</a>
+                    <a href="directory.html" class="active">Talents</a>
                     <a href="jobs.html">Missions</a>
                     <a href="../messages.html">Messagerie</a>
                 </div>
-                <div class="nav-actions" id="nav-actions"></div>
+                <div class="nav-actions" id="nav-actions">
+                    <a href="../profile.html"
+                        style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; margin-right: 15px;">Mon
+                        Profil</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -583,6 +587,15 @@
                         ${tjmTag}
                         ${zoneTag}
                     </div>
+
+                    ${profile.video_url ? `
+                    <div style="margin-bottom: 20px;">
+                        <button onclick="playExpertVideo('${profile.video_url}')" class="cta-button secondary" style="width:100%; font-size:0.8rem; padding:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            Voir la présentation vidéo
+                        </button>
+                    </div>
+                    ` : ''}
                     
                     <div class="premium-actions">
                         ${linkedinBtn}
@@ -638,6 +651,11 @@
             document.getElementById('listing-btn').textContent = 'Modifier mon annonce';
             closeListingModal();
             await loadProfiles();
+        }
+
+        function playExpertVideo(url) {
+            // Simple logic: open in new tab or could be implemented as a modal
+            window.open(url, '_blank');
         }
 
         // Fermer en cliquant sur l'overlay
