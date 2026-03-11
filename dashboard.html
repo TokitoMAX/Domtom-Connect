@@ -475,70 +475,71 @@
                     </div>
                 `;
 
-                // === 3 PACKS STRATÉGIQUES ===
+                // === PACKS HYBRIDES : 1 one-shot + 1 abonnement ===
                 const packsHTML = `
                     <div style="margin-top:40px;">
-                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Boostez votre activité</p>
-                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Choisissez votre niveau de visibilité</h2>
-                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Les experts qui activent leur visibilité génèrent <strong>3x plus de contacts</strong> sur Domtom Connect.</p>
+                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Développez votre clientèle</p>
+                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre présence sur Domtom Connect</h2>
+                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Nous construisons votre visibilité pendant que vous vous concentrez sur vos missions.</p>
 
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
 
-                            <!-- PACK 1 : RÉSEAU (gratuit) -->
-                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;position:relative;">
-                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Réseau</div>
-                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">Pour poser les bases et rejoindre le réseau.</p>
+                            <!-- PACK 1 : PRÉSENCE (gratuit) -->
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Présence</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit · Pour toujours</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li>✓ &nbsp;Profil dans l'annuaire public</li>
-                                    <li>✓ &nbsp;Accès à SoloPrice Pro (mode découverte)</li>
-                                    <li>✓ &nbsp;Fil d'actualité du réseau</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Accès aux leads premium</li>
+                                    <li>✓ &nbsp;Fiche profil dans l'annuaire public</li>
+                                    <li>✓ &nbsp;Accès au fil du réseau</li>
+                                    <li>✓ &nbsp;Mise en relation basique</li>
                                     <li style="color:var(--gray-300);">✗ &nbsp;Badge Expert Vérifié</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Boost visibilité annuaire</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus réseaux sociaux</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Podcast & leads premium</li>
                                 </ul>
                                 <div style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted);">Votre plan actuel</div>
                             </div>
 
-                            <!-- PACK 2 : VISIBILITÉ (29€) — LE PLUS CHOISI -->
+                            <!-- PACK 2 : COUP DE PROJECTEUR (59€ one-shot) -->
                             <div style="background:white;border:2px solid #10b981;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(16,185,129,0.12);">
-                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">⭐ Le plus choisi</div>
-                                <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Visibilité</div>
-                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">29€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">Pour décrocher vos premières missions premium.</p>
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">⭐ Recommandé pour commencer</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Coup de Projecteur</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">59€</div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Paiement unique · Sans abonnement</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li>✓ &nbsp;Tout le pack Réseau</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Badge <strong>Expert Vérifié</strong> 🔵</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Accès complet aux leads & missions</li>
-                                    <li>✓ &nbsp;Position boostée dans l'annuaire</li>
-                                    <li>✓ &nbsp;SoloPrice Pro complet (devis, factures, TJM)</li>
-                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus & podcast spotlight</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Badge <strong>Expert Vérifié</strong> 🔵 (permanent)</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;<strong>4 posts</strong> créés & publiés pour vos réseaux</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">✓ &nbsp;Boost annuaire pendant <strong>30 jours</strong></li>
+                                    <li>✓ &nbsp;Accès aux leads & missions du mois</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Contenus récurrents chaque mois</li>
+                                    <li style="color:var(--gray-300);">✗ &nbsp;Interview podcast</li>
                                 </ul>
-                                <a href="mailto:domtomconnect@gmail.com?subject=Pack Visibilité - ${name}" class="cta-button primary" style="width:100%;justify-content:center;background:#10b981;border:none;">Activer le Pack Visibilité →</a>
-                                <p style="text-align:center;font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Sans engagement · Résiliation facile</p>
+                                <a href="mailto:domtomconnect@gmail.com?subject=Coup de Projecteur - ${name}" class="cta-button primary" style="width:100%;justify-content:center;background:#10b981;border:none;">Je veux mon Projecteur →</a>
+                                <p style="text-align:center;font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Paiement sécurisé · Badge permanent acquis</p>
                             </div>
 
-                            <!-- PACK 3 : AUTORITÉ (69€) — ANCRE HAUTE -->
+                            <!-- PACK 3 : INFLUENCE CONTINUE (39€/mois) -->
                             <div style="background:linear-gradient(160deg,#1e1b4b 0%,#312e81 100%);border:1.5px solid #6366f1;border-radius:16px;padding:28px;position:relative;">
-                                <div style="font-size:0.75rem;font-weight:700;color:#a5b4fc;text-transform:uppercase;margin-bottom:12px;">Autorité</div>
-                                <div style="font-size:2rem;font-weight:800;color:white;margin-bottom:4px;">69€<span style="font-size:1rem;font-weight:400;color:#a5b4fc">/mois</span></div>
-                                <p style="font-size:0.85rem;color:#c7d2fe;margin-bottom:20px;line-height:1.5;">Pour devenir la référence incontournable de votre secteur.</p>
+                                <div style="font-size:0.75rem;font-weight:700;color:#a5b4fc;text-transform:uppercase;margin-bottom:12px;">Influence Continue</div>
+                                <div style="font-size:2rem;font-weight:800;color:white;margin-bottom:4px;">39€<span style="font-size:1rem;font-weight:400;color:#a5b4fc">/mois</span></div>
+                                <p style="font-size:0.8rem;font-weight:600;color:#a5b4fc;margin-bottom:16px;">Abonnement · Sans engagement minimum</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:#e0e7ff;">
-                                    <li>✓ &nbsp;Tout le pack Visibilité</li>
+                                    <li>✓ &nbsp;Tout le pack Coup de Projecteur</li>
                                     <li style="font-weight:600;color:white;">✓ &nbsp;TOP 3 annuaire dans votre secteur 🏆</li>
-                                    <li style="font-weight:600;color:white;">✓ &nbsp;3 contenus/mois rédigés pour vous</li>
-                                    <li style="font-weight:600;color:white;">✓ &nbsp;Interview podcast "L'Écho des Experts"</li>
+                                    <li style="font-weight:600;color:white;">✓ &nbsp;<strong>8 posts/mois</strong> rédigés & publiés pour vous</li>
+                                    <li style="font-weight:600;color:white;">✓ &nbsp;1 interview podcast 🎙️ <em>(tous les 3 mois)</em></li>
                                     <li>✓ &nbsp;Accès prioritaire aux grands comptes</li>
-                                    <li>✓ &nbsp;Reporting mensuel de visibilité</li>
+                                    <li>✓ &nbsp;Rapport mensuel de visibilité</li>
                                 </ul>
-                                <a href="mailto:domtomconnect@gmail.com?subject=Pack Autorité - ${name}" class="cta-button" style="width:100%;justify-content:center;background:white;color:#312e81;font-weight:700;border:none;">Devenir une Autorité →</a>
-                                <p style="text-align:center;font-size:0.7rem;color:#a5b4fc;margin-top:8px;">Places limitées · Sur sélection</p>
+                                <a href="mailto:domtomconnect@gmail.com?subject=Influence Continue - ${name}" class="cta-button" style="width:100%;justify-content:center;background:white;color:#312e81;font-weight:700;border:none;">Passer en Influence Continue →</a>
+                                <p style="text-align:center;font-size:0.7rem;color:#a5b4fc;margin-top:8px;">Résiliation en 1 clic · Sans frais cachés</p>
                             </div>
 
                         </div>
                     </div>
                 `;
                 dashboardContent.insertAdjacentHTML('beforeend', packsHTML);
+
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
@@ -558,7 +559,6 @@
                     </div>
                 `;
 
-                // COMPANY UTILITY: FAVORITES
                 const favoritesHTML = `
                     <div class="saas-widget">
                         <div class="widget-title">⭐ Mes Talents Favoris</div>
@@ -585,7 +585,6 @@
                     </div>
                 `;
 
-                // PROJECT OWNER: SIMPLE WIDGET
                 const projectsHTML = `
                     <div class="saas-widget">
                         <div class="widget-header">
@@ -600,6 +599,7 @@
                 dashboardContent.insertAdjacentHTML('beforeend', projectsHTML);
             }
         }
+
 
         function handleLogout() {
             signOut();
