@@ -12,6 +12,11 @@
         data-sdk-integration-source="button-factory"></script>
 
     <style>
+        :root {
+            --progress-bar-bg: #e2e8f0;
+            --progress-bar-fill: #10b981;
+        }
+
         body {
             background-color: var(--bg-light);
         }
@@ -436,6 +441,24 @@
                     <p style="color: var(--text-secondary); margin: 0;">Bienvenue dans votre espace Domtom Connect.</p>
                 </div>
 
+                <!-- Profile Strength (Expert Only) -->
+                <div id="profile-strength-container" style="display:none; margin-bottom: 40px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <span
+                            style="font-size:0.85rem; font-weight:700; color:var(--text-primary); text-transform:uppercase; letter-spacing:0.05em;">Force
+                            de votre profil</span>
+                        <span id="strength-percentage"
+                            style="font-size:1.25rem; font-weight:800; color:var(--emerald-color);">0%</span>
+                    </div>
+                    <div style="height:8px; background:var(--progress-bar-bg); border-radius:10px; overflow:hidden;">
+                        <div id="strength-bar"
+                            style="width:0%; height:100%; background:var(--progress-bar-fill); transition:width 1s ease-in-out;">
+                        </div>
+                    </div>
+                    <p id="strength-tip"
+                        style="font-size:0.8rem; color:var(--text-secondary); margin-top:12px; margin-bottom:0;"></p>
+                </div>
+
                 <!-- Contenu dynamique selon le rôle -->
                 <div class="cards-grid" id="dashboard-cards">
                     <!-- Rempli par le JS -->
@@ -447,6 +470,34 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
+        function updateProfileStrength(profile) {
+            if (!profile) return;
+            document.getElementById('profile-strength-container').style.display = 'block';
+
+            let points = 0;
+            let nextAction = "";
+
+            if (profile.full_name) points += 20; else nextAction = "Ajoutez votre nom complet";
+            if (profile.title) points += 20; else if (!nextAction) nextAction = "Précisez votre titre d'expertise";
+            if (profile.bio) points += 20; else if (!nextAction) nextAction = "Rédigez une bio courte";
+            if (profile.skills) points += 20; else if (!nextAction) nextAction = "Ajoutez vos compétences clés";
+            if (profile.video_url) points += 20; else if (!nextAction) nextAction = "Ajoutez une vidéo de présentation pour atteindre 100%";
+
+            const bar = document.getElementById('strength-bar');
+            const perc = document.getElementById('strength-percentage');
+            const tip = document.getElementById('strength-tip');
+
+            bar.style.width = points + '%';
+            perc.textContent = points + '%';
+
+            if (points === 100) {
+                tip.innerHTML = "✅ Profil complet ! Vous remontez en priorité dans l'annuaire.";
+                tip.style.color = "#10b981";
+            } else {
+                tip.innerHTML = `💡 <strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile.html" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
+            }
+        }
+
         async function loadDashboard() {
             const session = await getSession();
             if (!session) {
@@ -480,16 +531,22 @@
                 // Résumé rapide en haut
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #10b981;">
-                        <div class="card-title">SoloPrice Pro <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">Inclus</span></div>
-                        <p class="card-desc">Gérez vos devis, factures et cash-flow — l'outil financier des indépendants DOM-TOM.</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#10b981;">Ouvrir SoloPrice Pro →</a>
+                        <div class="card-title">Cadrage Financier <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">Indispensable</span></div>
+                        <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie avec SoloPrice Pro.</p>
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM exact →</a>
+                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981;">Gérer ma facturation</a>
+                        </div>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Leads & Missions</div>
-                        <p class="card-desc">Accédez aux projets des entreprises et institutionnels Outre-mer qui cherchent votre expertise.</p>
-                        <a href="marketplace/directory.html" class="cta-button secondary" style="margin-top:auto;justify-content:center;">Voir les missions</a>
+                        <div class="card-title">Missions Premium</div>
+                        <p class="card-desc">Accédez aux projets stratéguiques et bénéficiez de l'aide au closing Domtom Connect.</p>
+                        <a href="marketplace/jobs.html" class="cta-button primary" style="margin-top:auto;justify-content:center;">Accéder aux Missions</a>
                     </div>
                 `;
+
+                // Update Profile Strength
+                updateProfileStrength(profile);
 
                 // === PACKS HYBRIDES ===
                 const packsHTML = `
