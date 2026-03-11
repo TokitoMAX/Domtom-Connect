@@ -335,7 +335,7 @@
                         <option value="Martinique">Martinique</option>
                         <option value="Guadeloupe">Guadeloupe</option>
                         <option value="Guyane">Guyane</option>
-                        <option value="Diaspora">Diaspora (France hexagonale)</option>
+                        <option value="Diaspora (France hexagonale)">Diaspora (France hexagonale)</option>
                         <option value="Réunion">Réunion</option>
                         <option value="Mayotte">Mayotte</option>
                     </select>
@@ -546,11 +546,14 @@
                 ? `<img src="${profile.avatar_url}" class="premium-avatar" alt="${name}">`
                 : `<div class="premium-avatar">${initials}</div>`;
 
+            let displayTerritory = profile.territory || '—';
+            if (displayTerritory === 'Diaspora') displayTerritory = 'Diaspora (France hexagonale)';
+
             const sectorHtml = profile.sector ? `<div class="premium-sector">${profile.sector}</div>` : '';
             const bioHtml = profile.bio ? `<p class="premium-bio">${profile.bio}</p>` : `<p class="premium-bio" style="font-style:italic; color:var(--gray-400);">Pas de description renseignée.</p>`;
 
             const tjmTag = profile.tjm ? `<span class="tag tag-price">${profile.tjm}€ / jour</span>` : '';
-            const zoneTag = profile.territory ? `<span class="tag">📍 ${profile.territory}</span>` : '';
+            const zoneTag = profile.territory ? `<span class="tag">📍 ${displayTerritory}</span>` : '';
             const statusTag = `<span class="tag ${profile.available ? 'tag-available' : ''}">${profile.available ? '● Disponible' : 'Occupé'}</span>`;
 
             const linkedinBtn = profile.linkedin_url
@@ -581,7 +584,7 @@
                     
                     <div class="premium-actions">
                         ${linkedinBtn}
-                        <a href="mailto:?subject=Contact via Domtom Connect - ${name}" class="btn-premium-contact">Contacter</a>
+                        <a href="../messages.html?to=${profile.id}" class="btn-premium-contact">Contacter</a>
                     </div>
                 </div>
             `;
