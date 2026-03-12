@@ -1,46 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- SEO Meta Tags -->
     <title>Porteurs de Projets - Trouvez vos Prestataires - Domtom Connect</title>
-    <meta name="description" content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z. Recherche proactive et coordination jusqu'à la livraison.">
-    <meta name="keywords" content="prestataires DOM-TOM, trouver prestataire projet, porteur de projet antilles, entrepreneur martinique, entrepreneur guadeloupe, prestataires réunion, prestataires guyane, trouver prestataire îles, réseau prestataires ultramarins">
+    <meta name="description"
+        content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z. Recherche proactive et coordination jusqu'à la livraison.">
+    <meta name="keywords"
+        content="prestataires DOM-TOM, trouver prestataire projet, porteur de projet antilles, entrepreneur martinique, entrepreneur guadeloupe, prestataires réunion, prestataires guyane, trouver prestataire îles, réseau prestataires ultramarins">
     <meta name="author" content="Domtom Connect">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/landing/porteurs-projets">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/landing/porteurs-projets">
     <meta property="og:title" content="Porteurs de Projets - Trouvez vos Prestataires - Domtom Connect">
-    <meta property="og:description" content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z.">
+    <meta property="og:description"
+        content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Domtom Connect">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://domtomconnect.com/landing/porteurs-projets">
     <meta property="twitter:title" content="Porteurs de Projets - Trouvez vos Prestataires - Domtom Connect">
-    <meta property="twitter:description" content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z.">
+    <meta property="twitter:description"
+        content="Service fiable de gestion de projet pour porteurs de projets dans les territoires ultramarins. Équipe dédiée qui gère ton projet de A à Z.">
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
-    
+
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
     <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
     <!-- Calendly widget script -->
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
-                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
-                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            <a href="../../index.html" class="nav-brand" id="logo-home" title="Retour à l'accueil"
+                style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo"
+                    style="cursor: pointer;">
+                <span class="nav-brand-name" style="cursor: pointer;">Domtom Connect</span>
             </a>
         </div>
     </nav>
@@ -49,7 +57,8 @@
         <div class="container">
             <div class="landing-content">
                 <h1>Les prestataires qu’il te faut pour ton projet</h1>
-                <p class="landing-hero-delai">On te recontacte sous 24h. Selon le pack : premiers prestataires sous 2 à 3 semaines.</p>
+                <p class="landing-hero-delai">On te recontacte sous 24h. Selon le pack : premiers prestataires sous 2 à
+                    3 semaines.</p>
                 <form class="landing-form quiz-form" id="landing-form" onsubmit="handleQuizFormSubmit(event)">
                     <div class="quiz-container"></div>
                 </form>
@@ -67,7 +76,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const fromQuiz = urlParams.get('from') === 'quiz' || sessionStorage.getItem('fromQuiz') === 'true';
         const quizBudget = urlParams.get('budget') || sessionStorage.getItem('quizBudget');
-        
+
         // Si vient du quiz, stocker l'info
         if (fromQuiz) {
             sessionStorage.setItem('fromQuiz', 'true');
@@ -75,274 +84,306 @@
                 sessionStorage.setItem('quizBudget', quizBudget);
             }
         }
-        
+
         // Questions simplifiées (pour utilisateurs sans données pré-remplies - pour éviter la fatigue)
         const porteursProjetsQuestionsSimplified = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
+            {
+                id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
             { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
-            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
-                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
-                { value: 'structurer', label: 'Structurer mon projet' },
-                { value: 'reseau', label: 'Me connecter à un réseau' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { 
-                id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'budget', 
+            {
+                id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                    { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                    { value: 'structurer', label: 'Structurer mon projet' },
+                    { value: 'reseau', label: 'Me connecter à un réseau' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'budget',
+                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'budget',
                 options: [
                     { value: 'moins-300', label: 'Moins de 300 €' },
                     { value: '300-1000', label: '300-1 000 €' },
                     { value: '1000-3000', label: '1 000-3 000 €' },
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
-                ], 
-                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                ],
+                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.'
             },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-        
+
         // Questions simplifiées - pour utilisateurs venant du quiz
         const porteursProjetsQuestionsBase = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
+            {
+                id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
             { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
-            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
-                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
-                { value: 'structurer', label: 'Structurer mon projet' },
-                { value: 'reseau', label: 'Me connecter à un réseau' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { 
-                id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'budget', 
+            {
+                id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                    { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                    { value: 'structurer', label: 'Structurer mon projet' },
+                    { value: 'reseau', label: 'Me connecter à un réseau' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'budget',
+                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'budget',
                 options: [
                     { value: 'moins-300', label: 'Moins de 300 €' },
                     { value: '300-1000', label: '300-1 000 €' },
                     { value: '1000-3000', label: '1 000-3 000 €' },
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
-                ], 
-                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                ],
+                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.'
             },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-        
+
         // Anciennes questions complètes (remplacées par version simplifiée ci-dessus)
         const porteursProjetsQuestionsBaseOld = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'origine', question: 'D\'où viens-tu ? (Ton origine ou territoire d\'origine)', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'lieu_actuel', question: 'Où es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'lieu_actuel', placeholder: 'Sélectionne ton lieu actuel', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'etranger', label: 'Étranger' },
-                { value: 'autre', label: 'Autre' }
-            ]},
+            {
+                id: 'origine', question: 'D\'où viens-tu ? (Ton origine ou territoire d\'origine)', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'saint-martin', label: 'Saint-Martin' },
+                    { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                    { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                    { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
+                    { value: 'metropole', label: 'Métropole française' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'lieu_actuel', question: 'Où es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'lieu_actuel', placeholder: 'Sélectionne ton lieu actuel', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'saint-martin', label: 'Saint-Martin' },
+                    { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                    { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                    { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'metropole', label: 'Métropole française' },
+                    { value: 'etranger', label: 'Étranger' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ou entreprise ?', type: 'text', placeholder: 'Nom du projet/entreprise', required: true, fieldName: 'nom_projet' },
             { id: 'description_projet', question: 'Décris ton projet en quelques phrases (vue d\'ensemble)', type: 'textarea', placeholder: 'Décris brièvement ton projet, ton idée principale, ta vision...', required: true, fieldName: 'description_projet', rows: 3, clarification: '<strong>Note :</strong> Tu auras l\'occasion de détailler tes besoins spécifiques dans les questions suivantes.' },
-            { id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
-                { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
-                { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
-                { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
-                { value: 'autre', label: 'Autre type de projet' }
-            ]},
+            {
+                id: 'nature_projet', question: 'Quelle est la nature de ton projet ?', type: 'radio', required: true, fieldName: 'nature_projet', options: [
+                    { value: 'physique', label: 'Projet physique (boutique, restaurant, atelier, local, etc.)' },
+                    { value: 'virtuel', label: 'Projet virtuel/digital (site web, app, service en ligne, etc.)' },
+                    { value: 'hybride', label: 'Projet hybride (combine physique et digital)' },
+                    { value: 'autre', label: 'Autre type de projet' }
+                ]
+            },
             // Questions spécifiques pour projets physiques
-            { id: 'type_local_physique', question: 'Quel type de local ou espace physique recherches-tu ?', type: 'radio', required: false, fieldName: 'type_local_physique', options: [
-                { value: 'boutique', label: 'Boutique / Magasin' },
-                { value: 'restaurant', label: 'Restaurant / Bar / Café' },
-                { value: 'atelier', label: 'Atelier / Espace de production' },
-                { value: 'bureau', label: 'Bureau / Espace de coworking' },
-                { value: 'entrepot', label: 'Entrepôt / Stockage' },
-                { value: 'autre', label: 'Autre type de local' }
-            ], conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            { id: 'prestataires_physique', question: 'Quels types de prestataires recherches-tu pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.', required: false, fieldName: 'prestataires_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' }},
-            
+            {
+                id: 'type_local_physique', question: 'Quel type de local ou espace physique recherches-tu ?', type: 'radio', required: false, fieldName: 'type_local_physique', options: [
+                    { value: 'boutique', label: 'Boutique / Magasin' },
+                    { value: 'restaurant', label: 'Restaurant / Bar / Café' },
+                    { value: 'atelier', label: 'Atelier / Espace de production' },
+                    { value: 'bureau', label: 'Bureau / Espace de coworking' },
+                    { value: 'entrepot', label: 'Entrepôt / Stockage' },
+                    { value: 'autre', label: 'Autre type de local' }
+                ], conditional: { field: 'nature_projet', value: 'physique' }
+            },
+            { id: 'besoins_physique', question: 'Quels sont tes besoins spécifiques pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Local commercial, équipements, aménagement, stockage, etc.', required: false, fieldName: 'besoins_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' } },
+            { id: 'prestataires_physique', question: 'Quels types de prestataires recherches-tu pour ton projet physique ?', type: 'textarea', placeholder: 'Ex: Architecte, électricien, plombier, designer, fournisseurs, etc.', required: false, fieldName: 'prestataires_physique', rows: 3, conditional: { field: 'nature_projet', value: 'physique' } },
+
             // Questions spécifiques pour projets virtuels/digitaux
-            { id: 'type_plateforme_virtuel', question: 'Quel type de plateforme ou solution digitale recherches-tu ?', type: 'radio', required: false, fieldName: 'type_plateforme_virtuel', options: [
-                { value: 'site-web', label: 'Site web / E-commerce' },
-                { value: 'app-mobile', label: 'Application mobile' },
-                { value: 'saas', label: 'Plateforme SaaS / Service en ligne' },
-                { value: 'marketplace', label: 'Marketplace / Plateforme de mise en relation' },
-                { value: 'outils-digitaux', label: 'Outils digitaux / Automatisation' },
-                { value: 'autre', label: 'Autre type de solution digitale' }
-            ], conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            { id: 'prestataires_virtuel', question: 'Quels types de prestataires recherches-tu pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.', required: false, fieldName: 'prestataires_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' }},
-            
+            {
+                id: 'type_plateforme_virtuel', question: 'Quel type de plateforme ou solution digitale recherches-tu ?', type: 'radio', required: false, fieldName: 'type_plateforme_virtuel', options: [
+                    { value: 'site-web', label: 'Site web / E-commerce' },
+                    { value: 'app-mobile', label: 'Application mobile' },
+                    { value: 'saas', label: 'Plateforme SaaS / Service en ligne' },
+                    { value: 'marketplace', label: 'Marketplace / Plateforme de mise en relation' },
+                    { value: 'outils-digitaux', label: 'Outils digitaux / Automatisation' },
+                    { value: 'autre', label: 'Autre type de solution digitale' }
+                ], conditional: { field: 'nature_projet', value: 'virtuel' }
+            },
+            { id: 'besoins_virtuel', question: 'Quels sont tes besoins spécifiques pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Site web, application mobile, plateforme, outils digitaux, etc.', required: false, fieldName: 'besoins_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' } },
+            { id: 'prestataires_virtuel', question: 'Quels types de prestataires recherches-tu pour ton projet digital ?', type: 'textarea', placeholder: 'Ex: Développeur web, développeur mobile, designer UX/UI, expert SEO, hébergeur, etc.', required: false, fieldName: 'prestataires_virtuel', rows: 3, conditional: { field: 'nature_projet', value: 'virtuel' } },
+
             // Questions spécifiques pour projets hybrides
-            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'prestataires_hybride', question: 'Quels types de prestataires recherches-tu pour ton projet hybride ?', type: 'textarea', placeholder: 'Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)', required: false, fieldName: 'prestataires_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' }},
-            { id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation du projet', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'saint-martin', label: 'Saint-Martin' },
-                { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
-                { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
-                { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'metropole', label: 'Métropole française' },
-                { value: 'international', label: 'International / Multi-territoires' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'stade_projet', question: 'À quel stade est ton projet ?', type: 'radio', required: true, fieldName: 'stade_projet', options: [
-                { value: 'idee-clarifiee', label: 'Idée clarifiée mais pas encore lancée' },
-                { value: 'lancement', label: 'Projet en cours de lancement' },
-                { value: 'lance', label: 'Activité déjà lancée (clients / utilisateurs)' },
-                { value: 'developpement', label: 'Projet en phase de développement / structuration' }
-            ]},
-            { id: 'objectif_principal', question: 'Quel est ton objectif principal avec Domtom Connect ?', type: 'radio', required: true, fieldName: 'objectif_principal', options: [
-                { value: 'prestataires', label: 'Trouver des prestataires fiables (objectif principal du pack)' },
-                { value: 'structurer', label: 'Structurer mon projet (avec besoin de prestataires)' },
-                { value: 'reseau', label: 'Me connecter à un réseau insulaire / diaspora' },
-                { value: 'visibilite', label: 'Gagner en visibilité' },
-                { value: 'autre', label: 'Autre' }
-            ], clarification: '<strong>Note :</strong> Le Pack Pro est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, on pourra en discuter lors de l\'appel pour voir comment on peut t\'aider.' },
-            { id: 'objectif_principal_autre', question: 'Précise ton objectif', type: 'text', placeholder: 'Ton objectif', required: false, fieldName: 'objectif_principal_autre', conditional: { field: 'objectif_principal', value: 'autre' }},
-            { id: 'horizon', question: 'Quel est ton horizon temporel ?', type: 'radio', required: true, fieldName: 'horizon', options: [
-                { value: 'court', label: 'Court terme (0-6 mois)' },
-                { value: 'moyen', label: 'Moyen terme (6-24 mois)' },
-                { value: 'long', label: 'Long terme (2 ans et +)' }
-            ]},
+            { id: 'besoins_hybride', question: 'Quels sont tes besoins spécifiques pour ton projet hybride ?', type: 'textarea', placeholder: 'Décris tes besoins à la fois physiques et digitaux...', required: false, fieldName: 'besoins_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' } },
+            { id: 'prestataires_hybride', question: 'Quels types de prestataires recherches-tu pour ton projet hybride ?', type: 'textarea', placeholder: 'Ex: Pour la partie physique (local, aménagement...) et pour la partie digitale (site web, app...)', required: false, fieldName: 'prestataires_hybride', rows: 3, conditional: { field: 'nature_projet', value: 'hybride' } },
+            {
+                id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation du projet', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'saint-martin', label: 'Saint-Martin' },
+                    { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
+                    { value: 'saint-pierre-et-miquelon', label: 'Saint-Pierre-et-Miquelon' },
+                    { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'metropole', label: 'Métropole française' },
+                    { value: 'international', label: 'International / Multi-territoires' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'stade_projet', question: 'À quel stade est ton projet ?', type: 'radio', required: true, fieldName: 'stade_projet', options: [
+                    { value: 'idee-clarifiee', label: 'Idée clarifiée mais pas encore lancée' },
+                    { value: 'lancement', label: 'Projet en cours de lancement' },
+                    { value: 'lance', label: 'Activité déjà lancée (clients / utilisateurs)' },
+                    { value: 'developpement', label: 'Projet en phase de développement / structuration' }
+                ]
+            },
+            {
+                id: 'objectif_principal', question: 'Quel est ton objectif principal avec Domtom Connect ?', type: 'radio', required: true, fieldName: 'objectif_principal', options: [
+                    { value: 'prestataires', label: 'Trouver des prestataires fiables (objectif principal du pack)' },
+                    { value: 'structurer', label: 'Structurer mon projet (avec besoin de prestataires)' },
+                    { value: 'reseau', label: 'Me connecter à un réseau insulaire / diaspora' },
+                    { value: 'visibilite', label: 'Gagner en visibilité' },
+                    { value: 'autre', label: 'Autre' }
+                ], clarification: '<strong>Note :</strong> Le Pack Pro est optimisé pour "Trouver des prestataires fiables". Si ton objectif principal est différent, on pourra en discuter lors de l\'appel pour voir comment on peut t\'aider.'
+            },
+            { id: 'objectif_principal_autre', question: 'Précise ton objectif', type: 'text', placeholder: 'Ton objectif', required: false, fieldName: 'objectif_principal_autre', conditional: { field: 'objectif_principal', value: 'autre' } },
+            {
+                id: 'horizon', question: 'Quel est ton horizon temporel ?', type: 'radio', required: true, fieldName: 'horizon', options: [
+                    { value: 'court', label: 'Court terme (0-6 mois)' },
+                    { value: 'moyen', label: 'Moyen terme (6-24 mois)' },
+                    { value: 'long', label: 'Long terme (2 ans et +)' }
+                ]
+            },
             // Budget à la fin pour utilisateurs venant du quiz
-            { 
-                id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect pour les prochains mois ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'budget', 
+            {
+                id: 'budget',
+                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect pour les prochains mois ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'budget',
                 options: [
                     { value: 'moins-300', label: 'Moins de 300 €' },
                     { value: '300-1000', label: '300-1 000 €' },
                     { value: '1000-3000', label: '1 000-3 000 €' },
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
-                ], 
-                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                ],
+                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.'
             },
-            { id: 'engagement', question: 'Es-tu prêt à t\'engager dans ce processus ?', type: 'radio', required: true, fieldName: 'engagement', options: [
-                { value: 'oui', label: 'Oui, je suis prêt à m\'engager' },
-                { value: 'pas-sure', label: 'Pas encore sûr' },
-                { value: 'non', label: 'Non, je veux juste des informations' }
-            ]},
+            {
+                id: 'engagement', question: 'Es-tu prêt à t\'engager dans ce processus ?', type: 'radio', required: true, fieldName: 'engagement', options: [
+                    { value: 'oui', label: 'Oui, je suis prêt à m\'engager' },
+                    { value: 'pas-sure', label: 'Pas encore sûr' },
+                    { value: 'non', label: 'Non, je veux juste des informations' }
+                ]
+            },
             { id: 'commentaires', question: 'As-tu des commentaires ou questions supplémentaires ?', type: 'textarea', placeholder: 'Tes commentaires (optionnel)', required: false, fieldName: 'commentaires', rows: 3 },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes et vérifiables', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-        
+
         // Questions simplifiées - pour utilisateurs venant directement sur la landing
         const porteursProjetsQuestionsWithBudget = [
             { id: 'prenom', question: 'Quel est ton prénom ?', type: 'text', placeholder: 'Ton prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est ton nom ?', type: 'text', placeholder: 'Ton nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est ton adresse email ?', type: 'email', placeholder: 'ton@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est ton numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'mayotte', label: 'Mayotte' },
-                { value: 'polynesie', label: 'Polynésie française' },
-                { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
+            {
+                id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'mayotte', label: 'Mayotte' },
+                    { value: 'polynesie', label: 'Polynésie française' },
+                    { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
             { id: 'nom_projet', question: 'Quel est le nom de ton projet ?', type: 'text', placeholder: 'Nom du projet', required: true, fieldName: 'nom_projet' },
             { id: 'description_projet', question: 'Décris ton projet en quelques mots', type: 'textarea', placeholder: 'Décris brièvement ton projet...', required: true, fieldName: 'description_projet', rows: 3 },
-            { id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
-                { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
-                { value: 'structurer', label: 'Structurer mon projet' },
-                { value: 'reseau', label: 'Me connecter à un réseau' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { 
-                id: 'budget', 
-                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?', 
-                type: 'radio', 
-                required: true, 
-                fieldName: 'budget', 
+            {
+                id: 'besoin', question: 'Quel est ton besoin principal ?', type: 'radio', required: true, fieldName: 'besoin', options: [
+                    { value: 'trouver-prestataires', label: 'Trouver des prestataires' },
+                    { value: 'structurer', label: 'Structurer mon projet' },
+                    { value: 'reseau', label: 'Me connecter à un réseau' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'budget',
+                question: 'Quel budget es-tu prêt à investir dans le service Domtom Connect ?',
+                type: 'radio',
+                required: true,
+                fieldName: 'budget',
                 options: [
                     { value: 'moins-300', label: 'Moins de 300 €' },
                     { value: '300-1000', label: '300-1 000 €' },
                     { value: '1000-3000', label: '1 000-3 000 €' },
                     { value: 'plus-3000', label: 'Plus de 3 000 €' },
                     { value: 'non-defini', label: 'Pas encore défini' }
-                ], 
-                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.' 
+                ],
+                clarification: '<strong>Important :</strong> Le service Domtom Connect (recherche, mise en relation, gestion de projet, suivi) est séparé. Les prestataires sont payés <strong>directement par toi</strong>, sans commission intermédiaire.'
             },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
 
         // Sélectionner les questions selon l'origine
         const porteursProjetsQuestions = fromQuiz ? porteursProjetsQuestionsBase : porteursProjetsQuestionsWithBudget;
-        
+
         let quiz;
-        
+
         // Fonction pour obtenir les infos du pack selon le budget
         function getPackInfo(budget) {
             if (budget === 'moins-300') {
@@ -366,19 +407,19 @@
             }
             return null;
         }
-        
+
         // Fonction pour afficher le pack adapté après la sélection du budget
         function showPackAfterBudget(budget) {
             const packInfo = getPackInfo(budget);
             if (!packInfo) return;
-            
+
             const container = document.getElementById('quiz-questions-container');
             if (!container) return;
-            
+
             // Récupérer la question actuelle
             const currentQuestion = container.querySelector('.quiz-question');
             if (!currentQuestion) return;
-            
+
             // Ajouter l'affichage du pack après la question budget
             const packHTML = `
                 <div class="pack-preview" style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%); border-radius: 20px; color: white; text-align: center;">
@@ -388,15 +429,15 @@
                     <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${packInfo.description}</p>
                 </div>
             `;
-            
+
             // Insérer le pack après la question budget
             currentQuestion.insertAdjacentHTML('afterend', packHTML);
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             // Passer les questions simplifiées pour les utilisateurs sans données pré-remplies
             quiz = new LandingQuiz(porteursProjetsQuestions, 'landing-form', 'porteur-projet', porteursProjetsQuestionsSimplified);
-            
+
             // Si budget vient du quiz, pré-remplir la question budget
             if (fromQuiz && quizBudget) {
                 setTimeout(() => {
@@ -407,22 +448,22 @@
                     }
                 }, 500);
             }
-            
+
             // Intercepter la sélection du budget pour afficher le pack
             // Utiliser un MutationObserver pour détecter quand la question budget est affichée
             const observer = new MutationObserver(() => {
                 const budgetInputs = document.querySelectorAll('input[name="question_budget"]');
                 const currentQuestion = document.querySelector('.quiz-question[data-question-id="budget"]');
-                
+
                 if (budgetInputs.length > 0 && currentQuestion) {
                     budgetInputs.forEach(input => {
                         if (!input.dataset.packHandlerAttached) {
                             input.dataset.packHandlerAttached = 'true';
-                            
-                            input.addEventListener('change', function() {
+
+                            input.addEventListener('change', function () {
                                 if (this.checked) {
                                     const budget = this.value;
-                                    
+
                                     // Attendre un peu pour que le DOM soit stable
                                     setTimeout(() => {
                                         // Vérifier si le pack n'est pas déjà affiché
@@ -438,7 +479,7 @@
                     });
                 }
             });
-            
+
             // Observer les changements dans le container du quiz
             const quizContainer = document.getElementById('quiz-questions-container');
             if (quizContainer) {
@@ -449,17 +490,17 @@
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
             if (!quiz) return;
-            
+
             const data = quiz.collectAllAnswers();
             data.profil = 'porteur-projet';
-            
+
             // Filet de sécurité : récupérer depuis quiz.answers si data est incomplet
             [['prenom', 'question_prenom'], ['nom', 'question_nom'], ['email', 'question_email'], ['telephone', 'question_telephone'], ['ile', 'question_ile'], ['nom_projet', 'question_nom_projet']].forEach(([field, key]) => {
                 if ((!data[field] || !String(data[field]).trim()) && quiz.answers[key]) {
                     data[field] = String(quiz.answers[key]).trim();
                 }
             });
-            
+
             // Bloquer l'envoi si champs obligatoires manquants
             const prenomVal = (data.prenom || data.question_prenom || '').trim();
             const nomVal = (data.nom || data.question_nom || '').trim();
@@ -481,20 +522,20 @@
                     return;
                 }
             }
-            
+
             // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);
-            
+
             // Ajouter les résultats de validation aux données (pour l'email) mais ne pas bloquer
             if (validation.credibilityScore) {
                 data.credibility_score = validation.credibilityScore.score;
                 data.credibility_level = validation.credibilityScore.level;
             }
-                if (validation.inconsistencies.length > 0) {
+            if (validation.inconsistencies.length > 0) {
                 data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
-            
+
             // Préparer les données pour l'envoi
             const prenom = data.prenom || data.question_prenom || '';
             const nom = data.nom || data.question_nom || '';
@@ -505,7 +546,7 @@
             const description_projet = data.description_projet || data.question_description_projet || '';
             const besoin = data.besoin || data.question_besoin || '';
             const budget = data.budget || data.question_budget || '';
-            
+
             // Déterminer le pack selon le budget
             let packInfo = null;
             if (budget === 'moins-300') {
@@ -515,7 +556,7 @@
             } else if (budget === '1000-3000' || budget === 'plus-3000') {
                 packInfo = { name: 'Pack Solution Tout-en-Un', price: 'À partir de 1 000 €', description: 'Solution complète pour votre projet' };
             }
-            
+
             // Préparer le message pour l'email
             let messageBody = `PORTEUR DE PROJET - NOUVELLE INSCRIPTION
 Source: Landing Page porteurs-projets
@@ -548,25 +589,25 @@ PROCHAINES ÉTAPES
 
 DONNÉES COMPLÈTES
 ${Object.keys(data).filter(key => {
-    // Exclure les champs déjà affichés et les champs techniques
-    const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
-    const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'nom_projet', 'description_projet', 'besoin', 'budget'];
-    return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
-}).map(key => {
-    const value = data[key];
-    if (value && value !== '' && value !== null && value !== undefined) {
-        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-        return `${label}: ${value}`;
-    }
-    return null;
-}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
-            
+                // Exclure les champs déjà affichés et les champs techniques
+                const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+                const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'nom_projet', 'description_projet', 'besoin', 'budget'];
+                return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
+            }).map(key => {
+                const value = data[key];
+                if (value && value !== '' && value !== null && value !== undefined) {
+                    const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                    return `${label}: ${value}`;
+                }
+                return null;
+            }).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
+
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
             formDataToSend.append('_subject', `PORTEUR DE PROJET${packInfo ? ' - ' + packInfo.name : ''} - ${nom_projet || 'Nouveau Projet'} - ${prenom} ${nom}`);
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
-            
+
             // Données structurées
             formDataToSend.append('Prénom', prenom);
             formDataToSend.append('Nom', nom);
@@ -578,7 +619,7 @@ ${Object.keys(data).filter(key => {
             formDataToSend.append('Besoin', besoin || '');
             formDataToSend.append('Budget', budget || '');
             formDataToSend.append('Profil', 'porteur-projet');
-            
+
             // Ajouter TOUTES les autres données collectées
             Object.keys(data).forEach(key => {
                 const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
@@ -591,7 +632,7 @@ ${Object.keys(data).filter(key => {
                     }
                 }
             });
-            
+
             if (packInfo) {
                 formDataToSend.append('Pack sélectionné', `${packInfo.name} (${packInfo.price})`);
             }
@@ -599,20 +640,20 @@ ${Object.keys(data).filter(key => {
                 formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
                 formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);
             }
-            
+
             // Gérer le bouton
-            const submitBtn = event.target.querySelector('button[type="submit"]') || 
-                            document.querySelector('#quiz-btn-next[type="submit"]');
+            const submitBtn = event.target.querySelector('button[type="submit"]') ||
+                document.querySelector('#quiz-btn-next[type="submit"]');
             const originalBtnText = submitBtn ? (submitBtn.textContent || submitBtn.innerHTML) : '';
-            
+
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Envoi en cours...';
             }
-            
+
             // Envoyer à Formspree
             const formspreeUrl = 'https://formspree.io/f/myzbqepy';
-            
+
             fetch(formspreeUrl, {
                 method: 'POST',
                 body: formDataToSend,
@@ -620,17 +661,17 @@ ${Object.keys(data).filter(key => {
                     'Accept': 'application/json'
                 }
             })
-            .then(response => {
-                console.log('Réponse Formspree:', response.status, response.statusText);
-                
-                if (response.ok) {
-                    console.log('Email envoyé avec succès');
-                    
-                    const quizContainer = document.querySelector('.quiz-container');
-                    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
-                    const quizNavigation = document.getElementById('quiz-navigation');
-                    
-                    const successHTML = `
+                .then(response => {
+                    console.log('Réponse Formspree:', response.status, response.statusText);
+
+                    if (response.ok) {
+                        console.log('Email envoyé avec succès');
+
+                        const quizContainer = document.querySelector('.quiz-container');
+                        const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+                        const quizNavigation = document.getElementById('quiz-navigation');
+
+                        const successHTML = `
                         <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
                             <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">Demande envoyée avec succès</h3>
                             <div style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; white-space: pre-line; text-align: left; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08), rgba(0, 168, 150, 0.05)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary-color);">
@@ -687,75 +728,76 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                             }
                         </style>
                     `;
-                    
-                    if (quizContainer) {
-                        quizContainer.innerHTML = successHTML;
-                    } else if (quizQuestionsContainer) {
-                        quizQuestionsContainer.innerHTML = successHTML;
-                        if (quizNavigation) {
-                            quizNavigation.style.display = 'none';
-                        }
-                    }
-                    
-                    // Initialiser le widget Calendly après l'injection du HTML
-                    setTimeout(() => {
-                        const calendlyWidget = document.querySelector('.calendly-inline-widget');
-                        if (calendlyWidget) {
-                            // Si Calendly est déjà chargé, initialiser directement
-                            if (window.Calendly && window.Calendly.initInlineWidget) {
-                                try {
-                                    window.Calendly.initInlineWidget({
-                                        url: 'https://calendly.com/domtomconnect/30min',
-                                        parentElement: calendlyWidget,
-                                        prefill: {
-                                            email: email || '',
-                                            name: `${prenom} ${nom}`.trim() || ''
-                                        }
-                                    });
-                                } catch (e) {
-                                    console.error('Erreur initialisation Calendly:', e);
-                                }
-                            } else {
-                                // Si Calendly n'est pas encore chargé, attendre qu'il le soit
-                                const checkCalendly = setInterval(() => {
-                                    if (window.Calendly && window.Calendly.initInlineWidget) {
-                                        clearInterval(checkCalendly);
-                                        try {
-                                            window.Calendly.initInlineWidget({
-                                                url: 'https://calendly.com/domtomconnect/30min',
-                                                parentElement: calendlyWidget,
-                                                prefill: {
-                                                    email: email || '',
-                                                    name: `${prenom} ${nom}`.trim() || ''
-                                                }
-                                            });
-                                        } catch (e) {
-                                            console.error('Erreur initialisation Calendly:', e);
-                                        }
-                                    }
-                                }, 100);
-                                
-                                // Arrêter après 10 secondes si Calendly ne se charge pas
-                                setTimeout(() => clearInterval(checkCalendly), 10000);
+
+                        if (quizContainer) {
+                            quizContainer.innerHTML = successHTML;
+                        } else if (quizQuestionsContainer) {
+                            quizQuestionsContainer.innerHTML = successHTML;
+                            if (quizNavigation) {
+                                quizNavigation.style.display = 'none';
                             }
                         }
-                    }, 1000);
-                } else {
-                    return response.json().then(errData => {
-                        console.error('Erreur lors de l\'envoi:', errData);
-                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                }
-            });
+
+                        // Initialiser le widget Calendly après l'injection du HTML
+                        setTimeout(() => {
+                            const calendlyWidget = document.querySelector('.calendly-inline-widget');
+                            if (calendlyWidget) {
+                                // Si Calendly est déjà chargé, initialiser directement
+                                if (window.Calendly && window.Calendly.initInlineWidget) {
+                                    try {
+                                        window.Calendly.initInlineWidget({
+                                            url: 'https://calendly.com/domtomconnect/30min',
+                                            parentElement: calendlyWidget,
+                                            prefill: {
+                                                email: email || '',
+                                                name: `${prenom} ${nom}`.trim() || ''
+                                            }
+                                        });
+                                    } catch (e) {
+                                        console.error('Erreur initialisation Calendly:', e);
+                                    }
+                                } else {
+                                    // Si Calendly n'est pas encore chargé, attendre qu'il le soit
+                                    const checkCalendly = setInterval(() => {
+                                        if (window.Calendly && window.Calendly.initInlineWidget) {
+                                            clearInterval(checkCalendly);
+                                            try {
+                                                window.Calendly.initInlineWidget({
+                                                    url: 'https://calendly.com/domtomconnect/30min',
+                                                    parentElement: calendlyWidget,
+                                                    prefill: {
+                                                        email: email || '',
+                                                        name: `${prenom} ${nom}`.trim() || ''
+                                                    }
+                                                });
+                                            } catch (e) {
+                                                console.error('Erreur initialisation Calendly:', e);
+                                            }
+                                        }
+                                    }, 100);
+
+                                    // Arrêter après 10 secondes si Calendly ne se charge pas
+                                    setTimeout(() => clearInterval(checkCalendly), 10000);
+                                }
+                            }
+                        }, 1000);
+                    } else {
+                        return response.json().then(errData => {
+                            console.error('Erreur lors de l\'envoi:', errData);
+                            throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }
+                });
         }
     </script>
 </body>
+
 </html>

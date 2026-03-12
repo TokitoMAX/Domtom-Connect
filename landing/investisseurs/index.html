@@ -1,47 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- SEO Meta Tags -->
     <title>Investisseurs - Domtom Connect</title>
-    <meta name="description" content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées et accompagnement personnalisé. Rejoignez un réseau d'investisseurs engagés pour les territoires ultramarins.">
-    <meta name="keywords" content="investisseurs DOM-TOM, investissement territoires ultramarins, investisseurs antilles, investisseurs réunion, opportunités investissement îles, réseau investisseurs ultramarins">
+    <meta name="description"
+        content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées et accompagnement personnalisé. Rejoignez un réseau d'investisseurs engagés pour les territoires ultramarins.">
+    <meta name="keywords"
+        content="investisseurs DOM-TOM, investissement territoires ultramarins, investisseurs antilles, investisseurs réunion, opportunités investissement îles, réseau investisseurs ultramarins">
     <meta name="author" content="Domtom Connect">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/landing/investisseurs">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/landing/investisseurs">
     <meta property="og:title" content="Investisseurs - Domtom Connect">
-    <meta property="og:description" content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées et réseau d'investisseurs engagés.">
+    <meta property="og:description"
+        content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées et réseau d'investisseurs engagés.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Domtom Connect">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://domtomconnect.com/landing/investisseurs">
     <meta property="twitter:title" content="Investisseurs - Domtom Connect">
-    <meta property="twitter:description" content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées.">
+    <meta property="twitter:description"
+        content="Connectez-vous avec les meilleurs projets des territoires ultramarins. Opportunités d'investissement qualifiées.">
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
-    
+
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
     <link rel="stylesheet" href="../../assets/css/quiz-landing.css?v=1.0">
     <!-- Calendly widget script -->
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
-                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
-                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            <a href="../../index.html" class="nav-brand" id="logo-home" title="Retour à l'accueil"
+                style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo"
+                    style="cursor: pointer;">
+                <span class="nav-brand-name" style="cursor: pointer;">Domtom Connect</span>
             </a>
         </div>
     </nav>
@@ -50,7 +58,7 @@
         <div class="container">
             <div class="landing-content">
                 <h1>Investisseurs : Rejoignez l'Écosystème Entrepreneurial Ultramarin</h1>
-                
+
                 <form class="landing-form quiz-form" id="landing-form" onsubmit="handleQuizFormSubmit(event)">
                     <div class="quiz-container"></div>
                 </form>
@@ -85,63 +93,71 @@
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est votre adresse email ?', type: 'email', placeholder: 'votre@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
-                { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
-                { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
-                { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
-            ]},
+            {
+                id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
+                    { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
+                    { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
+                    { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
+                ]
+            },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-        
+
         const investisseursQuestions = [
             { id: 'prenom', question: 'Quel est votre prénom ?', type: 'text', placeholder: 'Votre prénom', required: true, fieldName: 'prenom' },
             { id: 'nom', question: 'Quel est votre nom ?', type: 'text', placeholder: 'Votre nom', required: true, fieldName: 'nom' },
             { id: 'email', question: 'Quelle est votre adresse email ?', type: 'email', placeholder: 'votre@email.com', required: true, fieldName: 'email' },
             { id: 'telephone', question: 'Quel est votre numéro de téléphone ?', type: 'tel', placeholder: '06 12 34 56 78', required: true, fieldName: 'telephone' },
-            { id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
-                { value: 'martinique', label: 'Martinique' },
-                { value: 'guadeloupe', label: 'Guadeloupe' },
-                { value: 'reunion', label: 'La Réunion' },
-                { value: 'guyane', label: 'Guyane' },
-                { value: 'diaspora', label: 'Diaspora' },
-                { value: 'autre', label: 'Autre' }
-            ]},
-            { id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
-                { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
-                { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
-                { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
-            ]},
+            {
+                id: 'ile', question: 'Dans quel territoire êtes-vous basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionnez votre territoire', options: [
+                    { value: 'martinique', label: 'Martinique' },
+                    { value: 'guadeloupe', label: 'Guadeloupe' },
+                    { value: 'reunion', label: 'La Réunion' },
+                    { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'autre', label: 'Autre' }
+                ]
+            },
+            {
+                id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
+                    { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
+                    { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
+                    { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
+                ]
+            },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
         ];
-        
+
         let quiz;
-        
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
             quiz = new LandingQuiz(investisseursQuestions, 'landing-form', 'investisseur', investisseursQuestionsSimplified);
         });
 
         async function handleQuizFormSubmit(event) {
             event.preventDefault();
             if (!quiz) return;
-            
+
             const data = quiz.collectAllAnswers();
             data.profil = 'investisseur';
-            
+
             // Filet de sécurité : récupérer depuis quiz.answers si data est incomplet
             [['prenom', 'question_prenom'], ['nom', 'question_nom'], ['email', 'question_email'], ['telephone', 'question_telephone'], ['ile', 'question_ile']].forEach(([field, key]) => {
                 if ((!data[field] || !String(data[field]).trim()) && quiz.answers[key]) {
                     data[field] = String(quiz.answers[key]).trim();
                 }
             });
-            
+
             // Bloquer l'envoi si champs obligatoires manquants
             const prenomVal = (data.prenom || data.question_prenom || '').trim();
             const nomVal = (data.nom || data.question_nom || '').trim();
@@ -161,11 +177,11 @@
                     return;
                 }
             }
-            
+
             // Validation silencieuse (sans alertes) - juste pour collecter les infos
             const validator = new FormValidator();
             const validation = await validator.validateForm(data);
-            
+
             // Ajouter les résultats de validation aux données (pour l'email) mais ne pas bloquer
             if (validation.credibilityScore) {
                 data.credibility_score = validation.credibilityScore.score;
@@ -174,7 +190,7 @@
             if (validation.inconsistencies.length > 0) {
                 data.inconsistencies = JSON.stringify(validation.inconsistencies);
             }
-            
+
             // Préparer les données pour l'envoi
             const prenom = data.prenom || data.question_prenom || '';
             const nom = data.nom || data.question_nom || '';
@@ -182,7 +198,7 @@
             const telephone = data.telephone || data.question_telephone || '';
             const ile = data.ile || data.question_ile || '';
             const montant_investissement = data.montant_investissement || data.question_montant_investissement || '';
-            
+
             // Déterminer la cotisation selon le montant
             let cotisationInfo = null;
             if (montant_investissement === 'moins-50k') {
@@ -192,7 +208,7 @@
             } else if (montant_investissement === '200k-plus') {
                 cotisationInfo = { montant: '99€/mois', annuel: '1 000€/an', description: 'Plus de 200 000€ d\'investissement' };
             }
-            
+
             // Préparer le message pour l'email
             let messageBody = `INVESTISSEUR - NOUVELLE INSCRIPTION
 Source: Landing Page investisseurs
@@ -221,25 +237,25 @@ PROCHAINES ÉTAPES
 
 DONNÉES COMPLÈTES
 ${Object.keys(data).filter(key => {
-    // Exclure les champs déjà affichés et les champs techniques
-    const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
-    const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'montant_investissement'];
-    return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
-}).map(key => {
-    const value = data[key];
-    if (value && value !== '' && value !== null && value !== undefined) {
-        const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-        return `${label}: ${value}`;
-    }
-    return null;
-}).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
-            
+                // Exclure les champs déjà affichés et les champs techniques
+                const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
+                const displayedKeys = ['prenom', 'nom', 'email', 'telephone', 'ile', 'montant_investissement'];
+                return !excludedKeys.includes(key) && !displayedKeys.includes(key) && !key.startsWith('question_');
+            }).map(key => {
+                const value = data[key];
+                if (value && value !== '' && value !== null && value !== undefined) {
+                    const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                    return `${label}: ${value}`;
+                }
+                return null;
+            }).filter(line => line !== null).join('\n') || 'Aucune donnée supplémentaire'}`;
+
             const formDataToSend = new FormData();
             formDataToSend.append('_to', 'domtomconnect@gmail.com');
             formDataToSend.append('_subject', `INVESTISSEUR - ${prenom} ${nom}${cotisationInfo ? ' - ' + cotisationInfo.montant : ''}`);
             formDataToSend.append('_replyto', email);
             formDataToSend.append('message', messageBody);
-            
+
             // Données structurées
             formDataToSend.append('Prénom', prenom);
             formDataToSend.append('Nom', nom);
@@ -248,7 +264,7 @@ ${Object.keys(data).filter(key => {
             formDataToSend.append('Territoire', ile || '');
             formDataToSend.append('Montant investissement', montant_investissement || '');
             formDataToSend.append('Profil', 'investisseur');
-            
+
             // Ajouter TOUTES les autres données collectées
             Object.keys(data).forEach(key => {
                 const excludedKeys = ['profil', 'credibility_score', 'credibility_level', 'inconsistencies', 'website'];
@@ -261,7 +277,7 @@ ${Object.keys(data).filter(key => {
                     }
                 }
             });
-            
+
             if (cotisationInfo) {
                 formDataToSend.append('Cotisation suggérée', `${cotisationInfo.montant} (ou ${cotisationInfo.annuel})`);
             }
@@ -269,20 +285,20 @@ ${Object.keys(data).filter(key => {
                 formDataToSend.append('Score crédibilité', validation.credibilityScore.score);
                 formDataToSend.append('Niveau crédibilité', validation.credibilityScore.level);
             }
-            
+
             // Gérer le bouton
-            const submitBtn = event.target.querySelector('button[type="submit"]') || 
-                            document.querySelector('#quiz-btn-next[type="submit"]');
+            const submitBtn = event.target.querySelector('button[type="submit"]') ||
+                document.querySelector('#quiz-btn-next[type="submit"]');
             const originalBtnText = submitBtn ? (submitBtn.textContent || submitBtn.innerHTML) : '';
-            
+
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Envoi en cours...';
             }
-            
+
             // Envoyer à Formspree
             const formspreeUrl = 'https://formspree.io/f/myzbqepy';
-            
+
             fetch(formspreeUrl, {
                 method: 'POST',
                 body: formDataToSend,
@@ -290,18 +306,18 @@ ${Object.keys(data).filter(key => {
                     'Accept': 'application/json'
                 }
             })
-            .then(response => {
-                console.log('📧 Réponse Formspree:', response.status, response.statusText);
-                
-                if (response.ok) {
-                    console.log('✅ Email envoyé avec succès');
-                    
-                    // Afficher le message de succès
-                    const quizContainer = document.querySelector('.quiz-container');
-                    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
-                    const quizNavigation = document.getElementById('quiz-navigation');
-                    
-                    const successHTML = `
+                .then(response => {
+                    console.log('📧 Réponse Formspree:', response.status, response.statusText);
+
+                    if (response.ok) {
+                        console.log('✅ Email envoyé avec succès');
+
+                        // Afficher le message de succès
+                        const quizContainer = document.querySelector('.quiz-container');
+                        const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+                        const quizNavigation = document.getElementById('quiz-navigation');
+
+                        const successHTML = `
                         <div style="text-align: center; padding: 3rem 2rem; max-width: 600px; margin: 0 auto; animation: fadeInSlide 0.5s ease;">
                             <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounceIn 0.6s ease;">✅</div>
                             <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.75rem; font-weight: 700;">✓ Inscription envoyée avec succès !</h3>
@@ -334,7 +350,7 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                                     <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.9);">${cotisationInfo.description}</p>
                                 </div>
                             ` : ''}
-                            <a href="/" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
+                            <a href="../../index.html" class="cta-button primary" style="text-decoration: none; display: inline-block; padding: 1rem 2rem; background: var(--gradient-primary); color: white; border-radius: 8px; font-weight: 600; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);">Retour à l'accueil</a>
                         </div>
                         <style>
                             @keyframes fadeInSlide {
@@ -360,75 +376,76 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                             }
                         </style>
                     `;
-                    
-                    if (quizContainer) {
-                        quizContainer.innerHTML = successHTML;
-                    } else if (quizQuestionsContainer) {
-                        quizQuestionsContainer.innerHTML = successHTML;
-                        if (quizNavigation) {
-                            quizNavigation.style.display = 'none';
-                        }
-                    }
-                    
-                    // Initialiser le widget Calendly après l'injection du HTML
-                    setTimeout(() => {
-                        const calendlyWidget = document.querySelector('.calendly-inline-widget');
-                        if (calendlyWidget) {
-                            // Si Calendly est déjà chargé, initialiser directement
-                            if (window.Calendly && window.Calendly.initInlineWidget) {
-                                try {
-                                    window.Calendly.initInlineWidget({
-                                        url: 'https://calendly.com/domtomconnect/30min',
-                                        parentElement: calendlyWidget,
-                                        prefill: {
-                                            email: email || '',
-                                            name: `${prenom} ${nom}`.trim() || ''
-                                        }
-                                    });
-                                } catch (e) {
-                                    console.error('Erreur initialisation Calendly:', e);
-                                }
-                            } else {
-                                // Si Calendly n'est pas encore chargé, attendre qu'il le soit
-                                const checkCalendly = setInterval(() => {
-                                    if (window.Calendly && window.Calendly.initInlineWidget) {
-                                        clearInterval(checkCalendly);
-                                        try {
-                                            window.Calendly.initInlineWidget({
-                                                url: 'https://calendly.com/domtomconnect/30min',
-                                                parentElement: calendlyWidget,
-                                                prefill: {
-                                                    email: email || '',
-                                                    name: `${prenom} ${nom}`.trim() || ''
-                                                }
-                                            });
-                                        } catch (e) {
-                                            console.error('Erreur initialisation Calendly:', e);
-                                        }
-                                    }
-                                }, 100);
-                                
-                                // Arrêter après 10 secondes si Calendly ne se charge pas
-                                setTimeout(() => clearInterval(checkCalendly), 10000);
+
+                        if (quizContainer) {
+                            quizContainer.innerHTML = successHTML;
+                        } else if (quizQuestionsContainer) {
+                            quizQuestionsContainer.innerHTML = successHTML;
+                            if (quizNavigation) {
+                                quizNavigation.style.display = 'none';
                             }
                         }
-                    }, 1000);
-                } else {
-                    return response.json().then(errData => {
-                        console.error('Erreur lors de l\'envoi:', errData);
-                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                }
-            });
+
+                        // Initialiser le widget Calendly après l'injection du HTML
+                        setTimeout(() => {
+                            const calendlyWidget = document.querySelector('.calendly-inline-widget');
+                            if (calendlyWidget) {
+                                // Si Calendly est déjà chargé, initialiser directement
+                                if (window.Calendly && window.Calendly.initInlineWidget) {
+                                    try {
+                                        window.Calendly.initInlineWidget({
+                                            url: 'https://calendly.com/domtomconnect/30min',
+                                            parentElement: calendlyWidget,
+                                            prefill: {
+                                                email: email || '',
+                                                name: `${prenom} ${nom}`.trim() || ''
+                                            }
+                                        });
+                                    } catch (e) {
+                                        console.error('Erreur initialisation Calendly:', e);
+                                    }
+                                } else {
+                                    // Si Calendly n'est pas encore chargé, attendre qu'il le soit
+                                    const checkCalendly = setInterval(() => {
+                                        if (window.Calendly && window.Calendly.initInlineWidget) {
+                                            clearInterval(checkCalendly);
+                                            try {
+                                                window.Calendly.initInlineWidget({
+                                                    url: 'https://calendly.com/domtomconnect/30min',
+                                                    parentElement: calendlyWidget,
+                                                    prefill: {
+                                                        email: email || '',
+                                                        name: `${prenom} ${nom}`.trim() || ''
+                                                    }
+                                                });
+                                            } catch (e) {
+                                                console.error('Erreur initialisation Calendly:', e);
+                                            }
+                                        }
+                                    }, 100);
+
+                                    // Arrêter après 10 secondes si Calendly ne se charge pas
+                                    setTimeout(() => clearInterval(checkCalendly), 10000);
+                                }
+                            }
+                        }, 1000);
+                    } else {
+                        return response.json().then(errData => {
+                            console.error('Erreur lors de l\'envoi:', errData);
+                            throw new Error(errData.error || 'Erreur lors de l\'envoi');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }
+                });
         }
     </script>
 </body>
+
 </html>

@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- SEO Meta Tags -->
     <title>Webinaire Domtom Connect — Présentation et inscription</title>
-    <meta name="description" content="Inscrivez-vous au webinaire Domtom Connect : présentation de l'entreprise, fonctionnement et accompagnement pour les territoires ultramarins. Inscription gratuite.">
-    <meta name="keywords" content="webinaire domtom connect, présentation entreprise, fonctionnement domtom connect, plus-value réseau entrepreneurial, webinaire gratuit antilles, webinaire réunion, webinaire guyane">
+    <meta name="description"
+        content="Inscrivez-vous au webinaire Domtom Connect : présentation de l'entreprise, fonctionnement et accompagnement pour les territoires ultramarins. Inscription gratuite.">
+    <meta name="keywords"
+        content="webinaire domtom connect, présentation entreprise, fonctionnement domtom connect, plus-value réseau entrepreneurial, webinaire gratuit antilles, webinaire réunion, webinaire guyane">
     <meta name="author" content="Domtom Connect">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/landing/webinaire">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/landing/webinaire">
     <meta property="og:title" content="Premier Webinaire Domtom Connect - Découvre notre entreprise">
-    <meta property="og:description" content="Rejoins le premier webinaire Domtom Connect et découvre notre entreprise, son fonctionnement et sa plus-value à court, moyen et long terme.">
+    <meta property="og:description"
+        content="Rejoins le premier webinaire Domtom Connect et découvre notre entreprise, son fonctionnement et sa plus-value à court, moyen et long terme.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Domtom Connect">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://domtomconnect.com/landing/webinaire">
     <meta property="twitter:title" content="Premier Webinaire Domtom Connect - Découvre notre entreprise">
-    <meta property="twitter:description" content="Rejoins le premier webinaire Domtom Connect et découvre notre entreprise, son fonctionnement et sa plus-value à court, moyen et long terme.">
+    <meta property="twitter:description"
+        content="Rejoins le premier webinaire Domtom Connect et découvre notre entreprise, son fonctionnement et sa plus-value à court, moyen et long terme.">
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
-    
+
     <link rel="stylesheet" href="../../assets/css/style.css?v=3.0">
     <link rel="stylesheet" href="../../assets/css/landing.css?v=1.0">
-    
+
     <style>
         .webinar-hero {
             padding: 140px 0 80px;
@@ -42,7 +47,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .webinar-hero::before {
             content: '';
             position: absolute;
@@ -53,7 +58,7 @@
             background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
             opacity: 0.3;
         }
-        
+
         .webinar-content {
             max-width: 900px;
             margin: 0 auto;
@@ -61,7 +66,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .webinar-badge {
             display: inline-block;
             background: rgba(255, 255, 255, 0.2);
@@ -76,7 +81,7 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        
+
         .webinar-content h1 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
@@ -84,7 +89,7 @@
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
-        
+
         .webinar-subtitle {
             font-size: clamp(1.125rem, 2vw, 1.5rem);
             color: rgba(255, 255, 255, 0.95);
@@ -92,7 +97,7 @@
             line-height: 1.7;
             font-weight: 400;
         }
-        
+
         .webinar-date-placeholder {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -101,7 +106,7 @@
             margin: 2rem 0;
             border: 2px dashed rgba(255, 255, 255, 0.4);
         }
-        
+
         .webinar-date-placeholder .date-label {
             color: rgba(255, 255, 255, 0.9);
             font-size: 0.9rem;
@@ -110,13 +115,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .webinar-date-placeholder .date-text {
             color: white;
             font-size: 1.5rem;
             font-weight: 700;
         }
-        
+
         .webinar-form-container {
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
             padding: 3rem;
@@ -126,7 +131,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .webinar-form-container::before {
             content: '';
             position: absolute;
@@ -136,25 +141,25 @@
             height: 4px;
             background: var(--primary-color);
         }
-        
+
         .webinar-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-        
+
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
-        
+
         .form-group label {
             font-weight: 600;
             color: var(--text-primary);
             font-size: 0.95rem;
         }
-        
+
         .form-group input,
         .form-group select {
             padding: 1rem 1.25rem;
@@ -164,14 +169,14 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-        
+
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.1);
         }
-        
+
         .form-submit-btn {
             background: var(--gradient-primary);
             color: white;
@@ -185,28 +190,28 @@
             box-shadow: 0 4px 15px rgba(0, 191, 166, 0.3);
             margin-top: 0.5rem;
         }
-        
+
         .form-submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 191, 166, 0.4);
         }
-        
+
         .form-submit-btn:active {
             transform: translateY(0);
         }
-        
+
         .webinar-benefits {
             padding: 80px 0;
             background: var(--gray-50);
         }
-        
+
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
-        
+
         .benefit-card {
             background: white;
             padding: 2rem;
@@ -215,12 +220,12 @@
             transition: all 0.3s ease;
             border: 1px solid var(--gray-200);
         }
-        
+
         .benefit-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
         }
-        
+
         .benefit-icon {
             width: 48px;
             height: 48px;
@@ -234,35 +239,35 @@
             font-weight: 700;
             font-size: 1rem;
         }
-        
+
         .benefit-card h3 {
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
             color: var(--text-primary);
         }
-        
+
         .benefit-card p {
             font-size: 1rem;
             color: var(--text-secondary);
             margin-bottom: 0;
             line-height: 1.6;
         }
-        
+
         .webinar-details {
             padding: 80px 0;
         }
-        
+
         .details-content {
             max-width: 800px;
             margin: 0 auto;
         }
-        
+
         .details-list {
             list-style: none;
             padding: 0;
             margin: 2rem 0;
         }
-        
+
         .details-list li {
             padding: 1rem 0;
             padding-left: 2.5rem;
@@ -271,7 +276,7 @@
             color: var(--text-secondary);
             line-height: 1.8;
         }
-        
+
         .details-list li::before {
             content: '';
             position: absolute;
@@ -282,7 +287,7 @@
             background: var(--primary-color);
             border-radius: 50%;
         }
-        
+
         .success-message {
             display: none;
             background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
@@ -292,12 +297,12 @@
             text-align: center;
             margin-top: 2rem;
         }
-        
+
         .success-message.show {
             display: block;
             animation: fadeInSlide 0.5s ease;
         }
-        
+
         .error-message {
             display: none;
             background: #fee;
@@ -308,12 +313,12 @@
             margin-bottom: 1.5rem;
             text-align: left;
         }
-        
+
         .error-message.show {
             display: block;
             animation: shake 0.5s ease;
         }
-        
+
         .error-message h4 {
             color: #c33;
             margin: 0 0 0.75rem 0;
@@ -322,75 +327,102 @@
             align-items: center;
             gap: 0.5rem;
         }
-        
+
         .error-message ul {
             margin: 0;
             padding-left: 1.5rem;
             list-style: none;
         }
-        
+
         .error-message li {
             margin: 0.5rem 0;
             padding-left: 1.5rem;
             position: relative;
         }
-        
+
         .error-message li::before {
             content: '❌';
             position: absolute;
             left: 0;
         }
-        
+
         .form-group.error input,
         .form-group.error select {
             border-color: #f44;
             background-color: #fee;
         }
-        
+
         .form-group.error label {
             color: #c33;
         }
-        
+
         @keyframes fadeInSlide {
             from {
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
         }
-        
+
         @media (max-width: 768px) {
             .webinar-hero {
                 padding: 100px 0 60px;
                 min-height: auto;
             }
-            
+
             .webinar-form-container {
                 padding: 2rem 1.5rem;
             }
-            
+
             .benefits-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
-                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
-                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            <a href="../../index.html" class="nav-brand" title="Retour à l'accueil"
+                style="text-decoration: none; display: flex; align-items: center;">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
             </a>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="../../blog/index.html">Blog</a>
+                    <a href="index.html" class="active">Webinaire</a>
+                    <a href="../../a-propos/index.html">À propos</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -400,55 +432,66 @@
                 <div class="webinar-badge">Webinaire gratuit</div>
                 <h1>Webinaire Domtom Connect</h1>
                 <p class="webinar-subtitle">
-                    Présentation de l'entreprise, de notre fonctionnement et de notre accompagnement pour les porteurs de projet, entreprises et prestataires des territoires ultramarins.
+                    Présentation de l'entreprise, de notre fonctionnement et de notre accompagnement pour les porteurs
+                    de projet, entreprises et prestataires des territoires ultramarins.
                 </p>
-                
+
                 <div class="webinar-date-placeholder">
                     <div class="date-label">Date et horaire</div>
                     <div class="date-text">À confirmer — vous serez notifié par email</div>
                 </div>
-                
-                <p style="text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 0.95rem; margin: 1.5rem 0 0 0;">
-                    Un groupe WhatsApp dédié (optionnel) permet de recevoir le lien et les rappels. Vous recevrez dans tous les cas une confirmation et les informations par email.
+
+                <p
+                    style="text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 0.95rem; margin: 1.5rem 0 0 0;">
+                    Un groupe WhatsApp dédié (optionnel) permet de recevoir le lien et les rappels. Vous recevrez dans
+                    tous les cas une confirmation et les informations par email.
                 </p>
-                
+
                 <div class="webinar-form-container">
-                    <h2 style="text-align: center; margin-bottom: 0.5rem; color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">
+                    <h2
+                        style="text-align: center; margin-bottom: 0.5rem; color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">
                         Inscription
                     </h2>
-                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary); font-size: 0.95rem;">
+                    <p
+                        style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary); font-size: 0.95rem;">
                         Tous les champs marqués d’un astérisque sont obligatoires.
                     </p>
-                    
-                    <form class="webinar-form" id="webinar-form" onsubmit="handleWebinarSubmit(event)" style="scroll-margin-top: 100px;">
+
+                    <form class="webinar-form" id="webinar-form" onsubmit="handleWebinarSubmit(event)"
+                        style="scroll-margin-top: 100px;">
                         <div class="error-message" id="error-message">
                             <h4>Erreurs à corriger</h4>
                             <ul id="error-list"></ul>
                         </div>
-                        
+
                         <div class="form-group" id="prenom-group">
                             <label for="prenom">Prénom *</label>
-                            <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom" oninput="document.getElementById('prenom-group').classList.remove('error')">
+                            <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom"
+                                oninput="document.getElementById('prenom-group').classList.remove('error')">
                         </div>
-                        
+
                         <div class="form-group" id="nom-group">
                             <label for="nom">Nom *</label>
-                            <input type="text" id="nom" name="nom" required placeholder="Votre nom" oninput="document.getElementById('nom-group').classList.remove('error')">
+                            <input type="text" id="nom" name="nom" required placeholder="Votre nom"
+                                oninput="document.getElementById('nom-group').classList.remove('error')">
                         </div>
-                        
+
                         <div class="form-group" id="email-group">
                             <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required placeholder="votre@email.com" oninput="document.getElementById('email-group').classList.remove('error')">
+                            <input type="email" id="email" name="email" required placeholder="votre@email.com"
+                                oninput="document.getElementById('email-group').classList.remove('error')">
                         </div>
-                        
+
                         <div class="form-group" id="telephone-group">
                             <label for="telephone">Téléphone</label>
-                            <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78" oninput="document.getElementById('telephone-group').classList.remove('error')">
+                            <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78"
+                                oninput="document.getElementById('telephone-group').classList.remove('error')">
                         </div>
-                        
+
                         <div class="form-group" id="territoire-group">
                             <label for="territoire">Territoire</label>
-                            <select id="territoire" name="territoire" onchange="document.getElementById('territoire-group').classList.remove('error'); document.getElementById('telephone-group').classList.remove('error')">
+                            <select id="territoire" name="territoire"
+                                onchange="document.getElementById('territoire-group').classList.remove('error'); document.getElementById('telephone-group').classList.remove('error')">
                                 <option value="">Sélectionnez votre territoire</option>
                                 <option value="martinique">Martinique</option>
                                 <option value="guadeloupe">Guadeloupe</option>
@@ -461,7 +504,7 @@
                                 <option value="autre">Autre</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group" id="profil-group">
                             <label for="profil">Quel est ton profil ?</label>
                             <select id="profil" name="profil">
@@ -473,25 +516,31 @@
                                 <option value="curieux">Curieux / Autre</option>
                             </select>
                         </div>
-                        
+
                         <button type="submit" class="form-submit-btn">
                             S'inscrire
                         </button>
                     </form>
-                    
+
                     <div class="success-message" id="success-message">
-                        <h3 style="color: white; margin-bottom: 1rem; font-size: 1.35rem; font-weight: 700;">Inscription enregistrée</h3>
+                        <h3 style="color: white; margin-bottom: 1rem; font-size: 1.35rem; font-weight: 700;">Inscription
+                            enregistrée</h3>
                         <p style="color: rgba(255, 255, 255, 0.95); line-height: 1.7; margin-bottom: 1.5rem;">
-                            Vous recevrez un email de confirmation sous peu. La date et l’heure du webinaire vous seront communiquées dès qu’elles sont fixées.
+                            Vous recevrez un email de confirmation sous peu. La date et l’heure du webinaire vous seront
+                            communiquées dès qu’elles sont fixées.
                         </p>
-                        <div style="background: rgba(255, 255, 255, 0.15); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.25);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.15); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.25);">
                             <p style="color: white; font-weight: 600; font-size: 1rem; margin: 0 0 1rem 0;">
                                 Groupe WhatsApp (optionnel)
                             </p>
-                            <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin: 0 0 1rem 0; line-height: 1.6;">
-                                Pour recevoir le lien de connexion et les rappels en direct, vous pouvez rejoindre le groupe dédié. Vous recevrez dans tous les cas les informations par email.
+                            <p
+                                style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin: 0 0 1rem 0; line-height: 1.6;">
+                                Pour recevoir le lien de connexion et les rappels en direct, vous pouvez rejoindre le
+                                groupe dédié. Vous recevrez dans tous les cas les informations par email.
                             </p>
-                            <a href="https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg" target="_blank" rel="noopener" style="display: inline-block; padding: 0.75rem 1.5rem; background: #25D366; color: white; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none;">
+                            <a href="https://chat.whatsapp.com/JeDcqn44SMbGfiO8YzUjQg" target="_blank" rel="noopener"
+                                style="display: inline-block; padding: 0.75rem 1.5rem; background: #25D366; color: white; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none;">
                                 Rejoindre le groupe WhatsApp
                             </a>
                         </div>
@@ -506,41 +555,43 @@
             <div style="text-align: center; max-width: 700px; margin: 0 auto;">
                 <h2 style="margin-bottom: 1rem;">Contenu du webinaire</h2>
                 <p style="font-size: 1.05rem; color: var(--text-secondary);">
-                    Présentation de Domtom Connect, de notre modèle et de la valeur apportée aux porteurs de projet, entreprises et prestataires.
+                    Présentation de Domtom Connect, de notre modèle et de la valeur apportée aux porteurs de projet,
+                    entreprises et prestataires.
                 </p>
             </div>
-            
+
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <div class="benefit-icon">1</div>
                     <h3>Présentation de l'entreprise</h3>
-                    <p>Mission, vision et positionnement de Domtom Connect dans l’écosystème entrepreneurial ultramarin.</p>
+                    <p>Mission, vision et positionnement de Domtom Connect dans l’écosystème entrepreneurial ultramarin.
+                    </p>
                 </div>
-                
+
                 <div class="benefit-card">
                     <div class="benefit-icon">2</div>
                     <h3>Fonctionnement</h3>
                     <p>Processus de recherche, validation et mise en relation avec les prestataires.</p>
                 </div>
-                
+
                 <div class="benefit-card">
                     <div class="benefit-icon">3</div>
                     <h3>Vos besoins</h3>
                     <p>Échange pour identifier vos attentes et la façon dont nous pouvons vous accompagner.</p>
                 </div>
-                
+
                 <div class="benefit-card">
                     <div class="benefit-icon">4</div>
                     <h3>Bénéfices à court terme</h3>
                     <p>Gain de temps, accès à un réseau qualifié, accompagnement opérationnel.</p>
                 </div>
-                
+
                 <div class="benefit-card">
                     <div class="benefit-icon">5</div>
                     <h3>Bénéfices à moyen terme</h3>
                     <p>Accompagnement dans la croissance du projet et le développement du réseau.</p>
                 </div>
-                
+
                 <div class="benefit-card">
                     <div class="benefit-icon">6</div>
                     <h3>Bénéfices à long terme</h3>
@@ -554,22 +605,29 @@
         <div class="container">
             <div class="details-content">
                 <h2 style="text-align: center; margin-bottom: 2rem;">Au programme</h2>
-                
+
                 <ul class="details-list">
                     <li><strong>Présentation de Domtom Connect</strong> — Mission, vision et historique</li>
-                    <li><strong>Fonctionnement</strong> — Recherche, validation et mise en relation avec les prestataires</li>
+                    <li><strong>Fonctionnement</strong> — Recherche, validation et mise en relation avec les
+                        prestataires</li>
                     <li><strong>Bénéfices à court terme</strong> — Gain de temps, réseau qualifié, accompagnement</li>
-                    <li><strong>Bénéfices à moyen et long terme</strong> — Croissance du projet, écosystème, opportunités</li>
+                    <li><strong>Bénéfices à moyen et long terme</strong> — Croissance du projet, écosystème,
+                        opportunités</li>
                     <li><strong>Services et accompagnements</strong> — Offres et packs proposés</li>
                     <li><strong>Vos besoins</strong> — Échange pour adapter notre accompagnement</li>
                     <li><strong>Questions-réponses</strong> — Échange en direct sur l’entreprise et nos services</li>
-                    <li><strong>Groupe WhatsApp (optionnel)</strong> — Lien de connexion, rappels et échanges avec les autres participants</li>
+                    <li><strong>Groupe WhatsApp (optionnel)</strong> — Lien de connexion, rappels et échanges avec les
+                        autres participants</li>
                 </ul>
-                
-                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--gray-50); border-radius: 12px;">
-                    <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.2rem;">Pourquoi participer</h3>
+
+                <div
+                    style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--gray-50); border-radius: 12px;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.2rem;">Pourquoi participer
+                    </h3>
                     <p style="color: var(--text-secondary); line-height: 1.8; margin: 0; font-size: 1rem;">
-                        Ce webinaire permet de comprendre le modèle Domtom Connect, notre fonctionnement et la valeur apportée aux porteurs de projet, entreprises et prestataires. Vous repartez avec une vision claire de notre accompagnement dans les territoires ultramarins.
+                        Ce webinaire permet de comprendre le modèle Domtom Connect, notre fonctionnement et la valeur
+                        apportée aux porteurs de projet, entreprises et prestataires. Vous repartez avec une vision
+                        claire de notre accompagnement dans les territoires ultramarins.
                     </p>
                 </div>
             </div>
@@ -578,23 +636,23 @@
 
     <script src="../../assets/js/form-validation.js?v=1.0"></script>
     <script src="../../assets/js/form-security.js?v=1.0"></script>
-    
+
     <script>
         // Fonction pour afficher les erreurs dans le formulaire
         function displayErrors(errors, errorFields) {
             const errorMessage = document.getElementById('error-message');
             const errorList = document.getElementById('error-list');
-            
+
             if (!errorMessage || !errorList) {
                 console.error('Éléments d\'erreur non trouvés dans le DOM');
                 return;
             }
-            
+
             if (errors.length > 0) {
                 // Afficher le message d'erreur
                 errorMessage.classList.add('show');
                 errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                
+
                 // Mettre en évidence les champs en erreur
                 errorFields.forEach(fieldId => {
                     const fieldGroup = document.getElementById(fieldId + '-group');
@@ -602,7 +660,7 @@
                         fieldGroup.classList.add('error');
                     }
                 });
-                
+
                 // Scroll vers le message d'erreur
                 setTimeout(() => {
                     errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -615,15 +673,15 @@
                 });
             }
         }
-        
+
         async function handleWebinarSubmit(event) {
             event.preventDefault();
-            
+
             try {
                 const form = event.target;
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
-                
+
                 // Extraire les données du formulaire
                 const prenom = data.prenom || '';
                 const nom = data.nom || '';
@@ -631,144 +689,144 @@
                 const telephone = data.telephone || '';
                 const territoire = data.territoire || '';
                 const profil = data.profil || '';
-                
+
                 // Gérer le bouton
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalBtnText = submitBtn ? submitBtn.textContent : '';
-                
+
                 if (submitBtn) {
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Inscription en cours...';
                 }
-            
+
                 // Validation simple : s'assurer que les données sont réelles
-            const errors = [];
-            const errorFields = [];
-            
-            // Validation email : format valide
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email || !emailRegex.test(email)) {
-                errors.push('Veuillez entrer une adresse email valide (exemple : nom@email.com)');
-                errorFields.push('email');
-            }
-            
-            // Validation téléphone : format valide et cohérent avec le territoire
-            if (telephone && telephone.trim()) {
-                const phoneDigits = telephone.replace(/\D/g, '');
-                // Un vrai numéro doit avoir entre 10 et 15 chiffres
-                if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-                    errors.push('Veuillez entrer un numéro de téléphone valide (10 à 15 chiffres)');
-                    errorFields.push('telephone');
-                } else if (territoire && territoire !== 'autre' && territoire !== 'diaspora') {
-                    // Vérifier la cohérence avec le territoire (indicatifs téléphoniques)
-                    const territoryIndicators = {
-                        'martinique': ['596', '0596', '0696', '0697'],
-                        'guadeloupe': ['590', '0590', '0690', '0691'],
-                        'reunion': ['262', '0262', '0692', '0693'],
-                        'guyane': ['594', '0594', '0694'],
-                        'mayotte': ['262', '0262', '0639'],
-                        'polynesie': ['689', '0689'],
-                        'nouvelle-caledonie': ['687', '0687']
-                    };
-                    
-                    const indicators = territoryIndicators[territoire];
-                    if (indicators) {
-                        // Vérifier si le numéro contient l'indicatif du territoire
-                        let isCoherent = false;
-                        
-                        // Format international avec +33
-                        if (phoneDigits.startsWith('33')) {
-                            const withoutCountryCode = phoneDigits.substring(2);
-                            isCoherent = indicators.some(ind => {
-                                const code = ind.replace(/^0/, ''); // Enlever le 0 initial
-                                return withoutCountryCode.startsWith(code);
-                            });
-                        }
-                        // Format local (commence par 0)
-                        else if (phoneDigits.startsWith('0')) {
-                            isCoherent = indicators.some(ind => phoneDigits.startsWith(ind));
-                        }
-                        // Format sans 0 initial
-                        else {
-                            isCoherent = indicators.some(ind => {
-                                const code = ind.replace(/^0/, '');
-                                return phoneDigits.startsWith(code);
-                            });
-                        }
-                        
-                        if (!isCoherent) {
-                            const territoireNames = {
-                                'martinique': 'Martinique',
-                                'guadeloupe': 'Guadeloupe',
-                                'reunion': 'La Réunion',
-                                'guyane': 'Guyane',
-                                'mayotte': 'Mayotte',
-                                'polynesie': 'Polynésie française',
-                                'nouvelle-caledonie': 'Nouvelle-Calédonie'
-                            };
-                            errors.push(`Le numéro de téléphone ne correspond pas au territoire sélectionné (${territoireNames[territoire]}). Veuillez vérifier votre numéro.`);
-                            errorFields.push('telephone');
+                const errors = [];
+                const errorFields = [];
+
+                // Validation email : format valide
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email || !emailRegex.test(email)) {
+                    errors.push('Veuillez entrer une adresse email valide (exemple : nom@email.com)');
+                    errorFields.push('email');
+                }
+
+                // Validation téléphone : format valide et cohérent avec le territoire
+                if (telephone && telephone.trim()) {
+                    const phoneDigits = telephone.replace(/\D/g, '');
+                    // Un vrai numéro doit avoir entre 10 et 15 chiffres
+                    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+                        errors.push('Veuillez entrer un numéro de téléphone valide (10 à 15 chiffres)');
+                        errorFields.push('telephone');
+                    } else if (territoire && territoire !== 'autre' && territoire !== 'diaspora') {
+                        // Vérifier la cohérence avec le territoire (indicatifs téléphoniques)
+                        const territoryIndicators = {
+                            'martinique': ['596', '0596', '0696', '0697'],
+                            'guadeloupe': ['590', '0590', '0690', '0691'],
+                            'reunion': ['262', '0262', '0692', '0693'],
+                            'guyane': ['594', '0594', '0694'],
+                            'mayotte': ['262', '0262', '0639'],
+                            'polynesie': ['689', '0689'],
+                            'nouvelle-caledonie': ['687', '0687']
+                        };
+
+                        const indicators = territoryIndicators[territoire];
+                        if (indicators) {
+                            // Vérifier si le numéro contient l'indicatif du territoire
+                            let isCoherent = false;
+
+                            // Format international avec +33
+                            if (phoneDigits.startsWith('33')) {
+                                const withoutCountryCode = phoneDigits.substring(2);
+                                isCoherent = indicators.some(ind => {
+                                    const code = ind.replace(/^0/, ''); // Enlever le 0 initial
+                                    return withoutCountryCode.startsWith(code);
+                                });
+                            }
+                            // Format local (commence par 0)
+                            else if (phoneDigits.startsWith('0')) {
+                                isCoherent = indicators.some(ind => phoneDigits.startsWith(ind));
+                            }
+                            // Format sans 0 initial
+                            else {
+                                isCoherent = indicators.some(ind => {
+                                    const code = ind.replace(/^0/, '');
+                                    return phoneDigits.startsWith(code);
+                                });
+                            }
+
+                            if (!isCoherent) {
+                                const territoireNames = {
+                                    'martinique': 'Martinique',
+                                    'guadeloupe': 'Guadeloupe',
+                                    'reunion': 'La Réunion',
+                                    'guyane': 'Guyane',
+                                    'mayotte': 'Mayotte',
+                                    'polynesie': 'Polynésie française',
+                                    'nouvelle-caledonie': 'Nouvelle-Calédonie'
+                                };
+                                errors.push(`Le numéro de téléphone ne correspond pas au territoire sélectionné (${territoireNames[territoire]}). Veuillez vérifier votre numéro.`);
+                                errorFields.push('telephone');
+                            }
                         }
                     }
                 }
-            }
-            
-            // Validation prénom : doit être un vrai prénom
-            if (!prenom || prenom.trim().length < 2) {
-                errors.push('Veuillez entrer votre prénom');
-                errorFields.push('prenom');
-            } else {
-                // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
-                const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
-                if (!nameRegex.test(prenom)) {
-                    errors.push('Le prénom contient des caractères invalides. Veuillez entrer votre vrai prénom.');
+
+                // Validation prénom : doit être un vrai prénom
+                if (!prenom || prenom.trim().length < 2) {
+                    errors.push('Veuillez entrer votre prénom');
                     errorFields.push('prenom');
-                }
-            }
-            
-            // Validation nom : doit être un vrai nom
-            if (!nom || nom.trim().length < 2) {
-                errors.push('Veuillez entrer votre nom');
-                errorFields.push('nom');
-            } else {
-                // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
-                const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
-                if (!nameRegex.test(nom)) {
-                    errors.push('Le nom contient des caractères invalides. Veuillez entrer votre vrai nom.');
-                    errorFields.push('nom');
-                }
-            }
-            
-            // Afficher les erreurs si présentes
-            if (errors.length > 0) {
-                console.log('Erreurs de validation:', errors);
-                displayErrors(errors, errorFields);
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalBtnText;
-                }
-                return;
-            } else {
-                // Pas d'erreurs, cacher le message d'erreur
-                displayErrors([], []);
-            }
-            
-            // Validation basique avec FormValidator (sans être trop strict)
-            console.log('Validation passée, envoi en cours...');
-            let validation = { valid: true };
-            try {
-                if (typeof FormValidator !== 'undefined') {
-                    const validator = new FormValidator();
-                    validation = await validator.validateForm(data);
                 } else {
-                    console.warn('FormValidator non disponible, validation basique uniquement');
+                    // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
+                    const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
+                    if (!nameRegex.test(prenom)) {
+                        errors.push('Le prénom contient des caractères invalides. Veuillez entrer votre vrai prénom.');
+                        errorFields.push('prenom');
+                    }
                 }
-            } catch (validationError) {
-                console.warn('Erreur lors de la validation FormValidator:', validationError);
-                // On continue quand même
-            }
-            
-            const messageBody = `INSCRIPTION WEBINAIRE DOMTOM CONNECT
+
+                // Validation nom : doit être un vrai nom
+                if (!nom || nom.trim().length < 2) {
+                    errors.push('Veuillez entrer votre nom');
+                    errorFields.push('nom');
+                } else {
+                    // Vérifier que ce n'est pas juste des chiffres ou caractères bizarres
+                    const nameRegex = /^[a-zA-ZÀ-ÿ\s\-'\.]+$/;
+                    if (!nameRegex.test(nom)) {
+                        errors.push('Le nom contient des caractères invalides. Veuillez entrer votre vrai nom.');
+                        errorFields.push('nom');
+                    }
+                }
+
+                // Afficher les erreurs si présentes
+                if (errors.length > 0) {
+                    console.log('Erreurs de validation:', errors);
+                    displayErrors(errors, errorFields);
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalBtnText;
+                    }
+                    return;
+                } else {
+                    // Pas d'erreurs, cacher le message d'erreur
+                    displayErrors([], []);
+                }
+
+                // Validation basique avec FormValidator (sans être trop strict)
+                console.log('Validation passée, envoi en cours...');
+                let validation = { valid: true };
+                try {
+                    if (typeof FormValidator !== 'undefined') {
+                        const validator = new FormValidator();
+                        validation = await validator.validateForm(data);
+                    } else {
+                        console.warn('FormValidator non disponible, validation basique uniquement');
+                    }
+                } catch (validationError) {
+                    console.warn('Erreur lors de la validation FormValidator:', validationError);
+                    // On continue quand même
+                }
+
+                const messageBody = `INSCRIPTION WEBINAIRE DOMTOM CONNECT
 Date: ${new Date().toLocaleString('fr-FR')}
 
 INFORMATIONS PARTICIPANT
@@ -784,8 +842,8 @@ PROCHAINES ÉTAPES
 2. Envoyer un email de confirmation à ${email}
 3. Envoyer les détails de connexion avant l'événement
 4. Rappel la veille du webinaire`;
-            
-            const confirmationMessage = `Bonjour ${prenom},
+
+                const confirmationMessage = `Bonjour ${prenom},
 
 Votre inscription au webinaire Domtom Connect est bien enregistrée.
 
@@ -800,81 +858,81 @@ Au programme : présentation de Domtom Connect, fonctionnement, bénéfices à c
 
 L'équipe Domtom Connect
 https://domtomconnect.com`;
-            
-            const formDataToSend = new FormData();
-            formDataToSend.append('_to', 'domtomconnect@gmail.com');
-            formDataToSend.append('_subject', `Webinaire - Inscription - ${prenom} ${nom}`);
-            formDataToSend.append('_replyto', email);
-            formDataToSend.append('message', messageBody);
-            
-            const confirmationFormData = new FormData();
-            confirmationFormData.append('_to', 'domtomconnect@gmail.com');
-            confirmationFormData.append('_cc', email);
-            confirmationFormData.append('_subject', 'Confirmation inscription - Webinaire Domtom Connect');
-            confirmationFormData.append('_replyto', 'domtomconnect@gmail.com');
-            confirmationFormData.append('message', confirmationMessage);
-            
-            // Données structurées
-            formDataToSend.append('Prénom', prenom);
-            formDataToSend.append('Nom', nom);
-            formDataToSend.append('Email', email);
-            formDataToSend.append('Téléphone', telephone || '');
-            formDataToSend.append('Territoire', territoire || '');
-            formDataToSend.append('Profil', profil || '');
-            formDataToSend.append('Type', 'webinaire-inscription');
-            
-            // Envoyer à Formspree
-            const formspreeUrl = 'https://formspree.io/f/myzbqepy';
-            
-            try {
-                // Envoyer l'email à l'admin
-                const adminResponse = await fetch(formspreeUrl, {
-                    method: 'POST',
-                    body: formDataToSend,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                // Envoyer l'email de confirmation à l'utilisateur (avec _cc)
-                const confirmationResponse = await fetch(formspreeUrl, {
-                    method: 'POST',
-                    body: confirmationFormData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (adminResponse.ok) {
-                    if (confirmationResponse.ok) {
-                        console.log('✅ Emails envoyés avec succès (admin + confirmation utilisateur)');
+
+                const formDataToSend = new FormData();
+                formDataToSend.append('_to', 'domtomconnect@gmail.com');
+                formDataToSend.append('_subject', `Webinaire - Inscription - ${prenom} ${nom}`);
+                formDataToSend.append('_replyto', email);
+                formDataToSend.append('message', messageBody);
+
+                const confirmationFormData = new FormData();
+                confirmationFormData.append('_to', 'domtomconnect@gmail.com');
+                confirmationFormData.append('_cc', email);
+                confirmationFormData.append('_subject', 'Confirmation inscription - Webinaire Domtom Connect');
+                confirmationFormData.append('_replyto', 'domtomconnect@gmail.com');
+                confirmationFormData.append('message', confirmationMessage);
+
+                // Données structurées
+                formDataToSend.append('Prénom', prenom);
+                formDataToSend.append('Nom', nom);
+                formDataToSend.append('Email', email);
+                formDataToSend.append('Téléphone', telephone || '');
+                formDataToSend.append('Territoire', territoire || '');
+                formDataToSend.append('Profil', profil || '');
+                formDataToSend.append('Type', 'webinaire-inscription');
+
+                // Envoyer à Formspree
+                const formspreeUrl = 'https://formspree.io/f/myzbqepy';
+
+                try {
+                    // Envoyer l'email à l'admin
+                    const adminResponse = await fetch(formspreeUrl, {
+                        method: 'POST',
+                        body: formDataToSend,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    // Envoyer l'email de confirmation à l'utilisateur (avec _cc)
+                    const confirmationResponse = await fetch(formspreeUrl, {
+                        method: 'POST',
+                        body: confirmationFormData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (adminResponse.ok) {
+                        if (confirmationResponse.ok) {
+                            console.log('✅ Emails envoyés avec succès (admin + confirmation utilisateur)');
+                        } else {
+                            console.warn('⚠️ Email admin envoyé mais confirmation échouée');
+                        }
+
+                        // Afficher le message de succès même si la confirmation échoue
+                        form.style.display = 'none';
+                        const successMessage = document.getElementById('success-message');
+                        if (successMessage) {
+                            successMessage.classList.add('show');
+                        }
+
+                        // Scroll vers le message de succès
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
-                        console.warn('⚠️ Email admin envoyé mais confirmation échouée');
+                        const errData = await adminResponse.json();
+                        throw new Error(errData.error || 'Erreur lors de l\'envoi');
                     }
-                    
-                    // Afficher le message de succès même si la confirmation échoue
-                    form.style.display = 'none';
-                    const successMessage = document.getElementById('success-message');
-                    if (successMessage) {
-                        successMessage.classList.add('show');
+                } catch (error) {
+                    console.error('Erreur envoi:', error);
+                    alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
+                    const form = event.target;
+                    const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'S\'inscrire';
                     }
-                    
-                    // Scroll vers le message de succès
-                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    const errData = await adminResponse.json();
-                    throw new Error(errData.error || 'Erreur lors de l\'envoi');
                 }
-            } catch (error) {
-                console.error('Erreur envoi:', error);
-                alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
-                const form = event.target;
-                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'S\'inscrire';
-                }
-            }
             } catch (outerError) {
                 console.error('Erreur handleWebinarSubmit:', outerError);
                 alert('Une erreur inattendue est survenue. Veuillez réessayer ou nous contacter directement à domtomconnect@gmail.com.');
@@ -887,5 +945,26 @@ https://domtomconnect.com`;
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/auth.js"></script>
+    <script>
+        // Si l'utilisateur est connecté, le logo ramène au dashboard
+        async function checkConnection() {
+            try {
+                const session = await getSession();
+                if (session) {
+                    const logoLink = document.getElementById('logo-home');
+                    if (logoLink) {
+                        logoLink.href = "../../dashboard.html";
+                        logoLink.title = "Aller à mon Dashboard";
+                    }
+                }
+            } catch (e) {
+                console.log("Session non active");
+            }
+        }
+        checkConnection();
+    </script>
 </body>
+
 </html>

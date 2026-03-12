@@ -272,16 +272,23 @@
     <nav class="navbar">
         <div class="container"
             style="display: flex; justify-content: space-between; align-items: center; padding: 15px 24px;">
-            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
+            <a href="../index.html" class="nav-brand" title="Retour à l'accueil"
+                style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 32px;">
                 <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;">Domtom Connect</span>
             </a>
-            <div style="display: flex; gap: 24px; align-items: center;">
-                <a href="../login.html"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600;">Connexion</a>
-                <a href="../registration/onboarding.html" class="cta-button primary"
-                    style="background: var(--primary-gradient); padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: none; color: white; text-decoration: none;">C'est
-                    parti</a>
+            <div style="display: flex; gap: 32px; align-items: center;">
+                <a href="../blog/index.html"
+                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-secondary)'">Blog</a>
+                <a href="../landing/webinaire/index.html"
+                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
+                    onmouseover="this.style.color='#fff'"
+                    onmouseout="this.style.color='var(--text-secondary)'">Webinaire</a>
+                <a href="../a-propos/index.html"
+                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-secondary)'">À
+                    propos</a>
             </div>
         </div>
     </nav>
@@ -445,13 +452,12 @@
                 style="height: 40px; margin-bottom: 24px; filter: grayscale(1) brightness(2);">
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 32px;">&copy; 2025 Domtom Connect.
                 Tous droits réservés.</p>
-            <div style="display: flex; justify-content: center; gap: 24px;">
-                <a href="../index.html"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">Accueil</a>
-                <a href="../tarifs"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">Tarifs</a>
-                <a href="mailto:domtomconnect@gmail.com"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">Contact</a>
+            <div style="display: flex; gap: 32px; align-items: center; justify-content: center;">
+                <a href="../blog/index.html" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">Blog</a>
+                <a href="../landing/webinaire/index.html"
+                    style="color: #1a1a1a; text-decoration: none; font-weight: 500;">Webinaire</a>
+                <a href="../a-propos/index.html" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">À
+                    propos</a>
             </div>
         </div>
     </footer>
