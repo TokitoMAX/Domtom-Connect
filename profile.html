@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Profil – Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <!-- PayPal SDK pour Abonnements -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"></script>
     <style>
         body {
             background-color: var(--bg-light);
@@ -358,6 +361,69 @@
         #skills-input:focus {
             outline: none;
         }
+
+        /* Modal Abonnement Style */
+        .sub-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .sub-modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .sub-modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .sub-modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .sub-modal-benefits {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+        }
+
+        .sub-modal-benefits li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .sub-modal-price {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .sub-modal-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 
@@ -596,6 +662,29 @@
         </main>
     </div>
 
+    <!-- MODAL ABONNEMENT -->
+    <div id="subscription-modal" class="sub-modal-overlay">
+        <div class="sub-modal">
+            <button onclick="closeSubModal()"
+                style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">×</button>
+            <div class="sub-modal-header">
+                <div style="font-size:3rem; margin-bottom:12px;">🚀</div>
+                <div class="sub-modal-title" id="sub-modal-title">Pack Authority</div>
+                <p style="color:var(--text-secondary);">Propulsez votre profil sur Domtom Connect</p>
+            </div>
+            <ul class="sub-modal-benefits" id="sub-modal-benefits">
+                <li>✅ Profil listé dans l'annuaire</li>
+                <li>✅ Badge "Vérifié" permanent</li>
+                <li>✅ 3-4 contenus créés / mois</li>
+                <li>✅ Participation aux podcasts DC</li>
+            </ul>
+            <div class="sub-modal-price" id="sub-modal-price">9,99€<span>/mois</span></div>
+            <div id="paypal-button-container"></div>
+            <p style="text-align:center; font-size:0.75rem; color:var(--text-muted); margin-top:16px;">Paiement sécurisé
+                via PayPal. Sans engagement.</p>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
@@ -821,17 +910,21 @@
             const role = document.getElementById('user_role').value;
             const isExpert = (role === 'expert' || role === 'prestataire');
 
-            // On ne montre la bannière de boost QUE pour les experts en mode gratuit
-            if (isExpert && currentSubscriptionTier === 'free' && !hasExistingListing) {
+            // Nettoyer l'ancienne bannière si elle existe
+            const oldBanner = document.getElementById('monetization-banner');
+            if (oldBanner) oldBanner.remove();
+
+            // On ne montre la bannière de boost QUE pour les experts/entreprises en mode gratuit
+            if ((isExpert || role === 'entreprise') && currentSubscriptionTier === 'free' && !hasExistingListing) {
                 const bannerHtml = `
-                    <div style="background:linear-gradient(135deg, #0f172a, #1e293b); color:#ffffff; padding:24px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                    <div id="monetization-banner" style="background:linear-gradient(135deg, #0f172a, #1e293b); color:#ffffff; padding:24px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
                         <div style="position:relative; z-index:2;">
                             <h3 style="margin:0 0 12px 0; font-size:1.25rem; display:flex; align-items:center; gap:10px; color:#ffffff !important; font-weight:800;">🚀 Boostez votre visibilité</h3>
                             <p style="margin:0 0 20px 0; font-size:1rem; color:#f8fafc !important; opacity:1; line-height:1.6; font-weight:500;">
                                 Votre profil est actuellement <strong style="color:#ffffff;">privé</strong>. <br>
-                                L'accès à l'annuaire est réservé aux membres packs pour garantir une qualité optimale à nos clients.
+                                Devenez membre pour apparaître dans l'annuaire, bénéficier de co-création de contenu et de podcasts.
                             </p>
-                            <a href="dashboard.html" class="cta-button primary" style="background:#10b981; border:none; padding:10px 24px; font-size:0.9rem; font-weight:700; display:inline-block; text-decoration:none; border-radius:8px;">Activer ma visibilité (Tarifs)</a>
+                            <button type="button" onclick="openSubModal('${role}')" class="cta-button primary" style="background:#10b981; border:none; padding:10px 24px; font-size:0.9rem; font-weight:700; display:inline-block; border-radius:8px; cursor:pointer;">Activer ma visibilité (9,99€/mois)</button>
                         </div>
                         <div style="position:absolute; right:-15px; top:-15px; font-size:6rem; opacity:0.1; transform:rotate(15deg); pointer-events:none;">💎</div>
                     </div>
@@ -906,6 +999,88 @@
             if (basicBar) basicBar.style.display = 'inline-flex';
         }
 
+        function openSubModal(role) {
+            const modal = document.getElementById('subscription-modal');
+            const title = document.getElementById('sub-modal-title');
+            const benefits = document.getElementById('sub-modal-benefits');
+            const price = document.getElementById('sub-modal-price');
+
+            if (role === 'entreprise') {
+                title.textContent = 'Pack Business';
+                price.innerHTML = '19,99€<span>/mois</span>';
+                benefits.innerHTML = `
+                    <li>✅ Entreprise listée en priorité</li>
+                    <li>✅ Badge "Vérifié" & Bannière pro</li>
+                    <li>✅ Publication de missions illimitées</li>
+                    <li>✅ Accès au Matchmaking Experts</li>
+                `;
+            } else {
+                title.textContent = 'Pack Authority';
+                price.innerHTML = '9,99€<span>/mois</span>';
+                benefits.innerHTML = `
+                    <li>✅ Profil listé dans l'annuaire</li>
+                    <li>✅ Badge "Vérifié" permanent</li>
+                    <li>✅ 3-4 contenus créés / mois</li>
+                    <li>✅ Participation aux podcasts DC</li>
+                `;
+            }
+
+            modal.style.display = 'flex';
+            renderPayPalButton(role);
+        }
+
+        function closeSubModal() {
+            document.getElementById('subscription-modal').style.display = 'none';
+        }
+
+        let paypalButtonsRendered = false;
+        function renderPayPalButton(role) {
+            if (paypalButtonsRendered) return;
+            paypalButtonsRendered = true;
+
+            const planId = (role === 'entreprise') ? 'P-XXXXXXXXXXXX_BUSINESS' : 'P-XXXXXXXXXXXX_AUTHORITY';
+
+            paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'vertical',
+                    label: 'subscribe'
+                },
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({
+                        'plan_id': planId // Note: Remplacer par un vrai Plan ID Production
+                    });
+                },
+                onApprove: function (data, actions) {
+                    handleSubscriptionSuccess(data.subscriptionID, role);
+                }
+            }).render('#paypal-button-container');
+        }
+
+        async function handleSubscriptionSuccess(subId, role) {
+            const btn = document.getElementById('paypal-button-container');
+            btn.innerHTML = '<p style="color:#10b981; font-weight:700; text-align:center;">Paiement réussi ! Activation en cours...</p>';
+
+            const tier = (role === 'entreprise') ? 'business' : 'authority';
+
+            const { error } = await _supabase
+                .from('profiles')
+                .update({
+                    subscription_tier: tier,
+                    subscription_status: 'active',
+                    subscription_id: subId,
+                    listed: true
+                })
+                .eq('id', currentUserId);
+
+            if (error) {
+                alert("Erreur lors de l'activation : " + error.message);
+            } else {
+                setTimeout(() => window.location.reload(), 2000);
+            }
+        }
+
         async function saveProfile(event) {
             event.preventDefault();
             const btn = document.getElementById('save-btn');
@@ -914,6 +1089,13 @@
 
             const selectedRole = document.getElementById('user_role').value;
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
+
+            // GATING : Si l'utilisateur veut publier mais n'a pas de pack
+            if (currentSubscriptionTier === 'free' && selectedRole !== 'basique' && !hasExistingListing) {
+                openSubModal(selectedRole);
+                resetBtn(btn, isExpert);
+                return;
+            }
 
             // Mise à jour de la session auth (user_metadata)
             const { error: authError } = await _supabase.auth.updateUser({
