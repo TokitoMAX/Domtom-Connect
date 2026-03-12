@@ -875,15 +875,28 @@
                 roleBadge.style.color = "var(--text-muted)";
                 roleBadge.style.border = "1px solid var(--gray-200)";
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: var(--primary-color);">
-                        <div class="card-title">Lancer mon Projet</div>
-                        <p class="card-desc">Décrivez votre besoin pour obtenir un premier cadrage gratuit.</p>
-                        <a href="registration/client.html" class="cta-button primary" style="margin-top: auto; justify-content: center;">Démarrer mon projet</a>
+                    <div class="dash-card highlight" style="border-color: #10b981;">
+                        <div class="card-title">Cadrage de Projet <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">SoloPrice Pro</span></div>
+                        <p class="card-desc">Estimez votre budget et cadrez vos besoins techniques via notre assistant intelligent.</p>
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Simuler mon budget →</a>
+                            <a href="https://solopricepro.vercel.app/closing-assistant" target="_blank" class="cta-button secondary" style="justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981;">Générer mon cahier des charges</a>
+                        </div>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Ressources & Guides</div>
-                        <p class="card-desc">Accédez aux guides pratiques pour réussir vos projets Outre-mer.</p>
-                        <a href="/faq/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les guides</a>
+                        <div class="card-title">Le Blog</div>
+                        <p class="card-desc">Stratégies de réussite Outre-mer.</p>
+                        <a href="/faq/index.html#blog" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Lire les articles</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">Webinaires</div>
+                        <p class="card-desc">Coachings & replays stratégiques.</p>
+                        <a href="/faq/index.html#webinaire" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les replays</a>
+                    </div>
+                    <div class="dash-card">
+                        <div class="card-title">À Propos</div>
+                        <p class="card-desc">Notre vision & impact local.</p>
+                        <a href="/faq/index.html#a-propos" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Découvrir</a>
                     </div>
                 `;
 
