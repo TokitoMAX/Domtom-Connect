@@ -667,7 +667,7 @@
 
             if (error) {
                 console.error("Storage Error:", error);
-                throw new Error("Impossible d'uploader le fichier. Avez-vous créé le bucket 'avatars' dans Supabase ?");
+                throw new Error("Erreur Supabase Storage : " + error.message + " (Vérifiez les politiques RLS du bucket 'avatars')");
             }
 
             // Récupérer l'URL publique
