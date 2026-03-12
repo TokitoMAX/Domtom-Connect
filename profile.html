@@ -340,9 +340,10 @@
             <p class="sidebar-section-label">Menu principal</p>
             <ul class="sidebar-nav">
                 <li><a href="dashboard.html">Vue d'ensemble</a></li>
-                <li><a href="marketplace/directory.html" class="active">Annuaire Talents</a></li>
+                <li><a href="marketplace/directory.html">Annuaire Talents</a></li>
+                <li><a href="marketplace/companies.html">Annuaire Entreprises</a></li>
                 <li><a href="marketplace/jobs.html">Missions</a></li>
-                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="profile.html" class="active">Mon Profil</a></li>
                 <li><a href="messages.html">Messagerie</a></li>
             </ul>
 
@@ -415,13 +416,25 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Nom complet</label>
+                            <label id="label-name">Nom complet</label>
                             <input type="text" id="full_name" name="full_name" placeholder="Ex : Marie Dupont" required
                                 disabled>
                         </div>
                         <div class="form-group">
-                            <label>Titre / Expertise</label>
+                            <label id="label-title">Titre / Expertise</label>
                             <input type="text" id="title" name="title" placeholder="Ex : Développeur Web Full-Stack"
+                                disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row" id="company-specific-fields" style="display:none;">
+                        <div class="form-group">
+                            <label>SIRET (Optionnel)</label>
+                            <input type="text" id="siret" name="siret" placeholder="123 456 789 00012" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Site Web</label>
+                            <input type="url" id="website_url" name="website_url" placeholder="https://votre-site.com"
                                 disabled>
                         </div>
                     </div>
@@ -476,7 +489,7 @@
                                 <input type="hidden" id="skills" name="skills">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div id="tjm-group" class="form-group">
                             <label>TJM indicatif (€)</label>
                             <input type="number" id="tjm" name="tjm" placeholder="Ex : 450" min="0" disabled>
                         </div>
@@ -608,10 +621,12 @@
 
             // Affichage initial
             updateEditBar(roleSelect.value);
+            adaptTerminology(roleSelect.value);
 
             // Evènement sur changement de rôle dans le sélecteur form
             roleSelect.addEventListener('change', function () {
                 updateEditBar(this.value);
+                adaptTerminology(this.value);
             });
 
             // Pré-remplir nom depuis auth
@@ -660,6 +675,8 @@
             if (profile.tjm) document.getElementById('tjm').value = profile.tjm;
             if (profile.linkedin_url) document.getElementById('linkedin_url').value = profile.linkedin_url;
             if (profile.video_url) document.getElementById('video_url').value = profile.video_url;
+            if (profile.siret) document.getElementById('siret').value = profile.siret;
+            if (profile.website_url) document.getElementById('website_url').value = profile.website_url;
             document.getElementById('available').checked = !!profile.available;
             document.getElementById('availability-label').textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
         }
@@ -668,15 +685,42 @@
             const dot = document.getElementById('listing-dot');
             const text = document.getElementById('listing-status-text');
             const subtitle = document.getElementById('page-subtitle');
+            const role = document.getElementById('user_role').value;
+            const isExpert = (role === 'expert' || role === 'prestataire');
+
             if (listed) {
                 dot.classList.add('published');
-                text.textContent = 'Annonce publiée dans l\'annuaire';
+                text.textContent = isExpert ? 'Annonce publiée dans l\'annuaire experts' : 'Entreprise publiée dans l\'annuaire entreprises';
                 text.style.color = '#10b981';
-                subtitle.textContent = 'Votre fiche est visible dans l\'annuaire. Modifiez vos informations à tout moment.';
+                subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
             } else {
                 dot.classList.remove('published');
-                text.textContent = 'Annonce non publiée';
+                text.textContent = 'Non publié dans l\'annuaire';
                 text.style.color = 'var(--text-secondary)';
+            }
+        }
+
+        function adaptTerminology(role) {
+            const isCompany = (role === 'entreprise');
+            const labelName = document.getElementById('label-name');
+            const labelTitle = document.getElementById('label-title');
+            const companyFields = document.getElementById('company-specific-fields');
+            const tjmGroup = document.getElementById('tjm-group');
+            const listingText = document.getElementById('listing-status-text');
+
+            if (isCompany) {
+                labelName.textContent = "Nom de l'entreprise";
+                labelTitle.textContent = "Secteur principal";
+                companyFields.style.display = 'grid';
+                tjmGroup.style.display = 'none';
+                if (listingText.textContent.includes('Annonce')) {
+                    listingText.textContent = "Page profil non publiée";
+                }
+            } else {
+                labelName.textContent = "Nom complet";
+                labelTitle.textContent = "Titre / Expertise";
+                companyFields.style.display = 'none';
+                tjmGroup.style.display = 'block';
             }
         }
 
@@ -740,6 +784,8 @@
                 tjm: parseInt(document.getElementById('tjm').value) || null,
                 linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
                 video_url: document.getElementById('video_url').value.trim() || null,
+                siret: document.getElementById('siret').value.trim() || null,
+                website_url: document.getElementById('website_url').value.trim() || null,
                 available: document.getElementById('available').checked,
                 role: selectedRole,
                 // On met à `false` automatiquement si on quitte le mode Expert
