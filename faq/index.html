@@ -53,6 +53,7 @@
             margin-bottom: 20px;
             background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -296,22 +297,29 @@
             </p>
 
             <!-- Les Piliers -->
-            <div class="piliers-grid">
-                <a href="../blog" class="pilier-card">
+            <div class="piliers-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <a href="../blog/index.html" class="pilier-card">
                     <div class="pilier-icon">📝</div>
                     <h3 class="pilier-title">Le Blog</h3>
                     <p class="pilier-desc">Conseils stratégiques, analyses de marché et portraits d'entrepreneurs
                         locaux.</p>
                     <div class="pilier-cta">Lire les articles <span>→</span></div>
                 </a>
-                <a href="../landing/webinaire" class="pilier-card">
+                <a href="../landing/webinaire/index.html" class="pilier-card">
                     <div class="pilier-icon">🎥</div>
                     <h3 class="pilier-title">Webinaires</h3>
                     <p class="pilier-desc">Sessions de coaching en direct et replays thématiques avec nos meilleurs
                         experts.</p>
                     <div class="pilier-cta">Voir les replays <span>→</span></div>
                 </a>
-                <a href="../a-propos" class="pilier-card">
+                <a href="https://solopricepro.vercel.app/" target="_blank" class="pilier-card"
+                    style="border-color: rgba(16, 185, 129, 0.3);">
+                    <div class="pilier-icon">📊</div>
+                    <h3 class="pilier-title">SoloPrice Pro</h3>
+                    <p class="pilier-desc">Calculez votre rentabilité, votre TJM et cadrez vos projets avec l'IA.</p>
+                    <div class="pilier-cta">Accéder aux outils <span>→</span></div>
+                </a>
+                <a href="../a-propos/index.html" class="pilier-card">
                     <div class="pilier-icon">🤝</div>
                     <h3 class="pilier-title">À Propos</h3>
                     <p class="pilier-desc">Découvrez notre mission, notre équipe et pourquoi nous digitalisons les
@@ -420,7 +428,8 @@
                                 <p>Les tarifs varient selon ton profil. <strong>Porteurs de projet</strong> : Pack Essai
                                     Local (99€ TTC), Pack Pro (500€ TTC), Pack Solution Tout-en-Un (1 900€ TTC).
                                     <strong>Entreprises</strong> : Pack Express (800€ TTC), Pack Coordination (1 500€
-                                    TTC), Pack Partenaire (2 500€ TTC).</p>
+                                    TTC), Pack Partenaire (2 500€ TTC).
+                                </p>
                             </div>
                         </div>
                     </div>
