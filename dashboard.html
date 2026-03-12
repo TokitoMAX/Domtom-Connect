@@ -244,6 +244,70 @@
                 padding: 24px;
             }
         }
+
+        /* Visibility Preview Styles */
+        .preview-widget {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--gray-200);
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .visibility-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .visibility-badge.public {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .visibility-badge.private {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .preview-card-container {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border: 1px dashed var(--gray-300);
+        }
+
+        .mini-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            max-width: 400px;
+            display: flex;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mini-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -341,7 +405,7 @@
                 </div>
 
                 <!-- Profile Strength (Expert Only) -->
-                <div id="profile-strength-container" style="display:none; margin-bottom: 40px;">
+                <div id="profile-strength-container" style="display:none; margin-bottom: 32px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span
                             style="font-size:0.85rem; font-weight:700; color:var(--text-primary); text-transform:uppercase; letter-spacing:0.05em;">Force
@@ -358,6 +422,32 @@
                         style="font-size:0.8rem; color:var(--text-secondary); margin-top:12px; margin-bottom:0;"></p>
                 </div>
 
+                <!-- Visibility Preview Widget -->
+                <div id="visibility-preview-container" class="preview-widget" style="display:none;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+                        <div>
+                            <h2 style="font-size:1.1rem; font-weight:700; margin:0 0 4px 0;">Visibilité Publique</h2>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">Voici comment vous
+                                apparaissez dans l'annuaire.</p>
+                        </div>
+                        <div id="visibility-status-badge"></div>
+                    </div>
+
+                    <div id="preview-card-slot" class="preview-card-container">
+                        <!-- Card Rendered here -->
+                    </div>
+
+                    <div id="visibility-upgrade-prompt"
+                        style="margin-top:20px; padding-top:20px; border-top:1px solid var(--gray-100); display:none;">
+                        <p style="font-size:0.85rem; color:var(--text-primary); font-weight:600; margin-bottom:12px;">📈
+                            Votre profil est invisible pour le moment.</p>
+                        <button onclick="scrollToPacks()" class="cta-button primary"
+                            style="font-size:0.8rem; padding:8px 16px; background:#10b981; border:none;">Passer Premium
+                            pour apparaître</button>
+                    </div>
+                </div>
+
                 <!-- Contenu dynamique selon le rôle -->
                 <div class="cards-grid" id="dashboard-cards">
                     <!-- Rempli par le JS -->
@@ -369,6 +459,53 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
+        function renderVisibilityPreview(profile) {
+            if (!profile) return;
+            const container = document.getElementById('visibility-preview-container');
+            const badge = document.getElementById('visibility-status-badge');
+            const slot = document.getElementById('preview-card-slot');
+            const prompt = document.getElementById('visibility-upgrade-prompt');
+            const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
+            const isListed = !!profile.listed;
+
+            container.style.display = 'block';
+
+            // 1. Badge Status
+            if (isListed) {
+                badge.innerHTML = `<span class="visibility-badge public">● Publié (Actif)</span>`;
+                prompt.style.display = 'none';
+            } else {
+                badge.innerHTML = `<span class="visibility-badge private">● Privé (Invisible)</span>`;
+                prompt.style.display = 'block';
+            }
+
+            // 2. Render Mini Card
+            const name = isExpert ? (profile.full_name || 'Expert') : (profile.company || profile.full_name || 'Entreprise');
+            const initials = name.slice(0, 2).toUpperCase();
+            const avatar = profile.avatar_url
+                ? `<img src="${profile.avatar_url}" class="mini-avatar" alt="Logo">`
+                : `<div class="mini-avatar">${initials}</div>`;
+
+            slot.innerHTML = `
+                <div class="mini-card" style="${!isListed ? 'opacity:0.7; filter:grayscale(0.5);' : ''}">
+                    ${avatar}
+                    <div style="overflow:hidden;">
+                        <h4 style="margin:0 0 4px 0; font-size:0.95rem;">${name}</h4>
+                        <p style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.title || profile.sector || 'Expert Domtom Connect'}</p>
+                        <div style="display:flex; gap:6px; margin-top:8px;">
+                            <span style="font-size:0.65rem; background:var(--bg-light); padding:2px 6px; border-radius:4px; font-weight:600;">${profile.territory || 'OM'}</span>
+                            ${isExpert && profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}€/j</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function scrollToPacks() {
+            const packs = document.getElementById('dashboard-cards').nextElementSibling;
+            if (packs) packs.scrollIntoView({ behavior: 'smooth' });
+        }
+
         function updateProfileStrength(profile) {
             if (!profile) return;
             document.getElementById('profile-strength-container').style.display = 'block';
@@ -507,6 +644,7 @@
 
                 // Update Profile Strength
                 updateProfileStrength(profile);
+                renderVisibilityPreview(profile);
 
                 // === PACKS HYBRIDES ===
                 const packsHTML = `
@@ -696,6 +834,7 @@
                     }).render('#paypal-business-enterprise');
                 }
                 await loadMatchmaking(session.user.id);
+                renderVisibilityPreview(profile);
 
             } else {
                 roleBadge.textContent = "Porteur de Projet";

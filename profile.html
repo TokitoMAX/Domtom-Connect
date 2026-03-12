@@ -601,6 +601,8 @@
     <script>
         let currentUserId = null;
         let isEditing = false;
+        let hasExistingListing = false;
+        let currentSubscriptionTier = 'free';
 
         const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'available', 'siret', 'website_url', 'btn-upload-trigger'];
         let skillTags = [];
@@ -741,7 +743,10 @@
 
             if (profile) {
                 fillForm(profile);
+                hasExistingListing = !!profile.listed;
+                currentSubscriptionTier = profile.subscription_tier || 'free';
                 updateListingStatus(profile.listed);
+                checkMonetizationBanner();
             }
 
             // Toggle dispo
@@ -804,8 +809,27 @@
                 subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
             } else {
                 dot.classList.remove('published');
-                text.textContent = 'Non publié dans l\'annuaire';
+                text.textContent = 'Profil privé (Non listé)';
                 text.style.color = 'var(--text-secondary)';
+                if (currentSubscriptionTier === 'free') {
+                    text.innerHTML += ' <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">🔒 Authority Pack requis</span>';
+                }
+            }
+        }
+
+        function checkMonetizationBanner() {
+            if (currentSubscriptionTier === 'free' && !hasExistingListing) {
+                const bannerHtml = `
+                    <div style="background:linear-gradient(135deg, #0f172a, #1e293b); color:white; padding:20px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden;">
+                        <div style="position:relative; z-index:2;">
+                            <h3 style="margin:0 0 8px 0; font-size:1.1rem; display:flex; align-items:center; gap:8px;">🚀 Boostez votre visibilité</h3>
+                            <p style="margin:0 0 16px 0; font-size:0.9rem; opacity:0.9; line-height:1.5;">Votre profil est actuellement <strong>privé</strong>. <br>L'accès à l'annuaire est réservé aux membres packs pour garantir une qualité optimale à nos clients.</p>
+                            <a href="dashboard.html" class="cta-button primary" style="background:#10b981; border:none; padding:8px 20px; font-size:0.85rem;">Activer mon visibilité (Tarifs)</a>
+                        </div>
+                        <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform:rotate(-15deg);">💎</div>
+                    </div>
+                `;
+                document.getElementById('profile-form').insertAdjacentHTML('beforebegin', bannerHtml);
             }
         }
 
@@ -916,8 +940,8 @@
                 avatar_url: finalAvatarUrl,
                 available: document.getElementById('available').checked,
                 role: selectedRole,
-                // On publie automatiquement si c'est un Expert ou une Entreprise
-                listed: (isExpert || selectedRole === 'entreprise') ? true : false,
+                // Gating Pay-to-List : On ne publie que si payant OU déjà listé
+                listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
                 updated_at: new Date().toISOString()
             };
 
