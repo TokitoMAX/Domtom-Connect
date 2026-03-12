@@ -1,0 +1,45 @@
+﻿961fdce2be1b2b1c51568c20d0d34e7ba1fa6a84 fix: apply isolated header to all blog article pages and root
+
+M	blog.html
+M	blog/entreprendre-depuis-nos-territoires-erreur-episode-4/index.html
+M	blog/insulink-episode-2/index.html
+M	blog/la-verite-sur-les-prestataires-episode-3/index.html
+M	blog/pourquoi-j-ai-cree-domtom-connect-episode-1/index.html
+1a1dd2479f269c8deca897187c6605065143eff1 feat: implement isolated minimal header for Blog, Webinaire and A Propos pages
+
+M	blog/index.html
+65428dc05777d919eee35c14a468e79dc7b8abda feat: Add new 'About Us', blog, and webinar landing pages to the website.
+
+M	a-propos/index.html
+M	blog/article-template.html
+M	blog/index.html
+M	landing/webinaire/index.html
+6dd56b198de7fe94b055503f636f4f3f5b4366c8 feat: Add new service, landing, blog, FAQ, territory, and other content pages, and update existing core pages.
+
+M	a-propos/index.html
+M	blog.html
+M	blog/article-template.html
+M	blog/index.html
+M	dashboard.html
+M	faq/index.html
+M	index.html
+M	landing/autre/index.html
+M	landing/entreprises/index.html
+M	landing/investisseurs/index.html
+M	landing/porteurs-projets/index.html
+M	landing/prestataires/index.html
+M	landing/webinaire/index.html
+M	login.html
+M	ressources/index.html
+M	services/index.html
+M	tarifs/index.html
+M	territoires/guadeloupe/index.html
+M	territoires/guyane/index.html
+M	territoires/martinique/index.html
+M	territoires/mayotte/index.html
+M	territoires/polynesie/index.html
+M	territoires/reunion/index.html
+b235ed2658b3bf6297a8aee7456ae5836668b260 feat: Introduce a new 'Ressources & Guides' page and update dashboard navigation links to dedicated content pages.
+
+M	dashboard.html
+M	faq/index.html

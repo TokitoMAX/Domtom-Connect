@@ -299,25 +299,26 @@
 </head>
 
 <body>
-    <nav class="navbar">
+        <nav class="navbar">
         <div class="container">
-            <a href="../index.html" class="nav-brand">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
                 aria-controls="primary-navigation">
-                <span></span><span></span><span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
             <div class="nav-content" id="primary-navigation">
-                <div class="nav-links">
-                    <a href="../index.html">Accueil</a>
-                    <a href="directory.html" class="active">Talents</a>
-                    <a href="companies.html">Entreprises</a>
-                    <a href="jobs.html">Missions</a>
+                <div class="nav-links" id="nav-links-container">
+                    <a href="../marketplace/directory.html">Talents</a>
+                    <a href="../marketplace/companies.html">Entreprises</a>
                 </div>
-                <div class="nav-actions" id="nav-actions">
-                    <a href="../login.html" class="cta-button secondary">Connexion</a>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>

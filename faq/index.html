@@ -269,26 +269,27 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container"
-            style="display: flex; justify-content: space-between; align-items: center; padding: 15px 24px;">
-            <a href="../index.html" class="nav-brand" title="Retour à l'accueil"
-                style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
-                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 32px;">
-                <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;">Domtom Connect</span>
+        <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <div style="display: flex; gap: 32px; align-items: center;">
-                <a href="../blog/index.html"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
-                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-secondary)'">Blog</a>
-                <a href="../landing/webinaire/index.html"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
-                    onmouseover="this.style.color='#fff'"
-                    onmouseout="this.style.color='var(--text-secondary)'">Webinaire</a>
-                <a href="../a-propos/index.html"
-                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s;"
-                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-secondary)'">À
-                    propos</a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="../marketplace/directory.html">Talents</a>
+                    <a href="../marketplace/companies.html">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
             </div>
         </div>
     </nav>

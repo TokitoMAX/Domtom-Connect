@@ -312,20 +312,27 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container"
-            style="width: 100%; max-width: 100%; padding: 0 24px; display: flex; justify-content: space-between; align-items: center;">
-            <a href="index.html" class="nav-brand" title="Retour à l'accueil">
+        <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <div class="nav-content" style="gap: 16px; display: flex; align-items: center;">
-                <a href="marketplace/directory.html"
-                    style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;">Talents</a>
-                <a href="marketplace/jobs.html"
-                    style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-decoration: none;">Missions</a>
-                <button onclick="handleLogout()" class="cta-button secondary"
-                    style="padding: 6px 16px; font-size: 0.85rem;">Déconnexion</button>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="marketplace/directory.html">Talents</a>
+                    <a href="marketplace/companies.html">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
             </div>
         </div>
     </nav>

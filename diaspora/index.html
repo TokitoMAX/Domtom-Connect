@@ -39,29 +39,26 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+        <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <div class="nav-content">
-                <div class="nav-links">
-                    <div class="nav-dropdown" style="position: relative;">
-                        <a href="/services" class="nav-dropdown-toggle">Trouver des prestataires <span style="font-size: 0.7rem;">▼</span></a>
-                        <div class="nav-dropdown-menu" style="position: absolute; top: 100%; left: 0; background: var(--white); border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); padding: 1rem 0; min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; margin-top: 8px;">
-                            <a href="/services" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Tous les territoires</a>
-                            <a href="/territoires/guadeloupe" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Guadeloupe</a>
-                            <a href="/territoires/martinique" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Martinique</a>
-                            <a href="/territoires/reunion" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">La Réunion</a>
-                            <a href="/territoires/guyane" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Guyane</a>
-                            <a href="/territoires/mayotte" style="display: block; padding: 0.75rem 1.5rem; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s;">Mayotte</a>
-                        </div>
-                    </div>
-                    <a href="/blog">Blog</a>
-                    <a href="/landing/webinaire">Webinaire</a>
-                    <a href="/a-propos">À propos</a>
-                    <a href="/tarifs">Tarifs</a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="../marketplace/directory.html">Talents</a>
+                    <a href="../marketplace/companies.html">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
