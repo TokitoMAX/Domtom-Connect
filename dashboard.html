@@ -664,16 +664,77 @@
                     </div>
                 `;
 
-                const favoritesHTML = `
-                    <div class="saas-widget">
-                        <div class="widget-title">Mes Talents Favoris</div>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; padding: 20px 0;">
-                            Vous n'avez pas encore de favoris.<br>
-                            <a href="marketplace/directory.html" style="color: var(--primary-color);">Parcourir l'annuaire</a> pour en ajouter.
-                        </p>
+                const enterprisePacksHTML = `
+                    <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Gestion de l'Offre</p>
+                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre Pack Entreprise</h2>
+                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Optimisez vos recrutements avec nos solutions sur-mesure.</p>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+
+                            <!-- STARTER -->
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Starter</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Idéal pour tester</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li>— 1 publication de besoin</li>
+                                    <li>— Candidatures libres</li>
+                                    <li>— Outil de discussion interne</li>
+                                    <li style="color:var(--gray-300);">— Matchmaking par Domtom Connect</li>
+                                </ul>
+                                <div style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted);">Plan actuel</div>
+                            </div>
+
+                            <!-- BUSINESS -->
+                            <div style="background:white;border:2px solid #7c3aed;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(124,58,237,0.12);">
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#7c3aed;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Recommandé : Matchmaking</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;margin-bottom:12px;">Business</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">99€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing manuel de 3 experts</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li>— Publications illimitées</li>
+                                    <li>— <strong>3 experts vérifiés</strong> par mission</li>
+                                    <li>— Badge Entreprise Premium</li>
+                                    <li>— Support prioritaire</li>
+                                </ul>
+                                <div id="paypal-business-enterprise" style="margin-top:4px;"></div>
+                            </div>
+
+                            <!-- ENTERPRISE -->
+                            <div style="background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%);border:1.5px solid var(--gray-700);border-radius:16px;padding:28px;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px;">Enterprise</div>
+                                <div style="font-size:1.8rem;font-weight:800;color:white;margin-bottom:4px;">Sur Devis</div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--gray-400);margin-bottom:16px;">Accompagnement VIP</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--gray-300);">
+                                    <li>— Project Manager dédié</li>
+                                    <li>— Contrats & Paiements sécurisés</li>
+                                    <li>— Garantie de livraison</li>
+                                    <li>— Sourcing International</li>
+                                </ul>
+                                <a href="mailto:domtomconnect@gmail.com?subject=Demande Pack Enterprise" class="cta-button primary" style="justify-content:center; background:white; color:var(--text-primary);border:1px solid white;">Nous contacter</a>
+                            </div>
+                        </div>
                     </div>
                 `;
-                dashboardContent.insertAdjacentHTML('beforeend', favoritesHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', enterprisePacksHTML);
+
+                // Paypal Button for Enterprise Business
+                if (typeof paypal !== 'undefined') {
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'pay', height: 40, tagline: false },
+                        createOrder: function (data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{ description: 'Pack Business Entreprise (1 mois) — Domtom Connect', amount: { currency_code: 'EUR', value: '99.00' } }]
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                            return actions.order.capture().then(function () {
+                                alert('Paiement confirmé. Votre Pack Business est activé. Un conseiller va vous contacter pour lancer le matchmaking sur vos besoins.');
+                            });
+                        }
+                    }).render('#paypal-business-enterprise');
+                }
 
             } else {
                 roleBadge.textContent = "Porteur de Projet";
