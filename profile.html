@@ -818,15 +818,22 @@
         }
 
         function checkMonetizationBanner() {
-            if (currentSubscriptionTier === 'free' && !hasExistingListing) {
+            const role = document.getElementById('user_role').value;
+            const isExpert = (role === 'expert' || role === 'prestataire');
+
+            // On ne montre la bannière de boost QUE pour les experts en mode gratuit
+            if (isExpert && currentSubscriptionTier === 'free' && !hasExistingListing) {
                 const bannerHtml = `
-                    <div style="background:linear-gradient(135deg, #0f172a, #1e293b); color:white; padding:20px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden;">
+                    <div style="background:linear-gradient(135deg, #0f172a, #1e293b); color:#ffffff; padding:24px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
                         <div style="position:relative; z-index:2;">
-                            <h3 style="margin:0 0 8px 0; font-size:1.1rem; display:flex; align-items:center; gap:8px;">🚀 Boostez votre visibilité</h3>
-                            <p style="margin:0 0 16px 0; font-size:0.9rem; opacity:0.9; line-height:1.5;">Votre profil est actuellement <strong>privé</strong>. <br>L'accès à l'annuaire est réservé aux membres packs pour garantir une qualité optimale à nos clients.</p>
-                            <a href="dashboard.html" class="cta-button primary" style="background:#10b981; border:none; padding:8px 20px; font-size:0.85rem;">Activer mon visibilité (Tarifs)</a>
+                            <h3 style="margin:0 0 12px 0; font-size:1.25rem; display:flex; align-items:center; gap:10px; color:#ffffff !important; font-weight:800;">🚀 Boostez votre visibilité</h3>
+                            <p style="margin:0 0 20px 0; font-size:1rem; color:#f8fafc !important; opacity:1; line-height:1.6; font-weight:500;">
+                                Votre profil est actuellement <strong style="color:#ffffff;">privé</strong>. <br>
+                                L'accès à l'annuaire est réservé aux membres packs pour garantir une qualité optimale à nos clients.
+                            </p>
+                            <a href="dashboard.html" class="cta-button primary" style="background:#10b981; border:none; padding:10px 24px; font-size:0.9rem; font-weight:700; display:inline-block; text-decoration:none; border-radius:8px;">Activer ma visibilité (Tarifs)</a>
                         </div>
-                        <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform:rotate(-15deg);">💎</div>
+                        <div style="position:absolute; right:-15px; top:-15px; font-size:6rem; opacity:0.1; transform:rotate(15deg); pointer-events:none;">💎</div>
                     </div>
                 `;
                 document.getElementById('profile-form').insertAdjacentHTML('beforebegin', bannerHtml);
@@ -848,15 +855,26 @@
                 labelLogo.textContent = "Logo de l'entreprise";
                 companyFields.style.display = 'grid';
                 tjmGroup.style.display = 'none';
+                document.getElementById('video-presentation-group').style.display = 'block';
                 if (listingText.textContent.includes('Annonce')) {
                     listingText.textContent = "Page profil non publiée";
                 }
+            } else if (role === 'basique') {
+                // Porteur de Projet
+                labelName.textContent = "Nom complet";
+                labelTitle.textContent = "Expertises recherchées";
+                labelLogo.textContent = "Photo de profil";
+                companyFields.style.display = 'none';
+                tjmGroup.style.display = 'none';
+                document.getElementById('video-presentation-group').style.display = 'none';
             } else {
+                // Expert
                 labelName.textContent = "Nom complet";
                 labelTitle.textContent = "Titre / Expertise";
                 labelLogo.textContent = "Photo de profil";
                 companyFields.style.display = 'none';
                 tjmGroup.style.display = 'block';
+                document.getElementById('video-presentation-group').style.display = 'block';
             }
         }
 

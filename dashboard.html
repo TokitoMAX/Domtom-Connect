@@ -468,7 +468,8 @@
             const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
             const isListed = !!profile.listed;
 
-            container.style.display = 'block';
+            container.style.display = isExpert ? 'block' : 'none';
+            if (!isExpert) return;
 
             // 1. Badge Status
             if (isListed) {
@@ -508,6 +509,11 @@
 
         function updateProfileStrength(profile) {
             if (!profile) return;
+            const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
+            if (!isExpert) {
+                document.getElementById('profile-strength-container').style.display = 'none';
+                return;
+            }
             document.getElementById('profile-strength-container').style.display = 'block';
 
             let points = 0;
@@ -649,6 +655,8 @@
 
             if (role === 'expert' || role === 'prestataire') {
                 roleBadge.textContent = "Profil Expert";
+                roleBadge.style.background = "rgba(16, 185, 129, 0.1)";
+                roleBadge.style.color = "#10b981";
 
                 // Résumé rapide en haut
                 cardsContainer.innerHTML = `
@@ -771,8 +779,8 @@
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
-                roleBadge.style.color = "#0284c7";
                 roleBadge.style.background = "rgba(2, 132, 199, 0.1)";
+                roleBadge.style.color = "#0284c7";
 
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #0284c7;">
@@ -863,6 +871,9 @@
 
             } else {
                 roleBadge.textContent = "Porteur de Projet";
+                roleBadge.style.background = "var(--bg-light)";
+                roleBadge.style.color = "var(--text-muted)";
+                roleBadge.style.border = "1px solid var(--gray-200)";
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: var(--primary-color);">
                         <div class="card-title">Lancer mon Projet</div>
