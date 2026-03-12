@@ -377,10 +377,11 @@
             let nextAction = "";
 
             if (profile.full_name) points += 20; else nextAction = "Ajoutez votre nom complet";
-            if (profile.title) points += 20; else if (!nextAction) nextAction = "Précisez votre titre d'expertise";
-            if (profile.bio) points += 20; else if (!nextAction) nextAction = "Rédigez une bio courte";
-            if (profile.skills) points += 20; else if (!nextAction) nextAction = "Ajoutez vos compétences clés";
-            if (profile.video_url) points += 20; else if (!nextAction) nextAction = "Ajoutez une vidéo de présentation pour atteindre 100%";
+            if (profile.title) points += 15; else if (!nextAction) nextAction = "Précisez votre titre d'expertise";
+            if (profile.bio) points += 15; else if (!nextAction) nextAction = "Rédigez une bio courte";
+            if (profile.avatar_url) points += 20; else if (!nextAction) nextAction = "Uploadez votre logo ou photo de profil";
+            if (profile.skills) points += 15; else if (!nextAction) nextAction = "Ajoutez vos compétences clés";
+            if (profile.video_url) points += 15; else if (!nextAction) nextAction = "Ajoutez une vidéo de présentation pour atteindre 100%";
 
             const bar = document.getElementById('strength-bar');
             const perc = document.getElementById('strength-percentage');
