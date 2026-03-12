@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Email – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
+    <style>
+        .confirm-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            padding: 24px;
+        }
+
+        .confirm-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 48px;
+            background: white;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .status-text {
+            color: #64748b;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body class="confirm-page">
+
+    <main class="confirm-card" id="confirm-content">
+        <div class="loader" id="loader"></div>
+        <h1 class="status-title">Validation de votre compte...</h1>
+        <p class="status-text">Veuillez patienter pendant que nous confirmons votre adresse email.</p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        window.addEventListener('load', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const uid = urlParams.get('uid');
+            const content = document.getElementById('confirm-content');
+
+            if (!uid) {
+                showError("Lien invalide ou expiré.");
+                return;
+            }
+
+            try {
+                // Mettre à jour le profil en base
+                const { error } = await _supabase
+                    .from('profiles')
+                    .update({ is_email_verified: true })
+                    .eq('id', uid);
+
+                if (error) throw error;
+
+                showSuccess();
+            } catch (err) {
+                console.error("Erreur confirmation:", err);
+                showError("Une erreur est survenue lors de la validation.");
+            }
+        });
+
+        function showSuccess() {
+            const content = document.getElementById('confirm-content');
+            content.innerHTML = `
+                <div class="status-icon">✅</div>
+                <h1 class="status-title">Email validé !</h1>
+                <p class="status-text">Votre compte est désormais actif. Vous pouvez accéder à votre dashboard.</p>
+                <a href="../dashboard.html" class="cta-button primary" style="width: 100%; display: block; text-decoration: none;">Aller au Dashboard</a>
+            `;
+        }
+
+        function showError(msg) {
+            const content = document.getElementById('confirm-content');
+            content.innerHTML = `
+                <div class="status-icon">❌</div>
+                <h1 class="status-title">Oups...</h1>
+                <p class="status-text">${msg}</p>
+                <a href="../login.html" class="cta-button secondary" style="width: 100%; display: block; text-decoration: none;">Retour à la connexion</a>
+            `;
+        }
+    </script>
+</body>
+
+</html>

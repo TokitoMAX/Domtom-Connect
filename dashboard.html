@@ -619,6 +619,13 @@
                 return;
             }
 
+            // Gating Validation d'Email (Phase 9)
+            if (profile.is_email_verified === false) {
+                console.log("Accès Dashboard refusé: Email non validé.");
+                window.location.href = 'registration/verify-email.html';
+                return;
+            }
+
             const roleBadge = document.getElementById('user-role-badge');
             const cardsContainer = document.getElementById('dashboard-cards');
             const dashboardContent = document.getElementById('dashboard-content');

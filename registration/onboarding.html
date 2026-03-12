@@ -297,8 +297,14 @@
                 }
 
                 await updateUserProfile(metadata);
-                // Redirection vers le dashboard
-                window.location.href = '../dashboard.html';
+
+                // ENVOI DE L'EMAIL DE VALIDATION (Phase 9)
+                const email = session.user.email;
+                const fullName = session.user.user_metadata.full_name || email.split('@')[0];
+                await sendVerificationEmail(email, fullName, session.user.id);
+
+                // Redirection vers la page d'attente email
+                window.location.href = 'verify-email.html';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);
             }
