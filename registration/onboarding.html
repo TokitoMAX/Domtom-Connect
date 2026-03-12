@@ -305,8 +305,8 @@
                 }
 
                 await updateUserProfile(metadata);
-                // Redirection vers le dashboard
-                window.location.href = '../dashboard.html';
+                // Redirection vers la page de vérification explicite (Phase 11)
+                window.location.href = 'verify-email.html';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);
             }

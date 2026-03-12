@@ -612,6 +612,23 @@
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
             const profile = await getProfile(session.user.id);
 
+            // Gating Explicite Domtom (Phase 11)
+            // Si l'utilisateur arrive avec un hash de type 'magiclink' ou 'signup', on valide son profil Domtom
+            const hash = window.location.hash;
+            if (hash.includes('type=magiclink') || hash.includes('type=signup')) {
+                if (profile && !profile.domtom_verified) {
+                    console.log("Validation Domtom détectée via lien. Mise à jour...");
+                    await upsertProfile(session.user.id, { domtom_verified: true });
+                    profile.domtom_verified = true; // Update local state
+                }
+            }
+
+            if (profile && profile.domtom_verified === false) {
+                console.log("Accès Dashboard refusé: Validation Domtom manquante.");
+                window.location.href = 'registration/verify-email.html';
+                return;
+            }
+
             // Priorité : user_metadata.role (source de vérité sync avec onboarding)
             // Fallback : profile.role (table Supabase)
             const role = session.user.user_metadata.role || (profile ? profile.role : null);
