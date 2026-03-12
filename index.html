@@ -193,6 +193,7 @@
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
                     <a href="marketplace/directory.html">Talents</a>
+                    <a href="marketplace/companies.html">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
                     <a href="login.html" class="cta-button secondary" id="login-link">Connexion</a>
@@ -504,15 +505,11 @@
                 }
 
                 // Ajouter liens personnalisés selon rôle
-                let extraLinks = '';
+                let extraLinks = '<a href="marketplace/directory.html">Talents</a><a href="marketplace/companies.html">Entreprises</a>';
                 if (role === 'expert') {
-                    extraLinks = '<a href="dashboard.html">Missions</a>';
+                    extraLinks += '<a href="dashboard.html">Missions</a>';
                 } else if (role === 'entreprise') {
-                    extraLinks = '<a href="dashboard.html">Projets</a>';
-                } else if (role === 'basique') {
-                    extraLinks = '<a href="marketplace/directory.html">Talents</a>';
-                } else {
-                    extraLinks = '<a href="dashboard.html">Mon Espace</a>';
+                    extraLinks += '<a href="dashboard.html">Projets</a>';
                 }
 
                 navLinks.innerHTML = extraLinks;
