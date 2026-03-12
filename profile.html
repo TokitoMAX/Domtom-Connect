@@ -641,7 +641,7 @@
 
             if (profile) {
                 fillForm(profile);
-                if (isExpert) updateListingStatus(profile.listed);
+                updateListingStatus(profile.listed);
             }
 
             // Toggle dispo
@@ -788,8 +788,8 @@
                 website_url: document.getElementById('website_url').value.trim() || null,
                 available: document.getElementById('available').checked,
                 role: selectedRole,
-                // On met à `false` automatiquement si on quitte le mode Expert
-                listed: isExpert ? true : false,
+                // On publie automatiquement si c'est un Expert ou une Entreprise
+                listed: (isExpert || selectedRole === 'entreprise') ? true : false,
                 updated_at: new Date().toISOString()
             };
 
