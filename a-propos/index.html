@@ -49,26 +49,21 @@
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="../index.html" class="nav-brand" title="Retour à l'accueil"
-                style="text-decoration: none; display: flex; align-items: center;">
-                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
+    <!-- Navigation Isolée -->
+    <nav class="navbar"
+        style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container"
+            style="display: flex; justify-content: space-between; align-items: center; height: 72px;">
+            <a href="../index.html" class="nav-brand" title="Domtom Connect"
+                style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 32px;">
+                <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;">Domtom Connect</span>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links">
-                    <a href="/blog/index.html">Blog</a>
-                    <a href="/landing/webinaire/index.html">Webinaire</a>
-                    <a href="/a-propos/index.html">À propos</a>
-                </div>
+            <div class="nav-actions">
+                <a href="javascript:history.back()" class="cta-button secondary"
+                    style="padding: 8px 20px; font-size: 0.9rem; border-color: rgba(255,255,255,0.2); color: white; background: transparent;">
+                    ← Retour
+                </a>
             </div>
         </div>
     </nav>
