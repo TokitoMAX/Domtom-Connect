@@ -490,13 +490,13 @@
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
 
             document.getElementById('nav-actions').innerHTML = `
-                <div class="user-menu-wrapper">
-                    <span class="user-greeting">Bonjour, ${name}</span>
-                    <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
+                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
+                    <a href="../dashboard.html" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
+                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
                 </div>
             `;
 
-            if (currentUserRole === 'company' || currentUserRole === 'project_owner') {
+            if (currentUserRole === 'entreprise') {
                 document.getElementById('company-banner').style.display = 'flex';
             }
 

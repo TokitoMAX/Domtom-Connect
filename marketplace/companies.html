@@ -217,7 +217,7 @@
                     <a href="jobs.html">Missions</a>
                 </div>
                 <div class="nav-actions" id="nav-actions">
-                    <a href="../profile.html" class="cta-button secondary nav-logout-btn">Mon Profil</a>
+                    <a href="../login.html" class="cta-button secondary">Connexion</a>
                 </div>
             </div>
         </div>
@@ -280,7 +280,13 @@
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
                 const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-                document.getElementById('nav-actions').innerHTML = `<span>${name}</span>`;
+
+                document.getElementById('nav-actions').innerHTML = `
+                    <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
+                        <a href="../dashboard.html" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
+                        <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
+                    </div>
+                `;
 
                 if (currentUserRole === 'entreprise') {
                     document.getElementById('company-banner').style.display = 'flex';
@@ -339,10 +345,66 @@
                     </div>
                     <div class="company-actions">
                         <a href="../messages.html?to=${company.id}" class="btn-contact">Contacter</a>
-                        <a href="${company.linkedin_url || '#'}" target="_blank" class="btn-web">Profil</a>
+                        <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Profil</button>
                     </div>
                 </div>
             `;
+        }
+
+        async function showCompanyDetails(id) {
+            const { data: company, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
+            if (error || !company) return;
+
+            const name = company.company || company.full_name || 'Entreprise';
+            const initials = name.slice(0, 2).toUpperCase();
+
+            // Injection dans une modal (reutilisant l'overlay existant)
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-header">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div class="company-logo" style="width:40px; height:40px; font-size:1rem;">${initials}</div>
+                            <h2 style="margin:0;">${name}</h2>
+                        </div>
+                        <button class="modal-close" onclick="closeModal()">×</button>
+                    </div>
+                    <div style="margin-bottom:24px;">
+                        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">${company.bio || 'Aucune description disponible.'}</p>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+                        <div>
+                            <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Secteur</label>
+                            <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.sector || '—'}</p>
+                        </div>
+                        <div>
+                            <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Territoire</label>
+                            <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.territory || '—'}</p>
+                        </div>
+                        <div>
+                            <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">SIRET</label>
+                            <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.siret || 'Vérifié'}</p>
+                        </div>
+                        <div>
+                            <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Site Web</label>
+                            <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">
+                                ${company.website_url ? `<a href="${company.website_url}" target="_blank" style="color:#0369a1; text-decoration:underline;">Visiter le site</a>` : '—'}
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <a href="../messages.html?to=${company.id}" class="btn-contact" style="background:#0369a1;">Envoyer un message</a>
+                        ${company.linkedin_url ? `<a href="${company.linkedin_url}" target="_blank" class="btn-web">LinkedIn</a>` : ''}
+                    </div>
+                </div>
+            `;
+
+            const overlay = document.getElementById('details-modal-overlay');
+            overlay.innerHTML = modalHtml;
+            overlay.classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('details-modal-overlay').classList.remove('open');
         }
 
         function openCompanyModal() {
@@ -351,6 +413,9 @@
 
         init();
     </script>
+
+    <!-- Modal Overlay Dynamique -->
+    <div class="modal-overlay" id="details-modal-overlay" onclick="if(event.target === this) closeModal()"></div>
 </body>
 
 </html>

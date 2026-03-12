@@ -141,6 +141,40 @@
             color: var(--text-primary);
         }
 
+        /* Logo/Avatar Upload */
+        .avatar-upload-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed var(--gray-300);
+        }
+
+        .avatar-preview {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -414,6 +448,32 @@
                 <div class="profile-form-card">
                     <h2>Informations principales</h2>
 
+                    <!-- Upload de Logo / Photo (File based) -->
+                    <div class="avatar-upload-container">
+                        <div id="avatar-preview" class="avatar-preview">DC</div>
+                        <div style="flex:1;">
+                            <label id="label-logo"
+                                style="display:block; font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:8px;">Logo
+                                ou Photo de profil</label>
+
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <input type="file" id="logo-file" accept="image/*" style="display:none;"
+                                    onchange="handleFileSelect(this)">
+                                <button type="button" class="cta-button secondary"
+                                    style="font-size:0.8rem; padding:8px 16px;"
+                                    onclick="document.getElementById('logo-file').click()" disabled
+                                    id="btn-upload-trigger">
+                                    Choisir un fichier
+                                </button>
+                                <span id="file-name" style="font-size:0.75rem; color:var(--text-muted);">Aucun fichier
+                                    choisi</span>
+                            </div>
+                            <input type="hidden" id="avatar_url" name="avatar_url">
+                            <p style="font-size:0.7rem; color:var(--text-muted); margin-top:8px;">Format PNG ou JPG
+                                recommandé (Max 2Mo).</p>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label id="label-name">Nom complet</label>
@@ -542,7 +602,7 @@
         let currentUserId = null;
         let isEditing = false;
 
-        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'available', 'siret', 'website_url'];
+        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'available', 'siret', 'website_url', 'btn-upload-trigger'];
         let skillTags = [];
 
         function renderTags() {
@@ -573,6 +633,46 @@
             if (!isEditing) return;
             skillTags.splice(index, 1);
             renderTags();
+        }
+
+        async function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert("Le fichier est trop lourd (Max 2Mo).");
+                return;
+            }
+
+            document.getElementById('file-name').textContent = file.name;
+
+            // Prévisualisation instantanée
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('avatar-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function uploadFile(file) {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${currentUserId}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+            const filePath = `logos/${fileName}`;
+
+            // Tentative d'upload vers Supabase Storage (Bucket 'avatars' ou 'logos')
+            // Note : L'utilisateur doit avoir créé le bucket dans Supabase
+            const { data, error } = await _supabase.storage
+                .from('avatars')
+                .upload(filePath, file);
+
+            if (error) {
+                console.error("Storage Error:", error);
+                throw new Error("Impossible d'uploader le fichier. Avez-vous créé le bucket 'avatars' dans Supabase ?");
+            }
+
+            // Récupérer l'URL publique
+            const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(filePath);
+            return publicUrl;
         }
 
         window.addEventListener('load', async () => {
@@ -676,7 +776,16 @@
             if (profile.linkedin_url) document.getElementById('linkedin_url').value = profile.linkedin_url;
             if (profile.video_url) document.getElementById('video_url').value = profile.video_url;
             if (profile.siret) document.getElementById('siret').value = profile.siret;
-            if (profile.website_url) document.getElementById('website_url').value = profile.website_url;
+            if (profile.website_url) document.getElementById('website_url').value = profile.website_url || '';
+            if (profile.avatar_url) {
+                document.getElementById('avatar_url').value = profile.avatar_url;
+                document.getElementById('avatar-preview').innerHTML = `<img src="${profile.avatar_url}" alt="Logo">`;
+                document.getElementById('file-name').textContent = "Fichier actuel enregistré";
+            }
+            else {
+                const name = profile.full_name || 'DC';
+                document.getElementById('avatar-preview').textContent = name.slice(0, 2).toUpperCase();
+            }
             document.getElementById('available').checked = !!profile.available;
             document.getElementById('availability-label').textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
         }
@@ -707,10 +816,12 @@
             const companyFields = document.getElementById('company-specific-fields');
             const tjmGroup = document.getElementById('tjm-group');
             const listingText = document.getElementById('listing-status-text');
+            const labelLogo = document.getElementById('label-logo');
 
             if (isCompany) {
                 labelName.textContent = "Nom de l'entreprise";
                 labelTitle.textContent = "Secteur principal";
+                labelLogo.textContent = "Logo de l'entreprise";
                 companyFields.style.display = 'grid';
                 tjmGroup.style.display = 'none';
                 if (listingText.textContent.includes('Annonce')) {
@@ -719,6 +830,7 @@
             } else {
                 labelName.textContent = "Nom complet";
                 labelTitle.textContent = "Titre / Expertise";
+                labelLogo.textContent = "Photo de profil";
                 companyFields.style.display = 'none';
                 tjmGroup.style.display = 'block';
             }
@@ -772,6 +884,21 @@
                 return;
             }
 
+            // Gestion de l'upload réel si un fichier a été sélectionné
+            let finalAvatarUrl = document.getElementById('avatar_url').value;
+            const fileInput = document.getElementById('logo-file');
+
+            if (fileInput.files.length > 0) {
+                try {
+                    btn.textContent = 'Upload du logo...';
+                    finalAvatarUrl = await uploadFile(fileInput.files[0]);
+                } catch (e) {
+                    alert(e.message);
+                    resetBtn(btn, isExpert);
+                    return;
+                }
+            }
+
             // Options de sauvegarde base de données profil
             const profileData = {
                 id: currentUserId,
@@ -786,6 +913,7 @@
                 video_url: document.getElementById('video_url').value.trim() || null,
                 siret: document.getElementById('siret').value.trim() || null,
                 website_url: document.getElementById('website_url').value.trim() || null,
+                avatar_url: finalAvatarUrl,
                 available: document.getElementById('available').checked,
                 role: selectedRole,
                 // On publie automatiquement si c'est un Expert ou une Entreprise
