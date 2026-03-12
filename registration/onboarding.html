@@ -212,6 +212,14 @@
                     window.location.href = '../login.html';
                     return;
                 }
+
+                // Gating Native Supabase (Phase 10)
+                if (!session.user.email_confirmed_at) {
+                    console.log("Accès Onboarding refusé: Email non confirmé nativement.");
+                    window.location.href = 'verify-email.html';
+                    return;
+                }
+
                 const role = session.user?.user_metadata?.role || null;
 
                 // Vérifier si le profil existe réellement en base

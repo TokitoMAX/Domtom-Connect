@@ -602,6 +602,13 @@
                 return;
             }
 
+            // Gating Native Supabase (Phase 10)
+            if (!session.user.email_confirmed_at) {
+                console.log("Accès Dashboard refusé: Email non confirmé nativement.");
+                window.location.href = 'registration/verify-email.html';
+                return;
+            }
+
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
             const profile = await getProfile(session.user.id);
 
