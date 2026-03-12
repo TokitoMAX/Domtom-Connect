@@ -213,9 +213,20 @@
                     return;
                 }
                 const role = session.user?.user_metadata?.role || null;
-                if (role) {
-                    // Rôle déjà défini → pas besoin de repasser par l'onboarding
+
+                // Vérifier si le profil existe réellement en base
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (role && profile) {
+                    // Rôle déjà défini ET profil existant → pas besoin de repasser par l'onboarding
                     window.location.href = '../dashboard.html';
+                } else if (role && !profile) {
+                    console.log("Incohérence détectée: Rôle présent mais Profil absent. Nettoyage...");
+                    // Optionnel: On pourrait tenter de nettoyer les metadata ici si nécessaire
                 }
             } catch (err) {
                 console.error('Erreur session onboarding:', err);

@@ -612,8 +612,9 @@
 
             document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
-            if (!role) {
-                // Si pas de rôle du tout, on force l'onboarding
+            if (!profile || !role) {
+                // Si pas de profil en base OU pas de rôle, on force l'onboarding
+                console.log("Accès Dashboard refusé: Profil ou Rôle manquant. Redirection Onboarding.");
                 window.location.href = 'registration/onboarding.html';
                 return;
             }
