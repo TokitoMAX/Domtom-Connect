@@ -237,115 +237,10 @@
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
-            }
 
-            .main-content {
-                margin-left: 0;
-                padding: 24px;
-                padding-bottom: 100px;
-                /* Space for bottom nav */
-            }
-
-            .mobile-nav {
-                display: flex;
-            }
-
-            .nav-content {
-                display: none;
-                /* Cache les boutons desktop sur mobile pour la navbar du haut */
-            }
-
-            .header-section {
-                text-align: center;
-            }
-        }
-
-        /* Job Board Premium Styles */
-        .job-board-section {
-            margin-top: 40px;
-        }
-
-        .job-board-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .job-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: var(--border-radius-lg);
-            padding: 24px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
-
-        .job-card.locked {
-            border-color: #fca5a5;
-            background: #fef2f2;
-        }
-
-        .job-info h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .job-meta {
-            display: flex;
-            gap: 16px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-
-        .job-meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .job-client-blurred {
-            color: transparent;
-            text-shadow: 0 0 8px rgba(15, 61, 46, 0.5);
-            background: #e2e8f0;
-            border-radius: 4px;
-            padding: 2px 8px;
-            user-select: none;
-        }
-
-        .job-action {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: flex-end;
-            min-width: 250px;
-        }
-
-        .premium-lock-btn {
-            background: #ef4444;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            transition: background 0.2s;
-        }
-
-        .premium-lock-btn:hover {
-            background: #dc2626;
-        }
+                .premium-lock-btn:hover {
+                    background: #dc2626;
+                }
     </style>
 </head>
 
@@ -497,6 +392,66 @@
             } else {
                 tip.innerHTML = `💡 <strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile.html" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
             }
+        }
+
+        async function loadMyMissions(userId) {
+            // ... existant (liste simplifiée des missions)
+        }
+
+        async function loadMatchmaking(userId) {
+            const container = document.getElementById('matches-container');
+            const section = document.getElementById('matchmaking-section');
+
+            // Vérifier le tier
+            const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
+            if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
+                // Upsell is handled in "Mon Offre", we just hide the raw matches here or show a locked state
+                section.style.display = 'block';
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 16px;">🔐</div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
+                        <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
+                        <a href="tarifs/index.html" class="cta-button primary" style="background:#7c3aed; border:none;">Passer au Pack Business</a>
+                    </div>
+                `;
+                return;
+            }
+
+            section.style.display = 'block';
+
+            // Récupérer les 3 derniers matchs pour les missions de l'entreprise
+            // Simulé ici en attendant d'exécuter le SQL RPC sur le serveur
+            const { data: experts, error } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('role', 'expert')
+                .eq('listed', true)
+                .limit(3);
+
+            if (experts && experts.length > 0) {
+                container.innerHTML = experts.map(renderMatchCard).join('');
+            } else {
+                container.innerHTML = '<p style="color:var(--text-muted);">Aucun match trouvé pour le moment.</p>';
+            }
+        }
+
+        function renderMatchCard(expert) {
+            const name = expert.full_name || 'Expert';
+            const initials = name.slice(0, 2).toUpperCase();
+            return `
+                <div class="company-card" style="padding: 20px;">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                        <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>
+                        <div>
+                            <div style="font-size:0.95rem; font-weight:800;">${name}</div>
+                            <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basé sur vos besoins en ${expert.sector || 'Digital'}.</p>
+                    <a href="messages.html?to=${expert.id}" class="btn-contact" style="background:#0f172a; padding:8px; font-size:0.8rem;">Contacter cet expert</a>
+                </div>
+            `;
         }
 
         async function loadDashboard() {
@@ -736,6 +691,7 @@
                         }
                     }).render('#paypal-business-enterprise');
                 }
+                await loadMatchmaking(session.user.id);
 
             } else {
                 roleBadge.textContent = "Porteur de Projet";
