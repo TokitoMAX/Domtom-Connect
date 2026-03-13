@@ -909,57 +909,41 @@
 
                 const projectOwnerPacksHTML = `
                     <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Monétisation & Réussite</p>
-                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Choisissez votre accompagnement</h2>
-                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Des solutions adaptées à chaque étape de votre projet Outre-mer.</p>
+                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Monétisation & Impact</p>
+                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Boostez votre visibilité</h2>
+                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Un accompagnement sur-mesure pour propulser votre projet Outre-mer.</p>
 
-                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:900px;">
 
                             <!-- DECOUVERTE -->
-                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:32px;">
                                 <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Découverte</div>
-                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
-                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Tester l'écosystème</p>
-                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                <div style="font-size:2.25rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                                <p style="font-size:0.9rem;font-weight:600;color:var(--text-muted);margin-bottom:20px;">Gratuit — Pour débuter</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:12px;font-size:0.9rem;color:var(--text-secondary);">
                                     <li>— Lecture du Blog Stratégique</li>
-                                    <li>— Replays Webinaires Publics</li>
-                                    <li>— 1 Simulation SoloPrice / mois</li>
-                                    <li style="color:var(--gray-300);">— Pas de matching prioritaire</li>
+                                    <li>— Publication de 1 Besoin / mois</li>
+                                    <li style="color:var(--gray-300);">— Pas de mise en avant</li>
+                                    <li style="color:var(--gray-300);">— Pas de matchmaking direct</li>
                                 </ul>
-                                <div id="current-plan-free-po" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:none;">Votre plan actuel</div>
+                                <div id="current-plan-free-po" style="background:var(--bg-light);border-radius:8px;padding:12px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:none;">Votre plan actuel</div>
                             </div>
 
-                            <!-- ACCOMPAGNEMENT -->
-                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
-                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Accompagnement</div>
-                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">19,99€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Outils & Formation — Pour structurer</p>
-                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>SoloPrice Pro</strong> Illimité</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">— Accès <strong>Webinaires Live</strong></li>
-                                    <li>— Librairie de Replays Premium</li>
-                                    <li>— Template Cahier des charges</li>
-                                    <li>— Support Communauté</li>
-                                </ul>
-                                <div id="paypal-accompagnement-po" style="margin-top:4px;"></div>
-                                <div id="current-plan-accompagnement-po" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
-                            </div>
-
-                            <!-- MATCHING -->
-                            <div style="background:white;border:2px solid #047857;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(4,120,87,0.12);">
-                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#047857;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Réussite Rapide</div>
-                                <div style="font-size:0.75rem;font-weight:700;color:#047857;text-transform:uppercase;margin-bottom:12px;">Mise en Relation</div>
-                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">49,00€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing & Réseau — Pour lancer</p>
-                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li style="font-weight:600;color:var(--text-primary);">— Tout le pack Accompagnement</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>Sourcing Experts</strong> Prioritaire</li>
-                                    <li style="font-weight:600;color:var(--text-primary);">— 1 <strong>RDV Stratégique</strong> / trimestre</li>
+                            <!-- INFLUENCE & ACCOMPAGNEMENT -->
+                            <div style="background:white;border:2px solid #047857;border-radius:16px;padding:32px;position:relative;box-shadow:0 12px 32px rgba(4,120,87,0.12);">
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#047857;color:white;font-size:0.7rem;font-weight:800;padding:4px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Pack Recommandé</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#047857;text-transform:uppercase;margin-bottom:12px;">Pack Influence & Accompagnement</div>
+                                <div style="font-size:2.25rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">49,99€<span style="font-size:1.1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.9rem;font-weight:600;color:var(--text-muted);margin-bottom:20px;">Influence & Sourcing — Le pack complet</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:12px;font-size:0.95rem;color:var(--text-secondary);">
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>1 Interview Podcast</strong> dédiée</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>2 Mises en avant</strong> réseaux sociaux</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>Matchmaking Humain</strong> (Mise en relation directe)</li>
                                     <li>— Accès <strong>Checklist "Business Locaux"</strong></li>
-                                    <li>— Audit de profil Expert direct</li>
+                                    <li>— Support Prioritaire & Point Stratégique</li>
                                 </ul>
                                 <div id="paypal-matching-po" style="margin-top:4px;"></div>
-                                <div id="current-plan-matching-po" style="background:rgba(4,120,87,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#047857; display:none;">Votre plan actuel</div>
+                                <div id="current-plan-matching-po" style="background:rgba(4,120,87,0.1);border-radius:8px;padding:12px;text-align:center;font-weight:700;font-size:0.875rem;color:#047857; display:none;">Votre plan actuel</div>
                             </div>
 
                         </div>
@@ -982,18 +966,6 @@
 
                 // Paypal Buttons for Project Owner
                 if (typeof paypal !== 'undefined') {
-                    // Accompagnement
-                    paypal.Buttons({
-                        style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
-                        createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-PO-ACCOMPAGNEMENT' });
-                        },
-                        onApprove: function (data, actions) {
-                            handleSubscriptionSuccess(data.subscriptionID, 'accompagnement');
-                        }
-                    }).render('#paypal-accompagnement-po');
-
-                    // Matching
                     paypal.Buttons({
                         style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
                         createSubscription: function (data, actions) {
@@ -1006,10 +978,7 @@
                 }
 
                 // Affichage du plan
-                if (tier === 'accompagnement') {
-                    document.getElementById('current-plan-accompagnement-po').style.display = 'block';
-                    document.getElementById('paypal-accompagnement-po').style.display = 'none';
-                } else if (tier === 'matching') {
+                if (tier === 'matching') {
                     document.getElementById('current-plan-matching-po').style.display = 'block';
                     document.getElementById('paypal-matching-po').style.display = 'none';
                 } else {
