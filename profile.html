@@ -375,6 +375,10 @@
             padding: 20px;
         }
 
+        .sub-modal-overlay.active {
+            display: flex !important;
+        }
+
         .sub-modal {
             background: white;
             border-radius: 20px;
@@ -1007,78 +1011,71 @@
             const price = document.getElementById('sub-modal-price');
 
             if (role === 'entreprise') {
-                title.textContent = 'Pack Business';
-                price.innerHTML = '19,99€<span>/mois</span>';
+                title.textContent = 'Pack Business Entreprise';
+                price.innerHTML = '49€<span>/mois</span>';
                 benefits.innerHTML = `
-                    <li>✅ Entreprise listée en priorité</li>
-                    <li>✅ Badge "Vérifié" & Bannière pro</li>
-                    <li>✅ Publication de missions illimitées</li>
-                    <li>✅ Accès au Matchmaking Experts</li>
+                    <li>✅ Visibilité Prioritaire dans l'annuaire</li>
+                    <li>✅ Missions illimitées</li>
+                    <li>✅ **Podcast Corporate** dédié</li>
+                    <li>✅ 2-3 Contenus réseaux sociaux / mois</li>
+                    <li>✅ 1 Point Stratégique par mois</li>
                 `;
+                renderPayPalButton('P-2AD33929SN244782KNG2ARPY', 'business');
             } else {
-                title.textContent = 'Pack Authority';
+                title.textContent = 'Pack Authority Expert';
                 price.innerHTML = '9,99€<span>/mois</span>';
                 benefits.innerHTML = `
                     <li>✅ Profil listé dans l'annuaire</li>
                     <li>✅ Badge "Vérifié" permanent</li>
-                    <li>✅ 3-4 contenus créés / mois</li>
+                    <li>✅ **Visibilité** : 3-4 posts / mois</li>
                     <li>✅ Participation aux podcasts DC</li>
                 `;
+                renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority');
             }
 
-            modal.style.display = 'flex';
-            renderPayPalButton(role);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeSubModal() {
-            document.getElementById('subscription-modal').style.display = 'none';
+            document.getElementById('subscription-modal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('paypal-button-container').innerHTML = '';
         }
 
-        let paypalButtonsRendered = false;
-        function renderPayPalButton(role) {
-            if (paypalButtonsRendered) return;
-            paypalButtonsRendered = true;
+        function renderPayPalButton(planId, tier) {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = '';
 
-            const planId = (role === 'entreprise') ? 'P-XXXXXXXXXXXX_BUSINESS' : 'P-XXXXXXXXXXXX_AUTHORITY';
-
-            paypal.Buttons({
-                style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'vertical',
-                    label: 'subscribe'
-                },
-                createSubscription: function (data, actions) {
-                    return actions.subscription.create({
-                        'plan_id': planId // Note: Remplacer par un vrai Plan ID Production
-                    });
-                },
-                onApprove: function (data, actions) {
-                    handleSubscriptionSuccess(data.subscriptionID, role);
-                }
-            }).render('#paypal-button-container');
+            if (typeof paypal !== 'undefined') {
+                paypal.Buttons({
+                    style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
+                    createSubscription: function (data, actions) {
+                        return actions.subscription.create({ 'plan_id': planId });
+                    },
+                    onApprove: function (data, actions) {
+                        handleSubscriptionSuccess(data.subscriptionID, tier);
+                    }
+                }).render('#paypal-button-container');
+            }
         }
 
-        async function handleSubscriptionSuccess(subId, role) {
-            const btn = document.getElementById('paypal-button-container');
-            btn.innerHTML = '<p style="color:#10b981; font-weight:700; text-align:center;">Paiement réussi ! Activation en cours...</p>';
-
-            const tier = (role === 'entreprise') ? 'business' : 'authority';
-
+        async function handleSubscriptionSuccess(subscriptionId, tier) {
             const { error } = await _supabase
                 .from('profiles')
                 .update({
                     subscription_tier: tier,
-                    subscription_status: 'active',
-                    subscription_id: subId,
+                    subscription_id: subscriptionId,
+                    last_payment_date: new Date().toISOString(),
                     listed: true
                 })
                 .eq('id', currentUserId);
 
             if (error) {
-                alert("Erreur lors de l'activation : " + error.message);
+                alert('Erreur SQL : ' + error.message);
             } else {
-                setTimeout(() => window.location.reload(), 2000);
+                alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
+                window.location.reload();
             }
         }
 
@@ -1173,81 +1170,6 @@
             fb.textContent = msg;
             fb.style.color = '#ef4444';
             fb.style.display = 'block';
-        }
-
-        function openSubModal(role) {
-            const modal = document.getElementById('subscription-modal');
-            const title = document.getElementById('sub-modal-title');
-            const benefits = document.getElementById('sub-modal-benefits');
-            const price = document.getElementById('sub-modal-price');
-
-            if (role === 'entreprise') {
-                title.textContent = 'Pack Business Entreprise';
-                price.innerHTML = '49€<span>/mois</span>';
-                benefits.innerHTML = `
-                    <li>✅ Visibilité Prioritaire dans l'annuaire</li>
-                    <li>✅ Missions illimitées</li>
-                    <li>✅ **Podcast Corporate** dédié</li>
-                    <li>✅ 2-3 Contenus réseaux sociaux / mois</li>
-                    <li>✅ 1 Point Stratégique par mois</li>
-                `;
-                renderPayPalButton('P-XXXXXXXXXXXX_BUSINESS', 'business');
-            } else {
-                title.textContent = 'Pack Authority Expert';
-                price.innerHTML = '9,99€<span>/mois</span>';
-                benefits.innerHTML = `
-                    <li>✅ Profil listé dans l'annuaire</li>
-                    <li>✅ Badge "Vérifié" permanent</li>
-                    <li>✅ **Visibilité** : 3-4 posts / mois</li>
-                    <li>✅ Participation aux podcasts DC</li>
-                `;
-                renderPayPalButton('P-XXXXXXXXXXXX_AUTHORITY', 'authority');
-            }
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSubModal() {
-            document.getElementById('subscription-modal').classList.remove('active');
-            document.body.style.overflow = '';
-            // Optionnel : détruire le bouton PayPal pour éviter les duplicatas au prochain open
-            document.getElementById('paypal-button-container').innerHTML = '';
-        }
-
-        function renderPayPalButton(planId, tier) {
-            const container = document.getElementById('paypal-button-container');
-            container.innerHTML = ''; // Clear
-
-            if (typeof paypal !== 'undefined') {
-                paypal.Buttons({
-                    style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
-                    createSubscription: function (data, actions) {
-                        return actions.subscription.create({ 'plan_id': planId });
-                    },
-                    onApprove: function (data, actions) {
-                        handleSubscriptionSuccess(data.subscriptionID, tier);
-                    }
-                }).render('#paypal-button-container');
-            }
-        }
-
-        async function handleSubscriptionSuccess(subscriptionId, tier) {
-            const { error } = await _supabase
-                .from('profiles')
-                .update({
-                    subscription_tier: tier,
-                    subscription_id: subscriptionId,
-                    last_payment_date: new Date().toISOString()
-                })
-                .eq('id', currentUserId);
-
-            if (error) {
-                alert('Erreur SQL : ' + error.message);
-            } else {
-                alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
-                window.location.reload();
-            }
         }
 
         function resetBtn(btn, isExpert) {
