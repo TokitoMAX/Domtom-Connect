@@ -485,6 +485,8 @@
         let currentUserRole = null;
         let cachedProfiles = {}; // Cache pour les entreprises
 
+        let currentSubscriptionTier = 'free';
+
         async function init() {
             const session = await getSession();
             if (!session) { window.location.href = '../login.html'; return; }
@@ -492,6 +494,15 @@
             currentUserId = session.user.id;
             currentUserRole = session.user.user_metadata?.role || null;
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+
+            // Récupérer le tier d'abonnement
+            const { data: profile } = await _supabase
+                .from('profiles')
+                .select('subscription_tier')
+                .eq('id', currentUserId)
+                .single();
+
+            if (profile) currentSubscriptionTier = profile.subscription_tier || 'free';
 
             document.getElementById('nav-actions-container').innerHTML = `
                 <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
@@ -664,6 +675,25 @@
                 budget: document.getElementById('j-budget').value.trim() || null,
                 is_active: true
             };
+
+            // Vérification du quota pour les comptes gratuits (Max 1 mission)
+            if (currentSubscriptionTier !== 'business' && currentSubscriptionTier !== 'influence') {
+                const { count, error: countError } = await _supabase
+                    .from('job_offers')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('company_id', currentUserId)
+                    .eq('is_active', true);
+
+                if (countError) console.error("Erreur comptage missions:", countError);
+
+                if (count >= 1) {
+                    closeJobModal();
+                    openPremiumModal();
+                    btn.textContent = 'Publier l\'offre';
+                    btn.disabled = false;
+                    return;
+                }
+            }
 
             const { error } = await _supabase.from('job_offers').insert([data]);
 
