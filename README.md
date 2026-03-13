@@ -1,145 +1,46 @@
-# Domtom Connect - Site Vitrine
+# Domtom Connect - Plateforme SaaS d'Expertise Stratégique
 
-Site vitrine moderne et responsive pour la startup Domtom Connect, une plateforme dédiée à la valorisation des projets des îles françaises et indépendantes.
+Domtom Connect est une plateforme SaaS dédiée à la sécurisation des investissements et à la connexion entre les entreprises et les meilleurs experts de la diaspora ultramarine (Antilles et Guyane).
 
-## 🚀 Fonctionnalités
+## 🚀 Fonctionnalités Clés
 
-- **Design moderne et responsive** : Interface utilisateur élégante adaptée à tous les appareils
-- **Animations fluides** : Effets visuels et interactions engageantes
-- **Navigation intuitive** : Menu responsive avec défilement fluide
-- **Sections complètes** : Hero, projets, territoires, services, à propos, contact
-- **Catalogue de projets** : Filtrage par catégorie et territoire
-- **Formulaire de soumission** : Système de notification intégré
-- **Optimisations performance** : Chargement rapide et expérience utilisateur optimale
+- **Marketplace de Talents** : Annuaire complet d'experts qualifiés et vérifiés.
+- **Job Board (Missions)** : Publication et gestion d'annonces de missions stratégiques.
+- **Dashboard Utilisateur** : Espaces personnalisés selon le rôle (Expert, Entreprise, Porteur de projet).
+- **Messagerie Interne** : Système de mise en relation directe sécurisée.
+- **SoloPrice Pro** : Intégration d'outils de cadrage financier et d'aide au closing.
+- **Gestion Premium** : Système d'abonnement (Pack Authority, Business) via PayPal.
 
-## 📁 Structure du projet
+## 🛠️ Stack Technique
+
+- **Frontend** : HTML5, CSS3 (Vanilla), JavaScript ES6+
+- **Backend Services** : Supabase (Authentification, Base de données, Storage)
+- **Paiements** : PayPal SDK Integration
+- **Hébergement/Dev** : Vercel / Locally via `vercel dev`
+
+## 📁 Structure du Projet
 
 ```
 DomtomConnect-Website/
-├── index.html              # Page principale
-├── assets/
-│   ├── css/
-│   │   └── style.css       # Styles CSS
-│   ├── js/
-│   │   └── script.js       # JavaScript
-│   └── images/             # Images (à ajouter)
-└── README.md               # Documentation
+├── assets/                 # Ressources globales (CSS, JS, Images)
+├── marketplace/            # Annuaire (Talents, Entreprises) et Missions
+├── dashboard.html          # Dashboard principal unifié
+├── profile.html            # Gestion du profil utilisateur
+├── messages.html           # Centre de messagerie
+├── registration/           # Flux d'onboarding et d'inscription par rôle
+├── territoires/            # Pages dédiées par territoire (Martinique, Guyane, etc.)
+├── admin/                  # Outils d'administration (Tracking leads)
+└── api/                    # Fonctions backend (si applicables)
 ```
 
-## 🎨 Sections du site
+## 🚀 Installation et Développement
 
-### 1. Navigation
-- Menu responsive avec logo Domtom Connect
-- Liens de navigation vers toutes les sections
-- Bouton d'action "Commencer"
-
-### 2. Hero Section
-- Titre accrocheur avec mise en avant des projets des îles
-- Description de la plateforme
-- Boutons d'action
-- Statistiques authentiques (100% authentique, 0 données fictives, ∞ potentiel)
-- Mockup d'application mobile
-
-### 3. Projets
-- Catalogue de projets avec filtrage par catégorie
-- 4 exemples génériques (économique, culturel, environnemental, social)
-- Barres de progression à 0% (en attente de soumission)
-- Informations génériques (territoire à définir, budget à évaluer)
-
-### 4. Territoires
-- 12 territoires représentés (DOM-TOM + îles indépendantes)
-- Statut "En attente" pour tous les territoires
-- Cartes interactives avec drapeaux
-
-### 5. Services
-- 3 services principaux :
-  - Découverte de projets
-  - Mise en relation
-  - Suivi et évaluation
-
-### 6. À propos
-- Mission de l'entreprise
-- Vision et valeurs
-- Points forts de la plateforme
-
-### 7. Contact
-- Formulaire de soumission de projet
-- Informations de contact
-- Sélection des territoires et types de projets
-
-### 8. Footer
-- Liens utiles
-- Réseaux sociaux
-- Informations légales
-
-## 🛠️ Technologies utilisées
-
-- **HTML5** : Structure sémantique
-- **CSS3** : Styles modernes avec variables CSS, Grid, Flexbox
-- **JavaScript ES6+** : Interactions et animations
-- **Font Awesome** : Icônes
-- **Google Fonts** : Typographie Inter
-
-## 📱 Responsive Design
-
-Le site est entièrement responsive et s'adapte à :
-- **Desktop** : 1200px et plus
-- **Tablet** : 768px - 1199px
-- **Mobile** : 320px - 767px
-
-## 🎯 Fonctionnalités JavaScript
-
-- Navigation mobile avec hamburger menu
-- Défilement fluide entre les sections
-- Animations au scroll (Intersection Observer)
-- Compteurs animés pour les statistiques
-- Filtrage de projets par catégorie
-- Formulaire de soumission avec validation
-- Système de notifications
-- Effets de parallaxe
-- Animation de frappe pour le titre
-- Barres de progression animées
-- Cartes de territoires interactives
-- Effets de ripple sur les boutons
-- Optimisations de performance
-
-## 🚀 Installation et utilisation
-
-1. **Cloner ou télécharger** le projet
-2. **Ouvrir** `index.html` dans un navigateur web
-3. **Personnaliser** le contenu selon vos besoins
-
-## 🎨 Personnalisation
-
-### Couleurs
-Les couleurs sont définies dans les variables CSS :
-```css
-:root {
-    --primary-color: #2563eb;
-    --secondary-color: #f59e0b;
-    --accent-color: #10b981;
-    /* ... */
-}
-```
-
-### Contenu
-- Modifier le texte dans `index.html`
-- Ajouter des images dans `assets/images/`
-- Personnaliser les projets et territoires
-
-### Styles
-- Modifier `assets/css/style.css` pour les styles
-- Ajouter des animations dans `assets/js/script.js`
-
-## 📧 Contact
-
-Pour toute question ou personnalisation :
-- Email : domtomconnect@gmail.com
+1. **Prérequis** : Avoir l'outil `vercel` installé (`npm i -g vercel`).
+2. **Installation** : Cloner le dépôt et lancer `npm install`.
+3. **Lancement** : `npm run dev` pour démarrer le serveur de développement local avec les fonctions Vercel.
 
 ## 📄 Licence
 
-© 2024 Domtom Connect. Tous droits réservés.
-
+© 2025 Domtom Connect. Tous droits réservés.
 ---
-
-**Domtom Connect** - Valorisez les projets des îles françaises et indépendantes
+**Domtom Connect** - L'accélérateur de business nouvelle génération pour les territoires ultramarins.
