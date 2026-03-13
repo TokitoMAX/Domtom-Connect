@@ -178,7 +178,7 @@
 
 <body>
     <!-- Navigation -->
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
@@ -507,9 +507,9 @@
                 // Ajouter liens personnalisés selon rôle
                 let extraLinks = '<a href="marketplace/directory.html">Talents</a><a href="marketplace/companies.html">Entreprises</a><a href="marketplace/jobs.html">Missions</a>';
                 if (role === 'expert') {
-                    extraLinks += '<a href="dashboard.html">Missions</a>';
+                    // "Missions" est déjà dans extraLinks de base, on ne l'ajoute plus ici
                 } else if (role === 'entreprise') {
-                    extraLinks += '<a href="dashboard.html">Projets</a>';
+                    // Optionnel: ajouter des liens spécifiques entreprise si besoin
                 }
 
                 navLinks.innerHTML = extraLinks;

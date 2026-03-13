@@ -60,7 +60,7 @@ htmlFiles.forEach(file => {
     let content = fs.readFileSync(file, 'utf8');
 
     // We want to replace <div class="nav-links" id="nav-links-container">
-    const navRegex = /<div class="nav-links" id="nav-links-container">\s*<a href="([^"]+)marketplace\/directory.html">Talents<\/a>\s*<a href="([^"]+)marketplace\/companies.html">Entreprises<\/a>\s*<\/div>/;
+    const navRegex = /<div class="nav-links" id="nav-links-container">[\s\S]*?<a href="([^"]+)marketplace\/directory.html">Talents<\/a>\s*<a href="([^"]+)marketplace\/companies.html">Entreprises<\/a>(?!\s*<a href="[^"]+marketplace\/jobs\.html">Missions<\/a>)[\s\S]*?<\/div>/;
 
     if (navRegex.test(content)) {
         const depth = getDepth(file);
