@@ -603,7 +603,8 @@ function getBudgetLabel(value) {
         'moins-300': 'Moins de 300 €',
         '300-1000': '300-1 000 €',
         '1000-3000': '1 000-3 000 €',
-        'plus-3000': 'Plus de 3 000 €'
+        'plus-3000': 'Plus de 3 000 €',
+        'non-defini': 'Pas encore défini'
     };
     return labels[value] || value || 'Non renseigné';
 }
@@ -617,91 +618,45 @@ function getEngagementLabel(value) {
     return labels[value] || value || 'Non renseigné';
 }
 
-// Fonction pour déterminer le pack et les facilités de paiement selon budget + engagement
+// Fonction pour déterminer le pack selon budget + engagement (MAJ SaaS)
 function determinePackAndPayment(budget, engagement) {
-    // Si pas d'engagement ou engagement = "non", pas de pack
+    // Si pas d'engagement ou engagement = "non", pas de pack proposé d'emblée
     if (!engagement || engagement === 'non') {
         return {
             pack: null,
-            packName: 'Aucun pack proposé',
+            packName: 'Accès Libre',
             packPrice: null,
             paymentPlan: 'Appel de découverte gratuit',
-            action: 'Redirection vers newsletter/ressources'
+            action: 'Redirection vers ressources/communauté'
         };
     }
 
-    // Déterminer le pack selon le budget
-    let packInfo = null;
-
-    if (budget === '300-1000') {
-        packInfo = {
-            pack: 'starter',
-            packName: 'Pack Starter',
-            basePrice: 500
-        };
-    } else if (budget === '1000-3000' || budget === 'plus-3000') {
-        packInfo = {
-            pack: 'premium',
-            packName: 'Pack Premium',
-            basePrice: 1900
-        };
-    } else {
-        // Budget insuffisant ou non défini
+    // Déterminer le profil conseillé
+    if (budget === 'moins-300' || budget === '300-1000') {
         return {
-            pack: null,
-            packName: 'À discuter',
-            packPrice: null,
-            paymentPlan: 'Appel de découverte gratuit',
-            action: 'Qualification nécessaire'
+            pack: 'business',
+            packName: 'Pack Business (Conseillé)',
+            packPrice: '49€/mois',
+            paymentPlan: 'Abonnement mensuel',
+            action: 'Recommandation Pack Business'
+        };
+    } else if (budget === '1000-3000' || budget === 'plus-3000' || budget === 'non-defini') {
+        return {
+            pack: 'enterprise',
+            packName: 'Offre Enterprise',
+            packPrice: 'Sur Devis',
+            paymentPlan: 'Accompagnement Sur Mesure',
+            action: 'Priorité Appel Stratégique'
         };
     }
 
-    // Adapter les facilités de paiement selon l'engagement
-    if (engagement === 'oui') {
-        // Engagement clair : paiement standard
-        if (packInfo.pack === 'starter') {
-            return {
-                ...packInfo,
-                packPrice: `${packInfo.basePrice}€ TTC`,
-                paymentPlan: 'Paiement standard (1 fois)',
-                paymentDetails: `${packInfo.basePrice}€ en une fois`,
-                action: 'Priorité sur l\'appel - Proposition directe'
-            };
-        } else {
-            return {
-                ...packInfo,
-                packPrice: `${packInfo.basePrice}€ TTC`,
-                paymentPlan: 'Paiement en 2 fois',
-                paymentDetails: `${Math.round(packInfo.basePrice / 2)}€ + ${Math.round(packInfo.basePrice / 2)}€`,
-                action: 'Priorité sur l\'appel - Proposition directe'
-            };
-        }
-    } else if (engagement === 'pas-sure') {
-        // Engagement hésitant : facilités de paiement
-        if (packInfo.pack === 'starter') {
-            return {
-                ...packInfo,
-                packPrice: `${packInfo.basePrice}€ TTC`,
-                paymentPlan: 'Paiement en 2 fois (facilité)',
-                paymentDetails: `${Math.round(packInfo.basePrice / 2)}€ + ${Math.round(packInfo.basePrice / 2)}€`,
-                action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
-            };
-        } else {
-            // Calcul précis pour 3 fois : s'assurer que la somme = basePrice
-            const part1 = Math.floor(packInfo.basePrice / 3);
-            const part2 = Math.floor(packInfo.basePrice / 3);
-            const part3 = packInfo.basePrice - part1 - part2; // Le reste pour la dernière échéance
-            return {
-                ...packInfo,
-                packPrice: `${packInfo.basePrice}€ TTC`,
-                paymentPlan: 'Paiement en 3 fois (facilité)',
-                paymentDetails: `${part1}€ + ${part2}€ + ${part3}€`,
-                action: 'Appel de découverte - Présentation de valeur - Facilités de paiement'
-            };
-        }
-    }
-
-    return packInfo;
+    return {
+        pack: 'audit',
+        packName: 'Audit Flash',
+        packPrice: 'Sur Devis',
+        paymentPlan: 'Diagnostic',
+        action: 'Appel découverte'
+    };
 }
 
 // Fonctions helper pour les prestataires

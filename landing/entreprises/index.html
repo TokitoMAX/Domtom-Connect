@@ -59,6 +59,7 @@
                     <a href="../../marketplace/directory.html">Talents</a>
                     <a href="../../marketplace/companies.html">Entreprises</a>
                     <a href="../../marketplace/jobs.html">Missions</a>
+                    <a href="../../index.html#pricing">Nos Offres</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
                     <a href="../../login.html" class="cta-button secondary" id="login-link">Connexion</a>
@@ -181,14 +182,10 @@
 
         // Fonction pour déterminer le pack selon le budget
         function getPackInfo(budget) {
-            if (budget === 'moins-300') {
-                return { name: 'Pack Business (Abonnement)', price: '49€/mois', description: 'Visibilité prioritaire, missions illimitées & sourcing direct' };
-            } else if (budget === '300-1000') {
-                return { name: 'Pack Express (Accompagnement)', price: '800€', description: 'Recherche de prestataires qualifiés par nos soins' };
-            } else if (budget === '1000-3000') {
-                return { name: 'Pack Coordination', price: '1 500€', description: 'Un projet complexe ? Multi-prestataires' };
-            } else if (budget === 'plus-3000') {
-                return { name: 'Pack Partenaire', price: '2 500€', description: 'Besoin récurrent ? Accompagnement 6-12 mois' };
+            if (budget === 'moins-300' || budget === '300-1000') {
+                return { name: 'Pack Business (SaaS)', price: '49€/mois', description: 'Visibilité prioritaire, sourcing talents, matchmaking IA & publication de missions' };
+            } else if (budget === '1000-3000' || budget === 'plus-3000' || budget === 'non-defini') {
+                return { name: 'Solution Enterprise', price: 'Sur Devis', description: 'Accompagnement stratégique 360°, sourcing Diaspora dédié et gestion de projet de A à Z' };
             }
             return null;
         }

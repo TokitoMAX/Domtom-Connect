@@ -5,7 +5,6 @@ const targetDirs = [
     '.', // root
     'faq',
     'services',
-    'tarifs',
     'ressources',
     'diaspora',
     'territoires/reunion',
@@ -60,7 +59,7 @@ htmlFiles.forEach(file => {
     let content = fs.readFileSync(file, 'utf8');
 
     // We want to replace <div class="nav-links" id="nav-links-container">
-    const navRegex = /<div class="nav-links" id="nav-links-container">[\s\S]*?<a href="([^"]+)marketplace\/directory.html">Talents<\/a>\s*<a href="([^"]+)marketplace\/companies.html">Entreprises<\/a>(?!\s*<a href="[^"]+marketplace\/jobs\.html">Missions<\/a>)[\s\S]*?<\/div>/;
+    const navRegex = /<div class="nav-links" id="nav-links-container">[\s\S]*?<a href="([^"]+)marketplace\/directory.html">Talents<\/a>\s*<a href="([^"]+)marketplace\/companies.html">Entreprises<\/a>(?!\s*<a href="[^"]+index\.html#pricing">Nos Offres<\/a>)[\s\S]*?<\/div>/;
 
     if (navRegex.test(content)) {
         const depth = getDepth(file);
@@ -69,6 +68,7 @@ htmlFiles.forEach(file => {
             '                    <a href="' + prefix + 'marketplace/directory.html">Talents</a>\n' +
             '                    <a href="' + prefix + 'marketplace/companies.html">Entreprises</a>\n' +
             '                    <a href="' + prefix + 'marketplace/jobs.html">Missions</a>\n' +
+            '                    <a href="' + (prefix || './') + 'index.html#pricing">Nos Offres</a>\n' +
             '                </div>';
 
         content = content.replace(navRegex, newNavLinks);
