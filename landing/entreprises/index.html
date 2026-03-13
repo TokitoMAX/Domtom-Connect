@@ -42,7 +42,7 @@
 </head>
 
 <body>
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
@@ -181,8 +181,10 @@
 
         // Fonction pour déterminer le pack selon le budget
         function getPackInfo(budget) {
-            if (budget === '300-1000') {
-                return { name: 'Pack Express', price: '800€', description: 'Recherche de prestataires qualifiés' };
+            if (budget === 'moins-300') {
+                return { name: 'Pack Business (Abonnement)', price: '49€/mois', description: 'Visibilité prioritaire, missions illimitées & sourcing direct' };
+            } else if (budget === '300-1000') {
+                return { name: 'Pack Express (Accompagnement)', price: '800€', description: 'Recherche de prestataires qualifiés par nos soins' };
             } else if (budget === '1000-3000') {
                 return { name: 'Pack Coordination', price: '1 500€', description: 'Un projet complexe ? Multi-prestataires' };
             } else if (budget === 'plus-3000') {
