@@ -891,19 +891,78 @@
                         </div>
                     </div>
                     <div class="dash-card">
-                        <div class="card-title">Le Blog</div>
-                        <p class="card-desc">Stratégies de réussite Outre-mer.</p>
+                        <div class="card-title">Intelligence Économique</div>
+                        <p class="card-desc">Décryptages exclusifs & Stratégies pour réussir votre implantation Outre-mer.</p>
                         <a href="/blog/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Lire les articles</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Webinaires</div>
-                        <p class="card-desc">Coachings & replays stratégiques.</p>
-                        <a href="/landing/webinaire/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir les replays</a>
+                        <p class="card-desc">Maîtrisez les clés du succès : Réservez votre place pour le prochain Live.</p>
+                        <a href="/landing/webinaire/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">S'inscrire au Webinaire</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">À Propos</div>
                         <p class="card-desc">Notre vision & impact local.</p>
                         <a href="/a-propos/index.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Découvrir</a>
+                    </div>
+                `;
+
+                const projectOwnerPacksHTML = `
+                    <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                        <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Monétisation & Réussite</p>
+                        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Choisissez votre accompagnement</h2>
+                        <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Des solutions adaptées à chaque étape de votre projet Outre-mer.</p>
+
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+
+                            <!-- DECOUVERTE -->
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Découverte</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Tester l'écosystème</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li>— Lecture du Blog Stratégique</li>
+                                    <li>— Replays Webinaires Publics</li>
+                                    <li>— 1 Simulation SoloPrice / mois</li>
+                                    <li style="color:var(--gray-300);">— Pas de matching prioritaire</li>
+                                </ul>
+                                <div id="current-plan-free-po" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:none;">Votre plan actuel</div>
+                            </div>
+
+                            <!-- ACCOMPAGNEMENT -->
+                            <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                                <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Accompagnement</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">19,99€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Outils & Formation — Pour structurer</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>SoloPrice Pro</strong> Illimité</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— Accès <strong>Webinaires Live</strong></li>
+                                    <li>— Librairie de Replays Premium</li>
+                                    <li>— Template Cahier des charges</li>
+                                    <li>— Support Communauté</li>
+                                </ul>
+                                <div id="paypal-accompagnement-po" style="margin-top:4px;"></div>
+                                <div id="current-plan-accompagnement-po" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
+                            </div>
+
+                            <!-- MATCHING -->
+                            <div style="background:white;border:2px solid #047857;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(4,120,87,0.12);">
+                                <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#047857;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Réussite Rapide</div>
+                                <div style="font-size:0.75rem;font-weight:700;color:#047857;text-transform:uppercase;margin-bottom:12px;">Mise en Relation</div>
+                                <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">49,00€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                                <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing & Réseau — Pour lancer</p>
+                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                    <li style="font-weight:600;color:var(--text-primary);">— Tout le pack Accompagnement</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— <strong>Sourcing Experts</strong> Prioritaire</li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— 1 <strong>RDV Stratégique</strong> / trimestre</li>
+                                    <li>— Accès <strong>Checklist "Business Locaux"</strong></li>
+                                    <li>— Audit de profil Expert direct</li>
+                                </ul>
+                                <div id="paypal-matching-po" style="margin-top:4px;"></div>
+                                <div id="current-plan-matching-po" style="background:rgba(4,120,87,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#047857; display:none;">Votre plan actuel</div>
+                            </div>
+
+                        </div>
                     </div>
                 `;
 
@@ -918,7 +977,44 @@
                         </p>
                     </div>
                 `;
+                dashboardContent.insertAdjacentHTML('beforeend', projectOwnerPacksHTML);
                 dashboardContent.insertAdjacentHTML('beforeend', projectsHTML);
+
+                // Paypal Buttons for Project Owner
+                if (typeof paypal !== 'undefined') {
+                    // Accompagnement
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({ 'plan_id': 'P-PO-ACCOMPAGNEMENT' });
+                        },
+                        onApprove: function (data, actions) {
+                            handleSubscriptionSuccess(data.subscriptionID, 'accompagnement');
+                        }
+                    }).render('#paypal-accompagnement-po');
+
+                    // Matching
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({ 'plan_id': 'P-PO-MATCHING' });
+                        },
+                        onApprove: function (data, actions) {
+                            handleSubscriptionSuccess(data.subscriptionID, 'matching');
+                        }
+                    }).render('#paypal-matching-po');
+                }
+
+                // Affichage du plan
+                if (tier === 'accompagnement') {
+                    document.getElementById('current-plan-accompagnement-po').style.display = 'block';
+                    document.getElementById('paypal-accompagnement-po').style.display = 'none';
+                } else if (tier === 'matching') {
+                    document.getElementById('current-plan-matching-po').style.display = 'block';
+                    document.getElementById('paypal-matching-po').style.display = 'none';
+                } else {
+                    document.getElementById('current-plan-free-po').style.display = 'block';
+                }
             }
         }
 
