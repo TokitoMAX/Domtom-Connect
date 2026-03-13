@@ -257,17 +257,22 @@
         </main>
     </div>
 
+    <!-- Supabase & Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/form-security.js"></script>
+
     <script>
-        function handleOnboarding(event) {
+        async function handleOnboarding(event) {
             event.preventDefault();
-            const btn = document.getElementById('submitBtn');
             const form = event.target;
+            const btn = document.getElementById('submitBtn');
+            const formData = new FormData(form);
 
             // Validations Anti-Fake (si dispo)
-            const emailField = form.querySelector('input[name="email"]').value;
-            const descField = form.querySelector('textarea[name="description"]').value;
-            const companyField = form.querySelector('input[name="company"]').value;
+            const emailField = formData.get('email');
+            const descField = formData.get('description');
+            const companyField = formData.get('company');
 
             if (window.formSecurity) {
                 if (!window.formSecurity.isValidEmail(emailField)) {
@@ -285,37 +290,64 @@
             }
 
             btn.disabled = true;
-            btn.textContent = 'Envoi sécurisé en cours...';
+            btn.innerText = 'Envoi en cours...';
 
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
+            try {
+                // 1. Sauvegarde dans Supabase si l'utilisateur est connecté
+                const session = await getSession();
+                if (session) {
+                    const projectData = {
+                        owner_id: session.user.id,
+                        title: formData.get('project_title') || 'Nouveau Projet',
+                        description: `Type: ${formData.get('project_type')}\nBrief: ${formData.get('description')}\nBudget: ${formData.get('budget')}`,
+                        territory: formData.get('territory') || 'Non précisé',
+                        status: 'Idée',
+                        needs: formData.get('description'),
+                        is_listed: false
+                    };
 
-            fetch('https://formspree.io/f/myzbqepy', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-            }).then(response => {
+                    const { error: sbError } = await _supabase
+                        .from('projects')
+                        .insert([projectData]);
+
+                    if (sbError) console.error('Erreur Supabase:', sbError);
+
+                    await upsertProfile({
+                        id: session.user.id,
+                        role: 'project_owner',
+                        domtom_verified: true
+                    });
+                }
+
+                // 2. Envoi Formspree
+                const response = await fetch('https://formspree.io/f/myzbqepy', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
                 if (response.ok) {
-                    document.getElementById('onboardingForm').innerHTML = `
-                        <div style="text-align: center; padding: 40px 0;">
+                    form.innerHTML = `
+                        <div style="background: #ecfdf5; color: #065f46; padding: 40px 24px; border-radius: 12px; border: 1px solid #10b981; text-align: center;">
                             <div style="margin-bottom: 24px;">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                             </div>
-                            <h2 style="font-weight: 800; margin-bottom: 12px;">Dossier reçu.</h2>
-                            <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
-                                Un Project Manager analyse votre demande et les profils correspondants.<br>
-                                Nous vous appelons sous 24 à 48 heures.
-                            </p>
-                            <a href="/" class="cta-button secondary" style="border: 1px solid var(--gray-200); justify-content: center;">Retour à l'accueil</a>
+                            <h3 style="margin-bottom: 12px; font-weight:800;">🚀 Projet reçu avec succès !</h3>
+                            <p style="color:var(--text-secondary); margin-bottom: 32px;">Votre projet a été enregistré. Un Expert Domtom Connect vous contactera sous 24h à 48h.</p>
+                            <a href="../dashboard.html" class="cta-button primary" style="display: inline-block;">Aller au Tableau de Bord</a>
                         </div>
                     `;
                 } else {
-                    btn.disabled = false;
-                    btn.textContent = 'Erreur serveur - Réessayer';
+                    throw new Error('Erreur lors de l\'envoi Formspree');
                 }
-            });
+            } catch (error) {
+                console.error(error);
+                alert("Oups ! Une erreur est survenue lors de l'envoi. Veuillez réessayer.");
+                btn.disabled = false;
+                btn.innerText = 'Soumettre mon besoin';
+            }
         }
     </script>
 </body>

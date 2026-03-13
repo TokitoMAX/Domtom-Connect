@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrine des Projets – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <style>
+        /* Bandeau CTA publication */
+        .project-cta-banner {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            border: 1px solid #065f46;
+            border-radius: 12px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-cta-banner p {
+            font-size: 0.95rem;
+            color: #d1fae5;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .project-cta-banner strong {
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Cartes Projet */
+        .premium-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border-color: #d1d5db;
+        }
+
+        .premium-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .project-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #ecfdf5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #059669;
+            border: 1px solid #d1fae5;
+        }
+
+        .premium-info h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+            line-height: 1.3;
+        }
+
+        .premium-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #059669;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .premium-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .premium-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--gray-200);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tag.tag-need {
+            background: rgba(4, 120, 87, 0.1);
+            color: #047857;
+            border-color: rgba(4, 120, 87, 0.2);
+        }
+
+        .premium-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            border-top: 1px solid var(--gray-100);
+            padding-top: 20px;
+        }
+
+        .btn-premium-contact {
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-premium-contact:hover {
+            background: #047857;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="../marketplace/directory.html">Talents</a>
+                    <a href="../marketplace/companies.html">Entreprises</a>
+                    <a href="../marketplace/jobs.html">Missions</a>
+                    <a href="../marketplace/projects.html" class="active">Projets</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="directory-header">
+        <div class="container">
+            <div class="section-header">
+                <h1>Vitrine des Projets</h1>
+                <p>Découvrez les initiatives stratégiques et les projets en cours de développement sur nos territoires.
+                </p>
+            </div>
+            <div class="search-bar-v3">
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-input" placeholder="Rechercher un projet, une idée...">
+                </div>
+                <div class="search-select-wrapper">
+                    <select id="territory-filter">
+                        <option value="">Tous les territoires</option>
+                        <option value="Martinique">Martinique</option>
+                        <option value="Guadeloupe">Guadeloupe</option>
+                        <option value="Guyane">Guyane</option>
+                        <option value="Réunion">Réunion</option>
+                        <option value="Ocean Indien">Océan Indien</option>
+                        <option value="Diaspora">Diaspora</option>
+                    </select>
+                </div>
+                <button class="cta-button primary" style="padding: 12px 24px;" onclick="loadProjects()">Filtrer</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 32px;">
+
+        <!-- Bandeau porteur de projet -->
+        <div class="project-cta-banner" id="project-banner" style="display:none;">
+            <div>
+                <p><strong>Vous avez une idée ou un projet ?</strong></p>
+                <p style="color: #d1fae5; font-size: 0.85rem; margin-top: 4px;">Rejoignez le programme d'accompagnement
+                    pour propulser votre initiative et trouver vos futurs partenaires.</p>
+            </div>
+            <a href="../dashboard.html" class="cta-button primary"
+                style="white-space:nowrap;background:#ffffff;color:#065f46;border:none;">
+                Propulser mon projet
+            </a>
+        </div>
+
+        <div class="directory-grid" id="projects-container" style="display: none;"></div>
+
+        <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun projet n'est encore affiché pour cette
+                recherche.</p>
+            <p style="color: var(--text-muted);">Soyez le premier à publier votre projet stratégique !</p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        let currentUserId = null;
+        let currentUserRole = null;
+
+        async function init() {
+            const session = await getSession();
+            if (session) {
+                currentUserId = session.user.id;
+                currentUserRole = session.user.user_metadata?.role || null;
+                const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+
+                document.getElementById('nav-actions-container').innerHTML = `
+                    <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
+                        <a href="../dashboard.html" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
+                        <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
+                    </div>
+                `;
+
+                if (currentUserRole === 'project_owner' || currentUserRole === 'porteur_projet') {
+                    document.getElementById('project-banner').style.display = 'flex';
+                }
+            }
+
+            await loadProjects();
+        }
+
+        async function loadProjects() {
+            const container = document.getElementById('projects-container');
+            const emptyState = document.getElementById('empty-state');
+            try {
+                const searchTxt = document.getElementById('search-input').value.toLowerCase();
+                const territoryFilter = document.getElementById('territory-filter').value;
+
+                let query = _supabase
+                    .from('projects')
+                    .select('*')
+                    .eq('is_listed', true)
+                    .order('created_at', { ascending: false });
+
+                if (territoryFilter) query = query.eq('territory', territoryFilter);
+
+                const { data: projects, error } = await query;
+
+                if (error) throw error;
+
+                let filteredProjects = projects;
+                if (searchTxt) {
+                    filteredProjects = projects.filter(p =>
+                        p.title.toLowerCase().includes(searchTxt) ||
+                        p.description.toLowerCase().includes(searchTxt)
+                    );
+                }
+
+                if (!filteredProjects || !filteredProjects.length) {
+                    emptyState.style.display = 'block';
+                    container.style.display = 'none';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+                container.style.display = 'grid';
+                container.innerHTML = filteredProjects.map(renderProjectCard).join('');
+            } catch (err) {
+                console.error('Erreur chargement projets :', err);
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function renderProjectCard(project) {
+            const initials = project.title.slice(0, 2).toUpperCase();
+            const avatar = project.image_url
+                ? `<img src="${project.image_url}" class="project-avatar" alt="${project.title}">`
+                : `<div class="project-avatar">${initials}</div>`;
+
+            const needs = project.needs ? project.needs.split(',').map(n => `<span class="tag tag-need">${n.trim()}</span>`).join('') : '';
+
+            return `
+                <div class="premium-card">
+                    <div class="premium-card-header">
+                        ${avatar}
+                        <div class="premium-info">
+                            <div class="premium-status">${project.status || 'En cours'}</div>
+                            <h3>${project.title}</h3>
+                        </div>
+                    </div>
+
+                    <p class="premium-bio">${project.description}</p>
+
+                    <div class="premium-tags">
+                        <span class="tag">📍 ${project.territory}</span>
+                        ${needs}
+                    </div>
+                    
+                    <div class="premium-actions">
+                        <a href="../messages.html?to=${project.owner_id}" class="btn-premium-contact">Contacter le Porteur</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        init();
+    </script>
+    <script src="../assets/js/script.js?v=2.2"></script>
+</body>
+
+</html>
