@@ -746,22 +746,6 @@
                                 <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
                             </div>
 
-                            <!-- PACK 3 : INFLUENCE CONTINUE -->
-                            <div style="background:linear-gradient(160deg,#1e1b4b 0%,#312e81 100%);border:1.5px solid #6366f1;border-radius:16px;padding:28px;position:relative;">
-                                <div style="font-size:0.75rem;font-weight:700;color:#a5b4fc;text-transform:uppercase;margin-bottom:12px;">Influence Premium</div>
-                                <div style="font-size:2rem;font-weight:800;color:white;margin-bottom:4px;">49,99€<span style="font-size:1rem;font-weight:400;color:#a5b4fc">/mois</span></div>
-                                <p style="font-size:0.8rem;font-weight:600;color:#a5b4fc;margin-bottom:16px;">VIP — Accompagnement complet</p>
-                                <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:#e0e7ff;">
-                                    <li>— Tout le pack Authority</li>
-                                    <li style="font-weight:600;color:white;">— Position TOP 3 Garanti</li>
-                                    <li style="font-weight:600;color:white;">— Création de 8 posts / mois</li>
-                                    <li style="font-weight:600;color:white;">— Interview Podcast dédiée</li>
-                                    <li>— Sourcing missions Grands Comptes</li>
-                                </ul>
-                                <div id="paypal-influence-expert" style="margin-top:4px;"></div>
-                            </div>
-
-
                         </div>
                     </div>
                 `;
@@ -780,24 +764,12 @@
                         }
                     }).render('#paypal-authority-expert');
 
-                    // Pack Influence — 49,99€/mois
-                    paypal.Buttons({
-                        style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
-                        createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-2AD33929SN244782KNG2ARPY' });
-                        },
-                        onApprove: function (data, actions) {
-                            handleSubscriptionSuccess(data.subscriptionID, 'influence');
-                        }
-                    }).render('#paypal-influence-expert');
                 }
 
                 // Affichage du plan actuel
                 if (tier === 'authority') {
                     document.getElementById('current-plan-authority').style.display = 'block';
                     document.getElementById('paypal-authority-expert').style.display = 'none';
-                } else if (tier === 'influence') {
-                    // ... influence logic if specific container exists
                 } else {
                     document.getElementById('current-plan-free').style.display = 'block';
                 }
