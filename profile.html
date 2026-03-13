@@ -1175,6 +1175,80 @@
             fb.style.display = 'block';
         }
 
+        function openSubModal(role) {
+            const modal = document.getElementById('subscription-modal');
+            const title = document.getElementById('sub-modal-title');
+            const benefits = document.getElementById('sub-modal-benefits');
+            const price = document.getElementById('sub-modal-price');
+
+            if (role === 'entreprise') {
+                title.textContent = 'Pack Business Entreprise';
+                price.innerHTML = '49€<span>/mois</span>';
+                benefits.innerHTML = `
+                    <li>✅ Profil Rank #1 dans l'annuaire</li>
+                    <li>✅ Missions illimitées</li>
+                    <li>✅ **Matchmaking** : Sourcing experts</li>
+                    <li>✅ **Marque Employeur** : 1 Portrait / mois</li>
+                `;
+                renderPayPalButton('P-XXXXXXXXXXXX_BUSINESS', 'business');
+            } else {
+                title.textContent = 'Pack Authority Expert';
+                price.innerHTML = '9,99€<span>/mois</span>';
+                benefits.innerHTML = `
+                    <li>✅ Profil listé dans l'annuaire</li>
+                    <li>✅ Badge "Vérifié" permanent</li>
+                    <li>✅ **Visibilité** : 3-4 posts / mois</li>
+                    <li>✅ Participation aux podcasts DC</li>
+                `;
+                renderPayPalButton('P-XXXXXXXXXXXX_AUTHORITY', 'authority');
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSubModal() {
+            document.getElementById('subscription-modal').classList.remove('active');
+            document.body.style.overflow = '';
+            // Optionnel : détruire le bouton PayPal pour éviter les duplicatas au prochain open
+            document.getElementById('paypal-button-container').innerHTML = '';
+        }
+
+        function renderPayPalButton(planId, tier) {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = ''; // Clear
+
+            if (typeof paypal !== 'undefined') {
+                paypal.Buttons({
+                    style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
+                    createSubscription: function (data, actions) {
+                        return actions.subscription.create({ 'plan_id': planId });
+                    },
+                    onApprove: function (data, actions) {
+                        handleSubscriptionSuccess(data.subscriptionID, tier);
+                    }
+                }).render('#paypal-button-container');
+            }
+        }
+
+        async function handleSubscriptionSuccess(subscriptionId, tier) {
+            const { error } = await _supabase
+                .from('profiles')
+                .update({
+                    subscription_tier: tier,
+                    subscription_id: subscriptionId,
+                    last_payment_date: new Date().toISOString()
+                })
+                .eq('id', currentUserId);
+
+            if (error) {
+                alert('Erreur SQL : ' + error.message);
+            } else {
+                alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
+                window.location.reload();
+            }
+        }
+
         function resetBtn(btn, isExpert) {
             btn.textContent = isExpert ? 'Enregistrer & Publier dans l\'annuaire' : 'Enregistrer mon profil';
             btn.disabled = false;

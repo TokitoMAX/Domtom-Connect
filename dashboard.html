@@ -849,11 +849,11 @@
                                 <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">49€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
                                 <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing & Matching — Rentable dès le 1er contrat</p>
                                 <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                    <li style="font-weight:600;color:var(--text-primary);">— Publiée dans l'<strong>Annuaire</strong></li>
+                                    <li style="font-weight:600;color:var(--text-primary);">— Rank #1 dans l'<strong>Annuaire</strong></li>
                                     <li style="font-weight:600;color:var(--text-primary);">— Missions <strong>Illimitées</strong></li>
                                     <li style="font-weight:600;color:var(--text-primary);">— Badge <strong>Entreprise Vérifiée</strong></li>
-                                    <li style="font-weight:600;color:var(--text-primary);">— Matchmaking Experts Sourcing</li>
-                                    <li>— Co-création de contenu RH</li>
+                                    <li>— <strong>Sourcing Prioritaire</strong> de 3 experts / mission</li>
+                                    <li>— <strong>Marque Employeur</strong> : 1 Portrait d'entreprise / mois</li>
                                 </ul>
                                 <div id="paypal-business-enterprise" style="margin-top:4px;"></div>
                                 <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:none;">Votre plan actuel</div>
@@ -970,6 +970,29 @@
                 } catch (e) {
                     alert("Pour valider la suppression de vos données, veuillez nous contacter à domtomconnect@gmail.com. (Conformité RGPD)");
                 }
+            }
+        }
+
+        async function handleSubscriptionSuccess(subscriptionId, tier) {
+            console.log('Success!', subscriptionId, tier);
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) return;
+
+            const { error } = await _supabase
+                .from('profiles')
+                .update({
+                    subscription_tier: tier,
+                    subscription_id: subscriptionId,
+                    last_payment_date: new Date().toISOString()
+                })
+                .eq('id', user.id);
+
+            if (error) {
+                console.error('Update error:', error);
+                alert('Erreur lors de la mise à jour du profil. Contactez le support.');
+            } else {
+                alert('Félicitations ! Votre Pack ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' est activé.');
+                window.location.reload();
             }
         }
 
