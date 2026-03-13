@@ -193,6 +193,7 @@ body {
     --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
     --gradient-hero: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+    --gradient-primary: linear-gradient(120deg, #00BFA6 0%, #0F3D2E 100%);
     --gradient-ose: linear-gradient(135deg, #008F7A 0%, #007362 100%);
 
     --border-radius-sm: 4px;
