@@ -359,10 +359,11 @@
         }
 
         .step-item.active .step-circle {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
+            background: white;
+            border: 3px solid #10b981;
+            color: #10b981;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            transform: scale(1.1);
         }
 
         .step-item.completed .step-circle {
@@ -846,9 +847,9 @@
             if (project.roadmap) {
                 const r = project.roadmap;
                 let roadmapScore = 0;
-                if (r.short && r.short.length > 5) roadmapScore += 10;
-                if (r.medium && r.medium.length > 5) roadmapScore += 10;
-                if (r.long && r.long.length > 5) roadmapScore += 5;
+                if (r.short) roadmapScore += 10;
+                if (r.medium) roadmapScore += 10;
+                if (r.long) roadmapScore += 5;
                 if (roadmapScore >= 25) roadmapDone = true;
                 score += roadmapScore;
             }
@@ -1224,16 +1225,8 @@
 
                 const engineHTML = `
                     <div class="success-engine-container">
-                        <!-- 1. Header Héroïque Vision -->
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Votre Épopée Projet</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
-                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
-                            </div>
-                        </div>
+                        <!-- 1. Header Héroïque Dynamique -->
+                        <div id="success-engine-header"></div>
 
                         <!-- 2. Success Roadmap (Stepper) -->
                         <div class="success-steps" style="max-width:800px; margin: 0 auto 48px;">
@@ -1334,6 +1327,47 @@
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
                 updateSuccessStepper(totalScore, firstProj.id);
+
+                // Dynamiser le Header "Vision Card"
+                const headerContainer = document.getElementById('success-engine-header');
+                let headerHTML = "";
+                if (totalScore < 25) {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 1 : Fondations</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
+                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
+                            </div>
+                        </div>
+                    `;
+                } else if (totalScore < 50) {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2); background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);">
+                            <span style="font-size:0.75rem; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 2 : Trajectoire</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">La Boussole Stratégique</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Une vision sans roadmap n'est qu'une hallucination. Tracez vos objectifs court, moyen et long terme."</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button onclick="openRoadmapModal('${firstProj.id}')" class="cta-button primary" style="background:#34d399; color:#064e3b; border:none; padding:16px 32px; font-size:1rem; cursor:pointer; font-weight:800;">Ouvrir ma Boussole</button>
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px;">Modifier le Manifeste</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid #10b981; background: #0f172a;">
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Progression Élevée</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Succès en Approche</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre projet gagne en maturité. Suivez les étapes ci-dessous pour débloquer le Commando et l'Impulsion.</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Voir l'action suivante</a>
+                            </div>
+                        </div>
+                    `;
+                }
+                headerContainer.innerHTML = headerHTML;
 
                 // Dynamic Call to Action
                 const engineStepContainer = document.getElementById('success-engine-step');
