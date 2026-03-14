@@ -1196,6 +1196,8 @@
                                 </ul>
                                 <div id="paypal-authority-expert" style="margin-top:4px;"></div>
                                 <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
+                                
+                                <button onclick="unlistListing()" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:#ef4444; color:#ef4444; font-size:0.8rem; height:36px; justify-content:center;">Supprimer mon annonce expert</button>
                             </div>
 
                         </div>
@@ -1282,6 +1284,8 @@
                                 </ul>
                                 <div id="paypal-business-enterprise" style="margin-top:4px;"></div>
                                 <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:none;">Votre plan actuel</div>
+
+                                <button onclick="unlistListing()" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:#ef4444; color:#ef4444; font-size:0.8rem; height:36px; justify-content:center;">Supprimer mon annonce entreprise</button>
                             </div>
 
                             <!-- ENTERPRISE -->
@@ -1557,10 +1561,11 @@
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et le Podcast."}</p>
-                                <button onclick="${isCertified ? 'alert(\'Déjà certifié !\')' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
-                                    ${isCertified ? "RDV Podcast Programmé" : "Certifier mon Épopée"}
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et l'Appel Stratégique."}</p>
+                                <button onclick="${isCertified ? 'window.location.href=\'mailto:domtomconnect@gmail.com?subject=RDV Stratégique : ' + firstProj.title + '\'' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
+                                    ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
                                 </button>
+                                ${isCertified ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>` : ''}
                             </div>
                         `;
                 }
@@ -1644,13 +1649,13 @@
                                     <label class="form-label">Besoins Critiques (ex: Argent, Tech, Design...)</label>
                                     <input type="text" id="proj-needs" placeholder="De quoi avez-vous le plus besoin maintenant ?">
                                 </div>
-                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
-                                    Enregistrer mon Manifeste
-                                </button>
-                                <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:12px;">Étape 1 sur 4. Une vision claire débloque l'étape 2 : La Boussole.</p>
-                            </form>
+                                    <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:12px; border-radius:12px; cursor:pointer;">
+                                        Supprimer mon épopée
+                                    </button>
+                                    <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:12px;">Étape 1 sur 4. Une vision claire débloque l'étape 2 : La Boussole.</p>
+                                </form>
+                            </div>
                         </div>
-                    </div>
                 `;
                 document.body.insertAdjacentHTML('beforeend', modalHTML);
                 modal = document.getElementById('project-modal');
@@ -1684,10 +1689,12 @@
                     document.getElementById('proj-territory').value = p.territory;
                     document.getElementById('proj-status').value = p.status;
                     document.getElementById('proj-needs').value = p.needs || '';
+                    document.getElementById('btn-delete-proj').style.display = 'block';
                 }
             } else {
                 document.getElementById('project-form').reset();
                 document.getElementById('proj-id').value = '';
+                document.getElementById('btn-delete-proj').style.display = 'none';
             }
             modal.classList.add('open');
         }
@@ -2064,6 +2071,49 @@
                 closeImpulsionModal();
                 const session = await getSession();
                 loadMyProjects(session.user.id);
+            }
+        }
+
+        async function unlistListing() {
+            if (!confirm("Voulez-vous vraiment supprimer votre annonce de la marketplace ? Votre profil restera accessible mais ne sera plus visible publiquement dans l'annuaire.")) return;
+
+            try {
+                const session = await getSession();
+                if (!session) return;
+
+                const { error } = await _supabase
+                    .from('profiles')
+                    .update({ listed: false })
+                    .eq('id', session.user.id);
+
+                if (error) throw error;
+
+                alert("✅ Votre annonce a été retirée de la marketplace.");
+                window.location.reload();
+            } catch (err) {
+                alert("Erreur lors du retrait de l'annonce : " + err.message);
+            }
+        }
+
+        async function deleteProject(projectId) {
+            if (!projectId) return;
+            if (!confirm("⚠️ ATTENTION : Voulez-vous vraiment supprimer définitivement cette épopée ? Cette action est irréversible et supprimera toutes les données associées (manifeste, roadmap, arsenal).")) return;
+            if (!confirm("Confirmation finale : Êtes-vous ABSOLUMENT sûr ?")) return;
+
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .delete()
+                    .eq('id', projectId);
+
+                if (error) throw error;
+
+                alert("✅ Épopée supprimée définitivement.");
+                closeProjectModal();
+                const session = await getSession();
+                loadMyProjects(session.user.id);
+            } catch (err) {
+                alert("Erreur lors de la suppression : " + err.message);
             }
         }
 
