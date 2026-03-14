@@ -623,7 +623,7 @@
                 const solopriceCta = document.getElementById('soloprice-cta');
                 if (solopriceCta) {
                     solopriceCta.href = 'mon-espace.html';
-                    solopriceCta.textContent = 'Accéder à mon mon-projet';
+                    solopriceCta.textContent = 'Accéder à mon espace';
                 }
 
                 // Ajouter liens personnalisés selon rôle
@@ -639,7 +639,7 @@
                 // Bouton d'action avec profil + déconnexion
                 navActions.innerHTML = `
                     <div class="user-menu-wrapper">
-                        <a href="mon-espace" class="cta-button secondary nav-profil-btn">Profil : ${name}</a>
+                        <a href="/mon-espace" class="cta-button secondary nav-profil-btn">Profil : ${name}</a>
                         <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
                     </div>
                 `;

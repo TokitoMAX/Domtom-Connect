@@ -12,23 +12,8 @@
             "permanent": true
         },
         {
-            "source": "/mon-espace.html",
-            "destination": "/mon-espace",
-            "permanent": true
-        },
-        {
-            "source": "/blog.html",
-            "destination": "/blog",
-            "permanent": true
-        },
-        {
-            "source": "/pourquoi-j-ai-cree-domtom-connect-episode-1",
-            "destination": "/blog/pourquoi-j-ai-cree-domtom-connect-episode-1",
-            "permanent": true
-        },
-        {
-            "source": "/marketplace/project.html",
-            "destination": "/marketplace/project-details",
+            "source": "/marketplace/project-details.html",
+            "destination": "/marketplace/project",
             "permanent": true
         }
     ],
