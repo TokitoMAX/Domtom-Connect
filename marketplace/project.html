@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soutenir l'Épopée – Domtom Connect</title>
-    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3.5">
     <style>
         .hero-project {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -194,19 +194,41 @@
                 // Fetch le projet depuis Supabase
                 const { data: project, error } = await _supabase
                     .from('projects')
-                    .select('*, profiles(full_name, avatar_url, role)')
+                    .select('*')
                     .eq('id', projectId)
                     .single();
 
-                if (error || !project || !project.is_listed) {
+                if (error) {
+                    console.error("Erreur Supabase Projet:", error);
                     showError();
                     return;
+                }
+
+                if (!project || !project.is_listed) {
+                    console.warn("Projet non trouvé ou non listé:", project);
+                    showError();
+                    return;
+                }
+
+                // Récupérer le profil du propriétaire séparément
+                if (project.owner_id) {
+                    const { data: profile, error: profileError } = await _supabase
+                        .from('profiles')
+                        .select('full_name, avatar_url, role')
+                        .eq('id', project.owner_id)
+                        .single();
+
+                    if (!profileError && profile) {
+                        project.profiles = profile;
+                    } else {
+                        console.warn("Profil propriétaire non trouvé:", profileError);
+                    }
                 }
 
                 renderProject(project);
 
             } catch (err) {
-                console.error("Erreur de chargement", err);
+                console.error("Erreur de chargement critique:", err);
                 showError();
             }
         }
