@@ -379,20 +379,21 @@
             }[project.budget] || 'Budget non défini';
 
             return `
-                <div class="premium-card" style="padding:0; border:none; height:100%;">
+                <div class="premium-card" style="padding:0; border:none; height:100%; position:relative;">
+                    <a href="project?id=${project.id}" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:10;"></a>
                     <div style="${coverStyle} height:200px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
-                        <div class="maturity-badge" style="top:20px; right:20px; z-index:2;">
+                        <div class="maturity-badge" style="top:20px; right:20px; z-index:20;">
                             <div class="maturity-value" style="color:#34d399;">${maturityScore}%</div>
                             <div class="maturity-text" style="color:rgba(255,255,255,0.7);">Maturité</div>
                         </div>
-                        <div style="z-index:2;">
+                        <div style="z-index:20;">
                             ${isVerified ? `<div class="success-label" style="background:#10b981; color:white; border:none;">⭐ Épopée Certifiée</div>` : ''}
                             <div style="font-size:0.7rem; color:rgba(255,255,255,0.8); text-transform:uppercase; font-weight:800; letter-spacing:0.1em; margin-bottom:4px;">${project.territory}</div>
                             <h3 style="color:white; margin:0; font-size:1.4rem; font-weight:900;">${project.title}</h3>
                         </div>
                     </div>
 
-                    <div style="padding:24px; display:flex; flex-direction:column; flex-grow:1; background:white; border:1px solid var(--gray-200); border-top:none; border-radius: 0 0 16px 16px;">
+                    <div style="padding:24px; display:flex; flex-direction:column; flex-grow:1; background:white; border:1px solid var(--gray-200); border-top:none; border-radius: 0 0 16px 16px; position:relative; z-index:20; pointer-events:none;">
                         <p class="premium-bio" style="margin-bottom:16px;">${project.description.slice(0, 150)}${project.description.length > 150 ? '...' : ''}</p>
                         
                         <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
@@ -400,15 +401,15 @@
                             ${needs}
                         </div>
 
-                        <div style="display:flex; gap:12px; margin-top:auto;">
+                        <div style="display:flex; gap:12px; margin-top:auto; pointer-events:auto;">
                             <a href="../messages?to=${project.owner_id}" class="btn-premium-contact" style="flex:2;">Soutenir l'aventure</a>
-                            ${project.video_url ? `<a href="${project.video_url}" target="_blank" class="cta-button secondary" style="flex:1; padding:12px; font-size:0.8rem; text-align:center; border-radius:8px;">Pitch Vidéo</a>` : ''}
+                            ${project.video_url ? `<a href="${project.video_url}" target="_blank" class="cta-button secondary" style="flex:1; padding:12px; font-size:0.8rem; text-align:center; border-radius:8px; position:relative; z-index:20;">Pitch Vidéo</a>` : ''}
                         </div>
 
                         ${project.social_links ? `
-                            <div style="display:flex; gap:8px; margin-top:16px; justify-content:center;">
-                                ${project.social_links.linkedin ? `<a href="${project.social_links.linkedin}" target="_blank" style="color:var(--text-muted); font-size:0.8rem;">LinkedIn</a>` : ''}
-                                ${project.social_links.twitter ? `<a href="${project.social_links.twitter}" target="_blank" style="color:var(--text-muted); font-size:0.8rem;">Twitter</a>` : ''}
+                            <div style="display:flex; gap:8px; margin-top:16px; justify-content:center; pointer-events:auto;">
+                                ${project.social_links.linkedin ? `<a href="${project.social_links.linkedin}" target="_blank" style="color:var(--text-muted); font-size:0.8rem; position:relative; z-index:20;">LinkedIn</a>` : ''}
+                                ${project.social_links.twitter ? `<a href="${project.social_links.twitter}" target="_blank" style="color:var(--text-muted); font-size:0.8rem; position:relative; z-index:20;">Twitter</a>` : ''}
                             </div>
                         ` : ''}
                     </div>

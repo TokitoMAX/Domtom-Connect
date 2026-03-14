@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soutenir l'Épopée – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <style>
+        .hero-project {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            padding: 80px 0 60px;
+            color: white;
+            overflow: hidden;
+            border-bottom: 1px solid #334155;
+        }
+
+        .hero-project::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            mix-blend-mode: overlay;
+        }
+
+        .project-content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .project-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .section-header-tag {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            bottom: 0;
+            left: 7px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: -24px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 3px solid #10b981;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            border-radius: 20px;
+            padding: 32px;
+            color: white;
+            box-shadow: 0 25px 50px -12px rgba(6, 78, 59, 0.25);
+            position: sticky;
+            top: 24px;
+        }
+
+        .support-card h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+
+        .support-card p {
+            color: #d1fae5;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .project-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-project {
+                padding: 60px 0 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar"
+        style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <a href="/" class="nav-brand" style="color: white;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo"
+                    style="filter: brightness(0) invert(1);">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <div class="nav-content">
+                <div class="nav-links">
+                    <a href="../marketplace/projects" style="color: rgba(255,255,255,0.8);">
+                        < Retour à la vitrine</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="loading-state"
+        style="height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; color: white;">
+        <h2>Déchiffrement de l'Épopée...</h2>
+    </div>
+
+    <div id="project-container" style="display: none; background: #f8fafc; min-height: 100vh;">
+        <!-- Hero Section injectée ici -->
+    </div>
+
+    <!-- Interface d'erreur -->
+    <div id="error-state"
+        style="display: none; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #f8fafc;">
+        <h2 style="font-size: 2rem; color: var(--text-primary); margin-bottom: 16px;">Épopée introuvable</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 32px;">Ce projet n'existe pas ou n'est plus public.</p>
+        <a href="../marketplace/projects" class="cta-button primary">Retourner aux projets</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        async function loadProjectDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+
+            if (!projectId) {
+                showError();
+                return;
+            }
+
+            try {
+                // Fetch le projet depuis Supabase
+                const { data: project, error } = await _supabase
+                    .from('projects')
+                    .select('*, profiles(full_name, avatar_url, role)')
+                    .eq('id', projectId)
+                    .single();
+
+                if (error || !project || !project.is_listed) {
+                    showError();
+                    return;
+                }
+
+                renderProject(project);
+
+            } catch (err) {
+                console.error("Erreur de chargement", err);
+                showError();
+            }
+        }
+
+        function calculateProjectMaturity(p) {
+            if (!p) return 0;
+            let score = 0;
+            if (p.title) score += 10;
+            if (p.description && p.description.length > 5) score += 10;
+            if (p.territory) score += 5;
+            if (p.roadmap) {
+                const r = p.roadmap;
+                if (r.short) score += 10;
+                if (r.medium) score += 10;
+                if (r.long) score += 5;
+            }
+            if (p.budget) score += 10;
+            if (p.cover_url) score += 10;
+            if (p.needs && p.needs.length > 5) score += 5;
+            if (p.video_url) score += 10;
+            if (p.social_links && (p.social_links.linkedin || p.social_links.twitter)) score += 10;
+            if (p.audit_score >= 8) score += 5;
+            return Math.min(100, score);
+        }
+
+        function renderProject(project) {
+            const container = document.getElementById('project-container');
+            const ownerName = project.profiles?.full_name || 'Porteur Anonyme';
+            const maturityScore = calculateProjectMaturity(project);
+
+            const coverHtml = project.cover_url
+                ? `<div class="hero-cover" style="background-image: url('${project.cover_url}');"></div>`
+                : '';
+
+            const needs = project.needs
+                ? project.needs.split(',').map(n => `<span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">${n.trim()}</span>`).join('')
+                : '';
+
+            const roadmap = project.roadmap || {};
+            const budgetLabel = {
+                'bootstrap': 'Bootstrap (0€ - Fonds propres)',
+                'seed': 'Amorçage (1k - 10k€)',
+                'growth': 'Croissance (10k - 50k€)',
+                'scale': 'Accélération (50k€+)'
+            }[project.budget] || 'Non défini';
+
+            container.innerHTML = `
+                <section class="hero-project">
+                    ${coverHtml}
+                    <div class="container" style="position: relative; z-index: 1;">
+                        <span style="display:inline-block; padding: 6px 12px; border-radius: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">
+                            📍 ${project.territory}
+                        </span>
+                        
+                        <div style="display: flex; gap: 40px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;">
+                            <div style="max-width: 800px;">
+                                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 16px; line-height: 1.1; letter-spacing: -0.03em;">${project.title}</h1>
+                                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8); margin: 0; line-height: 1.6;">${project.description}</p>
+                            </div>
+                            
+                            <div style="text-align: right; background: rgba(0,0,0,0.4); padding: 20px 32px; border-radius: 16px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+                                <div style="font-size: 3rem; font-weight: 900; color: #34d399; line-height: 1;">${maturityScore}%</div>
+                                <div style="font-size: 0.8rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.1em;">Index de Maturité</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <main class="container">
+                    <div class="project-content-grid">
+                        
+                        <!-- Main Content (Left) -->
+                        <div>
+                            <!-- Le Manifeste -->
+                            <div class="project-section">
+                                <span class="section-header-tag">Étape 1 : Fondations</span>
+                                <h2 class="section-title">Le Manifeste</h2>
+                                <p style="font-size: 1.1rem; line-height: 1.8; color: #475569; white-space: pre-wrap;">${project.description}</p>
+                            </div>
+
+                            <!-- La Boussole (Roadmap) -->
+                            <div class="project-section">
+                                <span class="section-header-tag">Étape 2 : Trajectoire</span>
+                                <h2 class="section-title">La Boussole Stratégique</h2>
+                                
+                                ${!roadmap.short && !roadmap.medium && !roadmap.long ?
+                    '<p style="color:var(--text-muted); font-style:italic;">La boussole est en cours de recalibrage par le porteur de projet.</p>' :
+                    `
+                                <div class="roadmap-timeline">
+                                    ${roadmap.short ? `
+                                        <div class="timeline-item">
+                                            <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin-bottom:8px;">Court Terme (0-3 mois)</h4>
+                                            <p style="color:var(--text-secondary); line-height:1.6; margin:0;">${roadmap.short}</p>
+                                        </div>
+                                    ` : ''}
+                                    ${roadmap.medium ? `
+                                        <div class="timeline-item">
+                                            <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin-bottom:8px;">Moyen Terme (3-12 mois)</h4>
+                                            <p style="color:var(--text-secondary); line-height:1.6; margin:0;">${roadmap.medium}</p>
+                                        </div>
+                                    ` : ''}
+                                    ${roadmap.long ? `
+                                        <div class="timeline-item">
+                                            <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin-bottom:8px;">Long Terme (1-3 ans)</h4>
+                                            <p style="color:var(--text-secondary); line-height:1.6; margin:0;">${roadmap.long}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                `}
+                            </div>
+
+                            <!-- L'Arsenal Commando -->
+                            <div class="project-section">
+                                <span class="section-header-tag">Étape 3 : Ressources</span>
+                                <h2 class="section-title">L'Arsenal Commando</h2>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
+                                    <div>
+                                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Budget Déclaré</div>
+                                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">💰 ${budgetLabel}</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Besoins Critiques</div>
+                                        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                            ${needs || '<span style="color:var(--text-muted); font-size:0.9rem;">Aucun besoin spécifique formulé</span>'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Sidebar Actions (Right) -->
+                        <div>
+                            <div class="support-card">
+                                <h3>Envie de rejoindre le navire ?</h3>
+                                <p>Ce projet recherche l'élite pour passer au niveau supérieur. Vous avez les compétences ou les fonds nécessaires ?</p>
+                                
+                                <a href="../messages?to=${project.owner_id}" class="cta-button primary" style="width: 100%; background: white; color: #064e3b; border: none; font-size: 1rem; padding: 16px; margin-bottom: 16px; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                                    Contacter ${ownerName.split(' ')[0]}
+                                </a>
+
+                                ${project.video_url ? `
+                                    <a href="${project.video_url}" target="_blank" class="cta-button secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); font-size: 0.9rem; justify-content: center;">
+                                        🎬 Visionner le Pitch
+                                    </a>
+                                ` : ''}
+                                
+                                <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 16px;">
+                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">
+                                        ${ownerName.slice(0, 2).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.8rem; font-weight: 600; color: #d1fae5; text-transform: uppercase;">Porté par</div>
+                                        <div style="font-weight: 800; font-size: 1.1rem;">${ownerName}</div>
+                                    </div>
+                                </div>
+
+                                ${project.social_links ? `
+                                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                                        ${project.social_links.linkedin ? `<a href="${project.social_links.linkedin}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.85rem; font-weight: 600;">LinkedIn</a>` : ''}
+                                        ${project.social_links.twitter ? `<a href="${project.social_links.twitter}" target="_blank" style="color: white; text-decoration: underline; font-size: 0.85rem; font-weight: 600;">Twitter</a>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+            `;
+
+            document.getElementById('loading-state').style.display = 'none';
+            container.style.display = 'block';
+        }
+
+        function showError() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('error-state').style.display = 'flex';
+        }
+
+        loadProjectDetails();
+    </script>
+</body>
+
+</html>
