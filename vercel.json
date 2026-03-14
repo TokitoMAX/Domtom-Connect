@@ -3,17 +3,17 @@
     "redirects": [
         {
             "source": "/dashboard",
-            "destination": "/mon-projet",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
             "source": "/dashboard.html",
-            "destination": "/mon-projet",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
-            "source": "/mon-projet.html",
-            "destination": "/mon-projet",
+            "source": "/mon-espace.html",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
@@ -25,6 +25,12 @@
             "source": "/pourquoi-j-ai-cree-domtom-connect-episode-1",
             "destination": "/blog/pourquoi-j-ai-cree-domtom-connect-episode-1",
             "permanent": true
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/mon-projet",
+            "destination": "/mon-espace.html"
         }
     ]
 }
