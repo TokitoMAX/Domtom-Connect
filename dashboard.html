@@ -1314,7 +1314,7 @@
                 roleBadge.style.color = "var(--text-muted)";
                 roleBadge.style.border = "1px solid var(--gray-200)";
 
-                // Structure Segmentée
+                // Structure Segmentée - Restauration des blocs et ajout de la Sécurité
                 cardsContainer.innerHTML = '';
 
                 // Calcul du score pour le premier projet (affichage sur la carte)
@@ -1324,47 +1324,49 @@
 
                 const segmentedHTML = `
                     <div id="project-owner-modules">
-                        <div class="modules-grid">
-                            <!-- Carte Success Engine -->
-                            <a href="javascript:void(0)" onclick="showView('success-engine')" class="module-card" style="border-color: #10b981; background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
-                                <div class="module-badge">${score}% Maturité</div>
-                                <div class="module-icon">🚀</div>
-                                <h3>Mon Épopée</h3>
-                                <p>Suivez le Success Engine pour structurer votre projet et débloquer votre visibilité.</p>
-                                <div style="margin-top: auto; color: #10b981; font-weight: 700; font-size: 0.85rem;">Gérer mon projet →</div>
-                            </a>
+                        <div class="cards-grid">
+                            <!-- Carte Mon Épopée (Groupée) -->
+                            <div class="dash-card highlight" style="border-color: #10b981; cursor: pointer;" onclick="showView('success-engine')">
+                                <div class="card-title">
+                                    Mon Épopée
+                                    <span style="font-size:0.75rem; background:rgba(16,185,129,0.1); color:#10b981; padding:4px 10px; border-radius:20px;">${score}% Maturité</span>
+                                </div>
+                                <p class="card-desc">Suivez le Success Engine pour structurer votre projet et débloquer les prestataires idéaux.</p>
+                                <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center;">Gérer mon projet →</button>
+                            </div>
 
-                            <!-- Carte Webinaires -->
-                            <a href="/landing/webinaire/index.html" class="module-card">
-                                <div class="module-icon">📽️</div>
-                                <h3>Webinaires</h3>
-                                <p>Participez à nos sessions live pour comprendre l'écosystème et poser vos questions.</p>
-                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Voir les sessions →</div>
-                            </a>
+                            <!-- Carte Webinaires (Bloc d'origine) -->
+                            <div class="dash-card">
+                                <div class="card-title">Webinaires & Live</div>
+                                <p class="card-desc">Participez à nos sessions live pour poser vos questions et comprendre l'écosystème.</p>
+                                <a href="/landing/webinaire/index.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir le prochain live →</a>
+                            </div>
 
-                            <!-- Carte Annuaire -->
-                            <a href="/marketplace/directory.html" class="module-card">
-                                <div class="module-icon">🌍</div>
-                                <h3>Annuaire Talents</h3>
-                                <p>Explorez les experts de la diaspora prêts à propulser votre projet.</p>
-                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Trouver un expert →</div>
-                            </a>
+                            <!-- Carte Sécurité (Nouveau bloc demandé) -->
+                            <div class="dash-card">
+                                <div class="card-title">Sécurité & Confiance</div>
+                                <p class="card-desc">Découvrez comment nous protégeons vos fonds et vérifions chaque prestataire du réseau.</p>
+                                <a href="/faq/index.html#securite" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Nos garanties</a>
+                            </div>
 
-                            <!-- Carte Missions -->
-                            <a href="/marketplace/jobs.html" class="module-card">
-                                <div class="module-icon">💼</div>
-                                <h3>Missions</h3>
-                                <p>Consultez les opportunités et collaborez avec d'autres membres du réseau.</p>
-                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Explorer →</div>
-                            </a>
+                            <!-- Autres petits blocs restaurés -->
+                            <div class="dash-card">
+                                <div class="card-title">Annuaire Talents</div>
+                                <p class="card-desc">Explorez les experts de la diaspora prêts à propulser votre aventure.</p>
+                                <a href="/marketplace/directory.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Trouver un expert</a>
+                            </div>
 
-                            <!-- Carte Ressources -->
-                            <a href="/blog.html" class="module-card">
-                                <div class="module-icon">📚</div>
-                                <h3>Ressources</h3>
-                                <p>Guides, checklists et articles pour éviter les erreurs classiques.</p>
-                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Lire les guides →</div>
-                            </a>
+                            <div class="dash-card">
+                                <div class="card-title">Missions Marketplace</div>
+                                <p class="card-desc">Consultez les opportunités et collaborez avec d'autres membres.</p>
+                                <a href="/marketplace/jobs.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir les missions</a>
+                            </div>
+
+                            <div class="dash-card">
+                                <div class="card-title">Ressources & Guides</div>
+                                <p class="card-desc">Toutes les checklists et guides pour éviter les erreurs classiques.</p>
+                                <a href="/blog.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Lire les guides</a>
+                            </div>
                         </div>
                     </div>
 
@@ -1415,7 +1417,7 @@
                 updateSuccessStepper(0); // Highlight first step
                 container.innerHTML = `
                     <div style="background: white; border: 2px dashed var(--gray-200); border-radius: 16px; padding: 40px; text-align: center;">
-                        <span style="font-size: 2rem; display: block; margin-bottom: 16px;">🚀</span>
+                        <span style="font-size: 2rem; display: block; margin-bottom: 16px;"></span>
                         <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Prêt à lancer votre épopée ?</h3>
                         <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Votre premier projet commence ici. Nous allons vous guider à chaque étape.</p>
                         <button onclick="openProjectModal()" class="cta-button primary" style="background:var(--primary-color);">Démarrer mon Manifeste</button>
@@ -1540,7 +1542,7 @@
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
                                 <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et le Podcast."}</p>
                                 <button onclick="${isCertified ? 'alert(\'Déjà certifié !\')' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
-                                    ${isCertified ? "RDV Podcast Programmé" : "Certifier mon Épopée ⭐"}
+                                    ${isCertified ? "RDV Podcast Programmé" : "Certifier mon Épopée"}
                                 </button>
                             </div>
                         `;
