@@ -718,6 +718,49 @@
             `;
         }
 
+        function calculateProjectMaturity(project) {
+            if (!project) return 0;
+            let score = 0;
+
+            // Étape 1 : Manifeste (Max 25%)
+            if (project.title) score += 5;
+            if (project.description && project.description.length > 50) score += 20;
+
+            // Étape 2 : Boussole / Roadmap (Max 25%) - Simulé pour l'instant via 'needs'
+            if (project.needs) score += 15;
+            if (project.territory) score += 10;
+
+            // Étape 3 : Commando / Experts (Simulé)
+            // if (project.has_experts) score += 25;
+
+            // Étape 4 : Impulsion / Visibilité (Max 25%)
+            if (project.is_listed) score += 25;
+
+            return score;
+        }
+
+        function updateSuccessStepper(score) {
+            const steps = [
+                { id: '1', min: 0 },
+                { id: '2', min: 25 },
+                { id: '3', min: 50 },
+                { id: '4', min: 75 }
+            ];
+
+            steps.forEach(step => {
+                const el = document.getElementById(`step-${step.id}`);
+                if (!el) return;
+
+                el.classList.remove('active', 'completed');
+
+                if (score > step.min + 20) {
+                    el.classList.add('completed');
+                } else if (score >= step.min) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
         async function handleSubscriptionSuccess(subId, tier) {
             const { error } = await _supabase
                 .from('profiles')
@@ -999,11 +1042,11 @@
                     <div class="success-engine-container">
                         <!-- 1. Success Roadmap -->
                         <div class="success-steps">
-                            <div class="step-item completed" id="step-1">
+                            <div class="step-item" id="step-1">
                                 <div class="step-circle">1</div>
                                 <div class="step-label">Manifeste</div>
                             </div>
-                            <div class="step-item active" id="step-2">
+                            <div class="step-item" id="step-2">
                                 <div class="step-circle">2</div>
                                 <div class="step-label">Boussole</div>
                             </div>
@@ -1022,7 +1065,7 @@
                             <div class="maturity-bar-container">
                                 <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité Projet</span>
                                 <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score">45%</span>
+                                    <span class="maturity-score-display" id="maturity-score">0%</span>
                                     <span style="font-size:0.9rem; color:var(--text-secondary);">Vers le succès</span>
                                 </div>
                                 <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:16px;">Plus votre score est haut, plus vous attirez des partenaires sérieux.</p>
@@ -1089,7 +1132,7 @@
             container.innerHTML = `
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:24px;">
                     ${projects.map(p => {
-                const score = 45; // Simulé pour l'instant
+                const score = calculateProjectMaturity(p);
                 return `
                         <div class="dash-card">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
@@ -1119,7 +1162,12 @@
 
             // Update the main maturity score with the first project's score for now
             if (projects.length > 0) {
-                document.getElementById('maturity-score').textContent = '45%'; // Simulé
+                const totalScore = calculateProjectMaturity(projects[0]);
+                document.getElementById('maturity-score').textContent = `${totalScore}%`;
+                updateSuccessStepper(totalScore);
+            } else {
+                document.getElementById('maturity-score').textContent = '0%';
+                updateSuccessStepper(0);
             }
         }
 
