@@ -152,6 +152,41 @@
         .btn-premium-contact:hover {
             background: #047857;
         }
+
+        /* Success Indicators */
+        .maturity-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            text-align: right;
+        }
+
+        .maturity-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #10b981;
+            line-height: 1;
+        }
+
+        .maturity-text {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .success-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 
@@ -312,11 +347,21 @@
 
             const needs = project.needs ? project.needs.split(',').map(n => `<span class="tag tag-need">${n.trim()}</span>`).join('') : '';
 
+            // Simulation de maturité pour l'UI
+            const maturityScore = 45;
+            const isVerified = project.is_listed; // Pour l'instant, si c'est listé, c'est que c'est validé par DC
+
             return `
                 <div class="premium-card">
+                    <div class="maturity-badge">
+                        <div class="maturity-value">${maturityScore}%</div>
+                        <div class="maturity-text">Maturité</div>
+                    </div>
+
                     <div class="premium-card-header">
                         ${avatar}
-                        <div class="premium-info">
+                        <div class="premium-info" style="max-width: calc(100% - 100px);">
+                            ${isVerified ? `<div class="success-label">✓ Certifié Domtom Connect</div>` : ''}
                             <div class="premium-status">${project.status || 'En cours'}</div>
                             <h3>${project.title}</h3>
                         </div>
@@ -330,7 +375,7 @@
                     </div>
                     
                     <div class="premium-actions">
-                        <a href="../messages.html?to=${project.owner_id}" class="btn-premium-contact">Contacter le Porteur</a>
+                        <a href="../messages.html?to=${project.owner_id}" class="btn-premium-contact">Soutenir cette Épopée</a>
                     </div>
                 </div>
             `;
