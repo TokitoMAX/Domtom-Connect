@@ -320,8 +320,8 @@
                     <a href="../index#pricing">Nos Offres</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
-                    <a href="../login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="../register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
@@ -466,7 +466,7 @@
 
         async function init() {
             const session = await getSession();
-            if (!session) { window.location.href = '../login.html'; return; }
+            if (!session) { window.location.href = '/login'; return; }
 
             currentUserId = session.user.id;
             currentUserRole = session.user.user_metadata?.role || null;
@@ -474,7 +474,7 @@
 
             document.getElementById('nav-actions-container').innerHTML = `
                 <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
-                    <a href="../mon-espace" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
+                    <a href="/mon-espace" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
                     <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
                 </div>
             `;

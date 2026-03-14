@@ -15,9 +15,18 @@
             "source": "/marketplace/project-details.html",
             "destination": "/marketplace/project",
             "permanent": true
+        },
+        {
+            "source": "/mon-espace.html",
+            "destination": "/mon-espace",
+            "permanent": true
         }
     ],
     "rewrites": [
+        {
+            "source": "/mon-espace",
+            "destination": "/mon-espace.html"
+        },
         {
             "source": "/mon-projet",
             "destination": "/mon-espace.html"
