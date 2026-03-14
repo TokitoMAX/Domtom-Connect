@@ -837,25 +837,25 @@
             let score = 0;
 
             // Étape 1 : Manifeste (Max 25%)
-            if (project.title) score += 5;
-            if (project.description && project.description.length > 50) score += 20;
+            if (project.title) score += 10;
+            if (project.description && project.description.length > 5) score += 10;
+            if (project.territory) score += 5;
 
             // Étape 2 : Boussole / Roadmap (Max 25%)
             if (project.roadmap) {
                 const r = project.roadmap;
-                if (r.short && r.short.length > 10) score += 10;
-                if (r.medium && r.medium.length > 10) score += 10;
-                if (r.long && r.long.length > 10) score += 5;
+                let roadmapScore = 0;
+                if (r.short && r.short.length > 5) roadmapScore += 10;
+                if (r.medium && r.medium.length > 5) roadmapScore += 10;
+                if (r.long && r.long.length > 5) roadmapScore += 5;
+                score += roadmapScore;
             }
 
             // Étape 4 : Impulsion / Visibilité (Max 25%)
-            if (project.is_listed) score += 25;
+            if (project.needs) score += 10;
+            if (project.status && project.status !== 'Idée') score += 15;
 
-            // Étape 3 : Commando (Sourcing Experts) (Max 25%)
-            // Simulé ou basé sur matching réel
-            if (score >= 50 && project.status !== 'Idée') score += 25;
-
-            return score;
+            return Math.min(100, score);
         }
 
         function updateSuccessStepper(score) {
@@ -878,9 +878,12 @@
                     if (step.id === '1') openProjectModal();
                     else if (step.id === '2') {
                         if (score >= 25) openRoadmapModal();
-                        else alert("Complétez d'abord votre Manifeste !");
+                        else {
+                            alert("Votre Manifeste (Étape 1) n'est pas encore assez complet (il manque le territoire ou une description plus longue) !");
+                            openProjectModal();
+                        }
                     } else {
-                        alert("Cette étape sera débloquée bientôt par l'équipe Domtom Connect.");
+                        alert("Cette étape sera débloquée bientôt par l'équipe Domtom Connect dès que votre Roadmap sera validée.");
                     }
                 };
 
