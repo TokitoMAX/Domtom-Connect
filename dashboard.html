@@ -954,8 +954,8 @@
 
             // Étape 3 : Arsenal Commando (Max 25%)
             if (project.budget) score += 10;
-            if (project.cover_url) score += 10;
-            if (project.needs && project.needs.length > 5) score += 5;
+            if (project.cover_url) score += 5;
+            if (project.roadmap && project.roadmap.commando_started) score += 10;
 
             // Étape 4 : Impulsion Finale (Max 25%)
             if (project.video_url) score += 10;
@@ -2022,6 +2022,29 @@
                 const session = await getSession();
                 loadMyProjects(session.user.id);
             }
+        }
+
+        async function startCommando(projectId) {
+            const { data: p } = await _supabase.from('projects').select('roadmap').eq('id', projectId).single();
+            const roadmap = p.roadmap || {};
+            roadmap.commando_started = true;
+
+            const { error } = await _supabase
+                .from('projects')
+                .update({ roadmap: roadmap })
+                .eq('id', projectId);
+
+            if (error) {
+                alert("Erreur lors du lancement du Commando : " + error.message);
+            } else {
+                alert("🚀 Commando Lancé ! Nos experts analysent votre projet.");
+                const session = await getSession();
+                loadMyProjects(session.user.id);
+            }
+        }
+
+        async function certifyProject(projectId) {
+            openImpulsionModal(projectId);
         }
 
         function handleLogout() {
