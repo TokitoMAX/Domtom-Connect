@@ -2,6 +2,16 @@
     "cleanUrls": true,
     "redirects": [
         {
+            "source": "/dashboard",
+            "destination": "/mon-espace",
+            "permanent": true
+        },
+        {
+            "source": "/dashboard.html",
+            "destination": "/mon-espace",
+            "permanent": true
+        },
+        {
             "source": "/blog.html",
             "destination": "/blog",
             "permanent": true

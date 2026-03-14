@@ -1,4 +1,4 @@
-// Configuration Supabase - Domtom Connect
+﻿// Configuration Supabase - Domtom Connect
 const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
 
@@ -9,7 +9,7 @@ async function signInWithGoogle() {
     const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: window.location.origin + '/dashboard'
+            redirectTo: window.location.origin + '/mon-espace'
         }
     });
     if (error) throw error;
