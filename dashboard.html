@@ -866,7 +866,7 @@
             return Math.min(100, score);
         }
 
-        function updateSuccessStepper(score) {
+        function updateSuccessStepper(score, projectId = null) {
             const steps = [
                 { id: '1', threshold: 25, title: 'Manifeste' },
                 { id: '2', threshold: 50, title: 'Boussole' },
@@ -883,15 +883,29 @@
 
                 // Add click handler
                 el.onclick = () => {
-                    if (step.id === '1') openProjectModal();
+                    if (step.id === '1') openProjectModal(projectId);
                     else if (step.id === '2') {
-                        if (score >= 25) openRoadmapModal();
+                        if (score >= 25) openRoadmapModal(projectId);
                         else {
                             alert("Votre Manifeste (Étape 1) n'est pas encore assez complet (il manque le territoire ou une description plus longue) !");
-                            openProjectModal();
+                            openProjectModal(projectId);
                         }
-                    } else {
-                        alert("Cette étape sera débloquée bientôt par l'équipe Domtom Connect dès que votre Roadmap sera validée.");
+                    } else if (step.id === '3') {
+                        if (score >= 50) {
+                            if (confirm("Lancer le Sourcing Expert pour ce projet ?")) {
+                                startCommando(projectId);
+                            }
+                        } else {
+                            alert("Veuillez d'abord compléter votre Boussole (Étape 2).");
+                        }
+                    } else if (step.id === '4') {
+                        if (score >= 75) {
+                            if (confirm("Certifier votre épopée et prendre RDV pour le Podcast ?")) {
+                                certifyProject(projectId);
+                            }
+                        } else {
+                            alert("Veuillez d'abord lancer le Commando (Étape 3).");
+                        }
                     }
                 };
 
@@ -1319,7 +1333,7 @@
             if (projects.length > 0) {
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
-                updateSuccessStepper(totalScore);
+                updateSuccessStepper(totalScore, firstProj.id);
 
                 // Dynamic Call to Action
                 const engineStepContainer = document.getElementById('success-engine-step');
