@@ -842,18 +842,26 @@
             if (project.territory) score += 5;
 
             // Étape 2 : Boussole / Roadmap (Max 25%)
+            let roadmapDone = false;
             if (project.roadmap) {
                 const r = project.roadmap;
                 let roadmapScore = 0;
                 if (r.short && r.short.length > 5) roadmapScore += 10;
                 if (r.medium && r.medium.length > 5) roadmapScore += 10;
                 if (r.long && r.long.length > 5) roadmapScore += 5;
+                if (roadmapScore >= 25) roadmapDone = true;
                 score += roadmapScore;
             }
 
+            // Étape 3 : Commando (Sourcing Experts) (Max 25%)
+            if (roadmapDone && project.roadmap && project.roadmap.commando_started) {
+                score += 25;
+            }
+
             // Étape 4 : Impulsion / Visibilité (Max 25%)
-            if (project.needs) score += 10;
-            if (project.status && project.status !== 'Idée') score += 15;
+            if (project.roadmap && project.roadmap.is_certified) {
+                score += 25;
+            }
 
             return Math.min(100, score);
         }
@@ -1334,19 +1342,25 @@
                             </div>
                         `;
                 } else if (totalScore < 75) {
+                    const isCommandoStarted = firstProj.roadmap && firstProj.roadmap.commando_started;
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Le Commando arrive</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Bravo ! Votre Roadmap est prête. Nous préparons la sélection d'experts pour votre projet.</p>
-                                <button disabled class="cta-button secondary" style="border-style:dashed; padding:16px 32px;">Sourcing en cours...</button>
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCommandoStarted ? "Le Commando est en route" : "Déployez le Commando"}</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCommandoStarted ? "Votre Roadmap est validée. Nos experts analysent votre profil pour un matching d'élite." : "Votre Roadmap est prête. Lancez le sourcing pour recruter vos experts diaspora."}</p>
+                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:${isCommandoStarted ? 'var(--text-muted)' : 'white'}; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
+                                    ${isCommandoStarted ? "Sourcing en cours..." : "Lancer le Sourcing Expert →"}
+                                </button>
                             </div>
                         `;
                 } else {
+                    const isCertified = firstProj.roadmap && firstProj.roadmap.is_certified;
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">L'Impulsion Finale</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre projet est mature. Préparez-vous pour le Podcast et la certification Domtom Connect.</p>
-                                <button class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Prendre RDV Podcast</button>
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et le Podcast."}</p>
+                                <button onclick="${isCertified ? 'alert(\'Déjà certifié !\')' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
+                                    ${isCertified ? "RDV Podcast Programmé" : "Certifier mon Épopée ⭐"}
+                                </button>
                             </div>
                         `;
                 }
@@ -1576,6 +1590,50 @@
             }
         }
 
+
+        async function startCommando(projectId) {
+            const session = await getSession();
+            if (!session) return;
+
+            // Récupérer la roadmap actuelle
+            const { data: p } = await _supabase.from('projects').select('roadmap').eq('id', projectId).single();
+            const roadmap = p.roadmap || {};
+            roadmap.commando_started = true;
+
+            const { error } = await _supabase
+                .from('projects')
+                .update({ roadmap: roadmap })
+                .eq('id', projectId);
+
+            if (error) {
+                alert("Erreur lors du lancement du Commando : " + error.message);
+            } else {
+                alert("🚀 Commando Déployé ! Nos experts diaspora ont été notifiés de votre roadmap.");
+                loadMyProjects(session.user.id);
+            }
+        }
+
+        async function certifyProject(projectId) {
+            const session = await getSession();
+            if (!session) return;
+
+            // Récupérer la roadmap actuelle
+            const { data: p } = await _supabase.from('projects').select('roadmap').eq('id', projectId).single();
+            const roadmap = p.roadmap || {};
+            roadmap.is_certified = true;
+
+            const { error } = await _supabase
+                .from('projects')
+                .update({ roadmap: roadmap })
+                .eq('id', projectId);
+
+            if (error) {
+                alert("Erreur lors de la certification : " + error.message);
+            } else {
+                alert("⭐ Félicitations ! Votre épopée est officiellement Certifiée Domtom Connect.");
+                loadMyProjects(session.user.id);
+            }
+        }
 
         function handleLogout() {
             signOut();
