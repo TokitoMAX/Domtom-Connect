@@ -899,19 +899,45 @@
             }
         }
 
-        async function loadDashboard() {
+        async function checkSession() {
             const session = await getSession();
             if (!session) {
                 window.location.href = 'login.html';
-                return;
-            }
+            } else {
+                // Update Navbar Actions
+                const navActions = document.getElementById('nav-actions-container');
+                if (navActions) {
+                    navActions.innerHTML = `
+                        <a href="profile.html" class="cta-button secondary">Mon Profil</a>
+                        <button onclick="handleLogout()" class="cta-button ghost" style="padding:10px 20px;">Déconnexion</button>
+                    `;
+                }
 
-            // Gating Native Supabase (Phase 10)
-            if (!session.user.email_confirmed_at) {
-                console.log("Accès Dashboard refusé: Email non confirmé nativement.");
-                window.location.href = 'registration/verify-email.html';
-                return;
+                const dashboardContent = document.getElementById('dashboard-content');
+                if (!session.user.email_confirmed_at) {
+                    console.log("Accès Dashboard refusé: Email non confirmé nativement.");
+                    window.location.href = 'registration/verify-email.html';
+                    return;
+                }
+                // If session is valid and email confirmed, load the dashboard content
+                loadDashboardContent(session);
             }
+        }
+
+        // Renamed loadDashboard to loadDashboardContent to be called by checkSession
+        async function loadDashboardContent(session) {
+            // The session is already checked and confirmed by checkSession()
+            // if (!session) {
+            //     window.location.href = 'login.html';
+            //     return;
+            // }
+
+            // Gating Native Supabase (Phase 10) - This check is now done in checkSession()
+            // if (!session.user.email_confirmed_at) {
+            //     console.log("Accès Dashboard refusé: Email non confirmé nativement.");
+            //     window.location.href = 'registration/verify-email.html';
+            //     return;
+            // }
 
             const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
             const profile = await getProfile(session.user.id);
@@ -1165,8 +1191,8 @@
                             <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
                             <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
                             <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem;">Écrire mon Manifeste</button>
-                                <a href="#my-projects-section" class="cta-button secondary" style="border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
+                                <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
+                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
                             </div>
                         </div>
 
@@ -1267,7 +1293,6 @@
             if (projects.length > 0) {
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
-                document.getElementById('maturity-score').textContent = `${totalScore}%`;
                 updateSuccessStepper(totalScore);
 
                 // Dynamic Call to Action
@@ -1577,7 +1602,7 @@
             }
         }
 
-        loadDashboard();
+        checkSession();
     </script>
 </body>
 
