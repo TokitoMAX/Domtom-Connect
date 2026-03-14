@@ -455,13 +455,34 @@
         .hero-modal select,
         .hero-modal textarea {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: #2d3748;
+            /* Couleur solide pour éviter les glitches de transparence */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 14px 16px;
             color: white;
             font-size: 0.95rem;
             transition: all 0.2s;
+            appearance: none;
+            /* Pour un style plus contrôlé */
+        }
+
+        .hero-modal select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 48px;
+        }
+
+        .hero-modal option {
+            background: #1e293b;
+            color: white;
+        }
+
+        .hero-modal input::placeholder,
+        .hero-modal textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .hero-modal input:focus,
@@ -469,13 +490,14 @@
         .hero-modal textarea:focus {
             outline: none;
             border-color: #10b981;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+            background: #334155;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
         }
 
         .hero-modal textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
+            line-height: 1.6;
         }
 
         .hero-modal .modal-close {
