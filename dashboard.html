@@ -533,6 +533,88 @@
         .modal-overlay.open {
             display: flex;
         }
+
+        /* Styles pour le Dashboard Segmenté (Porteurs de Projet) */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .module-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .module-card:hover {
+            border-color: #10b981;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .module-card h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .module-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .module-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 32px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .back-button:hover {
+            color: #10b981;
+            transform: translateX(-4px);
+        }
     </style>
 </head>
 
@@ -691,6 +773,24 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
+        function showView(viewId) {
+            const overview = document.getElementById('project-owner-modules');
+            const successEngine = document.getElementById('success-engine-view');
+            const greeting = document.querySelector('.header-section');
+
+            if (viewId === 'success-engine') {
+                if (overview) overview.style.display = 'none';
+                if (successEngine) successEngine.style.display = 'block';
+                if (greeting) greeting.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                if (overview) overview.style.display = 'block';
+                if (successEngine) successEngine.style.display = 'none';
+                if (greeting) greeting.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
         function renderVisibilityPreview(profile) {
             if (!profile) return;
             const container = document.getElementById('visibility-preview-container');
@@ -1214,53 +1314,92 @@
                 roleBadge.style.color = "var(--text-muted)";
                 roleBadge.style.border = "1px solid var(--gray-200)";
 
-                // Success Engine Layout
-                cardsContainer.innerHTML = ''; // Nettoyage de la grille par défaut
+                // Structure Segmentée
+                cardsContainer.innerHTML = '';
 
-                const engineHTML = `
-                    <div class="success-engine-container">
-                        <!-- 1. Header Héroïque Dynamique -->
-                        <div id="success-engine-header"></div>
+                // Calcul du score pour le premier projet (affichage sur la carte)
+                const { data: projects } = await _supabase.from('projects').select('*').eq('owner_id', session.user.id).limit(1);
+                const firstProj = projects && projects.length > 0 ? projects[0] : null;
+                const score = firstProj ? calculateProjectMaturity(firstProj) : 0;
 
-                        <!-- 2. Success Roadmap (Stepper) -->
-                        <div class="success-steps" style="max-width:800px; margin: 0 auto 48px;">
-                            <div class="step-item" id="step-1">
-                                <div class="step-circle">1</div>
-                                <div class="step-label">Manifeste</div>
-                            </div>
-                            <div class="step-item" id="step-2">
-                                <div class="step-circle">2</div>
-                                <div class="step-label">Boussole</div>
-                            </div>
-                            <div class="step-item" id="step-3">
-                                <div class="step-circle">3</div>
-                                <div class="step-label">Commando</div>
-                            </div>
-                            <div class="step-item" id="step-4">
-                                <div class="step-circle">4</div>
-                                <div class="step-label">Impulsion</div>
-                            </div>
-                        </div>
+                const segmentedHTML = `
+                    <div id="project-owner-modules">
+                        <div class="modules-grid">
+                            <!-- Carte Success Engine -->
+                            <a href="javascript:void(0)" onclick="showView('success-engine')" class="module-card" style="border-color: #10b981; background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
+                                <div class="module-badge">${score}% Maturité</div>
+                                <div class="module-icon">🚀</div>
+                                <h3>Mon Épopée</h3>
+                                <p>Suivez le Success Engine pour structurer votre projet et débloquer votre visibilité.</p>
+                                <div style="margin-top: auto; color: #10b981; font-weight: 700; font-size: 0.85rem;">Gérer mon projet →</div>
+                            </a>
 
-                        <!-- 3. Maturity Grid -->
-                        <!-- Success Engine Dynamic Section -->
-                        <div id="success-engine-step">
-                            <!-- Rempli dynamiquement par loadMyProjects -->
+                            <!-- Carte Webinaires -->
+                            <a href="/landing/webinaire/index.html" class="module-card">
+                                <div class="module-icon">📽️</div>
+                                <h3>Webinaires</h3>
+                                <p>Participez à nos sessions live pour comprendre l'écosystème et poser vos questions.</p>
+                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Voir les sessions →</div>
+                            </a>
+
+                            <!-- Carte Annuaire -->
+                            <a href="/marketplace/directory.html" class="module-card">
+                                <div class="module-icon">🌍</div>
+                                <h3>Annuaire Talents</h3>
+                                <p>Explorez les experts de la diaspora prêts à propulser votre projet.</p>
+                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Trouver un expert →</div>
+                            </a>
+
+                            <!-- Carte Missions -->
+                            <a href="/marketplace/jobs.html" class="module-card">
+                                <div class="module-icon">💼</div>
+                                <h3>Missions</h3>
+                                <p>Consultez les opportunités et collaborez avec d'autres membres du réseau.</p>
+                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Explorer →</div>
+                            </a>
+
+                            <!-- Carte Ressources -->
+                            <a href="/blog.html" class="module-card">
+                                <div class="module-icon">📚</div>
+                                <h3>Ressources</h3>
+                                <p>Guides, checklists et articles pour éviter les erreurs classiques.</p>
+                                <div style="margin-top: auto; color: var(--primary-color); font-weight: 700; font-size: 0.85rem;">Lire les guides →</div>
+                            </a>
                         </div>
                     </div>
 
-                    <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                            <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
-                            <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
+                    <div id="success-engine-view" style="display: none;">
+                        <button onclick="showView('overview')" class="back-button">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                            Retour au Dashboard
+                        </button>
+
+                        <div class="success-engine-container">
+                            <div id="success-engine-header"></div>
+                            <div class="success-steps" style="max-width:800px; margin: 0 auto 48px;">
+                                <div class="step-item" id="step-1"><div class="step-circle">1</div><div class="step-label">Manifeste</div></div>
+                                <div class="step-item" id="step-2"><div class="step-circle">2</div><div class="step-label">Boussole</div></div>
+                                <div class="step-item" id="step-3"><div class="step-circle">3</div><div class="step-label">Commando</div></div>
+                                <div class="step-item" id="step-4"><div class="step-circle">4</div><div class="step-label">Impulsion</div></div>
+                            </div>
+                            <div id="success-engine-step"></div>
                         </div>
-                        <div id="my-projects-list">
-                            <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
+
+                        <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                                <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
+                                <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
+                            </div>
+                            <div id="my-projects-list">
+                                <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                dashboardContent.insertAdjacentHTML('beforeend', engineHTML);
+                dashboardContent.insertAdjacentHTML('beforeend', segmentedHTML);
                 await loadMyProjects(session.user.id);
             }
         }
