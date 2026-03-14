@@ -231,7 +231,7 @@
 
                 if (role && profile) {
                     // Rôle déjà défini ET profil existant → pas besoin de repasser par l'onboarding
-                    window.location.href = '../mon-espace';
+                    window.location.href = '../mon-projet';
                 } else if (role && !profile) {
                     console.log("Incohérence détectée: Rôle présent mais Profil absent. Nettoyage...");
                     // Optionnel: On pourrait tenter de nettoyer les metadata ici si nécessaire

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -633,7 +633,7 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="marketplace/directory.html">Talents</a>
+                    <a href="marketplace/directory">Talents</a>
                     <a href="marketplace/companies.html">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -660,7 +660,7 @@
             </svg>
             Dashboard
         </a>
-        <a href="profile.html" class="mobile-nav-link">
+        <a href="profile" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -682,10 +682,10 @@
                 style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu
                 Principal</span>
             <a href="javascript:void(0)" class="sidebar-link active">Vue d'ensemble</a>
-            <a href="/marketplace/directory.html" class="sidebar-link">Annuaire Talents</a>
+            <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
             <a href="/marketplace/companies.html" class="sidebar-link">Annuaire Entreprises</a>
-            <a href="/marketplace/jobs.html" class="sidebar-link">Missions</a>
-            <a href="/profile.html" class="sidebar-link">Mon Profil</a>
+            <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
+            <a href="/profile" class="sidebar-link">Mon Profil</a>
             <a href="/messages.html" class="sidebar-link">Messagerie</a>
 
             <span
@@ -871,7 +871,7 @@
                 tip.innerHTML = "✅ Profil complet ! Vous remontez en priorité dans l'annuaire.";
                 tip.style.color = "#10b981";
             } else {
-                tip.innerHTML = `💡 <strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile.html" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
+                tip.innerHTML = `💡 <strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
             }
         }
 
@@ -1037,13 +1037,13 @@
         async function checkSession() {
             const session = await getSession();
             if (!session) {
-                window.location.href = 'login.html';
+                window.location.href = 'login';
             } else {
                 // Update Navbar Actions
                 const navActions = document.getElementById('nav-actions-container');
                 if (navActions) {
                     navActions.innerHTML = `
-                        <a href="profile.html" class="cta-button secondary">Mon Profil</a>
+                        <a href="profile" class="cta-button secondary">Mon Profil</a>
                         <button onclick="handleLogout()" class="cta-button ghost" style="padding:10px 20px;">Déconnexion</button>
                     `;
                 }
@@ -1051,7 +1051,7 @@
                 const dashboardContent = document.getElementById('dashboard-content');
                 if (!session.user.email_confirmed_at) {
                     console.log("Accès Dashboard refusé: Email non confirmé nativement.");
-                    window.location.href = 'registration/verify-email.html';
+                    window.location.href = 'registration/verify-email';
                     return;
                 }
                 // If session is valid and email confirmed, load the dashboard content
@@ -1063,14 +1063,14 @@
         async function loadDashboardContent(session) {
             // The session is already checked and confirmed by checkSession()
             // if (!session) {
-            //     window.location.href = 'login.html';
+            //     window.location.href = 'login';
             //     return;
             // }
 
             // Gating Native Supabase (Phase 10) - This check is now done in checkSession()
             // if (!session.user.email_confirmed_at) {
             //     console.log("Accès Dashboard refusé: Email non confirmé nativement.");
-            //     window.location.href = 'registration/verify-email.html';
+            //     window.location.href = 'registration/verify-email';
             //     return;
             // }
 
@@ -1090,7 +1090,7 @@
 
             if (profile && profile.domtom_verified === false) {
                 console.log("Accès Dashboard refusé: Validation Domtom manquante.");
-                window.location.href = 'registration/verify-email.html';
+                window.location.href = 'registration/verify-email';
                 return;
             }
 
@@ -1104,7 +1104,7 @@
             if (!profile || !role) {
                 // Si pas de profil en base OU pas de rôle, on force l'onboarding
                 console.log("Accès Dashboard refusé: Profil ou Rôle manquant. Redirection Onboarding.");
-                window.location.href = 'registration/onboarding.html';
+                window.location.href = 'registration/onboarding';
                 return;
             }
 
@@ -1216,12 +1216,12 @@
                     <div class="dash-card highlight" style="border-color: #0284c7;">
                         <div class="card-title">Recrutement & Talents</div>
                         <p class="card-desc">Trouvez les meilleurs experts locaux pour vos projets.</p>
-                        <a href="marketplace/directory.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
+                        <a href="marketplace/directory" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Publier un Besoin</div>
                         <p class="card-desc">Poster une mission pour attirer les bons profils.</p>
-                        <a href="registration/client.html" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Poster une mission</a>
+                        <a href="registration/client" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Poster une mission</a>
                     </div>
                 `;
 
@@ -1349,19 +1349,19 @@
                             <div class="dash-card">
                                 <div class="card-title">Annuaire Talents</div>
                                 <p class="card-desc">Explorez les experts de la diaspora prêts à propulser votre aventure.</p>
-                                <a href="/marketplace/directory.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Trouver un expert</a>
+                                <a href="/marketplace/directory" class="cta-button primary" style="margin-top:auto; justify-content:center;">Trouver un expert</a>
                             </div>
 
                             <div class="dash-card">
                                 <div class="card-title">Missions Marketplace</div>
                                 <p class="card-desc">Consultez les opportunités et collaborez avec d'autres membres.</p>
-                                <a href="/marketplace/jobs.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir les missions</a>
+                                <a href="/marketplace/jobs" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir les missions</a>
                             </div>
 
                             <div class="dash-card">
                                 <div class="card-title">Ressources & Guides</div>
                                 <p class="card-desc">Toutes les checklists et guides pour éviter les erreurs classiques.</p>
-                                <a href="/blog.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Lire les guides</a>
+                                <a href="/blog" class="cta-button primary" style="margin-top:auto; justify-content:center;">Lire les guides</a>
                             </div>
                         </div>
                     </div>
@@ -1371,7 +1371,7 @@
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M19 12H5M12 19l-7-7 7-7"/>
                             </svg>
-                            Retour au Dashboard
+                            Retour au menu
                         </button>
 
                         <div class="success-engine-container">
@@ -1885,7 +1885,7 @@
                     const filePath = `projects/${fileName}`;
 
                     const { data, error: uploadError } = await _supabase.storage
-                        .from('avatars') // Utilisation du bucket existant 'avatars' (comme dans profile.html)
+                        .from('avatars') // Utilisation du bucket existant 'avatars' (comme dans profile)
                         .upload(filePath, file);
 
                     if (uploadError) throw uploadError;
@@ -2049,7 +2049,7 @@
                         alert("Pour des raisons de sécurité, veuillez envoyer un email à domtomconnect@gmail.com pour confirmer la suppression (RGPD).");
                     } else {
                         alert("Compte supprimé avec succès.");
-                        window.location.href = '/login.html';
+                        window.location.href = '/login';
                     }
                 } catch (e) {
                     alert("Pour valider la suppression de vos données, veuillez nous contacter à domtomconnect@gmail.com. (Conformité RGPD)");

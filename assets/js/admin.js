@@ -1,4 +1,4 @@
-﻿// Admin mon-espace for Leads Tracking
+﻿// Admin mon-projet for Leads Tracking
 
 const ADMIN_PASSWORD = 'domtom2025'; // À changer en production
 
@@ -12,7 +12,7 @@ function checkPassword() {
     
     if (password === ADMIN_PASSWORD) {
         document.getElementById('login-section').style.display = 'none';
-        document.getElementById('mon-espace-section').style.display = 'block';
+        document.getElementById('mon-projet-section').style.display = 'block';
         loadLeads();
     } else {
         errorMsg.style.display = 'block';

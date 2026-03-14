@@ -1,14 +1,14 @@
-{
+﻿{
     "cleanUrls": true,
     "redirects": [
         {
             "source": "/dashboard",
-            "destination": "/mon-espace",
+            "destination": "/mon-projet",
             "permanent": true
         },
         {
             "source": "/dashboard.html",
-            "destination": "/mon-espace",
+            "destination": "/mon-projet",
             "permanent": true
         },
         {

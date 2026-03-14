@@ -56,7 +56,7 @@
         <h1 class="auth-title">Vérifiez vos emails</h1>
         <p class="auth-text">
             Un lien de confirmation vient de vous être envoyé.
-            Veuillez cliquer sur ce lien pour activer votre compte et accéder à votre mon-espace.
+            Veuillez cliquer sur ce lien pour activer votre compte et accéder à votre mon-projet.
         </p>
 
         <div id="magic-link-section"
@@ -95,7 +95,7 @@
                 const { error } = await _supabase.auth.signInWithOtp({
                     email: email,
                     options: {
-                        emailRedirectTo: window.location.origin + '/mon-espace'
+                        emailRedirectTo: window.location.origin + '/mon-projet'
                     }
                 });
 
