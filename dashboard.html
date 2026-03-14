@@ -345,23 +345,24 @@
         }
 
         .step-circle {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: white;
             border: 2px solid var(--gray-200);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: var(--text-muted);
+            font-weight: 800;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
         }
 
         .step-item.active .step-circle {
+            background: #10b981;
             border-color: #10b981;
-            color: #10b981;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+            color: white;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
         }
 
         .step-item.completed .step-circle {
@@ -371,36 +372,38 @@
         }
 
         .step-label {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-muted);
-            text-align: center;
         }
 
-        .step-item.active .step-label {
-            color: var(--text-primary);
+        .step-item.active .step-label,
+        .step-item.completed .step-label {
+            color: #10b981;
         }
 
         .maturity-bar-container {
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 32px;
             margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
         }
 
         .maturity-score-display {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 3rem;
+            font-weight: 900;
             color: #10b981;
             line-height: 1;
+            letter-spacing: -2px;
         }
 
+        /* Heroic Vision Card */
         .vision-card {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
             padding: 32px;
             border-radius: 20px;
             margin-bottom: 32px;
@@ -1040,8 +1043,19 @@
 
                 const engineHTML = `
                     <div class="success-engine-container">
-                        <!-- 1. Success Roadmap -->
-                        <div class="success-steps">
+                        <!-- 1. Header Héroïque Vision -->
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Votre Épopée Projet</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem;">Écrire mon Manifeste</button>
+                                <a href="#my-projects-section" class="cta-button secondary" style="border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
+                            </div>
+                        </div>
+
+                        <!-- 2. Success Roadmap (Stepper) -->
+                        <div class="success-steps" style="max-width:800px; margin: 0 auto 48px;">
                             <div class="step-item" id="step-1">
                                 <div class="step-circle">1</div>
                                 <div class="step-label">Manifeste</div>
@@ -1060,45 +1074,43 @@
                             </div>
                         </div>
 
-                        <!-- 2. Maturity & Vision -->
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 32px;">
-                            <div class="maturity-bar-container">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité Projet</span>
+                        <!-- 3. Maturity Grid -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
+                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
                                 <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score">0%</span>
-                                    <span style="font-size:0.9rem; color:var(--text-secondary);">Vers le succès</span>
+                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">0%</span>
+                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
                                 </div>
-                                <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:16px;">Plus votre score est haut, plus vous attirez des partenaires sérieux.</p>
+                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
                             </div>
-                            <div class="dash-card">
-                                <div class="card-title">Manifeste & Vision</div>
-                                <p class="card-desc">Votre "Pourquoi" est le moteur de votre réussite. Affinez votre pitch narratif.</p>
-                                <button onclick="openProjectModal()" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Modifier mon Manifeste</button>
+                            <div class="dash-card highlight" style="padding:40px; border-color:#10b981;">
+                                <div class="card-title" style="font-size:1.4rem;">Prochaine Étape : La Boussole</div>
+                                <p class="card-desc" style="font-size:1rem; margin-top:12px;">Tracez vos objectifs S/M/L pour que les experts sachent exactement où vous emmener.</p>
+                                <a href="#" class="cta-button primary" style="margin-top:auto; justify-content:center; background:#10b981; padding:14px;">Tracer ma Roadmap →</a>
                             </div>
                         </div>
 
-                        <!-- 3. Success Steps Detail -->
+                        <!-- 4. Other Steps -->
                         <div class="cards-grid">
-                            <div class="dash-card highlight">
-                                <div class="card-title">Étape 2 : La Boussole (Roadmap)</div>
-                                <p class="card-desc">Définissez vos objectifs S/M/L (Court, Moyen, Long terme) pour guider vos partenaires.</p>
-                                <a href="#" class="cta-button primary" style="justify-content:center; background:#10b981;">Structurer ma Roadmap →</a>
+                            <div class="dash-card" style="opacity:0.6;">
+                                <div class="card-title">Étape 3 : Le Commando</div>
+                                <p class="card-desc">Sourcing d'experts élites basé sur votre roadmap.</p>
+                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; border-style:dashed;">Verrouillé</button>
                             </div>
-                            <div class="dash-card">
-                                <div class="card-title">Étape 3 : Le Commando (Sourcing)</div>
-                                <p class="card-desc">Une fois la roadmap tracée, nous vous présentons les experts idéaux pour votre projet.</p>
-                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; opacity:0.5; cursor:not-allowed;">Bientôt disponible</button>
-                            </div>
-                            <div class="dash-card">
-                                <div class="card-title">Étape 4 : L'Impulsion (Visibilité)</div>
-                                <p class="card-desc">Débloquez votre Podcast interview et votre badge "Certifié DC" pour un impact maximal.</p>
-                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; opacity:0.5; cursor:not-allowed;">Verrouillé</button>
+                            <div class="dash-card" style="opacity:0.6;">
+                                <div class="card-title">Étape 4 : L'Impulsion</div>
+                                <p class="card-desc">Accélération massive, Podcasts & Badge Certifié.</p>
+                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; border-style:dashed;">Verrouillé</button>
                             </div>
                         </div>
                     </div>
 
-                    <div id="my-projects-section" style="margin-top:48px;">
-                        <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:24px;">Mes Épopées en Cours</h2>
+                    <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                            <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
+                            <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
+                        </div>
                         <div id="my-projects-list">
                             <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
                         </div>
