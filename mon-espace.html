@@ -785,21 +785,32 @@
                 if (successEngine) successEngine.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                history.pushState({ view: 'success-engine' }, '', '/mon-projet#epopee');
+                // Only push if not already at the URL to avoid history bloat
+                if (window.location.pathname !== '/mon-projet') {
+                    history.pushState({ view: 'success-engine' }, '', '/mon-projet');
+                }
             } else {
                 if (overview) overview.style.display = 'block';
                 if (successEngine) successEngine.style.display = 'none';
                 if (greeting) greeting.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                history.pushState({ view: 'overview' }, '', '/mon-projet');
+                if (window.location.pathname !== '/mon-espace') {
+                    history.pushState({ view: 'overview' }, '', '/mon-espace');
+                }
             }
         }
 
-        // Restore view from URL hash on page load
-        window.addEventListener('hashchange', () => {
-            if (window.location.hash === '#epopee') showView('success-engine');
+        // Support for browser back/forward buttons
+        window.addEventListener('popstate', (event) => {
+            if (window.location.pathname === '/mon-projet') showView('success-engine');
             else showView('overview');
         });
+
+        // Initialize from URL pathname on page load
+        function initRouting() {
+            if (window.location.pathname === '/mon-projet') showView('success-engine');
+            else showView('overview');
+        }
 
         function renderVisibilityPreview(profile) {
             if (!profile) return;
@@ -1407,8 +1418,8 @@
 
                 dashboardContent.insertAdjacentHTML('beforeend', segmentedHTML);
                 await loadMyProjects(session.user.id);
-                // Auto-navigate to success engine if URL hash is #epopee
-                if (window.location.hash === '#epopee') showView('success-engine');
+                // Auto-navigate based on URL path
+                initRouting();
             }
         }
 
