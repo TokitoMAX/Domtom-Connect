@@ -109,11 +109,13 @@
         }
 
         .support-card {
-            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            background: rgba(6, 78, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 32px;
             color: white;
-            box-shadow: 0 25px 50px -12px rgba(6, 78, 59, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
             position: sticky;
             top: 24px;
         }
@@ -122,13 +124,33 @@
             font-size: 1.5rem;
             font-weight: 900;
             margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
         .support-card p {
-            color: #d1fae5;
+            color: rgba(255, 255, 255, 0.8);
             font-size: 0.95rem;
             margin-bottom: 24px;
             line-height: 1.6;
+        }
+
+        @keyframes pulse-maturity {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .maturity-score-display {
+            animation: pulse-maturity 2s infinite ease-in-out;
+            display: inline-block;
         }
 
         @media (max-width: 900px) {
@@ -275,6 +297,8 @@
                 'scale': 'Accélération (50k€+)'
             }[project.budget] || 'Non défini';
 
+            const cleanDescription = (project.description || "").replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim();
+
             container.innerHTML = `
                 <section class="hero-project">
                     ${coverHtml}
@@ -286,12 +310,12 @@
                         <div style="display: flex; gap: 40px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;">
                             <div style="max-width: 800px;">
                                 <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 16px; line-height: 1.1; letter-spacing: -0.03em;">${project.title}</h1>
-                                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8); margin: 0; line-height: 1.6;">${project.description}</p>
+                                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8); margin: 0; line-height: 1.6;">${cleanDescription}</p>
                             </div>
                             
-                            <div style="text-align: right; background: rgba(0,0,0,0.4); padding: 20px 32px; border-radius: 16px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
-                                <div style="font-size: 3rem; font-weight: 900; color: #34d399; line-height: 1;">${maturityScore}%</div>
-                                <div style="font-size: 0.8rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.1em;">Index de Maturité</div>
+                            <div style="text-align: right; background: rgba(255,255,255,0.1); padding: 20px 32px; border-radius: 24px; backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                                <div class="maturity-score-display" style="font-size: 3rem; font-weight: 900; color: #34d399; line-height: 1;">${maturityScore}%</div>
+                                <div style="font-size: 0.8rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;">Épopée Scellée</div>
                             </div>
                         </div>
                     </div>
