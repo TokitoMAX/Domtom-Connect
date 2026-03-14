@@ -339,43 +339,78 @@
             }
         }
 
+        function calculateProjectMaturity(p) {
+            if (!p) return 0;
+            let score = 0;
+            if (p.title) score += 10;
+            if (p.description && p.description.length > 5) score += 10;
+            if (p.territory) score += 5;
+            if (p.roadmap) {
+                const r = p.roadmap;
+                if (r.short) score += 10;
+                if (r.medium) score += 10;
+                if (r.long) score += 5;
+            }
+            if (p.budget) score += 10;
+            if (p.cover_url) score += 10;
+            if (p.needs && p.needs.length > 5) score += 5;
+            if (p.video_url) score += 10;
+            if (p.social_links && (p.social_links.linkedin || p.social_links.twitter)) score += 10;
+            if (p.audit_score >= 8) score += 5;
+            return Math.min(100, score);
+        }
+
         function renderProjectCard(project) {
             const initials = project.title.slice(0, 2).toUpperCase();
-            const avatar = project.image_url
-                ? `<img src="${project.image_url}" class="project-avatar" alt="${project.title}">`
-                : `<div class="project-avatar">${initials}</div>`;
+            const maturityScore = calculateProjectMaturity(project);
+            const isVerified = project.audit_score >= 8;
+
+            const coverStyle = project.cover_url
+                ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url('${project.cover_url}'); background-size: cover; background-position: center;`
+                : `background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);`;
 
             const needs = project.needs ? project.needs.split(',').map(n => `<span class="tag tag-need">${n.trim()}</span>`).join('') : '';
 
-            // Simulation de maturité pour l'UI
-            const maturityScore = 45;
-            const isVerified = project.is_listed; // Pour l'instant, si c'est listé, c'est que c'est validé par DC
+            const budgetLabel = {
+                'bootstrap': '0€ (Bootstrap)',
+                'seed': '1k - 10k€ (Amorçage)',
+                'growth': '10k - 50k€ (Croissance)',
+                'scale': '50k€+ (Accélération)'
+            }[project.budget] || 'Budget non défini';
 
             return `
-                <div class="premium-card">
-                    <div class="maturity-badge">
-                        <div class="maturity-value">${maturityScore}%</div>
-                        <div class="maturity-text">Maturité</div>
-                    </div>
-
-                    <div class="premium-card-header">
-                        ${avatar}
-                        <div class="premium-info" style="max-width: calc(100% - 100px);">
-                            ${isVerified ? `<div class="success-label">✓ Certifié Domtom Connect</div>` : ''}
-                            <div class="premium-status">${project.status || 'En cours'}</div>
-                            <h3>${project.title}</h3>
+                <div class="premium-card" style="padding:0; border:none; height:100%;">
+                    <div style="${coverStyle} height:200px; padding:24px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+                        <div class="maturity-badge" style="top:20px; right:20px; z-index:2;">
+                            <div class="maturity-value" style="color:#34d399;">${maturityScore}%</div>
+                            <div class="maturity-text" style="color:rgba(255,255,255,0.7);">Maturité</div>
+                        </div>
+                        <div style="z-index:2;">
+                            ${isVerified ? `<div class="success-label" style="background:#10b981; color:white; border:none;">⭐ Épopée Certifiée</div>` : ''}
+                            <div style="font-size:0.7rem; color:rgba(255,255,255,0.8); text-transform:uppercase; font-weight:800; letter-spacing:0.1em; margin-bottom:4px;">${project.territory}</div>
+                            <h3 style="color:white; margin:0; font-size:1.4rem; font-weight:900;">${project.title}</h3>
                         </div>
                     </div>
 
-                    <p class="premium-bio">${project.description}</p>
+                    <div style="padding:24px; display:flex; flex-direction:column; flex-grow:1; background:white; border:1px solid var(--gray-200); border-top:none; border-radius: 0 0 16px 16px;">
+                        <p class="premium-bio" style="margin-bottom:16px;">${project.description.slice(0, 150)}${project.description.length > 150 ? '...' : ''}</p>
+                        
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+                            <span class="tag" style="background:rgba(16,185,129,0.05); color:#10b981; border-color:rgba(16,185,129,0.2);">💰 ${budgetLabel}</span>
+                            ${needs}
+                        </div>
 
-                    <div class="premium-tags">
-                        <span class="tag">📍 ${project.territory}</span>
-                        ${needs}
-                    </div>
-                    
-                    <div class="premium-actions">
-                        <a href="../messages.html?to=${project.owner_id}" class="btn-premium-contact">Soutenir cette Épopée</a>
+                        <div style="display:flex; gap:12px; margin-top:auto;">
+                            <a href="../messages.html?to=${project.owner_id}" class="btn-premium-contact" style="flex:2;">Soutenir l'aventure</a>
+                            ${project.video_url ? `<a href="${project.video_url}" target="_blank" class="cta-button secondary" style="flex:1; padding:12px; font-size:0.8rem; text-align:center; border-radius:8px;">Pitch Vidéo</a>` : ''}
+                        </div>
+
+                        ${project.social_links ? `
+                            <div style="display:flex; gap:8px; margin-top:16px; justify-content:center;">
+                                ${project.social_links.linkedin ? `<a href="${project.social_links.linkedin}" target="_blank" style="color:var(--text-muted); font-size:0.8rem;">LinkedIn</a>` : ''}
+                                ${project.social_links.twitter ? `<a href="${project.social_links.twitter}" target="_blank" style="color:var(--text-muted); font-size:0.8rem;">Twitter</a>` : ''}
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `;

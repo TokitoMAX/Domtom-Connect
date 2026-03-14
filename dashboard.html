@@ -843,26 +843,24 @@
             if (project.territory) score += 5;
 
             // Étape 2 : Boussole / Roadmap (Max 25%)
-            let roadmapDone = false;
             if (project.roadmap) {
                 const r = project.roadmap;
                 let roadmapScore = 0;
                 if (r.short) roadmapScore += 10;
                 if (r.medium) roadmapScore += 10;
                 if (r.long) roadmapScore += 5;
-                if (roadmapScore >= 25) roadmapDone = true;
                 score += roadmapScore;
             }
 
-            // Étape 3 : Commando (Sourcing Experts) (Max 25%)
-            if (roadmapDone && project.roadmap && project.roadmap.commando_started) {
-                score += 25;
-            }
+            // Étape 3 : Arsenal Commando (Max 25%)
+            if (project.budget) score += 10;
+            if (project.cover_url) score += 10;
+            if (project.needs && project.needs.length > 5) score += 5;
 
-            // Étape 4 : Impulsion / Visibilité (Max 25%)
-            if (project.roadmap && project.roadmap.is_certified) {
-                score += 25;
-            }
+            // Étape 4 : Impulsion Finale (Max 25%)
+            if (project.video_url) score += 10;
+            if (project.social_links && (project.social_links.linkedin || project.social_links.twitter)) score += 10;
+            if (project.audit_score >= 8) score += 5;
 
             return Math.min(100, score);
         }
@@ -888,24 +886,20 @@
                     else if (step.id === '2') {
                         if (score >= 25) openRoadmapModal(projectId);
                         else {
-                            alert("Votre Manifeste (Étape 1) n'est pas encore assez complet (il manque le territoire ou une description plus longue) !");
+                            alert("Veuillez d'abord compléter votre Manifeste (Étape 1).");
                             openProjectModal(projectId);
                         }
                     } else if (step.id === '3') {
-                        if (score >= 50) {
-                            if (confirm("Lancer le Sourcing Expert pour ce projet ?")) {
-                                startCommando(projectId);
-                            }
-                        } else {
-                            alert("Veuillez d'abord compléter votre Boussole (Étape 2).");
+                        if (score >= 50) openArsenalModal(projectId);
+                        else {
+                            alert("Veuillez d'abord tracer votre Boussole (Étape 2).");
+                            openRoadmapModal(projectId);
                         }
                     } else if (step.id === '4') {
-                        if (score >= 75) {
-                            if (confirm("Certifier votre épopée et prendre RDV pour le Podcast ?")) {
-                                certifyProject(projectId);
-                            }
-                        } else {
-                            alert("Veuillez d'abord lancer le Commando (Étape 3).");
+                        if (score >= 75) openImpulsionModal(projectId);
+                        else {
+                            alert("Veuillez d'abord préparer votre Arsenal (Étape 3).");
+                            openArsenalModal(projectId);
                         }
                     }
                 };
@@ -1639,46 +1633,183 @@
         }
 
 
-        async function startCommando(projectId) {
+        async function openArsenalModal(projectId) {
             const session = await getSession();
             if (!session) return;
 
-            // Récupérer la roadmap actuelle
-            const { data: p } = await _supabase.from('projects').select('roadmap').eq('id', projectId).single();
-            const roadmap = p.roadmap || {};
-            roadmap.commando_started = true;
+            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+            if (!p) return;
+
+            let modal = document.getElementById('arsenal-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="arsenal-modal">
+                        <div class="hero-modal">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px;">
+                                <div>
+                                    <h2>L'Arsenal Commando</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">Étape 3 : Définissez vos moyens pour attirer les talents.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeArsenalModal()">×</button>
+                            </div>
+                            <form id="arsenal-form" onsubmit="saveArsenal(event)">
+                                <input type="hidden" id="arsenal-proj-id" value="${projectId}">
+                                <div style="margin-bottom:24px;">
+                                    <label class="form-label">Budget de l'Épopée (Estimé) *</label>
+                                    <select id="arsenal-budget" required>
+                                        <option value="bootstrap">Bootstrap / 0€</option>
+                                        <option value="seed">Amorçage (1k - 10k€)</option>
+                                        <option value="growth">Croissance (10k - 50k€)</option>
+                                        <option value="scale">Accélération (50k€+)</option>
+                                    </select>
+                                </div>
+                                <div style="margin-bottom:24px;">
+                                    <label class="form-label">Image de Couverture (URL) *</label>
+                                    <input type="url" id="arsenal-cover" placeholder="Lien vers une belle image représentative" value="${p.cover_url || ''}" required>
+                                </div>
+                                <div style="margin-bottom:32px;">
+                                    <label class="form-label">Arsenal Technique & Compétences Clés</label>
+                                    <textarea id="arsenal-needs" placeholder="Ex: React, Marketing Digital, Logistique...">${p.needs || ''}</textarea>
+                                </div>
+                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                    Valider mon Arsenal
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('arsenal-modal');
+                modal.addEventListener('click', (e) => { if (e.target === modal) closeArsenalModal(); });
+            }
+
+            modal.classList.add('open');
+        }
+
+        function closeArsenalModal() {
+            document.getElementById('arsenal-modal').classList.remove('open');
+        }
+
+        async function saveArsenal(event) {
+            event.preventDefault();
+            const pid = document.getElementById('arsenal-proj-id').value;
+            const budget = document.getElementById('arsenal-budget').value;
+            const cover = document.getElementById('arsenal-cover').value;
+            const needs = document.getElementById('arsenal-needs').value;
 
             const { error } = await _supabase
                 .from('projects')
-                .update({ roadmap: roadmap })
-                .eq('id', projectId);
+                .update({
+                    budget: budget,
+                    cover_url: cover,
+                    needs: needs
+                })
+                .eq('id', pid);
 
             if (error) {
-                alert("Erreur lors du lancement du Commando : " + error.message);
+                alert("Erreur : " + error.message);
             } else {
-                alert("🚀 Commando Déployé ! Nos experts diaspora ont été notifiés de votre roadmap.");
+                alert("🚀 Arsenal validé ! Votre épopée gagne en puissance.");
+                closeArsenalModal();
+                const session = await getSession();
                 loadMyProjects(session.user.id);
             }
         }
 
-        async function certifyProject(projectId) {
+        async function openImpulsionModal(projectId) {
             const session = await getSession();
             if (!session) return;
 
-            // Récupérer la roadmap actuelle
-            const { data: p } = await _supabase.from('projects').select('roadmap').eq('id', projectId).single();
-            const roadmap = p.roadmap || {};
-            roadmap.is_certified = true;
+            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+            if (!p) return;
+
+            let modal = document.getElementById('impulsion-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="impulsion-modal">
+                        <div class="hero-modal">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px;">
+                                <div>
+                                    <h2>L'Impulsion Finale</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">Étape 4 : Certification et mise en orbite.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeImpulsionModal()">×</button>
+                            </div>
+                            <form id="impulsion-form" onsubmit="saveImpulsion(event)">
+                                <input type="hidden" id="imp-proj-id" value="${projectId}">
+                                <div style="margin-bottom:24px;">
+                                    <label class="form-label">Lien Vidéo Pitch (YouTube/Vimeo)</label>
+                                    <input type="url" id="imp-video" placeholder="Préparez une vidéo de 2 min max" value="${p.video_url || ''}">
+                                </div>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+                                    <div>
+                                        <label class="form-label">LinkedIn (Projet)</label>
+                                        <input type="url" id="imp-linkedin" placeholder="Lien LinkedIn" value="${p.social_links?.linkedin || ''}">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Twitter / X</label>
+                                        <input type="url" id="imp-twitter" placeholder="Lien Twitter" value="${p.social_links?.twitter || ''}">
+                                    </div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.05); border-radius:12px; padding:20px; margin-bottom:32px; border:1px solid rgba(16,185,129,0.2);">
+                                    <h4 style="margin:0 0 12px 0; color:#10b981;">Auto-Diagnostic de Pitch</h4>
+                                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:16px;">Notez votre dossier de 1 à 10 sur la cohérence globale.</p>
+                                    <input type="range" id="imp-audit" min="1" max="10" step="1" value="${p.audit_score || 5}" style="width:100%; accent-color:#10b981;">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted); margin-top:8px;">
+                                        <span>Débutant</span>
+                                        <span>Élite (Certification)</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none;">
+                                    Certifier mon Épopée & Publier
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('impulsion-modal');
+                modal.addEventListener('click', (e) => { if (e.target === modal) closeImpulsionModal(); });
+            }
+
+            modal.classList.add('open');
+        }
+
+        function closeImpulsionModal() {
+            document.getElementById('impulsion-modal').classList.remove('open');
+        }
+
+        async function saveImpulsion(event) {
+            event.preventDefault();
+            const pid = document.getElementById('imp-proj-id').value;
+            const video = document.getElementById('imp-video').value;
+            const li = document.getElementById('imp-linkedin').value;
+            const tw = document.getElementById('imp-twitter').value;
+            const score = document.getElementById('imp-audit').value;
+
+            // Déclencheur de publication si score suffisant
+            const isListed = (score >= 8);
 
             const { error } = await _supabase
                 .from('projects')
-                .update({ roadmap: roadmap })
-                .eq('id', projectId);
+                .update({
+                    video_url: video,
+                    social_links: { linkedin: li, twitter: tw },
+                    audit_score: parseInt(score),
+                    is_listed: isListed
+                })
+                .eq('id', pid);
 
             if (error) {
-                alert("Erreur lors de la certification : " + error.message);
+                alert("Erreur : " + error.message);
             } else {
-                alert("⭐ Félicitations ! Votre épopée est officiellement Certifiée Domtom Connect.");
+                if (isListed) {
+                    alert("⭐ FÉLICITATIONS ! Votre épopée est officiellement Certifiée et Publiée sur la Marketplace Domtom Connect.");
+                } else {
+                    alert("✅ Dossier mis à jour. Travaillez encore un peu votre pitch pour atteindre la certification Élite (Score 8+).");
+                }
+                closeImpulsionModal();
+                const session = await getSession();
                 loadMyProjects(session.user.id);
             }
         }
