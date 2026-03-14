@@ -423,23 +423,23 @@
 
             <p class="sidebar-section-label">Menu principal</p>
             <ul class="sidebar-nav">
-                <li><a href="dashboard.html">Vue d'ensemble</a></li>
-                <li><a href="marketplace/directory.html">Annuaire Talents</a></li>
-                <li><a href="marketplace/jobs.html">Missions</a></li>
-                <li><a href="profile.html">Mon Profil</a></li>
-                <li><a href="messages.html" class="active">Messagerie</a></li>
+                <li><a href="dashboard">Vue d'ensemble</a></li>
+                <li><a href="marketplace/directory">Annuaire Talents</a></li>
+                <li><a href="marketplace/jobs">Missions</a></li>
+                <li><a href="profile">Mon Profil</a></li>
+                <li><a href="messages" class="active">Messagerie</a></li>
             </ul>
 
             <hr class="sidebar-divider">
             <p class="sidebar-section-label">Externe</p>
             <ul class="sidebar-nav">
-                <li><a href="index.html">← Retour à l'accueil</a></li>
+                <li><a href="index">← Retour à l'accueil</a></li>
             </ul>
 
             <hr class="sidebar-divider">
             <p class="sidebar-section-label" style="color: #ef4444;">Danger Zone</p>
             <ul class="sidebar-nav sidebar-danger">
-                <li><a href="#" onclick="signOut()">Déconnexion</a></li>
+                <li><a href="javascript:void(0)" onclick="signOut()">Déconnexion</a></li>
             </ul>
         </aside>
 
@@ -517,7 +517,7 @@
 
         async function initMessages() {
             const session = await getSession();
-            if (!session) { window.location.href = 'login.html'; return; }
+            if (!session) { window.location.href = 'login'; return; }
             currentUserId = session.user.id;
 
             const urlParams = new URLSearchParams(window.location.search);

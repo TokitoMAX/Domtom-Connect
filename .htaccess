@@ -6,19 +6,21 @@ RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Masquer index.html de toutes les URLs
-# Redirection pour supprimer index.html de toutes les URLs (racine et sous-dossiers)
-# Exemple : /index.html -> /
-# Exemple : /services/index.html -> /services
-# Exemple : /blog/index.html -> /blog
-# Exemple : /blog/article/index.html -> /blog/article
-
-# Cas 1 : Redirection pour la racine uniquement (/index.html -> /)
 RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
 RewriteRule ^index\.html$ / [R=301,L]
 
-# Cas 2 : Redirection pour tous les sous-dossiers (/dossier/index.html -> /dossier)
 RewriteCond %{THE_REQUEST} \s/+([^?\s]*/)index\.html[\s?] [NC]
 RewriteRule ^(.*/)index\.html$ /$1 [R=301,L]
+
+# Supprimer .html des URLs
+RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
+RewriteRule ^(.+)\.html$ /%1 [R=301,L]
+
+# Servir le fichier .html si la requête ne l'a pas
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
 
 # Supprimer le slash final si présent (sauf pour la racine)
 RewriteCond %{REQUEST_FILENAME} !-d

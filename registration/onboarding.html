@@ -209,14 +209,14 @@
                 const session = await getSession();
                 if (!session) {
                     // Pas connecté → login
-                    window.location.href = '../login.html';
+                    window.location.href = '../login';
                     return;
                 }
 
                 // Gating Native Supabase (Phase 10)
                 if (!session.user.email_confirmed_at) {
                     console.log("Accès Onboarding refusé: Email non confirmé nativement.");
-                    window.location.href = 'verify-email.html';
+                    window.location.href = 'verify-email';
                     return;
                 }
 
@@ -231,7 +231,7 @@
 
                 if (role && profile) {
                     // Rôle déjà défini ET profil existant → pas besoin de repasser par l'onboarding
-                    window.location.href = '../dashboard.html';
+                    window.location.href = '../dashboard';
                 } else if (role && !profile) {
                     console.log("Incohérence détectée: Rôle présent mais Profil absent. Nettoyage...");
                     // Optionnel: On pourrait tenter de nettoyer les metadata ici si nécessaire
@@ -300,13 +300,13 @@
             try {
                 const session = await getSession();
                 if (!session) {
-                    window.location.href = '../login.html';
+                    window.location.href = '../login';
                     return;
                 }
 
                 await updateUserProfile(metadata);
                 // Redirection vers la page de vérification explicite (Phase 11)
-                window.location.href = 'verify-email.html';
+                window.location.href = 'verify-email';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);
             }

@@ -9,7 +9,7 @@ async function signInWithGoogle() {
     const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: window.location.origin + '/dashboard.html'
+            redirectTo: window.location.origin + '/dashboard'
         }
     });
     if (error) throw error;
@@ -23,7 +23,7 @@ async function signUpWithEmail(email, password, fullName) {
             data: {
                 full_name: fullName
             },
-            emailRedirectTo: window.location.origin + '/registration/onboarding.html'
+            emailRedirectTo: window.location.origin + '/registration/onboarding'
         }
     });
     if (error) throw error;
@@ -42,7 +42,7 @@ async function signInWithEmail(email, password) {
 async function signOut() {
     const { error } = await _supabase.auth.signOut();
     if (error) console.error('Erreur Déconnexion:', error.message);
-    window.location.href = '/login.html';
+    window.location.href = '/login';
 }
 
 async function getSession() {

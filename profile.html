@@ -444,18 +444,18 @@
 
             <p class="sidebar-section-label">Menu principal</p>
             <ul class="sidebar-nav">
-                <li><a href="dashboard.html">Vue d'ensemble</a></li>
-                <li><a href="marketplace/directory.html">Annuaire Talents</a></li>
+                <li><a href="dashboard">Vue d'ensemble</a></li>
+                <li><a href="marketplace/directory">Annuaire Talents</a></li>
                 <li><a href="marketplace/companies.html">Annuaire Entreprises</a></li>
-                <li><a href="marketplace/jobs.html">Missions</a></li>
-                <li><a href="profile.html" class="active">Mon Profil</a></li>
-                <li><a href="messages.html">Messagerie</a></li>
+                <li><a href="marketplace/jobs">Missions</a></li>
+                <li><a href="profile" class="active">Mon Profil</a></li>
+                <li><a href="messages">Messagerie</a></li>
             </ul>
 
             <hr class="sidebar-divider">
             <p class="sidebar-section-label">Externe</p>
             <ul class="sidebar-nav">
-                <li><a href="index.html">← Retour à l'accueil</a></li>
+                <li><a href="index">← Retour à l'accueil</a></li>
             </ul>
 
             <hr class="sidebar-divider">
@@ -772,7 +772,7 @@
 
         window.addEventListener('load', async () => {
             const session = await getSession();
-            if (!session) { window.location.href = 'login.html'; return; }
+            if (!session) { window.location.href = 'login'; return; }
 
             currentUserId = session.user.id;
             const role = session.user.user_metadata?.role || null;

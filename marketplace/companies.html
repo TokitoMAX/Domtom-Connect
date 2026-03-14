@@ -217,15 +217,15 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="../marketplace/directory.html">Talents</a>
-                    <a href="../marketplace/companies.html">Entreprises</a>
-                    <a href="../marketplace/jobs.html">Missions</a>
-                    <a href="../marketplace/projects.html">Projets</a>
-                    <a href="../index.html#pricing">Nos Offres</a>
+                    <a href="../marketplace/directory">Talents</a>
+                    <a href="../marketplace/companies">Entreprises</a>
+                    <a href="../marketplace/jobs">Missions</a>
+                    <a href="../marketplace/projects">Projets</a>
+                    <a href="../index#pricing">Nos Offres</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
-                    <a href="../login.html" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="../register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+                    <a href="../login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
@@ -291,7 +291,7 @@
 
                 document.getElementById('nav-actions-container').innerHTML = `
                     <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
-                        <a href="../dashboard.html" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
+                        <a href="../dashboard" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
                     </div>
                 `;
@@ -356,7 +356,7 @@
                         <span class="tag">${company.project_type || 'Accompagnement'}</span>
                     </div>
                     <div class="company-actions">
-                        <a href="../messages.html?to=${company.id}" class="btn-contact">Contacter</a>
+                        <a href="../messages?to=${company.id}" class="btn-contact">Contacter</a>
                         <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Profil</button>
                     </div>
                 </div>
@@ -407,7 +407,7 @@
                         </div>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <a href="../messages.html?to=${company.id}" class="btn-contact" style="background:#0369a1;">Envoyer un message</a>
+                        <a href="../messages?to=${company.id}" class="btn-contact" style="background:#0369a1;">Envoyer un message</a>
                         ${company.linkedin_url ? `<a href="${company.linkedin_url}" target="_blank" class="btn-web">LinkedIn</a>` : ''}
                     </div>
                 </div>
@@ -423,7 +423,7 @@
         }
 
         function openCompanyModal() {
-            window.location.href = '../profile.html';
+            window.location.href = '../profile';
         }
 
         init();
