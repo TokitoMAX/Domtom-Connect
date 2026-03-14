@@ -958,9 +958,8 @@
             if (project.roadmap && project.roadmap.commando_started) score += 10;
 
             // Étape 4 : Impulsion Finale (Max 25%)
-            if (project.video_url) score += 10;
+            if (project.video_url) score += 15;
             if (project.social_links && (project.social_links.linkedin || project.social_links.twitter)) score += 10;
-            if (project.audit_score >= 8) score += 5;
 
             return Math.min(100, score);
         }
@@ -1961,14 +1960,6 @@
                                         <input type="url" id="imp-twitter" placeholder="Lien Twitter" value="${p.social_links?.twitter || ''}">
                                     </div>
                                 </div>
-                                <div style="background:rgba(255,255,255,0.05); border-radius:12px; padding:20px; margin-bottom:32px; border:1px solid rgba(16,185,129,0.2);">
-                                    <h4 style="margin:0 0 12px 0; color:#10b981;">Auto-Diagnostic de Pitch</h4>
-                                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:16px;">Notez votre dossier de 1 à 10 sur la cohérence globale.</p>
-                                    <input type="range" id="imp-audit" min="1" max="10" step="1" value="${p.audit_score || 5}" style="width:100%; accent-color:#10b981;">
-                                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted); margin-top:8px;">
-                                        <span>Débutant</span>
-                                        <span>Élite (Certification)</span>
-                                    </div>
                                 </div>
                                 <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none;">
                                     Certifier mon Épopée & Publier
@@ -1995,17 +1986,16 @@
             const video = document.getElementById('imp-video').value;
             const li = document.getElementById('imp-linkedin').value;
             const tw = document.getElementById('imp-twitter').value;
-            const score = document.getElementById('imp-audit').value;
 
-            // Déclencheur de publication si score suffisant
-            const isListed = (score >= 8);
+            // Publication automatique lors de la certification
+            const isListed = true;
 
             const { error } = await _supabase
                 .from('projects')
                 .update({
                     video_url: video,
                     social_links: { linkedin: li, twitter: tw },
-                    audit_score: parseInt(score),
+                    audit_score: 10, // Valeur par défaut pour signifier la complétion
                     is_listed: isListed
                 })
                 .eq('id', pid);
@@ -2013,11 +2003,7 @@
             if (error) {
                 alert("Erreur : " + error.message);
             } else {
-                if (isListed) {
-                    alert("⭐ FÉLICITATIONS ! Votre épopée est officiellement Certifiée et Publiée sur la Marketplace Domtom Connect.");
-                } else {
-                    alert("✅ Dossier mis à jour. Travaillez encore un peu votre pitch pour atteindre la certification Élite (Score 8+).");
-                }
+                alert("⭐ FÉLICITATIONS ! Votre épopée est officiellement Certifiée et Publiée sur la Marketplace Domtom Connect.");
                 closeImpulsionModal();
                 const session = await getSession();
                 loadMyProjects(session.user.id);
