@@ -1799,15 +1799,31 @@
                                         <option value="scale">Accélération (50k€+)</option>
                                     </select>
                                 </div>
+                                
                                 <div style="margin-bottom:24px;">
-                                    <label class="form-label">Image de Couverture (URL) *</label>
-                                    <input type="url" id="arsenal-cover" placeholder="Lien vers une belle image représentative" value="${p.cover_url || ''}" required>
+                                    <label class="form-label">Image de Couverture *</label>
+                                    <div style="display:flex; align-items:center; gap:20px; padding:16px; background:#f8fafc; border-radius:12px; border:1px dashed var(--gray-300);">
+                                        <div id="arsenal-cover-preview" style="width:100px; height:60px; border-radius:8px; background:white; border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
+                                            ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.5rem;">🖼️</span>'}
+                                        </div>
+                                        <div style="flex:1;">
+                                            <input type="file" id="arsenal-cover-file" accept="image/*" style="display:none;" onchange="handleArsenalFileSelect(this)">
+                                            <button type="button" class="cta-button secondary" style="font-size:0.8rem; padding:8px 16px; width:100%;" onclick="document.getElementById('arsenal-cover-file').click()">
+                                                Choisir une image
+                                            </button>
+                                            <p id="arsenal-file-name" style="font-size:0.7rem; color:var(--text-muted); margin-top:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                                ${p.cover_url ? 'Image actuelle conservée' : 'Aucun fichier choisi'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="arsenal-cover-url" value="${p.cover_url || ''}">
                                 </div>
+
                                 <div style="margin-bottom:32px;">
                                     <label class="form-label">Arsenal Technique & Compétences Clés</label>
                                     <textarea id="arsenal-needs" placeholder="Ex: React, Marketing Digital, Logistique...">${p.needs || ''}</textarea>
                                 </div>
-                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                <button type="submit" class="cta-button primary" id="btn-save-arsenal" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
                                     Valider mon Arsenal
                                 </button>
                             </form>
@@ -1826,29 +1842,87 @@
             document.getElementById('arsenal-modal').classList.remove('open');
         }
 
+        async function handleArsenalFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert("L'image est trop lourde (Max 2Mo).");
+                input.value = "";
+                return;
+            }
+
+            document.getElementById('arsenal-file-name').textContent = file.name;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('arsenal-cover-preview').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
         async function saveArsenal(event) {
             event.preventDefault();
-            const pid = document.getElementById('arsenal-proj-id').value;
-            const budget = document.getElementById('arsenal-budget').value;
-            const cover = document.getElementById('arsenal-cover').value;
-            const needs = document.getElementById('arsenal-needs').value;
+            const btn = document.getElementById('btn-save-arsenal');
+            const originalText = btn.textContent;
 
-            const { error } = await _supabase
-                .from('projects')
-                .update({
-                    budget: budget,
-                    cover_url: cover,
-                    needs: needs
-                })
-                .eq('id', pid);
+            try {
+                btn.disabled = true;
+                btn.textContent = "Téléchargement...";
 
-            if (error) {
-                alert("Erreur : " + error.message);
-            } else {
+                const pid = document.getElementById('arsenal-proj-id').value;
+                const budget = document.getElementById('arsenal-budget').value;
+                const needs = document.getElementById('arsenal-needs').value;
+                let coverUrl = document.getElementById('arsenal-cover-url').value;
+
+                const fileInput = document.getElementById('arsenal-cover-file');
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${pid}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+                    const filePath = `projects/${fileName}`;
+
+                    const { data, error: uploadError } = await _supabase.storage
+                        .from('avatars') // Utilisation du bucket existant 'avatars' (comme dans profile.html)
+                        .upload(filePath, file);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(filePath);
+                    coverUrl = publicUrl;
+                }
+
+                if (!coverUrl && !file) {
+                    alert("Veuillez choisir une image de couverture.");
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    return;
+                }
+
+                btn.textContent = "Enregistrement...";
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({
+                        budget: budget,
+                        cover_url: coverUrl,
+                        needs: needs
+                    })
+                    .eq('id', pid);
+
+                if (error) throw error;
+
                 alert("🚀 Arsenal validé ! Votre épopée gagne en puissance.");
                 closeArsenalModal();
                 const session = await getSession();
                 loadMyProjects(session.user.id);
+
+            } catch (err) {
+                console.error("Erreur Arsenal:", err);
+                alert("Erreur : " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
             }
         }
 
