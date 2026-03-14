@@ -394,7 +394,12 @@
                     </div>
 
                     <div style="padding:24px; display:flex; flex-direction:column; flex-grow:1; background:white; border:1px solid var(--gray-200); border-top:none; border-radius: 0 0 16px 16px; position:relative; z-index:20; pointer-events:none;">
-                        <p class="premium-bio" style="margin-bottom:16px;">${project.description.slice(0, 150)}${project.description.length > 150 ? '...' : ''}</p>
+                        <p class="premium-bio" style="margin-bottom:16px;">
+                            ${(() => {
+                    const cleanDesc = project.description.replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim();
+                    return cleanDesc.slice(0, 150) + (cleanDesc.length > 150 ? '...' : '');
+                })()}
+                        </p>
                         
                         <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
                             <span class="tag" style="background:rgba(16,185,129,0.05); color:#10b981; border-color:rgba(16,185,129,0.2);">💰 ${budgetLabel}</span>

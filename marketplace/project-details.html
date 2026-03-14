@@ -284,7 +284,43 @@
                             <div class="project-section">
                                 <span class="section-header-tag">Étape 1 : Fondations</span>
                                 <h2 class="section-title">Le Manifeste</h2>
-                                <p style="font-size: 1.1rem; line-height: 1.8; color: #475569; white-space: pre-wrap;">${project.description}</p>
+                                
+                                <div id="manifesto-content" style="display: flex; flex-direction: column; gap: 32px;">
+                                    ${(() => {
+                    const desc = project.description || "";
+                    if (desc.includes('[[VISION]]')) {
+                        const vision = desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim();
+                        const mission = desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim();
+                        const problem = desc.split('[[PROBLEM]]')[1].trim();
+
+                        return `
+                                                <div>
+                                                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                                        <span style="font-size: 1.3rem;">🌟</span> La Vision Déterminée
+                                                    </h3>
+                                                    <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${vision}</p>
+                                                </div>
+                                                
+                                                <div style="padding-top: 24px; border-top: 1px dashed #e2e8f0;">
+                                                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                                        <span style="font-size: 1.3rem;">⚔️</span> Mission & Solution
+                                                    </h3>
+                                                    <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${mission}</p>
+                                                </div>
+                                                
+                                                <div style="padding-top: 24px; border-top: 1px dashed #e2e8f0;">
+                                                    <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                                        <span style="font-size: 1.3rem;">🎯</span> Le Problème Combattu
+                                                    </h3>
+                                                    <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${problem}</p>
+                                                </div>
+                                            `;
+                    } else {
+                        // Fallback pour les anciens projets
+                        return `<p style="font-size: 1.1rem; line-height: 1.8; color: #475569; white-space: pre-wrap; margin: 0;">${desc}</p>`;
+                    }
+                })()}
+                                </div>
                             </div>
 
                             <!-- La Boussole (Roadmap) -->

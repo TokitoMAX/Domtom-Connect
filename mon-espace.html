@@ -1601,9 +1601,23 @@
                                     <label class="form-label">Nom de l'Épopée *</label>
                                     <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles" required>
                                 </div>
+                                <div style="margin-bottom:20px;">
+                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
+                                        <span style="font-size:1.2rem;">🌟</span> Vision (Votre ambition à long terme) *
+                                    </label>
+                                    <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:80px;" required></textarea>
+                                </div>
+                                <div style="margin-bottom:20px;">
+                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
+                                        <span style="font-size:1.2rem;">⚔️</span> Mission & Solution (Le 'Comment') *
+                                    </label>
+                                    <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:80px;" required></textarea>
+                                </div>
                                 <div style="margin-bottom:24px;">
-                                    <label class="form-label">Le Manifeste (Vision & Pourquoi) *</label>
-                                    <textarea id="proj-desc" placeholder="Quel problème combattez-vous ? Pourquoi votre projet est-il un Game Changer ?" required></textarea>
+                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
+                                        <span style="font-size:1.2rem;">🎯</span> Le Problème (Le 'Pourquoi') *
+                                    </label>
+                                    <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:80px;" required></textarea>
                                 </div>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
                                     <div>
@@ -1649,7 +1663,24 @@
                 if (p) {
                     document.getElementById('proj-id').value = p.id;
                     document.getElementById('proj-title').value = p.title;
-                    document.getElementById('proj-desc').value = p.description;
+
+                    // Parsing de la description structurée
+                    const desc = p.description || "";
+                    if (desc.includes('[[VISION]]')) {
+                        const vision = desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim();
+                        const mission = desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim();
+                        const problem = desc.split('[[PROBLEM]]')[1].trim();
+
+                        document.getElementById('proj-vision').value = vision;
+                        document.getElementById('proj-mission').value = mission;
+                        document.getElementById('proj-problem').value = problem;
+                    } else {
+                        // Fallback pour les anciens projets
+                        document.getElementById('proj-vision').value = desc;
+                        document.getElementById('proj-mission').value = "";
+                        document.getElementById('proj-problem').value = "";
+                    }
+
                     document.getElementById('proj-territory').value = p.territory;
                     document.getElementById('proj-status').value = p.status;
                     document.getElementById('proj-needs').value = p.needs || '';
@@ -1670,10 +1701,14 @@
             const session = await getSession();
             if (!session) return;
 
+            const vision = document.getElementById('proj-vision').value;
+            const mission = document.getElementById('proj-mission').value;
+            const problem = document.getElementById('proj-problem').value;
+
             const data = {
                 owner_id: session.user.id,
                 title: document.getElementById('proj-title').value,
-                description: document.getElementById('proj-desc').value,
+                description: `[[VISION]]\n${vision}\n\n[[MISSION]]\n${mission}\n\n[[PROBLEM]]\n${problem}`,
                 territory: document.getElementById('proj-territory').value,
                 status: document.getElementById('proj-status').value,
                 needs: document.getElementById('proj-needs').value,
