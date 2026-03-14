@@ -3,28 +3,29 @@
     "redirects": [
         {
             "source": "/dashboard",
-            "destination": "/mon-espace",
+            "destination": "/mon-projet",
             "permanent": true
         },
         {
             "source": "/dashboard.html",
-            "destination": "/mon-espace",
+            "destination": "/mon-projet",
+            "permanent": true
+        },
+        {
+            "source": "/mon-espace",
+            "destination": "/mon-projet",
             "permanent": true
         },
         {
             "source": "/mon-espace.html",
-            "destination": "/mon-espace",
+            "destination": "/mon-projet",
             "permanent": true
         }
     ],
     "rewrites": [
         {
-            "source": "/mon-espace",
-            "destination": "/mon-espace.html"
-        },
-        {
             "source": "/mon-projet",
-            "destination": "/mon-espace.html"
+            "destination": "/mon-projet.html"
         }
     ]
 }

@@ -95,7 +95,7 @@
                 const { error } = await _supabase.auth.signInWithOtp({
                     email: email,
                     options: {
-                        emailRedirectTo: window.location.origin + '/mon-espace'
+                        emailRedirectTo: window.location.origin + '/mon-projet'
                     }
                 });
 
