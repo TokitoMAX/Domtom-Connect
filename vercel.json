@@ -12,11 +12,6 @@
             "permanent": true
         },
         {
-            "source": "/marketplace/project-details.html",
-            "destination": "/marketplace/project",
-            "permanent": true
-        },
-        {
             "source": "/mon-espace.html",
             "destination": "/mon-espace",
             "permanent": true
@@ -30,10 +25,6 @@
         {
             "source": "/mon-projet",
             "destination": "/mon-espace.html"
-        },
-        {
-            "source": "/marketplace/project",
-            "destination": "/marketplace/project-details.html"
         }
     ]
 }
