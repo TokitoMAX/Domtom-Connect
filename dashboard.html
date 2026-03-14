@@ -422,16 +422,16 @@
             pointer-events: none;
         }
 
-        /* Heroic Modal Styles */
+        /* Heroic Modal Styles (White Version for Readability) */
         .hero-modal {
-            background: #1e293b;
-            color: white;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--gray-200);
             border-radius: 24px;
             padding: 40px;
             width: 100%;
             max-width: 550px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
         .hero-modal h2 {
@@ -439,6 +439,7 @@
             font-weight: 900;
             margin-bottom: 8px;
             letter-spacing: -0.5px;
+            color: var(--text-primary);
         }
 
         .hero-modal .form-label {
@@ -455,20 +456,18 @@
         .hero-modal select,
         .hero-modal textarea {
             width: 100%;
-            background: #2d3748;
-            /* Couleur solide pour éviter les glitches de transparence */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #f8fafc;
+            border: 1px solid var(--gray-200);
             border-radius: 12px;
             padding: 14px 16px;
-            color: white;
+            color: var(--text-primary);
             font-size: 0.95rem;
             transition: all 0.2s;
             appearance: none;
-            /* Pour un style plus contrôlé */
         }
 
         .hero-modal select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 16px center;
             background-size: 16px;
@@ -476,13 +475,13 @@
         }
 
         .hero-modal option {
-            background: #1e293b;
-            color: white;
+            background: white;
+            color: var(--text-primary);
         }
 
         .hero-modal input::placeholder,
         .hero-modal textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
         }
 
         .hero-modal input:focus,
@@ -490,8 +489,8 @@
         .hero-modal textarea:focus {
             outline: none;
             border-color: #10b981;
-            background: #334155;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
         }
 
         .hero-modal textarea {
@@ -503,7 +502,7 @@
         .hero-modal .modal-close {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-muted);
             font-size: 2rem;
             cursor: pointer;
             transition: color 0.2s;
@@ -512,7 +511,7 @@
         }
 
         .hero-modal .modal-close:hover {
-            color: white;
+            color: var(--text-primary);
         }
 
         .modal-overlay {
@@ -521,8 +520,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -841,15 +840,20 @@
             if (project.title) score += 5;
             if (project.description && project.description.length > 50) score += 20;
 
-            // Étape 2 : Boussole / Roadmap (Max 25%) - Simulé pour l'instant via 'needs'
-            if (project.needs) score += 15;
-            if (project.territory) score += 10;
-
-            // Étape 3 : Commando / Experts (Simulé)
-            // if (project.has_experts) score += 25;
+            // Étape 2 : Boussole / Roadmap (Max 25%)
+            if (project.roadmap) {
+                const r = project.roadmap;
+                if (r.short && r.short.length > 10) score += 10;
+                if (r.medium && r.medium.length > 10) score += 10;
+                if (r.long && r.long.length > 10) score += 5;
+            }
 
             // Étape 4 : Impulsion / Visibilité (Max 25%)
             if (project.is_listed) score += 25;
+
+            // Étape 3 : Commando (Sourcing Experts) (Max 25%)
+            // Simulé ou basé sur matching réel
+            if (score >= 50 && project.status !== 'Idée') score += 25;
 
             return score;
         }
@@ -1187,34 +1191,9 @@
                         </div>
 
                         <!-- 3. Maturity Grid -->
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
-                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
-                                <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">0%</span>
-                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
-                                </div>
-                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
-                            </div>
-                            <div class="dash-card highlight" style="padding:40px; border-color:#10b981;">
-                                <div class="card-title" style="font-size:1.4rem;">Prochaine Étape : La Boussole</div>
-                                <p class="card-desc" style="font-size:1rem; margin-top:12px;">Tracez vos objectifs S/M/L pour que les experts sachent exactement où vous emmener.</p>
-                                <a href="#" class="cta-button primary" style="margin-top:auto; justify-content:center; background:#10b981; padding:14px;">Tracer ma Roadmap →</a>
-                            </div>
-                        </div>
-
-                        <!-- 4. Other Steps -->
-                        <div class="cards-grid">
-                            <div class="dash-card" style="opacity:0.6;">
-                                <div class="card-title">Étape 3 : Le Commando</div>
-                                <p class="card-desc">Sourcing d'experts élites basé sur votre roadmap.</p>
-                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; border-style:dashed;">Verrouillé</button>
-                            </div>
-                            <div class="dash-card" style="opacity:0.6;">
-                                <div class="card-title">Étape 4 : L'Impulsion</div>
-                                <p class="card-desc">Accélération massive, Podcasts & Badge Certifié.</p>
-                                <button disabled class="cta-button secondary" style="margin-top:auto; justify-content:center; border-style:dashed;">Verrouillé</button>
-                            </div>
+                        <!-- Success Engine Dynamic Section -->
+                        <div id="success-engine-step">
+                            <!-- Rempli dynamiquement par loadMyProjects -->
                         </div>
                     </div>
 
@@ -1284,14 +1263,64 @@
                 </div>
             `;
 
-            // Update the main maturity score with the first project's score for now
+            // Update Success Engine UI
             if (projects.length > 0) {
-                const totalScore = calculateProjectMaturity(projects[0]);
+                const firstProj = projects[0];
+                const totalScore = calculateProjectMaturity(firstProj);
                 document.getElementById('maturity-score').textContent = `${totalScore}%`;
                 updateSuccessStepper(totalScore);
-            } else {
-                document.getElementById('maturity-score').textContent = '0%';
-                updateSuccessStepper(0);
+
+                // Dynamic Call to Action
+                const engineStepContainer = document.getElementById('success-engine-step');
+                let nextStepHTML = "";
+
+                if (totalScore < 25) {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Affinez votre Manifeste</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre vision n'est pas encore assez complète pour passer à la Boussole.</p>
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Compléter ma Vision</button>
+                            </div>
+                        `;
+                } else if (totalScore < 50) {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Activez votre Boussole</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre Vision est validée. Il est temps de tracer votre trajectoire S, M et L.</p>
+                                <button onclick="openRoadmapModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Établir ma Roadmap</button>
+                            </div>
+                        `;
+                } else if (totalScore < 75) {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Le Commando arrive</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Bravo ! Votre Roadmap est prête. Nous préparons la sélection d'experts pour votre projet.</p>
+                                <button disabled class="cta-button secondary" style="border-style:dashed; padding:16px 32px;">Sourcing en cours...</button>
+                            </div>
+                        `;
+                } else {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">L'Impulsion Finale</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre projet est mature. Préparez-vous pour le Podcast et la certification Domtom Connect.</p>
+                                <button class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Prendre RDV Podcast</button>
+                            </div>
+                        `;
+                }
+
+                engineStepContainer.innerHTML = `
+                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
+                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
+                                <div style="display:flex; align-items:baseline; gap:8px;">
+                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">${totalScore}%</span>
+                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
+                                </div>
+                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
+                            </div>
+                            ${nextStepHTML}
+                        </div>
+                    `;
             }
         }
 
@@ -1407,6 +1436,96 @@
                 alert("Erreur lors de l'enregistrement : " + error.message);
             } else {
                 closeProjectModal();
+                loadMyProjects(session.user.id);
+            }
+        }
+
+        async function openRoadmapModal() {
+            const session = await getSession();
+            if (!session) return;
+
+            // Récupérer le premier projet pour l'instant (MVP)
+            const { data: projects } = await _supabase.from('projects').select('*').eq('owner_id', session.user.id).limit(1);
+            if (!projects || projects.length === 0) {
+                alert("Commencez par créer votre Manifeste (Étape 1) !");
+                openProjectModal();
+                return;
+            }
+
+            const p = projects[0];
+            const roadmap = p.roadmap || { short: "", medium: "", long: "" };
+
+            let modal = document.getElementById('roadmap-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="roadmap-modal">
+                        <div class="hero-modal">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px;">
+                                <div>
+                                    <h2>Tracer ma Boussole</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">Définissez vos objectifs pour guider votre Commando.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeRoadmapModal()">×</button>
+                            </div>
+                            <form id="roadmap-form" onsubmit="saveRoadmap(event)">
+                                <input type="hidden" id="roadmap-proj-id" value="${p.id}">
+                                <div style="margin-bottom:24px;">
+                                    <label class="form-label">Court Terme (0-3 mois) *</label>
+                                    <textarea id="rm-short" placeholder="Ex: Finaliser le prototype, trouver les 10 premiers testeurs..." required>${roadmap.short}</textarea>
+                                </div>
+                                <div style="margin-bottom:24px;">
+                                    <label class="form-label">Moyen Terme (3-12 mois) *</label>
+                                    <textarea id="rm-medium" placeholder="Ex: Lancement officiel, atteindre 1000 utilisateurs, levée de fonds..." required>${roadmap.medium}</textarea>
+                                </div>
+                                <div style="margin-bottom:32px;">
+                                    <label class="form-label">Long Terme (1-3 ans) *</label>
+                                    <textarea id="rm-long" placeholder="Ex: Devenir leader sur le marché Antilles-Guyane, expansion internationale..." required>${roadmap.long}</textarea>
+                                </div>
+                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                    Valider ma Roadmap
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('roadmap-modal');
+                modal.addEventListener('click', (e) => { if (e.target === modal) closeRoadmapModal(); });
+            } else {
+                document.getElementById('roadmap-proj-id').value = p.id;
+                document.getElementById('rm-short').value = roadmap.short;
+                document.getElementById('rm-medium').value = roadmap.medium;
+                document.getElementById('rm-long').value = roadmap.long;
+            }
+
+            modal.classList.add('open');
+        }
+
+        function closeRoadmapModal() {
+            document.getElementById('roadmap-modal').classList.remove('open');
+        }
+
+        async function saveRoadmap(event) {
+            event.preventDefault();
+            const session = await getSession();
+            if (!session) return;
+
+            const pid = document.getElementById('roadmap-proj-id').value;
+            const roadmap = {
+                short: document.getElementById('rm-short').value,
+                medium: document.getElementById('rm-medium').value,
+                long: document.getElementById('rm-long').value
+            };
+
+            const { error } = await _supabase
+                .from('projects')
+                .update({ roadmap: roadmap })
+                .eq('id', pid);
+
+            if (error) {
+                alert("Erreur lors de l'enregistrement de la Boussole : " + error.message);
+            } else {
+                closeRoadmapModal();
                 loadMyProjects(session.user.id);
             }
         }
