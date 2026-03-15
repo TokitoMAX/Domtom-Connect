@@ -658,7 +658,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
-            Dashboard
+            Mon Projet
         </a>
         <a href="profile" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -808,7 +808,8 @@
 
         // Initialize from URL pathname on page load
         function initRouting() {
-            if (window.location.pathname === '/mon-projet') showView('success-engine');
+            const isMonProjet = window.location.pathname.includes('mon-projet');
+            if (isMonProjet) showView('success-engine');
             else showView('overview');
         }
 
@@ -1152,7 +1153,6 @@
                         <a href="https://solopricepro.vercel.app/closing-assistant" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;">Lancer l'assistant →</a>
                     </div>
                     
-                    <!-- Carte Signatures & Commissions (Nouveau Modèle) -->
                     <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02);">
                         <div class="card-title" style="color: #10b981;">Signatures & Commissions</div>
                         <p class="card-desc">Délarez vos contrats signés via la plateforme et suivez vos commissions de succès.</p>
@@ -1164,6 +1164,21 @@
                             <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; font-size:0.75rem; padding:8px;">Déclarer Signature</button>
                             <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="border-color:#10b981; color:#10b981; justify-content:center; font-size:0.75rem; padding:8px;">Devis / Facture →</a>
                         </div>
+                    </div>
+
+                    <!-- Carte Vision du Marché (Experts & Admins) -->
+                    <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
+                        <div class="card-title" style="color: #7c3aed;">
+                            Vision du Marché
+                            <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA</span>
+                        </div>
+                        <p class="card-desc">Tendances en temps réel basées sur les missions du réseau.</p>
+                        <div id="market-trends-mini" style="margin-top:12px; font-size:0.85rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
+                            <p style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">Mis à jour : Aujourd'hui à ${new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' : ''}${new Date().getMinutes()}</p>
+                        </div>
+                        <button class="cta-button ghost" style="margin-top:auto; border-color: #7c3aed; color: #7c3aed; font-size:0.75rem;">Voir l'analyse complète</button>
                     </div>
                 `;
 
@@ -1346,6 +1361,60 @@
                 await loadMatchmaking(session.user.id);
                 renderVisibilityPreview(profile);
 
+            } else if (role === 'admin') {
+                roleBadge.textContent = "Administrateur Système";
+                roleBadge.style.background = "#0f172a";
+                roleBadge.style.color = "white";
+
+                cardsContainer.innerHTML = `
+                    <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02); grid-column: 1 / -1;">
+                        <div class="card-title" style="color: #7c3aed;">Vue d'Ensemble Plateforme (Admin)</div>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:24px; margin-top:20px;">
+                            <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
+                                <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Chiffre d'Affaire (Total)</div>
+                                <div style="font-size:1.75rem; font-weight:900;" id="admin-total-revenue">0.00 €</div>
+                            </div>
+                            <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
+                                <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Commissions Prévues (10%)</div>
+                                <div style="font-size:1.75rem; font-weight:900; color:#10b981;" id="admin-total-commissions">0.00 €</div>
+                            </div>
+                            <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
+                                <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Experts Actifs</div>
+                                <div style="font-size:1.75rem; font-weight:900;">42</div>
+                            </div>
+                            <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
+                                <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Missions en cours</div>
+                                <div style="font-size:1.75rem; font-weight:900;">12</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte Vision du Marché (Copie pour Admin) -->
+                    <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
+                        <div class="card-title" style="color: #7c3aed;">
+                            Vision du Marché (Admin)
+                            <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA INTEL</span>
+                        </div>
+                        <p class="card-desc">Surveillez les tendances de recherche et l'activité du réseau.</p>
+                        <div id="market-trends-admin" style="margin-top:12px; font-size:0.85rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
+                        </div>
+                        <button class="cta-button primary" style="background:#7c3aed; margin-top:auto;">Accéder à la console BI</button>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="card-title">Gestion des Experts</div>
+                        <p class="card-desc">Valider les nouveaux profils et vérifier les badges Authority.</p>
+                        <a href="marketplace/directory" class="cta-button primary" style="background:var(--text-primary); margin-top:auto; justify-content:center;">Ouvrir l'annuaire →</a>
+                    </div>
+                `;
+
+                // Charger les stats globales (Simulé via localStorage)
+                const total = parseFloat(localStorage.getItem('dc_total_signed') || 0);
+                document.getElementById('admin-total-revenue').textContent = total.toFixed(2) + ' €';
+                document.getElementById('admin-total-commissions').textContent = (total * 0.1).toFixed(2) + ' €';
+
             } else {
                 roleBadge.textContent = "Porteur de Projet";
                 roleBadge.style.background = "var(--bg-light)";
@@ -1378,21 +1447,6 @@
                                 <div class="card-title">Webinaires & Live</div>
                                 <p class="card-desc">Participez à nos sessions live pour poser vos questions et comprendre l'écosystème.</p>
                                 <a href="/landing/webinaire/index.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir le prochain live →</a>
-                            </div>
-
-                            <!-- Carte Vision du Marché (Modèle Data/WhatsApp) -->
-                            <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
-                                <div class="card-title" style="color: #7c3aed;">
-                                    Vision du Marché
-                                    <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA</span>
-                                </div>
-                                <p class="card-desc">Tendances en temps réel basées sur les missions publiées cette semaine.</p>
-                                <div id="market-trends-mini" style="margin-top:12px; font-size:0.85rem;">
-                                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
-                                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
-                                    <p style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">Mis à jour : Aujourd'hui à ${new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' : ''}${new Date().getMinutes()}</p>
-                                </div>
-                                <button class="cta-button ghost" style="margin-top:auto; border-color: #7c3aed; color: #7c3aed; font-size:0.75rem;">Voir l'analyse complète</button>
                             </div>
 
                             <div class="dash-card">
