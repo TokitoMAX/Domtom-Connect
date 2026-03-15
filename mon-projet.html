@@ -1588,8 +1588,6 @@
 
         async function openProjectModal(projectId = null) {
             let modal = document.getElementById('project-modal');
-            // Reset to step 1
-            if (typeof goToStep === 'function') goToStep(1);
 
             // Créer le modal dynamiquement s'il n'existe pas
             if (!modal) {
@@ -1686,6 +1684,9 @@
                 // Fermer sur clic outside
                 modal.addEventListener('click', (e) => { if (e.target === modal) closeProjectModal(); });
             }
+
+            // Always reset to step 1
+            if (typeof goToStep === 'function') goToStep(1);
 
             if (projectId) {
                 const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
