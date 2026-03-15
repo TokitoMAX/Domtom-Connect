@@ -648,8 +648,6 @@
                 currentUserId = session.user.id;
 
                 await loadGlobalNavbar();
-                await checkSupabaseHealth();
-
                 const urlParams = new URLSearchParams(window.location.search);
                 const targetUserId = urlParams.get('to');
 
@@ -665,28 +663,11 @@
             }
         }
 
-        async function checkSupabaseHealth() {
-            console.log("--- Supabase Health Check Begin ---");
-            try {
-                const { data: pTest, error: pErr } = await _supabase.from('conversation_participants').select('conversation_id').limit(1);
-                if (pErr) console.error("Health Check - Participants (Error Obj):", JSON.stringify(pErr, null, 2));
-                else console.log("Health Check - Participants: OK", pTest);
-
-                const { data: cTest, error: cErr } = await _supabase.from('conversations').select('id').limit(1);
-                if (cErr) console.error("Health Check - Conversations (Error Obj):", JSON.stringify(cErr, null, 2));
-                else console.log("Health Check - Conversations: OK", cTest);
-            } catch (e) {
-                console.error("Health Check Exception:", e);
-            }
-            console.log("--- Supabase Health Check End ---");
-        }
-
         async function ensureConversationWith(targetUserId) {
-            console.log("ensureConversationWith:", targetUserId);
             const { data: myConvs, error: e1 } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
 
             if (e1) {
-                console.error("Error fetching myConvs:", e1.message, e1.details, e1.hint);
+                console.error("Error fetching myConvs:", e1.message);
                 return;
             }
 
@@ -699,7 +680,7 @@
                     .eq('user_id', targetUserId);
 
                 if (e2) {
-                    console.error("Error fetching shared convs:", e2.message, e2.details, e2.hint);
+                    console.error("Error fetching shared convs:", e2.message);
                 }
 
                 if (shared && shared.length > 0) {
@@ -710,7 +691,7 @@
 
             const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({}).select().single();
             if (errConv || !newConv) {
-                console.error("Erreur création conv:", errConv?.message || errConv, errConv?.details, errConv?.hint);
+                console.error("Erreur création conv:", errConv?.message || errConv);
                 return;
             }
 
@@ -722,7 +703,7 @@
             ]);
 
             if (errPart) {
-                console.error("Erreur insertion participants:", errPart.message, errPart.details, errPart.hint);
+                console.error("Erreur insertion participants:", errPart.message);
             }
 
             activeConversationId = newConvId;
@@ -756,7 +737,7 @@
                 .neq('user_id', currentUserId);
 
             if (errorOthers) {
-                console.error("Erreur otherParticipants:", errorOthers.message, errorOthers.details, errorOthers.hint);
+                console.error("Erreur otherParticipants:", errorOthers.message);
                 loader.style.display = 'none';
                 return;
             }
@@ -773,7 +754,7 @@
                 .in('id', otherUserIds);
 
             if (errorProf) {
-                console.error("Erreur profiles message:", errorProf.message, errorProf.details, errorProf.hint);
+                console.error("Erreur profiles message:", errorProf.message);
                 loader.style.display = 'none';
                 return;
             }
@@ -864,7 +845,7 @@
             // Vérification de participation avant chargement pour plus de sécurité
             const { data: participation, error: partErr } = await _supabase
                 .from('conversation_participants')
-                .select('id')
+                .select('conversation_id')
                 .eq('conversation_id', convId)
                 .eq('user_id', currentUserId)
                 .single();
@@ -884,8 +865,6 @@
             document.getElementById('msg-loader').style.display = 'none';
             if (error) {
                 console.error("Erreur messages:", error.message);
-                if (error.details) console.error("Détails:", error.details);
-                if (error.hint) console.error("Hint:", error.hint);
                 return;
             }
 
@@ -944,7 +923,7 @@
             });
 
             if (error) {
-                console.error("Send error:", error.message, error.details, error.hint);
+                console.error("Send error:", error.message);
             }
         }
 
