@@ -233,79 +233,8 @@
             stroke-width: 2;
         }
 
-        /* Mobile */
+        /* Mobile dashboard adjustments */
         @media (max-width: 768px) {
-            .navbar {
-                background: white !important;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                height: 72px;
-                display: flex;
-                align-items: center;
-                z-index: 10001;
-            }
-
-            .navbar .container {
-                position: relative;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .mobile-nav {
-                display: flex;
-            }
-
-            .nav-content {
-                display: none;
-                position: absolute;
-                top: 72px;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 24px;
-                border-bottom: 1px solid var(--gray-200);
-                gap: 20px;
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-                z-index: 10000;
-            }
-
-            .nav-content.is-open {
-                display: flex;
-            }
-
-            .nav-toggle {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 10px;
-                z-index: 1001;
-            }
-
-            .nav-toggle span {
-                display: block;
-                width: 24px;
-                height: 2px;
-                background: var(--text-primary);
-                transition: 0.3s;
-            }
-
-            .nav-toggle.is-open span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-
-            .nav-toggle.is-open span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .nav-toggle.is-open span:nth-child(3) {
-                transform: rotate(-45deg) translate(5px, -5px);
-            }
-
             .sidebar {
                 display: none;
             }
@@ -315,6 +244,16 @@
                 padding: 24px;
                 padding-bottom: 100px;
             }
+
+            /* Ensure the navbar is visible on mobile dashboard */
+            .navbar {
+                background: white !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+
+            /* Remove conflicting nav-content/nav-toggle styles from here
+               as they are already better handled in assets/css/style.css */
         }
 
         /* Visibility Preview Styles */
@@ -694,8 +633,11 @@
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
+                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <div class="nav-brand-text">
+                    <span class="nav-brand-name">Domtom Connect</span>
+                    <span class="nav-brand-tagline">Mon Espace</span>
+                </div>
             </a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
                 aria-controls="primary-navigation">
