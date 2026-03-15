@@ -235,6 +235,59 @@
 
         /* Mobile */
         @media (max-width: 768px) {
+            .navbar .container {
+                position: relative;
+            }
+
+            .nav-content {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 24px;
+                border-bottom: 1px solid var(--gray-200);
+                gap: 20px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-content.is-open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 10px;
+                z-index: 1001;
+            }
+
+            .nav-toggle span {
+                display: block;
+                width: 24px;
+                height: 2px;
+                background: var(--text-primary);
+                transition: 0.3s;
+            }
+
+            .nav-toggle.is-open span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.is-open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.is-open span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
             .sidebar {
                 display: none;
             }
@@ -242,6 +295,7 @@
             .main-content {
                 margin-left: 0;
                 padding: 24px;
+                padding-bottom: 100px;
             }
         }
 
@@ -830,6 +884,18 @@
             else showView('overview');
         }
 
+        // Mobile Nav Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navContent = document.querySelector('.nav-content');
+            if (navToggle && navContent) {
+                navToggle.addEventListener('click', () => {
+                    const isOpen = navContent.classList.toggle('is-open');
+                    navToggle.classList.toggle('is-open', isOpen);
+                });
+            }
+        });
+
         function renderVisibilityPreview(profile) {
             if (!profile) return;
             const container = document.getElementById('visibility-preview-container');
@@ -1176,20 +1242,6 @@
                         </div>
                     </div>
 
-                    <!-- Carte Vision du Marché (Experts & Admins) -->
-                    <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
-                        <div class="card-title" style="color: #7c3aed;">
-                            Vision du Marché
-                            <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA</span>
-                        </div>
-                        <p class="card-desc">Tendances en temps réel basées sur les missions du réseau.</p>
-                        <div id="market-trends-mini" style="margin-top:12px; font-size:0.85rem;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
-                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
-                            <p style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">Mis à jour : Aujourd'hui à ${new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' : ''}${new Date().getMinutes()}</p>
-                        </div>
-                        <button class="cta-button ghost" style="margin-top:auto; border-color: #7c3aed; color: #7c3aed; font-size:0.75rem;">Voir l'analyse complète</button>
-                    </div>
                 `;
 
                 // Update Profile Strength
