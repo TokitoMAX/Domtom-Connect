@@ -647,6 +647,7 @@
             currentUserId = session.user.id;
 
             await loadGlobalNavbar();
+            await checkSupabaseHealth();
 
             const urlParams = new URLSearchParams(window.location.search);
             const targetUserId = urlParams.get('to');
@@ -659,15 +660,37 @@
             await loadConversations();
         }
 
+        async function checkSupabaseHealth() {
+            console.log("--- Supabase Health Check ---");
+            const { data: pTest, error: pErr } = await _supabase.from('conversation_participants').select('count').limit(1);
+            if (pErr) console.error("Health Check - Participants:", pErr.message, pErr.details, pErr.hint);
+            else console.log("Health Check - Participants: OK");
+
+            const { data: cTest, error: cErr } = await _supabase.from('conversations').select('count').limit(1);
+            if (cErr) console.error("Health Check - Conversations:", cErr.message, cErr.details, cErr.hint);
+            else console.log("Health Check - Conversations: OK");
+        }
+
         async function ensureConversationWith(targetUserId) {
-            const { data: myConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+            console.log("ensureConversationWith:", targetUserId);
+            const { data: myConvs, error: e1 } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+
+            if (e1) {
+                console.error("Error fetching myConvs:", e1.message, e1.details, e1.hint);
+                return;
+            }
+
             const myConvIds = myConvs ? myConvs.map(c => c.conversation_id) : [];
 
             if (myConvIds.length > 0) {
-                const { data: shared } = await _supabase.from('conversation_participants')
+                const { data: shared, error: e2 } = await _supabase.from('conversation_participants')
                     .select('conversation_id')
                     .in('conversation_id', myConvIds)
                     .eq('user_id', targetUserId);
+
+                if (e2) {
+                    console.error("Error fetching shared convs:", e2.message, e2.details, e2.hint);
+                }
 
                 if (shared && shared.length > 0) {
                     activeConversationId = shared[0].conversation_id;
@@ -676,14 +699,21 @@
             }
 
             const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({}).select().single();
-            if (errConv || !newConv) { console.error("Erreur création conv", errConv); return; }
+            if (errConv || !newConv) {
+                console.error("Erreur création conv:", errConv?.message || errConv, errConv?.details, errConv?.hint);
+                return;
+            }
 
             const newConvId = newConv.id;
 
-            await _supabase.from('conversation_participants').insert([
+            const { error: errPart } = await _supabase.from('conversation_participants').insert([
                 { conversation_id: newConvId, user_id: currentUserId },
                 { conversation_id: newConvId, user_id: targetUserId }
             ]);
+
+            if (errPart) {
+                console.error("Erreur insertion participants:", errPart.message, errPart.details, errPart.hint);
+            }
 
             activeConversationId = newConvId;
         }
@@ -693,7 +723,15 @@
             const convListEl = document.getElementById('conv-list');
             loader.style.display = 'block';
 
-            const { data: myConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+            const { data: myConvs, error: errorConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+
+            if (errorConvs) {
+                console.error("Erreur participants (myConvs):", errorConvs.message);
+                if (errorConvs.details) console.error("Détails:", errorConvs.details);
+                if (errorConvs.hint) console.error("Hint:", errorConvs.hint);
+                loader.style.display = 'none';
+                return;
+            }
 
             if (!myConvs || myConvs.length === 0) {
                 loader.style.display = 'none';
@@ -702,10 +740,16 @@
             }
             const convIds = myConvs.map(c => c.conversation_id);
 
-            const { data: otherParticipants } = await _supabase.from('conversation_participants')
+            const { data: otherParticipants, error: errorOthers } = await _supabase.from('conversation_participants')
                 .select('conversation_id, user_id')
                 .in('conversation_id', convIds)
                 .neq('user_id', currentUserId);
+
+            if (errorOthers) {
+                console.error("Erreur otherParticipants:", errorOthers.message, errorOthers.details, errorOthers.hint);
+                loader.style.display = 'none';
+                return;
+            }
 
             if (!otherParticipants || otherParticipants.length === 0) {
                 loader.style.display = 'none';
@@ -714,9 +758,15 @@
 
             const otherUserIds = otherParticipants.map(p => p.user_id);
 
-            const { data: profiles } = await _supabase.from('profiles')
+            const { data: profiles, error: errorProf } = await _supabase.from('profiles')
                 .select('id, full_name, avatar_url, title, skills')
                 .in('id', otherUserIds);
+
+            if (errorProf) {
+                console.error("Erreur profiles message:", errorProf.message, errorProf.details, errorProf.hint);
+                loader.style.display = 'none';
+                return;
+            }
 
             loader.style.display = 'none';
             if (!profiles) return;
@@ -822,7 +872,12 @@
                 .order('created_at', { ascending: true });
 
             document.getElementById('msg-loader').style.display = 'none';
-            if (error) { console.error("Erreur messages", error); return; }
+            if (error) {
+                console.error("Erreur messages:", error.message);
+                if (error.details) console.error("Détails:", error.details);
+                if (error.hint) console.error("Hint:", error.hint);
+                return;
+            }
 
             if (messages) messages.forEach(msg => appendMessage(msg));
             scrollToBottom();
@@ -878,7 +933,9 @@
                 content: content
             });
 
-            if (error) console.error("Send error", error);
+            if (error) {
+                console.error("Send error:", error.message, error.details, error.hint);
+            }
         }
 
         function subscribeToMessages(convId) {
