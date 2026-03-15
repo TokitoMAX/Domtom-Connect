@@ -653,12 +653,12 @@
             </svg>
             Accueil
         </a>
-        <a href="javascript:void(0)" class="mobile-nav-link active">
+        <a href="javascript:void(0)" onclick="showView('overview')" class="mobile-nav-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
-            Mon Projet
+            Mon Espace
         </a>
         <a href="profile" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -681,7 +681,7 @@
             <span
                 style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu
                 Principal</span>
-            <a href="javascript:void(0)" class="sidebar-link active">Vue d'ensemble</a>
+            <a href="javascript:void(0)" onclick="showView('overview')" class="sidebar-link active">Vue d'ensemble</a>
             <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
             <a href="/marketplace/companies.html" class="sidebar-link">Annuaire Entreprises</a>
             <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
@@ -779,14 +779,20 @@
             const overview = document.getElementById('project-owner-modules');
             const successEngine = document.getElementById('success-engine-view');
             const greeting = document.querySelector('.header-section');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
 
             if (viewId === 'success-engine') {
                 if (overview) overview.style.display = 'none';
                 if (successEngine) successEngine.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                // Only push if not already at the URL to avoid history bloat
-                if (window.location.pathname !== '/mon-projet') {
+
+                // Update Navigation UI
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                mobileLinks.forEach(l => l.classList.remove('active'));
+
+                if (!window.location.pathname.includes('mon-projet')) {
                     history.pushState({ view: 'success-engine' }, '', '/mon-projet');
                 }
             } else {
@@ -794,15 +800,26 @@
                 if (successEngine) successEngine.style.display = 'none';
                 if (greeting) greeting.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (window.location.pathname !== '/mon-projet') {
-                    history.pushState({ view: 'overview' }, '', '/mon-projet');
+
+                // Update Navigation UI
+                sidebarLinks.forEach(l => {
+                    if (l.textContent.includes("Vue d'ensemble")) l.classList.add('active');
+                    else l.classList.remove('active');
+                });
+                mobileLinks.forEach(l => {
+                    if (l.textContent.includes("Mon Espace")) l.classList.add('active');
+                    else l.classList.remove('active');
+                });
+
+                if (!window.location.pathname.includes('mon-espace')) {
+                    history.pushState({ view: 'overview' }, '', '/mon-espace');
                 }
             }
         }
 
         // Support for browser back/forward buttons
         window.addEventListener('popstate', (event) => {
-            if (window.location.pathname === '/mon-projet') showView('success-engine');
+            if (window.location.pathname.includes('mon-projet')) showView('success-engine');
             else showView('overview');
         });
 
