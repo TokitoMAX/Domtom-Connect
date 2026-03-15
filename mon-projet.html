@@ -1363,12 +1363,7 @@
                             <div class="dash-card">
                                 <div class="card-title">Webinaires & Live</div>
                                 <p class="card-desc">Participez à nos sessions live pour poser vos questions et comprendre l'écosystème.</p>
-                                <a href="/landing/webinaire/index.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir le prochain live →</a>
-                            </div>
-
-
-
-                            <!-- Autres petits blocs restaurés -->
+                                <!-- Autres petits blocs restaurés -->
                             <div class="dash-card">
                                 <div class="card-title">Annuaire Talents</div>
                                 <p class="card-desc">Explorez les experts de la diaspora prêts à propulser votre aventure.</p>
@@ -1421,8 +1416,8 @@
                 `;
 
                 dashboardContent.insertAdjacentHTML('beforeend', segmentedHTML);
+
                 await loadMyProjects(session.user.id);
-                // Auto-navigate based on URL path
                 initRouting();
             }
         }
@@ -1551,13 +1546,14 @@
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCommandoStarted ? "Le Commando est en route" : "Déployez le Commando"}</div>
                                 <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCommandoStarted ? "Votre Roadmap est validée. Nos experts analysent votre profil pour un matching d'élite." : "Votre Roadmap est prête. Lancez le sourcing pour recruter vos experts diaspora."}</p>
-                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:${isCommandoStarted ? 'var(--text-muted)' : 'white'}; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
+                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:${isCommandoStarted ? 'white' : 'white'}; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
                                     ${isCommandoStarted ? "Sourcing en cours..." : "Lancer le Sourcing Expert →"}
                                 </button>
                             </div>
                         `;
                 } else {
                     const isCertified = firstProj.roadmap && firstProj.roadmap.is_certified;
+
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>

@@ -470,11 +470,26 @@
 
                 <!-- Chat Actif -->
                 <div id="chat-active" style="display:none; flex-direction:column; height: 100%;">
-                    <div class="chat-header">
-                        <div class="conv-avatar" id="active-avatar">DC</div>
-                        <div>
-                            <h3 id="active-name">Chargement...</h3>
-                            <p id="active-role">Expert Domtom Connect</p>
+                    <div class="chat-header" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div class="conv-avatar" id="active-avatar">DC</div>
+                            <div>
+                                <h3 id="active-name" style="display:flex; align-items:center; gap:6px;">
+                                    Chargement...
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                        title="Conversation sécurisée">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                </h3>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <p id="active-role" style="margin:0;">Expert Domtom Connect</p>
+                                    <span
+                                        style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em;">Espace
+                                        Sécurisé</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -672,6 +687,20 @@
             Array.from(thread.children).forEach(child => {
                 if (child.id !== 'msg-loader') child.remove();
             });
+
+            // Vérification de participation avant chargement pour plus de sécurité
+            const { data: participation, error: partErr } = await _supabase
+                .from('conversation_participants')
+                .select('id')
+                .eq('conversation_id', convId)
+                .eq('user_id', currentUserId)
+                .single();
+
+            if (partErr || !participation) {
+                document.getElementById('msg-loader').style.display = 'none';
+                thread.innerHTML = '<p style="padding:40px; text-align:center; color:#ef4444; font-weight:700;">Accès non autorisé à cette conversation.</p>';
+                return;
+            }
 
             const { data: messages, error } = await _supabase
                 .from('messages')
