@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -305,8 +305,8 @@
                 }
 
                 await updateUserProfile(metadata);
-                // Redirection vers la page de vérification explicite (Phase 11)
-                window.location.href = 'verify-email';
+                // Redirection directe vers l'espace correspondant (Modèle Teaser)
+                window.location.href = '../mon-espace';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);
             }

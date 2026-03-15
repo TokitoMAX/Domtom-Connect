@@ -1226,12 +1226,18 @@
             btn.disabled = true;
 
             const selectedRole = document.getElementById('user_role').value;
-            const session = await getSession();
-            const currentRole = session.user.user_metadata?.role || 'basique';
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
 
-            // PROTECTION : Si un utilisateur Basique tente de passer Expert/Entreprise sans payer
-            const isAttemptingPremiumSwitch = (currentRole === 'basique' && selectedRole !== 'basique' && currentSubscriptionTier === 'free');
+            // Mise à jour de la session auth (user_metadata) - Immédiat (Modèle Teaser)
+            const { error: authError } = await _supabase.auth.updateUser({
+                data: { role: selectedRole }
+            });
+
+            if (authError) {
+                showError('Erreur de session : ' + authError.message);
+                resetBtn(btn, isExpert);
+                return;
+            }
 
             // Gestion de l'upload réel si un fichier a été sélectionné
             let finalAvatarUrl = document.getElementById('avatar_url').value;
@@ -1264,7 +1270,6 @@
                 website_url: document.getElementById('website_url').value.trim() || null,
                 avatar_url: finalAvatarUrl,
                 available: document.getElementById('available').checked,
-                // On sauvegarde le rôle cible en DB (Brouillon), mais l'Auth Metadata reste Basique jusqu'au paiement
                 role: selectedRole,
                 // On ne publie que si déjà listé OU si déjà payant
                 listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
@@ -1281,29 +1286,13 @@
                 return;
             }
 
-            // Si c'est un switch premium non payé, on ne change PAS l'auth metadata
-            if (!isAttemptingPremiumSwitch) {
-                const { error: authError } = await _supabase.auth.updateUser({
-                    data: { role: selectedRole }
-                });
-                if (authError) {
-                    showError('Erreur de session : ' + authError.message);
-                    resetBtn(btn, isExpert);
-                    return;
-                }
-            }
-
             // Succès
             const feedback = document.getElementById('save-feedback');
-            if (isAttemptingPremiumSwitch) {
-                feedback.textContent = 'Configuration enregistrée ! Activez votre visibilité pour terminer.';
-            } else {
-                feedback.textContent = 'Ajustements enregistrés. Actualisation...';
-            }
+            feedback.textContent = 'Profil mis à jour ! Redirection vers votre nouvel espace...';
             feedback.style.color = '#10b981';
             feedback.style.display = 'block';
 
-            // Rafraîchir la page
+            // Rafraîchir la page pour redessiner correctement le badge et menu selon le nouveau rôle
             setTimeout(() => {
                 window.location.reload();
             }, 1500);

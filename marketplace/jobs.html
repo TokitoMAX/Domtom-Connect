@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -595,11 +595,8 @@
             const dateStr = !isNaN(timeObj) ? timeObj.toLocaleDateString() : '';
 
             // Paywall Logic
-            const session = _supabase.auth.getSession();
-            // Simuler pour la démo ou checker profile.subscription_tier
-            const isPremium = false; // À remplacer par check profile.subscription_tier === 'authority'
-
-            const displayName = isPremium ? name : "Entreprise Vérifiée";
+            const isPremium = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence');
+            const displayName = isPremium ? job.company_name || 'Entreprise' : "Entreprise Vérifiée";
             const nameClass = isPremium ? "" : "locked-data";
             const lockBadge = isPremium ? "" : `<span class="premium-lock-badge">🔒 Authority</span>`;
 
