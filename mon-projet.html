@@ -1157,10 +1157,13 @@
                         <div class="card-title" style="color: #10b981;">Signatures & Commissions</div>
                         <p class="card-desc">Délarez vos contrats signés via la plateforme et suivez vos commissions de succès.</p>
                         <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
-                            <div style="display:flex; justify-content:space-between;"><span>Cumul signé (HT) :</span> <strong>0.00 €</strong></div>
-                            <div style="display:flex; justify-content:space-between;"><span>Commissions dues :</span> <strong>0.00 €</strong></div>
+                            <div style="display:flex; justify-content:space-between;"><span>Cumul signé (HT) :</span> <strong id="total-signed">0.00 €</strong></div>
+                            <div style="display:flex; justify-content:space-between;"><span>Commissions dues :</span> <strong id="total-commission">0.00 €</strong></div>
                         </div>
-                        <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; margin-top:auto; justify-content:center;">Déclarer une Signature</button>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:auto;">
+                            <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; font-size:0.75rem; padding:8px;">Déclarer Signature</button>
+                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="border-color:#10b981; color:#10b981; justify-content:center; font-size:0.75rem; padding:8px;">Devis / Facture →</a>
+                        </div>
                     </div>
                 `;
 
@@ -1387,6 +1390,7 @@
                                 <div id="market-trends-mini" style="margin-top:12px; font-size:0.85rem;">
                                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
                                     <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
+                                    <p style="font-size:0.65rem; color:var(--text-muted); margin-top:8px;">Mis à jour : Aujourd'hui à ${new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' : ''}${new Date().getMinutes()}</p>
                                 </div>
                                 <button class="cta-button ghost" style="margin-top:auto; border-color: #7c3aed; color: #7c3aed; font-size:0.75rem;">Voir l'analyse complète</button>
                             </div>
@@ -1671,11 +1675,32 @@
 
         async function saveSignature(event) {
             event.preventDefault();
+            const amount = parseFloat(document.getElementById('sig-amount').value) || 0;
             const client = document.getElementById('sig-client').value;
-            const amount = document.getElementById('sig-amount').value;
-            alert(`Signature enregistrée !\nClient : ${client}\nMontant : ${amount}€\n\nMerci d'être un pilier de l'écosystème Domtom Connect.`);
+
+            // Simuler la mise à jour des compteurs (Utilise localStorage pour la persistance locale démo)
+            const currentTotal = parseFloat(localStorage.getItem('dc_total_signed') || 0);
+            const newTotal = currentTotal + amount;
+            localStorage.setItem('dc_total_signed', newTotal);
+
+            const totalEl = document.getElementById('total-signed');
+            const commEl = document.getElementById('total-commission');
+
+            if (totalEl) totalEl.textContent = newTotal.toFixed(2) + ' €';
+            if (commEl) commEl.textContent = (newTotal * 0.1).toFixed(2) + ' €';
+
+            alert(`Félicitations pour cette signature avec ${client} !\n\nMontant : ${amount}€ HT\nCommission Domtom Connect : ${(amount * 0.1).toFixed(2)}€\n\nVotre dashboard a été mis à jour.`);
             closeSignatureModal();
         }
+
+        // Charger les compteurs au démarrage
+        window.addEventListener('load', () => {
+            const total = parseFloat(localStorage.getItem('dc_total_signed') || 0);
+            const totalEl = document.getElementById('total-signed');
+            const commEl = document.getElementById('total-commission');
+            if (totalEl) totalEl.textContent = total.toFixed(2) + ' €';
+            if (commEl) commEl.textContent = (total * 0.1).toFixed(2) + ' €';
+        });
 
         async function openProjectModal(projectId = null) {
             let modal = document.getElementById('project-modal');
