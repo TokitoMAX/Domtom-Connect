@@ -185,7 +185,8 @@ async function loadGlobalNavbar() {
                 <a href="/marketplace/directory">Talents</a>
                 <a href="/marketplace/companies">Entreprises</a>
                 <a href="/marketplace/jobs">Missions</a>
-                <a href="/marketplace/projects">Projets</a>
+                <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
+                <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>
             `;
         }
 
@@ -193,7 +194,7 @@ async function loadGlobalNavbar() {
         if (navActions) {
             navActions.innerHTML = `
                 <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                    <a href="/profile" class="nav-user-link" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
+                    <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
                         Bonjour, ${name}
                     </a>
                     <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
@@ -202,6 +203,14 @@ async function loadGlobalNavbar() {
                     <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
                         Déconnexion
                     </button>
+                    <style>
+                        @media (max-width: 960px) {
+                            .user-menu-wrapper { flex-direction: column; width: 100%; gap: 12px !important; }
+                            .user-menu-wrapper .cta-button { width: 100%; justify-content: center; }
+                            .desktop-only { display: none !important; }
+                            .nav-mobile-link { display: flex !important; width: 100%; justify-content: center; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.02); }
+                        }
+                    </style>
                 </div>
             `;
         }
