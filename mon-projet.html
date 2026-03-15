@@ -1587,8 +1587,11 @@
         }
 
         async function openProjectModal(projectId = null) {
-            // Créer le modal dynamiquement s'il n'existe pas
             let modal = document.getElementById('project-modal');
+            // Reset to step 1
+            if (typeof goToStep === 'function') goToStep(1);
+
+            // Créer le modal dynamiquement s'il n'existe pas
             if (!modal) {
                 const modalHTML = `
                     <div class="modal-overlay" id="project-modal">
@@ -1600,59 +1603,80 @@
                                 </div>
                                 <button class="modal-close" onclick="closeProjectModal()">×</button>
                             </div>
+                            <div id="project-wizard-progress" style="display:flex; gap:8px; margin-bottom:24px;">
+                                <div class="wizard-dot active" id="dot-1" style="flex:1; height:4px; background:var(--primary-color); border-radius:2px;"></div>
+                                <div class="wizard-dot" id="dot-2" style="flex:1; height:4px; background:var(--gray-200); border-radius:2px;"></div>
+                            </div>
+
                             <form id="project-form" onsubmit="saveProject(event)">
                                 <input type="hidden" id="proj-id">
-                                <div style="margin-bottom:24px;">
-                                    <label class="form-label">Nom de l'Épopée *</label>
-                                    <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles" required>
-                                </div>
-                                <div style="margin-bottom:20px;">
-                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Vision (Votre ambition à long terme) *</label>
-                                    <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:100px;" required></textarea>
-                                </div>
-                                <div style="margin-bottom:20px;">
-                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Mission & Solution (Le 'Comment') *</label>
-                                    <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:100px;" required></textarea>
-                                </div>
-                                <div style="margin-bottom:24px;">
-                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Le Problème (Le 'Pourquoi') *</label>
-                                    <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:100px;" required></textarea>
-                                </div>
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
-                                    <div>
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Territoire Cible *</label>
-                                        <select id="proj-territory" required>
-                                            <option value="Martinique">Martinique</option>
-                                            <option value="Guadeloupe">Guadeloupe</option>
-                                            <option value="Guyane">Guyane</option>
-                                            <option value="Réunion">Réunion</option>
-                                            <option value="Autre">Autre / Diaspora</option>
-                                        </select>
+                                
+                                <!-- Étape 1 : Le Manifeste -->
+                                <div id="wizard-step-1">
+                                    <div style="margin-bottom:24px;">
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Nom de l'Épopée *</label>
+                                        <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles" required>
                                     </div>
-                                    <div>
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Stade Actuel *</label>
-                                        <select id="proj-status" required>
-                                            <option value="Idée">Simple Idée</option>
-                                            <option value="MVP">MVP / Prototype</option>
-                                            <option value="Lancement">Lancement Imminent</option>
-                                            <option value="Développement">En Développement</option>
-                                        </select>
+                                    <div style="margin-bottom:20px;">
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Vision (Votre ambition à long terme) *</label>
+                                        <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:120px;" required></textarea>
                                     </div>
+                                    <div style="margin-bottom:20px;">
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Mission & Solution (Le 'Comment') *</label>
+                                        <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:120px;" required></textarea>
+                                    </div>
+                                    <div style="margin-bottom:24px;">
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Le Problème (Le 'Pourquoi') *</label>
+                                        <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:120px;" required></textarea>
+                                    </div>
+                                    <button type="button" onclick="goToStep(2)" class="cta-button primary" style="width:100%; background:var(--primary-color); padding:16px; font-weight:800; font-size:1rem; border:none; cursor:pointer;">
+                                        Suivant : Logistique & Stratégie
+                                    </button>
                                 </div>
-                                <div style="margin-bottom:32px;">
-                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Besoins Critiques (ex: Argent, Tech, Design...)</label>
-                                    <input type="text" id="proj-needs" placeholder="De quoi avez-vous le plus besoin maintenant ?">
+
+                                <!-- Étape 2 : Logistique -->
+                                <div id="wizard-step-2" style="display:none;">
+                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+                                        <div>
+                                            <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Territoire Cible *</label>
+                                            <select id="proj-territory" required>
+                                                <option value="Martinique">Martinique</option>
+                                                <option value="Guadeloupe">Guadeloupe</option>
+                                                <option value="Guyane">Guyane</option>
+                                                <option value="Réunion">Réunion</option>
+                                                <option value="Autre">Autre / Diaspora</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Stade Actuel *</label>
+                                            <select id="proj-status" required>
+                                                <option value="Idée">Simple Idée</option>
+                                                <option value="MVP">MVP / Prototype</option>
+                                                <option value="Lancement">Lancement Imminent</option>
+                                                <option value="Développement">En Développement</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom:32px;">
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Besoins Critiques (ex: Argent, Tech, Design...)</label>
+                                        <input type="text" id="proj-needs" placeholder="De quoi avez-vous le plus besoin maintenant ?">
+                                    </div>
+                                    
+                                    <div style="display:flex; gap:12px;">
+                                        <button type="button" onclick="goToStep(1)" class="cta-button" style="flex:1; background:var(--gray-100); color:var(--text-primary); padding:16px; font-weight:700; border:none; border-radius:12px; cursor:pointer;">
+                                            Retour
+                                        </button>
+                                        <button type="submit" class="cta-button primary" style="flex:2; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                            Enregistrer mon Épopée
+                                        </button>
+                                    </div>
+                                    
+                                    <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:24px; border-radius:12px; cursor:pointer;">
+                                        ⚠️ Supprimer l'épopée définitivement
+                                    </button>
                                 </div>
                                 
-                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
-                                    Enregistrer mon Manifeste
-                                </button>
-                                
-                                <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:16px; border-radius:12px; cursor:pointer;">
-                                    ⚠️ Supprimer l'épopée définitivement
-                                </button>
-                                
-                                <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:16px;">Étape 1 sur 4. Une vision claire débloque l'étape 2 : La Boussole.</p>
+                                <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:16px;">Une vision claire débloque l'étape 2 du Success Engine : La Boussole.</p>
                             </form>
                         </div>
                     </div>
@@ -1690,17 +1714,43 @@
                     document.getElementById('proj-status').value = p.status;
                     document.getElementById('proj-needs').value = p.needs || '';
                     document.getElementById('btn-delete-proj').style.display = 'block';
+                    document.getElementById('proj-modal-title').textContent = "Modifier mon Épopée";
                 }
             } else {
-                document.getElementById('project-form').reset();
+                if (document.getElementById('project-form')) document.getElementById('project-form').reset();
                 document.getElementById('proj-id').value = '';
                 document.getElementById('btn-delete-proj').style.display = 'none';
+                document.getElementById('proj-modal-title').textContent = "Propulser mon Épopée";
             }
             modal.classList.add('open');
         }
 
         function closeProjectModal() {
             document.getElementById('project-modal').classList.remove('open');
+        }
+
+        function goToStep(step) {
+            const step1 = document.getElementById('wizard-step-1');
+            const step2 = document.getElementById('wizard-step-2');
+            const dot1 = document.getElementById('dot-1');
+            const dot2 = document.getElementById('dot-2');
+
+            if (step === 1) {
+                step1.style.display = 'block';
+                step2.style.display = 'none';
+                dot1.style.background = 'var(--primary-color)';
+                dot2.style.background = 'var(--gray-200)';
+            } else {
+                // Validation simple avant de passer à l'étape 2
+                if (!document.getElementById('proj-title').value || !document.getElementById('proj-vision').value) {
+                    alert("Veuillez remplir au moins le titre et la vision.");
+                    return;
+                }
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+                dot1.style.background = '#10b981';
+                dot2.style.background = 'var(--primary-color)';
+            }
         }
 
         async function saveProject(event) {
