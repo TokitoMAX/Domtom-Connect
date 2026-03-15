@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -948,11 +948,23 @@
                 .single();
 
             if (profile) {
+                // PRIORITÉ : Si le rôle en DB est différent de l'Auth (Draft), on utilise la DB pour l'UI
+                const displayRole = profile.role || role; 
+                
+                // Mettre à jour le sélecteur et l'UI selon le rôle de "travail"
+                roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
+                updateEditBar(roleSelect.value);
+                adaptTerminology(roleSelect.value);
+
                 fillForm(profile);
                 hasExistingListing = !!profile.listed;
                 currentSubscriptionTier = profile.subscription_tier || 'free';
-                updateListingStatus(profile.listed);
+                updateListingStatus(profile.listed, displayRole);
                 checkMonetizationBanner();
+            } else {
+                // Fallback si pas de profil en DB
+                updateEditBar(roleSelect.value);
+                adaptTerminology(roleSelect.value);
             }
 
             // Toggle dispo
@@ -1001,11 +1013,11 @@
             document.getElementById('availability-label').textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
         }
 
-        function updateListingStatus(listed) {
+        function updateListingStatus(listed, displayRole = null) {
             const dot = document.getElementById('listing-dot');
             const text = document.getElementById('listing-status-text');
             const subtitle = document.getElementById('page-subtitle');
-            const role = document.getElementById('user_role').value;
+            const role = displayRole || document.getElementById('user_role').value;
             const isExpert = (role === 'expert' || role === 'prestataire');
 
             if (listed) {
@@ -1015,10 +1027,11 @@
                 subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
             } else {
                 dot.classList.remove('published');
-                text.textContent = 'Profil privé (Non listé)';
+                text.textContent = 'Profil privé (Hors annuaire)';
                 text.style.color = 'var(--text-secondary)';
-                if (currentSubscriptionTier === 'free') {
-                    text.innerHTML += ' <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">🔒 Authority Pack requis</span>';
+                
+                if (currentSubscriptionTier === 'free' && role !== 'basique') {
+                    text.innerHTML = 'Profil en attente d\'activation <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">(Invisible)</span>';
                 }
             }
         }
@@ -1174,18 +1187,32 @@
         }
 
         async function handleSubscriptionSuccess(subscriptionId, tier) {
-            const { error } = await _supabase
+            const selectedRole = document.getElementById('user_role').value;
+            
+            // 1. Activation du rôle (Auth Metadata)
+            const { error: authError } = await _supabase.auth.updateUser({
+                data: { role: selectedRole }
+            });
+
+            if (authError) {
+                alert('Erreur Auth : ' + authError.message);
+                return;
+            }
+
+            // 2. Activation DB (Tier, Date, Listed)
+            const { error: dbError } = await _supabase
                 .from('profiles')
                 .update({
                     subscription_tier: tier,
                     subscription_id: subscriptionId,
                     last_payment_date: new Date().toISOString(),
+                    role: selectedRole,
                     listed: true
                 })
                 .eq('id', currentUserId);
 
-            if (error) {
-                alert('Erreur SQL : ' + error.message);
+            if (dbError) {
+                alert('Erreur SQL : ' + dbError.message);
             } else {
                 alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
                 window.location.reload();
@@ -1199,25 +1226,12 @@
             btn.disabled = true;
 
             const selectedRole = document.getElementById('user_role').value;
+            const session = await getSession();
+            const currentRole = session.user.user_metadata?.role || 'basique';
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
 
-            // GATING : Si l'utilisateur veut publier mais n'a pas de pack
-            if (currentSubscriptionTier === 'free' && selectedRole !== 'basique' && !hasExistingListing) {
-                openSubModal(selectedRole);
-                resetBtn(btn, isExpert);
-                return;
-            }
-
-            // Mise à jour de la session auth (user_metadata)
-            const { error: authError } = await _supabase.auth.updateUser({
-                data: { role: selectedRole }
-            });
-
-            if (authError) {
-                showError('Erreur de session : ' + authError.message);
-                resetBtn(btn, isExpert);
-                return;
-            }
+            // PROTECTION : Si un utilisateur Basique tente de passer Expert/Entreprise sans payer
+            const isAttemptingPremiumSwitch = (currentRole === 'basique' && selectedRole !== 'basique' && currentSubscriptionTier === 'free');
 
             // Gestion de l'upload réel si un fichier a été sélectionné
             let finalAvatarUrl = document.getElementById('avatar_url').value;
@@ -1250,8 +1264,9 @@
                 website_url: document.getElementById('website_url').value.trim() || null,
                 avatar_url: finalAvatarUrl,
                 available: document.getElementById('available').checked,
+                // On sauvegarde le rôle cible en DB (Brouillon), mais l'Auth Metadata reste Basique jusqu'au paiement
                 role: selectedRole,
-                // Gating Pay-to-List : On ne publie que si payant OU déjà listé
+                // On ne publie que si déjà listé OU si déjà payant
                 listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
                 updated_at: new Date().toISOString()
             };
@@ -1266,16 +1281,32 @@
                 return;
             }
 
+            // Si c'est un switch premium non payé, on ne change PAS l'auth metadata
+            if (!isAttemptingPremiumSwitch) {
+                const { error: authError } = await _supabase.auth.updateUser({
+                    data: { role: selectedRole }
+                });
+                if (authError) {
+                    showError('Erreur de session : ' + authError.message);
+                    resetBtn(btn, isExpert);
+                    return;
+                }
+            }
+
             // Succès
             const feedback = document.getElementById('save-feedback');
-            feedback.textContent = 'Ajustements enregistrés. Actualisation...';
+            if (isAttemptingPremiumSwitch) {
+                feedback.textContent = 'Configuration enregistrée ! Activez votre visibilité pour terminer.';
+            } else {
+                feedback.textContent = 'Ajustements enregistrés. Actualisation...';
+            }
             feedback.style.color = '#10b981';
             feedback.style.display = 'block';
 
-            // Rafraîchir la page pour redessiner correctement le badge et menu selon le nouveau rôle
+            // Rafraîchir la page
             setTimeout(() => {
                 window.location.reload();
-            }, 1000);
+            }, 1500);
         }
 
         function showError(msg) {
