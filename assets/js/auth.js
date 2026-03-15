@@ -185,6 +185,7 @@ async function loadGlobalNavbar() {
                 <a href="/marketplace/directory">Talents</a>
                 <a href="/marketplace/companies">Entreprises</a>
                 <a href="/marketplace/jobs">Missions</a>
+                <a href="/marketplace/projects">Projets</a>
                 <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
                 <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>
             `;
