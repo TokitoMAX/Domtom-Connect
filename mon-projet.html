@@ -1562,7 +1562,7 @@
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
                                 <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et l'Appel Stratégique."}</p>
-                                <button onclick="${isCertified ? 'window.location.href=\'mailto:domtomconnect@gmail.com?subject=RDV Stratégique : ' + firstProj.title + '\'' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
+                                <button onclick="${isCertified ? 'window.open(\'https://calendly.com/domtomconnect/30min\', \'_blank\')' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
                                     ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
                                 </button>
                                 ${isCertified ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>` : ''}
