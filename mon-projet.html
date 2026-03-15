@@ -1151,6 +1151,17 @@
                         <p class="card-desc">Générez vos scripts de vente et préparez vos entretiens stratégiques via SoloPrice.</p>
                         <a href="https://solopricepro.vercel.app/closing-assistant" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;">Lancer l'assistant →</a>
                     </div>
+                    
+                    <!-- Carte Signatures & Commissions (Nouveau Modèle) -->
+                    <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02);">
+                        <div class="card-title" style="color: #10b981;">Signatures & Commissions</div>
+                        <p class="card-desc">Délarez vos contrats signés via la plateforme et suivez vos commissions de succès.</p>
+                        <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
+                            <div style="display:flex; justify-content:space-between;"><span>Cumul signé (HT) :</span> <strong>0.00 €</strong></div>
+                            <div style="display:flex; justify-content:space-between;"><span>Commissions dues :</span> <strong>0.00 €</strong></div>
+                        </div>
+                        <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; margin-top:auto; justify-content:center;">Déclarer une Signature</button>
+                    </div>
                 `;
 
                 // Update Profile Strength
@@ -1363,7 +1374,23 @@
                             <div class="dash-card">
                                 <div class="card-title">Webinaires & Live</div>
                                 <p class="card-desc">Participez à nos sessions live pour poser vos questions et comprendre l'écosystème.</p>
-                                <!-- Autres petits blocs restaurés -->
+                                <a href="/landing/webinaire/index.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir le prochain live →</a>
+                            </div>
+
+                            <!-- Carte Vision du Marché (Modèle Data/WhatsApp) -->
+                            <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
+                                <div class="card-title" style="color: #7c3aed;">
+                                    Vision du Marché
+                                    <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA</span>
+                                </div>
+                                <p class="card-desc">Tendances en temps réel basées sur les missions publiées cette semaine.</p>
+                                <div id="market-trends-mini" style="margin-top:12px; font-size:0.85rem;">
+                                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
+                                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
+                                </div>
+                                <button class="cta-button ghost" style="margin-top:auto; border-color: #7c3aed; color: #7c3aed; font-size:0.75rem;">Voir l'analyse complète</button>
+                            </div>
+
                             <div class="dash-card">
                                 <div class="card-title">Annuaire Talents</div>
                                 <p class="card-desc">Explorez les experts de la diaspora prêts à propulser votre aventure.</p>
@@ -1448,6 +1475,9 @@
                 const score = calculateProjectMaturity(p);
                 return `
                         <div class="dash-card">
+                            <div style="width:calc(100% + 48px); height:160px; margin:-24px -24px 20px -24px; overflow:hidden; border-bottom:1px solid var(--gray-200); background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:2rem;">
+                                ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '🚀'}
+                            </div>
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
                                 <div>
                                     <h4 style="margin:0 0 4px 0; font-size:1.1rem;">${p.title}</h4>
@@ -1590,6 +1620,61 @@
                         </div>
                     `;
             }
+        }
+
+        function openSignatureModal() {
+            let modal = document.getElementById('signature-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="signature-modal">
+                        <div class="hero-modal" style="max-width: 480px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                                <div>
+                                    <h2 style="color:var(--text-primary); margin:0; font-size:1.4rem;">Déclarer une Signature</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Enregistrez votre contrat pour le suivi de commission.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeSignatureModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                            </div>
+                            <form onsubmit="saveSignature(event)">
+                                <div class="form-group" style="margin-bottom:16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Nom du Projet / Client *</label>
+                                    <input type="text" id="sig-client" required placeholder="Ex: Projet Agrotech Martinique" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Montant du Contrat (HT) *</label>
+                                    <input type="number" id="sig-amount" required placeholder="Ex: 5000" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                </div>
+                                <div style="background:#f8fafc; padding:16px; border-radius:8px; margin-bottom:24px;">
+                                    <p style="font-size:0.8rem; color:var(--text-secondary); margin:0;">
+                                        Commission Domtom Connect (10%) : <strong id="sig-commission-preview" style="color:#10b981;">0.00 €</strong>
+                                    </p>
+                                </div>
+                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; border:none; padding:12px; font-weight:700; border-radius:8px; color:white; cursor:pointer;">Valider la Signature</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('signature-modal');
+
+                document.getElementById('sig-amount').addEventListener('input', (e) => {
+                    const amt = parseFloat(e.target.value) || 0;
+                    document.getElementById('sig-commission-preview').textContent = (amt * 0.1).toFixed(2) + ' €';
+                });
+            }
+            modal.classList.add('open');
+        }
+
+        function closeSignatureModal() {
+            document.getElementById('signature-modal').classList.remove('open');
+        }
+
+        async function saveSignature(event) {
+            event.preventDefault();
+            const client = document.getElementById('sig-client').value;
+            const amount = document.getElementById('sig-amount').value;
+            alert(`Signature enregistrée !\nClient : ${client}\nMontant : ${amount}€\n\nMerci d'être un pilier de l'écosystème Domtom Connect.`);
+            closeSignatureModal();
         }
 
         async function openProjectModal(projectId = null) {

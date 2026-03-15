@@ -612,8 +612,8 @@
             let actionBtn = '';
             if (currentUserId === job.company_id) {
                 actionBtn = `<button class="btn-premium-contact" style="background:var(--gray-200);color:var(--text-secondary);cursor:default;">Votre offre</button>`;
-            } else if (isPremium) {
-                actionBtn = `<a href="../messages?to=${job.company_id}" class="btn-premium-contact">Postuler (Direct)</a>`;
+            } else if (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence') {
+                actionBtn = `<button onclick="confirmMission('${job.company_id}', '${job.id}')" class="btn-premium-contact">Postuler (Direct)</button>`;
             } else {
                 actionBtn = `<button onclick="openPremiumModal()" class="btn-premium-contact" style="background:#ef4444;">Débloquer pour postuler</button>`;
             }
@@ -726,6 +726,13 @@
         });
         document.getElementById('type-filter').addEventListener('change', loadJobs);
         document.getElementById('territory-filter').addEventListener('change', loadJobs);
+
+        function confirmMission(companyId, jobId) {
+            const confirmed = confirm("Accord de Collaboration :\n\nEn postulant à cette mission via Domtom Connect, vous acceptez le principe d'une commission de succès de 10% sur le montant HT final du contrat, à verser à la plateforme une fois la mission signée.\n\nVoulez-vous continuer et ouvrir la messagerie ?");
+            if (confirmed) {
+                window.location.href = `../messages?to=${companyId}&job=${jobId}`;
+            }
+        }
 
         init();
     </script>
