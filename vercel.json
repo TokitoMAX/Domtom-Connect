@@ -15,12 +15,11 @@
             "source": "/mon-projet",
             "destination": "/mon-espace",
             "permanent": true
-        }
-    ],
-    "rewrites": [
+        },
         {
-            "source": "/mon-espace",
-            "destination": "/mon-projet.html"
+            "source": "/mon-projet.html",
+            "destination": "/mon-espace",
+            "permanent": true
         }
     ]
 }
