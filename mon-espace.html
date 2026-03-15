@@ -235,8 +235,25 @@
 
         /* Mobile */
         @media (max-width: 768px) {
+            .navbar {
+                background: white !important;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                height: 72px;
+                display: flex;
+                align-items: center;
+                z-index: 10001;
+            }
+
             .navbar .container {
                 position: relative;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .mobile-nav {
+                display: flex;
             }
 
             .nav-content {
@@ -251,6 +268,7 @@
                 border-bottom: 1px solid var(--gray-200);
                 gap: 20px;
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                z-index: 10000;
             }
 
             .nav-content.is-open {
@@ -1451,19 +1469,6 @@
                         </div>
                     </div>
                     
-                    <!-- Carte Vision du Marché (Copie pour Admin) -->
-                    <div class="dash-card highlight" style="background: rgba(124, 58, 237, 0.03); border-color: rgba(124, 58, 237, 0.2);">
-                        <div class="card-title" style="color: #7c3aed;">
-                            Vision du Marché (Admin)
-                            <span style="font-size:0.65rem; background:#7c3aed; color:white; padding:2px 8px; border-radius:10px;">DATA INTEL</span>
-                        </div>
-                        <p class="card-desc">Surveillez les tendances de recherche et l'activité du réseau.</p>
-                        <div id="market-trends-admin" style="margin-top:12px; font-size:0.85rem;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>🚀 Top : Tech & Digital</span> <strong>+12%</strong></div>
-                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>📍 Zone : Martinique</span> <strong>Top 1</strong></div>
-                        </div>
-                        <button class="cta-button primary" style="background:#7c3aed; margin-top:auto;">Accéder à la console BI</button>
-                    </div>
 
                     <div class="dash-card">
                         <div class="card-title">Gestion des Experts</div>
