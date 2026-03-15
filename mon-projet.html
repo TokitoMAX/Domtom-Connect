@@ -1607,26 +1607,20 @@
                                     <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles" required>
                                 </div>
                                 <div style="margin-bottom:20px;">
-                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
-                                        <span style="font-size:1.2rem;">🌟</span> Vision (Votre ambition à long terme) *
-                                    </label>
-                                    <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:80px;" required></textarea>
+                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Vision (Votre ambition à long terme) *</label>
+                                    <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:100px;" required></textarea>
                                 </div>
                                 <div style="margin-bottom:20px;">
-                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
-                                        <span style="font-size:1.2rem;">⚔️</span> Mission & Solution (Le 'Comment') *
-                                    </label>
-                                    <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:80px;" required></textarea>
+                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Mission & Solution (Le 'Comment') *</label>
+                                    <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:100px;" required></textarea>
                                 </div>
                                 <div style="margin-bottom:24px;">
-                                    <label class="form-label" style="display:flex; align-items:center; gap:8px;">
-                                        <span style="font-size:1.2rem;">🎯</span> Le Problème (Le 'Pourquoi') *
-                                    </label>
-                                    <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:80px;" required></textarea>
+                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Le Problème (Le 'Pourquoi') *</label>
+                                    <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:100px;" required></textarea>
                                 </div>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
                                     <div>
-                                        <label class="form-label">Territoire Cible *</label>
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Territoire Cible *</label>
                                         <select id="proj-territory" required>
                                             <option value="Martinique">Martinique</option>
                                             <option value="Guadeloupe">Guadeloupe</option>
@@ -1636,7 +1630,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="form-label">Stade Actuel *</label>
+                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Stade Actuel *</label>
                                         <select id="proj-status" required>
                                             <option value="Idée">Simple Idée</option>
                                             <option value="MVP">MVP / Prototype</option>
@@ -1646,16 +1640,22 @@
                                     </div>
                                 </div>
                                 <div style="margin-bottom:32px;">
-                                    <label class="form-label">Besoins Critiques (ex: Argent, Tech, Design...)</label>
+                                    <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Besoins Critiques (ex: Argent, Tech, Design...)</label>
                                     <input type="text" id="proj-needs" placeholder="De quoi avez-vous le plus besoin maintenant ?">
                                 </div>
-                                    <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:12px; border-radius:12px; cursor:pointer;">
-                                        Supprimer mon épopée
-                                    </button>
-                                    <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:12px;">Étape 1 sur 4. Une vision claire débloque l'étape 2 : La Boussole.</p>
-                                </form>
-                            </div>
+                                
+                                <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                    Enregistrer mon Manifeste
+                                </button>
+                                
+                                <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:16px; border-radius:12px; cursor:pointer;">
+                                    ⚠️ Supprimer l'épopée définitivement
+                                </button>
+                                
+                                <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:16px;">Étape 1 sur 4. Une vision claire débloque l'étape 2 : La Boussole.</p>
+                            </form>
                         </div>
+                    </div>
                 `;
                 document.body.insertAdjacentHTML('beforeend', modalHTML);
                 modal = document.getElementById('project-modal');
