@@ -1565,7 +1565,17 @@
                                 <button onclick="${isCertified ? 'window.open(\'https://calendly.com/domtomconnect/30min\', \'_blank\')' : 'certifyProject(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
                                     ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
                                 </button>
-                                ${isCertified ? `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>` : ''}
+                                ${isCertified ? `
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>
+                                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
+                                        <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="cta-button ghost" style="font-size:0.8rem; border:1px solid var(--gray-300); color:var(--text-secondary);">
+                                            ${firstProj.is_listed ? "Retirer de la Marketplace" : "Republier mon Épopée"}
+                                        </button>
+                                        <button onclick="deleteProject('${firstProj.id}')" class="cta-button ghost" style="font-size:0.8rem; border:1px solid #ef4444; color:#ef4444;">
+                                            Supprimer l'Épopée
+                                        </button>
+                                    </div>
+                                ` : ''}
                             </div>
                         `;
                 }
@@ -1669,9 +1679,14 @@
                                         </button>
                                     </div>
                                     
-                                    <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; margin-top:24px; border-radius:12px; cursor:pointer;">
-                                        ⚠️ Supprimer l'épopée définitivement
-                                    </button>
+                                    <div style="margin-top:24px; display:flex; flex-direction:column; gap:12px;">
+                                        <button type="button" id="btn-unlist-proj" style="display:none; width:100%; background:transparent; border:1px solid var(--gray-300); color:var(--text-secondary); padding:12px; font-weight:600; font-size:0.85rem; border-radius:12px; cursor:pointer;">
+                                            Retirer de la Marketplace
+                                        </button>
+                                        <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; border-radius:12px; cursor:pointer;">
+                                            ⚠️ Supprimer l'épopée définitivement
+                                        </button>
+                                    </div>
                                 </div>
                                 
                                 <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:16px;">Une vision claire débloque l'étape 2 du Success Engine : La Boussole.</p>
@@ -1715,12 +1730,21 @@
                     document.getElementById('proj-status').value = p.status;
                     document.getElementById('proj-needs').value = p.needs || '';
                     document.getElementById('btn-delete-proj').style.display = 'block';
+
+                    const unlistBtn = document.getElementById('btn-unlist-proj');
+                    if (unlistBtn) {
+                        unlistBtn.style.display = 'block';
+                        unlistBtn.textContent = p.is_listed ? "Retirer de la Marketplace" : "Republier sur la Marketplace";
+                        unlistBtn.onclick = () => unlistProject(p.id, p.is_listed);
+                    }
+
                     document.getElementById('proj-modal-title').textContent = "Modifier mon Épopée";
                 }
             } else {
                 if (document.getElementById('project-form')) document.getElementById('project-form').reset();
                 document.getElementById('proj-id').value = '';
                 document.getElementById('btn-delete-proj').style.display = 'none';
+                if (document.getElementById('btn-unlist-proj')) document.getElementById('btn-unlist-proj').style.display = 'none';
                 document.getElementById('proj-modal-title').textContent = "Propulser mon Épopée";
             }
             modal.classList.add('open');
@@ -2160,11 +2184,34 @@
                 if (error) throw error;
 
                 alert("✅ Épopée supprimée définitivement.");
-                closeProjectModal();
+                const modal = document.getElementById('project-modal');
+                if (modal) closeProjectModal();
+
                 const session = await getSession();
                 loadMyProjects(session.user.id);
             } catch (err) {
                 alert("Erreur lors de la suppression : " + err.message);
+            }
+        }
+
+        async function unlistProject(projectId, currentStatus) {
+            const newStatus = !currentStatus;
+            const action = newStatus ? "republier" : "retirer de la marketplace";
+            if (!confirm(`Voulez-vous vraiment ${action} cette épopée ?`)) return;
+
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ is_listed: newStatus })
+                    .eq('id', projectId);
+
+                if (error) throw error;
+
+                alert(`✅ Épopée ${newStatus ? 'republiée' : 'retirée de la marketplace'}.`);
+                const session = await getSession();
+                loadMyProjects(session.user.id);
+            } catch (err) {
+                alert("Erreur : " + err.message);
             }
         }
 
