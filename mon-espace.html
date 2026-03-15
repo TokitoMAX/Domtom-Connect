@@ -1799,19 +1799,19 @@
                                 <div id="wizard-step-1">
                                     <div style="margin-bottom:24px;">
                                         <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Nom de l'Épopée *</label>
-                                        <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles" required>
+                                        <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles">
                                     </div>
                                     <div style="margin-bottom:20px;">
                                         <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Vision (Votre ambition à long terme) *</label>
-                                        <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:120px;" required></textarea>
+                                        <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:120px;"></textarea>
                                     </div>
                                     <div style="margin-bottom:20px;">
                                         <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Mission & Solution (Le 'Comment') *</label>
-                                        <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:120px;" required></textarea>
+                                        <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:120px;"></textarea>
                                     </div>
                                     <div style="margin-bottom:24px;">
                                         <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Le Problème (Le 'Pourquoi') *</label>
-                                        <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:120px;" required></textarea>
+                                        <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:120px;"></textarea>
                                     </div>
                                     <button type="button" onclick="goToStep(2)" class="cta-button primary" style="width:100%; background:var(--primary-color); padding:16px; font-weight:800; font-size:1rem; border:none; cursor:pointer;">
                                         Suivant : Logistique & Stratégie
@@ -1850,7 +1850,7 @@
                                         <button type="button" onclick="goToStep(1)" class="cta-button" style="flex:1; background:var(--gray-100); color:var(--text-primary); padding:16px; font-weight:700; border:none; border-radius:12px; cursor:pointer;">
                                             Retour
                                         </button>
-                                        <button type="submit" class="cta-button primary" style="flex:2; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
+                                        <button type="submit" id="btn-save-project" class="cta-button primary" style="flex:2; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
                                             Enregistrer mon Épopée
                                         </button>
                                     </div>
@@ -1942,9 +1942,14 @@
                 dot1.style.background = 'var(--primary-color)';
                 dot2.style.background = 'var(--gray-200)';
             } else {
-                // Validation simple avant de passer à l'étape 2
-                if (!document.getElementById('proj-title').value || !document.getElementById('proj-vision').value) {
-                    alert("Veuillez remplir au moins le titre et la vision.");
+                // Validation robuste des champs de l'étape 1
+                const title = document.getElementById('proj-title').value.trim();
+                const vision = document.getElementById('proj-vision').value.trim();
+                const mission = document.getElementById('proj-mission').value.trim();
+                const problem = document.getElementById('proj-problem').value.trim();
+
+                if (!title || !vision || !mission || !problem) {
+                    alert("Veuillez remplir tous les champs du Manifeste avant de passer à l'étape suivante (Titre, Vision, Mission et Problème).");
                     return;
                 }
                 step1.style.display = 'none';
@@ -1956,39 +1961,65 @@
 
         async function saveProject(event) {
             event.preventDefault();
-            const session = await getSession();
-            if (!session) return;
+            const btn = document.getElementById('btn-save-project');
+            const originalText = btn.textContent;
 
-            const vision = document.getElementById('proj-vision').value;
-            const mission = document.getElementById('proj-mission').value;
-            const problem = document.getElementById('proj-problem').value;
+            try {
+                btn.disabled = true;
+                btn.textContent = "Enregistrement...";
 
-            const data = {
-                owner_id: session.user.id,
-                title: document.getElementById('proj-title').value,
-                description: `[[VISION]]\n${vision}\n\n[[MISSION]]\n${mission}\n\n[[PROBLEM]]\n${problem}`,
-                territory: document.getElementById('proj-territory').value,
-                status: document.getElementById('proj-status').value,
-                needs: document.getElementById('proj-needs').value,
-                updated_at: new Date().toISOString()
-            };
+                const session = await getSession();
+                if (!session) return;
 
-            const pid = document.getElementById('proj-id').value;
-            let error;
-            if (pid) {
-                const { error: err } = await _supabase.from('projects').update(data).eq('id', pid);
-                error = err;
-            } else {
-                const { error: err } = await _supabase.from('projects').insert([data]);
-                error = err;
-            }
+                const title = document.getElementById('proj-title').value.trim();
+                const vision = document.getElementById('proj-vision').value.trim();
+                const mission = document.getElementById('proj-mission').value.trim();
+                const problem = document.getElementById('proj-problem').value.trim();
+                const territory = document.getElementById('proj-territory').value;
+                const status = document.getElementById('proj-status').value;
+                const needs = document.getElementById('proj-needs').value;
 
-            if (error) {
-                alert("Erreur lors de l'enregistrement : " + error.message);
-            } else {
+                if (!title || !vision || !mission || !problem) {
+                    alert("Erreur : Certains champs du Manifeste sont vides.");
+                    goToStep(1);
+                    return;
+                }
+
+                const data = {
+                    title: title,
+                    description: `[[VISION]]\n${vision}\n\n[[MISSION]]\n${mission}\n\n[[PROBLEM]]\n${problem}`,
+                    territory: territory,
+                    status: status,
+                    needs: needs,
+                    updated_at: new Date().toISOString()
+                };
+
+                const pid = document.getElementById('proj-id').value;
+                let error;
+
+                if (pid) {
+                    // Update: on ne renvoie pas owner_id pour éviter RLS conflicts
+                    const { error: err } = await _supabase.from('projects').update(data).eq('id', pid);
+                    error = err;
+                } else {
+                    // Insert: on inclut owner_id
+                    data.owner_id = session.user.id;
+                    const { error: err } = await _supabase.from('projects').insert([data]);
+                    error = err;
+                }
+
+                if (error) throw error;
+
                 alert("✅ Manifeste Enregistré ! Vous êtes prêt pour l'étape 2 : La Boussole.");
                 closeProjectModal();
                 loadMyProjects(session.user.id);
+
+            } catch (err) {
+                console.error("Erreur saveProject:", err);
+                alert("Erreur lors de l'enregistrement : " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
             }
         }
 
