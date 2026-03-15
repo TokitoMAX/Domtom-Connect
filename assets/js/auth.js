@@ -193,26 +193,49 @@ async function loadGlobalNavbar() {
         // Actions utilisateur (Profil + Espace + Logout)
         if (navActions) {
             navActions.innerHTML = `
-                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                    <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
-                        Bonjour, ${name}
-                    </a>
-                    <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
-                        Mon Espace
-                    </a>
-                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
-                        Déconnexion
-                    </button>
-                    <style>
-                        @media (max-width: 960px) {
-                            .user-menu-wrapper { flex-direction: column; width: 100%; gap: 12px !important; }
-                            .user-menu-wrapper .cta-button { width: 100%; justify-content: center; }
-                            .desktop-only { display: none !important; }
-                            .nav-mobile-link { display: flex !important; width: 100%; justify-content: center; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.02); }
-                        }
-                    </style>
-                </div>
-            `;
+                    <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
+                        <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
+                            Bonjour, ${name}
+                        </a>
+                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                            Mon Espace
+                        </a>
+                        <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
+                            Déconnexion
+                        </button>
+                        <style>
+                            @media (max-width: 960px) {
+                                .user-menu-wrapper { flex-direction: column; width: 100%; gap: 12px !important; }
+                                .user-menu-wrapper .cta-button { width: 100%; justify-content: center; }
+                                .desktop-only { display: none !important; }
+                                .nav-mobile-link { display: flex !important; width: 100%; justify-content: center; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.02); }
+                                .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+                            }
+                        </style>
+                    </div>
+                `;
         }
+
+        // Initialize Mobile Toggle globally
+        initNavToggle();
     }
 }
+
+function initNavToggle() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navContent = document.querySelector('.nav-content');
+    if (navToggle && navContent) {
+        // Remove existing listener if any to avoid double triggers
+        const newToggle = navToggle.cloneNode(true);
+        navToggle.parentNode.replaceChild(newToggle, navToggle);
+
+        newToggle.addEventListener('click', () => {
+            const isOpen = navContent.classList.toggle('is-open');
+            newToggle.classList.toggle('is-open', isOpen);
+            newToggle.setAttribute('aria-expanded', isOpen);
+        });
+    }
+}
+
+// Re-init on DOMContentLoaded for pages that load it statically
+document.addEventListener('DOMContentLoaded', initNavToggle);
