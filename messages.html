@@ -642,33 +642,43 @@
         }
 
         async function initMessages() {
-            const session = await getSession();
-            if (!session) { window.location.href = '/login'; return; }
-            currentUserId = session.user.id;
+            try {
+                const session = await getSession();
+                if (!session) { window.location.href = '/login'; return; }
+                currentUserId = session.user.id;
 
-            await loadGlobalNavbar();
-            await checkSupabaseHealth();
+                await loadGlobalNavbar();
+                await checkSupabaseHealth();
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetUserId = urlParams.get('to');
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetUserId = urlParams.get('to');
 
-            if (targetUserId && targetUserId !== currentUserId) {
-                await ensureConversationWith(targetUserId);
-                window.history.replaceState({}, document.title, window.location.pathname);
+                if (targetUserId && targetUserId !== currentUserId) {
+                    await ensureConversationWith(targetUserId);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
+                await loadConversations();
+            } catch (err) {
+                console.error("FATAL ERROR in initMessages:", err);
+                alert("Une erreur technique est survenue. Veuillez consulter la console pour plus de détails.");
             }
-
-            await loadConversations();
         }
 
         async function checkSupabaseHealth() {
-            console.log("--- Supabase Health Check ---");
-            const { data: pTest, error: pErr } = await _supabase.from('conversation_participants').select('count').limit(1);
-            if (pErr) console.error("Health Check - Participants:", pErr.message, pErr.details, pErr.hint);
-            else console.log("Health Check - Participants: OK");
+            console.log("--- Supabase Health Check Begin ---");
+            try {
+                const { data: pTest, error: pErr } = await _supabase.from('conversation_participants').select('conversation_id').limit(1);
+                if (pErr) console.error("Health Check - Participants (Error Obj):", JSON.stringify(pErr, null, 2));
+                else console.log("Health Check - Participants: OK", pTest);
 
-            const { data: cTest, error: cErr } = await _supabase.from('conversations').select('count').limit(1);
-            if (cErr) console.error("Health Check - Conversations:", cErr.message, cErr.details, cErr.hint);
-            else console.log("Health Check - Conversations: OK");
+                const { data: cTest, error: cErr } = await _supabase.from('conversations').select('id').limit(1);
+                if (cErr) console.error("Health Check - Conversations (Error Obj):", JSON.stringify(cErr, null, 2));
+                else console.log("Health Check - Conversations: OK", cTest);
+            } catch (e) {
+                console.error("Health Check Exception:", e);
+            }
+            console.log("--- Supabase Health Check End ---");
         }
 
         async function ensureConversationWith(targetUserId) {
