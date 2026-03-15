@@ -42,7 +42,7 @@
 </head>
 
 <body>
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
@@ -814,6 +814,14 @@ En attendant, n'hésite pas à consulter notre site pour en savoir plus sur Domt
                 });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadGlobalNavbar();
+        });
+    </script>
 </body>
 
 </html>
+```

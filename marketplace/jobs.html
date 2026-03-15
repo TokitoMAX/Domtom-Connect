@@ -506,12 +506,7 @@
 
             if (profile) currentSubscriptionTier = profile.subscription_tier || 'free';
 
-            document.getElementById('nav-actions-container').innerHTML = `
-                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
-                    <a href="/mon-projet" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
-                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
-                </div>
-            `;
+            await loadGlobalNavbar();
 
             if (currentUserRole === 'entreprise') {
                 document.getElementById('company-banner').style.display = 'flex';

@@ -43,7 +43,7 @@
 
 <body>
     <!-- Navigation -->
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
@@ -461,6 +461,13 @@ En attendant, n'hésitez pas à consulter notre site pour en savoir plus sur Dom
                     }
                 });
         }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadGlobalNavbar();
+        });
     </script>
 </body>
 

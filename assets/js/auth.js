@@ -131,3 +131,79 @@ async function checkUserRole(session) {
     if (!session || !session.user) return null;
     return session.user.user_metadata.role || null;
 }
+
+// Mise à jour globale de la Navbar
+async function loadGlobalNavbar() {
+    const session = await getSession();
+    const navLinks = document.getElementById('nav-links-container');
+    const navActions = document.getElementById('nav-actions-container');
+    const loginLink = document.getElementById('login-link');
+    const startButton = document.getElementById('start-button');
+
+    if (session) {
+        const role = await checkUserRole(session);
+        const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
+
+        // Masquer login/start si présents (fallback)
+        if (loginLink) loginLink.style.display = 'none';
+        if (startButton) startButton.style.display = 'none';
+
+        // Mettre à jour le CTA SoloPrice si présent sur la page
+        const solopriceCta = document.getElementById('soloprice-cta');
+        if (solopriceCta) {
+            solopriceCta.href = '/mon-espace';
+            solopriceCta.textContent = 'Accéder à mon espace';
+        }
+
+        // Calculer le préfixe selon la profondeur
+        const depth = window.location.pathname.split('/').filter(p => p).length;
+        // Si c'est un fichier à la racine (ex: /index.html ou /), depth peut varier
+        // Note: Sur Vercel, /mon-projet est souvent traduit en /mon-projet.html par rewrites
+        // Mais ici on veut savoir combien de "../" ajouter.
+        let prefix = '';
+        if (window.location.pathname.includes('/marketplace/') ||
+            window.location.pathname.includes('/registration/') ||
+            window.location.pathname.includes('/landing/')) {
+            prefix = '../';
+        }
+        if (window.location.pathname.includes('/territoires/')) {
+            prefix = '../../';
+        }
+        // Cas spécifique pour landing avec 2 niveaux (ex: landing/porteurs-projets/index.html)
+        const pathParts = window.location.pathname.split('/').filter(p => p);
+        if (pathParts.length >= 2) {
+            if (pathParts[0] === 'territoires' || (pathParts[0] === 'landing' && pathParts.length > 2)) {
+                prefix = '../../';
+            } else if (pathParts[0] === 'marketplace' || pathParts[0] === 'registration' || pathParts[0] === 'landing') {
+                prefix = '../';
+            }
+        }
+
+        // Liens de directory
+        if (navLinks) {
+            navLinks.innerHTML = `
+                <a href="${prefix}marketplace/directory">Talents</a>
+                <a href="${prefix}marketplace/companies">Entreprises</a>
+                <a href="${prefix}marketplace/jobs">Missions</a>
+                <a href="${prefix}marketplace/projects">Projets</a>
+            `;
+        }
+
+        // Actions utilisateur (Profil + Espace + Logout)
+        if (navActions) {
+            navActions.innerHTML = `
+                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
+                    <a href="${prefix}profile" class="nav-user-link" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
+                        Bonjour, ${name}
+                    </a>
+                    <a href="${prefix}mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        Mon Espace
+                    </a>
+                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
+                        Déconnexion
+                    </button>
+                </div>
+            `;
+        }
+    }
+}

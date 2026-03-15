@@ -599,53 +599,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        async function updateNavbar() {
-            const session = await getSession();
-            const navLinks = document.getElementById('nav-links-container');
-            const navActions = document.getElementById('nav-actions-container');
-            const loginLink = document.getElementById('login-link');
-            const startButton = document.getElementById('start-button');
-
-            if (session) {
-                const role = await checkUserRole(session);
-                const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
-
-                // Masquer login/start
-                if (loginLink) loginLink.style.display = 'none';
-                if (startButton) startButton.style.display = 'none';
-
-                // Masquer les sections non pertinentes quand connecté
-                document.querySelectorAll('[data-hide-logged-in]').forEach(el => {
-                    el.style.display = 'none';
-                });
-
-                // Mettre à jour le CTA SoloPrice pour les connectés
-                const solopriceCta = document.getElementById('soloprice-cta');
-                if (solopriceCta) {
-                    solopriceCta.href = '/mon-projet';
-                    solopriceCta.textContent = 'Accéder à mon espace';
-                }
-
-                // Ajouter liens personnalisés selon rôle
-                let extraLinks = '<a href="marketplace/directory.html">Talents</a><a href="marketplace/companies.html">Entreprises</a><a href="marketplace/jobs.html">Missions</a><a href="marketplace/projects.html">Projets</a>';
-                if (role === 'expert') {
-                    // "Missions" est déjà dans extraLinks de base, on ne l'ajoute plus ici
-                } else if (role === 'entreprise') {
-                    // Optionnel: ajouter des liens spécifiques entreprise si besoin
-                }
-
-                navLinks.innerHTML = extraLinks;
-
-                // Bouton d'action avec profil + déconnexion
-                navActions.innerHTML = `
-                    <div class="user-menu-wrapper">
-                        <a href="/mon-projet" class="cta-button secondary nav-profil-btn">Profil : ${name}</a>
-                        <button onclick="signOut()" class="cta-button secondary nav-logout-btn">Déconnexion</button>
-                    </div>
-                `;
-            }
-        }
-        updateNavbar();
+        loadGlobalNavbar();
     </script>
     <script src="assets/js/script.js?v=2.1"></script>
     <script src="assets/js/form-security.js?v=1.0"></script>

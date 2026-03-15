@@ -472,12 +472,7 @@
             currentUserRole = session.user.user_metadata?.role || null;
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
 
-            document.getElementById('nav-actions-container').innerHTML = `
-                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:12px;">
-                    <a href="/mon-projet" class="cta-button secondary" style="font-size:0.85rem;">Profil : ${name}</a>
-                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem;">Déconnexion</button>
-                </div>
-            `;
+            await loadGlobalNavbar();
 
             // Afficher le bandeau expert
             if (currentUserRole === 'expert' || currentUserRole === 'prestataire') {

@@ -1076,14 +1076,7 @@
             if (!session) {
                 window.location.href = 'login';
             } else {
-                // Update Navbar Actions
-                const navActions = document.getElementById('nav-actions-container');
-                if (navActions) {
-                    navActions.innerHTML = `
-                        <a href="profile" class="cta-button secondary">Mon Profil</a>
-                        <button onclick="handleLogout()" class="cta-button ghost" style="padding:10px 20px;">Déconnexion</button>
-                    `;
-                }
+                await loadGlobalNavbar();
 
                 const dashboardContent = document.getElementById('dashboard-content');
                 if (!session.user.email_confirmed_at) {
