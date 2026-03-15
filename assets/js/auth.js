@@ -151,8 +151,8 @@ async function loadGlobalNavbar() {
         // Mettre à jour le CTA SoloPrice si présent sur la page
         const solopriceCta = document.getElementById('soloprice-cta');
         if (solopriceCta) {
-            solopriceCta.href = '/mon-projet';
-            solopriceCta.textContent = 'Accéder à mon projet';
+            solopriceCta.href = '/mon-espace';
+            solopriceCta.textContent = 'Accéder à mon espace';
         }
 
         // Calculer le préfixe selon la profondeur
@@ -196,8 +196,8 @@ async function loadGlobalNavbar() {
                     <a href="${prefix}profile" class="nav-user-link" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem;">
                         Bonjour, ${name}
                     </a>
-                    <a href="${prefix}mon-projet" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
-                        Mon Projet
+                    <a href="${prefix}mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        Mon Espace
                     </a>
                     <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
                         Déconnexion

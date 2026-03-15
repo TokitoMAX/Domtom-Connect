@@ -950,15 +950,15 @@ https://domtomconnect.com`;
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../assets/js/auth.js"></script>
     <script>
-        // Si l'utilisateur est connecté, le logo ramène au mon-projet
+        // Si l'utilisateur est connecté, le logo ramène au mon-espace
         async function checkConnection() {
             try {
                 const session = await getSession();
                 if (session) {
                     const logoLink = document.getElementById('logo-home');
                     if (logoLink) {
-                        logoLink.href = "/mon-projet";
-                        logoLink.title = "Aller à mon projet";
+                        logoLink.href = "/mon-espace";
+                        logoLink.title = "Aller à mon espace";
                     }
                 }
             } catch (e) {
