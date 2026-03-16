@@ -534,11 +534,14 @@
     <div id="apply-modal" class="modal-overlay">
         <div class="modal" style="max-width: 500px;">
             <div class="modal-header">
-                <h2>Postuler à la mission</h2>
+                <div style="flex:1;">
+                    <h2 id="apply-modal-job-title" style="margin-bottom: 4px;">Postuler à la mission</h2>
+                    <p id="apply-modal-company-name" style="font-size: 0.9rem; color: #64748b; margin: 0; font-weight: 600;">Chargement...</p>
+                </div>
                 <button class="modal-close" onclick="closeApplyModal()">&times;</button>
             </div>
             
-            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px;">Voici les informations qui seront transmises à l'entreprise :</p>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 16px; margin-bottom: 20px;">Voici les informations qui seront transmises à l'entreprise :</p>
             
             <div class="profile-preview-box" id="profile-preview">
                 <div class="preview-avatar" id="prev-avatar">DC</div>
@@ -574,12 +577,17 @@
                 </svg>
             </div>
             <h2 style="margin-bottom: 12px;">Candidature Envoyée !</h2>
-            <p style="color: #64748b; margin-bottom: 32px; line-height: 1.6;">
+            <p style="color: #64748b; margin-bottom: 24px; line-height: 1.6;">
                 Votre profil et votre note ont été transmis à l'entreprise. Vous recevrez une notification si votre candidature est retenue.
             </p>
-            <button class="cta-button primary" onclick="closeSuccessModal()" style="width: 100%;">
-                Génial, merci !
-            </button>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="cta-button primary" onclick="closeSuccessModal()" style="width: 100%;">
+                    Génial, merci !
+                </button>
+                <a href="/mon-espace" class="cta-button secondary" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+                    Suivre mes candidatures
+                </a>
+            </div>
         </div>
     </div>
 
@@ -665,11 +673,11 @@
                         .eq('candidate_id', currentUserId);
                     
                     if (apps) {
-                        // Pour les tests, on ignore les candidatures "fantômes" qui resteraient bloquées en base
-                        const ignoredJobs = ['685f95f0-b0d4-42c6-8a95-f3d7e6a00e7e']; // ID de la mission test de Loic
+                        // On ignore uniquement la candidature spécifique qui est bloquée en base
+                        const ignoredAppIds = ['6e82969a-3749-4e3e-ac5b-e1c863b4677e'];
                         userApplications = apps
-                            .map(a => a.job_id)
-                            .filter(id => !ignoredJobs.includes(id));
+                            .filter(a => !ignoredAppIds.includes(a.id))
+                            .map(a => a.job_id);
                     }
                 }
                 
@@ -706,13 +714,13 @@
                 if (currentUserId) {
                     const { data: apps } = await _supabase
                         .from('job_applications')
-                        .select('job_id')
+                        .select('id, job_id')
                         .eq('candidate_id', currentUserId);
                     if (apps) {
-                        const ignoredJobs = ['685f95f0-b0d4-42c6-8a95-f3d7e6a00e7e'];
+                        const ignoredAppIds = ['6e82969a-3749-4e3e-ac5b-e1c863b4677e'];
                         userApplications = apps
-                            .map(a => a.job_id)
-                            .filter(id => !ignoredJobs.includes(id));
+                            .filter(a => !ignoredAppIds.includes(a.id))
+                            .map(a => a.job_id);
                     }
                 }
 
@@ -789,7 +797,7 @@
             } else if (alreadyApplied) {
                 actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée</button>`;
             } else if (canSeeDetails) {
-                actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}')" class="btn-premium-contact">Postuler</button>`;
+                actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}', '${job.title.replace(/'/g, "\\'")}', '${company.full_name.replace(/'/g, "\\'")}')" class="btn-premium-contact">Postuler</button>`;
             } else {
                 actionBtn = `<button onclick="openPremiumModal()" class="btn-premium-contact" style="background:#ef4444;">Accès Premium</button>`;
             }
@@ -894,7 +902,7 @@
         let pendingJobId = null;
         let pendingCompanyId = null;
 
-        async function openApplyModal(jobId, companyId) {
+        async function openApplyModal(jobId, companyId, jobTitle, companyName) {
             if (!currentUserId) {
                 alert("Veuillez vous connecter pour postuler.");
                 window.location.href = "../login";
@@ -903,6 +911,10 @@
 
             pendingJobId = jobId;
             pendingCompanyId = companyId;
+
+            // Update modal info
+            document.getElementById('apply-modal-job-title').textContent = jobTitle;
+            document.getElementById('apply-modal-company-name').textContent = companyName;
 
             // Show modal
             document.getElementById('apply-modal').classList.add('open');
