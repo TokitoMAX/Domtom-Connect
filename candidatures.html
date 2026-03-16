@@ -107,21 +107,28 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <div class="nav-brand-text">
                     <span class="nav-brand-name">Domtom Connect</span>
                     <span class="nav-brand-tagline">Recrutement</span>
                 </div>
             </a>
-            <div class="nav-toggle">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="nav-content">
-                <a href="/marketplace/jobs" class="nav-link">Offres d'emploi</a>
-                <a href="/marketplace/directory" class="nav-link">Freelance & Indépendants</a>
-                <a href="/marketplace/companies.html" class="nav-link">Annuaire Entreprises</a>
-                <a href="/mon-espace" class="nav-link active">Mon Espace</a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="/marketplace/directory">Talents</a>
+                    <a href="/marketplace/companies">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -163,6 +170,7 @@
             const session = await getSession();
             if (!session) { window.location.href = '/login'; return; }
             
+            await loadGlobalNavbar();
             await loadApplications();
             checkInfrastructure();
         });
@@ -170,32 +178,49 @@
         async function loadApplications() {
             const list = document.getElementById('applications-list');
             const session = await getSession();
-            const profile = await getProfile(session.user.id);
-            const isEmployer = profile.role === 'entreprise';
+            
+            document.getElementById('view-desc').textContent = 'Surveillez les candidatures reçues et envoyées.';
 
-            document.getElementById('view-desc').textContent = isEmployer 
-                ? 'Gérez les candidatures reçues pour vos missions.' 
-                : 'Suivez l\'état de vos candidatures envoyées.';
+            const [receivedRes, sentRes] = await Promise.all([
+                _supabase.from('job_applications').select('*, job:jobs!inner(*), candidate:profiles(*)').eq('job.company_id', session.user.id).order('created_at', { ascending: false }),
+                _supabase.from('job_applications').select('*, job:jobs(*), candidate:profiles(*)').eq('candidate_id', session.user.id).order('created_at', { ascending: false })
+            ]);
 
-            let query = _supabase.from('job_applications').select('*, job:jobs(*), candidate:profiles(*)');
-            if (isEmployer) query = query.eq('job.company_id', session.user.id);
-            else query = query.eq('candidate_id', session.user.id);
+            let allApps = [];
+            const ids = new Set();
 
-            const { data, error } = await query.order('created_at', { ascending: false });
+            if (receivedRes.data) {
+                receivedRes.data.forEach(app => {
+                    app._type = 'received';
+                    allApps.push(app);
+                    ids.add(app.id);
+                });
+            }
+            if (sentRes.data) {
+                sentRes.data.forEach(app => {
+                    if (!ids.has(app.id)) {
+                        app._type = 'sent';
+                        allApps.push(app);
+                    }
+                });
+            }
 
-            if (error || !data || data.length === 0) {
+            allApps.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (allApps.length === 0) {
                 list.innerHTML = `<div style="text-align:center; padding:40px; background:white; border-radius:20px; border:1px solid #e2e8f0; grid-column:1/-1;">
-                    <p style="color: #64748b;">${isEmployer ? 'Aucune candidature reçue.' : 'Vous n\'avez pas encore postulé.'}</p>
+                    <p style="color: #64748b;">Aucune candidature pour le moment.</p>
                     <a href="/marketplace/jobs" class="cta-button primary" style="display:inline-block; margin-top:16px;">Voir les missions</a>
                 </div>`;
+                window.__lastAppData = [];
                 return;
             }
 
-            const htmlResults = await Promise.all(data.map(async app => {
+            const htmlResults = await Promise.all(allApps.map(async app => {
                 const dateStr = new Date(app.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
                 const files = app.files || [];
 
-                if (isEmployer) {
+                if (app._type === 'received') {
                     const candle = app.candidate || { full_name: 'Utilisateur' };
                     const avatar = candle.avatar_url
                         ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
