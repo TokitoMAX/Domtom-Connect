@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -2450,20 +2450,33 @@
         }
 
         async function handleDeleteAccount() {
-            if (confirm("Êtes-vous sûr de vouloir supprimer définitivement votre compte Domtom Connect ? Cette action effacera également votre profil de l'annuaire de manière permanente.")) {
+            if (confirm("Êtes-vous sûr de vouloir supprimer définitivement votre compte Domtom Connect ?\n\nCette action effacera TOUTES vos données (projets, profil, messages) de manière irréversible.")) {
                 try {
-                    // Si on a une fonction backend pour supprimer, on l'appelle.
-                    // Sinon, ici en JS front, on appelle la fct RPC ou un update explicite
-                    const { error } = await _supabase.rpc('delete_user_account');
-                    if (error) {
-                        // Plan B si pas de RPC paramétrée : demander à l'Admin
-                        alert("Pour des raisons de sécurité, veuillez envoyer un email à domtomconnect@gmail.com pour confirmer la suppression (RGPD).");
+                    const session = await getSession();
+                    if (!session) return;
+                    const userId = session.user.id;
+
+                    // 1. Supprimer les projets
+                    const { error: projError } = await _supabase
+                        .from('projects')
+                        .delete()
+                        .eq('owner_id', userId);
+
+                    // 2. Supprimer le profil
+                    const { error: profError } = await _supabase
+                        .from('profiles')
+                        .delete()
+                        .eq('id', userId);
+
+                    if (projError || profError) {
+                        console.error("Erreur suppression:", projError, profError);
+                        alert("Une erreur est survenue lors de la suppression de vos données. Veuillez nous contacter à domtomconnect@gmail.com.");
                     } else {
-                        alert("Compte supprimé avec succès.");
-                        window.location.href = '/login';
+                        alert("Votre compte et vos données ont été supprimés avec succès. Merci d'avoir utilisé Domtom Connect.");
+                        await signOut();
                     }
                 } catch (e) {
-                    alert("Pour valider la suppression de vos données, veuillez nous contacter à domtomconnect@gmail.com. (Conformité RGPD)");
+                    alert("Une erreur technique s'est produite. Contact : domtomconnect@gmail.com.");
                 }
             }
         }
