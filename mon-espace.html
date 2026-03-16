@@ -2456,22 +2456,28 @@
                     if (!session) return;
                     const userId = session.user.id;
 
-                    // Tentative de suppression via RPC (True Auth Deletion)
-                    // Note: Nécessite la fonction SQL 'delete_user_account' dans Supabase
+                    // 1. Vider les données métier (Projets & Profil)
+                    await _supabase.from('projects').delete().eq('owner_id', userId);
+                    await _supabase.from('profiles').delete().eq('id', userId);
+
+                    // 2. Tentative de suppression Auth (True Deletion) via RPC
                     const { error: rpcError } = await _supabase.rpc('delete_user_account');
 
                     if (rpcError) {
-                        console.warn("RPC Deletion failed, falling back to manual wipe:", rpcError);
-                        // Fallback : Wiping business data manually if RPC is not set up
-                        await _supabase.from('projects').delete().eq('owner_id', userId);
-                        await _supabase.from('profiles').delete().eq('id', userId);
+                        console.warn("RPC Deletion failed (SQL likely not run):", rpcError);
+                        // 3. Fallback : Reset des metadata pour forcer un nouveau onboarding si l'user revient
+                        // On vide le rôle et les infos pour que l'Auth row soit "vierge"
+                        await _supabase.auth.updateUser({ data: { role: null, full_name: null, onboarding_done: false } });
+                        
+                        alert("Données effacées, mais votre connexion persiste.\n\nIMPORTANT : Pour une suppression TOTALE de votre compte (reconnexion impossible), vous devez installer le script SQL dans votre console Supabase comme indiqué dans le guide.");
+                    } else {
+                        alert("Votre compte et toutes vos données ont été définitivement supprimés.");
                     }
 
-                    alert("Votre compte et vos données ont été supprimés.");
                     await signOut();
                 } catch (e) {
                     console.error("Delete Error:", e);
-                    alert("Une erreur est survenue. Contact : domtomconnect@gmail.com.");
+                    alert("Une erreur est survenue lors de la suppression. Contact : domtomconnect@gmail.com.");
                 }
             }
         }
