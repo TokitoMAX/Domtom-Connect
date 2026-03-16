@@ -418,8 +418,7 @@
                     if (sbError) throw sbError;
 
                     // Update profile role and name
-                    await upsertProfile({
-                        id: session.user.id,
+                    await upsertProfile(session.user.id, {
                         full_name: formData.get('company'),
                         role: 'entreprise',
                         domtom_verified: true
