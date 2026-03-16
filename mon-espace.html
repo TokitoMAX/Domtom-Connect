@@ -849,8 +849,11 @@
                 .select(`
                     id,
                     status,
+                    message,
                     created_at,
-                    candidate:candidate_id (full_name, avatar_url, title, sector),
+                    candidate_id,
+                    job_id,
+                    candidate:candidate_id (full_name, avatar_url, title, sector, email),
                     job:job_id (title)
                 `)
                 .eq('company_id', session.user.id)
@@ -878,26 +881,50 @@
                     ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
                     : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>`;
 
+                const dateStr = new Date(app.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+
                 return `
                     <div class="dash-card">
                         <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                             ${avatar}
-                            <div>
+                            <div style="flex:1;">
                                 <div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${candle.full_name}</div>
                                 <div style="font-size:0.75rem; color:#64748b;">${candle.title || 'Expert'}</div>
                             </div>
+                            <span style="font-size: 0.75rem; color: #cbd5e1;">${dateStr}</span>
                         </div>
-                        <div style="margin-bottom: 20px;">
-                            <span style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Interréssé par :</span>
-                            <div style="font-size: 0.9rem; font-weight: 600; color: #0f172a; margin-top: 4px;">${app.job?.title || 'Mission'}</div>
+                        
+                        <div style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #f1f5f9;">
+                            <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Mission :</div>
+                            <div style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">${app.job?.title || 'Opportunité'}</div>
                         </div>
-                        <div style="display:flex; gap:8px; margin-top:auto;">
-                            <a href="/profile?id=${candle.id}" target="_blank" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
-                            <a href="/messages.html?to=${candle.id}" class="cta-button primary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center; background:#0f172a;">Contacter</a>
+
+                        ${app.message ? `
+                            <div style="margin-bottom: 20px;">
+                                <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Note du candidat :</div>
+                                <p style="font-size: 0.85rem; color: #475569; font-style: italic; line-height: 1.5; margin: 0; background: #fffbeb; padding: 10px; border-radius: 8px; border-left: 3px solid #fcd34d;">
+                                    "${app.message}"
+                                </p>
+                            </div>
+                        ` : ''}
+
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                            <div style="display:flex; gap:8px;">
+                                <a href="/profile?id=${app.candidate_id}" target="_blank" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
+                                <a href="mailto:${candle.email}?subject=Votre candidature pour ${app.job?.title}" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Email</a>
+                            </div>
+                            <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
+                                📅 Proposer un RDV (Visio)
+                            </button>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        async function proposeMeeting(candidateId, jobId, name) {
+            const meetingMsg = encodeURIComponent(`Bonjour ${name}, j'ai bien reçu votre candidature pour cette mission. Votre profil m'intéresse beaucoup. Seriez-vous disponible prochainement pour une visio afin d'échanger sur le projet ?`);
+            window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
         }
 
         // Support for browser back/forward buttons

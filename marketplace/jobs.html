@@ -386,6 +386,68 @@
                 padding: 20px;
             }
         }
+
+        /* Success & Apply Modals */
+        .apply-modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-preview-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .preview-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #64748b;
+            font-size: 1.4rem;
+        }
+
+        .preview-details h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #0f172a;
+        }
+
+        .preview-details p {
+            margin: 2px 0 0;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .success-illustration {
+            width: 80px;
+            height: 80px;
+            background: #f0fdf4;
+            color: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .btn-premium-applied {
+            background: #f8fafc;
+            color: #94a3b8;
+            border: 1px solid #e2e8f0;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 
@@ -468,6 +530,59 @@
         </div>
     </main>
 
+    <!-- MODAL: POSTULER (Classic-Modern) -->
+    <div id="apply-modal" class="modal-overlay">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Postuler à la mission</h2>
+                <button class="modal-close" onclick="closeApplyModal()">&times;</button>
+            </div>
+            
+            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px;">Voici les informations qui seront transmises à l'entreprise :</p>
+            
+            <div class="profile-preview-box" id="profile-preview">
+                <div class="preview-avatar" id="prev-avatar">DC</div>
+                <div class="preview-details">
+                    <h4 id="prev-name">Chargement...</h4>
+                    <p id="prev-title">Expert Domtom Connect</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Note de motivation (Optionnel)</label>
+                <textarea id="apply-note" placeholder="Ex: Très motivé par ce projet car j'ai une expertise en..." style="min-height: 120px;"></textarea>
+            </div>
+
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                <p style="margin: 0; font-size: 0.85rem; color: #92400e; font-weight: 600;">
+                    💡 En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.
+                </p>
+            </div>
+
+            <button class="cta-button primary" id="btn-confirm-apply" style="width: 100%; padding: 16px;">
+                Confirmer ma candidature
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: SUCCÈS -->
+    <div id="success-modal" class="modal-overlay">
+        <div class="modal" style="max-width: 400px; text-align: center;">
+            <div class="success-illustration">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2 style="margin-bottom: 12px;">Candidature Envoyée !</h2>
+            <p style="color: #64748b; margin-bottom: 32px; line-height: 1.6;">
+                Votre profil et votre note ont été transmis à l'entreprise. Vous recevrez une notification si votre candidature est retenue.
+            </p>
+            <button class="cta-button primary" onclick="closeSuccessModal()" style="width: 100%;">
+                Génial, merci !
+            </button>
+        </div>
+    </div>
+
     <!-- MODAL OFFRE DE MISSION (Simplifié) -->
     <div class="modal-overlay" id="job-modal">
         <div class="modal">
@@ -535,24 +650,32 @@
         let currentSubscriptionTier = 'free';
 
         async function init() {
-            const session = await getSession();
-            if (session) {
-                currentUserId = session.user.id;
-                currentUserRole = session.user.user_metadata?.role || null;
+            try {
+                const session = await getSession();
+                if (session) {
+                    currentUserId = session.user.id;
+                    const meta = session.user.user_metadata || {};
+                    currentSubscriptionTier = meta.subscription_tier || 'free';
+                    
+                    // Fetch user applications
+                    const { data: apps } = await _supabase
+                        .from('job_applications')
+                        .select('job_id')
+                        .eq('candidate_id', currentUserId);
+                    if (apps) userApplications = apps.map(a => a.job_id);
+                }
                 
-                const { data: profile } = await _supabase
-                    .from('profiles')
-                    .select('subscription_tier')
-                    .eq('id', currentUserId)
-                    .single();
-                if (profile) currentSubscriptionTier = profile.subscription_tier || 'free';
+                await loadGlobalNavbar();
+                if (currentUserId) {
+                    const profile = await getProfile(currentUserId);
+                    if (profile && profile.role === 'entreprise') {
+                        document.getElementById('company-banner').style.display = 'flex';
+                    }
+                }
+                await loadJobs();
+            } catch (err) {
+                console.error("Init error:", err);
             }
-
-            await loadGlobalNavbar();
-            if (currentUserRole === 'entreprise' || currentUserRole === 'project_owner') {
-                document.getElementById('company-banner').style.display = 'flex';
-            }
-            await loadJobs();
         }
 
         async function loadJobs() {
@@ -560,28 +683,35 @@
             const emptyState = document.getElementById('empty-state');
             
             try {
-                const searchTxt = document.getElementById('search-input').value.toLowerCase();
-                const typeFilter = document.getElementById('type-filter').value;
-                const territoryFilter = document.getElementById('territory-filter').value;
-
-                let query = _supabase
+                const { data: jobs, error } = await _supabase
                     .from('job_offers')
                     .select('*')
                     .eq('is_active', true)
                     .order('created_at', { ascending: false });
 
-                if (typeFilter) query = query.eq('mission_type', typeFilter);
-                if (territoryFilter) query = query.eq('territory', territoryFilter);
-
-                const { data: jobs, error } = await query;
                 if (error) throw error;
 
+                // Sync user applications if logged in
+                if (currentUserId) {
+                    const { data: apps } = await _supabase
+                        .from('job_applications')
+                        .select('job_id')
+                        .eq('candidate_id', currentUserId);
+                    if (apps) userApplications = apps.map(a => a.job_id);
+                }
+
+                const search = document.getElementById('search-input').value.toLowerCase();
+                const type = document.getElementById('type-filter').value;
+                const territory = document.getElementById('territory-filter').value;
+
                 let filteredJobs = jobs;
-                if (searchTxt) {
-                    filteredJobs = jobs.filter(j => 
-                        j.title.toLowerCase().includes(searchTxt) || 
-                        (j.description && j.description.toLowerCase().includes(searchTxt))
-                    );
+                if (search || type || territory) {
+                    filteredJobs = jobs.filter(j => {
+                        const matchesSearch = !search || j.title.toLowerCase().includes(search) || (j.description && j.description.toLowerCase().includes(search));
+                        const matchesType = !type || j.mission_type === type;
+                        const matchesTerritory = !territory || j.territory === territory;
+                        return matchesSearch && matchesType && matchesTerritory;
+                    });
                 }
 
                 if (!filteredJobs || !filteredJobs.length) {
@@ -617,9 +747,10 @@
                 ? `<img src="${company.avatar_url}" class="company-avatar">`
                 : `<div class="company-avatar">${initials}</div>`;
 
-            const isPremium = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence');
+            const isPremium = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence' || currentSubscriptionTier === 'business');
             const isOwner = currentUserId === job.company_id;
             const canSeeDetails = isPremium || isOwner;
+            const alreadyApplied = userApplications.includes(job.id);
 
             // Simple description rendering
             let safeDesc = (job.description || "")
@@ -639,8 +770,10 @@
             let actionBtn = '';
             if (isOwner) {
                 actionBtn = `<div class="tag" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0;">VOTRE OFFRE</div>`;
+            } else if (alreadyApplied) {
+                actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée</button>`;
             } else if (canSeeDetails) {
-                actionBtn = `<button onclick="confirmMission('${job.company_id}', '${job.id}')" class="btn-premium-contact">Postuler</button>`;
+                actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}')" class="btn-premium-contact">Postuler</button>`;
             } else {
                 actionBtn = `<button onclick="openPremiumModal()" class="btn-premium-contact" style="background:#ef4444;">Accès Premium</button>`;
             }
@@ -742,46 +875,80 @@
             loadJobs();
         }
 
-        async function confirmMission(companyId, jobId) {
+        let pendingJobId = null;
+        let pendingCompanyId = null;
+
+        async function openApplyModal(jobId, companyId) {
             if (!currentUserId) {
                 alert("Veuillez vous connecter pour postuler.");
                 window.location.href = "../login";
                 return;
             }
 
-            const confirmText = "En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.\n\nSouhaitez-vous postuler à cette mission ?";
-            
-            if (confirm(confirmText)) {
-                // Tracking
-                const { data: existing } = await _supabase
-                    .from('job_applications')
-                    .select('id')
-                    .eq('job_id', jobId)
-                    .eq('candidate_id', currentUserId)
-                    .maybeSingle();
+            pendingJobId = jobId;
+            pendingCompanyId = companyId;
 
-                if (!existing) {
-                    const { error } = await _supabase
-                        .from('job_applications')
-                        .insert([{
-                            job_id: jobId,
-                            candidate_id: currentUserId,
-                            company_id: companyId,
-                            status: 'pending'
-                        }]);
+            // Show modal
+            document.getElementById('apply-modal').classList.add('open');
+
+            // Load profile preview
+            try {
+                const profile = await getProfile(currentUserId);
+                if (profile) {
+                    document.getElementById('prev-name').textContent = profile.full_name || 'Utilisateur';
+                    document.getElementById('prev-title').textContent = profile.title || 'Talent Domtom Connect';
                     
-                    if (error) {
-                        alert("Erreur lors de la candidature : " + error.message);
-                        return;
+                    const avatarEl = document.getElementById('prev-avatar');
+                    if (profile.avatar_url) {
+                        avatarEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; border-radius:12px; object-fit:cover;">`;
+                    } else {
+                        const initials = (profile.full_name || 'DC').slice(0, 2).toUpperCase();
+                        avatarEl.innerHTML = initials;
                     }
                 }
+            } catch (err) {
+                console.error("Error loading preview:", err);
+            }
 
-                // Final Feedback & Choice
-                if (confirm("Votre candidature a été enregistrée avec succès ! \n\nVoulez-vous ouvrir la messagerie pour contacter l'entreprise directement ?")) {
-                    window.location.href = `../messages?to=${companyId}&job=${jobId}`;
-                }
+            document.getElementById('btn-confirm-apply').onclick = confirmApply;
+        }
+
+        function closeApplyModal() {
+            document.getElementById('apply-modal').classList.remove('open');
+            document.getElementById('apply-note').value = "";
+        }
+
+        async function confirmApply() {
+            const btn = document.getElementById('btn-confirm-apply');
+            btn.disabled = true;
+            btn.innerText = "Envoi...";
+
+            try {
+                const { error } = await _supabase
+                    .from('job_applications')
+                    .insert([{
+                        job_id: pendingJobId,
+                        candidate_id: currentUserId,
+                        company_id: pendingCompanyId,
+                        status: 'pending',
+                        message: document.getElementById('apply-note').value.trim()
+                    }]);
+
+                if (error) throw error;
+
+                closeApplyModal();
+                openSuccessModal();
+                loadJobs(); 
+            } catch (err) {
+                alert("Erreur lors de la candidature : " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Confirmer ma candidature";
             }
         }
+
+        function openSuccessModal() { document.getElementById('success-modal').classList.add('open'); }
+        function closeSuccessModal() { document.getElementById('success-modal').classList.remove('open'); }
 
         init();
     </script>

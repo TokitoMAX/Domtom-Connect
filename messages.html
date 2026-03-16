@@ -649,13 +649,18 @@
                 if (targetUserId && targetUserId !== currentUserId) {
                     await ensureConversationWith(targetUserId);
                     
-                    // Pre-fill message if coming from a job
+                    // Pre-fill message if provided or coming from a job
+                    const prefill = urlParams.get('prefill');
                     const jobId = urlParams.get('job');
-                    if (jobId) {
-                        const { data: job } = await _supabase.from('job_offers').select('title').eq('id', jobId).single();
-                        if (job) {
-                            const input = document.getElementById('message-input');
-                            if (input) {
+                    const input = document.getElementById('message-input');
+
+                    if (input) {
+                        if (prefill) {
+                            input.value = decodeURIComponent(prefill);
+                            autoResize(input);
+                        } else if (jobId) {
+                            const { data: job } = await _supabase.from('job_offers').select('title').eq('id', jobId).single();
+                            if (job) {
                                 input.value = `Bonjour, je suis intéressé par votre mission : "${job.title}". Pouvons-nous en discuter ?`;
                                 autoResize(input);
                             }
