@@ -856,7 +856,8 @@
                     created_at,
                     candidate_id,
                     job_id,
-                    candidate:candidate_id (full_name, avatar_url, title, sector),
+                    files,
+                    candidate:candidate_id (full_name, avatar_url, title, sector, bio, skills, territory, tjm, linkedin_url),
                     job:job_id (title, company_id)
                 `);
 
@@ -928,12 +929,11 @@
                                             </a>
                                         `).join('')}
                                     </div>
-                                </div>
-                            ` : ''}
+                                ` : ''}
 
-                            <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                                <a href="/profile?id=${app.candidate_id}" target="_blank" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
-                                <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
+                                <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                                    <button onclick="showCandidateDetails('${app.candidate_id}')" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Candidat</button>
+                                    <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
                                     📅 Proposer un RDV (Visio)
                                 </button>
                             </div>
@@ -995,16 +995,78 @@
             window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
         }
 
+        async function showCandidateDetails(candidateId) {
+            const { data: profile } = await _supabase.from('profiles').select('*').eq('id', candidateId).single();
+            if (!profile) return;
+
+            const name = profile.full_name || 'Expert';
+            const initials = name.slice(0, 2).toUpperCase();
+            const avatar = profile.avatar_url 
+                ? `<img src="${profile.avatar_url}" style="width:80px; height:80px; border-radius:16px; object-fit:cover; border:3px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.1);">`
+                : `<div style="width:80px; height:80px; border-radius:16px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#475569; border:3px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.1);">${initials}</div>`;
+
+            const modalHtml = `
+                <div class="modal-overlay open" id="details-modal-overlay" onclick="closeDetailsModal(event)" style="z-index: 10001;">
+                    <div class="modal" style="max-width:500px; padding:0; overflow:hidden;">
+                        <div style="height:100px; background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"></div>
+                        <div style="padding:0 24px 24px; position:relative;">
+                            <div style="position:absolute; top:-40px; left:24px;">
+                                ${avatar}
+                            </div>
+                            <div style="margin-top:50px;">
+                                <h2 style="font-size:1.5rem; font-weight:800; color:#1e293b; margin-bottom:4px;">${name}</h2>
+                                <p style="font-size:1rem; font-weight:600; color:#0ea5e9; margin-bottom:16px;">${profile.title || 'Expert Domtom Connect'}</p>
+                                
+                                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
+                                    ${profile.territory ? `<span style="font-size:0.75rem; background:#f1f5f9; padding:4px 12px; border-radius:20px; font-weight:600; color:#475569;">📍 ${profile.territory}</span>` : ''}
+                                    ${profile.tjm ? `<span style="font-size:0.75rem; background:#ecfdf5; padding:4px 12px; border-radius:20px; font-weight:600; color:#059669;">💰 ${profile.tjm}€ / jour</span>` : ''}
+                                    ${profile.available ? `<span style="font-size:0.75rem; background:#f0fdf4; padding:4px 12px; border-radius:20px; font-weight:600; color:#16a34a;">● Disponible</span>` : ''}
+                                </div>
+
+                                <div style="margin-bottom:24px;">
+                                    <h3 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:8px;">Bio</h3>
+                                    <p style="font-size:0.95rem; color:#475569; line-height:1.6;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa bio.'}</p>
+                                </div>
+
+                                ${profile.skills ? `
+                                    <div style="margin-bottom:24px;">
+                                        <h3 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:8px;">Compétences</h3>
+                                        <p style="font-size:0.95rem; color:#475569;">${profile.skills}</p>
+                                    </div>
+                                ` : ''}
+
+                                <div style="display:flex; gap:12px;">
+                                    ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="flex:1; justify-content:center;">LinkedIn</a>` : ''}
+                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="flex:1; justify-content:center; background:#0f172a;">Contacter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function closeDetailsModal(e) {
+            if (e.target.id === 'details-modal-overlay' || e.target.classList.contains('modal-close')) {
+                document.getElementById('details-modal-overlay').remove();
+            }
+        }
+
         // Support for browser back/forward buttons
         window.addEventListener('popstate', (event) => {
             if (window.location.pathname.includes('mon-projet')) showView('success-engine');
             else showView('overview');
         });
 
-        // Initialize from URL pathname on page load
+        // Initialize from URL pathname or params on page load
         function initRouting() {
+            const params = new URLSearchParams(window.location.search);
+            const viewParam = params.get('view');
             const isMonProjet = window.location.pathname.includes('mon-projet');
-            if (isMonProjet) showView('success-engine');
+
+            if (viewParam === 'applications') showView('applications');
+            else if (isMonProjet) showView('success-engine');
             else showView('overview');
         }
 
