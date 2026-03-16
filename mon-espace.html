@@ -721,8 +721,7 @@
             </a>
 
             <span
-                style="font-size: 0.75rem; font-weight: 600; color: #ef4444; text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Danger
-                Zone</span>
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Gestion du compte</span>
             <a href="javascript:void(0)" onclick="handleLogout()" class="sidebar-link"
                 style="color: var(--text-secondary);">
                 Déconnexion
@@ -735,10 +734,10 @@
 
         <main class="main-content">
             <div id="dashboard-content">
-                <div class="header-section">
-                    <span class="role-badge" id="user-role-badge">Chargement...</span>
-                    <h1 id="user-greeting" style="font-size: 2rem; margin-bottom: 8px;">Bonjour.</h1>
-                    <p style="color: var(--text-secondary); margin: 0;">Bienvenue dans votre espace Domtom Connect.</p>
+                <div class="dash-section-header">
+                    <span class="dash-badge emerald" id="user-role-badge">Chargement...</span>
+                    <h1 id="user-greeting">Bonjour.</h1>
+                    <p>Bienvenue dans votre espace Domtom Connect.</p>
                 </div>
 
                 <!-- Profile Strength (Expert Only) -->
@@ -750,9 +749,8 @@
                         <span id="strength-percentage"
                             style="font-size:1.25rem; font-weight:800; color:var(--emerald-color);">0%</span>
                     </div>
-                    <div style="height:8px; background:var(--progress-bar-bg); border-radius:10px; overflow:hidden;">
-                        <div id="strength-bar"
-                            style="width:0%; height:100%; background:var(--progress-bar-fill); transition:width 1s ease-in-out;">
+                    <div class="dash-progress-container">
+                        <div id="strength-bar" class="dash-progress-bar" style="width:0%;">
                         </div>
                     </div>
                     <p id="strength-tip"

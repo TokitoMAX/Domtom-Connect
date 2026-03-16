@@ -196,9 +196,54 @@ body {
     --gradient-primary: linear-gradient(120deg, #00BFA6 0%, #0F3D2E 100%);
     --gradient-ose: linear-gradient(135deg, #008F7A 0%, #007362 100%);
 
-    --border-radius-sm: 4px;
-    --border-radius: 8px;
-    --border-radius-lg: 12px;
+    --border-radius-sm: 6px;
+    --border-radius: 10px;
+    --border-radius-lg: 14px;
+    --border-radius-xl: 20px;
+}
+
+/* Dashboard Utilities */
+.dash-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.dash-badge.emerald {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--emerald-color);
+}
+
+.dash-progress-container {
+    height: 8px;
+    background: var(--gray-100);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dash-progress-bar {
+    height: 100%;
+    background: var(--emerald-color);
+    transition: width 1s ease-in-out;
+}
+
+.dash-section-header {
+    margin-bottom: 32px;
+}
+
+.dash-section-header h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.dash-section-header p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
 }
 
 /* Typographie */
@@ -275,12 +320,14 @@ p {
 .cta-button.secondary {
     background: var(--white);
     color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    border: 1.5px solid var(--gray-200);
 }
 
 .cta-button.secondary:hover {
-    background: #f3f4f6;
+    background: var(--gray-50);
+    border-color: var(--gray-300);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
 .cta-button.emerald {
