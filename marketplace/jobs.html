@@ -667,18 +667,28 @@
                     console.log("[DEBUG] Fetched applications:", apps);
                     if (apps) userApplications = apps.map(a => a.job_id);
 
-                    // RESET TEST FOR LOIC - FIXED POSITION
+                    // RESET TEST FOR LOIC - ULTRA AGGRESSIVE
                     if (currentUserId === '783ca914-53d6-4e3e-86c3-8ba347dc1282') {
+                        console.log("[DEBUG] ATTENTION: Création du bouton reset pour Loic...");
                         const resetBtn = document.createElement('button');
-                        resetBtn.innerText = "🧹 VIDER MES CANDIDATURES (TEST)";
-                        resetBtn.style = "position:fixed; top:80px; left:50%; transform:translateX(-50%); z-index:99999; background:#ef4444; color:white; border:4px solid white; padding:12px 24px; border-radius:12px; cursor:pointer; font-weight:bold; box-shadow:0 10px 20px rgba(0,0,0,0.3); font-size:1rem;";
+                        resetBtn.id = "loic-reset-btn";
+                        resetBtn.innerText = "🚨 CLIQUE ICI POUR RÉINITIALISER 🚨";
+                        resetBtn.style = "position:fixed; bottom:100px; right:20px; z-index:1000000; background:#ef4444; color:white; border:5px solid #fee2e2; padding:20px 30px; border-radius:50px; cursor:pointer; font-weight:900; box-shadow:0 0 50px rgba(239,68,68,0.5); font-size:1.2rem; animation: pulse 1s infinite alternate;";
+                        
+                        const style = document.createElement('style');
+                        style.innerHTML = "@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }";
+                        document.head.appendChild(style);
+
                         resetBtn.onclick = async () => {
-                            resetBtn.innerText = "Suppression...";
+                            if (!confirm("Voulez-vous vraiment vider vos candidatures tests ?")) return;
+                            resetBtn.innerText = "Suppression en cours...";
+                            resetBtn.disabled = true;
                             const { error } = await _supabase.from('job_applications').delete().eq('candidate_id', currentUserId);
                             if (error) alert("Erreur reset: " + error.message);
-                            else { alert("Candidatures vidées !"); window.location.reload(); }
+                            else { alert("C'est fait ! Les candidatures sont supprimées."); window.location.reload(); }
                         };
                         document.body.appendChild(resetBtn);
+                        console.log("[DEBUG] Bouton injecté avec succès.");
                     }
                 }
                 
