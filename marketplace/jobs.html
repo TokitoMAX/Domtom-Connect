@@ -1108,8 +1108,8 @@
                     .upload(filePath, file);
 
                 if (error) {
-                    console.error("Upload error:", error);
-                    continue;
+                    console.error("Upload failed for:", file.name, error);
+                    throw new Error(`Échec de l'envoi de ${file.name} : ${error.message}`);
                 }
 
                 const { data: { publicUrl } } = _supabase.storage
@@ -1127,21 +1127,26 @@
             btn.innerText = "Envoi des documents...";
 
             try {
+                console.log("Starting application... selected files:", uploadedFiles);
                 // 1. Upload files first
                 const fileUrls = await uploadFiles();
+                console.log("Files uploaded successfully, URLs:", fileUrls);
                 btn.innerText = "Envoi candidature...";
 
                 // 2. Upsert application (allows re-applying/updating documents)
+                const payload = {
+                    job_id: pendingJobId,
+                    candidate_id: currentUserId,
+                    company_id: pendingCompanyId,
+                    status: 'pending',
+                    message: document.getElementById('apply-note').value.trim(),
+                    files: fileUrls
+                };
+                console.log("Upserting application with payload:", payload);
+
                 const { error } = await _supabase
                     .from('job_applications')
-                    .upsert([{
-                        job_id: pendingJobId,
-                        candidate_id: currentUserId,
-                        company_id: pendingCompanyId,
-                        status: 'pending',
-                        message: document.getElementById('apply-note').value.trim(),
-                        files: fileUrls
-                    }], { onConflict: 'job_id,candidate_id' });
+                    .upsert([payload], { onConflict: 'job_id,candidate_id' });
 
                 if (error) throw error;
 
