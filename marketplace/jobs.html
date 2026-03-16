@@ -791,11 +791,7 @@
                         .eq('candidate_id', currentUserId);
                     
                     if (apps) {
-                        // On ignore uniquement la candidature spécifique qui est bloquée en base
-                        const ignoredAppIds = ['6e82969a-3749-4e3e-ac5b-e1c863b4677e'];
-                        userApplications = apps
-                            .filter(a => !ignoredAppIds.includes(a.id))
-                            .map(a => a.job_id);
+                        userApplications = apps.map(a => a.job_id);
                     }
                 }
                 
@@ -835,10 +831,7 @@
                         .select('id, job_id')
                         .eq('candidate_id', currentUserId);
                     if (apps) {
-                        const ignoredAppIds = ['6e82969a-3749-4e3e-ac5b-e1c863b4677e'];
-                        userApplications = apps
-                            .filter(a => !ignoredAppIds.includes(a.id))
-                            .map(a => a.job_id);
+                        userApplications = apps.map(a => a.job_id);
                     }
                 }
 

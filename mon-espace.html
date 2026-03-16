@@ -1009,7 +1009,7 @@
         }
 
         async function showCandidateDetails(candidateId, applicationId = null) {
-            console.log("Showing details for:", candidateId, "App:", applicationId);
+            console.log("FORCE DATA - CANDIDATE ID:", candidateId, "APP ID:", applicationId);
             const { data: profile } = await _supabase.from('profiles').select('*').eq('id', candidateId).single();
             if (!profile) return;
 
@@ -1017,102 +1017,104 @@
             let appFiles = [];
             if (applicationId && window.__lastAppData) {
                 const app = window.__lastAppData.find(a => a.id === applicationId);
-                console.log("Found app for modal:", app);
+                console.log("FORCE DATA - APPLICATION JSON:", app);
                 if (app && app.files) appFiles = app.files;
             }
 
             const name = profile.full_name || 'Expert';
             const initials = name.slice(0, 2).toUpperCase();
             const avatar = profile.avatar_url 
-                ? `<img src="${profile.avatar_url}" style="width:120px; height:120px; border-radius:32px; object-fit:cover; border:6px solid white; box-shadow:0 12px 32px rgba(0,0,0,0.15);">`
-                : `<div style="width:120px; height:120px; border-radius:32px; background:linear-gradient(135deg, #0f172a 0%, #334155 100%); display:flex; align-items:center; justify-content:center; font-size:2.5rem; font-weight:900; color:white; border:6px solid white; box-shadow:0 12px 32px rgba(0,0,0,0.15);">${initials}</div>`;
+                ? `<img src="${profile.avatar_url}" style="width:140px; height:140px; border-radius:32px; object-fit:cover; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">`
+                : `<div style="width:140px; height:140px; border-radius:32px; background:linear-gradient(135deg, #0f172a 0%, #334155 100%); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:white; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">${initials}</div>`;
 
             const modalHtml = `
-                <div class="modal-overlay open" id="details-modal-overlay" style="z-index: 10001; background: rgba(15, 23, 42, 0.85); backdrop-filter: none;">
-                    <div class="modal" style="max-width:850px; padding:0; overflow:hidden; border:none; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5); background: white; border-radius: 40px;">
+                <div class="modal-overlay open" id="details-modal-overlay" style="z-index: 10001; background: rgba(15, 23, 42, 0.95); backdrop-filter: none;">
+                    <div class="modal" style="max-width:900px; padding:0; overflow:hidden; border:none; box-shadow: none; background: #fff; border-radius: 40px;">
                         
-                        <div style="display:flex; min-height:650px;">
+                        <div style="display:flex; min-height:700px; background: white;">
                             
-                            <!-- Sidebar: Identity -->
-                            <div style="width:320px; background:#f8fafc; padding:45px 40px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; align-items:center; text-align:center;">
-                                <div style="margin-bottom:32px;">
+                            <!-- Premium Vertical Identity Panel -->
+                            <div style="width:340px; background:#f8fafc; padding:60px 40px; border-right:2px solid #f1f5f9; display:flex; flex-direction:column; align-items:center; text-align:center;">
+                                <div style="margin-bottom:40px; position:relative;">
                                     ${avatar}
+                                    <div style="position:absolute; bottom:10px; right:10px; width:24px; height:24px; background:#10b981; border:4px solid #f8fafc; border-radius:50%; box-shadow:0 2px 10px rgba(16,185,129,0.3);"></div>
                                 </div>
-                                <h2 style="font-size:1.85rem; font-weight:900; color:#0f172a; margin:0; line-height:1.2; letter-spacing:-0.03em;">${name}</h2>
-                                <p style="font-size:1.15rem; font-weight:600; color:#0ea5e9; margin:12px 0 32px 0;">${profile.title || 'Expert Domtom Connect'}</p>
+                                <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin:0; line-height:1.1; letter-spacing:-0.04em; font-family:'Outfit', sans-serif;">${name}</h2>
+                                <p style="font-size:1.2rem; font-weight:700; color:#0ea5e9; margin:15px 0 40px 0; text-transform:uppercase; letter-spacing:0.05em;">${profile.title || 'Expert Domtom Connect'}</p>
                                 
                                 <div style="width:100%; display:flex; flex-direction:column; gap:16px; margin-bottom:40px;">
-                                    <div style="background:white; padding:20px; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 4px 6px rgba(0,0,0,0.02);">
-                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:800; margin-bottom:6px; letter-spacing:0.05em;">Tarif Journalier</div>
-                                        <div style="font-size:1.75rem; font-weight:900; color:#0f172a;">${profile.tjm || '---'}€ <span style="font-size:0.9rem; color:#64748b; font-weight:500;">/ j</span></div>
+                                    <div style="background:white; padding:24px; border-radius:24px; border:2px solid #f1f5f9; text-align:left;">
+                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:900; margin-bottom:8px; letter-spacing:0.1em;">Tarif Indicatif</div>
+                                        <div style="font-size:1.8rem; font-weight:900; color:#0f172a;">${profile.tjm || '---'}€ <span style="font-size:1rem; color:#94a3b8; font-weight:600;">/ jour</span></div>
                                     </div>
-                                    <div style="background:white; padding:20px; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 4px 6px rgba(0,0,0,0.02);">
-                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:800; margin-bottom:6px; letter-spacing:0.05em;">Territoire</div>
-                                        <div style="font-size:1.1rem; font-weight:700; color:#1e293b;">📍 ${profile.territory || 'Non précisé'}</div>
+                                    <div style="background:white; padding:24px; border-radius:24px; border:2px solid #f1f5f9; text-align:left;">
+                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:900; margin-bottom:8px; letter-spacing:0.1em;">Territoire favori</div>
+                                        <div style="font-size:1.2rem; font-weight:800; color:#334155;">📍 ${profile.territory || 'Non précisé'}</div>
                                     </div>
                                 </div>
 
-                                <div style="margin-top:auto; width:100%; display:flex; flex-direction:column; gap:14px;">
-                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:60px; font-size:1.05rem; background:#0f172a; border-radius:24px; font-weight:800; box-shadow:0 10px 20px rgba(15,23,42,0.15);">
-                                        Contacter l'expert
+                                <div style="margin-top:auto; width:100%; display:flex; flex-direction:column; gap:16px;">
+                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:64px; font-size:1.1rem; background:#0f172a; border-radius:24px; font-weight:900; letter-spacing:0.02em; box-shadow:0 15px 30px rgba(15,23,42,0.2);">
+                                        🚀 Contacter l'expert
                                     </a>
                                     ${profile.linkedin_url ? `
-                                        <a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="width:100%; justify-content:center; height:58px; font-size:0.95rem; border-radius:24px; border:2px solid #e2e8f0; font-weight:700; background:white;">
+                                        <a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="width:100%; justify-content:center; height:60px; font-size:1rem; border-radius:24px; border:2px solid #e2e8f0; font-weight:800; background:white; color:#0f172a;">
                                             Profil LinkedIn
                                         </a>
                                     ` : ''}
-                                    <button onclick="document.getElementById('details-modal-overlay').remove()" style="margin-top:15px; background:none; border:none; color:#94a3b8; font-weight:700; cursor:pointer; text-decoration:none; font-size:0.9rem;">&larr; Retour au dashboard</button>
+                                    <button onclick="document.getElementById('details-modal-overlay').remove()" style="margin-top:20px; background:none; border:none; color:#94a3b8; font-weight:800; cursor:pointer; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.1em;">&times; Fermer la fiche</button>
                                 </div>
                             </div>
 
-                            <!-- Right Side: Detailed Content -->
-                            <div style="flex:1; padding:60px; position:relative; background:white;">
+                            <!-- Right Content Area -->
+                            <div style="flex:1; padding:70px; position:relative; overflow-y:auto; max-height:85vh;">
                                 <button onclick="document.getElementById('details-modal-overlay').remove()" 
-                                        style="position:absolute; top:40px; right:40px; background:#f1f5f9; color:#1e293b; border:none; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:2rem; transition: all 0.2s; z-index: 10;">
+                                        style="position:absolute; top:40px; right:40px; background:#f8fafc; color:#0f172a; border:none; width:56px; height:56px; border-radius:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:2.2rem; transition: all 0.2s; z-index: 10; font-weight:bold;">
                                     &times;
                                 </button>
 
-                                <div style="margin-bottom:50px;">
-                                    <h3 style="font-size:0.95rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin:0 0 24px 0; font-weight:900; display:flex; align-items:center; gap:15px;">
-                                        <span style="width:40px; height:4px; background:#0ea5e9; border-radius:2px;"></span> BIO PROFESSIONNELLE
+                                <div style="margin-bottom:60px;">
+                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
+                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Présentation
                                     </h3>
-                                    <div style="font-size:1.35rem; color:#334155; line-height:1.75; margin:0; font-weight: 450; white-space: pre-wrap;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa présentation professionnelle.'}</div>
+                                    <div style="font-size:1.4rem; color:#1e293b; line-height:1.8; margin:0; font-weight: 500; font-family:'Inter', sans-serif;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa présentation professionnelle.'}</div>
                                 </div>
 
-                                <div style="margin-bottom:50px;">
-                                    <h3 style="font-size:0.95rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin:0 0 24px 0; font-weight:900; display:flex; align-items:center; gap:15px;">
-                                        <span style="width:40px; height:4px; background:#0ea5e9; border-radius:2px;"></span> EXPERTISES CIBLÉES
+                                <div style="margin-bottom:60px;">
+                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
+                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Expertises
                                     </h3>
-                                    <div style="display:flex; flex-wrap:wrap; gap:14px;">
+                                    <div style="display:flex; flex-wrap:wrap; gap:16px;">
                                         ${profile.skills ? profile.skills.split(',').map(s => `
-                                            <span style="font-size:1rem; background:#eff6ff; border:1px solid #bfdbfe; padding:12px 26px; border-radius:18px; color:#1e40af; font-weight:700; box-shadow:0 2px 4px rgba(30,64,175,0.05);">
+                                            <span style="font-size:1rem; background:#0f172a; padding:14px 30px; border-radius:20px; color:white; font-weight:800; box-shadow:0 4px 12px rgba(15,23,42,0.1);">
                                                 ${s.trim()}
                                             </span>
-                                        `).join('') : '<p style="color:#94a3b8; font-size:1.1rem;">Aucune expertise renseignée</p>'}
+                                        `).join('') : '<p style="color:#94a3b8; font-size:1.2rem;">Aucune expertise renseignée</p>'}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 style="font-size:0.95rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin:0 0 24px 0; font-weight:900; display:flex; align-items:center; gap:15px;">
-                                        <span style="width:40px; height:4px; background:#0ea5e9; border-radius:2px;"></span> DOCUMENTS DE CANDIDATURE
+                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
+                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Documents (Directs)
                                     </h3>
                                     
                                     ${appFiles.length > 0 ? `
-                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
                                             ${appFiles.map(f => `
-                                                <a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:24px; border-radius:24px; border:2px solid #e2e8f0; display:flex; align-items:center; gap:20px; transition:all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-                                                    <div style="width:60px; height:60px; border-radius:18px; background:#fff1f2; display:flex; align-items:center; justify-content:center; font-size:2rem; color:#e11d48; box-shadow:inset 0 2px 4px rgba(0,0,0,0.05);">📄</div>
+                                                <a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:32px; border-radius:32px; border:2px solid #f1f5f9; display:flex; align-items:center; gap:24px; transition:all 0.3s; transform: perspective(1px) translateZ(0); box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                                                    <div style="width:70px; height:70px; border-radius:24px; background:white; display:flex; align-items:center; justify-content:center; font-size:2.5rem; color:#e11d48; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">📄</div>
                                                     <div style="flex:1; overflow:hidden;">
-                                                        <div style="font-size:1.1rem; font-weight:800; color:#0f172a; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">${f.name}</div>
-                                                        <div style="font-size:0.85rem; color:#94a3b8; font-weight:600; margin-top:4px;">Ouvrir le document</div>
+                                                        <div style="font-size:1.2rem; font-weight:900; color:#0f172a; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">${f.name}</div>
+                                                        <div style="font-size:0.9rem; color:#0ea5e9; font-weight:800; margin-top:8px; text-transform:uppercase; letter-spacing:0.05em;">Ouvrir le PDF &rarr;</div>
                                                     </div>
                                                 </a>
                                             `).join('')}
                                         </div>
                                     ` : `
-                                        <div style="text-align:center; padding:50px; background:#f8fafc; border-radius:32px; border:2px dashed #cbd5e1; color: #94a3b8;">
-                                            <div style="font-size:3.5rem; margin-bottom:15px;">📁</div>
-                                            <p style="font-size:1.1rem; font-weight:700; margin:0;">Aucun document spécifique trouvé</p>
+                                        <div style="text-align:center; padding:60px; background:#f8fafc; border-radius:40px; border:3px dashed #e2e8f0; color: #94a3b8;">
+                                            <div style="font-size:4rem; margin-bottom:20px; opacity:0.5;">📂</div>
+                                            <p style="font-size:1.2rem; font-weight:800; margin:0; color:#64748b;">Aucun document spécifique trouvé pour ce dossier.</p>
+                                            <p style="font-size:0.9rem; margin-top:10px;">Si vous avez envoyé des documents et qu'ils ne sont pas là, exécutez le script SQL (Step 1).</p>
                                         </div>
                                     `}
                                 </div>
