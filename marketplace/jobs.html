@@ -172,6 +172,51 @@
         .tag-type { background: #f8fafc; border: 1px solid #e2e8f0; }
         .tag-comm { background: #f0fdf4; color: #166534; }
 
+        .profile-preview-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+        }
+        .preview-avatar { width: 48px; height: 48px; border-radius: 12px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #64748b; font-size: 1.2rem; }
+        .preview-info h4 { margin: 0 0 4px 0; font-size: 1rem; color: #1e293b; }
+        .preview-info p { margin: 0; font-size: 0.8rem; color: #64748b; }
+
+        /* File Upload Styling */
+        .file-upload-zone {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fdfdfd;
+        }
+        .file-upload-zone:hover { border-color: var(--primary); background: #f0f9ff; }
+        .file-upload-zone input { display: none; }
+        .file-upload-zone svg { color: #94a3b8; margin-bottom: 8px; }
+        .file-list {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .file-item .remove-file { color: #ef4444; cursor: pointer; font-size: 1.2rem; line-height: 1; }
         .premium-actions {
             display: flex;
             align-items: center;
@@ -556,6 +601,16 @@
                 <textarea id="apply-note" placeholder="Ex: Très motivé par ce projet car j'ai une expertise en..." style="min-height: 120px;"></textarea>
             </div>
 
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #1e293b; text-transform: uppercase; margin-bottom: 8px;">Documents (CV, Portfolio, etc.)</label>
+                <div class="file-upload-zone" onclick="document.getElementById('apply-files').click()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <p style="margin:0; font-size:0.85rem; color:#64748b;">Cliquez ou glissez vos fichiers ici (Max 5Mo)</p>
+                    <input type="file" id="apply-files" multiple onchange="handleFileSelect(event)">
+                </div>
+                <div id="selected-files-list" class="file-list"></div>
+            </div>
+            
             <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
                 <p style="margin: 0; font-size: 0.85rem; color: #92400e; font-weight: 600;">
                     💡 En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.
@@ -944,14 +999,76 @@
         function closeApplyModal() {
             document.getElementById('apply-modal').classList.remove('open');
             document.getElementById('apply-note').value = "";
+            uploadedFiles = [];
+            renderFiles();
+        }
+
+        let uploadedFiles = [];
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            const list = document.getElementById('selected-files-list');
+            
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Le fichier ${file.name} est trop lourd (Max 5Mo)`);
+                    return;
+                }
+                uploadedFiles.push(file);
+            });
+            renderFiles();
+        }
+
+        function renderFiles() {
+            const list = document.getElementById('selected-files-list');
+            list.innerHTML = uploadedFiles.map((f, i) => `
+                <div class="file-item">
+                    <span>📄 ${f.name}</span>
+                    <span class="remove-file" onclick="removeFile(${i})">&times;</span>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            renderFiles();
+        }
+
+        async function uploadFiles() {
+            const urls = [];
+            for (const file of uploadedFiles) {
+                const ext = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+                const filePath = `${currentUserId}/${fileName}`;
+
+                const { data, error } = await _supabase.storage
+                    .from('applications-docs')
+                    .upload(filePath, file);
+
+                if (error) {
+                    console.error("Upload error:", error);
+                    continue;
+                }
+
+                const { data: { publicUrl } } = _supabase.storage
+                    .from('applications-docs')
+                    .getPublicUrl(filePath);
+                
+                urls.push({ name: file.name, url: publicUrl });
+            }
+            return urls;
         }
 
         async function confirmApply() {
             const btn = document.getElementById('btn-confirm-apply');
             btn.disabled = true;
-            btn.innerText = "Envoi...";
+            btn.innerText = "Envoi des documents...";
 
             try {
+                // 1. Upload files first
+                const fileUrls = await uploadFiles();
+                btn.innerText = "Envoi candidature...";
+
+                // 2. Insert application
                 const { error } = await _supabase
                     .from('job_applications')
                     .insert([{
@@ -959,7 +1076,8 @@
                         candidate_id: currentUserId,
                         company_id: pendingCompanyId,
                         status: 'pending',
-                        message: document.getElementById('apply-note').value.trim()
+                        message: document.getElementById('apply-note').value.trim(),
+                        files: fileUrls
                     }]);
 
                 if (error) throw error;

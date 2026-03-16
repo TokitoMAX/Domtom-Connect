@@ -918,6 +918,19 @@
                                 </div>
                             ` : ''}
 
+                            ${app.files && app.files.length > 0 ? `
+                                <div style="margin-bottom: 20px;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Documents joints :</div>
+                                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                        ${app.files.map(f => `
+                                            <a href="${f.url}" target="_blank" style="font-size: 0.75rem; color: #0ea5e9; text-decoration: none; background: #f0f9ff; padding: 4px 10px; border-radius: 20px; border: 1px solid #e0f2fe; display: flex; align-items:center; gap:4px;">
+                                                <span>📄</span> ${f.name}
+                                            </a>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
                             <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
                                 <a href="/profile?id=${app.candidate_id}" target="_blank" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
                                 <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
