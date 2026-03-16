@@ -655,6 +655,7 @@
                 const session = await getSession();
                 if (session) {
                     currentUserId = session.user.id;
+                    console.log("[DEBUG] Logged in as:", currentUserId);
                     const meta = session.user.user_metadata || {};
                     currentSubscriptionTier = meta.subscription_tier || 'free';
                     
@@ -663,6 +664,7 @@
                         .from('job_applications')
                         .select('job_id')
                         .eq('candidate_id', currentUserId);
+                    console.log("[DEBUG] Fetched applications:", apps);
                     if (apps) userApplications = apps.map(a => a.job_id);
                 }
                 
