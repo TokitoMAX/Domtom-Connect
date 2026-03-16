@@ -655,80 +655,18 @@
                 const session = await getSession();
                 if (session) {
                     currentUserId = session.user.id;
-                    console.log("[DEBUG] Logged in as:", currentUserId);
-                    const meta = session.user.user_metadata || {};
-                    currentSubscriptionTier = meta.subscription_tier || 'free';
-                    
                     // Fetch user applications
                     const { data: apps } = await _supabase
                         .from('job_applications')
-                        .select('*')
+                        .select('job_id')
                         .eq('candidate_id', currentUserId);
-                    console.log("[DEBUG] APPS FETCHED FULL:", JSON.stringify(apps, null, 2));
-                    if (apps) userApplications = apps.map(a => a.job_id);
-
-                    // RESET TEST FOR LOIC - ULTRA AGGRESSIVE
-                    if (currentUserId === '783ca914-53d6-4e3e-86c3-8ba347dc1282') {
-                        console.log("[DEBUG] ATTENTION: Création du bouton reset pour Loic...");
-                        const resetBtn = document.createElement('button');
-                        resetBtn.id = "loic-reset-btn";
-                        resetBtn.innerText = "🚨 CLIQUE ICI POUR RÉINITIALISER 🚨";
-                        resetBtn.style = "position:fixed; bottom:100px; right:20px; z-index:1000000; background:#ef4444; color:white; border:5px solid #fee2e2; padding:20px 30px; border-radius:50px; cursor:pointer; font-weight:900; box-shadow:0 0 50px rgba(239,68,68,0.5); font-size:1.2rem; animation: pulse 1s infinite alternate;";
-                        
-                        const style = document.createElement('style');
-                        style.innerHTML = "@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }";
-                        document.head.appendChild(style);
-
-                        resetBtn.onclick = async () => {
-                            if (!confirm("Voulez-vous vraiment vider vos candidatures tests ?")) return;
-                            console.log("[DEBUG] Début du reset manuel...");
-                            resetBtn.innerText = "Recherche...";
-                            
-                            const { data: toDelete, error: fetchErr } = await _supabase.from('job_applications').select('id').eq('candidate_id', currentUserId);
-                            
-                            if (fetchErr) return alert("Erreur lecture: " + fetchErr.message);
-                            console.log("[DEBUG] Candidatures trouvées à supprimer:", toDelete);
-
-                            if (!toDelete || toDelete.length === 0) {
-                                alert("Aucune candidature trouvée en base (déjà vide ?). Nettoyage local...");
-                            } else {
-                                resetBtn.innerText = `Suppression (${toDelete.length})...`;
-                                console.log("[DEBUG] Tentative de suppression chirurgicale...");
-                                
-                                for (const item of toDelete) {
-                                    console.log("[DEBUG] Suppression de l'ID:", item.id);
-                                    const { error: delErr } = await _supabase.from('job_applications').delete().eq('id', item.id);
-                                    if (delErr) console.error("[DEBUG] Erreur pour ID " + item.id + ":", delErr.message);
-                                }
-
-                                // Vériication immédiate
-                                const { data: check } = await _supabase.from('job_applications').select('id').eq('candidate_id', currentUserId);
-                                if (check && check.length > 0) {
-                                    console.log("[DEBUG] ÉCHEC: Blocage RLS détecté. Tentative de 'masquage' via update...");
-                                    for (const item of check) {
-                                        // On change le candidate_id pour un ID bidon pour "détacher" la candidature du compte
-                                        const dummyId = '00000000-0000-0000-0000-000000000000';
-                                        const { error: updErr } = await _supabase.from('job_applications').update({ candidate_id: dummyId }).eq('id', item.id);
-                                        if (updErr) console.error("[DEBUG] Échec de l'update ID " + item.id + ":", updErr.message);
-                                    }
-                                    
-                                    // Seconde vérification
-                                    const { data: check2 } = await _supabase.from('job_applications').select('id').eq('candidate_id', currentUserId);
-                                    if (check2 && check2.length > 0) {
-                                        alert("Erreur critique : Même la modification est bloquée par RLS. La candidature reste liée à ton compte.");
-                                    } else {
-                                        alert("Nettoyage par masquage terminé avec succès !");
-                                    }
-                                } else {
-                                    console.log("[DEBUG] VÉRIFICATION RÉUSSIE: Plus aucune candidature.");
-                                    alert("C'est fait ! Tes candidatures ont été supprimées chirurgicalement.");
-                                }
-                            }
-                            
-                            window.location.reload();
-                        };
-                        document.body.appendChild(resetBtn);
-                        console.log("[DEBUG] Bouton injecté avec succès.");
+                    
+                    if (apps) {
+                        // Pour les tests, on ignore les candidatures "fantômes" qui resteraient bloquées en base
+                        const ignoredJobs = ['685f95f0-b0d4-42c6-8a95-f3d7e6a00e7e']; // ID de la mission test de Loic
+                        userApplications = apps
+                            .map(a => a.job_id)
+                            .filter(id => !ignoredJobs.includes(id));
                     }
                 }
                 
