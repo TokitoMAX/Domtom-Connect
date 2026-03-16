@@ -655,6 +655,9 @@
                 const session = await getSession();
                 if (session) {
                     currentUserId = session.user.id;
+                    const meta = session.user.user_metadata || {};
+                    currentSubscriptionTier = meta.subscription_tier || 'free';
+
                     // Fetch user applications
                     const { data: apps } = await _supabase
                         .from('job_applications')
@@ -673,8 +676,11 @@
                 await loadGlobalNavbar();
                 if (currentUserId) {
                     const profile = await getProfile(currentUserId);
-                    if (profile && profile.role === 'entreprise') {
-                        document.getElementById('company-banner').style.display = 'flex';
+                    if (profile) {
+                        currentSubscriptionTier = profile.subscription_tier || currentSubscriptionTier;
+                        if (profile.role === 'entreprise') {
+                            document.getElementById('company-banner').style.display = 'flex';
+                        }
                     }
                 }
                 await loadJobs();
