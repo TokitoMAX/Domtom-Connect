@@ -182,8 +182,8 @@
             document.getElementById('view-desc').textContent = 'Surveillez les candidatures reçues et envoyées.';
 
             const [receivedRes, sentRes] = await Promise.all([
-                _supabase.from('job_applications').select('*, job:jobs!inner(*), candidate:profiles(*)').eq('job.company_id', session.user.id).order('created_at', { ascending: false }),
-                _supabase.from('job_applications').select('*, job:jobs(*), candidate:profiles(*)').eq('candidate_id', session.user.id).order('created_at', { ascending: false })
+                _supabase.from('job_applications').select('*, job:job_offers!inner(*), candidate:profiles!job_applications_candidate_id_fkey(*)').eq('job.company_id', session.user.id),
+                _supabase.from('job_applications').select('*, job:job_offers(*), candidate:profiles!job_applications_candidate_id_fkey(*)').eq('candidate_id', session.user.id)
             ]);
 
             let allApps = [];
