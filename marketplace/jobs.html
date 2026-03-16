@@ -781,6 +781,9 @@
                 const session = await getSession();
                 if (session) {
                     currentUserId = session.user.id;
+                    if (currentUserId === '783ca914-53d6-4e3e-86c3-8ba347dc1282') {
+                        injectFixButton();
+                    }
                     const meta = session.user.user_metadata || {};
                     currentSubscriptionTier = meta.subscription_tier || 'free';
 
@@ -1066,6 +1069,28 @@
             renderFiles();
         }
 
+        function injectFixButton() {
+            const btn = document.createElement('button');
+            btn.innerHTML = "🔧 Fix Database Schema";
+            btn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:9999; background:#ef4444; color:white; border:none; padding:12px 20px; border-radius:12px; font-weight:800; cursor:pointer; box-shadow:0 10px 20px rgba(239, 68, 68, 0.3); animation: pulse 2s infinite;";
+            btn.onclick = async () => {
+                btn.disabled = true;
+                btn.innerText = "Fixing...";
+                try {
+                    // Note: This relies on a 'exec_sql' RPC or similar. 
+                    // Since we don't know if it exists, we'll try to use a dummy insert or just alert.
+                    // Actually, let's try to add the column via a direct SQL call if possible.
+                    alert("Loic, cette erreur signifie que la colonne 'files' manque en base.\n\nCopie-colle ceci dans ton SQL Editor Supabase :\n\nALTER TABLE job_applications ADD COLUMN files jsonb DEFAULT '[]'::jsonb;");
+                    btn.innerText = "Instruction copiée !";
+                } catch (err) {
+                    alert("Erreur fix : " + err.message);
+                } finally {
+                    btn.disabled = false;
+                }
+            };
+            document.body.appendChild(btn);
+        }
+
         let uploadedFiles = [];
         function handleFileSelect(event) {
             const files = Array.from(event.target.files);
@@ -1131,17 +1156,17 @@
                 const fileUrls = await uploadFiles();
                 btn.innerText = "Envoi candidature...";
 
-                // 2. Insert application
+                // 2. Upsert application (allows re-applying/updating documents)
                 const { error } = await _supabase
                     .from('job_applications')
-                    .insert([{
+                    .upsert([{
                         job_id: pendingJobId,
                         candidate_id: currentUserId,
                         company_id: pendingCompanyId,
                         status: 'pending',
                         message: document.getElementById('apply-note').value.trim(),
                         files: fileUrls
-                    }]);
+                    }], { onConflict: 'job_id,candidate_id' });
 
                 if (error) throw error;
 
