@@ -702,7 +702,12 @@
                         .from('job_applications')
                         .select('job_id')
                         .eq('candidate_id', currentUserId);
-                    if (apps) userApplications = apps.map(a => a.job_id);
+                    if (apps) {
+                        const ignoredJobs = ['685f95f0-b0d4-42c6-8a95-f3d7e6a00e7e'];
+                        userApplications = apps
+                            .map(a => a.job_id)
+                            .filter(id => !ignoredJobs.includes(id));
+                    }
                 }
 
                 const search = document.getElementById('search-input').value.toLowerCase();
