@@ -1353,11 +1353,20 @@
                 roleBadge.style.background = "rgba(2, 132, 199, 0.1)";
                 roleBadge.style.color = "#0284c7";
 
+                // Show Applications link for companies
+                const navApp = document.getElementById('nav-applications');
+                if (navApp) navApp.style.display = 'flex';
+
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #0284c7;">
+                        <div class="card-title">Candidatures Reçues</div>
+                        <p class="card-desc">Suivez et contactez les talents qui ont postulé à vos missions.</p>
+                        <button onclick="showView('applications')" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</button>
+                    </div>
+                    <div class="dash-card">
                         <div class="card-title">Recrutement & Talents</div>
                         <p class="card-desc">Trouvez les meilleurs experts locaux pour vos projets.</p>
-                        <a href="marketplace/directory" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
+                        <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Publier un Besoin</div>
@@ -1454,10 +1463,6 @@
                 }
                 await loadMatchmaking(session.user.id);
                 renderVisibilityPreview(profile);
-                
-                // Show Applications link for companies
-                const navApp = document.getElementById('nav-applications');
-                if (navApp) navApp.style.display = 'flex';
 
             } else if (role === 'admin') {
                 roleBadge.textContent = "Administrateur Système";
