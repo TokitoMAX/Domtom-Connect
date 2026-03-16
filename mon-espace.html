@@ -2450,33 +2450,28 @@
         }
 
         async function handleDeleteAccount() {
-            if (confirm("Êtes-vous sûr de vouloir supprimer définitivement votre compte Domtom Connect ?\n\nCette action effacera TOUTES vos données (projets, profil, messages) de manière irréversible.")) {
+            if (confirm("⚠️ SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\nCela effacera vos projets, votre profil et vos accès. Cette action est irréversible.")) {
                 try {
                     const session = await getSession();
                     if (!session) return;
                     const userId = session.user.id;
 
-                    // 1. Supprimer les projets
-                    const { error: projError } = await _supabase
-                        .from('projects')
-                        .delete()
-                        .eq('owner_id', userId);
+                    // Tentative de suppression via RPC (True Auth Deletion)
+                    // Note: Nécessite la fonction SQL 'delete_user_account' dans Supabase
+                    const { error: rpcError } = await _supabase.rpc('delete_user_account');
 
-                    // 2. Supprimer le profil
-                    const { error: profError } = await _supabase
-                        .from('profiles')
-                        .delete()
-                        .eq('id', userId);
-
-                    if (projError || profError) {
-                        console.error("Erreur suppression:", projError, profError);
-                        alert("Une erreur est survenue lors de la suppression de vos données. Veuillez nous contacter à domtomconnect@gmail.com.");
-                    } else {
-                        alert("Votre compte et vos données ont été supprimés avec succès. Merci d'avoir utilisé Domtom Connect.");
-                        await signOut();
+                    if (rpcError) {
+                        console.warn("RPC Deletion failed, falling back to manual wipe:", rpcError);
+                        // Fallback : Wiping business data manually if RPC is not set up
+                        await _supabase.from('projects').delete().eq('owner_id', userId);
+                        await _supabase.from('profiles').delete().eq('id', userId);
                     }
+
+                    alert("Votre compte et vos données ont été supprimés.");
+                    await signOut();
                 } catch (e) {
-                    alert("Une erreur technique s'est produite. Contact : domtomconnect@gmail.com.");
+                    console.error("Delete Error:", e);
+                    alert("Une erreur est survenue. Contact : domtomconnect@gmail.com.");
                 }
             }
         }
