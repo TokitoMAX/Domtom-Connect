@@ -681,11 +681,30 @@
 
                         resetBtn.onclick = async () => {
                             if (!confirm("Voulez-vous vraiment vider vos candidatures tests ?")) return;
-                            resetBtn.innerText = "Suppression en cours...";
-                            resetBtn.disabled = true;
-                            const { error } = await _supabase.from('job_applications').delete().eq('candidate_id', currentUserId);
-                            if (error) alert("Erreur reset: " + error.message);
-                            else { alert("C'est fait ! Les candidatures sont supprimées."); window.location.reload(); }
+                            console.log("[DEBUG] Début du reset manuel...");
+                            resetBtn.innerText = "Recherche...";
+                            
+                            const { data: toDelete, error: fetchErr } = await _supabase.from('job_applications').select('id').eq('candidate_id', currentUserId);
+                            
+                            if (fetchErr) return alert("Erreur lecture: " + fetchErr.message);
+                            console.log("[DEBUG] Candidatures trouvées à supprimer:", toDelete);
+
+                            if (!toDelete || toDelete.length === 0) {
+                                alert("Aucune candidature trouvée en base (déjà vide ?). Nettoyage local...");
+                            } else {
+                                resetBtn.innerText = `Suppression (${toDelete.length})...`;
+                                const { error: delErr } = await _supabase.from('job_applications').delete().eq('candidate_id', currentUserId);
+                                if (delErr) {
+                                    console.error("[DEBUG] Erreur suppression par candidate_id:", delErr);
+                                    // Tentative par ID unique si le premier fail
+                                    for (const item of toDelete) {
+                                        await _supabase.from('job_applications').delete().eq('id', item.id);
+                                    }
+                                }
+                            }
+                            
+                            alert("Action terminée. Rechargement...");
+                            window.location.reload();
                         };
                         document.body.appendChild(resetBtn);
                         console.log("[DEBUG] Bouton injecté avec succès.");
