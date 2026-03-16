@@ -403,7 +403,6 @@
                 if (session) {
                     const jobData = {
                         company_id: session.user.id,
-                        company_name: formData.get('company'),
                         title: formData.get('project_title'),
                         description: fullDescription,
                         mission_type: formData.get('contract_type'),
@@ -418,9 +417,10 @@
 
                     if (sbError) throw sbError;
 
-                    // Update profile role if needed
+                    // Update profile role and name
                     await upsertProfile({
                         id: session.user.id,
+                        full_name: formData.get('company'),
                         role: 'entreprise',
                         domtom_verified: true
                     });
