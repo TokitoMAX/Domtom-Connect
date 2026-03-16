@@ -742,8 +742,38 @@
             loadJobs();
         }
 
-        function confirmMission(companyId, jobId) {
-            if (confirm("En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.\n\nOuvrir la messagerie ?")) {
+        async function confirmMission(companyId, jobId) {
+            if (!currentUserId) {
+                alert("Veuillez vous connecter pour postuler.");
+                window.location.href = "../login";
+                return;
+            }
+
+            if (confirm("En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.\n\nConfirmer votre candidature et ouvrir la messagerie ?")) {
+                
+                // Track application in Supabase
+                const { data: existing } = await _supabase
+                    .from('job_applications')
+                    .select('id')
+                    .eq('job_id', jobId)
+                    .eq('candidate_id', currentUserId)
+                    .maybeSingle();
+
+                if (!existing) {
+                    const { error } = await _supabase
+                        .from('job_applications')
+                        .insert([{
+                            job_id: jobId,
+                            candidate_id: currentUserId,
+                            company_id: companyId,
+                            status: 'pending'
+                        }]);
+                    
+                    if (error) {
+                        console.error("Erreur tracking application:", error);
+                    }
+                }
+
                 window.location.href = `../messages?to=${companyId}&job=${jobId}`;
             }
         }

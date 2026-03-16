@@ -706,6 +706,7 @@
             <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
             <a href="/marketplace/companies.html" class="sidebar-link">Annuaire Entreprises</a>
             <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
+            <a href="javascript:void(0)" onclick="showView('applications')" class="sidebar-link" id="nav-applications" style="display:none;">Candidatures</a>
             <a href="/messages.html" class="sidebar-link">Messagerie</a>
 
             <span
@@ -787,6 +788,17 @@
                 <div class="cards-grid" id="dashboard-cards">
                     <!-- Rempli par le JS -->
                 </div>
+
+                <!-- Applications View (For Employers) -->
+                <div id="applications-view" style="display:none;">
+                    <div class="dash-section-header">
+                        <h2 style="font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 8px;">Candidatures reçues</h2>
+                        <p style="color: #64748b; margin-bottom: 32px;">Suivez les talents intéressés par vos offres.</p>
+                    </div>
+                    <div id="applications-list" class="cards-grid">
+                        <p style="color: #94a3b8; font-style: italic;">Chargement des candidatures...</p>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -795,45 +807,97 @@
     <script src="assets/js/auth.js"></script>
     <script>
         function showView(viewId) {
-            const overview = document.getElementById('project-owner-modules');
+            const overview = document.getElementById('project-owner-modules') || document.getElementById('dashboard-cards');
             const successEngine = document.getElementById('success-engine-view');
-            const greeting = document.querySelector('.header-section');
+            const applicationsView = document.getElementById('applications-view');
+            const greeting = document.querySelector('.dash-section-header');
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const mobileLinks = document.querySelectorAll('.mobile-nav-link');
 
-            if (viewId === 'success-engine') {
-                if (overview) overview.style.display = 'none';
+            // Hide all
+            if (overview) overview.style.display = 'none';
+            if (successEngine) successEngine.style.display = 'none';
+            if (applicationsView) applicationsView.style.display = 'none';
+            if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'none';
+
+            // Update UI Active State
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            mobileLinks.forEach(l => l.classList.remove('active'));
+
+            // Show target
+            if (viewId === 'overview') {
+                if (overview) overview.style.display = 'grid';
+                if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'grid';
+                if (greeting) greeting.style.display = 'block';
+            } else if (viewId === 'success-engine') {
                 if (successEngine) successEngine.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Update Navigation UI
-                sidebarLinks.forEach(l => l.classList.remove('active'));
-                mobileLinks.forEach(l => l.classList.remove('active'));
-
-                if (!window.location.pathname.includes('mon-projet')) {
-                    history.pushState({ view: 'success-engine' }, '', '/mon-projet');
-                }
-            } else {
-                if (overview) overview.style.display = 'block';
-                if (successEngine) successEngine.style.display = 'none';
-                if (greeting) greeting.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Update Navigation UI
-                sidebarLinks.forEach(l => {
-                    if (l.textContent.includes("Vue d'ensemble")) l.classList.add('active');
-                    else l.classList.remove('active');
-                });
-                mobileLinks.forEach(l => {
-                    if (l.textContent.trim() === "Espace") l.classList.add('active');
-                    else l.classList.remove('active');
-                });
-
-                if (!window.location.pathname.includes('mon-espace')) {
-                    history.pushState({ view: 'overview' }, '', '/mon-espace');
-                }
+            } else if (viewId === 'applications') {
+                if (applicationsView) applicationsView.style.display = 'block';
+                if (greeting) greeting.style.display = 'none';
+                loadApplications();
             }
+        }
+
+        async function loadApplications() {
+            const list = document.getElementById('applications-list');
+            const session = await getSession();
+            if (!session) return;
+
+            const { data, error } = await _supabase
+                .from('job_applications')
+                .select(`
+                    id,
+                    status,
+                    created_at,
+                    candidate:candidate_id (full_name, avatar_url, title, sector),
+                    job:job_id (title)
+                `)
+                .eq('company_id', session.user.id)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                list.innerHTML = `<p style="color: #ef4444;">Erreur : ${error.message}</p>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                list.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 48px; background: white; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                        <p style="color: #64748b; margin-bottom: 16px;">Aucune candidature reçue pour le moment.</p>
+                        <a href="/marketplace/jobs" class="cta-button secondary" style="font-size: 0.85rem;">Voir mes missions</a>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = data.map(app => {
+                const candle = app.candidate || { full_name: 'Utilisateur' };
+                const initials = candle.full_name.slice(0, 2).toUpperCase();
+                const avatar = candle.avatar_url
+                    ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
+                    : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>`;
+
+                return `
+                    <div class="dash-card">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                            ${avatar}
+                            <div>
+                                <div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${candle.full_name}</div>
+                                <div style="font-size:0.75rem; color:#64748b;">${candle.title || 'Expert'}</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <span style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Interréssé par :</span>
+                            <div style="font-size: 0.9rem; font-weight: 600; color: #0f172a; margin-top: 4px;">${app.job?.title || 'Mission'}</div>
+                        </div>
+                        <div style="display:flex; gap:8px; margin-top:auto;">
+                            <a href="/profile?id=${candle.id}" target="_blank" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
+                            <a href="/messages.html?to=${candle.id}" class="cta-button primary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center; background:#0f172a;">Contacter</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Support for browser back/forward buttons
@@ -1390,6 +1454,10 @@
                 }
                 await loadMatchmaking(session.user.id);
                 renderVisibilityPreview(profile);
+                
+                // Show Applications link for companies
+                const navApp = document.getElementById('nav-applications');
+                if (navApp) navApp.style.display = 'flex';
 
             } else if (role === 'admin') {
                 roleBadge.textContent = "Administrateur Système";
