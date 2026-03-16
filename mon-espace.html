@@ -853,7 +853,7 @@
                     created_at,
                     candidate_id,
                     job_id,
-                    candidate:candidate_id (full_name, avatar_url, title, sector, email),
+                    candidate:candidate_id (full_name, avatar_url, title, sector),
                     job:job_id (title)
                 `)
                 .eq('company_id', session.user.id)
@@ -909,10 +909,7 @@
                         ` : ''}
 
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <div style="display:flex; gap:8px;">
-                                <a href="/profile?id=${app.candidate_id}" target="_blank" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
-                                <a href="mailto:${candle.email}?subject=Votre candidature pour ${app.job?.title}" class="cta-button secondary" style="flex:1; font-size:0.75rem; padding:8px; justify-content:center;">Email</a>
-                            </div>
+                            <a href="/profile?id=${app.candidate_id}" target="_blank" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Profil</a>
                             <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
                                 📅 Proposer un RDV (Visio)
                             </button>
