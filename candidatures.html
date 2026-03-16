@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidatures – Domtom Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap">
+
+    <style>
+        body {
+            background-color: var(--bg-light);
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 64px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: var(--gray-50);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .dash-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dash-card:hover {
+            border-color: var(--gray-300);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 24px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 24px; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <div class="nav-brand-text">
+                    <span class="nav-brand-name">Domtom Connect</span>
+                    <span class="nav-brand-tagline">Recrutement</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu</span>
+            <a href="/mon-espace.html" class="sidebar-link">Vue d'ensemble</a>
+            <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
+            <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
+            <a href="/candidatures.html" class="sidebar-link active">Candidatures</a>
+            <a href="/messages.html" class="sidebar-link">Messagerie</a>
+        </aside>
+
+        <main class="main-content">
+            <div id="infra-alert-container"></div>
+
+            <div class="dash-section-header">
+                <h1 style="font-size: 2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Recrutement & Candidatures</h1>
+                <p id="view-desc">Suivez les dossiers de recrutement en cours.</p>
+            </div>
+
+            <div id="applications-list" class="cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 32px;">
+                <p style="color: #94a3b8; font-style: italic;">Chargement des candidatures...</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await getSession();
+            if (!session) { window.location.href = '/login'; return; }
+            
+            await loadApplications();
+            checkInfrastructure();
+        });
+
+        async function loadApplications() {
+            const list = document.getElementById('applications-list');
+            const session = await getSession();
+            const profile = await getProfile(session.user.id);
+            const isEmployer = profile.role === 'entreprise';
+
+            document.getElementById('view-desc').textContent = isEmployer 
+                ? 'Gérez les candidatures reçues pour vos missions.' 
+                : 'Suivez l\'état de vos candidatures envoyées.';
+
+            let query = _supabase.from('job_applications').select('*, job:jobs(*), candidate:profiles(*)');
+            if (isEmployer) query = query.eq('job.company_id', session.user.id);
+            else query = query.eq('candidate_id', session.user.id);
+
+            const { data, error } = await query.order('created_at', { ascending: false });
+
+            if (error || !data || data.length === 0) {
+                list.innerHTML = `<div style="text-align:center; padding:40px; background:white; border-radius:20px; border:1px solid #e2e8f0; grid-column:1/-1;">
+                    <p style="color: #64748b;">${isEmployer ? 'Aucune candidature reçue.' : 'Vous n\'avez pas encore postulé.'}</p>
+                    <a href="/marketplace/jobs" class="cta-button primary" style="display:inline-block; margin-top:16px;">Voir les missions</a>
+                </div>`;
+                return;
+            }
+
+            const htmlResults = await Promise.all(data.map(async app => {
+                const dateStr = new Date(app.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+                const files = app.files || [];
+
+                if (isEmployer) {
+                    const candle = app.candidate || { full_name: 'Utilisateur' };
+                    const avatar = candle.avatar_url
+                        ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
+                        : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${candle.full_name.slice(0,2).toUpperCase()}</div>`;
+
+                    return `<div class="dash-card">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                            ${avatar}
+                            <div style="flex:1;"><div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${candle.full_name}</div><div style="font-size:0.75rem; color:#64748b;">${candle.title || 'Expert'}</div></div>
+                            <span style="font-size: 0.75rem; color: #cbd5e1;">${dateStr}</span>
+                        </div>
+                        <div style="margin-bottom:16px; padding:12px; background:#f8fafc; border-radius:10px; border:1px solid #f1f5f9;">
+                            <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">${app.job?.title || 'Mission'}</div>
+                        </div>
+                        <div style="margin-bottom:20px;">
+                            ${files.length > 0 ? `<div style="display:flex; flex-wrap:wrap; gap:8px;">${files.map(f => `<a href="${f.url}" target="_blank" style="font-size:0.75rem; background:#f0f9ff; padding:4px 10px; border-radius:8px; border:1px solid #bae6fd; color:#0369a1; text-decoration:none;">📄 ${f.name}</a>`).join('')}</div>` : '<div style="font-size:0.75rem; color:#94a3b8; font-style:italic;">Aucun document</div>'}
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="justify-content:center; background:#f1f5f9; font-size:0.85rem;">👤 Dossier Talent</button>
+                            <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="justify-content:center; background:#0ea5e9; font-size:0.85rem;">📅 Proposer RDV</button>
+                        </div>
+                    </div>`;
+                } else {
+                    const compName = app.job?.company?.full_name || 'Entreprise';
+                    return `<div class="dash-card">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                            <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${compName.slice(0,2).toUpperCase()}</div>
+                            <div style="flex:1;"><div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${compName}</div><div style="font-size:0.75rem; color:#64748b;">Candidature envoyée</div></div>
+                            <span style="font-size: 0.75rem; color: #cbd5e1;">${dateStr}</span>
+                        </div>
+                        <div style="margin-bottom:16px; padding:12px; background:#f0f9ff; border-radius:10px; border:1px solid #e0f2fe;">
+                            <div style="font-size:0.85rem; font-weight:700; color:#0c4a6e;">${app.job?.title || 'Opportunité'}</div>
+                        </div>
+                        <div style="margin-top:auto; padding:10px; background:#f8fafc; border-radius:8px; text-align:center;">
+                            <span style="font-size:0.8rem; font-weight:700; color:#64748b;">${app.status === 'pending' ? '⏳ En attente' : '✅ En revue'}</span>
+                        </div>
+                    </div>`;
+                }
+            }));
+
+            list.innerHTML = htmlResults.join('');
+            window.__lastAppData = data;
+        }
+
+        async function proposeMeeting(candidateId, jobId, name) {
+            const meetingMsg = encodeURIComponent(`Bonjour ${name}, j'ai bien reçu votre candidature. Votre profil m'intéresse beaucoup. Seriez-vous disponible pour un échange ?`);
+            window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
+        }
+
+        async function showCandidateDetails(candidateId, applicationId = null) {
+            const { data: profile } = await _supabase.from('profiles').select('*').eq('id', candidateId).single();
+            if (!profile) return;
+
+            let appFiles = [];
+            if (applicationId && window.__lastAppData) {
+                const app = window.__lastAppData.find(a => a.id === applicationId);
+                if (app && app.files) appFiles = app.files;
+            }
+
+            const name = profile.full_name || 'Expert';
+            const avatar = profile.avatar_url 
+                ? `<img src="${profile.avatar_url}" style="width:140px; height:140px; border-radius:32px; object-fit:cover; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">`
+                : `<div style="width:140px; height:140px; border-radius:32px; background:linear-gradient(135deg, #0f172a 0%, #334155 100%); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:white; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">${name.slice(0,2).toUpperCase()}</div>`;
+
+            const modalHtml = `
+                <div class="modal-overlay open" id="details-modal-overlay" style="z-index: 10001; background: rgba(15, 23, 42, 0.95);">
+                    <div class="modal" style="max-width:900px; padding:0; overflow:hidden; border:none; background: #fff; border-radius: 40px; position: relative;">
+                        <button onclick="document.getElementById('details-modal-overlay').remove()" style="position:absolute; top:30px; right:30px; background:white; border:none; width:44px; height:44px; border-radius:12px; cursor:pointer; font-size:1.5rem; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:10;">&times;</button>
+                        <div style="display:flex; min-height:600px;">
+                            <div style="width:340px; background:#f8fafc; padding:60px 40px; border-right:1px solid #f1f5f9; text-align:center;">
+                                <div style="margin-bottom:32px;">${avatar}</div>
+                                <h2 style="font-size:1.8rem; font-weight:900; color:#0f172a; margin:0;">${name}</h2>
+                                <p style="font-size:1.1rem; font-weight:700; color:#0ea5e9; margin:10px 0 32px 0; text-transform:uppercase;">${profile.title || 'Expert'}</p>
+                                <div style="text-align:left; background:white; padding:20px; border-radius:20px; border:1px solid #f1f5f9; margin-bottom:20px;">
+                                    <div style="font-size:0.7rem; color:#94a3b8; font-weight:900; text-transform:uppercase;">Tarif Indicatif</div>
+                                    <div style="font-size:1.5rem; font-weight:900;">${profile.tjm || '---'}€ <span style="font-size:0.9rem; color:#94a3b8;">/ jour</span></div>
+                                </div>
+                                <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:56px; background:#0f172a; border-radius:18px; font-weight:900;">🚀 Contacter</a>
+                            </div>
+                            <div style="flex:1; padding:60px; overflow-y:auto; max-height:85vh;">
+                                <h3 style="font-size:1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin-bottom:24px; font-weight:900;">Présentation</h3>
+                                <div style="font-size:1.2rem; color:#1e293b; line-height:1.7; margin-bottom:48px;">${profile.bio || 'Aucune présentation.'}</div>
+                                <h3 style="font-size:1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin-bottom:24px; font-weight:900;">Documents Joints</h3>
+                                ${appFiles.length > 0 ? `<div style="display:grid; grid-template-columns:1fr; gap:16px;">${appFiles.map(f => `<a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:24px; border-radius:24px; border:1px solid #f1f5f9; display:flex; align-items:center; gap:20px; transition:0.2s;"><div style="font-size:2rem;">📄</div><div style="flex:1;"><div style="font-size:1.1rem; font-weight:900; color:#0f172a;">${f.name}</div><div style="font-size:0.8rem; color:#0ea5e9; font-weight:700;">Ouvrir le document &rarr;</div></div></a>`).join('')}</div>` : '<p style="color:#94a3b8;">Aucun document joint.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        async function checkInfrastructure() {
+            try {
+                const { error } = await _supabase.from('job_applications').select('files').limit(1);
+                if (error && error.code === '42703') showInfraAlert();
+            } catch (e) { console.error(e); }
+        }
+
+        function showInfraAlert() {
+            const container = document.getElementById('infra-alert-container');
+            container.innerHTML = `<div style="background:#fff1f2; border:2px solid #fda4af; padding:20px; border-radius:16px; margin-bottom:30px; display:flex; gap:20px; align-items:center;">
+                <div style="font-size:2rem;">⚠️</div>
+                <div style="flex:1;"><h4 style="margin:0; color:#9f1239;">Base de données non configurée</h4><p style="margin:0; color:#be123c; font-size:0.9rem;">Veuillez exécuter le script SQL pour afficher les documents.</p></div>
+                <button onclick="copySQL()" style="background:#e11d48; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer;">Copier le Fix SQL</button>
+            </div>`;
+        }
+
+        function copySQL() {
+            const sql = `ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS files jsonb DEFAULT '[]';\nINSERT INTO storage.buckets (id, name, public) VALUES ('applications-docs', 'applications-docs', true) ON CONFLICT (id) DO NOTHING;\nDROP POLICY IF EXISTS "Allow uploads for authenticated users" ON storage.objects;\nDROP POLICY IF EXISTS "Allow public read access" ON storage.objects;\nCREATE POLICY "Allow uploads for authenticated users" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'applications-docs');\nCREATE POLICY "Allow public read access" ON storage.objects FOR SELECT TO public USING (bucket_id = 'applications-docs');`;
+            navigator.clipboard.writeText(sql).then(() => alert("Script SQL copié !"));
+        }
+    </script>
+</body>
+</html>

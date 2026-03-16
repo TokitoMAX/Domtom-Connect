@@ -706,7 +706,7 @@
             <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
             <a href="/marketplace/companies.html" class="sidebar-link">Annuaire Entreprises</a>
             <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
-            <a href="javascript:void(0)" onclick="showView('applications')" class="sidebar-link" id="nav-applications" style="display:none;">Candidatures</a>
+            <a href="/candidatures.html" class="sidebar-link" id="nav-applications" style="display:none;">Candidatures</a>
             <a href="/messages.html" class="sidebar-link">Messagerie</a>
 
             <span
@@ -789,16 +789,6 @@
                     <!-- Rempli par le JS -->
                 </div>
 
-                <!-- Applications View (For Employers) -->
-                <div id="applications-view" style="display:none;">
-                    <div class="dash-section-header">
-                        <h2 style="font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 8px;">Candidatures reçues</h2>
-                        <p style="color: #64748b; margin-bottom: 32px;">Suivez les talents intéressés par vos offres.</p>
-                    </div>
-                    <div id="applications-list" class="cards-grid">
-                        <p style="color: #94a3b8; font-style: italic;">Chargement des candidatures...</p>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
@@ -836,10 +826,8 @@
                 if (greeting) greeting.style.display = 'none';
                 if (pushState) window.location.hash = 'success-engine';
             } else if (viewId === 'applications' || viewId === 'candidatures') {
-                if (applicationsView) applicationsView.style.display = 'block';
-                if (greeting) greeting.style.display = 'none';
-                loadApplications();
-                if (pushState) window.location.hash = 'candidatures';
+                // Now a separate page
+                window.location.href = '/candidatures.html';
             }
 
             // Sync links
@@ -861,341 +849,6 @@
             checkInfrastructure();
         });
 
-        async function checkInfrastructure() {
-            try {
-                const { error } = await _supabase.from('job_applications').select('files').limit(1);
-                if (error && error.code === '42703') { // Column does not exist
-                    showInfraAlert();
-                }
-            } catch (e) {
-                console.error("Critical infra check failed:", e);
-            }
-        }
-
-        function showInfraAlert() {
-            const alertHtml = `
-                <div id="infra-alert" style="background:#fff1f2; border:2px solid #fda4af; padding:20px; border-radius:16px; margin-bottom:30px; display:flex; gap:20px; align-items:center; box-shadow:0 10px 20px rgba(225,29,72,0.05);">
-                    <div style="font-size:2.5rem;">⚠️</div>
-                    <div style="flex:1;">
-                        <h4 style="margin:0 0 5px 0; color:#9f1239; font-weight:900;">Base de données non configurée</h4>
-                        <p style="margin:0; color:#be123c; font-size:0.95rem; font-weight:600;">Les documents ne peuvent pas être affichés car la colonne 'files' manque dans votre base de données.</p>
-                    </div>
-                    <button onclick="copySQL()" style="background:#e11d48; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-size:0.9rem; transition:0.2s; white-space:nowrap;">
-                        Copier le Fix SQL
-                    </button>
-                </div>
-            `;
-            const container = document.querySelector('.dash-content');
-            if (container) container.insertAdjacentHTML('afterbegin', alertHtml);
-        }
-
-        function copySQL() {
-            const sql = `-- Script de réparation Domtom Connect
-ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS files jsonb DEFAULT '[]';
-INSERT INTO storage.buckets (id, name, public) VALUES ('applications-docs', 'applications-docs', true) ON CONFLICT (id) DO NOTHING;
-DROP POLICY IF EXISTS "Allow uploads for authenticated users" ON storage.objects;
-DROP POLICY IF EXISTS "Allow public read access" ON storage.objects;
-CREATE POLICY "Allow uploads for authenticated users" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'applications-docs');
-CREATE POLICY "Allow public read access" ON storage.objects FOR SELECT TO public USING (bucket_id = 'applications-docs');`;
-            
-            navigator.clipboard.writeText(sql).then(() => {
-                alert("Script SQL copié ! Collez-le dans l'éditeur SQL de Supabase.");
-            });
-        }
-
-        async function loadApplications() {
-            const list = document.getElementById('applications-list');
-            const session = await getSession();
-            if (!session) return;
-
-            const profile = await getProfile(session.user.id);
-            const isEmployer = profile.role === 'entreprise';
-
-            let query = _supabase
-                .from('job_applications')
-                .select(`
-                    id,
-                    status,
-                    message,
-                    created_at,
-                    candidate_id,
-                    job_id,
-                    files,
-                    candidate:candidate_id (full_name, avatar_url, title, sector, bio, skills, territory, tjm, linkedin_url),
-                    job:job_id (title, company_id)
-                `);
-
-            if (isEmployer) {
-                query = query.eq('company_id', session.user.id);
-            } else {
-                query = query.eq('candidate_id', session.user.id);
-            }
-
-            const { data, error } = await query.order('created_at', { ascending: false });
-
-            if (error) {
-                list.innerHTML = `<p style="color: #ef4444;">Erreur : ${error.message}</p>`;
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                list.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 48px; background: white; border-radius: 12px; border: 1px dashed #e2e8f0;">
-                        <p style="color: #64748b; margin-bottom: 16px;">${isEmployer ? 'Aucune candidature reçue pour le moment.' : 'Vous n\'avez pas encore postulé à des missions.'}</p>
-                        <a href="/marketplace/jobs" class="cta-button secondary" style="font-size: 0.85rem;">Voir les missions</a>
-                    </div>
-                `;
-                return;
-            }
-
-            const htmlResults = await Promise.all(data.map(async app => {
-                const dateStr = new Date(app.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-
-                if (isEmployer) {
-                    const candle = app.candidate || { full_name: 'Utilisateur' };
-                    if (!app.files) app.files = [];
-                    const initials = candle.full_name.slice(0, 2).toUpperCase();
-                    const avatar = candle.avatar_url
-                        ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
-                        : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>`;
-
-                    return `
-                        <div class="dash-card">
-                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                                ${avatar}
-                                <div style="flex:1;">
-                                    <div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${candle.full_name}</div>
-                                    <div style="font-size:0.75rem; color:#64748b;">${candle.title || 'Expert'}</div>
-                                </div>
-                                <span style="font-size: 0.75rem; color: #cbd5e1;">${dateStr}</span>
-                            </div>
-                            
-                            <div style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #f1f5f9;">
-                                <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Mission :</div>
-                                <div style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">${app.job?.title || 'Opportunité'}</div>
-                            </div>
-
-                            ${app.message ? `
-                                <div style="margin-bottom: 20px;">
-                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Note du candidat :</div>
-                                    <p style="font-size: 0.85rem; color: #475569; font-style: italic; line-height: 1.5; margin: 0; background: #fffbeb; padding: 10px; border-radius: 8px; border-left: 3px solid #fcd34d;">
-                                        "${app.message}"
-                                    </p>
-                                </div>
-                            ` : ''}
-
-                            ${(app.files && app.files.length > 0) ? `
-                                <div style="margin-bottom: 20px; padding: 12px; background: #f0f9ff; border-radius: 12px; border: 1px solid #e0f2fe;">
-                                    <div style="font-size: 0.7rem; color: #0369a1; text-transform: uppercase; font-weight: 800; margin-bottom: 8px; display:flex; align-items:center; gap:6px;">
-                                        <span style="font-size: 1rem;">📎</span> Documents Joints
-                                    </div>
-                                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                                        ${app.files.map(f => `
-                                            <a href="${f.url}" target="_blank" style="font-size: 0.8rem; color: #0c4a6e; text-decoration: none; background: white; padding: 6px 12px; border-radius: 8px; border: 1px solid #bae6fd; display: flex; align-items:center; gap:6px; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.03);">
-                                                <span>📄</span> ${f.name}
-                                            </a>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            ` : `
-                                <div style="margin-bottom: 20px; padding: 10px; background: #f8fafc; border-radius: 10px; border: 1px dashed #e2e8f0; text-align: center; color: #94a3b8; font-size: 0.8rem;">
-                                    Aucun document joint
-                                </div>
-                            `}
-
-                            <div style="display:flex; flex-direction:column; gap:10px; margin-top:auto;">
-                                <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="width:100%; font-size:0.85rem; padding:12px; justify-content:center; border-radius:12px; font-weight:700; background: #f1f5f9;">
-                                    👤 Voir Profil Complet
-                                </button>
-                                <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.85rem; padding:12px; justify-content:center; background:#0ea5e9; border-radius:12px; font-weight:700;">
-                                    📅 Proposer un RDV
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    // Candidate View (Sent)
-                    if (!app.files) app.files = [];
-                    const { data: comp } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', app.job.company_id).single();
-                    const compName = comp?.full_name || 'Entreprise';
-                    const compInitials = compName.slice(0, 2).toUpperCase();
-                    const compAvatar = comp?.avatar_url
-                        ? `<img src="${comp.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
-                        : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${compInitials}</div>`;
-
-                    return `
-                        <div class="dash-card">
-                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                                ${compAvatar}
-                                <div style="flex:1;">
-                                    <div style="font-size:0.95rem; font-weight:800; color:#1e293b;">${compName}</div>
-                                    <div style="font-size:0.75rem; color:#64748b;">Candidature envoyée</div>
-                                </div>
-                                <span style="font-size: 0.75rem; color: #cbd5e1;">${dateStr}</span>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px; padding: 12px; background: #f0f9ff; border-radius: 10px; border: 1px solid #e0f2fe;">
-                                <div style="font-size: 0.7rem; color: #0369a1; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Mission :</div>
-                                <div style="font-size: 0.85rem; font-weight: 700; color: #0c4a6e;">${app.job?.title || 'Opportunité'}</div>
-                            </div>
-
-                            ${(app.files && Array.isArray(app.files) && app.files.length > 0) ? `
-                                <div style="margin-bottom: 20px;">
-                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Mes documents joints :</div>
-                                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                                        ${app.files.map(f => `
-                                            <a href="${f.url}" target="_blank" style="font-size: 0.7rem; color: #64748b; text-decoration: none; background: #f1f5f9; padding: 4px 10px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items:center; gap:4px;">
-                                                <span>📄</span> ${f.name}
-                                            </a>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            ` : ''}
-
-                            <div style="margin-top: auto; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #f1f5f9; text-align: center;">
-                                <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">
-                                    ${app.status === 'pending' ? '⏳ En attente de revue' : '✅ En cours de revue'}
-                                </span>
-                            </div>
-                        </div>
-                    `;
-                }
-            }));
-
-            list.innerHTML = htmlResults.join('');
-            // Store for modal access
-            window.__lastAppData = data;
-        }
-
-        async function proposeMeeting(candidateId, jobId, name) {
-            const meetingMsg = encodeURIComponent(`Bonjour ${name}, j'ai bien reçu votre candidature pour cette mission. Votre profil m'intéresse beaucoup. Seriez-vous disponible prochainement pour une visio afin d'échanger sur le projet ?`);
-            window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
-        }
-
-        async function showCandidateDetails(candidateId, applicationId = null) {
-            console.log("FORCE DATA - CANDIDATE ID:", candidateId, "APP ID:", applicationId);
-            const { data: profile } = await _supabase.from('profiles').select('*').eq('id', candidateId).single();
-            if (!profile) return;
-
-            // Find application files
-            let appFiles = [];
-            if (applicationId && window.__lastAppData) {
-                const app = window.__lastAppData.find(a => a.id === applicationId);
-                console.log("FORCE DATA - APPLICATION JSON:", app);
-                if (app && app.files) appFiles = app.files;
-            }
-
-            const name = profile.full_name || 'Expert';
-            const initials = name.slice(0, 2).toUpperCase();
-            const avatar = profile.avatar_url 
-                ? `<img src="${profile.avatar_url}" style="width:140px; height:140px; border-radius:32px; object-fit:cover; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">`
-                : `<div style="width:140px; height:140px; border-radius:32px; background:linear-gradient(135deg, #0f172a 0%, #334155 100%); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:white; border:8px solid #f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.12);">${initials}</div>`;
-
-            const modalHtml = `
-                <div class="modal-overlay open" id="details-modal-overlay" style="z-index: 10001; background: rgba(15, 23, 42, 0.95); backdrop-filter: none;">
-                    <div class="modal" style="max-width:900px; padding:0; overflow:hidden; border:none; box-shadow: none; background: #fff; border-radius: 40px;">
-                        
-                        <div style="display:flex; min-height:700px; background: white;">
-                            
-                            <!-- Premium Vertical Identity Panel -->
-                            <div style="width:340px; background:#f8fafc; padding:60px 40px; border-right:2px solid #f1f5f9; display:flex; flex-direction:column; align-items:center; text-align:center;">
-                                <div style="margin-bottom:40px; position:relative;">
-                                    ${avatar}
-                                    <div style="position:absolute; bottom:10px; right:10px; width:24px; height:24px; background:#10b981; border:4px solid #f8fafc; border-radius:50%; box-shadow:0 2px 10px rgba(16,185,129,0.3);"></div>
-                                </div>
-                                <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin:0; line-height:1.1; letter-spacing:-0.04em; font-family:'Outfit', sans-serif;">${name}</h2>
-                                <p style="font-size:1.2rem; font-weight:700; color:#0ea5e9; margin:15px 0 40px 0; text-transform:uppercase; letter-spacing:0.05em;">${profile.title || 'Expert Domtom Connect'}</p>
-                                
-                                <div style="width:100%; display:flex; flex-direction:column; gap:16px; margin-bottom:40px;">
-                                    <div style="background:white; padding:24px; border-radius:24px; border:2px solid #f1f5f9; text-align:left;">
-                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:900; margin-bottom:8px; letter-spacing:0.1em;">Tarif Indicatif</div>
-                                        <div style="font-size:1.8rem; font-weight:900; color:#0f172a;">${profile.tjm || '---'}€ <span style="font-size:1rem; color:#94a3b8; font-weight:600;">/ jour</span></div>
-                                    </div>
-                                    <div style="background:white; padding:24px; border-radius:24px; border:2px solid #f1f5f9; text-align:left;">
-                                        <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:900; margin-bottom:8px; letter-spacing:0.1em;">Territoire favori</div>
-                                        <div style="font-size:1.2rem; font-weight:800; color:#334155;">📍 ${profile.territory || 'Non précisé'}</div>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:auto; width:100%; display:flex; flex-direction:column; gap:16px;">
-                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:64px; font-size:1.1rem; background:#0f172a; border-radius:24px; font-weight:900; letter-spacing:0.02em; box-shadow:0 15px 30px rgba(15,23,42,0.2);">
-                                        🚀 Contacter l'expert
-                                    </a>
-                                    ${profile.linkedin_url ? `
-                                        <a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="width:100%; justify-content:center; height:60px; font-size:1rem; border-radius:24px; border:2px solid #e2e8f0; font-weight:800; background:white; color:#0f172a;">
-                                            Profil LinkedIn
-                                        </a>
-                                    ` : ''}
-                                    <button onclick="document.getElementById('details-modal-overlay').remove()" style="margin-top:20px; background:none; border:none; color:#94a3b8; font-weight:800; cursor:pointer; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.1em;">&times; Fermer la fiche</button>
-                                </div>
-                            </div>
-
-                            <!-- Right Content Area -->
-                            <div style="flex:1; padding:70px; position:relative; overflow-y:auto; max-height:85vh;">
-                                <button onclick="document.getElementById('details-modal-overlay').remove()" 
-                                        style="position:absolute; top:40px; right:40px; background:#f8fafc; color:#0f172a; border:none; width:56px; height:56px; border-radius:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:2.2rem; transition: all 0.2s; z-index: 10; font-weight:bold;">
-                                    &times;
-                                </button>
-
-                                <div style="margin-bottom:60px;">
-                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
-                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Présentation
-                                    </h3>
-                                    <div style="font-size:1.4rem; color:#1e293b; line-height:1.8; margin:0; font-weight: 500; font-family:'Inter', sans-serif;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa présentation professionnelle.'}</div>
-                                </div>
-
-                                <div style="margin-bottom:60px;">
-                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
-                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Expertises
-                                    </h3>
-                                    <div style="display:flex; flex-wrap:wrap; gap:16px;">
-                                        ${profile.skills ? profile.skills.split(',').map(s => `
-                                            <span style="font-size:1rem; background:#0f172a; padding:14px 30px; border-radius:20px; color:white; font-weight:800; box-shadow:0 4px 12px rgba(15,23,42,0.1);">
-                                                ${s.trim()}
-                                            </span>
-                                        `).join('') : '<p style="color:#94a3b8; font-size:1.2rem;">Aucune expertise renseignée</p>'}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h3 style="font-size:1.1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.25em; margin:0 0 32px 0; font-weight:900; display:flex; align-items:center; gap:20px;">
-                                        <span style="width:50px; height:6px; background:#0ea5e9; border-radius:3px;"></span> Documents (Directs)
-                                    </h3>
-                                    
-                                    ${appFiles.length > 0 ? `
-                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-                                            ${appFiles.map(f => `
-                                                <a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:32px; border-radius:32px; border:2px solid #f1f5f9; display:flex; align-items:center; gap:24px; transition:all 0.3s; transform: perspective(1px) translateZ(0); box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-                                                    <div style="width:70px; height:70px; border-radius:24px; background:white; display:flex; align-items:center; justify-content:center; font-size:2.5rem; color:#e11d48; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">📄</div>
-                                                    <div style="flex:1; overflow:hidden;">
-                                                        <div style="font-size:1.2rem; font-weight:900; color:#0f172a; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">${f.name}</div>
-                                                        <div style="font-size:0.9rem; color:#0ea5e9; font-weight:800; margin-top:8px; text-transform:uppercase; letter-spacing:0.05em;">Ouvrir le PDF &rarr;</div>
-                                                    </div>
-                                                </a>
-                                            `).join('')}
-                                        </div>
-                                    ` : `
-                                        <div style="text-align:center; padding:60px; background:#f8fafc; border-radius:40px; border:3px dashed #e2e8f0; color: #94a3b8;">
-                                            <div style="font-size:4rem; margin-bottom:20px; opacity:0.5;">📂</div>
-                                            <p style="font-size:1.2rem; font-weight:800; margin:0; color:#64748b;">Aucun document spécifique trouvé pour ce dossier.</p>
-                                            <p style="font-size:0.9rem; margin-top:10px;">Si vous avez envoyé des documents et qu'ils ne sont pas là, exécutez le script SQL (Step 1).</p>
-                                        </div>
-                                    `}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-        }
-
-        function closeDetailsModal(e) {
-            if (e.target.id === 'details-modal-overlay') {
-                document.getElementById('details-modal-overlay').remove();
-            }
-        }
-
         // Support for browser back/forward buttons
         window.addEventListener('popstate', (event) => {
             if (window.location.pathname.includes('mon-projet')) showView('success-engine');
@@ -1208,7 +861,7 @@ CREATE POLICY "Allow public read access" ON storage.objects FOR SELECT TO public
             const viewParam = params.get('view');
             const isMonProjet = window.location.pathname.includes('mon-projet');
 
-            if (viewParam === 'applications') showView('applications');
+            if (viewParam === 'applications') window.location.href = '/candidatures.html';
             else if (isMonProjet) showView('success-engine');
             else showView('overview');
         }
@@ -1679,7 +1332,7 @@ CREATE POLICY "Allow public read access" ON storage.objects FOR SELECT TO public
                     <div class="dash-card highlight" style="border-color: #0284c7;">
                         <div class="card-title">Candidatures Reçues</div>
                         <p class="card-desc">Suivez et contactez les talents qui ont postulé à vos missions.</p>
-                        <button onclick="showView('applications')" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</button>
+                        <a href="/candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Recrutement & Talents</div>
