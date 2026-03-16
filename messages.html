@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -643,11 +643,22 @@
                 currentUserId = session.user.id;
 
                 await loadGlobalNavbar();
-                const urlParams = new URLSearchParams(window.location.search);
-                const targetUserId = urlParams.get('to');
-
                 if (targetUserId && targetUserId !== currentUserId) {
                     await ensureConversationWith(targetUserId);
+                    
+                    // Pre-fill message if coming from a job
+                    const jobId = urlParams.get('job');
+                    if (jobId) {
+                        const { data: job } = await _supabase.from('job_offers').select('title').eq('id', jobId).single();
+                        if (job) {
+                            const input = document.getElementById('message-input');
+                            if (input) {
+                                input.value = `Bonjour, je suis intéressé par votre mission : "${job.title}". Pouvons-nous en discuter ?`;
+                                autoResize(input);
+                            }
+                        }
+                    }
+
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
 

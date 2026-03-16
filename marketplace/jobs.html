@@ -749,9 +749,10 @@
                 return;
             }
 
-            if (confirm("En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.\n\nConfirmer votre candidature et ouvrir la messagerie ?")) {
-                
-                // Track application in Supabase
+            const confirmText = "En postulant, vous acceptez une commission de succès de 10% HT en cas de signature.\n\nSouhaitez-vous postuler à cette mission ?";
+            
+            if (confirm(confirmText)) {
+                // Tracking
                 const { data: existing } = await _supabase
                     .from('job_applications')
                     .select('id')
@@ -770,11 +771,15 @@
                         }]);
                     
                     if (error) {
-                        console.error("Erreur tracking application:", error);
+                        alert("Erreur lors de la candidature : " + error.message);
+                        return;
                     }
                 }
 
-                window.location.href = `../messages?to=${companyId}&job=${jobId}`;
+                // Final Feedback & Choice
+                if (confirm("Votre candidature a été enregistrée avec succès ! \n\nVoulez-vous ouvrir la messagerie pour contacter l'entreprise directement ?")) {
+                    window.location.href = `../messages?to=${companyId}&job=${jobId}`;
+                }
             }
         }
 
