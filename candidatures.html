@@ -9,14 +9,98 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap">
 
     <style>
-        body { background-color: var(--bg-light); }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px);
-            display: none; justify-content: center; align-items: center;
-            z-index: 10000; padding: 24px;
+        body {
+            background-color: var(--bg-light);
         }
-        .modal-overlay.open { display: flex; }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 64px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: var(--gray-50);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .dash-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dash-card:hover {
+            border-color: var(--gray-300);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 24px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 24px; }
+        }
     </style>
 </head>
 
@@ -42,9 +126,9 @@
         </div>
     </nav>
 
-    <div class="dash-layout">
+    <div class="dashboard-layout">
         <!-- Sidebar -->
-        <aside class="dash-sidebar">
+        <aside class="sidebar">
             <span style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; letter-spacing: 0.05em;">Menu</span>
             <a href="/mon-espace.html" class="sidebar-link">Vue d'ensemble</a>
             <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
@@ -58,7 +142,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="dash-content" style="padding: 40px; max-width: 1200px; margin: 0 auto; width: 100%;">
+        <main class="main-content">
             <div id="infra-alert-container"></div>
 
             <div class="dash-section-header" style="margin-bottom: 32px;">
@@ -66,7 +150,7 @@
                 <p id="view-desc" style="color: #64748b;">Suivez les dossiers de recrutement en cours.</p>
             </div>
 
-            <div id="applications-list" class="cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; padding-bottom: 60px;">
+            <div id="applications-list" class="cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
                 <p style="color: #94a3b8; font-style: italic;">Chargement des candidatures...</p>
             </div>
         </main>
