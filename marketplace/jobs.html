@@ -666,6 +666,22 @@
                         .eq('candidate_id', currentUserId);
                     console.log("[DEBUG] Fetched applications:", apps);
                     if (apps) userApplications = apps.map(a => a.job_id);
+
+                    // RESET TEST FOR LOIC
+                    if (currentUserId === '783ca914-53d6-4e3e-86c3-8ba347dc1282') {
+                        const banner = document.getElementById('company-banner');
+                        const resetBtn = document.createElement('button');
+                        resetBtn.innerText = "🧹 VIDER MES CANDIDATURES (TEST)";
+                        resetBtn.style = "background:#ef4444; color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:bold; margin-left:20px; font-size:0.8rem;";
+                        resetBtn.onclick = async () => {
+                            if (!confirm("Voulez-vous vider vos candidatures tests ?")) return;
+                            const { error } = await _supabase.from('job_applications').delete().eq('candidate_id', currentUserId);
+                            if (error) alert("Erreur reset: " + error.message);
+                            else { alert("Candidatures vidées !"); window.location.reload(); }
+                        };
+                        banner.style.display = 'flex';
+                        banner.appendChild(resetBtn);
+                    }
                 }
                 
                 await loadGlobalNavbar();
