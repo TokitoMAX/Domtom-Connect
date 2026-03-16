@@ -1,148 +1,201 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>Inscription Porteur de Projet – Domtom Connect</title>
-    <meta name="description"
-        content="Démarrez votre projet aux Antilles ou en Guyane avec l'aide des meilleurs experts.">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="../assets/css/style.css?v=3.0">
-
     <style>
         .onboarding-page {
-            background: var(--bg-light);
+            background: #f8fafc;
             min-height: 100vh;
-            padding: 80px 24px;
+            padding: 60px 24px;
+            font-family: 'Inter', sans-serif;
         }
 
         .onboarding-container {
-            max-width: 640px;
+            max-width: 680px;
             margin: 0 auto;
-        }
-
-        .onboarding-card {
-            background: var(--white);
-            padding: 48px;
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--gray-200);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 32px;
-            color: var(--text-primary);
-        }
-
-        .form-grid {
-            display: grid;
-            gap: 24px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: grid;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 0.9375rem;
-            background: var(--bg-light);
-            transition: all 0.2s ease;
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
-        }
-
-        #businessFields {
-            display: none;
-        }
-
-        .toggle-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .toggle-btn {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            background: var(--bg-light);
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
-
-        .toggle-btn.active {
-            border-color: var(--primary-color);
-            background: var(--white);
-            color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
         }
 
         .onboarding-header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 40px;
         }
 
         .header-logo {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             margin-bottom: 24px;
         }
 
-        @media (max-width: 600px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+        .auth-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
 
-            .onboarding-card {
-                padding: 32px 24px;
-            }
+        .auth-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .onboarding-card {
+            background: white;
+            padding: 48px;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            border-color: #00bfa6;
+            color: #00bfa6;
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .step-dot.completed {
+            background: #00bfa6;
+            border-color: #00bfa6;
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94a3b8;
+            white-space: nowrap;
+            transform: translateX(-35%);
+        }
+
+        .step-dot.active .step-label {
+            color: #0f172a;
+        }
+
+        /* Form Content */
+        .form-step {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid { display: grid; gap: 24px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: grid; gap: 8px; }
+        .form-label { font-size: 0.875rem; font-weight: 600; color: #334155; }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: #fbfcfd;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #00bfa6;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .form-textarea { min-height: 120px; resize: vertical; }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .btn-next, .btn-submit {
+            flex: 2;
+            padding: 16px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-next:hover, .btn-submit:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-prev {
+            flex: 1;
+            padding: 16px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .onboarding-card { padding: 32px 20px; }
+            .auth-title { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -154,118 +207,125 @@
             <a href="/">
                 <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="header-logo">
             </a>
-            <h1 class="auth-title">Descriptif de votre Projet</h1>
-            <p class="auth-subtitle">Créez votre fiche de poste en quelques minutes pour attirer les meilleurs talents de la diaspora.</p>
+            <h1 class="auth-title">Publier une Offre</h1>
+            <p class="auth-subtitle">Recrutez les meilleurs talents pour vos projets aux Antilles, en Guyane et sur la Réunion.</p>
         </header>
 
         <main class="onboarding-card">
-            <form class="form-grid" id="onboardingForm" onsubmit="handleOnboarding(event)">
-                <input type="hidden" name="profile_type" id="profileType" value="project_owner">
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot-1">1 <span class="step-label">Le Poste</span></div>
+                <div class="step-dot" id="dot-2">2 <span class="step-label">Détails</span></div>
+                <div class="step-dot" id="dot-3">3 <span class="step-label">Validation</span></div>
+            </div>
 
-                <!-- Section 1 : Identité -->
-                <div style="border-bottom: 2px solid var(--gray-100); padding-bottom: 8px; margin-bottom: 24px;">
-                    <h2 style="font-size: 1.1rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.05em;">1. Identité du Projet</h2>
-                </div>
+            <form id="recruitmentForm" onsubmit="handleOnboarding(event)">
+                <input type="hidden" name="profile_type" value="project_owner">
 
-                <div class="form-group">
-                    <label class="form-label">Intitulé du Poste / Nom du Projet *</label>
-                    <input type="text" class="form-input" name="project_title"
-                        placeholder="ex: Refonte plateforme E-commerce, Directeur de filiale..." required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Secteur d'Activité *</label>
-                        <select class="form-select" name="project_type" required>
-                            <option value="">Sélectionnez...</option>
-                            <option value="tech_digital">Tech & Digital</option>
-                            <option value="btp_ing">Ingénierie & BTP</option>
-                            <option value="conseil_strat">Conseil Stratégique / Finance</option>
-                            <option value="marketing_sales">Growth & Marketing</option>
-                            <option value="tourisme">Tourisme & Loisirs</option>
-                            <option value="agro">Agro-industrie</option>
-                            <option value="autre">Autre secteur</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Territoire Cible *</label>
-                        <select class="form-select" name="territory" required>
-                            <option value="">Sélectionnez...</option>
-                            <option value="martinique">Martinique</option>
-                            <option value="guadeloupe">Guadeloupe</option>
-                            <option value="guyane">Guyane</option>
-                            <option value="reunion">La Réunion</option>
-                            <option value="mayotte">Mayotte</option>
-                            <option value="diaspora">Diaspora (France hexagonale)</option>
-                            <option value="international">International</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Section 2 : Besoins -->
-                <div style="border-bottom: 2px solid var(--gray-100); padding-bottom: 8px; margin-bottom: 24px; margin-top: 32px;">
-                    <h2 style="font-size: 1.1rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.05em;">2. Descriptif du Besoin</h2>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Détails de la Mission & Objectifs *</label>
-                    <textarea class="form-textarea" name="description"
-                        placeholder="Décrivez précisément ce que vous attendez : les tâches majeures, les livrables attendus et les enjeux du projet."
-                        required></textarea>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Budget prévisionnel</label>
-                        <select class="form-select" name="budget">
-                            <option value="discovery">À définir (Étude)</option>
-                            <option value="small">< 5 000€</option>
-                            <option value="medium">5 000€ - 15 000€</option>
-                            <option value="large">15 000€ - 50 000€</option>
-                            <option value="enterprise">> 50 000€</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Échéance souhaitée</label>
-                        <select class="form-select" name="timeline">
-                            <option value="urgent">Immédiat (ASAP)</option>
-                            <option value="one_month">Dans le mois</option>
-                            <option value="three_months">D'ici 3 mois</option>
-                            <option value="exploration">Veille / Exploration</option>
-                        </select>
+                <!-- ÉTAPE 1 : LE POSTE -->
+                <div class="form-step active" id="step-1-content">
+                    <h2 class="form-section-title">💼 Identité du Poste</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Intitulé du poste *</label>
+                            <input type="text" class="form-input" name="project_title" id="j-title" placeholder="ex: Responsable Marketing Digital" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Type de contrat *</label>
+                                <select class="form-select" name="contract_type" id="j-type" required>
+                                    <option value="CDI">CDI</option>
+                                    <option value="CDD">CDD</option>
+                                    <option value="Freelance">Freelance / Mission</option>
+                                    <option value="Stage">Stage</option>
+                                    <option value="Alternance">Alternance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Expérience requise *</label>
+                                <select class="form-select" name="experience" id="j-exp" required>
+                                    <option value="Junior">Junior (0-2 ans)</option>
+                                    <option value="Confirmé">Confirmé (3-5 ans)</option>
+                                    <option value="Senior">Senior (6 ans +)</option>
+                                    <option value="Manager">Manager / Expert</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Territoire *</label>
+                                <select class="form-select" name="territory" id="j-territory" required>
+                                    <option value="Martinique">Martinique</option>
+                                    <option value="Guadeloupe">Guadeloupe</option>
+                                    <option value="Guyane">Guyane</option>
+                                    <option value="Réunion">La Réunion</option>
+                                    <option value="Mayotte">Mayotte</option>
+                                    <option value="Diaspora">Diaspora (France hexa)</option>
+                                    <option value="Télétravail">100% Télétravail</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Secteur d'activité *</label>
+                                <select class="form-select" name="sector" id="j-sector" required>
+                                    <option value="tech">Tech & Digital</option>
+                                    <option value="marketing">Marketing & Sales</option>
+                                    <option value="finance">Finance & Juridique</option>
+                                    <option value="btp">BTP & Ingénierie</option>
+                                    <option value="tourisme">Tourisme & Agro</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Section 3 : Coordonnées -->
-                <div style="border-bottom: 2px solid var(--gray-100); padding-bottom: 8px; margin-bottom: 24px; margin-top: 32px;">
-                    <h2 style="font-size: 1.1rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.05em;">3. Coordonnées & Entreprise</h2>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Nom de l'entité (ou Nom propre) *</label>
-                        <input type="text" class="form-input" name="company" placeholder="Ex: Tech SARL, Cabinet Conseil..."
-                            required>
+                <!-- ÉTAPE 2 : DÉTAILS -->
+                <div class="form-step" id="step-2-content">
+                    <h2 class="form-section-title">📝 Descriptif de l'Offre</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Missions & Responsabilités *</label>
+                            <textarea class="form-textarea" name="description" id="j-missions" placeholder="Quelles seront les tâches principales ? Quels sont les objectifs ?" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Profil recherché & Compétences *</label>
+                            <textarea class="form-textarea" name="profile" id="j-profile" placeholder="Quelles sont les compétences techniques (Hard Skills) et humaines (Soft Skills) attendues ?" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Rémunération / Budget prévisionnel</label>
+                            <input type="text" class="form-input" name="budget" id="j-budget" placeholder="ex: 45k€/an ou 500€/jour">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Numéro SIRET (Facultatif)</label>
-                        <input type="text" class="form-input" name="siret" placeholder="Pour vérification du compte">
+                </div>
+
+                <!-- ÉTAPE 3 : ENTREPRISE -->
+                <div class="form-step" id="step-3-content">
+                    <h2 class="form-section-title">🏢 Votre Entreprise</h2>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nom de l'entreprise *</label>
+                                <input type="text" class="form-input" name="company" id="j-company" placeholder="Ex: Tech Antilles SARL" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">SIRET (Facultatif)</label>
+                                <input type="text" class="form-input" name="siret" id="j-siret" placeholder="Pour vérification Business">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email de contact professionnel *</label>
+                            <input type="email" class="form-input" name="email" id="j-email" placeholder="recrutement@entreprise.com" required>
+                        </div>
+                        <div style="background: #f1f5f9; padding: 20px; border-radius: 12px; font-size: 0.85rem; color: #475569; line-height: 1.5;">
+                            📌 <strong>Information :</strong> Votre offre sera publiée dans le marketplace et accessible aux talents de la diaspora. Vous recevrez les candidatures directement par email.
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">E-mail de contact professionnel *</label>
-                    <input type="email" class="form-input" name="email" placeholder="contact@votre-entreprise.com" required>
-                </div>
-
-                <div style="margin-top: 40px; text-align: center;">
-                    <button type="submit" class="cta-button primary"
-                        style="width: 100%; padding: 18px; font-size: 1.1rem; font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(0, 191, 166, 0.3);" id="submitBtn">
-                        Générer ma Fiche de Poste →
-                    </button>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 16px;">
-                        En publiant, votre projet sera vérifié par notre équipe sous 24h.
-                    </p>
+                <!-- NAVIGATION -->
+                <div class="btn-group">
+                    <button type="button" class="btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Précédent</button>
+                    <button type="button" class="btn-next" id="nextBtn" onclick="changeStep(1)">Continuer</button>
+                    <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">Publier l'Offre →</button>
                 </div>
             </form>
         </main>
@@ -277,93 +337,122 @@
     <script src="../assets/js/form-security.js"></script>
 
     <script>
+        let currentStep = 1;
+
+        function changeStep(n) {
+            // Validation avant de passer à l'étape suivante
+            if (n === 1) {
+                const stepInputs = document.querySelectorAll(`#step-${currentStep}-content [required]`);
+                let valid = true;
+                stepInputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.reportValidity();
+                        valid = false;
+                    }
+                });
+                if (!valid) return;
+            }
+
+            // Mettre à jour l'étape
+            currentStep += n;
+            if (currentStep < 1) currentStep = 1;
+            if (currentStep > 3) currentStep = 3;
+
+            // Update UI
+            updateUI();
+        }
+
+        function updateUI() {
+            // Cacher toutes les étapes
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step-${currentStep}-content`).classList.add('active');
+
+            // Update Dots
+            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+                const stepNum = idx + 1;
+                dot.classList.remove('active', 'completed');
+                if (stepNum === currentStep) dot.classList.add('active');
+                if (stepNum < currentStep) dot.classList.add('completed');
+            });
+
+            // Boutons
+            document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = currentStep < 3 ? 'block' : 'none';
+            document.getElementById('submitBtn').style.display = currentStep === 3 ? 'block' : 'none';
+
+            // Scroll to top of card
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         async function handleOnboarding(event) {
             event.preventDefault();
             const form = event.target;
             const btn = document.getElementById('submitBtn');
-            const formData = new FormData(form);
-
-            // Validations Anti-Fake (si dispo)
-            const emailField = formData.get('email');
-            const descField = formData.get('description');
-            const companyField = formData.get('company');
-
-            if (window.formSecurity) {
-                if (!window.formSecurity.isValidEmail(emailField)) {
-                    alert("Veuillez saisir un email professionnel valide.");
-                    return;
-                }
-                if (!window.formSecurity.isValidText(descField, 15)) {
-                    alert("Votre brief projet est trop court. Merci de détailler votre besoin.");
-                    return;
-                }
-                if (!window.formSecurity.isValidName(companyField)) {
-                    alert("Veuillez saisir un nom d'entité ou nom propre valide.");
-                    return;
-                }
-            }
-
+            const originalColor = btn.style.background;
+            
             btn.disabled = true;
-            btn.innerText = 'Envoi en cours...';
+            btn.innerText = 'Publication en cours...';
 
             try {
-                // 1. Sauvegarde dans Supabase si l'utilisateur est connecté
+                const formData = new FormData(form);
                 const session = await getSession();
+
+                // Construire la description pro
+                const fullDescription = `### TYPE DE CONTRAT : ${formData.get('contract_type')}\n### EXPÉRIENCE : ${formData.get('experience')}\n\n**MISSIONS :**\n${formData.get('description')}\n\n**PROFIL RECHERCHÉ :**\n${formData.get('profile')}`;
+
                 if (session) {
-                    const projectData = {
-                        owner_id: session.user.id,
-                        title: formData.get('project_title') || 'Nouveau Projet',
-                        description: `Type: ${formData.get('project_type')}\nBrief: ${formData.get('description')}\nBudget: ${formData.get('budget')}`,
-                        territory: formData.get('territory') || 'Non précisé',
-                        status: 'Idée',
-                        needs: formData.get('description'),
-                        is_listed: false
+                    const jobData = {
+                        company_id: session.user.id,
+                        company_name: formData.get('company'),
+                        title: formData.get('project_title'),
+                        description: fullDescription,
+                        mission_type: formData.get('contract_type'),
+                        territory: formData.get('territory'),
+                        budget: formData.get('budget') || null,
+                        is_active: true
                     };
 
                     const { error: sbError } = await _supabase
-                        .from('projects')
-                        .insert([projectData]);
+                        .from('job_offers')
+                        .insert([jobData]);
 
-                    if (sbError) console.error('Erreur Supabase:', sbError);
+                    if (sbError) throw sbError;
 
+                    // Update profile role if needed
                     await upsertProfile({
                         id: session.user.id,
-                        role: 'project_owner',
+                        role: 'entreprise',
                         domtom_verified: true
                     });
                 }
 
-                // 2. Envoi Formspree
-                const response = await fetch('https://formspree.io/f/myzbqepy', {
+                // Optionnel : Formspree pour notification email
+                await fetch('https://formspree.io/f/myzbqepy', {
                     method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
 
-                if (response.ok) {
-                    form.innerHTML = `
-                        <div style="background: #ecfdf5; color: #065f46; padding: 40px 24px; border-radius: 12px; border: 1px solid #10b981; text-align: center;">
-                            <div style="margin-bottom: 24px;">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </div>
-                            <h3 style="margin-bottom: 12px; font-weight:800;">🚀 Manifeste créé avec succès !</h3>
-                            <p style="color:var(--text-secondary); margin-bottom: 32px;">Votre épopée commence ici. Nous allons maintenant vous guider pour tracer votre Boussole (Roadmap).</p>
-                            <a href="../mon-projet" class="cta-button primary" style="display: inline-block;">Accéder au Success Engine</a>
+                // Succès
+                document.querySelector('.onboarding-card').innerHTML = `
+                    <div style="text-align: center; padding: 40px 0;">
+                        <div style="width: 80px; height: 80px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px;">✓</div>
+                        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: #0f172a;">Offre publiée avec succès !</h2>
+                        <p style="color: #64748b; margin-bottom: 32px;">Votre annonce est désormais visible par les candidats du réseau. Vous recevrez les candidatures par email.</p>
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <a href="../marketplace/jobs" class="btn-next" style="text-decoration: none; padding: 14px 24px;">Voir le Marketplace</a>
+                            <a href="../mon-espace" class="btn-prev" style="text-decoration: none; padding: 14px 24px;">Mon Tableau de Bord</a>
                         </div>
-                    `;
-                } else {
-                    throw new Error('Erreur lors de l\'envoi Formspree');
-                }
+                    </div>
+                `;
+
             } catch (error) {
                 console.error(error);
-                alert("Oups ! Une erreur est survenue lors de l'envoi. Veuillez réessayer.");
+                alert("Erreur lors de la publication : " + error.message);
                 btn.disabled = false;
-                btn.innerText = 'Soumettre mon besoin';
+                btn.innerText = 'Publier l\'Offre →';
             }
         }
     </script>
 </body>
-
 </html>
