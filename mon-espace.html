@@ -889,6 +889,7 @@
 
                 if (isEmployer) {
                     const candle = app.candidate || { full_name: 'Utilisateur' };
+                    if (!app.files) app.files = [];
                     const initials = candle.full_name.slice(0, 2).toUpperCase();
                     const avatar = candle.avatar_url
                         ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
@@ -932,7 +933,7 @@
                                 ` : ''}
 
                                 <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                                    <button onclick="showCandidateDetails('${app.candidate_id}')" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Candidat</button>
+                                <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:8px; justify-content:center;">Voir Candidat</button>
                                     <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; font-size:0.75rem; padding:10px; justify-content:center; background:#0ea5e9;">
                                     📅 Proposer un RDV (Visio)
                                 </button>
@@ -941,6 +942,7 @@
                     `;
                 } else {
                     // Candidate View (Sent)
+                    if (!app.files) app.files = [];
                     const { data: comp } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', app.job.company_id).single();
                     const compName = comp?.full_name || 'Entreprise';
                     const compInitials = compName.slice(0, 2).toUpperCase();
@@ -988,6 +990,8 @@
             }));
 
             list.innerHTML = htmlResults.join('');
+            // Store for modal access
+            window.__lastAppData = data;
         }
 
         async function proposeMeeting(candidateId, jobId, name) {
@@ -995,9 +999,16 @@
             window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
         }
 
-        async function showCandidateDetails(candidateId) {
+        async function showCandidateDetails(candidateId, applicationId = null) {
             const { data: profile } = await _supabase.from('profiles').select('*').eq('id', candidateId).single();
             if (!profile) return;
+
+            // Find application files if ID provided
+            let appFiles = [];
+            if (applicationId && window.__lastAppData) {
+                const app = window.__lastAppData.find(a => a.id === applicationId);
+                if (app && app.files) appFiles = app.files;
+            }
 
             const name = profile.full_name || 'Expert';
             const initials = name.slice(0, 2).toUpperCase();
@@ -1006,38 +1017,60 @@
                 : `<div style="width:80px; height:80px; border-radius:16px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#475569; border:3px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.1);">${initials}</div>`;
 
             const modalHtml = `
-                <div class="modal-overlay open" id="details-modal-overlay" onclick="closeDetailsModal(event)" style="z-index: 10001;">
-                    <div class="modal" style="max-width:500px; padding:0; overflow:hidden;">
-                        <div style="height:100px; background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"></div>
-                        <div style="padding:0 24px 24px; position:relative;">
-                            <div style="position:absolute; top:-40px; left:24px;">
+                <div class="modal-overlay open" id="details-modal-overlay" onclick="closeDetailsModal(event)" style="z-index: 10001; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);">
+                    <div class="modal" style="max-width:550px; padding:0; overflow:hidden; border:none; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                        <div style="height:120px; background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); position:relative;">
+                            <button class="modal-close" onclick="document.getElementById('details-modal-overlay').remove()" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.1); color:white; border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.2rem; transition: background 0.2s;">&times;</button>
+                        </div>
+                        <div style="padding:0 32px 32px; position:relative;">
+                            <div style="position:absolute; top:-40px; left:32px;">
                                 ${avatar}
                             </div>
-                            <div style="margin-top:50px;">
-                                <h2 style="font-size:1.5rem; font-weight:800; color:#1e293b; margin-bottom:4px;">${name}</h2>
-                                <p style="font-size:1rem; font-weight:600; color:#0ea5e9; margin-bottom:16px;">${profile.title || 'Expert Domtom Connect'}</p>
+                            <div style="margin-top:55px;">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                                    <div>
+                                        <h2 style="font-size:1.6rem; font-weight:800; color:#1e293b; margin:0;">${name}</h2>
+                                        <p style="font-size:1rem; font-weight:600; color:#0ea5e9; margin:4px 0 0 0;">${profile.title || 'Expert Domtom Connect'}</p>
+                                    </div>
+                                    ${profile.territory ? `<span style="font-size:0.75rem; background:#f1f5f9; padding:6px 14px; border-radius:20px; font-weight:700; color:#475569;">📍 ${profile.territory}</span>` : ''}
+                                </div>
                                 
-                                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
-                                    ${profile.territory ? `<span style="font-size:0.75rem; background:#f1f5f9; padding:4px 12px; border-radius:20px; font-weight:600; color:#475569;">📍 ${profile.territory}</span>` : ''}
-                                    ${profile.tjm ? `<span style="font-size:0.75rem; background:#ecfdf5; padding:4px 12px; border-radius:20px; font-weight:600; color:#059669;">💰 ${profile.tjm}€ / jour</span>` : ''}
-                                    ${profile.available ? `<span style="font-size:0.75rem; background:#f0fdf4; padding:4px 12px; border-radius:20px; font-weight:600; color:#16a34a;">● Disponible</span>` : ''}
+                                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+                                    ${profile.tjm ? `<span style="font-size:0.75rem; background:#ecfdf5; padding:6px 14px; border-radius:20px; font-weight:700; color:#059669;">💰 ${profile.tjm}€ / jour</span>` : ''}
+                                    ${profile.available ? `<span style="font-size:0.75rem; background:#f0fdf4; padding:6px 14px; border-radius:20px; font-weight:700; color:#16a34a;">● Disponible</span>` : ''}
                                 </div>
 
-                                <div style="margin-bottom:24px;">
-                                    <h3 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:8px;">Bio</h3>
-                                    <p style="font-size:0.95rem; color:#475569; line-height:1.6;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa bio.'}</p>
+                                <div style="margin-bottom:24px; padding:16px; background:#f8fafc; border-radius:12px; border:1px solid #f1f5f9;">
+                                    <h3 style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.08em; margin:0 0 8px 0; font-weight:800;">Bio</h3>
+                                    <p style="font-size:0.95rem; color:#475569; line-height:1.6; margin:0;">${profile.bio || 'Cet expert n\'a pas encore rédigé sa bio.'}</p>
                                 </div>
 
                                 ${profile.skills ? `
                                     <div style="margin-bottom:24px;">
-                                        <h3 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:8px;">Compétences</h3>
-                                        <p style="font-size:0.95rem; color:#475569;">${profile.skills}</p>
+                                        <h3 style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.08em; margin:0 0 10px 0; font-weight:800;">Compétences</h3>
+                                        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                            ${profile.skills.split(',').map(s => `<span style="font-size:0.8rem; background:white; border:1px solid #e2e8f0; padding:4px 12px; border-radius:6px; color:#64748b;">${s.trim()}</span>`).join('')}
+                                        </div>
                                     </div>
                                 ` : ''}
 
-                                <div style="display:flex; gap:12px;">
-                                    ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="flex:1; justify-content:center;">LinkedIn</a>` : ''}
-                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="flex:1; justify-content:center; background:#0f172a;">Contacter</a>
+                                ${appFiles.length > 0 ? `
+                                    <div style="margin-bottom:28px;">
+                                        <h3 style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.08em; margin:0 0 12px 0; font-weight:800;">Documents de candidature</h3>
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                                            ${appFiles.map(f => `
+                                                <a href="${f.url}" target="_blank" style="font-size:0.85rem; color:#1e293b; text-decoration:none; background:#f1f5f9; padding:12px; border-radius:10px; border:1px solid #e2e8f0; display:flex; align-items:center; gap:10px; transition:all 0.2s;">
+                                                    <span style="font-size:1.2rem;">📄</span>
+                                                    <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">${f.name}</span>
+                                                </a>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                ` : ''}
+
+                                <div style="display:flex; gap:12px; padding-top:20px; border-top:1px solid #f1f5f9;">
+                                    ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="cta-button secondary" style="flex:1; justify-content:center; height:44px;">LinkedIn</a>` : ''}
+                                    <a href="/messages?to=${profile.id}" class="cta-button primary" style="flex:1; justify-content:center; background:#0f172a; height:44px;">Contacter l'expert</a>
                                 </div>
                             </div>
                         </div>
