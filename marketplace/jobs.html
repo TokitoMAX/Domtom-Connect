@@ -693,17 +693,25 @@
                                 alert("Aucune candidature trouvée en base (déjà vide ?). Nettoyage local...");
                             } else {
                                 resetBtn.innerText = `Suppression (${toDelete.length})...`;
-                                const { error: delErr } = await _supabase.from('job_applications').delete().eq('candidate_id', currentUserId);
-                                if (delErr) {
-                                    console.error("[DEBUG] Erreur suppression par candidate_id:", delErr);
-                                    // Tentative par ID unique si le premier fail
-                                    for (const item of toDelete) {
-                                        await _supabase.from('job_applications').delete().eq('id', item.id);
-                                    }
+                                console.log("[DEBUG] Tentative de suppression chirurgicale...");
+                                
+                                for (const item of toDelete) {
+                                    console.log("[DEBUG] Suppression de l'ID:", item.id);
+                                    const { error: delErr } = await _supabase.from('job_applications').delete().eq('id', item.id);
+                                    if (delErr) console.error("[DEBUG] Erreur pour ID " + item.id + ":", delErr.message);
+                                }
+
+                                // Vérification immédiate
+                                const { data: check } = await _supabase.from('job_applications').select('id').eq('candidate_id', currentUserId);
+                                if (check && check.length > 0) {
+                                    console.error("[DEBUG] ÉCHEC: Les candidatures sont toujours là après suppression!", check);
+                                    alert("Erreur critique : La base de données refuse la suppression malgré le succès affiché. Contacte le support technique.");
+                                } else {
+                                    console.log("[DEBUG] VÉRIFICATION RÉUSSIE: Plus aucune candidature.");
+                                    alert("C'est fait ! Tes candidatures ont été supprimées chirurgicalement.");
                                 }
                             }
                             
-                            alert("Action terminée. Rechargement...");
                             window.location.reload();
                         };
                         document.body.appendChild(resetBtn);
