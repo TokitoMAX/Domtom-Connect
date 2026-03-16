@@ -662,9 +662,9 @@
                     // Fetch user applications
                     const { data: apps } = await _supabase
                         .from('job_applications')
-                        .select('job_id')
+                        .select('*')
                         .eq('candidate_id', currentUserId);
-                    console.log("[DEBUG] Fetched applications:", apps);
+                    console.log("[DEBUG] APPS FETCHED FULL:", JSON.stringify(apps, null, 2));
                     if (apps) userApplications = apps.map(a => a.job_id);
 
                     // RESET TEST FOR LOIC - ULTRA AGGRESSIVE
