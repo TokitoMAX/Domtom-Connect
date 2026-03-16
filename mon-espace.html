@@ -806,7 +806,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        function showView(viewId) {
+        function showView(viewId, pushState = true) {
+            console.log("Switching to view:", viewId);
             const overview = document.getElementById('project-owner-modules') || document.getElementById('dashboard-cards');
             const successEngine = document.getElementById('success-engine-view');
             const applicationsView = document.getElementById('applications-view');
@@ -829,14 +830,77 @@
                 if (overview) overview.style.display = 'grid';
                 if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'grid';
                 if (greeting) greeting.style.display = 'block';
+                if (pushState) window.location.hash = 'overview';
             } else if (viewId === 'success-engine') {
                 if (successEngine) successEngine.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
-            } else if (viewId === 'applications') {
+                if (pushState) window.location.hash = 'success-engine';
+            } else if (viewId === 'applications' || viewId === 'candidatures') {
                 if (applicationsView) applicationsView.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
                 loadApplications();
+                if (pushState) window.location.hash = 'candidatures';
             }
+
+            // Sync links
+            const targetHash = window.location.hash.replace('#', '');
+            sidebarLinks.forEach(l => {
+                if (l.getAttribute('onclick')?.includes(viewId)) l.classList.add('active');
+            });
+        }
+
+        // Routing logic
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '') || 'overview';
+            showView(hash, false);
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const hash = window.location.hash.replace('#', '') || 'overview';
+            setTimeout(() => showView(hash, false), 500);
+            checkInfrastructure();
+        });
+
+        async function checkInfrastructure() {
+            try {
+                const { error } = await _supabase.from('job_applications').select('files').limit(1);
+                if (error && error.code === '42703') { // Column does not exist
+                    showInfraAlert();
+                }
+            } catch (e) {
+                console.error("Critical infra check failed:", e);
+            }
+        }
+
+        function showInfraAlert() {
+            const alertHtml = `
+                <div id="infra-alert" style="background:#fff1f2; border:2px solid #fda4af; padding:20px; border-radius:16px; margin-bottom:30px; display:flex; gap:20px; align-items:center; box-shadow:0 10px 20px rgba(225,29,72,0.05);">
+                    <div style="font-size:2.5rem;">⚠️</div>
+                    <div style="flex:1;">
+                        <h4 style="margin:0 0 5px 0; color:#9f1239; font-weight:900;">Base de données non configurée</h4>
+                        <p style="margin:0; color:#be123c; font-size:0.95rem; font-weight:600;">Les documents ne peuvent pas être affichés car la colonne 'files' manque dans votre base de données.</p>
+                    </div>
+                    <button onclick="copySQL()" style="background:#e11d48; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-size:0.9rem; transition:0.2s; white-space:nowrap;">
+                        Copier le Fix SQL
+                    </button>
+                </div>
+            `;
+            const container = document.querySelector('.dash-content');
+            if (container) container.insertAdjacentHTML('afterbegin', alertHtml);
+        }
+
+        function copySQL() {
+            const sql = `-- Script de réparation Domtom Connect
+ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS files jsonb DEFAULT '[]';
+INSERT INTO storage.buckets (id, name, public) VALUES ('applications-docs', 'applications-docs', true) ON CONFLICT (id) DO NOTHING;
+DROP POLICY IF EXISTS "Allow uploads for authenticated users" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public read access" ON storage.objects;
+CREATE POLICY "Allow uploads for authenticated users" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'applications-docs');
+CREATE POLICY "Allow public read access" ON storage.objects FOR SELECT TO public USING (bucket_id = 'applications-docs');`;
+            
+            navigator.clipboard.writeText(sql).then(() => {
+                alert("Script SQL copié ! Collez-le dans l'éditeur SQL de Supabase.");
+            });
         }
 
         async function loadApplications() {

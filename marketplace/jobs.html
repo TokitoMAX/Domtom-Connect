@@ -1020,6 +1020,17 @@
                 return;
             }
 
+            // Infrastructure Pre-check
+            try {
+                const { data, error } = await _supabase.storage.getBucket('applications-docs');
+                if (error) {
+                    console.error("Storage not ready:", error);
+                    alert("⚠️ ATTENTION : Le système de stockage n'est pas encore activé sur votre Supabase. Veuillez exécuter le script SQL fourni dans le guide (Walkthrough) avant de postuler, sinon vos documents ne seront pas enregistrés.");
+                }
+            } catch (err) {
+                console.warn("Could not verify storage bucket:", err);
+            }
+
             pendingJobId = jobId;
             pendingCompanyId = companyId;
 
