@@ -190,7 +190,10 @@
 
             if (error) {
                 console.error("Fetch apps error:", error);
-                list.innerHTML = `<p style="color:red;">Erreur lors du chargement des candidatures.</p>`;
+                list.innerHTML = `<div style="padding:20px; background:#fff1f2; border:1px solid #fda4af; border-radius:12px; grid-column:1/-1;">
+                    <p style="color:#9f1239; font-weight:800; margin-bottom:8px;">Erreur lors du chargement</p>
+                    <code style="font-size:0.75rem; color:#be123c;">${error.message} (${error.code})</code>
+                </div>`;
                 return;
             }
 
