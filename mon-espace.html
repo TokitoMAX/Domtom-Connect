@@ -28,112 +28,173 @@
             /* Hauteur de la navbar */
         }
 
-        /* Sidebar simplifiée (Desktop) */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f8fafc;
+        }
+
+        /* Sidebar Automatisée (Aceternity Style) */
         .sidebar {
-            width: 250px;
-            background: var(--white);
+            width: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--gray-200);
-            padding: 32px 24px;
+            padding: 24px 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
             position: fixed;
-            top: 64px;
+            top: 0;
             bottom: 0;
             left: 0;
+            z-index: 1001;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .sidebar:hover {
+            width: 260px;
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 10px;
+            margin-bottom: 24px;
+            text-decoration: none;
+            overflow: hidden;
+        }
+
+        .sidebar-logo-img {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .sidebar-brand-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar:hover .sidebar-brand-text {
+            opacity: 1;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: 8px;
+            gap: 16px;
+            padding: 12px 14px;
+            border-radius: 12px;
             color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar-icon {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .sidebar-label {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar:hover .sidebar-label {
+            opacity: 1;
         }
 
         .sidebar-link:hover {
-            background: var(--gray-50);
+            background: var(--gray-100);
             color: var(--text-primary);
         }
 
-        /* Utility Widgets */
-        .utility-widget {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--gray-200);
-            margin-top: 24px;
-        }
-
-        .widget-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--gray-50);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .checklist-item:last-child {
-            border: none;
-        }
-
-        .checklist-checkbox {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            border: 2px solid var(--gray-300);
-            cursor: pointer;
-        }
-
-        .directory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-        }
-
-        .directory-item {
-            padding: 12px;
-            background: var(--bg-light);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            border: 1px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .directory-item:hover {
-            border-color: var(--primary-color);
-            background: white;
+        .sidebar-link:hover .sidebar-icon {
+            color: var(--emerald-color);
         }
 
         .sidebar-link.active {
-            background: var(--primary-color);
+            background: var(--text-primary);
             color: var(--white);
         }
 
-        /* Contenu principal */
+        .sidebar-link.active .sidebar-icon {
+            color: var(--emerald-color);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--gray-100);
+            margin: 16px 8px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Contenu principal adaptatif */
         .main-content {
             flex: 1;
-            margin-left: 250px;
+            margin-left: 80px;
             padding: 40px;
-            max-width: 1000px;
+            max-width: 1200px;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Top Bar de Navigation (Uniquement Desktop) */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-100);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+
+        .nav-market-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-market-link {
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .nav-market-link:hover {
+            color: var(--text-primary);
         }
 
         .header-section {
@@ -637,33 +698,13 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <div class="nav-brand-text">
-                    <span class="nav-brand-name">Domtom Connect</span>
-                    <span class="nav-brand-tagline">Mon Espace</span>
-                </div>
-            </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links" id="nav-links-container">
-                    <a href="/marketplace/directory">Talents</a>
-                    <a href="/marketplace/companies">Entreprises</a>
-                </div>
-                <div class="nav-actions" id="nav-actions-container">
-                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Hidden redundant top navbar on desktop dashboard -->
+    <style>
+        @media (min-width: 769px) {
+            .navbar { display: none !important; }
+            .dashboard-layout { padding-top: 0; }
+        }
+    </style>
 
     <!-- Mobile Bottom Navigation (Glassmorphism) -->
     <nav class="mobile-nav">
@@ -698,42 +739,73 @@
     </nav>
 
     <div class="dashboard-layout">
+    <div class="dashboard-layout">
         <aside class="sidebar">
-            <span
-                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px;">Menu
-                Principal</span>
-            <a href="javascript:void(0)" onclick="showView('overview')" class="sidebar-link active">Vue d'ensemble</a>
-            <a href="/marketplace/directory" class="sidebar-link">Annuaire Talents</a>
-            <a href="/marketplace/companies.html" class="sidebar-link">Annuaire Entreprises</a>
-            <a href="/marketplace/jobs" class="sidebar-link">Missions</a>
-            <a href="/candidatures.html" class="sidebar-link" id="nav-applications" style="display:none;">Candidatures</a>
-            <a href="/messages.html" class="sidebar-link">Messagerie</a>
-
-            <span
-                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Externe</span>
-            <a href="index" class="sidebar-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    style="width: 18px; height: 18px; margin-right: 8px; display: inline-block; vertical-align: text-bottom;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Retour à l'accueil
+            <a href="/" class="sidebar-brand">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" class="sidebar-logo-img">
+                <span class="sidebar-brand-text">Domtom Connect</span>
             </a>
 
-            <span
-                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; padding-left: 16px; margin-top: 24px;">Mon Compte</span>
-            <a href="/profile" class="sidebar-link">Gérer mon profil</a>
-            <a href="javascript:void(0)" onclick="handleLogout()" class="sidebar-link"
-                style="color: var(--text-secondary);">
-                Déconnexion
+            <a href="javascript:void(0)" onclick="showView('overview')" class="sidebar-link active" title="Vue d'ensemble">
+                <span class="sidebar-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                </span>
+                <span class="sidebar-label">Accueil</span>
             </a>
-            <a href="javascript:void(0)" onclick="handleDeleteAccount()" class="sidebar-link"
-                style="color: #ef4444; font-weight: 600;">
-                Supprimer mon compte
+
+            <a href="javascript:void(0)" onclick="showView('applications')" class="sidebar-link" id="nav-applications" title="Candidatures">
+                <span class="sidebar-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </span>
+                <span class="sidebar-label">Candidatures</span>
             </a>
+
+            <a href="/messages.html" class="sidebar-link" title="Messagerie">
+                <span class="sidebar-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </span>
+                <span class="sidebar-label">Messages</span>
+            </a>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-footer">
+                <a href="/profile" class="sidebar-link" title="Profil">
+                    <span class="sidebar-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Profil</span>
+                </a>
+                <a href="javascript:void(0)" onclick="handleLogout()" class="sidebar-link" title="Déconnexion">
+                    <span class="sidebar-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Quitter</span>
+                </a>
+            </div>
         </aside>
 
         <main class="main-content">
+            <nav class="top-nav">
+                <div class="nav-market-links">
+                    <a href="/marketplace/directory" class="nav-market-link">Annuaire Talents</a>
+                    <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
+                    <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
+                </div>
+                <div class="top-nav-actions">
+                    <!-- Dynamic actions can be injected here -->
+                </div>
+            </nav>
             <div id="dashboard-content">
                 <div class="dash-section-header">
                     <span class="dash-badge emerald" id="user-role-badge">Chargement...</span>
@@ -831,9 +903,12 @@
             }
 
             // Sync links
-            const targetHash = window.location.hash.replace('#', '');
             sidebarLinks.forEach(l => {
-                if (l.getAttribute('onclick')?.includes(viewId)) l.classList.add('active');
+                if (l.getAttribute('onclick')?.includes(viewId)) {
+                    l.classList.add('active');
+                } else {
+                    l.classList.remove('active');
+                }
             });
         }
 
