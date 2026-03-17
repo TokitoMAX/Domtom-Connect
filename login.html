@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -144,13 +144,37 @@
 </head>
 
 <body class="auth-page">
-
-    <main class="auth-card">
-        <header class="auth-header">
-            <a href="index" class="nav-brand" title="Accueil Domtom Connect">
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
+                <div class="nav-brand-text">
+                    <span class="nav-brand-name">Domtom Connect</span>
+                </div>
             </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="/marketplace/directory">Talents</a>
+                    <a href="/marketplace/jobs">Missions</a>
+                    <a href="/marketplace/projects">Projets</a>
+                    <a href="/marketplace/companies">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-card" style="margin-top: 100px;">
+        <header class="auth-header">
             <p class="auth-subtitle">Connectez-vous à votre espace personnel.</p>
         </header>
 

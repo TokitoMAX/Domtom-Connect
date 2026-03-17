@@ -185,6 +185,7 @@ async function loadGlobalNavbar() {
             navLinks.innerHTML = `
                 <a href="/marketplace/directory">Talents</a>
                 <a href="/marketplace/jobs">Missions</a>
+                <a href="/marketplace/projects">Projets</a>
                 <a href="/marketplace/companies">Entreprises</a>
                 <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
                 <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>
@@ -198,8 +199,8 @@ async function loadGlobalNavbar() {
                         <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
                             Bonjour, ${name}
                         </a>
-                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
-                            Mon Espace
+                        <a href="/mon-projet" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                            Mon Projet
                         </a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
                             Déconnexion
