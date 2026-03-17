@@ -178,34 +178,39 @@
         async function loadApplications() {
             const list = document.getElementById('applications-list');
             const session = await getSession();
+            if (!session) return;
             
             document.getElementById('view-desc').textContent = 'Surveillez les candidatures reçues et envoyées.';
 
-            const [receivedRes, sentRes] = await Promise.all([
-                _supabase.from('job_applications').select('*, job:job_offers!inner(*), candidate:profiles!job_applications_candidate_id_fkey(*)').eq('job.company_id', session.user.id),
-                _supabase.from('job_applications').select('*, job:job_offers(*, company:profiles!job_offers_company_id_fkey(*)), candidate:profiles!job_applications_candidate_id_fkey(*)').eq('candidate_id', session.user.id)
-            ]);
+            // Query both parts separately without strict inner joins to be more resilient
+            const { data: apps, error } = await _supabase
+                .from('job_applications')
+                .select('*, job:job_offers(*, company:profiles!job_offers_company_id_fkey(*)), candidate:profiles!job_applications_candidate_id_fkey(*)')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error("Fetch apps error:", error);
+                list.innerHTML = `<p style="color:red;">Erreur lors du chargement des candidatures.</p>`;
+                return;
+            }
 
             let allApps = [];
             const ids = new Set();
 
-            if (receivedRes.data) {
-                receivedRes.data.forEach(app => {
-                    if (app.status !== 'rejected') {
-                        app._type = 'received';
-                        allApps.push(app);
-                        ids.add(app.id);
-                    }
-                });
-            }
-            if (sentRes.data) {
-                sentRes.data.forEach(app => {
-                    if (!ids.has(app.id)) {
-                        app._type = 'sent';
-                        allApps.push(app);
-                    }
-                });
-            }
+            // Distribute applications by type based on user role/id
+            apps.forEach(app => {
+                const isOwner = app.job?.company_id === session.user.id;
+                const isCandidate = app.candidate_id === session.user.id;
+
+                if (isOwner && app.status !== 'rejected') {
+                    const receivedApp = { ...app, _type: 'received' };
+                    allApps.push(receivedApp);
+                    ids.add(app.id);
+                } else if (isCandidate && !ids.has(app.id)) {
+                    const sentApp = { ...app, _type: 'sent' };
+                    allApps.push(sentApp);
+                }
+            });
 
             allApps.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
 
