@@ -183,10 +183,10 @@ async function loadGlobalNavbar() {
         // Liens de directory (Strategic regrouping)
         if (navLinks) {
             navLinks.innerHTML = `
-                <a href="/marketplace/directory">Talents</a>
-                <a href="/marketplace/jobs">Missions</a>
-                <a href="/marketplace/projects">Projets</a>
-                <a href="/marketplace/companies">Entreprises</a>
+                <a href="/marketplace/directory" class="nav-market-link">Talents</a>
+                <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
+                <a href="/marketplace/projects" class="nav-market-link">Projets</a>
+                <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
                 <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
                 <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>
             `;
