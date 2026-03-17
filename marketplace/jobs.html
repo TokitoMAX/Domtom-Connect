@@ -785,11 +785,12 @@
                     currentSubscriptionTier = meta.subscription_tier || 'free';
 
                     // Fetch user applications to know which jobs they already applied to (excluding rejected ones so they can reapply)
-                    const { data: apps } = await _supabase
+                    const { data: apps, error: fetchErr } = await window._supabase
                         .from('job_applications')
-                        .select('job_id, status')
+                        .select('job_id, status, id')
                         .eq('candidate_id', currentUserId);
                     
+                    window._debugApps = apps || [];
                     if (apps) {
                         userApplications = apps.filter(a => a.status !== 'rejected').map(a => a.job_id);
                     }
@@ -906,7 +907,8 @@
             if (isOwner) {
                 actionBtn = `<div class="tag" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0;">VOTRE OFFRE</div>`;
             } else if (alreadyApplied) {
-                actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée</button>`;
+                const dbgApp = (window._debugApps || []).find(a => a.job_id === job.id) || {};
+                actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée<br><span style="font-size:10px;color:red;font-weight:bold;">[DEBUG] APP ID: ${dbgApp.id || 'NONE'} | ${dbgApp.status || 'NONE'}</span></button>`;
             } else if (canSeeDetails) {
                 actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}', '${job.title.replace(/'/g, "\\'")}', '${company.full_name.replace(/'/g, "\\'")}')" class="btn-premium-contact">Postuler</button>`;
             } else {
