@@ -232,3 +232,22 @@ function initNavToggle() {
 
 // Re-init on DOMContentLoaded for pages that load it statically
 document.addEventListener('DOMContentLoaded', initNavToggle);
+
+// ── Auto-load notification system on all authenticated pages ──
+(function loadNotifications() {
+    if (document.querySelector('script[src*="notifications.js"]')) return;
+    const s = document.createElement('script');
+    // Resolve path relative to auth.js itself (works at any depth)
+    const basePath = (() => {
+        const scripts = document.querySelectorAll('script[src]');
+        for (const sc of scripts) {
+            if (sc.src && sc.src.includes('auth.js')) {
+                return sc.src.replace(/auth\.js.*$/, '');
+            }
+        }
+        return '/assets/js/';
+    })();
+    s.src = basePath + 'notifications.js?v=1.0';
+    s.async = true;
+    document.head.appendChild(s);
+})();

@@ -1114,6 +1114,17 @@
         }
 
         window.addEventListener('load', initMessages);
+
+        // Reset notification counter when user opens messages
+        window.addEventListener('load', () => {
+            if (window.dcNotifications) {
+                window.dcNotifications.reset();
+            } else {
+                // Retry after notifications.js loads
+                setTimeout(() => { if (window.dcNotifications) window.dcNotifications.reset(); }, 1500);
+            }
+        });
+
     </script>
 </body>
 
