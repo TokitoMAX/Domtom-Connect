@@ -254,8 +254,13 @@
                         <div style="margin-bottom:16px; padding:12px; background:#f0f9ff; border-radius:10px; border:1px solid #e0f2fe;">
                             <div style="font-size:0.85rem; font-weight:700; color:#0c4a6e;">${app.job?.title || 'Opportunité'}</div>
                         </div>
-                        <div style="margin-top:auto; padding:10px; background:#f8fafc; border-radius:8px; text-align:center;">
-                            <span style="font-size:0.8rem; font-weight:700; color:#64748b;">${app.status === 'pending' ? '⏳ En attente' : '✅ En revue'}</span>
+                        <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+                            <div style="padding:10px; background:#f8fafc; border-radius:8px; text-align:center;">
+                                <span style="font-size:0.8rem; font-weight:700; color:#64748b;">${app.status === 'pending' ? '⏳ En attente' : '✅ En revue'}</span>
+                            </div>
+                            <button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.8rem; padding:8px;">
+                                ✖ Annuler ma candidature
+                            </button>
                         </div>
                     </div>`;
                 }
@@ -268,6 +273,17 @@
         async function proposeMeeting(candidateId, jobId, name) {
             const meetingMsg = encodeURIComponent(`Bonjour ${name}, j'ai bien reçu votre candidature. Votre profil m'intéresse beaucoup. Seriez-vous disponible pour un échange ?`);
             window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
+        }
+
+        async function cancelApplication(appId) {
+            if (!confirm('Voulez-vous vraiment annuler cette candidature ? Vous pourrez postuler à nouveau ensuite.')) return;
+            const { error } = await _supabase.from('job_applications').delete().eq('id', appId);
+            if (error) {
+                alert('Erreur lors de l\'annulation de la candidature.');
+                console.error(error);
+            } else {
+                await loadApplications();
+            }
         }
 
         async function showCandidateDetails(candidateId, applicationId = null) {
