@@ -147,24 +147,30 @@
 </head>
 
 <body>
-    <!-- Navigation Isolée -->
-    <nav class="navbar"
-        style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <div class="container"
-            style="display: flex; justify-content: space-between; align-items: center; height: 72px;">
-            <a href="/" class="nav-brand" title="Domtom Connect"
-                style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
-                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 32px;">
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="../../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <div class="nav-brand-text">
-                    <span class="nav-brand-name"
-                        style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em;">Domtom Connect</span>
+                    <span class="nav-brand-name">Domtom Connect</span>
                 </div>
             </a>
-            <div class="nav-actions">
-                <a href="javascript:history.back()" class="cta-button secondary"
-                    style="padding: 8px 20px; font-size: 0.9rem; border-color: rgba(255,255,255,0.2); color: white; background: transparent;">
-                    ← Retour
-                </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="/marketplace/directory">Talents</a>
+                    <a href="/marketplace/jobs">Missions</a>
+                    <a href="/marketplace/companies">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="javascript:history.back()" class="cta-button secondary" id="login-link">← Retour</a>
+                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
             </div>
         </div>
     </nav>
