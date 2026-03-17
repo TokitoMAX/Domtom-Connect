@@ -242,7 +242,7 @@
                         </div>
                         <div style="display:flex; flex-direction:column; gap:8px;">
                             <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="justify-content:center; background:#f1f5f9; font-size:0.85rem;">👤 Dossier Talent</button>
-                            ${app.candidate_id === session.user.id ? `<button onclick="cancelApplication('${app.id}', '${app._type}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem;">🗑️ Retirer mon test</button>` : `<button onclick="cancelApplication('${app.id}', '${app._type}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem;">✖ Refuser / Supprimer</button>`}
+                            ${app.candidate_id === session.user.id ? `<button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem;">🗑️ Retirer mon test</button>` : `<button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem;">✖ Refuser / Supprimer</button>`}
                             <button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="justify-content:center; background:#0ea5e9; font-size:0.85rem;">📅 Proposer RDV</button>
                         </div>
                     </div>`;
@@ -261,7 +261,7 @@
                             <div style="padding:10px; background:#f8fafc; border-radius:8px; text-align:center;">
                                 <span style="font-size:0.8rem; font-weight:700; color:#64748b;">${app.status === 'pending' ? '⏳ En attente' : '✅ En revue'}</span>
                             </div>
-                            <button onclick="cancelApplication('${app.id}', '${app._type}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.8rem; padding:8px;">
+                            <button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.8rem; padding:8px;">
                                 ✖ Annuler ma candidature
                             </button>
                         </div>
@@ -278,28 +278,29 @@
             window.location.href = `/messages.html?to=${candidateId}&job=${jobId}&prefill=${meetingMsg}`;
         }
 
-        async function cancelApplication(appId, appType) {
+        async function cancelApplication(appId) {
             if (!confirm('Voulez-vous vraiment annuler/refuser cette candidature ?')) return;
             
-            if (appType === 'sent') {
-                // Candidat : on supprime complètement sa propre candidature
-                const { error } = await _supabase.from('job_applications').delete().eq('id', appId);
-                if (error) {
-                    alert('Erreur lors de l\'annulation.');
-                    console.error(error);
-                    return;
-                }
-            } else {
-                // Entreprise (received) : on passe le statut en "rejected" (soft delete)
-                const { error } = await _supabase.from('job_applications').update({ status: 'rejected' }).eq('id', appId);
-                if (error) {
-                    alert('Erreur lors du refus de la candidature.');
-                    console.error(error);
-                    return;
-                }
-            }
+            // 1. Essayer de supprimer (autorisé si l'utilisateur est le candidat)
+            const { data: delData, error: delError } = await _supabase.from('job_applications').delete().eq('id', appId).select();
             
-            await loadApplications();
+            if (delData && delData.length > 0) {
+                // Succès suppression
+                await loadApplications();
+                return;
+            }
+
+            // 2. Si la suppression échoue ou fait 0 ligne (RLS bloque car c'est un employeur), essayer l'update
+            const { data: updData, error: updError } = await _supabase.from('job_applications').update({ status: 'rejected' }).eq('id', appId).select();
+            
+            if (updData && updData.length > 0) {
+                // Succès mise à jour
+                await loadApplications();
+                return;
+            }
+
+            // 3. Echec total (RLS bloque complètement l'action)
+            alert("Action bloquée par sécurité. Vous n'avez pas les droits de modifier ou supprimer cette candidature.");
         }
 
         async function showCandidateDetails(candidateId, applicationId = null) {
