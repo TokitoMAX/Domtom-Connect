@@ -784,14 +784,14 @@
                     const meta = session.user.user_metadata || {};
                     currentSubscriptionTier = meta.subscription_tier || 'free';
 
-                    // Fetch user applications
+                    // Fetch user applications to know which jobs they already applied to (excluding rejected ones so they can reapply)
                     const { data: apps } = await _supabase
                         .from('job_applications')
-                        .select('job_id')
+                        .select('job_id, status')
                         .eq('candidate_id', currentUserId);
                     
                     if (apps) {
-                        userApplications = apps.map(a => a.job_id);
+                        userApplications = apps.filter(a => a.status !== 'rejected').map(a => a.job_id);
                     }
                 }
                 

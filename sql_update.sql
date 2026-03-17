@@ -1,0 +1,1 @@
+CREATE POLICY Companies can update received applications ON public.job_applications FOR UPDATE USING (EXISTS (SELECT 1 FROM public.job_offers WHERE job_offers.id = job_applications.job_id AND job_offers.company_id = auth.uid()));
