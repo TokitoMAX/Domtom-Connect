@@ -182,10 +182,10 @@
             
             document.getElementById('view-desc').textContent = 'Surveillez les candidatures reçues et envoyées.';
 
-            // Query both parts separately without strict inner joins to be more resilient
+            // 1. Fetch applications and basic job info
             const { data: apps, error } = await _supabase
                 .from('job_applications')
-                .select('*, job:job_offers(*, company:profiles!job_offers_company_id_fkey(*)), candidate:profiles!job_applications_candidate_id_fkey(*)')
+                .select('*, job:job_offers(*)')
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -197,21 +197,43 @@
                 return;
             }
 
+            // 2. Collect unique profile IDs (candidates and companies)
+            const profileIds = new Set();
+            apps.forEach(app => {
+                if (app.candidate_id) profileIds.add(app.candidate_id);
+                if (app.job?.company_id) profileIds.add(app.job.company_id);
+            });
+
+            // 3. Fetch all related profiles in one go
+            const { data: profiles } = await _supabase
+                .from('profiles')
+                .select('*')
+                .in('id', Array.from(profileIds));
+            
+            const profileMap = {};
+            if (profiles) {
+                profiles.forEach(p => profileMap[p.id] = p);
+            }
+
+            // 4. Link data and distribute by type
             let allApps = [];
             const ids = new Set();
 
-            // Distribute applications by type based on user role/id
             apps.forEach(app => {
+                // Attach profiles from our map
+                app.candidate = profileMap[app.candidate_id] || { full_name: 'Utilisateur' };
+                if (app.job) {
+                    app.job.company = profileMap[app.job.company_id] || { full_name: 'Entreprise' };
+                }
+
                 const isOwner = app.job?.company_id === session.user.id;
                 const isCandidate = app.candidate_id === session.user.id;
 
                 if (isOwner && app.status !== 'rejected') {
-                    const receivedApp = { ...app, _type: 'received' };
-                    allApps.push(receivedApp);
+                    allApps.push({ ...app, _type: 'received' });
                     ids.add(app.id);
                 } else if (isCandidate && !ids.has(app.id)) {
-                    const sentApp = { ...app, _type: 'sent' };
-                    allApps.push(sentApp);
+                    allApps.push({ ...app, _type: 'sent' });
                 }
             });
 
