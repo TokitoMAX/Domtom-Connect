@@ -191,14 +191,16 @@
 
             if (receivedRes.data) {
                 receivedRes.data.forEach(app => {
-                    app._type = 'received';
-                    allApps.push(app);
-                    ids.add(app.id);
+                    if (app.status !== 'rejected') {
+                        app._type = 'received';
+                        allApps.push(app);
+                        ids.add(app.id);
+                    }
                 });
             }
             if (sentRes.data) {
                 sentRes.data.forEach(app => {
-                    if (!ids.has(app.id)) {
+                    if (!ids.has(app.id) && app.status !== 'rejected') {
                         app._type = 'sent';
                         allApps.push(app);
                     }
@@ -280,10 +282,11 @@
             if (!confirm('Voulez-vous vraiment annuler/refuser cette candidature ?')) return;
             
             // Try to delete first (works if candidate)
-            let { error } = await _supabase.from('job_applications').delete().eq('id', appId);
+            // Adding .select() to know if a row was actually deleted, because RLS silent blocks return no error.
+            const { data: deleted, error: deleteError } = await _supabase.from('job_applications').delete().eq('id', appId).select();
             
-            // If delete fails (likely RLS preventing employer from deleting), do a soft-reject
-            if (error) {
+            // If delete failed (hard error) or deleted zero rows (soft RLS block), we fallback to soft-reject
+            if (deleteError || !deleted || deleted.length === 0) {
                 const { error: updateError } = await _supabase.from('job_applications').update({ status: 'rejected' }).eq('id', appId);
                 if (updateError) {
                     alert('Erreur lors du traitement de la candidature.');
