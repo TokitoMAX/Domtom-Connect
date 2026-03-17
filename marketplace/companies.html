@@ -283,6 +283,7 @@
 
         async function init() {
             const session = await getSession();
+            if (!session) { window.location.href = '/register-choice'; return; }
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;

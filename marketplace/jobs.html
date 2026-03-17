@@ -778,6 +778,7 @@
         async function init() {
             try {
                 const session = await getSession();
+                if (!session) { window.location.href = '/register-choice'; return; }
                 if (session) {
                     currentUserId = session.user.id;
                     const meta = session.user.user_metadata || {};
