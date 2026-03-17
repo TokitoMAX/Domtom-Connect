@@ -636,7 +636,7 @@ function determinePackAndPayment(budget, engagement) {
         return {
             pack: 'business',
             packName: 'Pack Business (Conseillé)',
-            packPrice: '49€/mois',
+            packPrice: '29€/mois',
             paymentPlan: 'Abonnement mensuel',
             action: 'Recommandation Pack Business'
         };
