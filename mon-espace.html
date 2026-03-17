@@ -1347,18 +1347,6 @@
                 updateProfileStrength(profile);
                 renderVisibilityPreview(profile);
 
-                // Show Applications link for experts too
-                const appsLink = document.getElementById('apps-link');
-                if (appsLink) {
-                    appsLink.style.display = 'flex';
-                    appsLink.innerHTML = '<span class="sidebar-icon"></span> Mes Candidatures';
-                }
-                const mobileAppsLink = document.getElementById('nav-applications');
-                if (mobileAppsLink) {
-                    mobileAppsLink.style.display = 'flex';
-                    mobileAppsLink.innerHTML = '<span class="sidebar-icon"></span> Mes Candidatures';
-                }
-
                 // === PACKS HYBRIDES ===
                 const packsHTML = `
                     <div style="margin-top:40px;">
