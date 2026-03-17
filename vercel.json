@@ -3,22 +3,22 @@
     "redirects": [
         {
             "source": "/dashboard",
-            "destination": "/mon-projet",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
             "source": "/dashboard.html",
-            "destination": "/mon-projet",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
-            "source": "/mon-espace",
-            "destination": "/mon-projet",
+            "source": "/mon-projet",
+            "destination": "/mon-espace",
             "permanent": true
         },
         {
-            "source": "/mon-espace.html",
-            "destination": "/mon-projet",
+            "source": "/mon-projet.html",
+            "destination": "/mon-espace",
             "permanent": true
         }
     ]
