@@ -776,7 +776,7 @@
 
                     <div id="visibility-upgrade-prompt"
                         style="margin-top:20px; padding-top:20px; border-top:1px solid var(--gray-100); display:none;">
-                        <p style="font-size:0.85rem; color:var(--text-primary); font-weight:600; margin-bottom:12px;">📈
+                        <p style="font-size:0.85rem; color:var(--text-primary); font-weight:600; margin-bottom:12px;">
                             Votre profil est invisible pour le moment.</p>
                         <button onclick="scrollToPacks()" class="cta-button primary"
                             style="font-size:0.8rem; padding:8px 16px; background:#10b981; border:none;">Passer Premium
@@ -956,7 +956,7 @@
                 tip.innerHTML = "✅ Profil complet ! Vous remontez en priorité dans l'annuaire.";
                 tip.style.color = "#10b981";
             } else {
-                tip.innerHTML = `💡 <strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
+                tip.innerHTML = `<strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile" style="color:var(--emerald-color); text-decoration:underline;">Modifier le profil</a>`;
             }
         }
 
@@ -975,7 +975,7 @@
                 section.style.display = 'block';
                 container.innerHTML = `
                     <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 16px;">🔐</div>
+                        <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
                         <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
                         <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
                         <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Passer au Pack Business</a>
@@ -1234,12 +1234,12 @@
                 const appsLink = document.getElementById('apps-link');
                 if (appsLink) {
                     appsLink.style.display = 'flex';
-                    appsLink.innerHTML = '<span class="sidebar-icon">📩</span> Mes Candidatures';
+                    appsLink.innerHTML = '<span class="sidebar-icon"></span> Mes Candidatures';
                 }
                 const mobileAppsLink = document.getElementById('nav-applications');
                 if (mobileAppsLink) {
                     mobileAppsLink.style.display = 'flex';
-                    mobileAppsLink.innerHTML = '<span class="sidebar-icon">📩</span> Mes Candidatures';
+                    mobileAppsLink.innerHTML = '<span class="sidebar-icon"></span> Mes Candidatures';
                 }
 
                 // === PACKS HYBRIDES ===
@@ -1595,7 +1595,7 @@
                 return `
                         <div class="dash-card">
                             <div style="width:calc(100% + 48px); height:160px; margin:-24px -24px 20px -24px; overflow:hidden; border-bottom:1px solid var(--gray-200); background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:2rem;">
-                                ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '🚀'}
+                                ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : 'DOMTOM'}
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
                                 <div>
@@ -1905,7 +1905,7 @@
                                             Retirer de la Marketplace
                                         </button>
                                         <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; border-radius:12px; cursor:pointer;">
-                                            ⚠️ Supprimer l'épopée définitivement
+                                            Supprimer définitivement
                                         </button>
                                     </div>
                                 </div>
@@ -2153,7 +2153,7 @@
             if (error) {
                 alert("Erreur lors de l'enregistrement de la Roadmap : " + error.message);
             } else {
-                alert("🧭 Boussole validée ! Vos objectifs sont tracés. Étape 3 (Commando) bientôt disponible.");
+                alert("Boussole validée ! Vos objectifs sont tracés. Étape 3 (Commando) bientôt disponible.");
                 closeRoadmapModal();
                 loadMyProjects(session.user.id);
             }
@@ -2195,7 +2195,7 @@
                                     <label class="form-label">Image de Couverture *</label>
                                     <div style="display:flex; align-items:center; gap:20px; padding:16px; background:#f8fafc; border-radius:12px; border:1px dashed var(--gray-300);">
                                         <div id="arsenal-cover-preview" style="width:100px; height:60px; border-radius:8px; background:white; border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
-                                            ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.5rem;">🖼️</span>'}
+                                            ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.5rem;">IMG</span>'}
                                         </div>
                                         <div style="flex:1;">
                                             <input type="file" id="arsenal-cover-file" accept="image/*" style="display:none;" onchange="handleArsenalFileSelect(this)">
@@ -2303,7 +2303,7 @@
 
                 if (error) throw error;
 
-                alert("🚀 Arsenal validé ! Votre épopée gagne en puissance.");
+                alert("Arsenal validé ! Votre épopée gagne en puissance.");
                 closeArsenalModal();
                 const session = await getSession();
                 loadMyProjects(session.user.id);
@@ -2424,7 +2424,7 @@
 
         async function deleteProject(projectId) {
             if (!projectId) return;
-            if (!confirm("⚠️ ATTENTION : Voulez-vous vraiment supprimer définitivement cette épopée ? Cette action est irréversible et supprimera toutes les données associées (manifeste, roadmap, arsenal).")) return;
+            if (!confirm("ATTENTION : Voulez-vous vraiment supprimer définitivement cette épopée ? Cette action est irréversible et supprimera toutes les données associées (manifeste, roadmap, arsenal).")) return;
             if (!confirm("Confirmation finale : Êtes-vous ABSOLUMENT sûr ?")) return;
 
             try {
@@ -2480,7 +2480,7 @@
             if (error) {
                 alert("Erreur lors du lancement du Commando : " + error.message);
             } else {
-                alert("🚀 Commando Lancé ! Nos experts analysent votre projet.");
+                alert("Commando Lancé ! Nos experts analysent votre projet.");
                 const session = await getSession();
                 loadMyProjects(session.user.id);
             }
@@ -2495,7 +2495,7 @@
         }
 
         async function handleDeleteAccount() {
-            if (confirm("⚠️ SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\nCela effacera vos projets, votre profil et vos accès. Cette action est irréversible.")) {
+            if (confirm("SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\nCela effacera vos projets, votre profil et vos accès. Cette action est irréversible.")) {
                 try {
                     const session = await getSession();
                     if (!session) return;

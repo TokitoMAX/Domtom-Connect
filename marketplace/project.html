@@ -304,7 +304,7 @@
                     ${coverHtml}
                     <div class="container" style="position: relative; z-index: 1;">
                         <span style="display:inline-block; padding: 6px 12px; border-radius: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px;">
-                            📍 ${project.territory}
+                            LOC : ${project.territory}
                         </span>
                         
                         <div style="display: flex; gap: 40px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;">
@@ -342,21 +342,21 @@
                         return `
                                                 <div>
                                                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                                        <span style="font-size: 1.3rem;">🌟</span> La Vision Déterminée
+                                                        La Vision Déterminée
                                                     </h3>
                                                     <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${vision}</p>
                                                 </div>
                                                 
                                                 <div style="padding-top: 24px; border-top: 1px dashed #e2e8f0;">
                                                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                                        <span style="font-size: 1.3rem;">⚔️</span> Mission & Solution
+                                                        Mission & Solution
                                                     </h3>
                                                     <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${mission}</p>
                                                 </div>
                                                 
                                                 <div style="padding-top: 24px; border-top: 1px dashed #e2e8f0;">
                                                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                                        <span style="font-size: 1.3rem;">🎯</span> Le Problème Combattu
+                                                        Le Problème Combattu
                                                     </h3>
                                                     <p style="font-size: 1.05rem; line-height: 1.8; color: #475569; margin: 0; white-space: pre-wrap;">${problem}</p>
                                                 </div>
@@ -408,7 +408,7 @@
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
                                     <div>
                                         <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Budget Déclaré</div>
-                                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">💰 ${budgetLabel}</div>
+                                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-top: 4px;">BUDGET : ${budgetLabel}</div>
                                     </div>
                                     <div>
                                         <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Besoins Critiques</div>
@@ -433,7 +433,7 @@
 
                                 ${project.video_url ? `
                                     <a href="${project.video_url}" target="_blank" class="cta-button secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); font-size: 0.9rem; justify-content: center;">
-                                        🎬 Visionner le Pitch
+                                        Visionner le Pitch
                                     </a>
                                 ` : ''}
                                 

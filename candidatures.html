@@ -258,9 +258,9 @@
                         ? `<img src="${candle.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
                         : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${candle.full_name.slice(0,2).toUpperCase()}</div>`;
 
-                    let statusLabel = '<span style="color:#64748b;">⏳ En attente</span>';
-                    if (app.status === 'interview') statusLabel = '<span style="color:#0ea5e9;">📅 Entretien</span>';
-                    if (app.status === 'accepted') statusLabel = '<span style="color:#10b981;">✅ Validé</span>';
+                    let statusLabel = '<span style="color:#64748b;">En attente</span>';
+                    if (app.status === 'interview') statusLabel = '<span style="color:#0ea5e9;">Entretien</span>';
+                    if (app.status === 'accepted') statusLabel = '<span style="color:#10b981;">Valide</span>';
 
                     return `<div class="dash-card">
                         <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
@@ -275,31 +275,31 @@
                             <div style="font-size:0.75rem; font-weight:700; color:#0f172a;">${app.job?.title || 'Mission'}</div>
                         </div>
                         <div style="margin-bottom:20px;">
-                            ${files.length > 0 ? `<div style="display:flex; flex-wrap:wrap; gap:8px;">${files.map(f => `<a href="${f.url}" target="_blank" style="font-size:0.75rem; background:#f0f9ff; padding:4px 10px; border-radius:8px; border:1px solid #bae6fd; color:#0369a1; text-decoration:none;">📄 ${f.name}</a>`).join('')}</div>` : '<div style="font-size:0.75rem; color:#94a3b8; font-style:italic;">Aucun document</div>'}
+                            ${files.length > 0 ? `<div style="display:flex; flex-wrap:wrap; gap:8px;">${files.map(f => `<a href="${f.url}" target="_blank" style="font-size:0.75rem; background:#f0f9ff; padding:4px 10px; border-radius:8px; border:1px solid #bae6fd; color:#0369a1; text-decoration:none;">Doc: ${f.name}</a>`).join('')}</div>` : '<div style="font-size:0.75rem; color:#94a3b8; font-style:italic;">Aucun document</div>'}
                         </div>
                         <div style="display:flex; flex-direction:column; gap:8px;">
-                            <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="justify-content:center; background:#f1f5f9; font-size:0.85rem;">👤 Dossier Talent</button>
+                            <button onclick="showCandidateDetails('${app.candidate_id}', '${app.id}')" class="cta-button secondary" style="justify-content:center; background:#f1f5f9; font-size:0.85rem;">Dossier Talent</button>
                             
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                                ${app.status === 'pending' ? `<button onclick="updateStatus('${app.id}', 'interview', '${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="justify-content:center; background:#0ea5e9; font-size:0.85rem; padding:10px;">📅 Proposer Entretien</button>` : `<button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button secondary" style="justify-content:center; background:#f0f9ff; color:#0369a1; border-color:#bae6fd; font-size:0.85rem; padding:10px;">💬 Message</button>`}
+                                ${app.status === 'pending' ? `<button onclick="updateStatus('${app.id}', 'interview', '${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button primary" style="justify-content:center; background:#0ea5e9; font-size:0.85rem; padding:10px;">Proposer Entretien</button>` : `<button onclick="proposeMeeting('${app.candidate_id}', '${app.job_id}', '${candle.full_name.replace(/'/g, "\\'")}')" class="cta-button secondary" style="justify-content:center; background:#f0f9ff; color:#0369a1; border-color:#bae6fd; font-size:0.85rem; padding:10px;">Message</button>`}
                                 
-                                ${app.status !== 'accepted' ? `<button onclick="updateStatus('${app.id}', 'accepted')" class="cta-button primary" style="justify-content:center; background:#10b981; font-size:0.85rem; padding:10px;">✅ Valider</button>` : `<div style="text-align:center; font-size:0.85rem; font-weight:800; color:#10b981; background:#f0fdf4; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #bbf7d0;">Candidat Validé</div>`}
+                                ${app.status !== 'accepted' ? `<button onclick="updateStatus('${app.id}', 'accepted')" class="cta-button primary" style="justify-content:center; background:#10b981; font-size:0.85rem; padding:10px;">Valider</button>` : `<div style="text-align:center; font-size:0.85rem; font-weight:800; color:#10b981; background:#f0fdf4; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #bbf7d0;">Candidat Validé</div>`}
                             </div>
 
-                            <button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem; margin-top:4px;">✖ Refuser / Supprimer</button>
+                            <button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.85rem; margin-top:4px;">Refuser / Supprimer</button>
                         </div>
                     </div>`;
                 } else {
                     const compName = app.job?.company?.full_name || 'Entreprise';
                     let statusHtml = '';
                     if (app.status === 'pending') {
-                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#64748b;">⏳ En attente</span>`;
+                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#64748b;">En attente</span>`;
                     } else if (app.status === 'interview') {
-                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#0ea5e9;">📅 Entretien proposé</span>`;
+                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#0ea5e9;">Entretien proposé</span>`;
                     } else if (app.status === 'accepted') {
-                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#10b981;">✅ Candidature Validée !</span>`;
+                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#10b981;">Candidature Validée</span>`;
                     } else if (app.status === 'rejected') {
-                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#ef4444;">❌ Refusée</span>`;
+                        statusHtml = `<span style="font-size:0.8rem; font-weight:700; color:#ef4444;">Refusée</span>`;
                     }
 
                     return `<div class="dash-card">
@@ -316,7 +316,7 @@
                                 ${statusHtml}
                             </div>
                             ${(app.status === 'pending' || app.status === 'interview') ? `<button onclick="cancelApplication('${app.id}')" class="cta-button secondary" style="justify-content:center; background:#fee2e2; color:#ef4444; border-color:#fecaca; font-size:0.8rem; padding:8px;">
-                                ✖ Annuler ma candidature
+                                Annuler ma candidature
                             </button>` : ''}
                         </div>
                     </div>`;
@@ -403,13 +403,13 @@
                                     <div style="font-size:0.7rem; color:#94a3b8; font-weight:900; text-transform:uppercase;">Tarif Indicatif</div>
                                     <div style="font-size:1.5rem; font-weight:900;">${profile.tjm || '---'}€ <span style="font-size:0.9rem; color:#94a3b8;">/ jour</span></div>
                                 </div>
-                                <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:56px; background:#0f172a; border-radius:18px; font-weight:900;">🚀 Contacter</a>
+                                <a href="/messages?to=${profile.id}" class="cta-button primary" style="width:100%; justify-content:center; height:56px; background:#0f172a; border-radius:18px; font-weight:900;">Contacter</a>
                             </div>
                             <div style="flex:1; padding:60px; overflow-y:auto; max-height:85vh;">
                                 <h3 style="font-size:1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin-bottom:24px; font-weight:900;">Présentation</h3>
                                 <div style="font-size:1.2rem; color:#1e293b; line-height:1.7; margin-bottom:48px;">${profile.bio || 'Aucune présentation.'}</div>
                                 <h3 style="font-size:1rem; text-transform:uppercase; color:#0f172a; letter-spacing:0.2em; margin-bottom:24px; font-weight:900;">Documents Joints</h3>
-                                ${appFiles.length > 0 ? `<div style="display:grid; grid-template-columns:1fr; gap:16px;">${appFiles.map(f => `<a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:24px; border-radius:24px; border:1px solid #f1f5f9; display:flex; align-items:center; gap:20px; transition:0.2s;"><div style="font-size:2rem;">📄</div><div style="flex:1;"><div style="font-size:1.1rem; font-weight:900; color:#0f172a;">${f.name}</div><div style="font-size:0.8rem; color:#0ea5e9; font-weight:700;">Ouvrir le document &rarr;</div></div></a>`).join('')}</div>` : '<p style="color:#94a3b8;">Aucun document joint.</p>'}
+                                ${appFiles.length > 0 ? `<div style="display:grid; grid-template-columns:1fr; gap:16px;">${appFiles.map(f => `<a href="${f.url}" target="_blank" style="text-decoration:none; background:#f8fafc; padding:24px; border-radius:24px; border:1px solid #f1f5f9; display:flex; align-items:center; gap:20px; transition:0.2s;"><div style="font-size:2rem; opacity:0.3;">DOC</div><div style="flex:1;"><div style="font-size:1.1rem; font-weight:900; color:#0f172a;">${f.name}</div><div style="font-size:0.8rem; color:#0ea5e9; font-weight:700;">Ouvrir le document &rarr;</div></div></a>`).join('')}</div>` : '<p style="color:#94a3b8;">Aucun document joint.</p>'}
                             </div>
                         </div>
                     </div>
