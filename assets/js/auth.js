@@ -152,7 +152,7 @@ async function loadGlobalNavbar() {
         // Mettre à jour le CTA SoloPrice si présent sur la page
         const solopriceCta = document.getElementById('soloprice-cta');
         if (solopriceCta) {
-            solopriceCta.href = '/mon-espace';
+            solopriceCta.href = '/mon-projet';
             solopriceCta.textContent = 'Accéder à mon espace';
         }
 
