@@ -684,6 +684,54 @@
             color: #0f172a;
             transform: rotate(90deg);
         }
+
+        /* Danger Zone */
+        .danger-zone {
+            margin-top: 60px;
+            padding: 32px;
+            background: #fffafa; /* Très léger rouge */
+            border-radius: 24px;
+            border: 1px solid rgba(239, 68, 68, 0.1);
+        }
+
+        .danger-title {
+            color: #991b1b;
+            font-size: 1.125rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .danger-desc {
+            color: #b91c1c;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
     </style>
 </head>
 
@@ -994,6 +1042,21 @@
                 </div>
 
             </form>
+
+            <div class="danger-zone">
+                <div class="danger-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Zone de Danger
+                </div>
+                <p class="danger-desc">La suppression de votre compte est irréversible. Cela effacera toutes vos données métier (projets, profil) et réinitialisera vos accès.</p>
+                <button type="button" class="btn-danger" onclick="handleDeleteAccount()">
+                    Supprimer mon compte définitivement
+                </button>
+            </div>
 
             <p id="save-feedback" style="display:none;margin-top:12px;font-size:0.85rem;color:#10b981;font-weight:600;">
             </p>
@@ -1635,6 +1698,38 @@
                 if (btn) {
                     btn.disabled = false;
                     btn.textContent = isExpert ? 'Enregistrer & Publier' : 'Enregistrer mon profil';
+                }
+            }
+        }
+
+        async function handleDeleteAccount() {
+            if (confirm("SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\nCela effacera vos projets, votre profil et vos accès. Cette action est irréversible.")) {
+                try {
+                    const session = await getSession();
+                    if (!session) return;
+                    const userId = session.user.id;
+
+                    // 1. Vider les données métier (Projets & Profil)
+                    await _supabase.from('projects').delete().eq('owner_id', userId);
+                    await _supabase.from('profiles').delete().eq('id', userId);
+
+                    // 2. Tentative de suppression Auth (True Deletion) via RPC
+                    const { error: rpcError } = await _supabase.rpc('delete_user_account');
+
+                    if (rpcError) {
+                        console.warn("RPC Deletion failed:", rpcError);
+                        // 3. Fallback : Reset des metadata pour forcer un nouveau onboarding si l'user revient
+                        await _supabase.auth.updateUser({ data: { role: null, onboarding_done: false } });
+                        alert("Données effacées, mais votre connexion persiste.\n\nNote : Pour une suppression TOTALE de l'accès, contactez le support ou revérifiez la config RPC.");
+                    } else {
+                        alert("Votre compte et toutes vos données ont été définitivement supprimés.");
+                    }
+
+                    await signOut();
+                    window.location.href = '/login.html';
+                } catch (e) {
+                    console.error("Delete Error:", e);
+                    alert("Une erreur est survenue lors de la suppression.");
                 }
             }
         }
