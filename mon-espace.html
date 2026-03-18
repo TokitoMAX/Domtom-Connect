@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/style.css?v=3.0">
     <!-- PayPal SDK -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AUpGYEYVUGM5Q1MAKvk6EjFzXkhPJEOOBulikxJYvDsD-cmGIQUNEuKybjzB&vault=true&intent=subscription&currency=EUR"
+        src="https://www.paypal.com/sdk/js?client-id=AUpGYEYVUGM5Q1MAKvkEd61kYWzQS5w42BkCjLx9_R7UAfSYpFcOOsCg_f8oClj-9aLTxXxJxBe74U7O&vault=true&intent=subscription&currency=EUR"
         data-sdk-integration-source="button-factory"></script>
 
     <style>
@@ -1547,7 +1547,7 @@
                     paypal.Buttons({
                         style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
                         createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-3DX69524C1114072WNG2AOZQ' });
+                            return actions.subscription.create({ 'plan_id': 'P-4G5511345D075582NNG5ND7I' });
                         },
                         onApprove: function (data, actions) {
                             handleSubscriptionSuccess(data.subscriptionID, 'authority');
@@ -1670,7 +1670,7 @@
                     paypal.Buttons({
                         style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
                         createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-6JG84131PK915684CNG3VDSQ' });
+                            return actions.subscription.create({ 'plan_id': 'P-6MR22406641601606NG5NFKA' });
                         },
                         onApprove: function (data, actions) {
                             handleSubscriptionSuccess(data.subscriptionID, 'business');

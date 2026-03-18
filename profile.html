@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/style.css?v=3.0">
     <!-- PayPal SDK pour Abonnements -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AUpGYEYVUGM5Q1MAKvk6EjFzXkhPJEOOBulikxJYvDsD-cmGIQUNEuKybjzB&vault=true&intent=subscription&currency=EUR"
+        src="https://www.paypal.com/sdk/js?client-id=AUpGYEYVUGM5Q1MAKvkEd61kYWzQS5w42BkCjLx9_R7UAfSYpFcOOsCg_f8oClj-9aLTxXxJxBe74U7O&vault=true&intent=subscription&currency=EUR"
         data-sdk-integration-source="button-factory"></script>
     <style>
         body {
@@ -1549,7 +1549,7 @@
                     <li>${checkIcon} <span>2-3 Contenus réseaux / mois</span></li>
                     <li>${checkIcon} <span>Sourcing Expert (Accès direct)</span></li>
                 `;
-                renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business');
+                renderPayPalButton('P-6MR22406641601606NG5NFKA', 'business');
             } else {
                 title.textContent = 'Pack Authority Expert';
                 price.innerHTML = `<span class="price-amount">9,99</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
@@ -1559,7 +1559,7 @@
                     <li>${checkIcon} <span><strong>Visibilité</strong> : 3-4 posts / mois</span></li>
                     <li>${checkIcon} <span>Participation aux podcasts DC</span></li>
                 `;
-                renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority');
+                renderPayPalButton('P-4G5511345D075582NNG5ND7I', 'authority');
             }
 
             modal.classList.add('active');
@@ -1596,8 +1596,6 @@
                         container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide pour ce Client ID.'}</p>`;
                     }
                 }).render('#paypal-button-container');
-            } else {
-                container.innerHTML = '<p style="color:#ef4444; font-size:0.85rem; text-align:center;">SDK PayPal non chargé.</p>';
             }
         }
 
