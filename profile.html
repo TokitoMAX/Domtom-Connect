@@ -1259,17 +1259,38 @@
         }
 
         function toggleEditMode() {
-            isEditing = true;
-            FIELDS.push('user_role');
-            FIELDS.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.disabled = false;
-            });
-            document.getElementById('form-actions').style.display = 'flex';
-            document.getElementById('edit-toggle-btn').style.display = 'none';
-            document.getElementById('save-feedback').style.display = 'none';
-            // Enable tag removal
-            renderTags();
+            console.log("Toggle Edit Mode triggered");
+            try {
+                isEditing = true;
+                
+                // Add user_role only if not already present
+                if (!FIELDS.includes('user_role')) FIELDS.push('user_role');
+                
+                FIELDS.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.disabled = false;
+                });
+                
+                const formActions = document.getElementById('form-actions');
+                if (formActions) formActions.style.display = 'flex';
+                
+                // Hide ALL possible edit buttons
+                const editBtn = document.getElementById('edit-toggle-btn');
+                if (editBtn) editBtn.style.display = 'none';
+                const editBtnBasic = document.getElementById('edit-toggle-btn-basic');
+                if (editBtnBasic) editBtnBasic.style.display = 'none';
+                
+                const feedback = document.getElementById('save-feedback');
+                if (feedback) feedback.style.display = 'none';
+                
+                console.log("Enabling tags rendering...");
+                if (typeof renderTags === 'function') renderTags();
+                
+                console.log("Edit mode successfully enabled");
+            } catch (err) {
+                console.error("Error in toggleEditMode:", err);
+                alert("Désolé, une erreur est survenue lors de l'activation de l'édition. Vérifiez la console.");
+            }
         }
 
         function cancelEdit() {
