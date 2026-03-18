@@ -1399,118 +1399,109 @@
         async function saveProfile(event) {
             event.preventDefault();
             const btn = document.getElementById('save-btn');
-            btn.textContent = 'Enregistrement...';
-            btn.disabled = true;
-
             const selectedRole = document.getElementById('user_role').value;
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
-
-            // Mise à jour de la session auth (user_metadata) - Immédiat (Modèle Teaser)
-            const { error: authError } = await _supabase.auth.updateUser({
-                data: { role: selectedRole }
-            });
-
-            if (authError) {
-                showError('Erreur de session : ' + authError.message);
-                resetBtn(btn, isExpert);
-                return;
+            
+            if (btn) {
+                btn.textContent = 'Enregistrement...';
+                btn.disabled = true;
             }
 
-            // Gestion de l'upload réel si un fichier a été sélectionné
-            let finalAvatarUrl = document.getElementById('avatar_url').value;
-            const fileInput = document.getElementById('logo-file');
+            try {
+                const { error: authError } = await _supabase.auth.updateUser({
+                    data: { role: selectedRole }
+                });
+                if (authError) throw authError;
 
-            if (fileInput.files.length > 0) {
-                try {
-                    btn.textContent = 'Upload du logo...';
+                let finalAvatarUrl = document.getElementById('avatar_url').value;
+                const fileInput = document.getElementById('logo-file');
+
+                if (fileInput && fileInput.files.length > 0) {
+                    if (btn) btn.textContent = 'Upload du logo...';
                     finalAvatarUrl = await uploadFile(fileInput.files[0]);
-                } catch (e) {
-                    alert(e.message);
-                    resetBtn(btn, isExpert);
-                    return;
+                }
+
+                const profileData = {
+                    id: currentUserId,
+                    full_name: document.getElementById('full_name').value.trim(),
+                    title: document.getElementById('title').value.trim() || null,
+                    bio: document.getElementById('bio').value.trim() || null,
+                    sector: document.getElementById('sector').value || null,
+                    territory: document.getElementById('territory').value || null,
+                    skills: document.getElementById('skills').value.trim() || null,
+                    tjm: parseInt(document.getElementById('tjm').value) || null,
+                    linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
+                    video_url: document.getElementById('video_url').value.trim() || null,
+                    written_presentation: document.getElementById('written_presentation').value.trim() || null,
+                    siret: document.getElementById('siret').value.trim() || null,
+                    website_url: document.getElementById('website_url').value.trim() || null,
+                    avatar_url: finalAvatarUrl,
+                    available: document.getElementById('available').checked,
+                    role: selectedRole,
+                    listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
+                    updated_at: new Date().toISOString()
+                };
+
+                const { error: dbError } = await _supabase
+                    .from('profiles')
+                    .upsert(profileData, { onConflict: 'id' });
+
+                if (dbError) throw dbError;
+
+                const feedback = document.getElementById('save-feedback');
+                if (feedback) {
+                    feedback.textContent = 'Profil mis à jour !';
+                    feedback.style.color = '#10b981';
+                    feedback.style.display = 'block';
+                }
+
+                setTimeout(() => { window.location.reload(); }, 1500);
+
+            } catch (err) {
+                console.error("Save Error:", err);
+                showError('Erreur : ' + err.message);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = isExpert ? 'Enregistrer & Publier' : 'Enregistrer mon profil';
                 }
             }
-
-            // Options de sauvegarde base de données profil
-            const profileData = {
-                id: currentUserId,
-                full_name: document.getElementById('full_name').value.trim(),
-                title: document.getElementById('title').value.trim() || null,
-                bio: document.getElementById('bio').value.trim() || null,
-                sector: document.getElementById('sector').value || null,
-                territory: document.getElementById('territory').value || null,
-                skills: document.getElementById('skills').value.trim() || null,
-                tjm: parseInt(document.getElementById('tjm').value) || null,
-                linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
-                video_url: document.getElementById('video_url').value.trim() || null,
-                written_presentation: document.getElementById('written_presentation').value.trim() || null,
-                siret: document.getElementById('siret').value.trim() || null,
-                website_url: document.getElementById('website_url').value.trim() || null,
-                avatar_url: finalAvatarUrl,
-                available: document.getElementById('available').checked,
-                role: selectedRole,
-                // On ne publie que si déjà listé OU si déjà payant
-                listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
-                updated_at: new Date().toISOString()
-            };
-
-            const { error: dbError } = await _supabase
-                .from('profiles')
-                .upsert(profileData, { onConflict: 'id' });
-
-            if (dbError) {
-                showError('Erreur base de données : ' + dbError.message);
-                resetBtn(btn, isExpert);
-                return;
-            }
-
-            // Succès
-            const feedback = document.getElementById('save-feedback');
-            feedback.textContent = 'Profil mis à jour ! Redirection vers votre nouvel espace...';
-            feedback.style.color = '#10b981';
-            feedback.style.display = 'block';
-
-            // Rafraîchir la page pour redessiner correctement le badge et menu selon le nouveau rôle
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
         }
 
         function showError(msg) {
             const fb = document.getElementById('save-feedback');
-            fb.textContent = msg;
-            fb.style.color = '#ef4444';
-            fb.style.display = 'block';
+            if (fb) {
+                fb.textContent = msg;
+                fb.style.color = '#ef4444';
+                fb.style.display = 'block';
+            }
         }
     </script>
 
-        <!-- Mobile Bottom Nav Premium -->
-        <nav class="mobile-nav">
-            <a href="/mon-projet" class="mobile-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
-                <span>Accueil</span>
-            </a>
-            <a href="/candidatures.html" class="mobile-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span>Candidatures</span>
-            </a>
-            <a href="/messages.html" class="mobile-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                </svg>
-                <span>Messages</span>
-            </a>
-            <a href="/profile.html" class="mobile-nav-link active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                <span>Profil</span>
-            </a>
-        </nav>
+    <nav class="mobile-nav">
+        <a href="/mon-projet" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span>Accueil</span>
+        </a>
+        <a href="/candidatures.html" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Candidatures</span>
+        </a>
+        <a href="/messages.html" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Messages</span>
+        </a>
+        <a href="/profile.html" class="mobile-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span>Profil</span>
+        </a>
+    </nav>
 </body>
-
 </html>
