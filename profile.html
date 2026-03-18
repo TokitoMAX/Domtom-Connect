@@ -1590,8 +1590,14 @@
                     },
                     onApprove: function (data, actions) {
                         handleSubscriptionSuccess(data.subscriptionID, tier);
+                    },
+                    onError: function (err) {
+                        console.error('PayPal Error:', err);
+                        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide pour ce Client ID.'}</p>`;
                     }
                 }).render('#paypal-button-container');
+            } else {
+                container.innerHTML = '<p style="color:#ef4444; font-size:0.85rem; text-align:center;">SDK PayPal non chargé.</p>';
             }
         }
 

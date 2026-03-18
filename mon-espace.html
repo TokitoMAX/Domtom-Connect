@@ -1551,6 +1551,10 @@
                         },
                         onApprove: function (data, actions) {
                             handleSubscriptionSuccess(data.subscriptionID, 'authority');
+                        },
+                        onError: function (err) {
+                            console.error('PayPal Error:', err);
+                            document.getElementById('paypal-authority-expert').innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide pour ce Client ID.'}</p>`;
                         }
                     }).render('#paypal-authority-expert');
 
