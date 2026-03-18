@@ -1616,7 +1616,11 @@
             const { error: dbError } = await _supabase
                 .from('profiles')
                 .update({
-                    role: selectedRole
+                    subscription_tier: tier,
+                    subscription_id: subscriptionId,
+                    last_payment_date: new Date().toISOString(),
+                    role: selectedRole,
+                    listed: true
                 })
                 .eq('id', currentUserId);
 

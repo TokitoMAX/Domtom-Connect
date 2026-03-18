@@ -1093,7 +1093,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const hash = window.location.hash.replace('#', '') || 'overview';
             setTimeout(() => showView(hash, false), 500);
-            checkInfrastructure();
+            // checkInfrastructure(); // Not defined
         });
 
         // Support for browser back/forward buttons
@@ -1214,12 +1214,11 @@
         async function loadMatchmaking(userId) {
             const container = document.getElementById('matches-container');
             const section = document.getElementById('matchmaking-section');
-
-            // Vérifier le tier
+            if (!container) return;
             const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
             if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
                 // Upsell is handled in "Mon Offre", we just hide the raw matches here or show a locked state
-                section.style.display = 'block';
+                if (section) section.style.display = 'block';
                 container.innerHTML = `
                     <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
                         <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
@@ -2805,7 +2804,11 @@
                 const { error: dbError } = await _supabase
                     .from('profiles')
                     .update({
-                        role: currentRole
+                        subscription_tier: tier,
+                        subscription_id: subscriptionId,
+                        last_payment_date: new Date().toISOString(),
+                        role: currentRole,
+                        listed: true
                     })
                     .eq('id', user.id);
 
