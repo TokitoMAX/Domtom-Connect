@@ -2766,7 +2766,6 @@
                     if (rpcError) {
                         console.warn("RPC Deletion failed (SQL likely not run):", rpcError);
                         // 3. Fallback : Reset des metadata pour forcer un nouveau onboarding si l'user revient
-                        // On vide le rôle et les infos pour que l'Auth row soit "vierge"
                         await _supabase.auth.updateUser({ data: { role: null, full_name: null, onboarding_done: false } });
                         
                         alert("Données effacées, mais votre connexion persiste.\n\nIMPORTANT : Pour une suppression TOTALE de votre compte (reconnexion impossible), vous devez installer le script SQL dans votre console Supabase comme indiqué dans le guide.");
@@ -2784,24 +2783,50 @@
 
         async function handleSubscriptionSuccess(subscriptionId, tier) {
             console.log('Success!', subscriptionId, tier);
-            const { data: { user } } = await _supabase.auth.getUser();
-            if (!user) return;
+            try {
+                const { data: { user } } = await _supabase.auth.getUser();
+                if (!user) {
+                    alert('Session expirée. Veuillez vous reconnecter.');
+                    return;
+                }
 
-            const { error } = await _supabase
-                .from('profiles')
-                .update({
-                    subscription_tier: tier,
-                    subscription_id: subscriptionId,
-                    last_payment_date: new Date().toISOString()
-                })
-                .eq('id', user.id);
+                // 1. Activation du rôle (Auth Metadata)
+                const currentRole = user.user_metadata?.role || (await _supabase.from('profiles').select('role').eq('id', user.id).single()).data?.role || 'expert';
+                
+                const { error: authError } = await _supabase.auth.updateUser({
+                    data: { role: currentRole, onboarding_done: true }
+                });
 
-            if (error) {
-                console.error('Update error:', error);
-                alert('Erreur lors de la mise à jour du profil. Contactez le support.');
-            } else {
-                alert('Félicitations ! Votre Pack ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' est activé.');
-                window.location.reload();
+                if (authError) {
+                    console.error('Auth update error:', authError);
+                }
+
+                // 2. Activation DB (Tier, Date, Listed, Role)
+                const { error: dbError } = await _supabase
+                    .from('profiles')
+                    .update({
+                        subscription_tier: tier,
+                        subscription_id: subscriptionId,
+                        last_payment_date: new Date().toISOString(),
+                        listed: true,
+                        role: currentRole
+                    })
+                    .eq('id', user.id);
+
+                if (dbError) {
+                    console.error('Update error:', dbError);
+                    alert('Erreur lors de la mise à jour du profil : ' + dbError.message);
+                } else {
+                    // 3. Nettoyage de l'intention
+                    localStorage.removeItem('onboarding_plan');
+                    localStorage.removeItem('onboarding_role');
+                    
+                    alert('Félicitations ! Votre Pack ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' est activé. Votre profil est désormais public.');
+                    window.location.reload();
+                }
+            } catch (err) {
+                console.error('Fatal Success Error:', err);
+                alert('Une erreur critique est survenue : ' + err.message);
             }
         }
 
