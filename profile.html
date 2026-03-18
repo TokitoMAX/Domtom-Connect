@@ -869,6 +869,13 @@
                             chances d'être contacté de 80%.</p>
                     </div>
 
+                    <div class="form-group" id="written-presentation-group">
+                        <label>Ou présentation écrite (Pitch)</label>
+                        <textarea id="written_presentation" name="written_presentation" placeholder="Décrivez votre parcours, vos motivations et ce que vous pouvez apporter..."
+                            style="min-height: 120px;" disabled></textarea>
+                        <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:4px;">Si vous ne souhaitez pas faire de vidéo, exprimez-vous ici par écrit.</p>
+                    </div>
+
                     <div class="form-group">
                         <label>Lien LinkedIn (optionnel)</label>
                         <input type="url" id="linkedin_url" name="linkedin_url"
@@ -932,7 +939,7 @@
         let hasExistingListing = false;
         let currentSubscriptionTier = 'free';
 
-        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'available', 'siret', 'website_url', 'btn-upload-trigger'];
+        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'written_presentation', 'available', 'siret', 'website_url', 'btn-upload-trigger'];
         let skillTags = [];
 
         function renderTags() {
@@ -1122,6 +1129,7 @@
             if (profile.tjm) document.getElementById('tjm').value = profile.tjm;
             if (profile.linkedin_url) document.getElementById('linkedin_url').value = profile.linkedin_url;
             if (profile.video_url) document.getElementById('video_url').value = profile.video_url;
+            if (profile.written_presentation) document.getElementById('written_presentation').value = profile.written_presentation;
             if (profile.siret) document.getElementById('siret').value = profile.siret;
             if (profile.website_url) document.getElementById('website_url').value = profile.website_url || '';
             if (profile.avatar_url) {
@@ -1215,6 +1223,7 @@
                 companyFields.style.display = 'none';
                 tjmGroup.style.display = 'none';
                 document.getElementById('video-presentation-group').style.display = 'none';
+                document.getElementById('written-presentation-group').style.display = 'none';
             } else {
                 // Expert
                 labelName.textContent = "Nom complet";
@@ -1390,6 +1399,7 @@
                 tjm: parseInt(document.getElementById('tjm').value) || null,
                 linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
                 video_url: document.getElementById('video_url').value.trim() || null,
+                written_presentation: document.getElementById('written_presentation').value.trim() || null,
                 siret: document.getElementById('siret').value.trim() || null,
                 website_url: document.getElementById('website_url').value.trim() || null,
                 avatar_url: finalAvatarUrl,
