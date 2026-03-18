@@ -175,6 +175,16 @@
             if (typeof loadGlobalNavbar === 'function') {
                 await loadGlobalNavbar();
             }
+
+            // Transmettre les paramètres d'URL (role, plan) au bouton d'inscription
+            const params = new URLSearchParams(window.location.search);
+            if (params.toString()) {
+                const signupBtn = document.querySelector('main.auth-card .universal-auth a.cta-button');
+                if (signupBtn) {
+                    const baseUrl = signupBtn.getAttribute('href');
+                    signupBtn.setAttribute('href', `${baseUrl}?${params.toString()}`);
+                }
+            }
         });
     </script>
 </body>
