@@ -1559,6 +1559,10 @@
             if (dbError) {
                 alert('Erreur SQL : ' + dbError.message);
             } else {
+                // 3. Nettoyage de l'intention d'achat
+                localStorage.removeItem('onboarding_plan');
+                localStorage.removeItem('onboarding_role');
+                
                 alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
                 window.location.reload();
             }
