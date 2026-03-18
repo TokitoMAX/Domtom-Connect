@@ -348,7 +348,7 @@
                     <p class="company-desc">${company.bio || 'Cet acteur économique n\'a pas encore publié de description détaillée.'}</p>
                     <div class="company-tags">
                         ${badge}
-                        <span class="tag">${company.project_type || 'Accompagnement'}</span>
+                        ${company.project_type ? `<span class="tag">${company.project_type}</span>` : ''}
                     </div>
                     <div class="company-actions">
                         <a href="../messages?to=${company.id}" class="btn-contact">Contacter</a>
