@@ -1424,6 +1424,8 @@
             const tier = profile ? (profile.subscription_tier || 'free') : 'free';
             const isListed = profile ? !!profile.listed : false;
 
+            console.log("Dashboard Debug - Role:", role, "Tier:", tier, "isListed:", isListed);
+
             document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
             if (!profile || !role) {
