@@ -236,6 +236,13 @@
                     console.log("Incohérence détectée: Rôle présent mais Profil absent. Nettoyage...");
                     // Optionnel: On pourrait tenter de nettoyer les metadata ici si nécessaire
                 }
+
+                // --- INTENTION ONBOARDING ---
+                const roleIntent = localStorage.getItem('onboarding_role');
+                if (roleIntent && !role) {
+                    console.log("Onboarding: Rôle détecté depuis l'intention d'achat (" + roleIntent + ")");
+                    goToStep2(roleIntent === 'prestataire' ? 'expert' : roleIntent);
+                }
             } catch (err) {
                 console.error('Erreur session onboarding:', err);
             }

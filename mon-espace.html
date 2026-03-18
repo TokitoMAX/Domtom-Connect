@@ -1425,6 +1425,14 @@
                 return;
             }
 
+            // --- RAPPEL D'ACHAT (Onboarding Fluide) ---
+            const pendingPlan = localStorage.getItem('onboarding_plan');
+            if (pendingPlan && tier === 'free') {
+                console.log("Plan en attente détecté. Redirection vers le profil pour finalisation.");
+                window.location.href = 'profile.html';
+                return;
+            }
+
             const roleBadge = document.getElementById('user-role-badge');
             const cardsContainer = document.getElementById('dashboard-cards');
             const dashboardContent = document.getElementById('dashboard-content');

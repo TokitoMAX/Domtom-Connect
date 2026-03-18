@@ -1105,6 +1105,17 @@
                 currentSubscriptionTier = profile.subscription_tier || 'free';
                 updateListingStatus(profile.listed, displayRole);
                 checkMonetizationBanner();
+
+                // --- RAPPEL D'ACHAT (Onboarding Fluide) ---
+                const planIntent = localStorage.getItem('onboarding_plan');
+                if (planIntent && currentSubscriptionTier === 'free') {
+                    console.log("Onboarding: Rappel d'achat pour le pack", planIntent);
+                    setTimeout(() => {
+                        openSubModal(displayRole);
+                        // On ne nettoie le plan qu'après l'ouverture pour éviter de le perdre en cas de refresh immédiat
+                        localStorage.removeItem('onboarding_plan');
+                    }, 1500);
+                }
             } else {
                 // FALLBACK : On regarde si l'utilisateur a une "intention" (URL ou localStorage via Google Login)
                 const urlParams = new URLSearchParams(window.location.search);
@@ -1121,6 +1132,16 @@
                 
                 updateEditBar(roleSelect.value);
                 if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
+
+                // --- RAPPEL D'ACHAT (Cas nouvel utilisateur sans profil DB) ---
+                const planIntent = localStorage.getItem('onboarding_plan');
+                if (planIntent) {
+                    console.log("Onboarding: Nouveau compte détecté avec intention d'achat", planIntent);
+                    setTimeout(() => {
+                        openSubModal(roleSelect.value);
+                        localStorage.removeItem('onboarding_plan');
+                    }, 1500);
+                }
             }
 
             // Toggle dispo
