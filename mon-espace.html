@@ -2805,9 +2805,6 @@
                 const { error: dbError } = await _supabase
                     .from('profiles')
                     .update({
-                        subscription_tier: tier,
-                        subscription_id: subscriptionId,
-                        listed: true,
                         role: currentRole
                     })
                     .eq('id', user.id);

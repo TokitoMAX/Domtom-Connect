@@ -1616,10 +1616,7 @@
             const { error: dbError } = await _supabase
                 .from('profiles')
                 .update({
-                    subscription_tier: tier,
-                    subscription_id: subscriptionId,
-                    role: selectedRole,
-                    listed: true
+                    role: selectedRole
                 })
                 .eq('id', currentUserId);
 
@@ -1677,7 +1674,6 @@
                     avatar_url: finalAvatarUrl,
                     available: document.getElementById('available').checked,
                     role: selectedRole,
-                    listed: (hasExistingListing || (currentSubscriptionTier !== 'free' && selectedRole !== 'basique')),
                     updated_at: new Date().toISOString()
                 };
 
