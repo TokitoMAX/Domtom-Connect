@@ -713,7 +713,7 @@
                 </div>
 
             <!-- Statut annonce (visible uniquement pour les experts) -->
-            <div class="status-bar" id="listing-status-bar" style="display:none;">
+            <div class="status-bar" id="listing-status-bar">
                 <div style="display:flex;align-items:center;">
                     <span class="status-dot" id="listing-dot"></span>
                     <span id="listing-status-text"
@@ -726,7 +726,7 @@
                 </button>
             </div>
             <!-- Bouton edition pour les non-experts -->
-            <div id="non-expert-edit-bar" style="display:none;margin-bottom:24px;">
+            <div id="non-expert-edit-bar" style="margin-bottom:24px;">
                 <button id="edit-toggle-btn-basic" class="cta-button secondary"
                     style="font-size:0.8rem;padding:8px 16px;" onclick="toggleEditMode()">
                     Modifier mon profil
@@ -1053,16 +1053,21 @@
             // Gestion de l'affichage du bouton (dynamique lors du changement de rôle dans le select)
             function updateEditBar(checkRole) {
                 const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
+                const listingBar = document.getElementById('listing-status-bar');
+                const nonExpertBar = document.getElementById('non-expert-edit-bar');
+                const availabilityGroup = document.getElementById('availability-group');
+                const saveBtn = document.getElementById('save-btn');
+
                 if (isExp) {
-                    document.getElementById('listing-status-bar').style.display = 'flex';
-                    document.getElementById('non-expert-edit-bar').style.display = 'none';
-                    document.getElementById('save-btn').textContent = 'Enregistrer & Publier dans l\'annuaire';
-                    document.getElementById('availability-group').style.display = 'block';
+                    if (listingBar) listingBar.style.display = 'flex';
+                    if (nonExpertBar) nonExpertBar.style.display = 'none';
+                    if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier dans l\'annuaire';
+                    if (availabilityGroup) availabilityGroup.style.display = 'block';
                 } else {
-                    document.getElementById('listing-status-bar').style.display = 'none';
-                    document.getElementById('non-expert-edit-bar').style.display = 'block';
-                    document.getElementById('save-btn').textContent = 'Enregistrer mon profil';
-                    document.getElementById('availability-group').style.display = 'none';
+                    if (listingBar) listingBar.style.display = 'none';
+                    if (nonExpertBar) nonExpertBar.style.display = 'block';
+                    if (saveBtn) saveBtn.textContent = 'Enregistrer mon profil';
+                    if (availabilityGroup) availabilityGroup.style.display = 'none';
                 }
             }
 
