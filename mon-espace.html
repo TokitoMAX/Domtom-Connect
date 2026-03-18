@@ -1422,6 +1422,7 @@
             // Fallback : profile.role (table Supabase)
             const role = session.user.user_metadata.role || (profile ? profile.role : null);
             const tier = profile ? (profile.subscription_tier || 'free') : 'free';
+            const isListed = profile ? !!profile.listed : false;
 
             document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
@@ -1532,7 +1533,9 @@
                                 <div id="paypal-authority-expert" style="margin-top:4px;"></div>
                                 <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
                                 
-                                <button onclick="unlistListing()" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:#ef4444; color:#ef4444; font-size:0.8rem; height:36px; justify-content:center;">Supprimer mon annonce expert</button>
+                                <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#10b981'}; color:${isListed ? '#ef4444' : '#10b981'}; font-size:0.8rem; height:36px; justify-content:center;">
+                                    ${isListed ? 'Supprimer mon annonce expert' : 'Republier mon annonce expert'}
+                                </button>
                             </div>
 
                         </div>
@@ -1642,7 +1645,9 @@
                                 <div id="paypal-business-enterprise" style="margin-top:4px;"></div>
                                 <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:none;">Votre plan actuel</div>
 
-                                <button onclick="unlistListing()" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:#ef4444; color:#ef4444; font-size:0.8rem; height:36px; justify-content:center;">Supprimer mon annonce entreprise</button>
+                                <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#0284c7'}; color:${isListed ? '#ef4444' : '#0284c7'}; font-size:0.8rem; height:36px; justify-content:center;">
+                                    ${isListed ? 'Supprimer mon annonce entreprise' : 'Republier mon annonce entreprise'}
+                                </button>
                             </div>
 
                             <!-- ENTERPRISE -->
@@ -2826,6 +2831,29 @@
             } catch (err) {
                 console.error('Fatal Success Error:', err);
                 alert('Une erreur critique est survenue : ' + err.message);
+            }
+        }
+
+        async function toggleListing(currentStatus) {
+            const newStatus = !currentStatus;
+            const action = newStatus ? "republier" : "retirer de la marketplace";
+            if (!confirm(`Voulez-vous vraiment ${action} votre profil ?`)) return;
+
+            try {
+                const { data: { user } } = await _supabase.auth.getUser();
+                if (!user) return;
+
+                const { error } = await _supabase
+                    .from('profiles')
+                    .update({ listed: newStatus })
+                    .eq('id', user.id);
+
+                if (error) throw error;
+
+                alert(`✅ Profil ${newStatus ? 'republié' : 'retiré de la marketplace'}.`);
+                window.location.reload();
+            } catch (err) {
+                alert("Erreur : " + err.message);
             }
         }
 
