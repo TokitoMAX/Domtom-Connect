@@ -7,6 +7,9 @@ const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window._supabase = _supabase; // Expose for console debugging
 
 async function signInWithGoogle() {
+    // Sauvegarder l'intention avant redirection si présente dans l'URL
+    persistOnboardingIntent();
+    
     const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -251,3 +254,25 @@ document.addEventListener('DOMContentLoaded', initNavToggle);
     s.async = true;
     document.head.appendChild(s);
 })();
+// ── Système de persistance de l'intention (Onboarding Fluide) ──
+function persistOnboardingIntent() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const role = params.get('role');
+        const plan = params.get('plan');
+
+        if (role) {
+            localStorage.setItem('onboarding_role', role);
+            console.log("Onboarding: Rôle sauvegardé (" + role + ")");
+        }
+        if (plan) {
+            localStorage.setItem('onboarding_plan', plan);
+            console.log("Onboarding: Plan sauvegardé (" + plan + ")");
+        }
+    } catch (e) {
+        console.error("Erreur lors de la persistance de l'intention:", e);
+    }
+}
+
+// Capturer l'intention dès le chargement de n'importe quelle page incluant auth.js
+document.addEventListener('DOMContentLoaded', persistOnboardingIntent);

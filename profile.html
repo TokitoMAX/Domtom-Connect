@@ -1106,7 +1106,19 @@
                 updateListingStatus(profile.listed, displayRole);
                 checkMonetizationBanner();
             } else {
-                // Fallback si pas de profil en DB
+                // FALLBACK : On regarde si l'utilisateur a une "intention" (URL ou localStorage via Google Login)
+                const urlParams = new URLSearchParams(window.location.search);
+                const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
+                
+                if (roleFromIntent) {
+                    roleSelect.value = (roleFromIntent === 'prestataire') ? 'expert' : roleFromIntent;
+                    console.log("Onboarding (Intention): Rôle récupéré (" + roleFromIntent + ")");
+                    
+                    // Nettoyage immédiat
+                    localStorage.removeItem('onboarding_role');
+                    localStorage.removeItem('onboarding_plan');
+                }
+                
                 updateEditBar(roleSelect.value);
                 if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
             }
@@ -1280,6 +1292,34 @@
                 const editBtnBasic = document.getElementById('edit-toggle-btn-basic');
                 if (editBtnBasic) editBtnBasic.style.display = 'none';
                 
+            // --- INTENTION ONBOARDING ---
+            // On vérifie l'URL ET le localStorage (pour Google Login)
+            if (!user_role.value) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
+                
+                if (roleFromIntent) {
+                    user_role.value = roleFromIntent;
+                    updateEditBar(roleFromIntent);
+                    adaptTerminology(roleFromIntent);
+                    console.log("Intent-based onboarding (recovered): Role set to", roleFromIntent);
+                    
+                    // Nettoyage immédiat pour éviter les effets de bord
+                    localStorage.removeItem('onboarding_role');
+                    localStorage.removeItem('onboarding_plan');
+                }
+            }
+            // ---------------------------
+            
+            // Si le rôle n'a pas été défini (ni par BDD ni par intention), on par défaut sur 'expert'
+            if (!user_role.value) {
+                user_role.value = 'expert';
+            }
+            
+            updateEditBar(user_role.value);
+            adaptTerminology(user_role.value);
+            console.log("Profile Initialized with role:", user_role.value);
+;
                 const feedback = document.getElementById('save-feedback');
                 if (feedback) feedback.style.display = 'none';
                 
