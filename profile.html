@@ -1013,15 +1013,23 @@
         }
 
         window.addEventListener('load', async () => {
+            console.log("Profile page loading...");
+            try {
             const session = await getSession();
             if (!session) { window.location.href = '/login'; return; }
 
             currentUserId = session.user.id;
             const role = session.user.user_metadata?.role || null;
-            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+            const name = (session.user.user_metadata?.full_name) || (session.user.email ? session.user.email.split('@')[0] : 'Utilisateur');
             const isExpert = (role === 'expert' || role === 'prestataire');
 
-            await loadGlobalNavbar();
+            console.log("User session found:", currentUserId, "Role:", role);
+
+            try {
+                await loadGlobalNavbar();
+            } catch (navErr) {
+                console.warn("Navbar loading failed, continuing profile init...", navErr);
+            }
 
             // Adapter le badge rôle et le sélecteur
             const badgeEl = document.getElementById('role-badge');
@@ -1060,7 +1068,7 @@
 
             // Affichage initial
             updateEditBar(roleSelect.value);
-            adaptTerminology(roleSelect.value);
+            if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
 
             // Evènement sur changement de rôle dans le sélecteur form
             roleSelect.addEventListener('change', function () {
@@ -1085,7 +1093,7 @@
                 // Mettre à jour le sélecteur et l'UI selon le rôle de "travail"
                 roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
                 updateEditBar(roleSelect.value);
-                adaptTerminology(roleSelect.value);
+                if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
 
                 fillForm(profile);
                 hasExistingListing = !!profile.listed;
@@ -1095,7 +1103,7 @@
             } else {
                 // Fallback si pas de profil en DB
                 updateEditBar(roleSelect.value);
-                adaptTerminology(roleSelect.value);
+                if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
             }
 
             // Toggle dispo
@@ -1105,15 +1113,23 @@
 
             // Skills Input
             const skillInput = document.getElementById('skills-input');
-            skillInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
+            if (skillInput) {
+                skillInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addTag(skillInput.value);
+                    }
+                });
+                skillInput.addEventListener('blur', () => {
                     addTag(skillInput.value);
-                }
-            });
-            skillInput.addEventListener('blur', () => {
-                addTag(skillInput.value);
-            });
+                });
+            }
+        } catch (err) {
+            console.error("Critical error during profile init:", err);
+            // Fallback: show the edit button anyway if possible
+            const bar = document.getElementById('non-expert-edit-bar');
+            if (bar) bar.style.display = 'block';
+        }
         });
 
         function fillForm(profile) {
@@ -1212,6 +1228,7 @@
                 companyFields.style.display = 'grid';
                 tjmGroup.style.display = 'none';
                 document.getElementById('video-presentation-group').style.display = 'block';
+                document.getElementById('written-presentation-group').style.display = 'block';
                 if (listingText.textContent.includes('Annonce')) {
                     listingText.textContent = "Page profil non publiée";
                 }
@@ -1232,6 +1249,7 @@
                 companyFields.style.display = 'none';
                 tjmGroup.style.display = 'block';
                 document.getElementById('video-presentation-group').style.display = 'block';
+                document.getElementById('written-presentation-group').style.display = 'block';
             }
         }
 
