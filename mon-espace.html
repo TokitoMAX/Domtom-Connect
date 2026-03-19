@@ -1071,14 +1071,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        function showView(viewId, pushState = true) {
-            console.log("Switching to view:", viewId);
+        // Make it global to be sure
+        window.showView = function(viewId, pushState = true) {
+            console.log("DEBUG: showView called with:", viewId);
             const overview = document.getElementById('project-owner-modules') || document.getElementById('dashboard-cards');
             const successEngine = document.getElementById('success-engine-view');
             const applicationsView = document.getElementById('applications-view');
             const greeting = document.querySelector('.dash-section-header');
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            console.log("DEBUG: successEngine element:", successEngine);
 
             // Hide all
             if (overview) overview.style.display = 'none';
@@ -1092,20 +1095,21 @@
 
             // Show target
             if (viewId === 'overview') {
+                console.log("DEBUG: showing overview");
                 if (overview) overview.style.display = 'grid';
                 if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'grid';
                 if (greeting) greeting.style.display = 'block';
                 if (pushState) window.location.hash = 'overview';
             } else if (viewId === 'success-engine') {
+                console.log("DEBUG: showing success-engine");
                 if (successEngine) successEngine.style.display = 'block';
                 if (greeting) greeting.style.display = 'none';
                 if (pushState) window.location.hash = 'success-engine';
             } else if (viewId === 'applications' || viewId === 'candidatures') {
-                // Now a separate page
                 window.location.href = '/candidatures.html';
             }
-
-            // Sync links
+            
+            // Re-sync links if needed
             sidebarLinks.forEach(l => {
                 l.classList.remove('active');
                 if (viewId === 'overview' && l.getAttribute('href') === '/mon-espace') {
@@ -1115,6 +1119,7 @@
                 }
             });
         }
+        const showView = window.showView;
 
         // Routing logic
         window.addEventListener('hashchange', () => {
@@ -1475,10 +1480,16 @@
                 return;
             }
 
-            const roleBadge = document.getElementById('user-role-badge');
-            const cardsContainer = document.getElementById('dashboard-cards');
-            const dashboardContent = document.getElementById('dashboard-content');
-            const additionalContent = document.getElementById('additional-content');
+            // Defining variables as window globals to avoid ReferenceErrors in async blocks
+            window.roleBadge = document.getElementById('user-role-badge');
+            window.cardsContainer = document.getElementById('dashboard-cards');
+            window.dashboardContent = document.getElementById('dashboard-content');
+            window.additionalContent = document.getElementById('additional-content');
+
+            const roleBadge = window.roleBadge;
+            const cardsContainer = window.cardsContainer;
+            const dashboardContent = window.dashboardContent;
+            const additionalContent = window.additionalContent;
 
             // Reset dynamic containers
             if (additionalContent) additionalContent.innerHTML = '';
