@@ -1120,6 +1120,27 @@
             document.getElementById('skills').value = skillTags.join(', ');
         }
 
+        // Gestion de l'affichage du bouton (dynamique lors du changement de rôle dans le select)
+        function updateEditBar(checkRole) {
+            const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
+            const listingBar = document.getElementById('listing-status-bar');
+            const nonExpertBar = document.getElementById('non-expert-edit-bar');
+            const availabilityGroup = document.getElementById('availability-group');
+            const saveBtn = document.getElementById('save-btn');
+
+            if (isExp) {
+                if (listingBar) listingBar.style.display = 'flex';
+                if (nonExpertBar) nonExpertBar.style.display = 'none';
+                if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier dans l\'annuaire';
+                if (availabilityGroup) availabilityGroup.style.display = 'block';
+            } else {
+                if (listingBar) listingBar.style.display = 'none';
+                if (nonExpertBar) nonExpertBar.style.display = 'block';
+                if (saveBtn) saveBtn.textContent = 'Enregistrer mon profil';
+                if (availabilityGroup) availabilityGroup.style.display = 'none';
+            }
+        }
+
         function addTag(tag) {
             tag = tag.trim();
             if (tag && !skillTags.includes(tag)) {
@@ -1213,26 +1234,6 @@
                 roleSelect.value = 'basique';
             }
 
-            // Gestion de l'affichage du bouton (dynamique lors du changement de rôle dans le select)
-            function updateEditBar(checkRole) {
-                const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
-                const listingBar = document.getElementById('listing-status-bar');
-                const nonExpertBar = document.getElementById('non-expert-edit-bar');
-                const availabilityGroup = document.getElementById('availability-group');
-                const saveBtn = document.getElementById('save-btn');
-
-                if (isExp) {
-                    if (listingBar) listingBar.style.display = 'flex';
-                    if (nonExpertBar) nonExpertBar.style.display = 'none';
-                    if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier dans l\'annuaire';
-                    if (availabilityGroup) availabilityGroup.style.display = 'block';
-                } else {
-                    if (listingBar) listingBar.style.display = 'none';
-                    if (nonExpertBar) nonExpertBar.style.display = 'block';
-                    if (saveBtn) saveBtn.textContent = 'Enregistrer mon profil';
-                    if (availabilityGroup) availabilityGroup.style.display = 'none';
-                }
-            }
 
             // Affichage initial
             updateEditBar(roleSelect.value);
