@@ -221,6 +221,11 @@
                         </span>
                     </div>
                 </header>
+                
+                <!-- Image à la Une -->
+                <div class="article-featured-image">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200" alt="Erreur entrepreneur">
+                </div>
 
                 <!-- Media Embeds -->
                 <div class="article-media">
@@ -445,6 +450,15 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (typeof loadGlobalNavbar === 'function') {
+                await loadGlobalNavbar();
+            }
+        });
+    </script>
     <script src="../../assets/js/script.js?v=2"></script>
     <script src="../../assets/js/blog.js?v=1.0"></script>
 </body>

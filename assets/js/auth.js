@@ -167,6 +167,7 @@ async function loadGlobalNavbar() {
         let prefix = '';
         if (window.location.pathname.includes('/marketplace/') ||
             window.location.pathname.includes('/registration/') ||
+            window.location.pathname.includes('/blog/') ||
             window.location.pathname.includes('/landing/')) {
             prefix = '../';
         }
