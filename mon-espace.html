@@ -1027,15 +1027,18 @@
                     </div>
                 </div>
 
-                <!-- Contenu dynamique selon le rôle -->
-                <div class="cards-grid" id="dashboard-cards">
-                    <!-- Rempli par le JS -->
+                <!-- Zone de contenu principale (Cards etc) -->
+                <div id="main-dashboard-content">
+                    <div class="cards-grid" id="dashboard-cards">
+                        <!-- Rempli par le JS -->
+                    </div>
+    
+                    <div id="additional-content"></div>
                 </div>
 
-                <div id="additional-content"></div>
-
-                <div id="success-engine-view" style="display: none; margin-top: 40px;">
-                    <button onclick="showView('overview')" class="back-button">
+                <!-- Zone Success Engine (Séparée pour éviter les conflits d'ID) -->
+                <div id="success-engine-view-fixed" style="display: none; margin-top: 40px;">
+                    <button onclick="window.showView('overview')" class="back-button">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M12 19l-7-7 7-7"/>
                         </svg>
@@ -1071,55 +1074,48 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-        // Make it global to be sure
+        // NUCLEAR FIX: Global showView with zero ambiguous selectors
         window.showView = function(viewId, pushState = true) {
-            console.log("DEBUG: showView called with:", viewId);
-            const overview = document.getElementById('project-owner-modules') || document.getElementById('dashboard-cards');
-            const successEngine = document.getElementById('success-engine-view');
-            const applicationsView = document.getElementById('applications-view');
-            const greeting = document.querySelector('.dash-section-header');
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
-            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            try {
+                console.log("--- DASHBOARD NAV: showView ---", viewId);
+                const mainContent = document.getElementById('main-dashboard-content');
+                const engineView = document.getElementById('success-engine-view-fixed');
+                const applicationsView = document.getElementById('applications-view');
+                const greeting = document.querySelector('.dash-section-header');
+                const sidebarLinks = document.querySelectorAll('.sidebar-link');
 
-            console.log("DEBUG: successEngine element:", successEngine);
+                // 1. Reset all views
+                if (mainContent) mainContent.style.display = 'none';
+                if (engineView) engineView.style.display = 'none';
+                if (applicationsView) applicationsView.style.display = 'none';
 
-            // Hide all
-            if (overview) overview.style.display = 'none';
-            if (successEngine) successEngine.style.display = 'none';
-            if (applicationsView) applicationsView.style.display = 'none';
-            if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'none';
-
-            // Update UI Active State
-            sidebarLinks.forEach(l => l.classList.remove('active'));
-            mobileLinks.forEach(l => l.classList.remove('active'));
-
-            // Show target
-            if (viewId === 'overview') {
-                console.log("DEBUG: showing overview");
-                if (overview) overview.style.display = 'grid';
-                if (document.getElementById('dashboard-cards')) document.getElementById('dashboard-cards').style.display = 'grid';
-                if (greeting) greeting.style.display = 'block';
-                if (pushState) window.location.hash = 'overview';
-            } else if (viewId === 'success-engine') {
-                console.log("DEBUG: showing success-engine");
-                if (successEngine) successEngine.style.display = 'block';
-                if (greeting) greeting.style.display = 'none';
-                if (pushState) window.location.hash = 'success-engine';
-            } else if (viewId === 'applications' || viewId === 'candidatures') {
-                window.location.href = '/candidatures.html';
-            }
-            
-            // Re-sync links if needed
-            sidebarLinks.forEach(l => {
-                l.classList.remove('active');
-                if (viewId === 'overview' && l.getAttribute('href') === '/mon-espace') {
-                    l.classList.add('active');
-                } else if (l.getAttribute('onclick')?.includes(viewId)) {
-                    l.classList.add('active');
+                // 2. Show target
+                if (viewId === 'success-engine' || viewId === 'mon-projet') {
+                    if (engineView) engineView.style.display = 'block';
+                    if (greeting) greeting.style.display = 'none';
+                    if (pushState) window.location.hash = 'success-engine';
+                } else if (viewId === 'applications' || viewId === 'candidatures') {
+                    window.location.href = '/candidatures.html';
+                    return;
+                } else {
+                    // Fallback to overview
+                    if (mainContent) mainContent.style.display = 'block';
+                    if (greeting) greeting.style.display = 'block';
+                    if (pushState) window.location.hash = 'overview';
                 }
-            });
+
+                // 3. UI Polish
+                window.scrollTo(0, 0);
+                sidebarLinks.forEach(l => {
+                    l.classList.remove('active');
+                    const onclick = l.getAttribute('onclick');
+                    if (onclick && onclick.includes(viewId)) l.classList.add('active');
+                    else if (viewId === 'overview' && l.getAttribute('href') === '/mon-espace') l.classList.add('active');
+                });
+            } catch (err) {
+                console.error("Dashboard Navigation Error:", err);
+            }
         }
-        const showView = window.showView;
 
         // Routing logic
         window.addEventListener('hashchange', () => {
