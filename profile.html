@@ -1340,7 +1340,14 @@
 
         function fillForm(profile) {
             if (profile.full_name) document.getElementById('full_name').value = profile.full_name;
-            if (profile.company) document.getElementById('company').value = profile.company;
+            
+            // Migration/Auto-fill pour les entreprises
+            if (profile.role === 'entreprise' && !profile.company && profile.full_name) {
+                document.getElementById('company').value = profile.full_name;
+            } else if (profile.company) {
+                document.getElementById('company').value = profile.company;
+            }
+
             if (profile.title) document.getElementById('title').value = profile.title;
             if (profile.bio) document.getElementById('bio').value = profile.bio;
             if (profile.sector) document.getElementById('sector').value = profile.sector;
