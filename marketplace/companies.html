@@ -417,7 +417,7 @@
                             </div>
                             <div>
                                 <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">SIRET</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.siret || 'Vérifié'}</p>
+                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.siret || 'Non renseigné'}</p>
                             </div>
                             <div>
                                 <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Site Web</label>
@@ -427,7 +427,9 @@
                             </div>
                             <div>
                                 <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Statut</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">Vérifié Domtom Connect</p>
+                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0; color: ${company.verified ? '#10b981' : '#94a3b8'};">
+                                    ${company.verified ? 'Vérifié Domtom Connect' : 'Profil standard'}
+                                </p>
                             </div>
                         </div>
 
