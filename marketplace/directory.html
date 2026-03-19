@@ -551,7 +551,7 @@
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)
-                    .in('role', ['expert', 'prestataire']);
+                    .or('role.in.(expert,prestataire),subscription_tier.eq.authority');
 
                 if (territory) query = query.eq('territory', territory);
 

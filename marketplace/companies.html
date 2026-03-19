@@ -322,8 +322,8 @@
                 const { data: companies, error } = await _supabase
                     .from('profiles')
                     .select('*')
-                    .eq('role', 'entreprise')
-                    .eq('listed', true);
+                    .eq('listed', true)
+                    .or('role.eq.entreprise,subscription_tier.eq.business');
 
                 if (error) throw error;
 
