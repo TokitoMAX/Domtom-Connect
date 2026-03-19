@@ -774,6 +774,8 @@
         let cachedProfiles = {};
         let currentSubscriptionTier = 'free';
         let userApplications = [];
+        let allJobs = []; // Store jobs globally for editing
+        let currentEditJobId = null;
 
         async function init() {
             try {
@@ -824,6 +826,7 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
+                allJobs = jobs || []; // Cache jobs for editing
 
                 // Sync user applications if logged in
                 if (currentUserId) {
@@ -896,13 +899,6 @@
             
             const dateStr = new Date(job.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 
-            // Delete icon
-            const deleteBtn = isOwner ? `
-                <button onclick="deleteJob('${job.id}')" class="btn-delete" title="Supprimer">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                </button>
-            ` : '';
-
             let actionBtn = '';
             if (isOwner) {
                 actionBtn = `<div class="tag" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0;">VOTRE OFFRE</div>`;
@@ -913,6 +909,18 @@
             } else {
                 actionBtn = `<button onclick="openPremiumModal()" class="btn-premium-contact" style="background:#ef4444;">Accès Premium</button>`;
             }
+
+            // Management buttons
+            const manageBtns = isOwner ? `
+                <div style="display:flex; gap:8px;">
+                    <button onclick="openJobModal('${job.id}')" class="btn-delete" style="background:#f1f5f9; color:#475569;" title="Modifier">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4L18.5 2.5z"></path></svg>
+                    </button>
+                    <button onclick="deleteJob('${job.id}')" class="btn-delete" title="Supprimer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                </div>
+            ` : '';
 
             const isLong = canSeeDetails && job.description && job.description.length > 200;
 
@@ -947,7 +955,7 @@
 
                     <div class="premium-actions">
                         ${actionBtn}
-                        ${deleteBtn}
+                        ${manageBtns}
                     </div>
                 </div>
             `;
@@ -979,7 +987,7 @@
             event.preventDefault();
             const btn = document.getElementById('modal-save-btn');
             btn.disabled = true;
-            btn.innerText = "Publication...";
+            btn.innerText = "Traitement...";
 
             const data = {
                 company_id: currentUserId,
@@ -990,8 +998,14 @@
                 is_active: true
             };
 
-            const { error } = await _supabase.from('job_offers').insert([data]);
-            if (error) alert(error.message);
+            let result;
+            if (currentEditJobId) {
+                result = await _supabase.from('job_offers').update(data).eq('id', currentEditJobId);
+            } else {
+                result = await _supabase.from('job_offers').insert([data]);
+            }
+
+            if (result.error) alert(result.error.message);
             else {
                 closeJobModal();
                 await loadJobs();
@@ -1000,8 +1014,42 @@
             btn.innerText = "Publier";
         }
 
-        function openJobModal() { document.getElementById('job-modal').classList.add('open'); }
-        function closeJobModal() { document.getElementById('job-modal').classList.remove('open'); document.getElementById('job-form').reset(); }
+        function openJobModal(jobId = null) {
+            currentEditJobId = jobId;
+            const modal = document.getElementById('job-modal');
+            const title = modal.querySelector('h2');
+            const btn = document.getElementById('modal-save-btn');
+            
+            if (jobId) {
+                title.textContent = "Modifier l'Offre";
+                btn.textContent = "Mettre à jour";
+                const job = allJobs.find(j => j.id === jobId);
+                if (job) {
+                    document.getElementById('j-title').value = job.title;
+                    document.getElementById('j-type').value = job.mission_type;
+                    document.getElementById('j-territory').value = job.territory;
+                    
+                    // Parser la description (format: ### MISSIONS\n...\n\n### PROFIL\n...)
+                    const missionsPart = job.description.split('### PROFIL')[0].replace('### MISSIONS', '').trim();
+                    const profilPart = job.description.split('### PROFIL')[1] || '';
+                    
+                    document.getElementById('j-missions').value = missionsPart;
+                    document.getElementById('j-profil').value = profilPart.trim();
+                }
+            } else {
+                title.textContent = "Nouvelle Offre";
+                btn.textContent = "Publier";
+                document.getElementById('job-form').reset();
+            }
+            
+            modal.classList.add('open');
+        }
+
+        function closeJobModal() {
+            document.getElementById('job-modal').classList.remove('open');
+            document.getElementById('job-form').reset();
+            currentEditJobId = null;
+        }
         function openPremiumModal() { document.getElementById('premium-modal').classList.add('open'); }
         function closePremiumModal() { document.getElementById('premium-modal').classList.remove('open'); }
         function resetFilters() {
