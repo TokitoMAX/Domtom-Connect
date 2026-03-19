@@ -927,6 +927,10 @@
                             <input type="text" id="full_name" name="full_name" placeholder="Ex : Marie Dupont" required
                                 disabled>
                         </div>
+                        <div class="form-group" id="company-name-group" style="display:none;">
+                            <label>Nom de l'entreprise</label>
+                            <input type="text" id="company" name="company" placeholder="Ex : Domtom Connect" disabled>
+                        </div>
                         <div class="form-group">
                             <label id="label-title">Titre / Expertise</label>
                             <input type="text" id="title" name="title" placeholder="Ex : Développeur Web Full-Stack"
@@ -1102,7 +1106,7 @@
         let hasExistingListing = false;
         let currentSubscriptionTier = 'free';
 
-        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'written_presentation', 'available', 'siret', 'website_url', 'btn-upload-trigger'];
+        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'written_presentation', 'available', 'siret', 'website_url', 'company', 'btn-upload-trigger'];
         let skillTags = [];
 
         function renderTags() {
@@ -1336,6 +1340,7 @@
 
         function fillForm(profile) {
             if (profile.full_name) document.getElementById('full_name').value = profile.full_name;
+            if (profile.company) document.getElementById('company').value = profile.company;
             if (profile.title) document.getElementById('title').value = profile.title;
             if (profile.bio) document.getElementById('bio').value = profile.bio;
             if (profile.sector) document.getElementById('sector').value = profile.sector;
@@ -1424,7 +1429,8 @@
             const labelLogo = document.getElementById('label-logo');
 
             if (isCompany) {
-                labelName.textContent = "Nom de l'entreprise";
+                labelName.textContent = "Votre Nom";
+                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'block';
                 labelTitle.textContent = "Secteur principal";
                 labelLogo.textContent = "Logo de l'entreprise";
                 companyFields.style.display = 'grid';
@@ -1437,6 +1443,7 @@
             } else if (role === 'basique') {
                 // Porteur de Projet
                 labelName.textContent = "Nom complet";
+                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'none';
                 labelTitle.textContent = "Expertises recherchées";
                 labelLogo.textContent = "Photo de profil";
                 companyFields.style.display = 'none';
@@ -1446,6 +1453,7 @@
             } else {
                 // Expert
                 labelName.textContent = "Nom complet";
+                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'none';
                 labelTitle.textContent = "Titre / Expertise";
                 labelLogo.textContent = "Photo de profil";
                 companyFields.style.display = 'none';
@@ -1674,6 +1682,7 @@
                     written_presentation: document.getElementById('written_presentation').value.trim() || null,
                     siret: document.getElementById('siret').value.trim() || null,
                     website_url: document.getElementById('website_url').value.trim() || null,
+                    company: document.getElementById('company').value.trim() || null,
                     avatar_url: finalAvatarUrl,
                     available: document.getElementById('available').checked,
                     role: selectedRole,
