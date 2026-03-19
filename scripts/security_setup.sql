@@ -73,10 +73,34 @@ USING (true);
 DROP POLICY IF EXISTS "Seul le créateur peut modifier sa mission" ON job_offers;
 CREATE POLICY "Seul le créateur peut modifier sa mission" 
 ON job_offers FOR ALL 
-USING (auth.uid() = advertiser_id)
-WITH CHECK (auth.uid() = advertiser_id);
+USING (auth.uid() = company_id)
+WITH CHECK (auth.uid() = company_id);
 
--- 5. TABLE : profiles (Sécurité de base)
+-- 5. TABLE : job_applications (Candidatures)
+ALTER TABLE job_applications ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Les candidats voient leurs candidatures" ON job_applications;
+CREATE POLICY "Les candidats voient leurs candidatures" 
+ON job_applications FOR SELECT 
+USING (auth.uid() = candidate_id);
+
+DROP POLICY IF EXISTS "Les entreprises voient les candidatures reçues" ON job_applications;
+CREATE POLICY "Les entreprises voient les candidatures reçues" 
+ON job_applications FOR SELECT 
+USING (
+  EXISTS (
+    SELECT 1 FROM job_offers 
+    WHERE job_offers.id = job_applications.job_id 
+    AND job_offers.company_id = auth.uid()
+  )
+);
+
+DROP POLICY IF EXISTS "Les candidats peuvent postuler" ON job_applications;
+CREATE POLICY "Les candidats peuvent postuler" 
+ON job_applications FOR INSERT 
+WITH CHECK (auth.uid() = candidate_id);
+
+-- 6. TABLE : profiles (Sécurité de base)
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Tout le monde peut voir les profils" ON profiles;
