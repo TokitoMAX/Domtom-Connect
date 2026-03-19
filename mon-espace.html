@@ -1131,18 +1131,32 @@
 
         // Support for browser back/forward buttons
         window.addEventListener('popstate', (event) => {
-            if (window.location.pathname.includes('mon-projet')) showView('success-engine');
-            else showView('overview');
+            const hash = window.location.hash.replace('#', '');
+            if (hash) showView(hash, false);
+            else {
+                if (window.location.pathname.includes('mon-projet')) showView('overview');
+                else showView('overview');
+            }
         });
 
         // Initialize from URL pathname or params on page load
         function initRouting() {
+            console.log("DEBUG: initRouting triggered");
+            const hash = window.location.hash.replace('#', '');
             const params = new URLSearchParams(window.location.search);
             const viewParam = params.get('view');
             const isMonProjet = window.location.pathname.includes('mon-projet');
 
+            // 1. If we have a hash, let hashchange handle it
+            if (hash) {
+                console.log("DEBUG: Hash present, letting listener handle it:", hash);
+                showView(hash, false);
+                return;
+            }
+
+            // 2. Otherwise use URL params or defaults
             if (viewParam === 'applications') window.location.href = '/candidatures.html';
-            else if (isMonProjet) showView('overview'); // Default to overview on mon-projet
+            else if (isMonProjet) showView('overview'); 
             else showView('overview');
         }
 
@@ -1880,7 +1894,8 @@
                 cardsContainer.innerHTML = segmentedHTML;
 
                 await loadMyProjects(session.user.id);
-                initRouting();
+                // NOT CALLED HERE - DOMContentLoaded and hashchange handle initial view
+                // initRouting(); 
             }
         }
 
