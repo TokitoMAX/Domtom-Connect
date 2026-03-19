@@ -33,145 +33,175 @@
             color: white;
         }
 
-        /* Nouvelles Cartes Premium */
+        /* Nouvelles Cartes Premium - Style Malt/Modern */
         .premium-card {
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
 
         .premium-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-            border-color: #d1d5db;
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary-color);
         }
 
         .premium-card-header {
             display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .premium-avatar-wrapper {
+            position: relative;
         }
 
         .premium-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
             object-fit: cover;
             flex-shrink: 0;
-            background: var(--bg-light);
+            background: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            color: var(--text-primary);
-            border: 1px solid var(--gray-200);
+            color: var(--primary-color);
+            border: 2px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: #d1d5db;
+        }
+
+        .status-badge.available {
+            background: #10b981;
         }
 
         .premium-info h3 {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            color: var(--text-primary);
-            margin: 0 0 4px 0;
+            color: #0f172a;
+            margin: 0 0 6px 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .premium-role {
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
             color: var(--primary-color);
             margin: 0;
         }
 
-        .premium-sector {
-            font-size: 0.75rem;
+        .premium-location {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 700;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
         }
 
         .premium-bio {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+            font-size: 0.95rem;
+            color: #475569;
             line-height: 1.6;
-            margin: 0 0 20px 0;
+            margin: 0 0 24px 0;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .premium-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
 
         .tag {
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: var(--bg-light);
-            color: var(--text-secondary);
-            border: 1px solid var(--gray-200);
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
         }
 
-        .tag.tag-available {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.2);
+        .tag:hover {
+            background: #e2e8f0;
+            color: #0f172a;
         }
 
         .tag.tag-price {
-            background: rgba(15, 23, 42, 0.05);
-            color: #0f172a;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-color: rgba(16, 185, 129, 0.2);
         }
 
         .premium-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: auto;
-            border-top: 1px solid var(--gray-100);
-            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 24px;
         }
 
         .btn-premium-contact {
-            background: #111827;
+            background: #0f172a;
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 0;
-            font-size: 0.85rem;
-            font-weight: 600;
-            flex: 1;
+            border-radius: 10px;
+            padding: 12px 0;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex: 2;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             text-align: center;
             text-decoration: none;
         }
 
         .btn-premium-contact:hover {
-            background: #1f2937;
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
         }
 
-        .btn-premium-linkedin {
+        .btn-premium-view {
             background: white;
-            color: #0284c7;
-            border: 1.5px solid #0284c7;
-            border-radius: 8px;
-            padding: 10px 0;
-            font-size: 0.85rem;
-            font-weight: 600;
+            color: #475569;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 0;
+            font-size: 0.9rem;
+            font-weight: 700;
             flex: 1;
             cursor: pointer;
             transition: all 0.2s;
@@ -179,8 +209,10 @@
             text-decoration: none;
         }
 
-        .btn-premium-linkedin:hover {
-            background: #f0f9ff;
+        .btn-premium-view:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #0f172a;
         }
 
         /* Modal */
@@ -551,54 +583,142 @@
             let displayTerritory = profile.territory || '—';
             if (displayTerritory === 'Diaspora') displayTerritory = 'Diaspora (France hexagonale)';
 
-            const sectorHtml = profile.sector ? `<div class="premium-sector">${profile.sector}</div>` : '';
-            const bioHtml = profile.bio ? `<p class="premium-bio">${profile.bio}</p>` : `<p class="premium-bio" style="font-style:italic; color:var(--gray-400);">Pas de description renseignée.</p>`;
+            const bioHtml = profile.bio ? `<p class="premium-bio">${profile.bio}</p>` : `<p class="premium-bio" style="font-style:italic; color:#94a3b8;">Expert Domtom Connect – Profil en cours de finalisation.</p>`;
+
+            // Génération des tags de compétences
+            let skillsHtml = '';
+            if (profile.skills) {
+                const skills = profile.skills.split(',').map(s => s.trim()).filter(s => s).slice(0, 4);
+                skillsHtml = skills.map(skill => `<span class="tag">${skill}</span>`).join('');
+            }
 
             const tjmTag = profile.tjm ? `<span class="tag tag-price">${profile.tjm}€ / jour</span>` : '';
-            const zoneTag = profile.territory ? `<span class="tag">Territoire : ${displayTerritory}</span>` : '';
-            const statusTag = `<span class="tag ${profile.available ? 'tag-available' : ''}">${profile.available ? '● Disponible' : 'Occupé'}</span>`;
-
-            const linkedinBtn = profile.linkedin_url
-                ? `<a href="${profile.linkedin_url}" target="_blank" class="btn-premium-linkedin">LinkedIn</a>`
-                : '';
 
             return `
                 <div class="premium-card">
                     <div class="premium-card-header">
-                        ${avatar}
+                        <div class="premium-avatar-wrapper">
+                            ${avatar}
+                            <div class="status-badge ${profile.available ? 'available' : ''}"></div>
+                        </div>
                         <div class="premium-info">
                             <h3>
                                 ${name}
-                                ${verified ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="#10b981" style="flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
+                                ${verified ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#10b981" style="flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
                             </h3>
-                            <div class="premium-role">${profile.title || profile.skills || 'Expert Domtom Connect'}</div>
-                            ${sectorHtml}
+                            <div class="premium-role">${profile.title || 'Expert Domtom Connect'}</div>
+                            <div class="premium-location">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                ${displayTerritory}
+                            </div>
                         </div>
                     </div>
 
                     ${bioHtml}
 
                     <div class="premium-tags">
-                        ${statusTag}
                         ${tjmTag}
-                        ${zoneTag}
+                        ${skillsHtml}
                     </div>
 
-                    ${profile.video_url ? `
-                    <div style="margin-bottom: 20px;">
-                        <button onclick="playExpertVideo('${profile.video_url}')" class="cta-button secondary" style="width:100%; font-size:0.8rem; padding:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            Voir la présentation vidéo
-                        </button>
-                    </div>
-                    ` : ''}
-                    
                     <div class="premium-actions">
-                        ${linkedinBtn}
+                        <button onclick="showExpertDetails('${profile.id}')" class="btn-premium-view">Profil</button>
                         <a href="../messages?to=${profile.id}" class="btn-premium-contact">Contacter</a>
                     </div>
                 </div>
             `;
+        }
+
+        async function showExpertDetails(id) {
+            try {
+                const { data: profile, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
+                if (error || !profile) return;
+
+                const name = profile.full_name || 'Expert';
+                const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                const avatar = profile.avatar_url
+                    ? `<img src="${profile.avatar_url}" class="premium-avatar" style="width:64px; height:64px;" alt="${name}">`
+                    : `<div class="premium-avatar" style="width:64px; height:64px;">${initials}</div>`;
+
+                let skillsTags = '';
+                if (profile.skills) {
+                    skillsTags = profile.skills.split(',').map(s => `<span class="tag" style="margin:2px;">${s.trim()}</span>`).join('');
+                }
+
+                const modalHtml = `
+                    <div class="modal" style="max-width: 640px;">
+                        <div class="modal-header">
+                            <div style="display:flex; align-items:center; gap:16px;">
+                                ${avatar}
+                                <div>
+                                    <h2 style="margin:0; font-size:1.4rem;">${name}</h2>
+                                    <p style="margin:4px 0 0 0; color:var(--primary-color); font-weight:700; font-size:0.9rem;">${profile.title || 'Expert'}</p>
+                                </div>
+                            </div>
+                            <button class="modal-close" onclick="closeExpertModal()">×</button>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 1fr; gap:24px; margin-top:24px;">
+                            ${profile.written_presentation ? `
+                            <section>
+                                <h4 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:12px;">Présentation & Pitch</h4>
+                                <p style="font-size:0.95rem; line-height:1.7; color:#334155;">${profile.written_presentation.replace(/\n/g, '<br>')}</p>
+                            </section>
+                            ` : ''}
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; padding:20px; background:#f8fafc; border-radius:12px;">
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase;">Localisation</label>
+                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${profile.territory || '—'}</p>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase;">Tarif (TJM)</label>
+                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${profile.tjm ? profile.tjm + '€ / jour' : 'Sur devis'}</p>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase;">Secteur</label>
+                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${profile.sector || '—'}</p>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase;">Disponibilité</label>
+                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0; color:${profile.available ? '#10b981' : '#94a3b8'}">
+                                        ${profile.available ? '● Immédiate' : 'Non disponible'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <section>
+                                <h4 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:12px;">Compétences</h4>
+                                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                                    ${skillsTags || '<p style="font-size:0.9rem; color:#94a3b8;">Aucune compétence renseignée.</p>'}
+                                </div>
+                            </section>
+
+                            <div style="display:flex; gap:12px; padding-top:24px; border-top:1px solid #f1f5f9;">
+                                <a href="../messages?to=${profile.id}" class="btn-premium-contact" style="flex:1;">Contacter l'expert</a>
+                                ${profile.website_url ? `<a href="${profile.website_url}" target="_blank" class="btn-premium-view" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                                    Site Web
+                                </a>` : ''}
+                                ${profile.linkedin_url ? `<a href="${profile.linkedin_url}" target="_blank" class="btn-premium-view" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                    LinkedIn
+                                </a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const overlay = document.getElementById('details-modal-overlay');
+                overlay.innerHTML = modalHtml;
+                overlay.classList.add('open');
+            } catch (err) {
+                console.error("Error showing details:", err);
+            }
+        }
+
+        function closeExpertModal() {
+            document.getElementById('details-modal-overlay').classList.remove('open');
         }
 
         function openListingModal() {
@@ -661,6 +781,7 @@
 
         init();
     </script>
+    <div class="modal-overlay" id="details-modal-overlay" onclick="if(event.target === this) closeExpertModal()"></div>
     <script src="../assets/js/script.js?v=2.2"></script>
 </body>
 

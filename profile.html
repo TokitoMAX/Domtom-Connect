@@ -917,7 +917,7 @@
                             </div>
                             <input type="hidden" id="avatar_url" name="avatar_url">
                             <p style="font-size:0.7rem; color:var(--text-muted); margin-top:8px;">Format PNG ou JPG
-                                recommandé (Max 2Mo).</p>
+                                recommandé (Max 10Mo).</p>
                         </div>
                     </div>
 
@@ -1139,8 +1139,8 @@
             const file = input.files[0];
             if (!file) return;
 
-            if (file.size > 2 * 1024 * 1024) {
-                alert("Le fichier est trop lourd (Max 2Mo).");
+            if (file.size > 10 * 1024 * 1024) {
+                alert("Le fichier est trop lourd (Max 10Mo).");
                 return;
             }
 
@@ -1458,6 +1458,7 @@
             console.log("Toggle Edit Mode triggered");
             try {
                 isEditing = true;
+                const userRoleEl = document.getElementById('user_role');
                 
                 // Add user_role only if not already present
                 if (!FIELDS.includes('user_role')) FIELDS.push('user_role');
@@ -1476,34 +1477,31 @@
                 const editBtnBasic = document.getElementById('edit-toggle-btn-basic');
                 if (editBtnBasic) editBtnBasic.style.display = 'none';
                 
-            // --- INTENTION ONBOARDING ---
-            // On vérifie l'URL ET le localStorage (pour Google Login)
-            if (!user_role.value) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
-                
-                if (roleFromIntent) {
-                    user_role.value = roleFromIntent;
-                    updateEditBar(roleFromIntent);
-                    adaptTerminology(roleFromIntent);
-                    console.log("Intent-based onboarding (recovered): Role set to", roleFromIntent);
+                // --- INTENTION ONBOARDING ---
+                if (userRoleEl && !userRoleEl.value) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
                     
-                    // Nettoyage immédiat pour éviter les effets de bord
-                    localStorage.removeItem('onboarding_role');
-                    localStorage.removeItem('onboarding_plan');
+                    if (roleFromIntent) {
+                        userRoleEl.value = roleFromIntent;
+                        updateEditBar(roleFromIntent);
+                        adaptTerminology(roleFromIntent);
+                        console.log("Intent-based onboarding (recovered): Role set to", roleFromIntent);
+                        
+                        localStorage.removeItem('onboarding_role');
+                        localStorage.removeItem('onboarding_plan');
+                    }
                 }
-            }
-            // ---------------------------
-            
-            // Si le rôle n'a pas été défini (ni par BDD ni par intention), on par défaut sur 'expert'
-            if (!user_role.value) {
-                user_role.value = 'expert';
-            }
-            
-            updateEditBar(user_role.value);
-            adaptTerminology(user_role.value);
-            console.log("Profile Initialized with role:", user_role.value);
-;
+                
+                if (userRoleEl && !userRoleEl.value) {
+                    userRoleEl.value = 'expert';
+                }
+                
+                if (userRoleEl) {
+                    updateEditBar(userRoleEl.value);
+                    adaptTerminology(userRoleEl.value);
+                }
+
                 const feedback = document.getElementById('save-feedback');
                 if (feedback) feedback.style.display = 'none';
                 
