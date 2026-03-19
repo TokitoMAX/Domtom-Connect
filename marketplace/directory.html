@@ -687,8 +687,8 @@
                                 </div>
                                 <div>
                                     <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase;">Statut</label>
-                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0; color:${profile.verified ? '#10b981' : '#94a3b8'}">
-                                        ${profile.verified ? 'Certifié Domtom Connect' : 'Profil standard'}
+                                    <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">
+                                        ${profile.verified ? '<span style="color:#10b981;">Certifié Domtom Connect</span>' : (profile.siret || profile.skills ? '<span style="color:#0369a1;">Identité Confirmée</span>' : '<span style="color:#94a3b8;">Membre du réseau</span>')}
                                     </p>
                                 </div>
                             </div>

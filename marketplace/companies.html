@@ -427,8 +427,8 @@
                             </div>
                             <div>
                                 <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Statut</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0; color: ${company.verified ? '#10b981' : '#94a3b8'};">
-                                    ${company.verified ? 'Vérifié Domtom Connect' : 'Profil standard'}
+                                <p id="modal-statut-label" style="font-size:0.9rem; font-weight:600; margin:4px 0;">
+                                    ${company.verified ? '<span style="color:#10b981;">Vérifié Domtom Connect</span>' : (company.siret ? '<span style="color:#0369a1;">Identité Confirmée</span>' : '<span style="color:#94a3b8;">Membre Domtom Connect</span>')}
                                 </p>
                             </div>
                         </div>
