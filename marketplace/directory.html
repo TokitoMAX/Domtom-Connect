@@ -365,10 +365,23 @@
                 <p>Trouvez les meilleurs talents de la diaspora et des territoires d'Outre-mer.</p>
             </div>
             <div class="search-bar-v3">
-                <div class="search-input-wrapper">
-                    <input type="text" id="search-input" placeholder="Rechercher une compétence, un nom...">
+                <div class="search-input-wrapper" style="flex: 2;">
+                    <input type="text" id="search-input" placeholder="Rechercher une compétence, un nom..." onkeyup="if(event.key === 'Enter') loadProfiles()">
                 </div>
-                <div class="search-select-wrapper">
+                <div class="search-select-wrapper" style="flex: 1;">
+                    <select id="sector-filter">
+                        <option value="">Tous les secteurs</option>
+                        <option>IT & Digital</option>
+                        <option>Juridique & Conseil</option>
+                        <option>BTP & Ingénierie</option>
+                        <option>Santé & Bien-être</option>
+                        <option>Finance & Comptabilité</option>
+                        <option>Marketing & Communication</option>
+                        <option>Formation & Coaching</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+                <div class="search-select-wrapper" style="flex: 1;">
                     <select id="territory-filter">
                         <option value="">Tous les territoires</option>
                         <option value="Martinique">Martinique</option>
@@ -546,7 +559,10 @@
             const container = document.getElementById('profiles-container');
             const emptyState = document.getElementById('empty-state');
             try {
+                const search = document.getElementById('search-input').value.toLowerCase().trim();
                 const territory = document.getElementById('territory-filter').value;
+                const sector = document.getElementById('sector-filter').value;
+
                 let query = _supabase
                     .from('profiles')
                     .select('*')
@@ -554,17 +570,36 @@
                     .or('role.in.(expert,prestataire),subscription_tier.eq.authority');
 
                 if (territory) query = query.eq('territory', territory);
+                if (sector) query = query.eq('sector', sector);
 
-                const { data: experts } = await query;
+                const { data: experts, error } = await query;
+                if (error) throw error;
 
-                if (!experts || !experts.length) {
+                let filteredExperts = experts || [];
+
+                // Client-side keyword search (more flexible for skills/bio)
+                if (search) {
+                    filteredExperts = experts.filter(e => {
+                        const name = (e.full_name || "").toLowerCase();
+                        const title = (e.title || "").toLowerCase();
+                        const skills = (e.skills || "").toLowerCase();
+                        const bio = (e.bio || "").toLowerCase();
+                        
+                        return name.includes(search) || 
+                               title.includes(search) || 
+                               skills.includes(search) || 
+                               bio.includes(search);
+                    });
+                }
+
+                if (!filteredExperts || !filteredExperts.length) {
                     emptyState.style.display = 'block';
                     container.style.display = 'none';
                     return;
                 }
                 emptyState.style.display = 'none';
                 container.style.display = 'grid';
-                container.innerHTML = experts.map(renderProfileCard).join('');
+                container.innerHTML = filteredExperts.map(renderProfileCard).join('');
             } catch (err) {
                 console.error('Erreur chargement profils :', err);
                 emptyState.style.display = 'block';

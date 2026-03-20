@@ -254,7 +254,7 @@
             </div>
             <div class="search-bar-v3">
                 <div class="search-input-wrapper">
-                    <input type="text" id="search-input" placeholder="Rechercher une entreprise, un secteur...">
+                    <input type="text" id="search-input" placeholder="Rechercher une entreprise, un secteur..." onkeyup="if(event.key === 'Enter') loadCompanies()">
                 </div>
                 <div class="search-select-wrapper">
                     <select id="territory-filter">
@@ -319,22 +319,39 @@
             const emptyState = document.getElementById('empty-state');
 
             try {
-                const { data: companies, error } = await _supabase
+                const search = document.getElementById('search-input').value.toLowerCase().trim();
+                const territory = document.getElementById('territory-filter').value;
+
+                let query = _supabase
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)
                     .or('role.eq.entreprise,subscription_tier.eq.business');
 
+                if (territory) query = query.eq('territory', territory);
+
+                const { data: companies, error } = await query;
                 if (error) throw error;
 
-                if (!companies || companies.length === 0) {
+                let filteredCompanies = companies || [];
+
+                if (search) {
+                    filteredCompanies = companies.filter(c => {
+                        const name = (c.company || c.full_name || "").toLowerCase();
+                        const sector = (c.sector || "").toLowerCase();
+                        const bio = (c.bio || "").toLowerCase();
+                        return name.includes(search) || sector.includes(search) || bio.includes(search);
+                    });
+                }
+
+                if (!filteredCompanies || filteredCompanies.length === 0) {
                     emptyState.style.display = 'block';
                     container.innerHTML = '';
                     return;
                 }
 
                 emptyState.style.display = 'none';
-                container.innerHTML = companies.map(renderCompanyCard).join('');
+                container.innerHTML = filteredCompanies.map(renderCompanyCard).join('');
 
             } catch (err) {
                 console.error('Erreur :', err);
