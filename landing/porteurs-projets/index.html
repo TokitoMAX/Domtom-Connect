@@ -111,12 +111,12 @@
                 id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'diaspora', label: 'Diaspora' },
                     { value: 'autre', label: 'Autre' }
                 ]
             },
@@ -158,12 +158,12 @@
                 id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'diaspora', label: 'Diaspora' },
                     { value: 'autre', label: 'Autre' }
                 ]
             },
@@ -205,8 +205,9 @@
                 id: 'origine', question: 'D\'où viens-tu ? (Ton origine ou territoire d\'origine)', type: 'select', required: true, fieldName: 'origine', placeholder: 'Sélectionne ton origine', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'saint-martin', label: 'Saint-Martin' },
                     { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
@@ -214,7 +215,6 @@
                     { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'diaspora', label: 'Diaspora (originaire mais vivant ailleurs)' },
                     { value: 'metropole', label: 'Métropole française' },
                     { value: 'autre', label: 'Autre' }
                 ]
@@ -223,8 +223,9 @@
                 id: 'lieu_actuel', question: 'Où es-tu basé actuellement ?', type: 'select', required: true, fieldName: 'lieu_actuel', placeholder: 'Sélectionne ton lieu actuel', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora / Métropole' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'saint-martin', label: 'Saint-Martin' },
                     { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
@@ -232,7 +233,6 @@
                     { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'metropole', label: 'Métropole française' },
                     { value: 'etranger', label: 'Étranger' },
                     { value: 'autre', label: 'Autre' }
                 ]
@@ -282,8 +282,9 @@
                 id: 'localisation_projet', question: 'Où sera localisé ton projet ?', type: 'select', required: true, fieldName: 'localisation_projet', placeholder: 'Sélectionne la localisation du projet', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora (France hexagonale)' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'saint-martin', label: 'Saint-Martin' },
                     { value: 'saint-barthelemy', label: 'Saint-Barthélemy' },
@@ -291,7 +292,6 @@
                     { value: 'wallis-et-futuna', label: 'Wallis-et-Futuna' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'metropole', label: 'Métropole française' },
                     { value: 'international', label: 'International / Multi-territoires' },
                     { value: 'autre', label: 'Autre' }
                 ]
@@ -358,12 +358,12 @@
                 id: 'ile', question: 'Dans quel territoire es-tu basé ?', type: 'select', required: true, fieldName: 'ile', placeholder: 'Sélectionne ton territoire', options: [
                     { value: 'martinique', label: 'Martinique' },
                     { value: 'guadeloupe', label: 'Guadeloupe' },
-                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'guyane', label: 'Guyane' },
+                    { value: 'diaspora', label: 'Diaspora' },
+                    { value: 'reunion', label: 'La Réunion' },
                     { value: 'mayotte', label: 'Mayotte' },
                     { value: 'polynesie', label: 'Polynésie française' },
                     { value: 'nouvelle-caledonie', label: 'Nouvelle-Calédonie' },
-                    { value: 'diaspora', label: 'Diaspora' },
                     { value: 'autre', label: 'Autre' }
                 ]
             },
