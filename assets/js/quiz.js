@@ -24,7 +24,7 @@ const adaptiveQuestions = {
             { value: "martinique", label: "Martinique", score: 2 },
             { value: "guadeloupe", label: "Guadeloupe", score: 2 },
             { value: "guyane", label: "Guyane", score: 2 },
-            { value: "diaspora", label: "Diaspora (originaire mais vivant ailleurs)", score: 2 },
+            { value: "diaspora", label: "Diaspora", score: 2 },
             { value: "reunion", label: "La Réunion", score: 2 },
             { value: "mayotte", label: "Mayotte", score: 2 },
             { value: "saint-martin", label: "Saint-Martin", score: 2 },
@@ -33,8 +33,10 @@ const adaptiveQuestions = {
             { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
             { value: "polynesie", label: "Polynésie française", score: 2 },
             { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "metropole", label: "Métropole française", score: 1 },
-            { value: "autre", label: "Autre", score: 1 }
+            { value: "haiti", label: "Haïti", score: 2 },
+            { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
+            { value: "dominique", label: "Dominique", score: 2 },
+            { value: "international", label: "International", score: 1 }
         ]
     },
     {
@@ -111,7 +113,7 @@ const adaptiveQuestions = {
             { value: "martinique", label: "Martinique", score: 2 },
             { value: "guadeloupe", label: "Guadeloupe", score: 2 },
             { value: "guyane", label: "Guyane", score: 2 },
-            { value: "international", label: "International / Multi-territoires", score: 3 },
+            { value: "diaspora", label: "Diaspora", score: 2 },
             { value: "reunion", label: "La Réunion", score: 2 },
             { value: "mayotte", label: "Mayotte", score: 2 },
             { value: "saint-martin", label: "Saint-Martin", score: 2 },
@@ -120,8 +122,10 @@ const adaptiveQuestions = {
             { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
             { value: "polynesie", label: "Polynésie française", score: 2 },
             { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "metropole", label: "Métropole française", score: 1 },
-            { value: "autre", label: "Autre", score: 1 }
+            { value: "haiti", label: "Haïti", score: 2 },
+            { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
+            { value: "dominique", label: "Dominique", score: 2 },
+            { value: "international", label: "International", score: 1 }
         ]
     },
     {
@@ -196,7 +200,16 @@ const adaptiveQuestions = {
                 { value: "diaspora", label: "Diaspora", score: 2 },
                 { value: "reunion", label: "La Réunion", score: 2 },
                 { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "autre", label: "Autre", score: 1 }
+                { value: "saint-martin", label: "Saint-Martin", score: 2 },
+                { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
+                { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
+                { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
+                { value: "polynesie", label: "Polynésie française", score: 2 },
+                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+                { value: "haiti", label: "Haïti", score: 2 },
+                { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
+                { value: "dominique", label: "Dominique", score: 2 },
+                { value: "international", label: "International", score: 1 }
             ]
         },
         {
@@ -436,7 +449,16 @@ const adaptiveQuestions = {
             { value: "diaspora", label: "Diaspora", score: 2 },
             { value: "reunion", label: "La Réunion", score: 2 },
             { value: "mayotte", label: "Mayotte", score: 2 },
-            { value: "autre", label: "Autre", score: 1 }
+            { value: "saint-martin", label: "Saint-Martin", score: 2 },
+            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
+            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
+            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
+            { value: "polynesie", label: "Polynésie française", score: 2 },
+            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
+            { value: "haiti", label: "Haïti", score: 2 },
+            { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
+            { value: "dominique", label: "Dominique", score: 2 },
+            { value: "international", label: "International", score: 1 }
         ]
         },
         {

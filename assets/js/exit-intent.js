@@ -87,8 +87,15 @@
                             <option value="diaspora">Diaspora</option>
                             <option value="reunion">La Réunion</option>
                             <option value="mayotte">Mayotte</option>
-                            <option value="polynesie">Polynésie française</option>
+                            <option value="saint-barthelemy">Saint-Barthélemy</option>
+                            <option value="saint-martin">Saint-Martin</option>
+                            <option value="saint-pierre-et-miquelon">Saint-Pierre-et-Miquelon</option>
+                            <option value="polynesie-francaise">Polynésie Française</option>
                             <option value="nouvelle-caledonie">Nouvelle-Calédonie</option>
+                            <option value="wallis-et-futuna">Wallis-et-Futuna</option>
+                            <option value="haiti">Haïti</option>
+                            <option value="sainte-lucie">Sainte-Lucie</option>
+                            <option value="dominique">Dominique</option>
                             <option value="autre">Autre</option>
                         </select>
                         <div style="margin-top: 1rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.05) 100%); border: 2px solid rgba(0, 191, 166, 0.2); border-radius: 12px;">
