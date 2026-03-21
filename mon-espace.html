@@ -1642,19 +1642,14 @@
                             ${nextStepHTML}
                         </div>
                         
-                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT -->
-                        <div id="porteur-resources-grid" style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
-                            <div class="dash-card" style="border: 1px solid #10b981; background: rgba(16,185,129,0.02);">
-                                <div class="card-title" style="color: #10b981;">
-                                    Guide des Aides & Financements
+                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT (SoloPrice Only) -->
+                        <div id="porteur-resources-grid" style="margin-top: 32px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
+                            <div class="dash-card highlight" style="border: 1px solid #0284c7; background: rgba(2,132,199,0.02); display: flex; align-items: center; justify-content: space-between; padding: 32px;">
+                                <div style="flex: 1;">
+                                    <div class="card-title" style="color: #0284c7; font-size: 1.4rem;">SoloPrice : Calculez votre Budget</div>
+                                    <p class="card-desc" style="font-size: 1.05rem; margin-top: 8px;">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer votre besoin financier.</p>
                                 </div>
-                                <p class="card-desc">Accédez aux ressources et dispositifs d'aide pour votre territoire (${pData ? pData.territory || 'DOM-TOM' : 'DOM-TOM'}).</p>
-                                <a href="/territoires/${pData ? (pData.territory || 'martinique').toLowerCase() : 'martinique'}" class="cta-button primary" style="background: #10b981; margin-top: auto; justify-content: center;">Voir les aides locales</a>
-                            </div>
-                            <div class="dash-card" style="border: 1px solid #0284c7;">
-                                <div class="card-title" style="color: #0284c7;">SoloPrice : Calculez votre Budget</div>
-                                <p class="card-desc">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer vos besoins.</p>
-                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #0284c7;">Accéder à SoloPrice →</a>
+                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="background: #0284c7; padding: 16px 32px; font-weight: 800;">Accéder à SoloPrice →</a>
                             </div>
                         </div>
                     `;
