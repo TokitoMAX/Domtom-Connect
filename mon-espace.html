@@ -1407,6 +1407,51 @@
             }
         }
 
+        function updateProfileStrength(profile) {
+            if (!profile) return;
+            let strength = 20; 
+            if (profile.full_name) strength += 20;
+            if (profile.bio && profile.bio.length > 20) strength += 20;
+            if (profile.territory) strength += 20;
+            if (profile.role) strength += 20;
+
+            const bar = document.getElementById('strength-bar');
+            const p = document.getElementById('strength-percentage');
+            if (bar) bar.style.width = strength + '%';
+            if (p) p.textContent = strength + '%';
+            
+            const strengthContainer = document.getElementById('profile-strength-container');
+            if (strengthContainer && profile.role === 'expert') strengthContainer.style.display = 'block';
+        }
+
+        function renderVisibilityPreview(profile) {
+            console.log("Render Visibility Preview for:", profile?.id);
+        }
+
+        async function loadMatchmaking(userId) {
+            console.log("Loading matchmaking for:", userId);
+        }
+
+        async function toggleListing(currentStatus) {
+            const newStatus = !currentStatus;
+            const session = await getSession();
+            if (!session) return;
+            
+            try {
+                const { error } = await _supabase
+                    .from('profiles')
+                    .update({ listed: newStatus })
+                    .eq('id', session.user.id);
+                
+                if (error) throw error;
+                alert(newStatus ? "✅ Votre profil est désormais visible dans l'annuaire." : "🔕 Votre profil est maintenant masqué.");
+                window.location.reload();
+            } catch (err) {
+                alert("Erreur lors du changement de visibilité : " + err.message);
+            }
+        }
+
+
         async function loadMyProjects(userId) {
             const container = document.getElementById('my-projects-list');
             if (!container) return;
@@ -1434,10 +1479,139 @@
                 return;
             }
 
-            // Update Success Engine Header with first project
-            const firstProj = projects[0];
-            const score = calculateProjectMaturity(firstProj);
-            updateSuccessStepper(score, firstProj.id);
+            // Update Success Engine UI
+            if (projects.length > 0) {
+                const firstProj = projects[0];
+                const totalScore = calculateProjectMaturity(firstProj);
+                updateSuccessStepper(totalScore, firstProj.id);
+
+                // Dynamiser le Header "Vision Card"
+                const headerContainer = document.getElementById('success-engine-header');
+                let headerHTML = "";
+                if (totalScore < 25) {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 1 : Fondations</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
+                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
+                            </div>
+                        </div>
+                    `;
+                } else if (totalScore < 50) {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2); background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);">
+                            <span style="font-size:0.75rem; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 2 : Trajectoire</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">La Boussole Stratégique</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Une vision sans roadmap n'est qu'une hallucination. Tracez vos objectifs court, moyen et long terme."</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <button onclick="openRoadmapModal('${firstProj.id}')" class="cta-button primary" style="background:#34d399; color:#064e3b; border:none; padding:16px 32px; font-size:1rem; cursor:pointer; font-weight:800;">Ouvrir ma Boussole</button>
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px;">Modifier le Manifeste</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    headerHTML = `
+                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid #10b981; background: #0f172a;">
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Progression Élevée</span>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Succès en Approche</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre projet gagne en maturité. Suivez les étapes ci-dessous pour débloquer le Commando et l'Impulsion.</p>
+                            <div style="display:flex; justify-content:center; gap:16px;">
+                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Voir l'action suivante</a>
+                            </div>
+                        </div>
+                    `;
+                }
+                headerContainer.innerHTML = headerHTML;
+
+                // Dynamic Call to Action
+                const engineStepContainer = document.getElementById('success-engine-step');
+                let nextStepHTML = "";
+
+                if (totalScore < 25) {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Affinez votre Manifeste</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre vision n'est pas encore assez complète pour passer à la Boussole.</p>
+                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Compléter ma Vision</button>
+                            </div>
+                        `;
+                } else if (totalScore < 50) {
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Activez votre Boussole</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre Vision est validée. Il est temps de tracer votre trajectoire S, M et L.</p>
+                                <button onclick="openRoadmapModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Établir ma Roadmap</button>
+                            </div>
+                        `;
+                } else if (totalScore < 75) {
+                    const isCommandoStarted = firstProj.roadmap && firstProj.roadmap.commando_started;
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCommandoStarted ? "Le Commando est en route" : "Déployez le Commando"}</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCommandoStarted ? "Votre Roadmap est validée. Nos experts analysent votre profil pour un matching d'élite." : "Votre Roadmap est prête. Lancez le sourcing pour recruter vos experts diaspora."}</p>
+                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:white; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
+                                    ${isCommandoStarted ? "Sourcing en cours..." : "Lancer le Sourcing Expert →"}
+                                </button>
+                            </div>
+                        `;
+                } else {
+                    const isCertified = firstProj.roadmap && firstProj.roadmap.is_certified;
+
+                    nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et l'Appel Stratégique."}</p>
+                                <button onclick="${isCertified ? 'window.open(\'https://calendly.com/domtomconnect/30min\', \'_blank\')' : 'openImpulsionModal(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
+                                    ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
+                                </button>
+                                ${isCertified ? `
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>
+                                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
+                                        <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="cta-button ghost" style="font-size:0.8rem; border:1px solid var(--gray-300); color:var(--text-secondary);">
+                                            ${firstProj.is_listed ? "Retirer de la Marketplace" : "Republier mon Épopée"}
+                                        </button>
+                                        <button onclick="deleteProject('${firstProj.id}')" class="cta-button ghost" style="font-size:0.8rem; border:1px solid #ef4444; color:#ef4444;">
+                                            Supprimer l'Épopée
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                }
+
+                engineStepContainer.innerHTML = `
+                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
+                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
+                                <div style="display:flex; align-items:baseline; gap:8px;">
+                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">${totalScore}%</span>
+                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
+                                </div>
+                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
+                            </div>
+                            ${nextStepHTML}
+                        </div>
+                        
+                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT -->
+                        <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
+                            <div class="dash-card" style="border: 1px solid #10b981; background: rgba(16,185,129,0.02);">
+                                <div class="card-title" style="color: #10b981;">
+                                    Guide des Aides & Financements
+                                </div>
+                                <p class="card-desc">Accédez aux ressources et dispositifs d'aide pour votre territoire (${pData ? pData.territory || 'DOM-TOM' : 'DOM-TOM'}).</p>
+                                <a href="/territoires/${pData ? (pData.territory || 'martinique').toLowerCase() : 'martinique'}" class="cta-button primary" style="background: #10b981; margin-top: auto; justify-content: center;">Voir les aides locales</a>
+                            </div>
+                            <div class="dash-card" style="border: 1px solid #0284c7;">
+                                <div class="card-title" style="color: #0284c7;">SoloPrice : Calculez votre Budget</div>
+                                <p class="card-desc">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer vos besoins.</p>
+                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #0284c7;">Accéder à SoloPrice →</a>
+                            </div>
+                        </div>
+                    `;
+            }
 
             container.innerHTML = projects.map(p => {
                 const s = calculateProjectMaturity(p);
@@ -1986,195 +2160,7 @@
                 // initRouting(); 
             }
         }
-
-        async function loadMyProjects(userId) {
-            const { data: projects, error } = await _supabase
-                .from('projects')
-                .select('*')
-                .eq('owner_id', userId);
-
-            const container = document.getElementById('my-projects-list');
-            if (error || !projects || projects.length === 0) {
-                updateSuccessStepper(0); // Highlight first step
-                container.innerHTML = `
-                    <div style="background: white; border: 2px dashed var(--gray-200); border-radius: 16px; padding: 40px; text-align: center;">
-                        <span style="font-size: 2rem; display: block; margin-bottom: 16px;"></span>
-                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Prêt à lancer votre épopée ?</h3>
-                        <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Votre premier projet commence ici. Nous allons vous guider à chaque étape.</p>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background:var(--primary-color);">Démarrer mon Manifeste</button>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = `
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:24px;">
-                    ${projects.map(p => {
-                const score = calculateProjectMaturity(p);
-                return `
-                        <div class="dash-card">
-                            <div style="width:calc(100% + 48px); height:160px; margin:-24px -24px 20px -24px; overflow:hidden; border-bottom:1px solid var(--gray-200); background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:2rem;">
-                                ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : 'DOMTOM'}
-                            </div>
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
-                                <div>
-                                    <h4 style="margin:0 0 4px 0; font-size:1.1rem;">${p.title}</h4>
-                                    <span style="font-size:0.7rem; background:#f1f5f9; padding:2px 8px; border-radius:4px; font-weight:600; text-transform:uppercase;">${p.status}</span>
-                                </div>
-                                <div style="text-align:right;">
-                                    <div style="font-size:1.2rem; font-weight:800; color:#10b981;">${score}%</div>
-                                    <div style="font-size:0.65rem; color:var(--text-muted);">Maturité</div>
-                                </div>
-                            </div>
-                            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:20px; line-height:1.5;">${p.description.slice(0, 100)}${p.description.length > 100 ? '...' : ''}</p>
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-                                <div style="display:flex; gap:8px;">
-                                    <span style="font-size:0.7rem; border:1px solid var(--gray-200); padding:2px 8px; border-radius:4px;">${p.territory}</span>
-                                </div>
-                                <button onclick="openProjectModal('${p.id}')" class="cta-button secondary" style="font-size:0.75rem; padding:6px 12px;">Gérer l'épopée</button>
-                            </div>
-                        </div>
-                    `}).join('')}
-                    <div style="background:rgba(16, 185, 129, 0.05); border: 2px dashed #10b981; border-radius: 16px; padding: 32px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981;">+ Nouvelle Épopée</button>
-                    </div>
-                </div>
-            `;
-
-            // Update Success Engine UI
-            if (projects.length > 0) {
-                const firstProj = projects[0];
-                const totalScore = calculateProjectMaturity(firstProj);
-                updateSuccessStepper(totalScore, firstProj.id);
-
-                // Dynamiser le Header "Vision Card"
-                const headerContainer = document.getElementById('success-engine-header');
-                let headerHTML = "";
-                if (totalScore < 25) {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 1 : Fondations</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
-                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
-                            </div>
-                        </div>
-                    `;
-                } else if (totalScore < 50) {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2); background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);">
-                            <span style="font-size:0.75rem; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 2 : Trajectoire</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">La Boussole Stratégique</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Une vision sans roadmap n'est qu'une hallucination. Tracez vos objectifs court, moyen et long terme."</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openRoadmapModal('${firstProj.id}')" class="cta-button primary" style="background:#34d399; color:#064e3b; border:none; padding:16px 32px; font-size:1rem; cursor:pointer; font-weight:800;">Ouvrir ma Boussole</button>
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px;">Modifier le Manifeste</button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid #10b981; background: #0f172a;">
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Progression Élevée</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Succès en Approche</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre projet gagne en maturité. Suivez les étapes ci-dessous pour débloquer le Commando et l'Impulsion.</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Voir l'action suivante</a>
-                            </div>
-                        </div>
-                    `;
-                }
-                headerContainer.innerHTML = headerHTML;
-
-                // Dynamic Call to Action
-                const engineStepContainer = document.getElementById('success-engine-step');
-                let nextStepHTML = "";
-
-                if (totalScore < 25) {
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Affinez votre Manifeste</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre vision n'est pas encore assez complète pour passer à la Boussole.</p>
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Compléter ma Vision</button>
-                            </div>
-                        `;
-                } else if (totalScore < 50) {
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Activez votre Boussole</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre Vision est validée. Il est temps de tracer votre trajectoire S, M et L.</p>
-                                <button onclick="openRoadmapModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Établir ma Roadmap</button>
-                            </div>
-                        `;
-                } else if (totalScore < 75) {
-                    const isCommandoStarted = firstProj.roadmap && firstProj.roadmap.commando_started;
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCommandoStarted ? "Le Commando est en route" : "Déployez le Commando"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCommandoStarted ? "Votre Roadmap est validée. Nos experts analysent votre profil pour un matching d'élite." : "Votre Roadmap est prête. Lancez le sourcing pour recruter vos experts diaspora."}</p>
-                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:white; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
-                                    ${isCommandoStarted ? "Sourcing en cours..." : "Lancer le Sourcing Expert →"}
-                                </button>
-                            </div>
-                        `;
-                } else {
-                    const isCertified = firstProj.roadmap && firstProj.roadmap.is_certified;
-
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et l'Appel Stratégique."}</p>
-                                <button onclick="${isCertified ? 'window.open(\'https://calendly.com/domtomconnect/30min\', \'_blank\')' : 'openImpulsionModal(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
-                                    ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
-                                </button>
-                                ${isCertified ? `
-                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>
-                                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
-                                        <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="cta-button ghost" style="font-size:0.8rem; border:1px solid var(--gray-300); color:var(--text-secondary);">
-                                            ${firstProj.is_listed ? "Retirer de la Marketplace" : "Republier mon Épopée"}
-                                        </button>
-                                        <button onclick="deleteProject('${firstProj.id}')" class="cta-button ghost" style="font-size:0.8rem; border:1px solid #ef4444; color:#ef4444;">
-                                            Supprimer l'Épopée
-                                        </button>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `;
-                }
-
-                engineStepContainer.innerHTML = `
-                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
-                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
-                                <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">${totalScore}%</span>
-                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
-                                </div>
-                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
-                            </div>
-                            ${nextStepHTML}
-                        </div>
-                        
-                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT -->
-                        <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
-                            <div class="dash-card" style="border: 1px solid #10b981; background: rgba(16,185,129,0.02);">
-                                <div class="card-title" style="color: #10b981;">
-                                    Guide des Aides & Financements
-                                </div>
-                                <p class="card-desc">Accédez aux ressources et dispositifs d'aide pour votre territoire (${pData ? pData.territory || 'DOM-TOM' : 'DOM-TOM'}).</p>
-                                <a href="/territoires/${pData ? (pData.territory || 'martinique').toLowerCase() : 'martinique'}" class="cta-button primary" style="background: #10b981; margin-top: auto; justify-content: center;">Voir les aides locales</a>
-                            </div>
-                            <div class="dash-card" style="border: 1px solid #0284c7;">
-                                <div class="card-title" style="color: #0284c7;">SoloPrice : Calculez votre Budget</div>
-                                <p class="card-desc">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer vos besoins.</p>
-                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #0284c7;">Accéder à SoloPrice →</a>
-                            </div>
-                        </div>
-                    `;
-            }
-        }
+        
 
 
 
