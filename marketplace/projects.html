@@ -235,18 +235,9 @@
                         <option value="Martinique">Martinique</option>
                         <option value="Guadeloupe">Guadeloupe</option>
                         <option value="Guyane">Guyane</option>
-                        <option value="Diaspora">Diaspora</option>
                         <option value="Réunion">La Réunion</option>
                         <option value="Mayotte">Mayotte</option>
-                        <option value="Saint-Barthélemy">Saint-Barthélemy</option>
-                        <option value="Saint-Martin">Saint-Martin</option>
-                        <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                        <option value="Polynésie Française">Polynésie Française</option>
-                        <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
-                        <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                        <option value="Haïti">Haïti</option>
-                        <option value="Sainte-Lucie">Sainte-Lucie</option>
-                        <option value="Dominique">Dominique</option>
+                        <option value="Diaspora">Diaspora</option>
                         <option value="International">International</option>
                     </select>
                 </div>
@@ -348,8 +339,11 @@
         function calculateProjectMaturity(p) {
             if (!p) return 0;
             let score = 0;
-            if (p.title) score += 10;
-            if (p.description && p.description.length > 5) score += 10;
+            const desc = p.description || "";
+            if (p.title && p.title.length > 5) score += 5;
+            if (desc.includes('[[VISION]]')) score += 10;
+            if (desc.includes('[[MISSION]]')) score += 10;
+            if (desc.includes('[[PROBLEM]]')) score += 10;
             if (p.territory) score += 5;
             if (p.roadmap) {
                 const r = p.roadmap;
@@ -358,11 +352,10 @@
                 if (r.long) score += 5;
             }
             if (p.budget) score += 10;
-            if (p.cover_url) score += 10;
-            if (p.needs && p.needs.length > 5) score += 5;
+            if (p.cover_url) score += 5;
+            if (p.needs && p.needs.length > 5) score += 10;
             if (p.video_url) score += 10;
-            if (p.social_links && (p.social_links.linkedin || p.social_links.twitter)) score += 10;
-            if (p.audit_score >= 8) score += 5;
+            if (p.social_links && (p.social_links.linkedin || p.social_links.twitter || p.social_links.website)) score += 10;
             return Math.min(100, score);
         }
 
