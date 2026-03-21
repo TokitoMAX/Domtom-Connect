@@ -943,7 +943,8 @@
 
             const isPremium = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence' || currentSubscriptionTier === 'business');
             const isOwner = currentUserId === job.company_id;
-            const canSeeDetails = isPremium || isOwner || (currentUserRole === 'porteur' || currentUserRole === 'basique');
+            const isProjectHolder = (currentUserRole === 'porteur' || currentUserRole === 'basique');
+            const canSeeDetails = isPremium || isOwner || isProjectHolder;
             const alreadyApplied = userApplications.includes(job.id);
 
             // Simple description rendering
@@ -959,6 +960,8 @@
                 actionBtn = `<div class="tag" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0;">VOTRE OFFRE</div>`;
             } else if (alreadyApplied) {
                 actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée</button>`;
+            } else if (isProjectHolder) {
+                actionBtn = `<button class="btn-premium-contact" style="background:#64748b; cursor:not-allowed;" title="Réservé aux Experts">Candidature réservée aux Experts</button>`;
             } else if (canSeeDetails) {
                 actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}', '${job.title.replace(/'/g, "\\'")}', '${company.full_name.replace(/'/g, "\\'")}')" class="btn-premium-contact">Postuler</button>`;
             } else {
@@ -1151,15 +1154,16 @@
                 return;
             }
 
-            // Infrastructure Pre-check
+            // Infrastructure Pre-check (SILENT for users, WARNING for admin/dev)
             try {
-                const { data, error } = await _supabase.storage.getBucket('applications-docs');
-                if (error) {
+                // frontend test via list() which respects RLS instead of getBucket (admin only)
+                const { data, error } = await _supabase.storage.from('applications-docs').list('', { limit: 1 });
+                if (error && error.message.includes('not found')) {
                     console.error("Storage not ready:", error);
-                    alert("⚠️ ATTENTION : Le système de stockage n'est pas encore activé sur votre Supabase. Veuillez exécuter le script SQL fourni dans le guide (Walkthrough) avant de postuler, sinon vos documents ne seront pas enregistrés.");
+                    alert("⚠️ ATTENTION : Le système de stockage n'est pas encore activé sur votre Supabase. Veuillez créer le bucket 'applications-docs' en mode Public.");
                 }
             } catch (err) {
-                console.warn("Could not verify storage bucket:", err);
+                console.warn("Could not verify storage access:", err);
             }
 
             pendingJobId = jobId;
