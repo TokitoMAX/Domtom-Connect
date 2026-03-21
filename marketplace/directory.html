@@ -677,10 +677,7 @@
 
                     <div class="premium-actions">
                         <button onclick="showExpertDetails('${profile.id}')" class="btn-premium-view">Profil</button>
-                        ${currentUserRole === 'porteur' || currentUserRole === 'basique'
-                            ? `<button class="btn-premium-contact" style="background:#64748b; cursor:not-allowed;" title="Réservé aux Clients & Experts">Contact réservé</button>`
-                            : `<a href="../messages?to=${profile.id}" class="btn-premium-contact">Contacter</a>`
-                        }
+                        <a href="../messages?to=${profile.id}" class="btn-premium-contact">Contacter</a>
                     </div>
                 </div>
             `;
