@@ -2157,19 +2157,19 @@
                             ${nextStepHTML}
                         </div>
                         
-                        <!-- SECTION : OUTILS EXPERTS (BÉTA) -->
+                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT -->
                         <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
-                            <div class="dash-card" style="border: 1px solid #7c3aed; background: rgba(124, 58, 237, 0.02);">
-                                <div class="card-title" style="color: #7c3aed;">
-                                    Audit Stratégique AI <span style="font-size: 0.6rem; background: #7c3aed; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">BÉTA</span>
+                            <div class="dash-card" style="border: 1px solid #10b981; background: rgba(16,185,129,0.02);">
+                                <div class="card-title" style="color: #10b981;">
+                                    Guide des Aides & Financements
                                 </div>
-                                <p class="card-desc">Obtenez une analyse instantanée de la solidité de votre Manifeste par notre IA dédiée.</p>
-                                <button onclick="runAiAudit('${firstProj.id}')" class="cta-button primary" style="background: #7c3aed; margin-top: auto; justify-content: center;">Lancer l'Audit AI</button>
+                                <p class="card-desc">Accédez aux ressources et dispositifs d'aide pour votre territoire (${pData ? pData.territory || 'DOM-TOM' : 'DOM-TOM'}).</p>
+                                <a href="/territoires/${pData ? (pData.territory || 'martinique').toLowerCase() : 'martinique'}" class="cta-button primary" style="background: #10b981; margin-top: auto; justify-content: center;">Voir les aides locales</a>
                             </div>
-                            <div class="dash-card" style="border: 1px solid #64748b;">
-                                <div class="card-title" style="color: #64748b;">Export Manifeste Professionnel</div>
-                                <p class="card-desc">Générez un dossier exportable de votre projet pour vos partenaires et banques.</p>
-                                <button onclick="exportManifesto('${firstProj.id}')" class="cta-button secondary" style="margin-top: auto; justify-content: center; border-color: #64748b; color: #64748b;">Exporter en PDF / Print</button>
+                            <div class="dash-card" style="border: 1px solid #0284c7;">
+                                <div class="card-title" style="color: #0284c7;">SoloPrice : Calculez votre Budget</div>
+                                <p class="card-desc">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer vos besoins.</p>
+                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top: auto; justify-content: center; background: #0284c7;">Accéder à SoloPrice →</a>
                             </div>
                         </div>
                     `;
@@ -2177,115 +2177,7 @@
         }
 
 
-        async function runAiAudit(projectId) {
-            const btn = event.currentTarget;
-            const originalText = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = "Analyse stratégique...";
-            
-            try {
-                // Simulation d'IA
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
-                if (!p) throw new Error("Projet non trouvé.");
-                
-                const score = calculateProjectMaturity(p);
-                
-                let advice = "";
-                if (score < 25) {
-                    advice = "⚠️ Votre Manifeste est trop court. Un investisseur a besoin de comprendre précisément votre 'Comment'. Détaillez davantage la partie Mission.";
-                } else if (score < 50) {
-                    advice = "💡 Bonne structure ! Votre Vision est claire. Concentrez-vous maintenant sur la Boussole : vos objectifs court-terme doivent être plus chiffrés.";
-                } else if (score < 75) {
-                    advice = "🚀 Excellent. Votre dossier est solide. L'IA recommande de préparer un 'Brief Commando' spécifique pour chaque compétence recherchée.";
-                } else {
-                    advice = "🌟 Félicitations ! Votre projet est 'Market-Ready'. Utilisez l'export professionnel pour commencer votre levée de fonds ou vos recrutements.";
-                }
-                
-                alert("🤖 CONSEIL STRATÉGIQUE AI :\n\n" + advice + "\n\nScore de maturité actuel : " + score + "%.");
-            } catch (err) {
-                console.error("Audit AI Error:", err);
-                alert("Erreur lors de l'audit : " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = originalText;
-            }
-        }
 
-        async function exportManifesto(projectId) {
-            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
-            if (!p) return;
-            
-            let vision = "Non renseigné", mission = "Non renseigné", problem = "Non renseigné";
-            const desc = p.description || "";
-            if (desc.includes('[[VISION]]')) {
-                vision = desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim();
-                mission = desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim();
-                problem = desc.split('[[PROBLEM]]')[1].trim();
-            } else {
-                vision = desc;
-            }
-
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Manifeste - ${p.title}</title>
-                    <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                        body { font-family: 'Inter', sans-serif; padding: 60px; line-height: 1.6; color: #1e292b; max-width: 800px; margin: 0 auto; }
-                        header { border-bottom: 4px solid #10b981; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-                        h1 { font-size: 2.5rem; font-weight: 900; margin: 0; color: #0f172a; text-transform: uppercase; letter-spacing: -0.02em; }
-                        h2 { color: #10b981; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 40px; border-left: 4px solid #10b981; padding-left: 15px; }
-                        .meta { color: #64748b; font-size: 0.85rem; font-weight: 600; }
-                        p { margin-bottom: 20px; white-space: pre-wrap; }
-                        footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 0.75rem; }
-                        .badge { background: #10b981; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; }
-                    </style>
-                </head>
-                <body>
-                    <header>
-                        <div>
-                            <h1>MANIFESTE</h1>
-                            <div class="meta">Épopée : ${p.title}</div>
-                        </div>
-                        <div class="badge">PROJET CERTIFIÉ DOMTOM CONNECT</div>
-                    </header>
-                    
-                    <div class="section">
-                        <h2>I. LA VISION (L'ambition)</h2>
-                        <p>${vision || 'Non renseigné'}</p>
-                    </div>
-                    
-                    <div class="section">
-                        <h2>II. LA MISSION (La Solution)</h2>
-                        <p>${mission || 'Non renseigné'}</p>
-                    </div>
-                    
-                    <div class="section">
-                        <h2>III. LE PROBLÈME (Le Pourquoi)</h2>
-                        <p>${problem || 'Non renseigné'}</p>
-                    </div>
-
-                    <div class="section" style="margin-top:40px; background:#f8fafc; padding:20px; border-radius:8px;">
-                        <div style="font-weight:bold; font-size:0.8rem; margin-bottom:10px;">DÉTAILS LOGISTIQUES</div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.9rem;">
-                            <div><strong>Territoire :</strong> ${p.territory}</div>
-                            <div><strong>Stade :</strong> ${p.status}</div>
-                        </div>
-                    </div>
-                    
-                    <footer>
-                        Ce document est un extrait officiel généré via Domtom Connect. 
-                        Document confidentiel destiné aux partenaires stratégiques.
-                    </footer>
-                    <script>window.onload = () => { setTimeout(() => { window.print(); window.close(); }, 500); };<\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
 
 
 
