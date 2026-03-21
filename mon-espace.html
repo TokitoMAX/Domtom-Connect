@@ -1450,6 +1450,51 @@
                 alert("Erreur lors du changement de visibilité : " + err.message);
             }
         }
+        
+        function calculateProjectMaturity(p) {
+            if (!p) return 0;
+            let score = 0;
+            const desc = p.description || "";
+            if (p.title && p.title.length > 5) score += 5;
+            if (desc.includes('[[VISION]]') && desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim().length > 20) score += 10;
+            if (desc.includes('[[MISSION]]') && desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim().length > 20) score += 10;
+            if (desc.includes('[[PROBLEM]]') && desc.split('[[PROBLEM]]')[1].trim().length > 20) score += 10;
+            
+            if (p.roadmap) {
+                let rd = p.roadmap;
+                if (typeof rd === 'string') {
+                    try { rd = JSON.parse(rd); } catch(e) { rd = {}; }
+                }
+                if (rd.short) score += 10;
+                if (rd.medium) score += 10;
+                if (rd.long) score += 10;
+                if (rd.commando_started) score += 10;
+                if (rd.is_certified) score += 25;
+            }
+            return Math.min(score, 100);
+        }
+
+        function updateSuccessStepper(score, projectId) {
+            const steps = [
+                { id: 'step-1', min: 0, label: 'Manifeste' },
+                { id: 'step-2', min: 25, label: 'Boussole' },
+                { id: 'step-3', min: 50, label: 'Commando' },
+                { id: 'step-4', min: 75, label: 'Impulsion' }
+            ];
+
+            steps.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el) {
+                    if (score >= s.min) {
+                        el.classList.add('active');
+                        el.classList.remove('locked');
+                    } else {
+                        el.classList.remove('active');
+                        el.classList.add('locked');
+                    }
+                }
+            });
+        }
 
 
         async function loadMyProjects(userId) {
@@ -1582,6 +1627,8 @@
                         `;
                 }
 
+                const pData = projects && projects.length > 0 ? projects[0] : null;
+
                 engineStepContainer.innerHTML = `
                          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
                             <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
@@ -1596,7 +1643,7 @@
                         </div>
                         
                         <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT -->
-                        <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
+                        <div id="porteur-resources-grid" style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
                             <div class="dash-card" style="border: 1px solid #10b981; background: rgba(16,185,129,0.02);">
                                 <div class="card-title" style="color: #10b981;">
                                     Guide des Aides & Financements
