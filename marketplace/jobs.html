@@ -941,9 +941,13 @@
                 ? `<img src="${company.avatar_url}" class="company-avatar">`
                 : `<div class="company-avatar">${initials}</div>`;
 
-            const isPremium = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence' || currentSubscriptionTier === 'business');
+            const isExpertPack = (currentSubscriptionTier === 'authority' || currentSubscriptionTier === 'influence');
+            const isCompanyPack = (currentSubscriptionTier === 'business');
+            const isProjectHolder = (currentUserRole === 'porteur' || currentUserRole === 'basique');
+            
+            const isPremium = isExpertPack || isCompanyPack;
             const isOwner = currentUserId === job.company_id;
-            const canSeeDetails = isPremium || isOwner;
+            const canSeeDetails = isPremium || isOwner || isProjectHolder;
             const alreadyApplied = userApplications.includes(job.id);
 
             // Simple description rendering
@@ -959,6 +963,8 @@
                 actionBtn = `<div class="tag" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0;">VOTRE OFFRE</div>`;
             } else if (alreadyApplied) {
                 actionBtn = `<button class="btn-premium-contact btn-premium-applied" disabled>Candidature envoyée</button>`;
+            } else if (isProjectHolder) {
+                actionBtn = `<button class="btn-premium-contact" style="background:#64748b; cursor:not-allowed;" title="Réservé aux Experts">Candidature réservée aux Experts</button>`;
             } else if (canSeeDetails) {
                 actionBtn = `<button onclick="openApplyModal('${job.id}', '${job.company_id}', '${job.title.replace(/'/g, "\\'")}', '${company.full_name.replace(/'/g, "\\'")}')" class="btn-premium-contact">Postuler</button>`;
             } else {

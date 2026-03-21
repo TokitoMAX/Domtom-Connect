@@ -103,155 +103,19 @@
                     recrutements. <strong>(Abonnement dès 29€/mois)</strong></p>
             </div>
 
-            <div class="role-card" onclick="finishOnboarding('basique')">
-                <h3 class="role-name">Curieux / Basique</h3>
-                <p class="role-desc">Je souhaite accéder aux ressources, à l'annuaire et suivre l'actualité de
-                    l'écosystème.</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- Étape 2 : Informations spécifiques -->
-    <main class="onboarding-card" id="step-2" style="display: none;">
-        <h1 class="onboarding-title" id="step-2-title">Complétez votre profil</h1>
-        <p class="onboarding-subtitle">Ces informations nous aident à vous proposer les meilleures opportunités.</p>
-
-        <div id="expert-form"
-            style="display: none; text-align: left; max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Votre Domaine / Compétences</label>
-                <input type="text" id="expert-skills" placeholder="Ex: Développement Web, Marketing, Conseil..."
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Votre TJM souhaité (€/jour)</label>
-                <input type="number" id="expert-tjm" placeholder="Ex: 500"
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Territoire principal</label>
-                <select id="expert-territory"
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-                    <option value="">Sélectionnez votre territoire</option>
-                    <option value="Martinique">Martinique</option>
-                    <option value="Guadeloupe">Guadeloupe</option>
-                    <option value="Guyane">Guyane</option>
-                    <option value="Diaspora">Diaspora</option>
-                    <option value="Réunion">La Réunion</option>
-                    <option value="Mayotte">Mayotte</option>
-                    <option value="Saint-Barthélemy">Saint-Barthélemy</option>
-                    <option value="Saint-Martin">Saint-Martin</option>
-                    <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                    <option value="Polynésie Française">Polynésie Française</option>
-                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
-                    <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                    <option value="Haïti">Haïti</option>
-                    <option value="Sainte-Lucie">Sainte-Lucie</option>
-                    <option value="Dominique">Dominique</option>
-                    <option value="International">International</option>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Bio courte (visible dans
-                    l'annuaire)</label>
-                <textarea id="expert-bio" placeholder="Décrivez votre expertise en 2-3 phrases..."
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; min-height: 80px;"></textarea>
-            </div>
-            <button onclick="finishOnboarding('expert')" class="cta-button primary"
-                style="width: 100%; padding: 15px; font-weight: 700; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;">Finaliser
-                mon profil Expert</button>
-        </div>
-
-        <div id="entreprise-form"
-            style="display: none; text-align: left; max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Nom de l'entreprise /
-                    Secteur</label>
-                <input type="text" id="entreprise-name" placeholder="Ex: Tech Antilles - Environnement"
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Territoire principal</label>
-                <select id="entreprise-territory"
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-                    <option value="">Sélectionnez votre territoire</option>
-                    <option value="Martinique">Martinique</option>
-                    <option value="Guadeloupe">Guadeloupe</option>
-                    <option value="Guyane">Guyane</option>
-                    <option value="Diaspora">Diaspora</option>
-                    <option value="Réunion">La Réunion</option>
-                    <option value="Mayotte">Mayotte</option>
-                    <option value="Saint-Barthélemy">Saint-Barthélemy</option>
-                    <option value="Saint-Martin">Saint-Martin</option>
-                    <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                    <option value="Polynésie Française">Polynésie Française</option>
-                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
-                    <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                    <option value="Haïti">Haïti</option>
-                    <option value="Sainte-Lucie">Sainte-Lucie</option>
-                    <option value="Dominique">Dominique</option>
-                    <option value="International">International</option>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 8px;">Besoins immédiats</label>
-                <textarea id="entreprise-needs" placeholder="Ex: Recherche de développeurs pour projet mobile..."
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; min-height: 100px;"></textarea>
-            </div>
-            <button onclick="finishOnboarding('entreprise')" class="cta-button primary"
-                style="width: 100%; padding: 15px; font-weight: 700; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;">Finaliser
-                mon profil Entreprise</button>
-        </div>
-
-        <button onclick="backToStep1()"
-            style="margin-top: 20px; background: none; border: none; color: #64748b; cursor: pointer; text-decoration: underline;">Retour</button>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/form-security.js"></script>
-    <script src="../assets/js/auth.js"></script>
-    <script>
-        let selectedRole = '';
-
-        // Garde de session : vérifie que l'user est connecté et n'a pas déjà un rôle
-        window.addEventListener('load', async () => {
-            try {
-                const session = await getSession();
-                if (!session) {
-                    // Pas connecté → login
-                    window.location.href = '../login';
-                    return;
-                }
-
-                // Gating Native Supabase (Phase 10)
-                if (!session.user.email_confirmed_at) {
-                    console.log("Accès Onboarding refusé: Email non confirmé nativement.");
-                    window.location.href = 'verify-email';
-                    return;
-                }
-
                 const role = session.user?.user_metadata?.role || null;
+                const subTier = session.user?.user_metadata?.subscription_tier || 'free';
 
                 // Vérifier si le profil existe réellement en base
                 const { data: profile } = await supabase
                     .from('profiles')
-                    .select('id')
+                    .select('id, role, subscription_tier')
                     .eq('id', session.user.id)
                     .single();
 
-                if (role && profile) {
-                    // Rôle déjà défini ET profil existant → pas besoin de repasser par l'onboarding
+                if ((role || profile?.role) && (subTier !== 'free' || (profile?.role && profile.role !== 'porteur'))) {
+                    // Rôle déjà défini ET validé (pas un simple porteur/basique sans abonnement)
                     window.location.href = '../mon-projet';
-                } else if (role && !profile) {
-                    console.log("Incohérence détectée: Rôle présent mais Profil absent. Nettoyage...");
-                    // Optionnel: On pourrait tenter de nettoyer les metadata ici si nécessaire
-                }
-
-                // --- INTENTION ONBOARDING ---
-                const roleIntent = localStorage.getItem('onboarding_role');
-                if (roleIntent && !role) {
-                    console.log("Onboarding: Rôle détecté depuis l'intention d'achat (" + roleIntent + ")");
-                    goToStep2(roleIntent === 'prestataire' ? 'expert' : roleIntent);
                 }
             } catch (err) {
                 console.error('Erreur session onboarding:', err);
@@ -281,7 +145,7 @@
 
         async function finishOnboarding(role) {
             const finalRole = role || selectedRole;
-            let metadata = { role: finalRole };
+            let metadata = { role: finalRole === 'basique' ? 'porteur' : finalRole };
 
             if (finalRole === 'expert') {
                 metadata.skills = document.getElementById('expert-skills').value.trim();
