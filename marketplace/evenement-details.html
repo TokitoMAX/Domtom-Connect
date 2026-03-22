@@ -539,13 +539,19 @@
         function calculateTotal() {
             let total = 0;
             let totalQty = 0;
-            let tiers = currentEvent.ticket_tiers || [{ id: 'default', price: currentEvent.price }];
+            // Robust tiers fallback
+            let tiers = currentEvent.ticket_tiers;
+            if (!tiers || tiers.length === 0) {
+                tiers = [{ id: 'default', name: 'Billet Standard', price: currentEvent.price || 0 }];
+            }
 
             for (const [tid, qty] of Object.entries(selections)) {
                 if (qty <= 0) continue;
                 totalQty += qty;
                 const tier = tiers.find(t => t.id === tid) || tiers[0];
-                total += (tier.price * qty);
+                if (tier) {
+                    total += (parseFloat(tier.price || 0) * qty);
+                }
             }
 
             const summary = document.getElementById('checkout-summary');
@@ -600,11 +606,17 @@
 
             // Calculate total for PayPal
             let total = 0;
-            let tiers = currentEvent.ticket_tiers || [{ id: 'default', price: currentEvent.price }];
+            let currentTiers = currentEvent.ticket_tiers;
+            if (!currentTiers || currentTiers.length === 0) {
+                currentTiers = [{ id: 'default', name: 'Billet Standard', price: currentEvent.price || 0 }];
+            }
+
             for (const [tid, qty] of Object.entries(selections)) {
                 if (qty <= 0) continue;
-                const tier = tiers.find(t => t.id === tid) || tiers[0];
-                total += (tier.price * qty);
+                const tier = currentTiers.find(t => t.id === tid) || currentTiers[0];
+                if (tier) {
+                    total += (parseFloat(tier.price || 0) * qty);
+                }
             }
 
             const paypalContainer = document.getElementById('paypal-button-container');
@@ -645,7 +657,10 @@
                 }
 
                 const ticketsToInsert = [];
-                let tiers = currentEvent.ticket_tiers || [{ id: 'default', name: 'Billet Standard' }];
+                let tiers = currentEvent.ticket_tiers;
+                if (!tiers || tiers.length === 0) {
+                    tiers = [{ id: 'default', name: 'Billet Standard' }];
+                }
 
                 for (const [tid, qty] of Object.entries(selections)) {
                     if (qty <= 0) continue;
