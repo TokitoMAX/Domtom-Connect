@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'Événement – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Layout */
+        .event-hero {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-blur-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(40px) brightness(0.4);
+            transform: scale(1.1);
+        }
+
+        .hero-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 60px;
+            z-index: 2;
+        }
+
+        .flyer-wrapper {
+            flex-shrink: 0;
+            width: 380px;
+            height: 380px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 4px solid var(--glass-border);
+            background: #111;
+        }
+
+        .flyer-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-info {
+            color: white;
+            flex-grow: 1;
+        }
+
+        .event-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--primary-gradient);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero-info h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Content Layout */
+        .content-grid {
+            max-width: 1200px;
+            margin: -60px auto 80px;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-card, .sidebar-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .description-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #475569;
+            white-space: pre-wrap;
+        }
+
+        /* Ticketing Rows */
+        .tier-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border: 1.5px solid #f1f5f9;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+
+        .tier-card:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .tier-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .tier-price {
+            color: #10b981;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 12px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            color: #0f172a;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .qty-val {
+            font-weight: 800;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .summary-box {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px dashed #f1f5f9;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .total-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            .hero-container { flex-direction: column; text-align: center; padding-top: 60px; gap: 30px; }
+            .content-grid { grid-template-columns: 1fr; margin-top: 20px; }
+            .flyer-wrapper { width: 300px; height: 300px; }
+            .hero-info h1 { font-size: 2.5rem; }
+            .hero-meta { justify-content: center; flex-wrap: wrap; }
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 100px;
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        .host-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="evenements.html" class="back-nav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Retour au Marché
+    </a>
+
+    <!-- Hero Section -->
+    <section class="event-hero" id="hero-section">
+        <div class="hero-blur-bg" id="hero-blur-bg"></div>
+        <div class="hero-container">
+            <div class="flyer-wrapper">
+                <img id="event-flyer" src="" alt="Flyer">
+            </div>
+            <div class="hero-info">
+                <div class="event-badge">Événement Live</div>
+                <h1 id="event-title">Chargement...</h1>
+                <div class="hero-meta">
+                    <div class="hero-meta-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                        <span id="event-date">--</span>
+                    </div>
+                    <div class="hero-meta-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span id="event-location">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-grid">
+        <div class="main-card">
+            <div class="section-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                À propos de l'événement
+            </div>
+            <p class="description-text" id="event-desc">Chargement de la description...</p>
+            
+            <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; gap: 16px;">
+                <img id="host-avatar" class="host-avatar" src="" alt="Host">
+                <div>
+                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Organisé par</div>
+                    <div id="host-name" style="font-weight: 800; font-size: 1.1rem;">--</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <div class="section-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M2 9a3 3 0 013-3h14a3 3 0 013 3v6a3 3 0 01-3 3H5a3 3 0 01-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
+                Billetterie
+            </div>
+            
+            <div id="tiers-container">
+                <!-- Tiers injected here -->
+            </div>
+
+            <div id="checkout-summary" style="display: none;" class="summary-box">
+                <div class="total-row">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="total-amount">0.00 €</span>
+                </div>
+                
+                <div id="paypal-button-container"></div>
+                
+                <div id="free-checkout" style="display: none;">
+                    <button onclick="processFreeTicket()" style="width:100%; border:none; padding:18px; border-radius:16px; background:var(--primary-gradient); color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">S'inscrire gratuitement</button>
+                </div>
+            </div>
+
+            <div id="success-view" style="display: none; text-align: center; padding: 20px 0;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                <h2 style="font-weight: 800; color: #10b981;">Billet Réservé !</h2>
+                <p style="color: #64748b; margin-bottom: 30px;">Votre commande a été confirmée. Voici votre QR Code d'accès :</p>
+                <div id="qrcode" style="display:flex; justify-content:center; margin-bottom: 24px;"></div>
+                <p style="font-size: 0.8rem; font-weight: 600; color: #94a3b8;">Référence: <span id="ticket-ref">####</span></p>
+                <button onclick="window.location.reload()" style="margin-top: 30px; background: none; border: 1.5px solid #CBD5E1; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer;">Acheter un autre billet</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        let currentEvent = null;
+        let selections = {};
+
+        async function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id');
+            if (!eventId) {
+                window.location.href = 'evenements.html';
+                return;
+            }
+            await loadEventDetails(eventId);
+        }
+
+        async function loadEventDetails(id) {
+            try {
+                const { data: ev, error } = await _supabase.from('events').select('*').eq('id', id).single();
+                if (error || !ev) throw new Error("Événement introuvable");
+                currentEvent = ev;
+
+                // Load Host Profile
+                const { data: profile } = await _supabase.from('profiles').select('*').eq('id', ev.user_id).single();
+                
+                // Render Details
+                document.getElementById('event-title').innerText = ev.title;
+                document.getElementById('event-date').innerText = ev.event_date;
+                document.getElementById('event-location').innerText = ev.location;
+                document.getElementById('event-desc').innerText = ev.description || "Aucune description fournie.";
+                document.getElementById('event-flyer').src = ev.image_url;
+                document.getElementById('hero-blur-bg').style.backgroundImage = `url(${ev.image_url})`;
+                document.title = ev.title + ' – Domtom Connect';
+
+                if (profile) {
+                    document.getElementById('host-name').innerText = profile.full_name;
+                    document.getElementById('host-avatar').src = profile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.full_name)}&background=random`;
+                }
+
+                renderTiers(ev);
+            } catch (err) {
+                console.error(err);
+                alert(err.message);
+                window.location.href = 'evenements.html';
+            }
+        }
+
+        function renderTiers(ev) {
+            const container = document.getElementById('tiers-container');
+            let tiers = ev.ticket_tiers || [];
+            if (tiers.length === 0 && ev.price !== null) {
+                tiers = [{ id: 'default', name: 'Billet Standard', price: ev.price }];
+            }
+
+            if (tiers.length === 0 && ev.ticket_url) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 20px;">
+                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:20px;">Cet événement utilise une billetterie externe.</p>
+                        <a href="${ev.ticket_url}" target="_blank" style="display:block; padding:16px; background:#e11d48; color:white; text-decoration:none; border-radius:12px; font-weight:800;">Aller sur la billetterie</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = tiers.map(t => `
+                <div class="tier-card">
+                    <div class="tier-info">
+                        <h3>${t.name}</h3>
+                        <div class="tier-price">${parseFloat(t.price).toFixed(2)} €</div>
+                    </div>
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="updateQty('${t.id}', -1)">−</button>
+                        <span class="qty-val" id="qty-${t.id}">0</span>
+                        <button class="qty-btn" onclick="updateQty('${t.id}', 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateQty(tierId, delta) {
+            const current = selections[tierId] || 0;
+            const newVal = Math.max(0, current + delta);
+            if (newVal > 10) return; // limit
+            
+            selections[tierId] = newVal;
+            document.getElementById('qty-' + tierId).innerText = newVal;
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            let tiers = currentEvent.ticket_tiers || [{ id: 'default', price: currentEvent.price }];
+
+            for (const [tid, qty] of Object.entries(selections)) {
+                if (qty <= 0) continue;
+                const tier = tiers.find(t => t.id === tid) || tiers[0];
+                total += (tier.price * qty);
+            }
+
+            const summary = document.getElementById('checkout-summary');
+            const totalEl = document.getElementById('total-amount');
+            const paypalContainer = document.getElementById('paypal-button-container');
+            const freeCheckout = document.getElementById('free-checkout');
+
+            if (total > 0 || Object.values(selections).some(q => q > 0)) {
+                summary.style.display = 'block';
+                totalEl.innerText = total.toFixed(2) + ' €';
+                
+                if (total > 0) {
+                    paypalContainer.style.display = 'block';
+                    freeCheckout.style.display = 'none';
+                    renderPaypal(total);
+                } else {
+                    paypalContainer.style.display = 'none';
+                    freeCheckout.style.display = 'block';
+                }
+            } else {
+                summary.style.display = 'none';
+            }
+        }
+
+        function renderPaypal(total) {
+            document.getElementById('paypal-button-container').innerHTML = '';
+            paypal.Buttons({
+                createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: total.toFixed(2) } }] }),
+                onApprove: (data, actions) => actions.order.capture().then(details => confirmPurchase(details.id, total))
+            }).render('#paypal-button-container');
+        }
+
+        async function processFreeTicket() {
+            await confirmPurchase('FREE_' + Date.now(), 0);
+        }
+
+        async function confirmPurchase(paymentId, amountPaid) {
+            try {
+                const session = await getSession();
+                if (!session) {
+                    alert("Session expirée. Veuillez vous reconnecter.");
+                    return;
+                }
+
+                const ticketsToInsert = [];
+                let tiers = currentEvent.ticket_tiers || [{ id: 'default', name: 'Billet Standard' }];
+
+                for (const [tid, qty] of Object.entries(selections)) {
+                    if (qty <= 0) continue;
+                    const tier = tiers.find(t => t.id === tid) || tiers[0];
+                    ticketsToInsert.push({
+                        event_id: currentEvent.id,
+                        buyer_id: session.user.id,
+                        buyer_email: session.user.email,
+                        payment_id: paymentId,
+                        amount_paid: amountPaid,
+                        tier_id: tid,
+                        tier_name: tier.name,
+                        quantity: qty,
+                        status: 'valide'
+                    });
+                }
+
+                const { data, error } = await _supabase.from('tickets').insert(ticketsToInsert).select('id, qr_token');
+                if (error) throw error;
+
+                // Show Success
+                document.getElementById('tiers-container').style.display = 'none';
+                document.getElementById('checkout-summary').style.display = 'none';
+                document.getElementById('success-view').style.display = 'block';
+                document.getElementById('ticket-ref').innerText = data[0].id.substring(0,8).toUpperCase();
+
+                new QRCode(document.getElementById("qrcode"), { text: data[0].qr_token, width: 200, height: 200 });
+            } catch (err) {
+                console.error(err);
+                alert("Erreur lors de la réservation : " + err.message);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
