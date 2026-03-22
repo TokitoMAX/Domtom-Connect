@@ -1981,10 +1981,11 @@
                     `;
                 }).join('');
 
-                // Render QRs after insert
+                // Update QR generation to use Deep Link
                 tickets.forEach(t => {
+                    const deepLink = `${window.location.origin}/marketplace/scanner.html?token=${t.qr_token}`;
                     new QRCode(document.getElementById(`qr-attendee-${t.id}`), {
-                        text: t.qr_token,
+                        text: deepLink,
                         width: 140,
                         height: 140
                     });
@@ -2058,20 +2059,31 @@
                 height: 200
             });
 
-            // Wait a bit for QR to render
+            // Wait a bit for QR to render, then CONVERT to static image for html2pdf
             setTimeout(() => {
+                const qrCont = document.getElementById('temp-qr');
+                const canvas = qrCont.querySelector('canvas');
+                if (canvas) {
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL('image/png');
+                    img.style.width = '200px';
+                    img.style.height = '200px';
+                    qrCont.innerHTML = '';
+                    qrCont.appendChild(img);
+                }
+
                 const opt = {
                     margin: 0,
                     filename: `Billet_${ticket.events.title.replace(/\s+/g, '_')}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true },
+                    image: { type: 'jpeg', quality: 1.0 },
+                    html2canvas: { scale: 3, useCORS: true },
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
                 };
 
                 html2pdf().set(opt).from(tempDiv.firstElementChild).save().then(() => {
                     document.body.removeChild(tempDiv);
                 });
-            }, 500);
+            }, 600);
         }
 
         // Renamed loadDashboard to loadDashboardContent to be called by checkSession

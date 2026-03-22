@@ -721,8 +721,19 @@
                 document.getElementById('ticket-event-name').innerText = currentEvent.title;
                 document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
                 document.getElementById('ticket-flyer-thumb').src = currentEvent.image_url;
+                
+                // Add Attendee Name
+                const attendeeName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+                const attendeeEl = document.createElement('div');
+                attendeeEl.style.cssText = "margin-top: 10px; font-size: 0.85rem; font-weight: 700; color: #0f172a;";
+                attendeeEl.innerText = `Titulaire: ${attendeeName}`;
+                document.getElementById('ticket-event-name').parentElement.appendChild(attendeeEl);
 
-                new QRCode(document.getElementById("qrcode"), { text: data[0].qr_token, width: 220, height: 220 });
+                // DEEP LINK QR: Helps native camera apps open the right page
+                const deepLink = `${window.location.origin}/marketplace/scanner.html?token=${data[0].qr_token}`;
+                console.log("Generating QR with Deep Link:", deepLink);
+
+                new QRCode(document.getElementById("qrcode"), { text: deepLink, width: 220, height: 220 });
             } catch (err) {
                 console.error(err);
                 alert("Erreur lors de la réservation : " + err.message);
@@ -742,22 +753,36 @@
             }
         }
 
-        function downloadTicket() {
+        async function downloadTicket() {
             const element = document.getElementById('ticket-to-save');
+            const qrContainer = document.getElementById('qrcode');
+            
+            // CRITICAL FIX: Ensure QRCode canvas/img is ready and visible to html2pdf
+            // We force an img conversion if it's a canvas
+            const canvas = qrContainer.querySelector('canvas');
+            if (canvas) {
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png');
+                img.style.width = '220px';
+                img.style.height = '220px';
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(img);
+            }
+
             const opt = {
-                margin:       10,
+                margin:       [10, 10], 
                 filename:     `Billet_${currentEvent.title.replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 3, useCORS: true, logging: true, letterRendering: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // New PDF Generation
-            html2pdf().set(opt).from(element).save().catch(err => {
-                console.error("PDF generation failed:", err);
-                alert("Erreur lors de la génération du PDF. Tentative de secours avec image...");
-                // Fallback implementation could go here
-            });
+            // Wait for image to be definitely available in DOM
+            setTimeout(() => {
+                html2pdf().set(opt).from(element).save().catch(err => {
+                    console.error("PDF generation failed:", err);
+                });
+            }, 300);
         }
 
         window.onload = init;
