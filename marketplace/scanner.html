@@ -248,16 +248,17 @@
                     token = parts[parts.length - 1];
                 }
 
-                console.log("Recherche du billet avec le token:", token);
+                debugLog(`Interrogation DB pour: ${token.substring(0,8)}...`);
 
-                // Search for the ticket
+                // Search for the ticket - Simplified query to avoid join issues
                 const { data: ticket, error } = await _supabase
                     .from('tickets')
-                    .select('*, profiles(full_name)')
+                    .select('*')
                     .eq('qr_token', token)
                     .single();
 
                 if (error || !ticket) {
+                    debugLog(`Erreur DB: ${error ? error.message : 'Non trouvé'}`);
                     showResult('error', 'Billet Invalide', `Code non reconnu: ${token.substring(0,10)}...`);
                     return;
                 }
