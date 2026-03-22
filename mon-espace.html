@@ -1346,7 +1346,13 @@
                                     </div>
                                 </div>
 
-                                <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 10px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Gérer les participants</button>
+                                <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:8px;">
+                                    <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Gérer les participants</button>
+                                </div>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                                    <button onclick="editEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#f1f5f9; border:none; color:#475569; font-weight:700; cursor:pointer;">Modifier</button>
+                                    <button onclick="deleteEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#fef2f2; border:none; color:#ef4444; font-weight:700; cursor:pointer;">Supprimer</button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -1380,6 +1386,30 @@
                 alert(listStr);
             } catch (err) {
                 alert("Erreur: " + err.message);
+            }
+        }
+
+        async function editEvent(eventId) {
+            try {
+                const { data: ev, error } = await _supabase.from('events').select('*').eq('id', eventId).single();
+                if (error) throw error;
+                openEventModal(ev);
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
+        }
+
+        async function deleteEvent(eventId) {
+            if (!confirm("⚠️ SUPPRESSION ÉVÉNEMENT\n\nÊtes-vous sûr de vouloir supprimer cette annonce ?\nCette action est irréversible.")) return;
+            
+            try {
+                const { error } = await _supabase.from('events').delete().eq('id', eventId);
+                if (error) throw error;
+                
+                alert("Annonce supprimée avec succès.");
+                loadMyTicketing();
+            } catch (err) {
+                alert("Erreur lors de la suppression: " + err.message);
             }
         }
 
@@ -3240,7 +3270,7 @@
             }
         }
 
-        async function openEventModal() {
+        async function openEventModal(editData = null) {
             let modal = document.getElementById('event-modal');
             if (!modal) {
                 const modalHTML = `
@@ -3254,6 +3284,7 @@
                                 <button class="modal-close" onclick="closeEventModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
                             </div>
                             <form onsubmit="saveEvent(event)">
+                                <input type="hidden" id="ev-edit-id">
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'événement *</label>
                                     <input type="text" id="ev-title" required placeholder="Ex: Dimanche Konpa Gouyad" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
@@ -3306,6 +3337,46 @@
                 document.body.insertAdjacentHTML('beforeend', modalHTML);
                 modal = document.getElementById('event-modal');
             }
+
+            // Populate or Reset
+            const titleEl = document.getElementById('ev-title');
+            const dateEl = document.getElementById('ev-date');
+            const locEl = document.getElementById('ev-location');
+            const ticketEl = document.getElementById('ev-ticket');
+            const priceEl = document.getElementById('ev-price');
+            const spotsEl = document.getElementById('ev-total-tickets');
+            const descEl = document.getElementById('ev-desc');
+            const fileEl = document.getElementById('ev-image');
+            const editIdEl = document.getElementById('ev-edit-id');
+            const btn = document.getElementById('btn-save-event');
+            const head = modal.querySelector('h2');
+
+            if (editData) {
+                head.textContent = "Modifier l'Événement";
+                btn.textContent = "Mettre à jour";
+                editIdEl.value = editData.id;
+                titleEl.value = editData.title || '';
+                dateEl.value = editData.event_date || '';
+                locEl.value = editData.location || '';
+                ticketEl.value = editData.ticket_url || '';
+                priceEl.value = editData.price || 0;
+                spotsEl.value = editData.total_tickets || '';
+                descEl.value = editData.description || '';
+                fileEl.required = false;
+            } else {
+                head.textContent = "Publier un Événement";
+                btn.textContent = "Publier l'événement";
+                editIdEl.value = "";
+                titleEl.value = "";
+                dateEl.value = "";
+                locEl.value = "";
+                ticketEl.value = "";
+                priceEl.value = "";
+                spotsEl.value = "";
+                descEl.value = "";
+                fileEl.required = true;
+            }
+
             modal.classList.add('open');
         }
 
@@ -3316,13 +3387,15 @@
         async function saveEvent(event) {
             event.preventDefault();
             const btn = document.getElementById('btn-save-event');
-            btn.textContent = "Publication en cours...";
+            const originalText = btn.textContent;
+            btn.textContent = "Opération en cours...";
             btn.disabled = true;
 
             try {
                 const session = await getSession();
                 if (!session) throw new Error("Vous devez être connecté.");
 
+                const editId = document.getElementById('ev-edit-id').value;
                 const title = document.getElementById('ev-title').value;
                 const dateText = document.getElementById('ev-date').value;
                 const location = document.getElementById('ev-location').value;
@@ -3333,26 +3406,23 @@
                 const fileInput = document.getElementById('ev-image');
                 const file = fileInput.files[0];
 
-                if (!file) throw new Error("Une affiche est requise.");
+                let imageUrl = null;
 
-                // Upload image
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-                const filePath = `${session.user.id}/${fileName}`;
+                if (file) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+                    const filePath = `${session.user.id}/${fileName}`;
+                    const { error: uploadError } = await _supabase.storage.from('events_flyers').upload(filePath, file);
+                    if (uploadError) throw uploadError;
+                    const { data: publicUrlData } = _supabase.storage.from('events_flyers').getPublicUrl(filePath);
+                    imageUrl = publicUrlData.publicUrl;
+                } else if (editId) {
+                    const { data: existing } = await _supabase.from('events').select('image_url').eq('id', editId).single();
+                    imageUrl = existing.image_url;
+                } else {
+                    throw new Error("Une affiche est requise.");
+                }
 
-                const { error: uploadError, data: uploadData } = await _supabase.storage
-                    .from('events_flyers')
-                    .upload(filePath, file);
-
-                if (uploadError) throw uploadError;
-
-                const { data: publicUrlData } = _supabase.storage
-                    .from('events_flyers')
-                    .getPublicUrl(filePath);
-
-                const imageUrl = publicUrlData.publicUrl;
-
-                // Save event in DB
                 const payload = {
                     user_id: session.user.id,
                     title: title,
@@ -3366,21 +3436,32 @@
                 if (!ticketUrl) {
                     payload.price = priceValue ? parseFloat(priceValue) : 0;
                     payload.total_tickets = ticketsValue ? parseInt(ticketsValue) : null;
+                } else {
+                    payload.price = null;
+                    payload.total_tickets = null;
                 }
 
-                const { error: dbError } = await _supabase.from('events').insert([payload]);
+                let resultError;
+                if (editId) {
+                    const { error } = await _supabase.from('events').update(payload).eq('id', editId);
+                    resultError = error;
+                } else {
+                    const { error } = await _supabase.from('events').insert([payload]);
+                    resultError = error;
+                }
 
-                if (dbError) throw dbError;
+                if (resultError) throw resultError;
 
-                alert("🎉 Événement publié avec succès !");
+                alert(editId ? "✅ Événement mis à jour !" : "🎉 Événement publié avec succès !");
                 closeEventModal();
+                if (typeof loadMyTicketing === 'function') loadMyTicketing();
                 event.target.reset();
 
             } catch (err) {
                 console.error("Save Event Error:", err);
                 alert("Erreur: " + err.message);
             } finally {
-                btn.textContent = "Publier l'événement";
+                btn.textContent = originalText;
                 btn.disabled = false;
             }
         }
