@@ -169,22 +169,53 @@
         async function initScanner() {
             const urlParams = new URLSearchParams(window.location.search);
             targetEventId = urlParams.get('event_id');
+            const urlToken = urlParams.get('token');
             
+            if (!targetEventId && urlToken) {
+                debugLog("Détection automatique de l'événement via le token...");
+                // Fetch ticket to find event_id
+                const { data: ticket, error } = await _supabase
+                    .from('tickets')
+                    .select('event_id')
+                    .eq('qr_token', urlToken)
+                    .single();
+                
+                if (ticket) {
+                    targetEventId = ticket.event_id;
+                    debugLog(`Événement trouvé: ${targetEventId}`);
+                } else {
+                    alert("Ticket non trouvé ou lien invalide.");
+                    return;
+                }
+            }
+
             if (!targetEventId) {
-                alert("ID de l'événement manquant.");
+                alert("ID de l'événement manquant. Veuillez passer par le dashboard organisateur.");
                 window.history.back();
                 return;
             }
 
             // Load Event Info
-            const { data: ev } = await _supabase.from('events').select('title').eq('id', targetEventId).single();
+            const { data: ev } = await _supabase.from('events').select('title, user_id').eq('id', targetEventId).single();
             if (ev) {
                 document.getElementById('event-title').innerText = ev.title;
-                document.getElementById('event-stats').innerText = "Vérification en temps réel active";
+                document.getElementById('event-stats').innerText = "Mode Validation Client Connecté";
+                
+                // Security: Check if current user owns this event
+                const session = await getSession();
+                if (session && session.user.id !== ev.user_id) {
+                    debugLog("Attention: Vous n'êtes pas l'organisateur officiel.");
+                }
             }
 
             html5QrCode = new Html5Qrcode("reader");
-            startScanning();
+            
+            // If we have a token in URL, process it immediately
+            if (urlToken) {
+                onScanSuccess(urlToken);
+            } else {
+                startScanning();
+            }
         }
 
         function startScanning() {
