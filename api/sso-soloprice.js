@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         .update(payload)
         .digest('hex');
 
-    const solopriceUrl = `https://solopricepro.vercel.app/?partner=domtomconnect&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&timestamp=${timestamp}&signature=${signature}`;
+    const solopriceUrl = `https://solopricepro.vercel.app/api/auth/partner-login?partner=domtomconnect&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}&timestamp=${timestamp}&signature=${signature}`;
 
     return res.status(200).json({ url: solopriceUrl });
 }

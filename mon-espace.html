@@ -1136,26 +1136,33 @@
         // SSO SoloPrice Pro
         async function openSoloPricePro() {
             try {
+                console.log("SSO: Démarrage...");
                 const session = await getSession();
                 if (!session) {
+                    alert("Session expirée, veuillez vous reconnecter.");
                     window.location.href = '/login';
                     return;
                 }
 
                 const email = session.user.email;
                 const name = session.user.user_metadata.full_name || email.split('@')[0];
+                console.log("SSO: Email =", email);
 
                 // Appel de l'API pour obtenir l'URL signée
                 const response = await fetch(`/api/sso-soloprice?email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
                 const data = await response.json();
 
                 if (data.url) {
-                    window.open(data.url, '_blank');
+                    console.log("SSO: Redirection vers", data.url);
+                    // Utiliser location.href au lieu de window.open pour éviter les bloqueurs de pub
+                    window.location.href = data.url;
                 } else {
                     console.error("Erreur SSO:", data.error);
+                    alert("Erreur SSO: " + (data.error || "Inconnue"));
                 }
             } catch (err) {
                 console.error("Erreur technique SSO:", err);
+                alert("Erreur technique lors de la connexion à SoloPrice.");
             }
         }
 
