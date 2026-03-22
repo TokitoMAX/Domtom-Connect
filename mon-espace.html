@@ -1302,7 +1302,7 @@
                 // Load events created by user with ticket count
                 const { data: myEvents, error: evError } = await _supabase
                     .from('events')
-                    .select('*, tickets(id)')
+                    .select('*, tickets!event_id(id)')
                     .eq('user_id', userId)
                     .order('created_at', { ascending: false });
 
