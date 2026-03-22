@@ -139,6 +139,7 @@
         <h1 id="event-title">Scanner les entrées</h1>
         <div id="event-stats" style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin-top: 4px;">Référence: --</div>
         <div id="scanner-debug" style="display:none; font-family:monospace; font-size:10px; color:#10b981; margin-top:8px; background:rgba(0,0,0,0.3); padding:4px; border-radius:4px;">Ready...</div>
+        <button id="manual-start" style="display:none; margin-top:15px; background:#10b981; color:white; border:none; padding:10px 20px; border-radius:100px; font-weight:800; cursor:pointer;" onclick="startScanning()">Démarrer la Caméra</button>
     </div>
 
     <div id="reader"></div>
@@ -171,46 +172,50 @@
             targetEventId = urlParams.get('event_id');
             const urlToken = urlParams.get('token');
             
-            if (!targetEventId && urlToken) {
-                debugLog("Détection automatique de l'événement via le token...");
-                // Fetch ticket to find event_id
-                const { data: ticket, error } = await _supabase
-                    .from('tickets')
-                    .select('event_id')
-                    .eq('qr_token', urlToken)
-                    .single();
-                
-                if (ticket) {
-                    targetEventId = ticket.event_id;
-                    debugLog(`Événement trouvé: ${targetEventId}`);
-                } else {
-                    alert("Ticket non trouvé ou lien invalide.");
-                    return;
-                }
-            }
-
-            if (!targetEventId) {
-                alert("ID de l'événement manquant. Veuillez passer par le dashboard organisateur.");
-                window.history.back();
-                return;
-            }
-
-            // Load Event Info
-            const { data: ev } = await _supabase.from('events').select('title, user_id').eq('id', targetEventId).single();
-            if (ev) {
-                document.getElementById('event-title').innerText = ev.title;
-                document.getElementById('event-stats').innerText = "Mode Validation Client Connecté";
-                
-                // Security: Check if current user owns this event
-                const session = await getSession();
-                if (session && session.user.id !== ev.user_id) {
-                    debugLog("Attention: Vous n'êtes pas l'organisateur officiel.");
-                }
-            }
-
+            // 1. Initialize engine IMMEDIATELY
             html5QrCode = new Html5Qrcode("reader");
-            
-            // If we have a token in URL, process it immediately
+
+            // 2. Start Scanning (unless token is in URL)
+            if (!urlToken) {
+                startScanning();
+            }
+
+            // 3. Perform background checks
+            try {
+                if (!targetEventId && urlToken) {
+                    debugLog("Détection automatique de l'événement via le token...");
+                    const { data: ticket } = await _supabase.from('tickets').select('event_id').eq('qr_token', urlToken).single();
+                    if (ticket) {
+                        targetEventId = ticket.event_id;
+                        debugLog(`Événement trouvé: ${targetEventId}`);
+                    } else {
+                        debugLog("Ticket non trouvé ou lien invalide pour détection d'événement.");
+                    }
+                }
+
+                if (targetEventId) {
+                    const { data: ev } = await _supabase.from('events').select('title, user_id').eq('id', targetEventId).single();
+                    if (ev) {
+                        document.getElementById('event-title').innerText = ev.title;
+                        document.getElementById('event-stats').innerText = "Mode Validation Client Connecté";
+                        
+                        // Security: Check if current user owns this event
+                        const session = await getSession();
+                        if (session && session.user.id !== ev.user_id) {
+                            debugLog("Attention: Vous n'êtes pas l'organisateur officiel.");
+                        }
+                    } else {
+                        debugLog(`Événement ID ${targetEventId} non trouvé.`);
+                    }
+                } else {
+                    debugLog("ID de l'événement manquant. Le scanner fonctionnera en mode générique.");
+                }
+            } catch (e) {
+                debugLog(`Init Error: ${e.message}`);
+                console.error("Scanner init exception:", e);
+            }
+
+            // 4. Handle direct token validation
             if (urlToken) {
                 document.getElementById('scanner-debug').style.display = 'block';
                 debugLog("Validation automatique du lien en cours...");
@@ -218,17 +223,18 @@
                 setTimeout(() => {
                     onScanSuccess(urlToken);
                 }, 800);
-            } else {
-                startScanning();
             }
         }
 
         function startScanning() {
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            document.getElementById('manual-start').style.display = 'none';
+            
             html5QrCode.start({ facingMode: currentCamera }, config, onScanSuccess)
                 .catch(err => {
                     console.error("Camera error", err);
-                    alert("Erreur de caméra. Assurez-vous d'avoir autorisé l'accès.");
+                    document.getElementById('manual-start').style.display = 'inline-block';
+                    debugLog(`Erreur Camera: ${err}`);
                 });
         }
 
