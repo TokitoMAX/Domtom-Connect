@@ -350,7 +350,7 @@
         <div class="hero-blur-bg" id="hero-blur-bg"></div>
         <div class="hero-container">
             <div class="flyer-wrapper">
-                <img id="event-flyer" src="" alt="Flyer">
+                <img id="event-flyer" src="" alt="Flyer" crossorigin="anonymous">
             </div>
             <div class="hero-info">
                 <div class="event-badge">Événement Live</div>
@@ -429,14 +429,27 @@
                 <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;">Votre accès est prêt. Présentez ce QR Code à l'entrée de l'événement.</p>
                 
                 <!-- Ticket Card for Download -->
-                <div id="ticket-to-save" style="background: white; border-radius: 20px; padding: 24px; border: 2px solid #f1f5f9; margin-bottom: 24px;">
-                    <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px;">
-                        <div id="ticket-event-name" style="font-weight: 800; font-size: 1rem; color: #0f172a; margin-bottom: 4px;">--</div>
-                        <div id="ticket-event-date" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">--</div>
+                <div id="ticket-to-save" style="background: white; border-radius: 28px; padding: 0; border: 1px solid #e2e8f0; margin-bottom: 32px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left;">
+                    <div style="height: 140px; background: #0f172a; position: relative;">
+                        <img id="ticket-flyer-thumb" src="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" crossorigin="anonymous">
+                        <div style="position: absolute; bottom: 15px; left: 20px; color: white;">
+                            <div style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #10b981;">Billet Officiel</div>
+                            <div id="ticket-event-name" style="font-weight: 800; font-size: 1.1rem; max-width: 250px;">--</div>
+                        </div>
                     </div>
-                    <div id="qrcode" style="display:flex; justify-content:center; margin-bottom: 20px;"></div>
-                    <div style="font-size: 0.75rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px;">
-                        Réf: <span id="ticket-ref">####</span>
+                    <div style="padding: 24px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <div>
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Date & Heure</div>
+                                <div id="ticket-event-date" style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">--</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Référence</div>
+                                <div id="ticket-ref-display" style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">--</div>
+                            </div>
+                        </div>
+                        <div id="qrcode" style="display:flex; justify-content:center; padding: 20px; background: #f8fafc; border-radius: 20px;"></div>
+                        <div style="margin-top: 15px; text-align: center; color: #10b981; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px;">VALIDE POUR L'ENTRÉE</div>
                     </div>
                 </div>
 
@@ -702,9 +715,11 @@
                 document.getElementById('tiers-container').style.display = 'none';
                 document.getElementById('checkout-summary').style.display = 'none';
                 document.getElementById('success-view').style.display = 'block';
-                document.getElementById('ticket-ref').innerText = data[0].id.substring(0,8).toUpperCase();
+                const ref = data[0].id.substring(0,8).toUpperCase();
+                document.getElementById('ticket-ref-display').innerText = ref;
                 document.getElementById('ticket-event-name').innerText = currentEvent.title;
                 document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
+                document.getElementById('ticket-flyer-thumb').src = currentEvent.image_url;
 
                 new QRCode(document.getElementById("qrcode"), { text: data[0].qr_token, width: 220, height: 220 });
             } catch (err) {
@@ -730,59 +745,108 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const qrImg = document.querySelector('#qrcode img');
+            const flyerImg = document.getElementById('event-flyer');
             
             if (!qrImg) {
                 alert("Erreur: QR Code non généré.");
                 return;
             }
 
-            canvas.width = 400;
-            canvas.height = 600;
+            canvas.width = 600;
+            canvas.height = 1000;
             
-            // Background
+            // Clean white background
             ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 400, 600);
-            
-            // Border
-            ctx.strokeStyle = '#f1f5f9';
-            ctx.lineWidth = 20;
-            ctx.strokeRect(0, 0, 400, 600);
-            
-            // Header
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 24px Outfit, sans-serif';
-            ctx.fillText("BILLET OFFICIEL", 40, 60);
-            
-            ctx.fillStyle = '#64748b';
-            ctx.font = '14px Outfit, sans-serif';
-            ctx.fillText("Domtom Connect Ticketing", 40, 85);
-            
-            // Event Info
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 20px Outfit, sans-serif';
-            const title = currentEvent.title.length > 30 ? currentEvent.title.substring(0,27)+'...' : currentEvent.title;
-            ctx.fillText(title, 40, 140);
-            
-            ctx.fillStyle = '#64748b';
-            ctx.font = '16px Outfit, sans-serif';
-            ctx.fillText(currentEvent.event_date, 40, 165);
-            
-            // QR Code
-            ctx.drawImage(qrImg, 90, 220, 220, 220);
-            
-            // Footer
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 16px Outfit, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText("RÉF: " + document.getElementById('ticket-ref').innerText, 200, 480);
+            ctx.fillRect(0, 0, 600, 1000);
+
+            // Draw Flyer as Header
+            try {
+                // We draw the flyer at the top (full width)
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(600, 0);
+                ctx.lineTo(600, 300);
+                ctx.lineTo(0, 300);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(flyerImg, 0, 0, 600, 300);
+                
+                // Dark overlay over flyer for text readability
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+                ctx.fillRect(0, 0, 600, 300);
+                ctx.restore();
+            } catch (e) {
+                // Fallback if image crossing issues
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, 600, 300);
+            }
+
+            // Brand Header Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 32px Outfit, sans-serif';
+            ctx.fillText("DOMTOM CONNECT", 40, 60);
             
             ctx.fillStyle = '#10b981';
+            ctx.font = 'bold 20px Outfit, sans-serif';
+            ctx.fillText("BILLET OFFICIEL", 40, 95);
+
+            // Event Title over Flyer
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 44px Outfit, sans-serif';
+            const title = currentEvent.title.length > 25 ? currentEvent.title.substring(0,22)+'...' : currentEvent.title;
+            ctx.fillText(title.toUpperCase(), 40, 250);
+
+            // Details Section
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 300, 600, 200);
+
+            ctx.fillStyle = '#64748b';
             ctx.font = 'bold 18px Outfit, sans-serif';
-            ctx.fillText("VALIDE", 200, 520);
+            ctx.fillText("DATE ET HEURE", 40, 350);
+            ctx.fillText("LIEU", 320, 350);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 24px Outfit, sans-serif';
+            ctx.fillText(currentEvent.event_date.toUpperCase(), 40, 390);
+            const location = currentEvent.location || 'Paris';
+            ctx.fillText(location.toUpperCase(), 320, 390);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 18px Outfit, sans-serif';
+            ctx.fillText("PRÉFÉRENCE RÉF.", 40, 440);
+            ctx.fillStyle = '#0f172a';
+            ctx.fillText(document.getElementById('ticket-ref-display').innerText, 40, 475);
+
+            // Perforation Line
+            ctx.setLineDash([10, 10]);
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.beginPath();
+            ctx.moveTo(30, 530);
+            ctx.lineTo(570, 530);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // QR Code Stub Section
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 530, 600, 470);
+
+            // Draw QR Code
+            ctx.drawImage(qrImg, 150, 580, 300, 300);
+
+            // Stub footer
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 24px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText("PRÉSENTEZ CE CODE À L'ENTRÉE", 300, 930);
+            
+            ctx.fillStyle = '#10b981';
+            ctx.font = 'bold 20px Outfit, sans-serif';
+            ctx.fillText("VALIDÉ PAR DOMTOM CONNECT TICKETING", 300, 965);
 
             // Download
             const link = document.createElement('a');
-            link.download = `billet-${currentEvent.title.replace(/\s+/g, '-')}.png`;
+            link.download = `Ticket-DC-${currentEvent.title.replace(/\s+/g, '-')}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
         }
