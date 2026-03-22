@@ -478,6 +478,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
         let currentEvent = null;
@@ -742,113 +743,21 @@
         }
 
         function downloadTicket() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const qrImg = document.querySelector('#qrcode img');
-            const flyerImg = document.getElementById('event-flyer');
-            
-            if (!qrImg) {
-                alert("Erreur: QR Code non généré.");
-                return;
-            }
+            const element = document.getElementById('ticket-to-save');
+            const opt = {
+                margin:       10,
+                filename:     `Billet_${currentEvent.title.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-            canvas.width = 600;
-            canvas.height = 1000;
-            
-            // Clean white background
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 600, 1000);
-
-            // Draw Flyer as Header
-            try {
-                // We draw the flyer at the top (full width)
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(600, 0);
-                ctx.lineTo(600, 300);
-                ctx.lineTo(0, 300);
-                ctx.closePath();
-                ctx.clip();
-                ctx.drawImage(flyerImg, 0, 0, 600, 300);
-                
-                // Dark overlay over flyer for text readability
-                ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
-                ctx.fillRect(0, 0, 600, 300);
-                ctx.restore();
-            } catch (e) {
-                // Fallback if image crossing issues
-                ctx.fillStyle = '#0f172a';
-                ctx.fillRect(0, 0, 600, 300);
-            }
-
-            // Brand Header Text
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 32px Outfit, sans-serif';
-            ctx.fillText("DOMTOM CONNECT", 40, 60);
-            
-            ctx.fillStyle = '#10b981';
-            ctx.font = 'bold 20px Outfit, sans-serif';
-            ctx.fillText("BILLET OFFICIEL", 40, 95);
-
-            // Event Title over Flyer
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 44px Outfit, sans-serif';
-            const title = currentEvent.title.length > 25 ? currentEvent.title.substring(0,22)+'...' : currentEvent.title;
-            ctx.fillText(title.toUpperCase(), 40, 250);
-
-            // Details Section
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillRect(0, 300, 600, 200);
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = 'bold 18px Outfit, sans-serif';
-            ctx.fillText("DATE ET HEURE", 40, 350);
-            ctx.fillText("LIEU", 320, 350);
-
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 24px Outfit, sans-serif';
-            ctx.fillText(currentEvent.event_date.toUpperCase(), 40, 390);
-            const location = currentEvent.location || 'Paris';
-            ctx.fillText(location.toUpperCase(), 320, 390);
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = 'bold 18px Outfit, sans-serif';
-            ctx.fillText("PRÉFÉRENCE RÉF.", 40, 440);
-            ctx.fillStyle = '#0f172a';
-            ctx.fillText(document.getElementById('ticket-ref-display').innerText, 40, 475);
-
-            // Perforation Line
-            ctx.setLineDash([10, 10]);
-            ctx.strokeStyle = '#cbd5e1';
-            ctx.beginPath();
-            ctx.moveTo(30, 530);
-            ctx.lineTo(570, 530);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // QR Code Stub Section
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 530, 600, 470);
-
-            // Draw QR Code
-            ctx.drawImage(qrImg, 150, 580, 300, 300);
-
-            // Stub footer
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 24px Outfit, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText("PRÉSENTEZ CE CODE À L'ENTRÉE", 300, 930);
-            
-            ctx.fillStyle = '#10b981';
-            ctx.font = 'bold 20px Outfit, sans-serif';
-            ctx.fillText("VALIDÉ PAR DOMTOM CONNECT TICKETING", 300, 965);
-
-            // Download
-            const link = document.createElement('a');
-            link.download = `Ticket-DC-${currentEvent.title.replace(/\s+/g, '-')}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
+            // New PDF Generation
+            html2pdf().set(opt).from(element).save().catch(err => {
+                console.error("PDF generation failed:", err);
+                alert("Erreur lors de la génération du PDF. Tentative de secours avec image...");
+                // Fallback implementation could go here
+            });
         }
 
         window.onload = init;

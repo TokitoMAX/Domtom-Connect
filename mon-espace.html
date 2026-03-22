@@ -11,6 +11,7 @@
         src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"
         data-sdk-integration-source="button-factory"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -1996,9 +1997,81 @@
         }
 
         async function downloadTicketFromDash(ticketId) {
-            // Simplified: Redirect to a helper or trigger a canvas draw
-            // For now, let's just alert or redirect to the detail view success state
-            alert("Génération du billet en cours... Cette fonction utilisera le même moteur de rendu que la page de confirmation.");
+            const { data: ticket, error } = await _supabase
+                .from('tickets')
+                .select('*, events(*)')
+                .eq('id', ticketId)
+                .single();
+
+            if (error || !ticket) {
+                alert("Erreur lors de la récupération du billet.");
+                return;
+            }
+
+            // Create a temporary hidden element for PDF generation
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'fixed';
+            tempDiv.style.left = '-9999px';
+            tempDiv.innerHTML = `
+                <div id="pdf-template" style="width: 180mm; background: white; font-family: 'Outfit', sans-serif; padding: 0; color: #0f172a;">
+                    <div style="height: 160px; background: #0f172a; position: relative; display: flex; align-items: flex-end; padding: 30px; overflow: hidden;">
+                        <img src="${ticket.events.image_url}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5;">
+                        <div style="position: relative; z-index: 1;">
+                            <div style="font-size: 14px; color: #10b981; font-weight: 800; letter-spacing: 2px; margin-bottom: 5px;">BILLET OFFICIEL</div>
+                            <h1 style="margin: 0; font-size: 32px; color: white; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${ticket.events.title.toUpperCase()}</h1>
+                        </div>
+                    </div>
+                    <div style="padding: 40px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Hôte / Lieu</div>
+                                <div style="font-size: 16px; font-weight: 700;">${ticket.events.location}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Date de l'événement</div>
+                                <div style="font-size: 16px; font-weight: 700;">${ticket.events.event_date}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Type de Billet</div>
+                                <div style="font-size: 16px; font-weight: 700;">${ticket.tier_name}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Référence</div>
+                                <div style="font-size: 16px; font-weight: 800; color: #10b981;">#${ticket.id.substring(0,8).toUpperCase()}</div>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 2px dashed #e2e8f0; padding-top: 40px; text-align: center;">
+                            <div id="temp-qr" style="display: inline-block; padding: 20px; background: #f8fafc; border-radius: 20px; margin-bottom: 20px;"></div>
+                            <div style="font-size: 14px; font-weight: 700; color: #64748b;">PRÉSENTEZ CE CODE À L'ENTRÉE</div>
+                            <div style="margin-top: 50px; font-size: 10px; color: #94a3b8; letter-spacing: 1px;">GÉNÉRÉ PAR DOMTOM CONNECT TICKETING</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(tempDiv);
+
+            // Generate QR in temp div
+            new QRCode(document.getElementById('temp-qr'), {
+                text: ticket.qr_token,
+                width: 200,
+                height: 200
+            });
+
+            // Wait a bit for QR to render
+            setTimeout(() => {
+                const opt = {
+                    margin: 0,
+                    filename: `Billet_${ticket.events.title.replace(/\s+/g, '_')}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(tempDiv.firstElementChild).save().then(() => {
+                    document.body.removeChild(tempDiv);
+                });
+            }, 500);
         }
 
         // Renamed loadDashboard to loadDashboardContent to be called by checkSession
