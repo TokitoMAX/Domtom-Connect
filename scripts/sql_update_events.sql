@@ -8,9 +8,13 @@ CREATE TABLE IF NOT EXISTS public.events (
   title text NOT NULL,
   event_date text NOT NULL,
   location text NOT NULL,
+  ticket_url text,
   description text,
   image_url text NOT NULL
 );
+
+-- Si la table existe déjà sans ticket_url (mise à jour)
+ALTER TABLE public.events ADD COLUMN IF NOT EXISTS ticket_url text;
 
 -- Active RLS sur la table events
 ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;

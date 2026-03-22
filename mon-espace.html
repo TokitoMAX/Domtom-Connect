@@ -3128,17 +3128,21 @@
                             <form onsubmit="saveEvent(event)">
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'événement *</label>
-                                    <input type="text" id="ev-title" required placeholder="Ex: Atelier IA & Business" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                    <input type="text" id="ev-title" required placeholder="Ex: Dimanche Konpa Gouyad" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                 </div>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                                     <div class="form-group">
                                         <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Date et Heure *</label>
-                                        <input type="text" id="ev-date" required placeholder="Ex: 12 Avril à 18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                        <input type="text" id="ev-date" required placeholder="Ex: 22 Mars 2026 à 18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                     </div>
                                     <div class="form-group">
-                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lieu / Lien *</label>
-                                        <input type="text" id="ev-location" required placeholder="Ex: Fort-de-France ou Google Meet" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lieu *</label>
+                                        <input type="text" id="ev-location" required placeholder="Ex: Le Guest Live" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                     </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lien Billetterie (Bizouk, Eventbrite...)</label>
+                                    <input type="url" id="ev-ticket" placeholder="https://www.bizouk.com/..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                 </div>
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
@@ -3176,6 +3180,7 @@
                 const title = document.getElementById('ev-title').value;
                 const dateText = document.getElementById('ev-date').value;
                 const location = document.getElementById('ev-location').value;
+                const ticketUrl = document.getElementById('ev-ticket').value;
                 const desc = document.getElementById('ev-desc').value;
                 const fileInput = document.getElementById('ev-image');
                 const file = fileInput.files[0];
