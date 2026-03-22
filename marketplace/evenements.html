@@ -189,12 +189,33 @@
 
                 const { data: events, error } = await _supabase
                     .from('events')
-                    .select('*, profiles(full_name, avatar_url)')
+                    .select('*')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                let filteredEvents = events || [];
+                let eventsWithProfiles = [];
+                if (events && events.length > 0) {
+                    const userIds = [...new Set(events.map(e => e.user_id))];
+                    const { data: profilesData } = await _supabase
+                        .from('profiles')
+                        .select('id, full_name, avatar_url')
+                        .in('id', userIds);
+                        
+                    const profilesMap = {};
+                    if (profilesData) {
+                        profilesData.forEach(p => {
+                            profilesMap[p.id] = p;
+                        });
+                    }
+                    
+                    eventsWithProfiles = events.map(e => ({
+                        ...e,
+                        profiles: profilesMap[e.user_id] || null
+                    }));
+                }
+
+                let filteredEvents = eventsWithProfiles;
 
                 if (search) {
                     filteredEvents = events.filter(e => {
