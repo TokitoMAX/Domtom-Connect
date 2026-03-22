@@ -1362,8 +1362,12 @@
                                     </div>
                                 </div>
 
-                                <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:8px;">
-                                    <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Gérer les participants</button>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+                                    <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Liste</button>
+                                    <a href="marketplace/scanner.html?event_id=${ev.id}" class="cta-button" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:6px; background:#0f172a; color:white; text-decoration:none; font-weight:800;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/></svg>
+                                        Scanner
+                                    </a>
                                 </div>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                                     <button onclick="editEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#f1f5f9; border:none; color:#475569; font-weight:700; cursor:pointer;">Modifier</button>
