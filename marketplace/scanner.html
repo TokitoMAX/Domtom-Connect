@@ -212,7 +212,10 @@
             
             // If we have a token in URL, process it immediately
             if (urlToken) {
-                onScanSuccess(urlToken);
+                // Ensure targetEventId is ready before calling success
+                setTimeout(() => {
+                    onScanSuccess(urlToken);
+                }, 500);
             } else {
                 startScanning();
             }
@@ -284,9 +287,11 @@
                 showResult('success', 'Entrée Validée', `${ticket.tier_name} - ${ticket.quantity} personne(s)`);
 
             } catch (err) {
-                console.error(err);
-                showResult('error', 'Erreur Système', 'Impossible de vérifier le billet. Vérifiez votre connexion.');
+                debugLog(`CRITICAL ERROR: ${err.message || err}`);
+                console.error("Scanner exception:", err);
+                showResult('error', 'Erreur Système', `Erreur: ${err.message || 'votre connexion'}`);
             }
+            isProcessing = false;
         }
 
         function showResult(type, status, details) {
