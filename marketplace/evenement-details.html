@@ -404,10 +404,17 @@
                     <span class="total-amount" id="total-amount">0.00 €</span>
                 </div>
                 
-                <div id="paypal-button-container"></div>
-                
-                <div id="free-checkout" style="display: none;">
-                    <button onclick="processFreeTicket()" style="width:100%; border:none; padding:20px; border-radius:18px; background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); transition: transform 0.2s;">S'inscrire GRATUITEMENT</button>
+                <div id="cta-confirm-step">
+                    <button onclick="preparePayment()" style="width:100%; border:none; padding:18px; border-radius:16px; background:#0f172a; color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.2s;">🎟️ Confirmer ma commande</button>
+                </div>
+
+                <div id="payment-step" style="display: none; margin-top: 24px;">
+                    <div style="font-size: 0.85rem; color: #64748b; font-weight: 700; margin-bottom: 16px; text-align: center; text-transform: uppercase;">Choisissez votre mode de paiement</div>
+                    <div id="paypal-button-container"></div>
+                    
+                    <div id="free-checkout" style="display: none;">
+                        <button onclick="processFreeTicket()" style="width:100%; border:none; padding:20px; border-radius:18px; background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);">S'inscrire GRATUITEMENT</button>
+                    </div>
                 </div>
             </div>
 
@@ -431,10 +438,10 @@
     <div id="sticky-cta" class="sticky-cta-bar">
         <div class="cta-bar-content">
             <div>
-                <div style="font-size: 0.9rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Votre sélection <span id="bar-qty-total" class="qty-badge">0</span></div>
+                <div style="font-size: 0.9rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Billet(s) <span id="bar-qty-total" class="qty-badge">0</span></div>
                 <div id="bar-total-amount" style="font-size: 1.8rem; font-weight: 900; color: #0f172a;">0.00 €</div>
             </div>
-            <button onclick="scrollToTicketing()" style="background: #0f172a; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Payer maintenant</button>
+            <button onclick="preparePayment()" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">Réserver maintenant</button>
         </div>
     </div>
 
@@ -558,23 +565,58 @@
                     totalEl.classList.remove('pop-animation');
                     void totalEl.offsetWidth; // trigger reflow
                     totalEl.classList.add('pop-animation');
+                    
+                    // Reset payment step if qty changes (requires re-confirm)
+                    document.getElementById('cta-confirm-step').style.display = 'block';
+                    document.getElementById('payment-step').style.display = 'none';
+                    document.getElementById('sticky-cta').style.display = 'flex';
                 }
 
                 totalEl.innerText = total.toFixed(2) + ' €';
                 barTotalEl.innerText = total.toFixed(2) + ' €';
                 barQtyEl.innerText = totalQty;
-                
-                if (total > 0) {
-                    paypalContainer.style.display = 'block';
-                    freeCheckout.style.display = 'none';
-                    renderPaypal(total);
-                } else {
-                    paypalContainer.style.display = 'none';
-                    freeCheckout.style.display = 'block';
-                }
             } else {
                 summary.style.display = 'none';
                 stickyBar.classList.remove('active');
+            }
+        }
+
+        async function preparePayment() {
+            // Check login first
+            const session = await getSession();
+            if (!session) {
+                alert("Vous devez être connecté pour réserver vos billets.");
+                window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            // Scroll to summary if called from sticky bar
+            document.getElementById('checkout-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Switch UI
+            document.getElementById('cta-confirm-step').style.display = 'none';
+            document.getElementById('payment-step').style.display = 'block';
+            document.getElementById('sticky-cta').classList.remove('active');
+
+            // Calculate total for PayPal
+            let total = 0;
+            let tiers = currentEvent.ticket_tiers || [{ id: 'default', price: currentEvent.price }];
+            for (const [tid, qty] of Object.entries(selections)) {
+                if (qty <= 0) continue;
+                const tier = tiers.find(t => t.id === tid) || tiers[0];
+                total += (tier.price * qty);
+            }
+
+            const paypalContainer = document.getElementById('paypal-button-container');
+            const freeCheckout = document.getElementById('free-checkout');
+
+            if (total > 0) {
+                paypalContainer.style.display = 'block';
+                freeCheckout.style.display = 'none';
+                renderPaypal(total);
+            } else {
+                paypalContainer.style.display = 'none';
+                freeCheckout.style.display = 'block';
             }
         }
 
