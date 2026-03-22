@@ -212,10 +212,12 @@
             
             // If we have a token in URL, process it immediately
             if (urlToken) {
-                // Ensure targetEventId is ready before calling success
+                document.getElementById('scanner-debug').style.display = 'block';
+                debugLog("Validation automatique du lien en cours...");
+                // Small delay to ensure DB is ready
                 setTimeout(() => {
                     onScanSuccess(urlToken);
-                }, 500);
+                }, 800);
             } else {
                 startScanning();
             }
@@ -234,6 +236,8 @@
             if (isProcessing) return;
             isProcessing = true;
             
+            debugLog(`Analyse du code: ${decodedText.substring(0,15)}...`);
+
             // Audio feedback
             const beep = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
             beep.play().catch(() => {});
