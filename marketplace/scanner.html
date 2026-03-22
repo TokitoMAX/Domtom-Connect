@@ -272,14 +272,14 @@
                 }
 
                 if (ticket.status === 'utilisé') {
-                    showResult('warning', 'Déjà Utilisé', `Billet ${ticket.tier_name} utilisé à ${new Date(ticket.updated_at).toLocaleTimeString()}`);
+                    showResult('warning', 'Déjà Utilisé', `Billet ${ticket.tier_name} déjà validé auparavant.`);
                     return;
                 }
 
                 // Mark as used
                 const { error: updateError } = await _supabase
                     .from('tickets')
-                    .update({ status: 'utilisé', updated_at: new Date().toISOString() })
+                    .update({ status: 'utilisé' })
                     .eq('id', ticket.id);
 
                 if (updateError) throw updateError;
