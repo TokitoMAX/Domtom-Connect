@@ -888,6 +888,12 @@
             </svg>
             Profil
         </a>
+        <a href="javascript:void(0)" onclick="showView('billetterie')" class="mobile-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+            </svg>
+            Billets
+        </a>
         <a href="/messages" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -928,6 +934,15 @@
                     </svg>
                 </span>
                 <span class="sidebar-label">Candidatures</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="showView('billetterie')" class="sidebar-link" id="nav-billetterie" title="Mes Billetteries">
+                <span class="sidebar-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                    </svg>
+                </span>
+                <span class="sidebar-label">Billetterie</span>
             </a>
 
             <a href="/messages.html" class="sidebar-link" title="Messagerie">
@@ -1069,6 +1084,20 @@
                     </div>
                 </div>
 
+                <!-- Zone Billetterie Dashboards -->
+                <div id="billetterie-view" style="display: none; padding: 40px 0; margin: 0 auto; max-width: 1200px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                        <div>
+                            <h2 style="font-size:1.75rem; font-weight:800; margin:0 0 8px 0; color:var(--text-primary);">Mes Billetteries</h2>
+                            <p style="color:var(--text-secondary); margin:0;">Gérez vos événements et suivez vos ventes en direct (Paiements PayPal).</p>
+                        </div>
+                    </div>
+                    
+                    <div id="billetterie-list" class="cards-grid">
+                        <p style="text-align:center; color:var(--text-muted); padding:40px; grid-column:1/-1;">Chargement de vos événements...</p>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
@@ -1083,6 +1112,7 @@
                 const mainContent = document.getElementById('main-dashboard-content');
                 const engineView = document.getElementById('success-engine-view-fixed');
                 const applicationsView = document.getElementById('applications-view');
+                const billetterieView = document.getElementById('billetterie-view');
                 const greeting = document.querySelector('.dash-section-header');
                 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 
@@ -1090,6 +1120,7 @@
                 if (mainContent) mainContent.style.display = 'none';
                 if (engineView) engineView.style.display = 'none';
                 if (applicationsView) applicationsView.style.display = 'none';
+                if (billetterieView) billetterieView.style.display = 'none';
 
                 // 2. Show target
                 if (viewId === 'success-engine' || viewId === 'mon-projet') {
@@ -1099,6 +1130,11 @@
                 } else if (viewId === 'applications' || viewId === 'candidatures') {
                     window.location.href = '/candidatures.html';
                     return;
+                } else if (viewId === 'billetterie') {
+                    if (billetterieView) billetterieView.style.display = 'block';
+                    if (greeting) greeting.style.display = 'none';
+                    if (pushState) window.location.hash = 'billetterie';
+                    if (typeof loadMyTicketing === 'function') loadMyTicketing();
                 } else {
                     // Fallback to overview
                     if (mainContent) mainContent.style.display = 'block';
@@ -1253,6 +1289,98 @@
 
         async function loadMyMissions(userId) {
             // ... existant (liste simplifiée des missions)
+        }
+
+        async function loadMyTicketing() {
+            const container = document.getElementById('billetterie-list');
+            if (!container) return;
+            
+            try {
+                const session = await getSession();
+                const userId = session.user.id;
+
+                // Load events created by user with ticket count
+                const { data: myEvents, error: evError } = await _supabase
+                    .from('events')
+                    .select('*, tickets(id)')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false });
+
+                if (evError) throw evError;
+
+                if (!myEvents || myEvents.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 60px; background: white; border-radius: 20px; border: 1px solid var(--gray-200);">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">🎟️</div>
+                            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucune billetterie</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 24px;">Vous n'avez pas encore publié d'événement avec billetterie Domtom Connect.</p>
+                            <button onclick="openEventModal()" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; cursor:pointer;">Créer mon premier événement</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = myEvents.map(ev => {
+                    const ticketCount = ev.tickets ? ev.tickets.length : 0;
+                    const totalSpots = ev.total_tickets || '∞';
+                    const revenue = ev.price ? (ticketCount * ev.price).toFixed(2) : '0.00';
+                    const isInternal = ev.ticket_url === null;
+                    
+                    return `
+                        <div class="dash-card" style="padding: 0; overflow: hidden; border-radius: 16px; border: 1px solid var(--gray-200); background: white;">
+                            <div style="height: 120px; background: url('${ev.image_url}') center/cover no-repeat; border-bottom: 1px solid var(--gray-100);"></div>
+                            <div style="padding: 20px;">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                                    <h3 style="font-size: 1.1rem; font-weight: 800; margin:0; line-height:1.2; height:2.4em; overflow:hidden;">${ev.title}</h3>
+                                    ${isInternal ? '<span style="background:#f0fdf4; color:#166534; font-size:0.65rem; padding:2px 6px; border-radius:4px; font-weight:800; text-transform:uppercase;">Natif</span>' : ''}
+                                </div>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                                    <div style="background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center;">
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom:4px;">Inscrits</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a;">${ticketCount} / ${totalSpots}</div>
+                                    </div>
+                                    <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; text-align: center;">
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">Revenus</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${revenue}€</div>
+                                    </div>
+                                </div>
+
+                                <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 10px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Gérer les participants</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error("Load Ticketing Error:", err);
+                container.innerHTML = `<p style="color: #ef4444; padding: 40px; text-align: center;">Erreur: ${err.message}</p>`;
+            }
+        }
+
+        async function viewAttendees(eventId) {
+            try {
+                const { data: tickets, error } = await _supabase
+                    .from('tickets')
+                    .select('*')
+                    .eq('event_id', eventId)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!tickets || tickets.length === 0) {
+                    alert("Aucun inscrit pour le moment sur cette billetterie native.");
+                    return;
+                }
+
+                let listStr = "Liste des inscrits :\n\n";
+                tickets.forEach((t, i) => {
+                    listStr += `${i+1}. ${t.buyer_email} (${t.status}) - ${t.amount_paid}€\n`;
+                });
+                alert(listStr);
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
         }
 
         async function loadMatchmaking(userId) {
@@ -3141,8 +3269,26 @@
                                     </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:16px;">
-                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lien Billetterie (Bizouk, Eventbrite...)</label>
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lien Billetterie Externe (Bizouk, Eventbrite...)</label>
                                     <input type="url" id="ev-ticket" placeholder="https://www.bizouk.com/..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                </div>
+                                
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                                    <div style="flex:1; height:1px; background:var(--gray-200);"></div>
+                                    <span style="font-size:0.75rem; color:var(--text-muted); font-weight:800; text-transform:uppercase;">OU Billetterie Domtom Connect</span>
+                                    <div style="flex:1; height:1px; background:var(--gray-200);"></div>
+                                </div>
+                                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.4;">Laissez le lien externe vide pour vendre vos billets ici via PayPal.</p>
+
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                                    <div class="form-group">
+                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Prix du Billet (€) - 0 si Gratuit</label>
+                                        <input type="number" id="ev-price" min="0" step="0.01" placeholder="Ex: 15.00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Capacité (Nb places)</label>
+                                        <input type="number" id="ev-total-tickets" min="1" placeholder="Ex: 100" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                    </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
@@ -3181,6 +3327,8 @@
                 const dateText = document.getElementById('ev-date').value;
                 const location = document.getElementById('ev-location').value;
                 const ticketUrl = document.getElementById('ev-ticket').value;
+                const priceValue = document.getElementById('ev-price').value;
+                const ticketsValue = document.getElementById('ev-total-tickets').value;
                 const desc = document.getElementById('ev-desc').value;
                 const fileInput = document.getElementById('ev-image');
                 const file = fileInput.files[0];
@@ -3205,14 +3353,22 @@
                 const imageUrl = publicUrlData.publicUrl;
 
                 // Save event in DB
-                const { error: dbError } = await _supabase.from('events').insert([{
+                const payload = {
                     user_id: session.user.id,
                     title: title,
                     event_date: dateText,
                     location: location,
+                    ticket_url: ticketUrl || null,
                     description: desc,
                     image_url: imageUrl
-                }]);
+                };
+                
+                if (!ticketUrl) {
+                    payload.price = priceValue ? parseFloat(priceValue) : 0;
+                    payload.total_tickets = ticketsValue ? parseInt(ticketsValue) : null;
+                }
+
+                const { error: dbError } = await _supabase.from('events').insert([payload]);
 
                 if (dbError) throw dbError;
 

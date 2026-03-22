@@ -173,7 +173,33 @@
         </div>
     </main>
 
+    <!-- Modal Checkout PayPal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal" style="text-align:center;">
+            <div class="modal-header">
+                <h2 id="checkout-title">Réservation Billet</h2>
+                <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+            <p id="checkout-price" style="font-size:1.5rem; font-weight:800; color:#0f172a; margin-bottom:24px;"></p>
+            
+            <div id="checkout-free-section" style="display:none; margin-bottom:24px;">
+                <button class="cta-button primary" style="width:100%; padding:14px; font-size:1.1rem; border-radius:12px;" onclick="processFreeTicket()">Confirmer l'inscription gratuite</button>
+            </div>
+            
+            <div id="paypal-button-container"></div>
+
+            <div id="ticket-success" style="display:none; padding:20px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; margin-top:20px;">
+                <h3 style="color:#166534; margin:0 0 10px 0;">🎉 Paiement validé !</h3>
+                <p style="color:#15803d; margin:0 0 16px 0;">Votre billet a été généré avec succès. Prenez une capture d'écran de ce QR Code pour l'événement :</p>
+                <div id="qrcode" style="display:flex; justify-content:center; margin-bottom:16px;"></div>
+                <p style="font-size:0.8rem; color:#166534;">ID Billet: <span id="ticket-id" style="font-weight:700;"></span></p>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
         async function init() {
@@ -252,12 +278,29 @@
             // Bouton de réservation
             let ctaButton = '';
             if (ev.ticket_url) {
+                // External Ticket URL
                 ctaButton = `
                     <div style="margin-top:20px;">
-                        <a href="${ev.ticket_url}" target="_blank" rel="noopener" class="cta-button primary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; background:#e11d48; color:white; border:none; display:inline-block;">🎟️ Réserver / Billeterie</a>
+                        <a href="${ev.ticket_url}" target="_blank" rel="noopener" class="cta-button primary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; background:#e11d48; color:white; border:none; display:inline-block;">🎟️ Billeterie Externe</a>
                     </div>
                 `;
+            } else if (ev.price !== undefined && ev.price !== null) {
+                // Internal Ticketing
+                if (ev.price > 0) {
+                    ctaButton = `
+                        <div style="margin-top:20px;">
+                            <button onclick="openCheckoutModal('${ev.id}', ${ev.price}, '${ev.title.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; background:#10b981; color:white; border:none; cursor:pointer;">🎟️ Acheter (${ev.price} €)</button>
+                        </div>
+                    `;
+                } else {
+                    ctaButton = `
+                        <div style="margin-top:20px;">
+                            <button onclick="openCheckoutModal('${ev.id}', 0, '${ev.title.replace(/'/g, "\\'")}')" class="cta-button primary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; background:#10b981; color:white; border:none; cursor:pointer;">✅ S'inscrire (Gratuit)</button>
+                        </div>
+                    `;
+                }
             } else {
+                // Fallback
                 ctaButton = `
                     <div style="margin-top:20px;">
                         <a href="${ev.image_url}" target="_blank" rel="noopener" class="cta-button secondary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; display:inline-block;">Voir l'affiche</a>
@@ -304,6 +347,96 @@
                     </div>
                 </div>
             `;
+        }
+
+        // --- CHECKOUT LOGIC ---
+        let currentCheckoutEventId = null;
+        let currentCheckoutPrice = 0;
+
+        async function openCheckoutModal(eventId, price, title) {
+            currentCheckoutEventId = eventId;
+            currentCheckoutPrice = price;
+            
+            // Check if user is logged in
+            const session = await getSession();
+            if (!session) {
+                alert("Vous devez être connecté pour réserver un billet.");
+                window.location.href = '/login?redirect=' + encodeURIComponent('/marketplace/evenements');
+                return;
+            }
+
+            document.getElementById('checkout-title').innerText = title;
+            document.getElementById('checkout-price').innerText = price > 0 ? 'Total : ' + parseFloat(price).toFixed(2) + ' €' : 'Billet Gratuit';
+            document.getElementById('checkout-free-section').style.display = price > 0 ? 'none' : 'block';
+            document.getElementById('paypal-button-container').style.display = price > 0 ? 'block' : 'none';
+            document.getElementById('ticket-success').style.display = 'none';
+            document.getElementById('qrcode').innerHTML = ''; // reset
+
+            document.getElementById('checkout-modal').classList.add('open');
+            
+            // Re-render PayPal buttons if price > 0
+            if (price > 0) {
+                document.getElementById('paypal-button-container').innerHTML = '';
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: { value: parseFloat(price).toFixed(2) }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(async function(details) {
+                            await confirmTicket(details.id, price);
+                        });
+                    }
+                }).render('#paypal-button-container');
+            }
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.remove('open');
+            currentCheckoutEventId = null;
+        }
+
+        async function processFreeTicket() {
+            await confirmTicket('FREE_' + Date.now(), 0);
+        }
+
+        async function confirmTicket(paymentId, amountPaid) {
+            try {
+                const session = await getSession();
+                const userEmail = session.user.email;
+                const userId = session.user.id;
+
+                const { data, error } = await _supabase.from('tickets').insert([{
+                    event_id: currentCheckoutEventId,
+                    buyer_id: userId,
+                    buyer_email: userEmail,
+                    payment_id: paymentId,
+                    amount_paid: amountPaid,
+                    status: 'valide'
+                }]).select('id, qr_token').single();
+
+                if (error) throw error;
+
+                // Show success UI
+                document.getElementById('paypal-button-container').style.display = 'none';
+                document.getElementById('checkout-free-section').style.display = 'none';
+                document.getElementById('ticket-success').style.display = 'block';
+                document.getElementById('ticket-id').innerText = data.id.substring(0,8).toUpperCase();
+
+                // Generate QR Code
+                new QRCode(document.getElementById("qrcode"), {
+                    text: data.qr_token,
+                    width: 150,
+                    height: 150
+                });
+
+            } catch (err) {
+                console.error("Erreur de création du billet", err);
+                alert("Erreur lors de la génération du billet: " + err.message);
+            }
         }
 
         window.onload = init;
