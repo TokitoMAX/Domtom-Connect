@@ -226,16 +226,37 @@
             }
         }
 
-        function startScanning() {
+        async function startScanning() {
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-            document.getElementById('manual-start').style.display = 'none';
+            const manualBtn = document.getElementById('manual-start');
+            manualBtn.style.display = 'none';
             
-            html5QrCode.start({ facingMode: currentCamera }, config, onScanSuccess)
-                .catch(err => {
-                    console.error("Camera error", err);
-                    document.getElementById('manual-start').style.display = 'inline-block';
-                    debugLog(`Erreur Camera: ${err}`);
-                });
+            try {
+                debugLog("Demande d'accès caméra...");
+                
+                // First check if cameras exist
+                const devices = await Html5Qrcode.getCameras();
+                if (!devices || devices.length === 0) {
+                    throw new Error("Aucune caméra détectée sur cet appareil.");
+                }
+
+                debugLog(`${devices.length} caméra(s) trouvée(s). Démarrage...`);
+                
+                await html5QrCode.start({ facingMode: currentCamera }, config, onScanSuccess);
+                debugLog("Caméra active.");
+            } catch (err) {
+                console.error("Camera error", err);
+                manualBtn.style.display = 'inline-block';
+                debugLog(`Erreur: ${err.message || err}`);
+                
+                // If environment failed, try ANY camera
+                if (currentCamera === "environment") {
+                    debugLog("Tentative avec caméra par défaut...");
+                    html5QrCode.start({ facingMode: "user" }, config, onScanSuccess).catch(e => {
+                        debugLog("Échec total caméra.");
+                    });
+                }
+            }
         }
 
         async function onScanSuccess(decodedText) {
