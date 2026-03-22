@@ -190,6 +190,7 @@ async function loadGlobalNavbar() {
                 <a href="/marketplace/directory" class="nav-market-link">Talents</a>
                 <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
                 <a href="/marketplace/projects" class="nav-market-link">Projets</a>
+                <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
                 <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
                 <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
                 <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>

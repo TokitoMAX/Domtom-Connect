@@ -846,6 +846,7 @@
                     <a href="marketplace/directory">Talents</a>
                     <a href="marketplace/jobs">Missions</a>
                     <a href="marketplace/projects">Projets</a>
+                    <a href="marketplace/evenements">Événements</a>
                     <a href="marketplace/companies">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -974,6 +975,7 @@
                     <a href="/marketplace/directory" class="nav-market-link">Talents</a>
                     <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
                     <a href="/marketplace/projects" class="nav-market-link">Projets</a>
+                    <a href="/marketplace/evenements">Événements</a>
                     <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
                 </div>
             </nav>
@@ -1834,6 +1836,13 @@
                         </div>
                     </div>
 
+                    <!-- Carte Événements -->
+                    <div class="dash-card">
+                        <div class="card-title">Publier un Événement</div>
+                        <p class="card-desc">Faites la promotion de vos ateliers, webinaires ou événements physiques.</p>
+                        <button onclick="openEventModal()" class="cta-button primary" style="margin-top:auto; justify-content:center;">Créer un événement</button>
+                    </div>
+
                     <!-- Carte Webinaires -->
                     <div class="dash-card">
                         <div class="card-title">Webinaires & Live</div>
@@ -1975,6 +1984,13 @@
                         <p class="card-desc">Trouvez les meilleurs experts locaux pour vos projets.</p>
                         <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
                     </div>
+                    <!-- Carte Événements -->
+                    <div class="dash-card">
+                        <div class="card-title">Publier un Événement</div>
+                        <p class="card-desc">Faites la promotion de vos événements, soirées ou lancements de produits.</p>
+                        <button onclick="openEventModal()" class="cta-button primary" style="margin-top:auto; justify-content:center;">Créer un événement</button>
+                    </div>
+
                     <!-- Carte Webinaires -->
                     <div class="dash-card">
                         <div class="card-title">Webinaires & Live</div>
@@ -2167,6 +2183,13 @@
                                 </div>
                                 <p class="card-desc">Suivez le Success Engine pour structurer votre projet et débloquer les prestataires idéaux.</p>
                                 <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center;" onclick="showView('success-engine')">Gérer mon projet →</button>
+                            </div>
+
+                            <!-- Carte Événements -->
+                            <div class="dash-card">
+                                <div class="card-title">Publier un Événement</div>
+                                <p class="card-desc">Faites la promotion de vos événements auprès de la communauté.</p>
+                                <button onclick="openEventModal()" class="cta-button primary" style="margin-top:auto; background:var(--primary-color); justify-content:center;">Créer un événement</button>
                             </div>
 
                             <!-- Carte Webinaires (Bloc d'origine) -->
@@ -3086,6 +3109,118 @@
                 window.location.reload();
             } catch (err) {
                 alert("Erreur : " + err.message);
+            }
+        }
+
+        async function openEventModal() {
+            let modal = document.getElementById('event-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="event-modal">
+                        <div class="hero-modal" style="max-width: 500px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                                <div>
+                                    <h2 style="color:var(--text-primary); margin:0;">Publier un Événement</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Partagez votre affiche avec la communauté.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeEventModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                            </div>
+                            <form onsubmit="saveEvent(event)">
+                                <div class="form-group" style="margin-bottom:16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'événement *</label>
+                                    <input type="text" id="ev-title" required placeholder="Ex: Atelier IA & Business" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                </div>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                                    <div class="form-group">
+                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Date et Heure *</label>
+                                        <input type="text" id="ev-date" required placeholder="Ex: 12 Avril à 18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lieu / Lien *</label>
+                                        <input type="text" id="ev-location" required placeholder="Ex: Fort-de-France ou Google Meet" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
+                                    <input type="file" id="ev-image" accept="image/*" required style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; background:var(--bg-light);">
+                                </div>
+                                <div class="form-group" style="margin-bottom:24px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Description (Optionnel)</label>
+                                    <textarea id="ev-desc" placeholder="Détails de l'événement..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; height:80px;"></textarea>
+                                </div>
+                                <button type="submit" id="btn-save-event" class="cta-button primary" style="width:100%; background:#10b981; border:none; padding:12px; font-weight:700; border-radius:8px; color:white; cursor:pointer;">Publier l'événement</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('event-modal');
+            }
+            modal.classList.add('open');
+        }
+
+        function closeEventModal() {
+            document.getElementById('event-modal').classList.remove('open');
+        }
+
+        async function saveEvent(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btn-save-event');
+            btn.textContent = "Publication en cours...";
+            btn.disabled = true;
+
+            try {
+                const session = await getSession();
+                if (!session) throw new Error("Vous devez être connecté.");
+
+                const title = document.getElementById('ev-title').value;
+                const dateText = document.getElementById('ev-date').value;
+                const location = document.getElementById('ev-location').value;
+                const desc = document.getElementById('ev-desc').value;
+                const fileInput = document.getElementById('ev-image');
+                const file = fileInput.files[0];
+
+                if (!file) throw new Error("Une affiche est requise.");
+
+                // Upload image
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+                const filePath = `${session.user.id}/${fileName}`;
+
+                const { error: uploadError, data: uploadData } = await _supabase.storage
+                    .from('events_flyers')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data: publicUrlData } = _supabase.storage
+                    .from('events_flyers')
+                    .getPublicUrl(filePath);
+
+                const imageUrl = publicUrlData.publicUrl;
+
+                // Save event in DB
+                const { error: dbError } = await _supabase.from('events').insert([{
+                    user_id: session.user.id,
+                    title: title,
+                    event_date: dateText,
+                    location: location,
+                    description: desc,
+                    image_url: imageUrl
+                }]);
+
+                if (dbError) throw dbError;
+
+                alert("🎉 Événement publié avec succès !");
+                closeEventModal();
+                event.target.reset();
+
+            } catch (err) {
+                console.error("Save Event Error:", err);
+                alert("Erreur: " + err.message);
+            } finally {
+                btn.textContent = "Publier l'événement";
+                btn.disabled = false;
             }
         }
 
