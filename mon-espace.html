@@ -1313,7 +1313,7 @@
                     const eventIds = myEvents.map(ev => ev.id);
                     const { data: allTickets, error: tkError } = await _supabase
                         .from('tickets')
-                        .select('id, event_id')
+                        .select('id, event_id, amount_paid')
                         .in('event_id', eventIds);
                     
                     if (!tkError && allTickets) {
@@ -1339,7 +1339,7 @@
                 container.innerHTML = myEvents.map(ev => {
                     const ticketCount = ev.tickets ? ev.tickets.length : 0;
                     const totalSpots = ev.total_tickets || '∞';
-                    const revenue = ev.price ? (ticketCount * ev.price).toFixed(2) : '0.00';
+                    const revenue = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0).toFixed(2) : '0.00';
                     const isInternal = ev.ticket_url === null;
                     
                     return `
@@ -3327,15 +3327,10 @@
                                 </div>
                                 <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.4;">Laissez le lien externe vide pour vendre vos billets ici via PayPal.</p>
 
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                                    <div class="form-group">
-                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Prix du Billet (€) - 0 si Gratuit</label>
-                                        <input type="number" id="ev-price" min="0" step="0.01" placeholder="Ex: 15.00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Capacité (Nb places)</label>
-                                        <input type="number" id="ev-total-tickets" min="1" placeholder="Ex: 100" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                                    </div>
+                                <div id="tiers-section" style="margin-bottom: 16px;">
+                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Tarifs de la Billetterie *</label>
+                                    <div id="tiers-container"></div>
+                                    <button type="button" onclick="addTierRow()" style="background:none; border:1.5px dashed #10b981; color:#10b981; width:100%; padding:10px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:700; margin-top:8px;">+ Ajouter un tarif (ex: Early Bird, VIP...)</button>
                                 </div>
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
@@ -3359,13 +3354,15 @@
             const dateEl = document.getElementById('ev-date');
             const locEl = document.getElementById('ev-location');
             const ticketEl = document.getElementById('ev-ticket');
-            const priceEl = document.getElementById('ev-price');
-            const spotsEl = document.getElementById('ev-total-tickets');
             const descEl = document.getElementById('ev-desc');
             const fileEl = document.getElementById('ev-image');
             const editIdEl = document.getElementById('ev-edit-id');
             const btn = document.getElementById('btn-save-event');
             const head = modal.querySelector('h2');
+            const tiersContainer = document.getElementById('tiers-container');
+
+            // Clear tiers
+            tiersContainer.innerHTML = '';
 
             if (editData) {
                 head.textContent = "Modifier l'Événement";
@@ -3375,10 +3372,17 @@
                 dateEl.value = editData.event_date || '';
                 locEl.value = editData.location || '';
                 ticketEl.value = editData.ticket_url || '';
-                priceEl.value = editData.price || 0;
-                spotsEl.value = editData.total_tickets || '';
                 descEl.value = editData.description || '';
                 fileEl.required = false;
+
+                // Load tiers from JSONB
+                const tiers = editData.ticket_tiers || [];
+                if (tiers.length > 0) {
+                    tiers.forEach(t => addTierRow(t));
+                } else if (!editData.ticket_url) {
+                    // Migration fallback for old single-price events
+                    addTierRow({ name: 'Entrée', price: editData.price, capacity: editData.total_tickets });
+                }
             } else {
                 head.textContent = "Publier un Événement";
                 btn.textContent = "Publier l'événement";
@@ -3387,13 +3391,26 @@
                 dateEl.value = "";
                 locEl.value = "";
                 ticketEl.value = "";
-                priceEl.value = "";
-                spotsEl.value = "";
                 descEl.value = "";
                 fileEl.required = true;
+                addTierRow(); // Add one default row
             }
 
             modal.classList.add('open');
+        }
+
+        function addTierRow(data = null) {
+            const container = document.getElementById('tiers-container');
+            const row = document.createElement('div');
+            row.className = 'tier-row';
+            row.style = "display:grid; grid-template-columns: 2fr 1fr 1fr 40px; gap:8px; margin-bottom:8px; align-items:center;";
+            row.innerHTML = `
+                <input type="text" class="t-name" required placeholder="Nom (ex: Prévente)" value="${data ? data.name : ''}" style="width:100%; padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-size:0.8rem;">
+                <input type="number" class="t-price" required step="0.01" placeholder="Prix €" value="${data ? data.price : ''}" style="width:100%; padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-size:0.8rem;">
+                <input type="number" class="t-cap" required placeholder="Places" value="${data ? data.capacity : ''}" style="width:100%; padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-size:0.8rem;">
+                <button type="button" onclick="this.parentElement.remove()" style="background:#fee2e2; color:#ef4444; border:none; width:32px; height:32px; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:700;">×</button>
+            `;
+            container.appendChild(row);
         }
 
         function closeEventModal() {
@@ -3416,11 +3433,18 @@
                 const dateText = document.getElementById('ev-date').value;
                 const location = document.getElementById('ev-location').value;
                 const ticketUrl = document.getElementById('ev-ticket').value;
-                const priceValue = document.getElementById('ev-price').value;
-                const ticketsValue = document.getElementById('ev-total-tickets').value;
                 const desc = document.getElementById('ev-desc').value;
                 const fileInput = document.getElementById('ev-image');
                 const file = fileInput.files[0];
+
+                // Collect tiers
+                const tierRows = document.querySelectorAll('.tier-row');
+                const tiers = Array.from(tierRows).map(row => ({
+                    id: Math.random().toString(36).substring(2, 9),
+                    name: row.querySelector('.t-name').value,
+                    price: parseFloat(row.querySelector('.t-price').value) || 0,
+                    capacity: parseInt(row.querySelector('.t-cap').value) || 0
+                }));
 
                 let imageUrl = null;
 
@@ -3450,11 +3474,15 @@
                 };
                 
                 if (!ticketUrl) {
-                    payload.price = priceValue ? parseFloat(priceValue) : 0;
-                    payload.total_tickets = ticketsValue ? parseInt(ticketsValue) : null;
+                    if (tiers.length === 0) throw new Error("Veuillez ajouter au moins un tarif.");
+                    payload.ticket_tiers = tiers;
+                    // Compatibility for old schema (use first tier as primary)
+                    payload.price = tiers[0].price;
+                    payload.total_tickets = tiers.reduce((acc, t) => acc + t.capacity, 0);
                 } else {
                     payload.price = null;
                     payload.total_tickets = null;
+                    payload.ticket_tiers = [];
                 }
 
                 let resultError;
