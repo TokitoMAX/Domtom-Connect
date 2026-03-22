@@ -265,15 +265,8 @@
                     </div>
                 `;
             } else if ((ev.ticket_tiers && ev.ticket_tiers.length > 0) || (ev.price !== undefined && ev.price !== null)) {
-                // Internal Ticketing (Domtom Connect)
-                const tiers = ev.ticket_tiers || [];
-                let label = "📅 Réserver ma place";
-                if (tiers.length > 0) {
-                    const minPrice = Math.min(...tiers.map(t => t.price));
-                    label = minPrice === 0 ? "🎟️ S'inscrire (Dès 0€)" : `🎟️ Acheter (${minPrice}€+)`;
-                } else if (ev.price !== null) {
-                    label = ev.price > 0 ? `🎟️ Acheter (${ev.price} €)` : "✅ S'inscrire (Gratuit)";
-                }
+                // Internal Ticketing (Domtom Connect) - CURIOSITY DRIVEN
+                const label = "🎟️ Voir les tarifs";
                 
                 ctaButton = `
                     <div style="margin-top:20px;">
