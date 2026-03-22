@@ -33,15 +33,17 @@ CREATE POLICY "Les utilisateurs peuvent supprimer leurs événements" ON public.
   FOR DELETE USING (auth.uid() = user_id);
 
 -- ==========================================
--- 2. INSTRUCTIONS BUCKET STORAGE (À FAIRE MANUELLEMENT)
+-- 2. CREATION DU BUCKET STORAGE "events_flyers"
 -- ==========================================
-/**
- 1. Allez dans "Storage" sur la console Supabase.
- 2. Cliquez sur "New bucket".
- 3. Nommez-le "events_flyers".
- 4. Activez "Public bucket".
- 5. Dans "Policies" du bucket events_flyers, ajoutez une policy pour que:
-    - SELECT (tous ou authentifiés)
-    - INSERT (authentifiés)
-    - UPDATE/DELETE (authentifiés - optionnel si besoin)
-*/
+-- Création du bucket 'events_flyers' s'il n'existe pas
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('events_flyers', 'events_flyers', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Autorisation de lecture publique pour tout le monde
+CREATE POLICY "Public Access events_flyers" ON storage.objects
+FOR SELECT USING ( bucket_id = 'events_flyers' );
+
+-- Autorisation d'insertion (upload) pour les utilisateurs connectés
+CREATE POLICY "Auth users can upload to events_flyers" ON storage.objects
+FOR INSERT TO authenticated WITH CHECK ( bucket_id = 'events_flyers' );
