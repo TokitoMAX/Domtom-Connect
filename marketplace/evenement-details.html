@@ -467,6 +467,10 @@
                                 <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Titulaire</div>
                                 <div id="ticket-attendee-name" style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">--</div>
                             </div>
+                            <div>
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Statut</div>
+                                <div id="ticket-status-badge" style="display:inline-block; font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 6px;">--</div>
+                            </div>
                         </div>
 
                         <div id="qrcode" style="display:flex; justify-content:center; padding: 25px; background: #f8fafc; border-radius: 24px; border: 1px solid #f1f5f9;"></div>
@@ -766,6 +770,17 @@
             document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
             document.getElementById('ticket-event-loc').innerText = currentEvent.location;
             document.getElementById('ticket-attendee-name').innerText = ticket.attendee_name || "Invité";
+            
+            const statusBadge = document.getElementById('ticket-status-badge');
+            if (ticket.status === 'utilisé') {
+                statusBadge.innerText = "VALIDÉ";
+                statusBadge.style.background = "#dcfce7";
+                statusBadge.style.color = "#166534";
+            } else {
+                statusBadge.innerText = "VALIDE";
+                statusBadge.style.background = "#f1f5f9";
+                statusBadge.style.color = "#475569";
+            }
 
             const qrContainer = document.getElementById("qrcode");
             qrContainer.innerHTML = '';
@@ -822,6 +837,11 @@
                 document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
                 document.getElementById('ticket-event-loc').innerText = currentEvent.location;
                 document.getElementById('ticket-attendee-name').innerText = attendeeName;
+                
+                const statusBadge = document.getElementById('ticket-status-badge');
+                statusBadge.innerText = "VALIDE";
+                statusBadge.style.background = "#f1f5f9";
+                statusBadge.style.color = "#475569";
 
                 // DEEP LINK QR
                 const qrContainer = document.getElementById("qrcode");

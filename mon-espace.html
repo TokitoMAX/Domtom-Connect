@@ -1426,28 +1426,86 @@
         }
 
         async function viewAttendees(eventId) {
+            let modal = document.getElementById('attendees-modal');
+            if (!modal) {
+                const modalHTML = `
+                    <div class="modal-overlay" id="attendees-modal">
+                        <div class="hero-modal" style="max-width: 700px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                                <div>
+                                    <h2 style="color:var(--text-primary); margin:0;">Liste des Participants</h2>
+                                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Suivi des entrées et validations en temps réel.</p>
+                                </div>
+                                <button class="modal-close" onclick="closeAttendeesModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                            </div>
+                            <div id="attendees-list-container" style="max-height: 400px; overflow-y: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray-100); text-align: left;">
+                                            <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Email / Client</th>
+                                            <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Type</th>
+                                            <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Statut</th>
+                                            <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Validé le</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendees-tbody">
+                                        <!-- Rows filled by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                modal = document.getElementById('attendees-modal');
+                modal.addEventListener('click', (e) => { if (e.target === modal) closeAttendeesModal(); });
+            }
+
+            const tbody = document.getElementById('attendees-tbody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Chargement...</td></tr>';
+            modal.classList.add('open');
+
             try {
                 const { data: tickets, error } = await _supabase
                     .from('tickets')
                     .select('*')
                     .eq('event_id', eventId)
+                    .order('validated_at', { ascending: false, nullsFirst: false })
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
                 if (!tickets || tickets.length === 0) {
-                    alert("Aucun inscrit pour le moment sur cette billetterie native.");
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">Aucun participant inscrit.</td></tr>';
                     return;
                 }
 
-                let listStr = "Liste des inscrits :\n\n";
-                tickets.forEach((t, i) => {
-                    listStr += `${i+1}. ${t.buyer_email} (${t.status}) - ${t.amount_paid}€\n`;
-                });
-                alert(listStr);
+                tbody.innerHTML = tickets.map(t => {
+                    const isValidated = t.status === 'utilisé';
+                    const dateVal = t.validated_at ? new Date(t.validated_at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-';
+                    return `
+                        <tr style="border-bottom: 1px solid var(--gray-100);">
+                            <td style="padding: 12px 8px; font-weight: 600;">${t.buyer_email}</td>
+                            <td style="padding: 12px 8px;">${t.tier_name || 'Standard'}</td>
+                            <td style="padding: 12px 8px;">
+                                <span style="display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:800; 
+                                    ${isValidated ? 'background:#dcfce7; color:#166534;' : 'background:#f1f5f9; color:#475569;'}">
+                                    ${isValidated ? '✓ VALIDÉ' : 'ATTENTE'}
+                                </span>
+                            </td>
+                            <td style="padding: 12px 8px; font-size: 0.8rem; color: var(--text-secondary);">${dateVal}</td>
+                        </tr>
+                    `;
+                }).join('');
+
             } catch (err) {
-                alert("Erreur: " + err.message);
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#ef4444;">Erreur: ${err.message}</td></tr>`;
             }
+        }
+
+        function closeAttendeesModal() {
+            const modal = document.getElementById('attendees-modal');
+            if (modal) modal.classList.remove('open');
         }
 
         async function editEvent(eventId) {

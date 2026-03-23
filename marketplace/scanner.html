@@ -147,11 +147,16 @@
     <div id="result-overlay">
         <div class="result-card">
             <div id="res-icon" class="result-icon">🎟️</div>
-            <div id="res-status" class="result-status">Validé</div>
-            <div id="res-details" class="result-details">Billet n°1234 - VIP</div>
+            <div id="res-status" class="result-status">Chargement...</div>
+            <div id="res-details" class="result-details">--</div>
+            
+            <!-- Organizer Action -->
+            <button id="btn-validate" class="btn-next" style="display:none; background: #10b981; margin-bottom: 15px;" onclick="doValidate()">Valider l'entrée</button>
+            
             <button class="btn-next" onclick="resetScanner()">Continuer le scan</button>
         </div>
     </div>
+
 
     <div class="scanner-controls">
         <button class="control-btn" onclick="toggleDebug()">Debug</button>
@@ -259,6 +264,8 @@
             }
         }
 
+        let currentScannedTicket = null;
+
         async function onScanSuccess(decodedText) {
             if (isProcessing) return;
             isProcessing = true;
@@ -277,52 +284,75 @@
                 if (token.includes('?token=')) {
                     token = token.split('?token=')[1];
                 } else if (token.includes('/')) {
-                    // Handle potential trailing slashes or full paths
                     const parts = token.split('/');
                     token = parts[parts.length - 1];
                 }
 
                 debugLog(`Interrogation DB pour: ${token.substring(0,8)}...`);
 
-                // Search for the ticket - Simplified query to avoid join issues
                 const { data: ticket, error } = await _supabase
                     .from('tickets')
-                    .select('*')
+                    .select('*, events(title, user_id)') // JOIN to get event owner
                     .eq('qr_token', token)
                     .single();
 
                 if (error || !ticket) {
-                    debugLog(`Erreur DB: ${error ? error.message : 'Non trouvé'}`);
-                    showResult('error', 'Billet Invalide', `Code non reconnu: ${token.substring(0,10)}...`);
+                    showResult('error', 'Billet Invalide', `Code non reconnu.`);
                     return;
                 }
 
-                if (ticket.event_id !== targetEventId) {
-                    showResult('warning', 'Mauvais Événement', 'Ce billet n\'est pas pour cet événement.');
-                    return;
-                }
+                currentScannedTicket = ticket;
+                const session = await getSession();
+                const isOrganizer = session && session.user.id === ticket.events.user_id;
 
+                // DISPLAY INFO
+                const details = `${ticket.attendee_name || "Client"} - ${ticket.tier_name}`;
+                
                 if (ticket.status === 'utilisé') {
-                    showResult('warning', 'Déjà Utilisé', `Billet ${ticket.tier_name} déjà validé auparavant.`);
-                    return;
+                    showResult('warning', 'Déjà Utilisé', `Billet ${details} déjà validé auparavant.`);
+                } else {
+                    // Valid ticket, not yet used
+                    showResult('success', 'Billet Valide', `${details} - Prêt pour validation.`);
+                    
+                    // Only show "Valider" button if scanned by organizer and not yet used
+                    if (isOrganizer) {
+                        document.getElementById('btn-validate').style.display = 'block';
+                    }
                 }
-
-                // Mark as used
-                const { error: updateError } = await _supabase
-                    .from('tickets')
-                    .update({ status: 'utilisé' })
-                    .eq('id', ticket.id);
-
-                if (updateError) throw updateError;
-
-                showResult('success', 'Entrée Validée', `${ticket.tier_name} - ${ticket.quantity} personne(s)`);
 
             } catch (err) {
-                debugLog(`CRITICAL ERROR: ${err.message || err}`);
                 console.error("Scanner exception:", err);
                 showResult('error', 'Erreur Système', `Erreur: ${err.message || 'votre connexion'}`);
             }
             isProcessing = false;
+        }
+
+        async function doValidate() {
+            if (!currentScannedTicket) return;
+            const validateBtn = document.getElementById('btn-validate');
+            validateBtn.innerText = "Validation...";
+            validateBtn.disabled = true;
+
+            try {
+                const { error } = await _supabase
+                    .from('tickets')
+                    .update({ 
+                        status: 'utilisé',
+                        validated_at: new Date().toISOString() 
+                    })
+                    .eq('id', currentScannedTicket.id);
+
+                if (error) throw error;
+
+                // Success!
+                validateBtn.style.display = 'none';
+                showResult('success', 'Entrée Confirmée', `Bienvenue ${currentScannedTicket.attendee_name || 'Client'} !`);
+
+            } catch (err) {
+                alert("Erreur de validation : " + err.message);
+                validateBtn.innerText = "Réessayer";
+                validateBtn.disabled = false;
+            }
         }
 
         function showResult(type, status, details) {
@@ -330,6 +360,11 @@
             const icon = document.getElementById('res-icon');
             const statusEl = document.getElementById('res-status');
             const detailsEl = document.getElementById('res-details');
+            const validateBtn = document.getElementById('btn-validate');
+
+            validateBtn.style.display = 'none'; // Reset button visibility
+            validateBtn.innerText = "Valider l'entrée";
+            validateBtn.disabled = false;
 
             overlay.className = 'active';
             statusEl.innerText = status;
