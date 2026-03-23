@@ -255,32 +255,13 @@
                 ? `<img src="${ev.profiles.avatar_url}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;">`
                 : `<div class="event-author-avatar">${initials}</div>`;
 
-            // Bouton de réservation
-            let ctaButton = '';
-            if (ev.ticket_url) {
-                // External Ticket URL
-                ctaButton = `
-                    <div style="margin-top:20px;">
-                        <a href="${ev.ticket_url}" target="_blank" rel="noopener" class="cta-button primary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; background:#e11d48; color:white; border:none; display:inline-block;">🎟️ Billeterie Externe</a>
-                    </div>
-                `;
-            } else if ((ev.ticket_tiers && ev.ticket_tiers.length > 0) || (ev.price !== undefined && ev.price !== null)) {
-                // Internal Ticketing (Domtom Connect) - CURIOSITY DRIVEN
-                const label = "🎟️ Voir les tarifs";
-                
-                ctaButton = `
-                    <div style="margin-top:20px;">
-                        <a href="evenement-details.html?id=${ev.id}" class="cta-button primary" style="width:100%; text-decoration:none; display:inline-block; text-align:center; background:#10b981; color:white; padding:12px; border-radius:12px; font-weight:700;">${label}</a>
-                    </div>
-                `;
-            } else {
-                // Fallback / No ticketing
-                ctaButton = `
-                    <div style="margin-top:20px;">
-                        <a href="${ev.image_url}" target="_blank" rel="noopener" class="cta-button secondary" style="width:100%; text-align:center; padding:12px; font-size:1rem; border-radius:12px; display:inline-block;">Voir l'affiche</a>
-                    </div>
-                `;
-            }
+            // Bouton de réservation (Always Native)
+            const ctaButton = `
+                <div style="margin-top:20px;">
+                    <a href="evenement-details.html?id=${ev.id}" class="cta-button primary" style="width:100%; text-decoration:none; display:inline-block; text-align:center; background:#10b981; color:white; padding:12px; border-radius:12px; font-weight:700;">🎟️ Reserver / Voir les tarifs</a>
+                </div>
+            `;
+
 
             return `
                 <div class="event-card" onclick="window.location.href='evenement-details.html?id=${ev.id}'" style="border:none; box-shadow:0 12px 24px rgba(0,0,0,0.06); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; background:#fff; position:relative; cursor:pointer;">

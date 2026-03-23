@@ -1369,9 +1369,10 @@
 
                 container.innerHTML = myEvents.map(ev => {
                     const ticketCount = ev.tickets ? ev.tickets.length : 0;
-                    const totalSpots = ev.total_tickets || '∞';
-                    const revenue = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0).toFixed(2) : '0.00';
+                    const grossRevenue = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0) : 0;
+                    const netRevenue = grossRevenue * 0.90;
                     const isInternal = ev.ticket_url === null;
+
                     
                     return `
                         <div class="dash-card" style="padding: 0; overflow: hidden; border-radius: 16px; border: 1px solid var(--gray-200); background: white;">
@@ -1388,9 +1389,14 @@
                                         <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a;">${ticketCount} / ${totalSpots}</div>
                                     </div>
                                     <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">Revenus</div>
-                                        <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${revenue}€</div>
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">CA Brut</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${grossRevenue.toFixed(2)}€</div>
                                     </div>
+                                    <div style="background: #fffbeb; padding: 12px; border-radius: 10px; text-align: center; grid-column: span 2;">
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #b45309; text-transform: uppercase; margin-bottom:4px;">Revenu Net (90%)</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #b45309;">${netRevenue.toFixed(2)}€</div>
+                                    </div>
+
                                 </div>
 
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
@@ -3513,23 +3519,12 @@
                                         <input type="text" id="ev-location" required placeholder="Ex: Le Guest Live" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                     </div>
                                 </div>
-                                <div class="form-group" style="margin-bottom:16px;">
-                                    <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lien Billetterie Externe (Bizouk, Eventbrite...)</label>
-                                    <input type="url" id="ev-ticket" placeholder="https://www.bizouk.com/..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                                </div>
-                                
-                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-                                    <div style="flex:1; height:1px; background:var(--gray-200);"></div>
-                                    <span style="font-size:0.75rem; color:var(--text-muted); font-weight:800; text-transform:uppercase;">OU Billetterie Domtom Connect</span>
-                                    <div style="flex:1; height:1px; background:var(--gray-200);"></div>
-                                </div>
-                                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.4;">Laissez le lien externe vide pour vendre vos billets ici via PayPal.</p>
-
                                 <div id="tiers-section" style="margin-bottom: 16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Tarifs de la Billetterie *</label>
                                     <div id="tiers-container"></div>
                                     <button type="button" onclick="addTierRow()" style="background:none; border:1.5px dashed #10b981; color:#10b981; width:100%; padding:10px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:700; margin-top:8px;">+ Ajouter un tarif (ex: Early Bird, VIP...)</button>
                                 </div>
+
                                 <div class="form-group" style="margin-bottom:16px;">
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
                                     <input type="file" id="ev-image" accept="image/*" required style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; background:var(--bg-light);">
@@ -3551,8 +3546,8 @@
             const titleEl = document.getElementById('ev-title');
             const dateEl = document.getElementById('ev-date');
             const locEl = document.getElementById('ev-location');
-            const ticketEl = document.getElementById('ev-ticket');
             const descEl = document.getElementById('ev-desc');
+
             const fileEl = document.getElementById('ev-image');
             const editIdEl = document.getElementById('ev-edit-id');
             const btn = document.getElementById('btn-save-event');
@@ -3569,8 +3564,8 @@
                 titleEl.value = editData.title || '';
                 dateEl.value = editData.event_date || '';
                 locEl.value = editData.location || '';
-                ticketEl.value = editData.ticket_url || '';
                 descEl.value = editData.description || '';
+
                 fileEl.required = false;
 
                 // Load tiers from JSONB
@@ -3588,8 +3583,8 @@
                 titleEl.value = "";
                 dateEl.value = "";
                 locEl.value = "";
-                ticketEl.value = "";
                 descEl.value = "";
+
                 fileEl.required = true;
                 addTierRow(); // Add one default row
             }
@@ -3630,8 +3625,8 @@
                 const title = document.getElementById('ev-title').value;
                 const dateText = document.getElementById('ev-date').value;
                 const location = document.getElementById('ev-location').value;
-                const ticketUrl = document.getElementById('ev-ticket').value;
                 const desc = document.getElementById('ev-desc').value;
+
                 const fileInput = document.getElementById('ev-image');
                 const file = fileInput.files[0];
 
@@ -3666,22 +3661,17 @@
                     title: title,
                     event_date: dateText,
                     location: location,
-                    ticket_url: ticketUrl || null,
+                    ticket_url: null, // Always null for native
                     description: desc,
                     image_url: imageUrl
                 };
                 
-                if (!ticketUrl) {
-                    if (tiers.length === 0) throw new Error("Veuillez ajouter au moins un tarif.");
-                    payload.ticket_tiers = tiers;
-                    // Compatibility for old schema (use first tier as primary)
-                    payload.price = tiers[0].price;
-                    payload.total_tickets = tiers.reduce((acc, t) => acc + t.capacity, 0);
-                } else {
-                    payload.price = null;
-                    payload.total_tickets = null;
-                    payload.ticket_tiers = [];
-                }
+                if (tiers.length === 0) throw new Error("Veuillez ajouter au moins un tarif.");
+                payload.ticket_tiers = tiers;
+                // Compatibility for old schema (use first tier as primary)
+                payload.price = tiers[0].price;
+                payload.total_tickets = tiers.reduce((acc, t) => acc + t.capacity, 0);
+
 
                 let resultError;
                 if (editId) {

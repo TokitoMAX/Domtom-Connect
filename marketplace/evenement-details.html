@@ -399,14 +399,23 @@
             </div>
 
             <div id="checkout-summary" style="display: none;" class="summary-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.95rem; color: #64748b;">
+                    <span>Sous-total</span>
+                    <span id="subtotal-amount">0.00 €</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.95rem; color: #10b981; font-weight: 600;">
+                    <span>Frais de service (10%)</span>
+                    <span id="service-fee-amount">0.00 €</span>
+                </div>
                 <div class="total-row">
-                    <span class="total-label">Total</span>
+                    <span class="total-label">Total à payer</span>
                     <span class="total-amount" id="total-amount">0.00 €</span>
                 </div>
                 
                 <div id="cta-confirm-step">
-                    <button onclick="preparePayment()" style="width:100%; border:none; padding:18px; border-radius:16px; background:#0f172a; color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.2s;">🎟️ Confirmer ma commande</button>
+                    <button onclick="preparePayment()" style="width:100%; border:none; padding:18px; border-radius:16px; background:#10b981; color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(16,185,129,0.2); transition: all 0.2s;">🎟️ Passer au paiement</button>
                 </div>
+
 
                 <div id="payment-step" style="display: none; margin-top: 24px;">
                     <div style="font-size: 0.85rem; color: #64748b; font-weight: 700; margin-bottom: 16px; text-align: center; text-transform: uppercase;">Choisissez votre mode de paiement</div>
@@ -429,29 +438,41 @@
                 <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;">Votre accès est prêt. Présentez ce QR Code à l'entrée de l'événement.</p>
                 
                 <!-- Ticket Card for Download -->
-                <div id="ticket-to-save" style="background: white; border-radius: 28px; padding: 0; border: 1px solid #e2e8f0; margin-bottom: 32px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left;">
-                    <div style="height: 140px; background: #0f172a; position: relative;">
-                        <img id="ticket-flyer-thumb" src="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;" crossorigin="anonymous">
-                        <div style="position: absolute; bottom: 15px; left: 20px; color: white;">
-                            <div style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #10b981;">Billet Officiel</div>
-                            <div id="ticket-event-name" style="font-weight: 800; font-size: 1.1rem; max-width: 250px;">--</div>
-                        </div>
+                <div id="ticket-to-save" style="background: white; border-radius: 20px; padding: 0; border: 2px solid #e2e8f0; margin-bottom: 32px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; width: 350px; margin-left: auto; margin-right: auto; font-family: 'Outfit', sans-serif;">
+                    <div style="padding: 24px; background: #0f172a; color: white; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #e2e8f0;">
+                         <div>
+                            <div style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #10b981; margin-bottom: 4px;">Domtom Connect</div>
+                            <div id="ticket-event-name" style="font-weight: 800; font-size: 1.2rem; line-height: 1.2;">--</div>
+                         </div>
+                         <div style="text-align: right;">
+                            <div id="ticket-ref-display" style="font-size: 0.9rem; font-weight: 900; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 8px;">#REF</div>
+                         </div>
                     </div>
-                    <div style="padding: 24px; position: relative;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    
+                    <div style="padding: 24px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
                             <div>
-                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Date & Heure</div>
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Date</div>
                                 <div id="ticket-event-date" style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">--</div>
                             </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Référence</div>
-                                <div id="ticket-ref-display" style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">--</div>
+                            <div>
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Lieu</div>
+                                <div id="ticket-event-loc" style="font-size: 0.85rem; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">--</div>
+                            </div>
+                             <div id="ticket-attendee-slot">
+                                <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Titulaire</div>
+                                <div id="ticket-attendee-name" style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">--</div>
                             </div>
                         </div>
-                        <div id="qrcode" style="display:flex; justify-content:center; padding: 20px; background: #f8fafc; border-radius: 20px;"></div>
-                        <div style="margin-top: 15px; text-align: center; color: #10b981; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px;">VALIDE POUR L'ENTRÉE</div>
+
+                        <div id="qrcode" style="display:flex; justify-content:center; padding: 25px; background: #f8fafc; border-radius: 24px; border: 1px solid #f1f5f9;"></div>
+                        
+                        <div style="margin-top: 20px; text-align: center; border-top: 2px dashed #f1f5f9; padding-top: 20px;">
+                            <div style="font-size: 0.75rem; color: #10b981; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;">Billet Officiel</div>
+                        </div>
                     </div>
                 </div>
+
 
                 <div style="display: flex; flex-direction: column; gap: 12px;">
                     <button onclick="downloadTicket()" style="width:100%; background:#10b981; color:white; border:none; padding:14px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -532,15 +553,15 @@
                 tiers = [{ id: 'default', name: 'Billet Standard', price: ev.price }];
             }
 
-            if (tiers.length === 0 && ev.ticket_url) {
+            if (tiers.length === 0) {
                 container.innerHTML = `
                     <div style="text-align:center; padding: 20px;">
-                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:20px;">Cet événement utilise une billetterie externe.</p>
-                        <a href="${ev.ticket_url}" target="_blank" style="display:block; padding:16px; background:#e11d48; color:white; text-decoration:none; border-radius:12px; font-weight:800;">Aller sur la billetterie</a>
+                        <p style="color:#64748b; font-size:0.9rem;">Aucun billet disponible pour le moment.</p>
                     </div>
                 `;
                 return;
             }
+
 
             container.innerHTML = tiers.map(t => `
                 <div class="tier-card">
@@ -586,36 +607,43 @@
             }
 
             const summary = document.getElementById('checkout-summary');
+            const subtotalEl = document.getElementById('subtotal-amount');
+            const feeEl = document.getElementById('service-fee-amount');
             const totalEl = document.getElementById('total-amount');
             const barTotalEl = document.getElementById('bar-total-amount');
             const barQtyEl = document.getElementById('bar-qty-total');
             const stickyBar = document.getElementById('sticky-cta');
-            const paypalContainer = document.getElementById('paypal-button-container');
-            const freeCheckout = document.getElementById('free-checkout');
 
             if (totalQty > 0) {
                 summary.style.display = 'block';
                 stickyBar.classList.add('active');
                 
+                const serviceFee = total * 0.10;
+                const finalTotal = total + serviceFee;
+
+                subtotalEl.innerText = total.toFixed(2) + ' €';
+                feeEl.innerText = serviceFee.toFixed(2) + ' €';
+                
                 // Animate Total
-                if (totalEl.innerText !== total.toFixed(2) + ' €') {
+                if (totalEl.innerText !== finalTotal.toFixed(2) + ' €') {
                     totalEl.classList.remove('pop-animation');
                     void totalEl.offsetWidth; // trigger reflow
                     totalEl.classList.add('pop-animation');
                     
-                    // Reset payment step if qty changes (requires re-confirm)
+                    // Reset payment step if qty changes
                     document.getElementById('cta-confirm-step').style.display = 'block';
                     document.getElementById('payment-step').style.display = 'none';
                     document.getElementById('sticky-cta').style.display = 'flex';
                 }
 
-                totalEl.innerText = total.toFixed(2) + ' €';
-                barTotalEl.innerText = total.toFixed(2) + ' €';
+                totalEl.innerText = finalTotal.toFixed(2) + ' €';
+                barTotalEl.innerText = finalTotal.toFixed(2) + ' €';
                 barQtyEl.innerText = totalQty;
             } else {
                 summary.style.display = 'none';
                 stickyBar.classList.remove('active');
             }
+
         }
 
         async function preparePayment() {
@@ -654,13 +682,16 @@
             const freeCheckout = document.getElementById('free-checkout');
 
             if (total > 0) {
+                const serviceFee = total * 0.10;
+                const finalTotal = total + serviceFee;
                 paypalContainer.style.display = 'block';
                 freeCheckout.style.display = 'none';
-                renderPaypal(total);
+                renderPaypal(finalTotal);
             } else {
                 paypalContainer.style.display = 'none';
                 freeCheckout.style.display = 'block';
             }
+
         }
 
         function scrollToTicketing() {
@@ -720,14 +751,12 @@
                 document.getElementById('ticket-ref-display').innerText = ref;
                 document.getElementById('ticket-event-name').innerText = currentEvent.title;
                 document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
-                document.getElementById('ticket-flyer-thumb').src = currentEvent.image_url;
+                document.getElementById('ticket-event-loc').innerText = currentEvent.location;
                 
                 // Add Attendee Name
                 const attendeeName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-                const attendeeEl = document.createElement('div');
-                attendeeEl.style.cssText = "margin-top: 10px; font-size: 0.85rem; font-weight: 700; color: #0f172a;";
-                attendeeEl.innerText = `Titulaire: ${attendeeName}`;
-                document.getElementById('ticket-event-name').parentElement.appendChild(attendeeEl);
+                document.getElementById('ticket-attendee-name').innerText = attendeeName;
+
 
                 // DEEP LINK QR: Helps native camera apps open the right page
                 const deepLink = `${window.location.origin}/marketplace/scanner.html?token=${data[0].qr_token}`;
