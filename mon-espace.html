@@ -1369,8 +1369,10 @@
 
                 container.innerHTML = myEvents.map(ev => {
                     const ticketCount = ev.tickets ? ev.tickets.length : 0;
+                    const totalSpots = ev.total_tickets || '∞';
                     const totalPaid = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0) : 0;
                     const netRevenue = totalPaid / 1.1; // Extract base price from total (Total = Base * 1.1)
+
 
                     const isInternal = ev.ticket_url === null;
 
