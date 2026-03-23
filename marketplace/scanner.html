@@ -179,10 +179,13 @@
             
             // 1. Initialize engine IMMEDIATELY
             html5QrCode = new Html5Qrcode("reader");
+            debugLog("Moteur QR initialisé.");
 
-            // 2. Start Scanning (unless token is in URL)
+            // 2. Start Scanning ASAP
             if (!urlToken) {
-                startScanning();
+                setTimeout(() => {
+                    startScanning();
+                }, 100);
             }
 
             // 3. Perform background checks
@@ -232,34 +235,42 @@
         }
 
         async function startScanning() {
-            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            const config = { 
+                fps: 10, 
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
             const manualBtn = document.getElementById('manual-start');
             manualBtn.style.display = 'none';
             
             try {
-                debugLog("Demande d'accès caméra...");
+                debugLog("Accès caméra...");
                 
-                // First check if cameras exist
-                const devices = await Html5Qrcode.getCameras();
-                if (!devices || devices.length === 0) {
-                    throw new Error("Aucune caméra détectée sur cet appareil.");
-                }
-
-                debugLog(`${devices.length} caméra(s) trouvée(s). Démarrage...`);
-                
-                await html5QrCode.start({ facingMode: currentCamera }, config, onScanSuccess);
+                // Try to start immediately with environment camera
+                await html5QrCode.start(
+                    { facingMode: currentCamera }, 
+                    config, 
+                    onScanSuccess
+                );
                 debugLog("Caméra active.");
             } catch (err) {
-                console.error("Camera error", err);
-                manualBtn.style.display = 'inline-block';
-                debugLog(`Erreur: ${err.message || err}`);
+                console.error("Camera start error", err);
+                debugLog(`Erreur: ${err}`);
                 
-                // If environment failed, try ANY camera
-                if (currentCamera === "environment") {
-                    debugLog("Tentative avec caméra par défaut...");
-                    html5QrCode.start({ facingMode: "user" }, config, onScanSuccess).catch(e => {
-                        debugLog("Échec total caméra.");
-                    });
+                // Fallback: try to list cameras and pick the last one (usually back)
+                try {
+                    const devices = await Html5Qrcode.getCameras();
+                    if (devices && devices.length > 0) {
+                        const cameraId = devices[devices.length - 1].id;
+                        await html5QrCode.start(cameraId, config, onScanSuccess);
+                        debugLog("Caméra active (fallback).");
+                    } else {
+                        throw new Error("Aucune caméra.");
+                    }
+                } catch (fallbackErr) {
+                    manualBtn.style.display = 'inline-block';
+                    debugLog("Échec caméra. Cliquez sur 'Démarrer'.");
+                    document.getElementById('scanner-debug').style.display = 'block';
                 }
             }
         }
@@ -334,13 +345,30 @@
             validateBtn.disabled = true;
 
             try {
+                const now = new Date().toISOString();
+                const updateData = { status: 'utilisé' };
+                
+                // We'll try to include validated_at, but we handle failure if SQL wasn't run
+                updateData.validated_at = now;
+
                 const { error } = await _supabase
                     .from('tickets')
-                    .update({ 
-                        status: 'utilisé'
-                        // validated_at: new Date().toISOString() // Removed temporarily - missing in DB schema
-                    })
+                    .update(updateData)
                     .eq('id', currentScannedTicket.id);
+
+                if (error) {
+                    // Fallback to only status if validated_at doesn't exist yet
+                    if (error.message.includes('validated_at')) {
+                        console.warn("Retrying without validated_at column...");
+                        const { error: error2 } = await _supabase
+                            .from('tickets')
+                            .update({ status: 'utilisé' })
+                            .eq('id', currentScannedTicket.id);
+                        if (error2) throw error2;
+                    } else {
+                        throw error;
+                    }
+                }
 
                 if (error) throw error;
 
