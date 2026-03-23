@@ -512,7 +512,9 @@
     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 
     <script src="../assets/js/auth.js"></script>
     <script>
@@ -868,11 +870,18 @@
                     throw new Error("QR Code non chargé. Ré-essayez dans 1 seconde.");
                 }
 
-                // Access jsPDF (html2pdf bundle exports it in various ways)
-                const jsPDF = window.jspdf?.jsPDF || window.jsPDF || window.jspdf;
+                // Access jsPDF (explicit check for 2.x vs bundle shapes)
+                let jsPDF = null;
+                if (window.jspdf && window.jspdf.jsPDF) {
+                    jsPDF = window.jspdf.jsPDF;
+                } else {
+                    jsPDF = window.jsPDF || window.jspdf;
+                }
+
                 if (!jsPDF) throw new Error("Échec chargement moteur PDF");
                 
                 const doc = new jsPDF({
+
                     unit: 'px',
                     format: [350, 600],
                     hotfixes: ["px_scaling"]
