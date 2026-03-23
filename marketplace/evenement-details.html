@@ -848,52 +848,90 @@
         }
 
         async function downloadTicket(event) {
-            const originalElement = document.getElementById('ticket-to-save');
             const downloadBtn = event?.currentTarget || {};
             const originalText = downloadBtn.innerText;
 
             try {
                 if (originalText) downloadBtn.innerText = "⏳...";
 
-                // Ensure QR is image
-                const qrContainer = originalElement.querySelector('#qrcode');
-                const canvas = qrContainer.querySelector('canvas');
-                if (canvas) {
-                    const img = document.createElement('img');
-                    img.src = canvas.toDataURL('image/png');
-                    img.style.width = '220px';
-                    img.style.height = '220px';
-                    qrContainer.innerHTML = '';
-                    qrContainer.appendChild(img);
-                }
+                // Get QR base64
+                const qrContainer = document.getElementById('qrcode');
+                const qrCanvas = qrContainer.querySelector('canvas');
+                if (!qrCanvas) throw new Error("QR Code non disponible");
+                const qrImgData = qrCanvas.toDataURL('image/png');
 
-                // Standard but robust options
-                const opt = {
-                    margin: 0,
-                    filename: `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
-                    image: { type: 'png' }, // PNG more robust for white-page issues
-                    html2canvas: { 
-                        scale: 2, 
-                        useCORS: true, 
-                        backgroundColor: '#ffffff',
-                        // SCROLL FIX: Many browsers need this to capture correctly when scrolled
-                        scrollY: -window.scrollY,
-                        windowWidth: originalElement.scrollWidth,
-                        windowHeight: originalElement.scrollHeight
-                    },
-                    jsPDF: { unit: 'px', format: [350, 600], orientation: 'portrait' }
-                };
+                // Access jsPDF (html2pdf bundle exports it in various ways)
+                const jsPDF = window.jspdf?.jsPDF || window.jsPDF || window.jspdf;
+                if (!jsPDF) throw new Error("Moteur PDF non disponible");
+                const doc = new jsPDF({
 
-                // Use the standard but powerful html2pdf API
-                await html2pdf().set(opt).from(originalElement).save();
+                    unit: 'px',
+                    format: [350, 600]
+                });
+
+                // DRAW TICKET MANUALLY
+                // Header Background
+                doc.setFillColor(15, 23, 42); // #0f172a
+                doc.rect(0, 0, 350, 80, 'F');
+
+                // Header Contents
+                doc.setTextColor(16, 185, 129); // #10b981
+                doc.setFontSize(10);
+                doc.text("DOMTOM CONNECT", 20, 25);
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                const splitTitle = doc.splitTextToSize(currentEvent.title || 'Event', 220);
+                doc.text(splitTitle, 20, 45);
+
+
+                // Ref Badge
+                doc.setFillColor(255, 255, 255, 0.1);
+                doc.roundedRect(260, 20, 70, 25, 5, 5, 'F');
+                doc.setFontSize(10);
+                doc.text(document.getElementById('ticket-ref-display').innerText, 275, 37);
+
+                // Body
+                doc.setFillColor(255, 255, 255);
+                doc.rect(0, 80, 350, 520, 'F');
+
+                // Details Grid
+                doc.setTextColor(100, 116, 139); // #64748b
+                doc.setFontSize(8);
+                doc.text("DATE", 30, 120);
+                doc.text("LIEU", 180, 120);
+
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(12);
+                doc.text(currentEvent.event_date, 30, 140);
+                doc.text(currentEvent.location, 180, 140);
+
+                doc.setTextColor(100, 116, 139);
+                doc.setFontSize(8);
+                doc.text("TITULAIRE", 30, 180);
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(12);
+                doc.text(document.getElementById('ticket-attendee-name').innerText, 30, 200);
+
+                // QR Code
+                doc.addImage(qrImgData, 'PNG', 65, 240, 220, 220);
+
+                // Footer
+                doc.setTextColor(16, 185, 129);
+                doc.setFontSize(9);
+                doc.text("BILLET OFFICIEL", 175, 550, { align: 'center' });
+
+                // Save
+                doc.save(`Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`);
 
             } catch (err) {
-                console.error("PDF generation failed:", err);
-                alert("Oups ! Une erreur technique empêche la génération. Merci de faire une capture d'écran du billet affiché.");
+                console.error("Manual PDF generation failed:", err);
+                alert("Erreur de génération. Vous pouvez faire une capture d'écran du billet affiché.");
             } finally {
                 if (originalText) downloadBtn.innerText = originalText;
             }
         }
+
 
 
 
