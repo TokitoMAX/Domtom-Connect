@@ -479,16 +479,16 @@
 
 
                 <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <button onclick="downloadTicket()" style="width:100%; background:#10b981; color:white; border:none; padding:14px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <button onclick="downloadTicket(event)" style="width:100%; background:#10b981; color:white; border:none; padding:14px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
                         Enregistrer mon billet
                     </button>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0;">
-                        <button onclick="addToCalendar('google')" style="width:100%; background:#f1f5f9; color:#475569; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.8rem; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <button onclick="addToCalendar(event, 'google')" style="width:100%; background:#f1f5f9; color:#475569; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.8rem; display:flex; align-items:center; justify-content:center; gap:6px;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM16 2v4M8 2v4M3 10h18"/></svg>
                             Google Calendar
                         </button>
-                        <button onclick="addToCalendar('apple')" style="width:100%; background:#f1f5f9; color:#475569; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.8rem; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <button onclick="addToCalendar(event, 'apple')" style="width:100%; background:#f1f5f9; color:#475569; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.8rem; display:flex; align-items:center; justify-content:center; gap:6px;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 8v4l3 3"/></svg>
                             Apple / iCal
                         </button>
@@ -810,11 +810,12 @@
             }
         }
 
-        async function downloadTicket() {
+        async function downloadTicket(event) {
+
             const originalElement = document.getElementById('ticket-to-save');
             const qrContainer = originalElement.querySelector('#qrcode');
             
-            // 1. Ensure QR is image
+            // 1. Force QR to Image
             const canvas = qrContainer.querySelector('canvas');
             if (canvas) {
                 const img = document.createElement('img');
@@ -825,49 +826,70 @@
                 qrContainer.appendChild(img);
             }
 
-            // 2. CLONE STRATEGY: Clone to a hidden container at the very top of body
-            // This avoids offsets and visibility issues with flex/grid containers
+            // 2. STABLE CAPTURE STRATEGY: 
+            // - Clone to a hidden-but-present overlay at the top of the viewport.
+            // - This avoids scroll offsets and negative coordinate bugs.
+            const captureOverlay = document.createElement('div');
+            captureOverlay.style.position = 'fixed';
+            captureOverlay.style.top = '0';
+            captureOverlay.style.left = '0';
+            captureOverlay.style.width = '100vw';
+            captureOverlay.style.height = '100vh';
+            captureOverlay.style.background = 'white';
+            captureOverlay.style.zIndex = '-9999';
+            captureOverlay.style.display = 'flex';
+            captureOverlay.style.justifyContent = 'center';
+            captureOverlay.style.alignItems = 'flex-start';
+            captureOverlay.style.paddingTop = '50px';
+            captureOverlay.style.opacity = '1'; // Must be 1 for capture, but hidden by z-index
+
             const clone = originalElement.cloneNode(true);
-            clone.style.position = 'fixed';
-            clone.style.top = '-9999px';
-            clone.style.left = '0';
-            clone.style.width = '350px'; // Force same width
-            document.body.appendChild(clone);
+            clone.style.margin = '0';
+            clone.style.boxShadow = 'none'; // Shadows sometimes break canvas boundaries
+            captureOverlay.appendChild(clone);
+            document.body.appendChild(captureOverlay);
 
             const opt = {
-                margin:       10,
+                margin:       [10, 10],
                 filename:     `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
+                image:        { type: 'jpeg', quality: 1.0 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
                     letterRendering: true,
                     backgroundColor: '#ffffff',
                     scrollY: 0,
-                    scrollX: 0
+                    scrollX: 0,
+                    windowWidth: document.documentElement.offsetWidth,
+                    windowHeight: document.documentElement.offsetHeight
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            try {
-                const downloadBtn = event?.target || {};
-                const originalText = downloadBtn.innerText;
-                if (downloadBtn.innerText) downloadBtn.innerText = "⏳ Génération...";
+            const downloadBtn = event?.currentTarget || {};
+            const originalText = downloadBtn.innerText;
 
-                await html2pdf().set(opt).from(clone).save();
+            try {
+                if (originalText) downloadBtn.innerText = "⏳ Génération...";
                 
-                if (downloadBtn.innerText) downloadBtn.innerText = originalText;
+                // Wait a tiny bit for DOM to settle
+                await new Promise(r => setTimeout(r, 200));
+                
+                await html2pdf().set(opt).from(clone).save();
             } catch (err) {
                 console.error("PDF generation failed:", err);
-                alert("Erreur lors de la génération du PDF.");
+                alert("Erreur lors de la génération. Une capture d'écran est également valable pour l'entrée.");
             } finally {
-                document.body.removeChild(clone);
+                if (originalText) downloadBtn.innerText = originalText;
+                document.body.removeChild(captureOverlay);
             }
         }
 
 
+
         window.onload = init;
-        function addToCalendar(type) {
+        function addToCalendar(event, type) {
+
             if (!currentEvent) return;
             
             const eventTitle = encodeURIComponent(currentEvent.title);
