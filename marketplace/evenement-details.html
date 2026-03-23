@@ -914,31 +914,44 @@
                 doc.setFillColor(255, 255, 255);
                 doc.rect(0, 80, 350, 520, 'F');
 
-                // Details Grid
+                // Details Stack
                 doc.setTextColor(100, 116, 139); // #64748b
                 doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                
                 doc.text("DATE", 30, 120);
-                doc.text("LIEU", 180, 120);
-
                 doc.setTextColor(15, 23, 42);
-                doc.setFontSize(12);
-                doc.text(currentEvent.event_date, 30, 140);
-                doc.text(currentEvent.location, 180, 140);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text(currentEvent.event_date || '--', 30, 135);
 
                 doc.setTextColor(100, 116, 139);
                 doc.setFontSize(8);
-                doc.text("TITULAIRE", 30, 180);
+                doc.setFont('helvetica', 'normal');
+                doc.text("LIEU", 30, 165);
                 doc.setTextColor(15, 23, 42);
-                doc.setFontSize(12);
-                doc.text(document.getElementById('ticket-attendee-name').innerText, 30, 200);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text(currentEvent.location || '--', 30, 180);
 
-                // QR Code
-                doc.addImage(qrImgData, 'PNG', 65, 240, 220, 220);
+                doc.setTextColor(100, 116, 139);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.text("TITULAIRE", 30, 210);
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text(document.getElementById('ticket-attendee-name').innerText, 30, 225);
+
+                // QR Code (Shifted lower)
+                doc.addImage(qrImgData, 'PNG', 65, 280, 220, 220);
 
                 // Footer
                 doc.setTextColor(16, 185, 129);
-                doc.setFontSize(9);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
                 doc.text("BILLET OFFICIEL", 175, 550, { align: 'center' });
+
 
                 // Save
                 doc.save(`Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`);
