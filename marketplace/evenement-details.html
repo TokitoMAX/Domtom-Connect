@@ -853,7 +853,7 @@
             try {
                 if (originalText) downloadBtn.innerText = "⏳...";
 
-                // FORCE RE-RENDER OF QR FOR CAPTURE (Ensure it's an Image, not Canvas)
+                // Ensure QR is image
                 const qrContainer = originalElement.querySelector('#qrcode');
                 const canvas = qrContainer.querySelector('canvas');
                 if (canvas) {
@@ -865,44 +865,34 @@
                     qrContainer.appendChild(img);
                 }
 
-                // NUCLEAR OPTION FOR BLANK PDF: 
-                // We use html2canvas directly to get a blob/image, then put it into a PDF manually.
-                const canvas_capture = await html2canvas(originalElement, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    scrollY: -window.scrollY,
-                    logging: false,
-                    onclone: (clonedDoc) => {
-                        // Ensure the ticket is visible in the clone
-                        const ticket = clonedDoc.getElementById('ticket-to-save');
-                        ticket.style.display = 'block';
-                        ticket.style.visibility = 'visible';
-                        ticket.style.opacity = '1';
-                    }
-                });
-
-                const imgData = canvas_capture.toDataURL('image/png');
-                const { jsPDF } = window.jspdf ? window : { jsPDF: window.jspdf }; // Handle different bundle shapes
-
-                // Standard html2pdf can still be used if configured correctly with from(canvas)
+                // Standard but robust options
                 const opt = {
                     margin: 0,
                     filename: `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
-                    image: { type: 'png' },
-                    html2canvas: { scale: 1 }, // Already scaled
-                    jsPDF: { unit: 'px', format: [canvas_capture.width/2, canvas_capture.height/2], orientation: 'portrait' }
+                    image: { type: 'png' }, // PNG more robust for white-page issues
+                    html2canvas: { 
+                        scale: 2, 
+                        useCORS: true, 
+                        backgroundColor: '#ffffff',
+                        // SCROLL FIX: Many browsers need this to capture correctly when scrolled
+                        scrollY: -window.scrollY,
+                        windowWidth: originalElement.scrollWidth,
+                        windowHeight: originalElement.scrollHeight
+                    },
+                    jsPDF: { unit: 'px', format: [350, 600], orientation: 'portrait' }
                 };
 
-                await html2pdf().set(opt).from(canvas_capture).save();
+                // Use the standard but powerful html2pdf API
+                await html2pdf().set(opt).from(originalElement).save();
 
             } catch (err) {
                 console.error("PDF generation failed:", err);
-                alert("Erreur de génération. Prenez une capture d'écran du billet affiché.");
+                alert("Oups ! Une erreur technique empêche la génération. Merci de faire une capture d'écran du billet affiché.");
             } finally {
                 if (originalText) downloadBtn.innerText = originalText;
             }
         }
+
 
 
 
