@@ -559,8 +559,8 @@
                 if (existingTickets && existingTickets.length > 0) {
                     console.log("Existing tickets found, showing success view");
                     showExistingTickets(existingTickets[0]);
-                    return;
                 }
+
                 
                 // Render Details
                 document.getElementById('event-title').innerText = ev.title;
@@ -851,7 +851,7 @@
             const originalText = downloadBtn.innerText;
 
             try {
-                if (originalText) downloadBtn.innerText = "⏳ Génération...";
+                if (originalText) downloadBtn.innerText = "⏳...";
 
                 // FORCE RE-RENDER OF QR FOR CAPTURE (Ensure it's an Image, not Canvas)
                 const qrContainer = originalElement.querySelector('#qrcode');
@@ -865,30 +865,45 @@
                     qrContainer.appendChild(img);
                 }
 
-                // Standard html2pdf but with ultra-safe settings
+                // NUCLEAR OPTION FOR BLANK PDF: 
+                // We use html2canvas directly to get a blob/image, then put it into a PDF manually.
+                const canvas_capture = await html2canvas(originalElement, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    scrollY: -window.scrollY,
+                    logging: false,
+                    onclone: (clonedDoc) => {
+                        // Ensure the ticket is visible in the clone
+                        const ticket = clonedDoc.getElementById('ticket-to-save');
+                        ticket.style.display = 'block';
+                        ticket.style.visibility = 'visible';
+                        ticket.style.opacity = '1';
+                    }
+                });
+
+                const imgData = canvas_capture.toDataURL('image/png');
+                const { jsPDF } = window.jspdf ? window : { jsPDF: window.jspdf }; // Handle different bundle shapes
+
+                // Standard html2pdf can still be used if configured correctly with from(canvas)
                 const opt = {
                     margin: 0,
                     filename: `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
-                    image: { type: 'png' }, // PNG is safer than JPEG for blank issues
-                    html2canvas: { 
-                        scale: 2, 
-                        useCORS: true, 
-                        backgroundColor: '#ffffff',
-                        removeContainer: true,
-                        scrollY: -window.scrollY // Correct for scroll offset
-                    },
-                    jsPDF: { unit: 'px', format: [350, 600], orientation: 'portrait' } // Custom format matching ticket size
+                    image: { type: 'png' },
+                    html2canvas: { scale: 1 }, // Already scaled
+                    jsPDF: { unit: 'px', format: [canvas_capture.width/2, canvas_capture.height/2], orientation: 'portrait' }
                 };
 
-                await html2pdf().set(opt).from(originalElement).save();
+                await html2pdf().set(opt).from(canvas_capture).save();
 
             } catch (err) {
                 console.error("PDF generation failed:", err);
-                alert("Erreur de génération. Vous pouvez faire une capture d'écran du billet affiché.");
+                alert("Erreur de génération. Prenez une capture d'écran du billet affiché.");
             } finally {
                 if (originalText) downloadBtn.innerText = originalText;
             }
         }
+
 
 
 
