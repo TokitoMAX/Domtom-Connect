@@ -854,20 +854,30 @@
             try {
                 if (originalText) downloadBtn.innerText = "⏳...";
 
-                // Get QR base64
+                // Get QR image or canvas
                 const qrContainer = document.getElementById('qrcode');
+                let qrImgData = null;
                 const qrCanvas = qrContainer.querySelector('canvas');
-                if (!qrCanvas) throw new Error("QR Code non disponible");
-                const qrImgData = qrCanvas.toDataURL('image/png');
+                const qrImg = qrContainer.querySelector('img');
+
+                if (qrCanvas) {
+                    qrImgData = qrCanvas.toDataURL('image/png');
+                } else if (qrImg) {
+                    qrImgData = qrImg.src;
+                } else {
+                    throw new Error("QR Code non chargé. Ré-essayez dans 1 seconde.");
+                }
 
                 // Access jsPDF (html2pdf bundle exports it in various ways)
                 const jsPDF = window.jspdf?.jsPDF || window.jsPDF || window.jspdf;
-                if (!jsPDF) throw new Error("Moteur PDF non disponible");
+                if (!jsPDF) throw new Error("Échec chargement moteur PDF");
+                
                 const doc = new jsPDF({
-
                     unit: 'px',
-                    format: [350, 600]
+                    format: [350, 600],
+                    hotfixes: ["px_scaling"]
                 });
+
 
                 // DRAW TICKET MANUALLY
                 // Header Background
@@ -926,8 +936,9 @@
 
             } catch (err) {
                 console.error("Manual PDF generation failed:", err);
-                alert("Erreur de génération. Vous pouvez faire une capture d'écran du billet affiché.");
+                alert("Erreur de génération : " + err.message + ".\n\nMerci de faire une capture d'écran de ce billet pour votre entrée en attendant.");
             } finally {
+
                 if (originalText) downloadBtn.innerText = originalText;
             }
         }
