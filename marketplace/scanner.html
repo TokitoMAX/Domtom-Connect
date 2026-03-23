@@ -337,8 +337,8 @@
                 const { error } = await _supabase
                     .from('tickets')
                     .update({ 
-                        status: 'utilisé',
-                        validated_at: new Date().toISOString() 
+                        status: 'utilisé'
+                        // validated_at: new Date().toISOString() // Removed temporarily - missing in DB schema
                     })
                     .eq('id', currentScannedTicket.id);
 
