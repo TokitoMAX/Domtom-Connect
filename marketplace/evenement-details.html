@@ -530,10 +530,23 @@
         async function loadEventDetails(id) {
             try {
                 const { data: ev, error } = await _supabase.from('events').select('*').eq('id', id).single();
-                if (error || !ev) throw new Error("Événement introuvable");
+                if (error) throw error;
                 currentEvent = ev;
 
-                // Load Host Profile
+                const session = await getSession();
+                const isOwner = session && session.user.id === ev.user_id;
+
+                if (isOwner) {
+                    document.getElementById('tiers-container').innerHTML = `
+                        <div style="background: rgba(16, 185, 129, 0.05); border: 1.5px solid #10b981; padding: 20px; border-radius: 16px; text-align: center;">
+                            <p style="font-weight: 700; color: #065f46; margin: 0;">Organisateur</p>
+                            <p style="font-size: 0.85rem; color: #065f46; margin-top: 4px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
+                            <a href="../mon-espace.html" class="cta-button primary" style="margin-top: 15px; display: inline-flex; text-decoration: none;">Gérer l'événement →</a>
+                        </div>
+                    `;
+                    document.getElementById('sticky-cta').style.display = 'none';
+                }
+
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', ev.user_id).single();
                 
                 // Render Details
@@ -550,13 +563,16 @@
                     document.getElementById('host-avatar').src = profile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.full_name)}&background=random`;
                 }
 
-                renderTiers(ev);
+                if (!isOwner) {
+                    renderTiers(ev);
+                }
             } catch (err) {
                 console.error(err);
                 alert(err.message);
                 window.location.href = 'evenements.html';
             }
         }
+
 
         function renderTiers(ev) {
             const container = document.getElementById('tiers-container');
@@ -795,10 +811,10 @@
         }
 
         async function downloadTicket() {
-            const element = document.getElementById('ticket-to-save');
-            const qrContainer = document.getElementById('qrcode');
+            const originalElement = document.getElementById('ticket-to-save');
+            const qrContainer = originalElement.querySelector('#qrcode');
             
-            // Force conversion of QR Canvas to Image for reliable capture
+            // 1. Ensure QR is image
             const canvas = qrContainer.querySelector('canvas');
             if (canvas) {
                 const img = document.createElement('img');
@@ -807,10 +823,16 @@
                 img.style.height = '220px';
                 qrContainer.innerHTML = '';
                 qrContainer.appendChild(img);
-                
-                // Wait for the new image to "render" in DOM
-                await new Promise(r => setTimeout(r, 100));
             }
+
+            // 2. CLONE STRATEGY: Clone to a hidden container at the very top of body
+            // This avoids offsets and visibility issues with flex/grid containers
+            const clone = originalElement.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.top = '-9999px';
+            clone.style.left = '0';
+            clone.style.width = '350px'; // Force same width
+            document.body.appendChild(clone);
 
             const opt = {
                 margin:       10,
@@ -819,20 +841,27 @@
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
-                    logging: false, 
                     letterRendering: true,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    scrollY: 0,
+                    scrollX: 0
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             try {
-                // Ensure we are at the top for capture (helps with some offset bugs)
-                window.scrollTo(0,0);
-                await html2pdf().set(opt).from(element).save();
+                const downloadBtn = event?.target || {};
+                const originalText = downloadBtn.innerText;
+                if (downloadBtn.innerText) downloadBtn.innerText = "⏳ Génération...";
+
+                await html2pdf().set(opt).from(clone).save();
+                
+                if (downloadBtn.innerText) downloadBtn.innerText = originalText;
             } catch (err) {
                 console.error("PDF generation failed:", err);
-                alert("Erreur lors de la génération du PDF. Vous pouvez aussi faire une capture d'écran.");
+                alert("Erreur lors de la génération du PDF.");
+            } finally {
+                document.body.removeChild(clone);
             }
         }
 
