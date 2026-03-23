@@ -798,8 +798,7 @@
             const element = document.getElementById('ticket-to-save');
             const qrContainer = document.getElementById('qrcode');
             
-            // CRITICAL FIX: Ensure QRCode canvas/img is ready and visible to html2pdf
-            // We force an img conversion if it's a canvas
+            // Force conversion of QR Canvas to Image for reliable capture
             const canvas = qrContainer.querySelector('canvas');
             if (canvas) {
                 const img = document.createElement('img');
@@ -808,23 +807,35 @@
                 img.style.height = '220px';
                 qrContainer.innerHTML = '';
                 qrContainer.appendChild(img);
+                
+                // Wait for the new image to "render" in DOM
+                await new Promise(r => setTimeout(r, 100));
             }
 
             const opt = {
-                margin:       [10, 10], 
-                filename:     `Billet_${currentEvent.title.replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { scale: 3, useCORS: true, logging: true, letterRendering: true },
+                margin:       10,
+                filename:     `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false, 
+                    letterRendering: true,
+                    backgroundColor: '#ffffff'
+                },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Wait for image to be definitely available in DOM
-            setTimeout(() => {
-                html2pdf().set(opt).from(element).save().catch(err => {
-                    console.error("PDF generation failed:", err);
-                });
-            }, 300);
+            try {
+                // Ensure we are at the top for capture (helps with some offset bugs)
+                window.scrollTo(0,0);
+                await html2pdf().set(opt).from(element).save();
+            } catch (err) {
+                console.error("PDF generation failed:", err);
+                alert("Erreur lors de la génération du PDF. Vous pouvez aussi faire une capture d'écran.");
+            }
         }
+
 
         window.onload = init;
         function addToCalendar(type) {
