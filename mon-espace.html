@@ -1369,8 +1369,9 @@
 
                 container.innerHTML = myEvents.map(ev => {
                     const ticketCount = ev.tickets ? ev.tickets.length : 0;
-                    const grossRevenue = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0) : 0;
-                    const netRevenue = grossRevenue * 0.90;
+                    const totalPaid = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0) : 0;
+                    const netRevenue = totalPaid / 1.1; // Extract base price from total (Total = Base * 1.1)
+
                     const isInternal = ev.ticket_url === null;
 
                     
@@ -1389,13 +1390,14 @@
                                         <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a;">${ticketCount} / ${totalSpots}</div>
                                     </div>
                                     <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">CA Brut</div>
-                                        <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${grossRevenue.toFixed(2)}€</div>
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">CA Total (avec frais)</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${totalPaid.toFixed(2)}€</div>
                                     </div>
                                     <div style="background: #fffbeb; padding: 12px; border-radius: 10px; text-align: center; grid-column: span 2;">
-                                        <div style="font-size: 0.65rem; font-weight: 700; color: #b45309; text-transform: uppercase; margin-bottom:4px;">Revenu Net (90%)</div>
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #b45309; text-transform: uppercase; margin-bottom:4px;">Revenu Organisateur (Net)</div>
                                         <div style="font-size: 1.1rem; font-weight: 900; color: #b45309;">${netRevenue.toFixed(2)}€</div>
                                     </div>
+
 
                                 </div>
 
