@@ -549,6 +549,19 @@
 
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', ev.user_id).single();
                 
+                // 3. CHECK FOR EXISTING TICKETS (Prevent paying twice)
+                const { data: existingTickets } = await _supabase.from('tickets')
+                    .select('*')
+                    .eq('event_id', id)
+                    .eq('buyer_id', session.user.id)
+                    .eq('status', 'valide');
+
+                if (existingTickets && existingTickets.length > 0) {
+                    console.log("Existing tickets found, showing success view");
+                    showExistingTickets(existingTickets[0]);
+                    return;
+                }
+                
                 // Render Details
                 document.getElementById('event-title').innerText = ev.title;
                 document.getElementById('event-date').innerText = ev.event_date;
@@ -738,7 +751,26 @@
             await confirmPurchase('FREE_' + Date.now(), 0);
         }
 
+        function showExistingTickets(ticket) {
+            document.getElementById('tiers-container').style.display = 'none';
+            document.getElementById('checkout-summary').style.display = 'none';
+            document.getElementById('success-view').style.display = 'block';
+            
+            const ref = ticket.id.substring(0,8).toUpperCase();
+            document.getElementById('ticket-ref-display').innerText = ref;
+            document.getElementById('ticket-event-name').innerText = currentEvent.title;
+            document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
+            document.getElementById('ticket-event-loc').innerText = currentEvent.location;
+            document.getElementById('ticket-attendee-name').innerText = ticket.attendee_name || "Invité";
+
+            const qrContainer = document.getElementById("qrcode");
+            qrContainer.innerHTML = '';
+            const deepLink = `${window.location.origin}/marketplace/scanner.html?token=${ticket.qr_token}`;
+            new QRCode(qrContainer, { text: deepLink, width: 220, height: 220 });
+        }
+
         async function confirmPurchase(paymentId, amountPaid) {
+
             try {
                 const session = await getSession();
                 if (!session) {
@@ -752,6 +784,8 @@
                     tiers = [{ id: 'default', name: 'Billet Standard' }];
                 }
 
+                const attendeeName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+
                 for (const [tid, qty] of Object.entries(selections)) {
                     if (qty <= 0) continue;
                     const tier = tiers.find(t => t.id === tid) || tiers[0];
@@ -759,14 +793,17 @@
                         event_id: currentEvent.id,
                         buyer_id: session.user.id,
                         buyer_email: session.user.email,
+                        attendee_name: attendeeName,
                         payment_id: paymentId,
                         amount_paid: amountPaid,
                         tier_id: tid,
                         tier_name: tier.name,
                         quantity: qty,
-                        status: 'valide'
+                        status: 'valide',
+                        qr_token: crypto.randomUUID()
                     });
                 }
+
 
                 const { data, error } = await _supabase.from('tickets').insert(ticketsToInsert).select('id, qr_token');
                 if (error) throw error;
@@ -780,18 +817,16 @@
                 document.getElementById('ticket-event-name').innerText = currentEvent.title;
                 document.getElementById('ticket-event-date').innerText = currentEvent.event_date;
                 document.getElementById('ticket-event-loc').innerText = currentEvent.location;
-                
-                // Add Attendee Name
-                const attendeeName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
                 document.getElementById('ticket-attendee-name').innerText = attendeeName;
 
-
-                // DEEP LINK QR: Helps native camera apps open the right page
+                // DEEP LINK QR
+                const qrContainer = document.getElementById("qrcode");
+                qrContainer.innerHTML = '';
                 const deepLink = `${window.location.origin}/marketplace/scanner.html?token=${data[0].qr_token}`;
                 console.log("Generating QR with Deep Link:", deepLink);
-
-                new QRCode(document.getElementById("qrcode"), { text: deepLink, width: 220, height: 220 });
+                new QRCode(qrContainer, { text: deepLink, width: 220, height: 220 });
             } catch (err) {
+
                 console.error(err);
                 alert("Erreur lors de la réservation : " + err.message);
             }
@@ -811,77 +846,47 @@
         }
 
         async function downloadTicket(event) {
-
             const originalElement = document.getElementById('ticket-to-save');
-            const qrContainer = originalElement.querySelector('#qrcode');
-            
-            // 1. Force QR to Image
-            const canvas = qrContainer.querySelector('canvas');
-            if (canvas) {
-                const img = document.createElement('img');
-                img.src = canvas.toDataURL('image/png');
-                img.style.width = '220px';
-                img.style.height = '220px';
-                qrContainer.innerHTML = '';
-                qrContainer.appendChild(img);
-            }
-
-            // 2. STABLE CAPTURE STRATEGY: 
-            // - Clone to a hidden-but-present overlay at the top of the viewport.
-            // - This avoids scroll offsets and negative coordinate bugs.
-            const captureOverlay = document.createElement('div');
-            captureOverlay.style.position = 'fixed';
-            captureOverlay.style.top = '0';
-            captureOverlay.style.left = '0';
-            captureOverlay.style.width = '100vw';
-            captureOverlay.style.height = '100vh';
-            captureOverlay.style.background = 'white';
-            captureOverlay.style.zIndex = '-9999';
-            captureOverlay.style.display = 'flex';
-            captureOverlay.style.justifyContent = 'center';
-            captureOverlay.style.alignItems = 'flex-start';
-            captureOverlay.style.paddingTop = '50px';
-            captureOverlay.style.opacity = '1'; // Must be 1 for capture, but hidden by z-index
-
-            const clone = originalElement.cloneNode(true);
-            clone.style.margin = '0';
-            clone.style.boxShadow = 'none'; // Shadows sometimes break canvas boundaries
-            captureOverlay.appendChild(clone);
-            document.body.appendChild(captureOverlay);
-
-            const opt = {
-                margin:       [10, 10],
-                filename:     `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    letterRendering: true,
-                    backgroundColor: '#ffffff',
-                    scrollY: 0,
-                    scrollX: 0,
-                    windowWidth: document.documentElement.offsetWidth,
-                    windowHeight: document.documentElement.offsetHeight
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
             const downloadBtn = event?.currentTarget || {};
             const originalText = downloadBtn.innerText;
 
             try {
                 if (originalText) downloadBtn.innerText = "⏳ Génération...";
-                
-                // Wait a tiny bit for DOM to settle
-                await new Promise(r => setTimeout(r, 200));
-                
-                await html2pdf().set(opt).from(clone).save();
+
+                // FORCE RE-RENDER OF QR FOR CAPTURE (Ensure it's an Image, not Canvas)
+                const qrContainer = originalElement.querySelector('#qrcode');
+                const canvas = qrContainer.querySelector('canvas');
+                if (canvas) {
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL('image/png');
+                    img.style.width = '220px';
+                    img.style.height = '220px';
+                    qrContainer.innerHTML = '';
+                    qrContainer.appendChild(img);
+                }
+
+                // Standard html2pdf but with ultra-safe settings
+                const opt = {
+                    margin: 0,
+                    filename: `Billet_${(currentEvent.title || 'Event').replace(/\s+/g, '_')}.pdf`,
+                    image: { type: 'png' }, // PNG is safer than JPEG for blank issues
+                    html2canvas: { 
+                        scale: 2, 
+                        useCORS: true, 
+                        backgroundColor: '#ffffff',
+                        removeContainer: true,
+                        scrollY: -window.scrollY // Correct for scroll offset
+                    },
+                    jsPDF: { unit: 'px', format: [350, 600], orientation: 'portrait' } // Custom format matching ticket size
+                };
+
+                await html2pdf().set(opt).from(originalElement).save();
+
             } catch (err) {
                 console.error("PDF generation failed:", err);
-                alert("Erreur lors de la génération. Une capture d'écran est également valable pour l'entrée.");
+                alert("Erreur de génération. Vous pouvez faire une capture d'écran du billet affiché.");
             } finally {
                 if (originalText) downloadBtn.innerText = originalText;
-                document.body.removeChild(captureOverlay);
             }
         }
 
