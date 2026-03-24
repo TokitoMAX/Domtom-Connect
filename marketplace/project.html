@@ -273,12 +273,12 @@
             
             <p style="color: #94a3b8; margin-bottom: 32px; line-height: 1.6;">Tout soutien, même le plus humble, scelle votre nom au <span style="color:#10b981; font-weight:800;">Mur de l'Épopée</span>. Choisissez votre niveau d'impact pour propulser cette aventure.</p>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
-                <button class="amount-btn active" onclick="selectAmount(15, this)">15 €</button>
-                <button class="amount-btn" onclick="selectAmount(50, this)">50 €</button>
-                <button class="amount-btn" onclick="selectAmount(150, this)">150 €</button>
-                <input type="number" id="custom-amount" placeholder="Autre" oninput="selectAmount(this.value, this)" 
-                       style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:16px; color:white; font-weight:800; outline:none; text-align:center;">
+            </div>
+
+            <!-- RÉCAPITULATIF DES RÉCOMPENSES ÉPIQUES -->
+            <div id="epic-rewards-summary" style="background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.1); border-radius: 20px; padding: 20px; margin-bottom: 32px; display:none;">
+                <h4 style="font-size: 0.65rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Vos Récompenses Cumulées</h4>
+                <div id="epic-rewards-list" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
 
             <div id="paypal-button-container"></div>
@@ -316,11 +316,56 @@
                 }
                 renderProject(project);
                 loadProjectRewards(projectId);
-                loadProjectBackers(projectId);
+                loadProjectSupporters(projectId);
+                loadProjectMilestones(projectId, project.total_raised || 0);
             } catch (err) { console.error(err); showError(); }
         }
 
-        async function loadProjectBackers(projectId) {
+        async function loadProjectMilestones(projectId, totalRaised) {
+            const section = document.getElementById('milestones-section');
+            const info = document.getElementById('next-milestone-info');
+            const bar = document.getElementById('milestone-progress-bar');
+            
+            try {
+                const { data: milestones, error } = await _supabase
+                    .from('project_milestones')
+                    .select('*')
+                    .eq('project_id', projectId)
+                    .order('amount_threshold', { ascending: true });
+
+                if (error) throw error;
+                if (!milestones || milestones.length === 0) {
+                    section.style.display = 'none';
+                    return;
+                }
+
+                section.style.display = 'block';
+                
+                // Find next milestone
+                const next = milestones.find(m => m.amount_threshold > totalRaised);
+                const reached = milestones.filter(m => m.amount_threshold <= totalRaised);
+                const lastReached = reached.length > 0 ? reached[reached.length - 1] : { amount_threshold: 0 };
+
+                if (!next) {
+                    // All reached!
+                    info.innerHTML = `🎉 Épopée Complétée !`;
+                    bar.style.width = '100%';
+                    document.getElementById('milestone-reward-desc').innerHTML = `Tous les paliers collectifs ont été débloqués. Merci aux ${milestones.length} gardiens !`;
+                } else {
+                    const range = next.amount_threshold - lastReached.amount_threshold;
+                    const currentPos = totalRaised - lastReached.amount_threshold;
+                    const percent = Math.min(100, Math.max(0, Math.round((currentPos / range) * 100)));
+                    
+                    info.innerHTML = `Objectif : ${next.amount_threshold} €`;
+                    bar.style.width = `${percent}%`;
+                    document.getElementById('milestone-reward-desc').innerHTML = `<strong>Bonus :</strong> ${next.title}<br/><span style="font-size:0.65rem; opacity:0.8;">${next.description || ''}</span>`;
+                }
+            } catch (err) {
+                console.error("Milestones Error:", err);
+            }
+        }
+
+        async function loadProjectSupporters(projectId) {
             const list = document.getElementById('wall-of-fame');
             const countLabel = document.getElementById('backers-count');
             try {
@@ -436,6 +481,11 @@
             // Déblocage si : Identité vérifiée OU SIRET renseigné (et non vide)
             const canFund = (project.identity_verified === true) || (project.siret && project.siret.trim() !== "");
 
+            // Initial Load of child data
+            loadProjectSupporters(project.id);
+            loadProjectRewards(project.id);
+            loadProjectMilestones(project.id, totalRaised);
+
             const coverHtml = project.cover_url ? `<div class="hero-cover" style="background-image: url('${project.cover_url}');"></div>` : '';
             const cleanDescription = (project.description || "").replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim();
 
@@ -521,12 +571,35 @@
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: #94a3b8; margin-bottom: 32px;">
                                     <span>${progressPercent}% Engagé</span>
-                                    <span>${(fundingGoal - totalRaised).toLocaleString('fr-FR')} € restants</span>
+                                    <span>${Math.max(0, fundingGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
+                                </div>
+
+                                <!-- L'ÉPOPÉE COLLECTIVE (STRETCH GOALS) -->
+                                <div id="milestones-section" style="margin-bottom: 32px; padding: 20px; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.1); border-radius: 20px; display:none;">
+                                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                                        <div style="width:10px; height:10px; border-radius:50%; background:#3b82f6; box-shadow:0 0 8px #3b82f6;"></div>
+                                        <span style="font-size:0.7rem; font-weight:800; color:#1d4ed8; text-transform:uppercase; letter-spacing:0.05em;">L'Épopée Collective</span>
+                                    </div>
+                                    <div id="next-milestone-info" style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:12px;">Chargement des paliers...</div>
+                                    <div class="progress-container" style="background:rgba(59,130,246,0.1); height:8px; margin-bottom:8px;">
+                                        <div id="milestone-progress-bar" class="progress-bar" style="width:0%; background:#3b82f6;"></div>
+                                    </div>
+                                    <div id="milestone-reward-desc" style="font-size:0.75rem; color:#64748b; line-height:1.4;">Unissez vos forces pour débloquer le prochain bonus !</div>
                                 </div>
 
                                 <!-- CONTREPARTIES SECTION -->
                                 <div id="rewards-container" style="margin-bottom: 24px;">
                                     <h4 style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Contreparties</h4>
+                                    
+                                    ${project.universal_reward ? `
+                                        <div style="background: #fff; border: 2px solid #3b82f6; padding: 16px; border-radius: 16px; margin-bottom: 16px; position:relative; overflow:hidden;">
+                                            <div style="position:absolute; top:0; right:0; background:#3b82f6; color:white; font-size:0.55rem; font-weight:900; padding:2px 8px; border-bottom-left-radius:8px; text-transform:uppercase;">Cadeau de base</div>
+                                            <div style="font-size:0.75rem; font-weight:800; color:#1e40af; margin-bottom:4px;">L'Ami de l'Épopée</div>
+                                            <p style="font-size:0.7rem; color:#64748b; margin:0; line-height:1.3;">${project.universal_reward}</p>
+                                            <div style="font-size:0.6rem; color:#3b82f6; font-weight:700; margin-top:8px;">✨ Inclus avec TOUS les soutiens</div>
+                                        </div>
+                                    ` : ''}
+
                                     <div id="rewards-list" style="display: flex; flex-direction: column; gap: 12px;">
                                         <!-- Chargé dynamiquement -->
                                         <p style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Aucune contrepartie définie pour le moment.</p>
@@ -586,7 +659,46 @@
                 btn.classList.add('active');
                 document.getElementById('custom-amount').value = '';
             }
+            updateRewardSummary();
             if (selectedContributionAmount > 0) renderPaypalButtons();
+        }
+
+        async function updateRewardSummary() {
+            const summaryDiv = document.getElementById('epic-rewards-summary');
+            const listDiv = document.getElementById('epic-rewards-list');
+            if (!summaryDiv || !listDiv) return;
+
+            let items = [];
+            
+            // 1. Universal Reward
+            if (currentProject.universal_reward) {
+                items.push(`<div style="font-size:0.75rem; color:white; font-weight:700;">🎁 ${currentProject.universal_reward} <span style="font-weight:400; opacity:0.6;">(Cadeau de base)</span></div>`);
+            }
+
+            // 2. Selected Tier
+            if (selectedRewardId) {
+                const reward = currentRewards.find(r => r.id === selectedRewardId);
+                if (reward) {
+                    items.push(`<div style="font-size:0.75rem; color:#10b981; font-weight:800;">🏆 ${reward.title} <span style="font-weight:400; opacity:0.8;">(Contrepartie de rang)</span></div>`);
+                }
+            }
+
+            // 3. Reached Milestones
+            try {
+                const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', currentProject.id).lte('amount_threshold', currentProject.total_raised || 0);
+                if (milestones && milestones.length > 0) {
+                    milestones.forEach(m => {
+                        items.push(`<div style="font-size:0.75rem; color:#3b82f6; font-weight:700;">💙 ${m.title} <span style="font-weight:400; opacity:0.6;">(Bonus débloqué par la communauté)</span></div>`);
+                    });
+                }
+            } catch (e) {}
+
+            if (items.length > 0) {
+                listDiv.innerHTML = items.join('');
+                summaryDiv.style.display = 'block';
+            } else {
+                summaryDiv.style.display = 'none';
+            }
         }
 
         function renderPaypalButtons() {

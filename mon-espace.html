@@ -1964,6 +1964,27 @@
                             </div>
                         </div>
 
+                        <!-- GESTION DE L'ÉPOPÉE COLLECTIVE (PALIERS) -->
+                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #3b82f6; background: rgba(59,130,246,0.02);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0; color:#1d4ed8;">L'Épopée Collective (Stretch Goals)</div>
+                                <button onclick="openMilestoneModal('${firstProj.id}')" class="cta-button primary" style="background:#3b82f6; font-size:0.75rem; padding:8px 16px;">+ Nouveau Palier</button>
+                            </div>
+                            <p style="font-size:0.8rem; color:#64748b; margin-bottom:20px;">Définissez des objectifs communs. Quand ils sont atteints, <strong>tous</strong> vos supporters gagnent un bonus !</p>
+                            
+                            <div style="background:white; border:1px solid #bfdbfe; padding:20px; border-radius:12px; margin-bottom:24px;">
+                                <label style="display:block; font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase; margin-bottom:8px;">Le Cadeau de Base (Pour chaque donateur dès 1€)</label>
+                                <div style="display:flex; gap:12px;">
+                                    <input type="text" id="universal-reward-input" value="${firstProj.universal_reward || ''}" placeholder="Ex: Votre nom gravé au Mur de l'Épopée + Un badge digital" style="flex:1; padding:12px; border:1.5px solid #dbeafe; border-radius:10px; font-size:0.85rem;">
+                                    <button onclick="updateUniversalReward('${firstProj.id}')" style="background:#3b82f6; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:800; cursor:pointer;">Enregistrer</button>
+                                </div>
+                            </div>
+
+                            <div id="dash-milestones-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+                                <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Aucun palier défini.</p>
+                            </div>
+                        </div>
+
                         <!-- MODAL : AJOUTER RÉCOMPENSE -->
                         <div id="reward-modal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center;">
                             <div style="background:white; padding:32px; border-radius:24px; width:100%; max-width:500px; position:relative;">
@@ -1991,6 +2012,29 @@
                             </div>
                         </div>
 
+                        <!-- MODAL : AJOUTER PALIER COLLECTIF -->
+                        <div id="milestone-modal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center;">
+                            <div style="background:white; padding:32px; border-radius:24px; width:100%; max-width:500px; position:relative;">
+                                <button onclick="document.getElementById('milestone-modal').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:24px; color:#1d4ed8;">Nouveau Palier Collectif</h3>
+                                <div style="display:flex; flex-direction:column; gap:16px;">
+                                    <div class="form-group">
+                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Objectif à atteindre (€ total)</label>
+                                        <input type="number" id="milestone-threshold" placeholder="1000" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Titre du cadeau bonus</label>
+                                        <input type="text" id="milestone-title" placeholder="Ex: Fond d'écran collector pour tous" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Description</label>
+                                        <textarea id="milestone-desc" placeholder="Détails du bonus débloqué..." style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; height:80px; font-family:inherit;"></textarea>
+                                    </div>
+                                    <button onclick="saveMilestone('${firstProj.id}')" class="cta-button primary" style="background:#3b82f6; border:none; padding:16px; font-weight:800; margin-top:12px;">Ajouter à l'Épopée</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT (SoloPrice Only) -->
                         <div id="porteur-resources-grid" style="margin-top: 32px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
                             <div class="dash-card highlight" style="border: 1px solid #0284c7; background: rgba(2,132,199,0.02); display: flex; align-items: center; justify-content: space-between; padding: 32px;">
@@ -2006,6 +2050,7 @@
                 // Load Supporters
                 loadProjectSupporters(firstProj.id);
                 loadDashboardRewards(firstProj.id);
+                loadDashboardMilestones(firstProj.id);
             }
 
             container.innerHTML = projects.map(p => {
@@ -2196,6 +2241,67 @@
             if (!confirm("Supprimer cette récompense ?")) return;
             try {
                 const { error } = await _supabase.from('project_rewards').delete().eq('id', rewardId);
+                if (error) throw error;
+                window.location.reload();
+            } catch (err) { alert(err.message); }
+        }
+
+        async function updateUniversalReward(projectId) {
+            const rewardText = document.getElementById('universal-reward-input').value.trim();
+            try {
+                const { error } = await _supabase.from('projects').update({ universal_reward: rewardText || null }).eq('id', projectId);
+                if (error) throw error;
+                alert("✅ Cadeau de base mis à jour !");
+            } catch (err) { alert(err.message); }
+        }
+
+        async function loadDashboardMilestones(projectId) {
+            const list = document.getElementById('dash-milestones-list');
+            if (!list) return;
+            try {
+                const { data: milestones, error } = await _supabase.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
+                if (error) throw error;
+
+                if (!milestones || milestones.length === 0) {
+                    list.innerHTML = '<p style="color:#94a3b8; font-size:0.9rem; grid-column:1 / -1; text-align:center;">Prévoyez des paliers pour motiver vos supporters.</p>';
+                    return;
+                }
+
+                list.innerHTML = milestones.map(m => `
+                    <div style="background:white; border:1px solid #bfdbfe; padding:20px; border-radius:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-weight:800; color:#1e40af;">${m.amount_threshold} €</span>
+                            ${m.is_reached ? '<span style="font-size:0.6rem; background:#dcfce7; color:#166534; padding:2px 8px; border-radius:100px; font-weight:800;">DÉBLOQUÉ</span>' : '<span style="font-size:0.6rem; background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:100px; font-weight:800;">À VENIR</span>'}
+                        </div>
+                        <div style="font-weight:800; color:#0f172a; margin-bottom:4px;">${m.title}</div>
+                        <p style="font-size:0.75rem; color:#64748b; margin-bottom:12px;">${m.description || ''}</p>
+                        <button onclick="deleteMilestone('${m.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; cursor:pointer; font-weight:700;">Supprimer</button>
+                    </div>
+                `).join('');
+            } catch (err) { list.innerHTML = `<p style="color:#ef4444;">Erreur: ${err.message}</p>`; }
+        }
+
+        function openMilestoneModal() { document.getElementById('milestone-modal').style.display = 'flex'; }
+
+        async function saveMilestone(projectId) {
+            const threshold = document.getElementById('milestone-threshold').value;
+            const title = document.getElementById('milestone-title').value.trim();
+            const desc = document.getElementById('milestone-desc').value.trim();
+
+            if (!threshold || !title) return alert("Remplissez le seuil et le titre.");
+
+            try {
+                const { error } = await _supabase.from('project_milestones').insert([{ project_id: projectId, amount_threshold: parseFloat(threshold), title, description: desc }]);
+                if (error) throw error;
+                document.getElementById('milestone-modal').style.display = 'none';
+                loadDashboardMilestones(projectId);
+            } catch (err) { alert(err.message); }
+        }
+
+        async function deleteMilestone(id) {
+            if (!confirm("Supprimer ce palier ?")) return;
+            try {
+                const { error } = await _supabase.from('project_milestones').delete().eq('id', id);
                 if (error) throw error;
                 window.location.reload();
             } catch (err) { alert(err.message); }
