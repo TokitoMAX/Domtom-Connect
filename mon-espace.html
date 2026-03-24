@@ -1855,7 +1855,10 @@
                                 <div style="margin-top:20px; width: 100%; padding:16px; background:white; border-radius:16px; border: 1px solid var(--gray-200);">
                                     <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; margin-bottom:4px;">Cagnotte Récoltée</div>
                                     <div style="font-size:1.8rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')} €</div>
-                                    <div style="font-size:0.8rem; color: #64748b; margin-top: 4px;">sur un objectif de ${ (firstProj.funding_goal || 1000).toLocaleString('fr-FR') } €</div>
+                                    <div style="font-size:0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--gray-100);">
+                                        Net Estimé (85%) : <span style="color: #0f172a;">${((firstProj.total_raised || 0) * 0.85).toLocaleString('fr-FR')} €</span>
+                                    </div>
+                                    <div style="font-size:0.65rem; color: #94a3b8; margin-top: 2px;">Après frais de plateforme & taxes</div>
                                 </div>
                             </div>
                             ${nextStepHTML}

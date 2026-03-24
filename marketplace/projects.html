@@ -50,10 +50,37 @@
             padding: 4px 10px;
             border-radius: 6px;
         }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 20px !important;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(16, 185, 129, 0.3) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+        }
+        .project-card-content {
+            padding: 24px;
+            color: white;
+        }
+        .project-card-title {
+            color: white !important;
+            font-weight: 800 !important;
+        }
+        .project-card-desc {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        select, input {
+            color-scheme: dark;
+        }
     </style>
 </head>
 
-<body style="background: #f8fafc;">
+<body style="background: #0a0f1d; color: white;">
     <!-- Navigation (Simulée via auth.js) -->
     <header class="navbar">
         <div class="container nav-content">
@@ -115,7 +142,7 @@
             </a>
         </div>
 
-        <div class="directory-grid" id="projects-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px;"></div>
+        <div class="directory-grid" id="projects-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; padding-bottom: 80px;"></div>
 
         <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
             <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun projet n'est encore affiché pour cette

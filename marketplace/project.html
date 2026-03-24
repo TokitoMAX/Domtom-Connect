@@ -400,6 +400,12 @@
         }
 
         async function handleContribution() {
+            // Empêcher l'auto-contribution
+            const session = await getSession();
+            if (session && session.user.id === currentProject.owner_id) {
+                alert("🔒 Action impossible : Vous ne pouvez pas contribuer à votre propre épopée.");
+                return;
+            }
             document.getElementById('support-modal').style.display = 'block';
             renderPaypalButtons();
         }
