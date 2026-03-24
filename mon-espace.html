@@ -1885,7 +1885,36 @@
                                     <div style="font-size:0.65rem; color: #94a3b8; margin-top: 2px;">Après frais de plateforme & taxes</div>
                                 </div>
                             </div>
-                            ${nextStepHTML}
+                        </div>
+
+                        <!-- MANIFESTE DE L'ÉPOPÉE (AMBITION) -->
+                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #0f172a; padding: 32px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
+                                <div class="card-title" style="font-size: 1.2rem; margin-bottom: 0;">Manifeste de l'Épopée</div>
+                                <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">Structurez votre Ambition</span>
+                            </div>
+                            
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+                                <div style="display:flex; flex-direction:column; gap:16px;">
+                                    <div class="form-group">
+                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Vision (Le "Pourquoi")</label>
+                                        <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ? Quelle est l'ambition ultime ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.vision || ''}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Mission (Le "Comment")</label>
+                                        <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ? Quelles sont les actions majeures ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.mission || ''}</textarea>
+                                    </div>
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:16px;">
+                                    <div class="form-group">
+                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">L'Enjeu (Le "Maintenant")</label>
+                                        <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial aujourd'hui ? Quel est l'impact immédiat ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.enjeu || ''}</textarea>
+                                    </div>
+                                    <div style="height:100%; display:flex; align-items:flex-end;">
+                                        <button onclick="updateProjectManifesto('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding:16px; font-weight:800;">Enregistrer le Manifeste</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- GESTION DE LA CAGNOTTE & VÉRIFICATION -->
@@ -2253,6 +2282,24 @@
                 if (error) throw error;
                 window.location.reload();
             } catch (err) { alert(err.message); }
+        }
+
+        async function updateProjectManifesto(projectId) {
+            const vision = document.getElementById('manifesto-vision').value.trim();
+            const mission = document.getElementById('manifesto-mission').value.trim();
+            const enjeu = document.getElementById('manifesto-enjeu').value.trim();
+
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ vision, mission, enjeu })
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                alert("✅ Manifeste enregistré !");
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
         }
 
         async function updateUniversalReward(projectId) {

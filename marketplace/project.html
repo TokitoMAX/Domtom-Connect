@@ -162,6 +162,84 @@
             background: rgba(255,255,255,0.06) !important;
         }
 
+        /* Roadmap Styles */
+        .roadmap-container {
+            position: relative;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .roadmap-step {
+            display: flex;
+            gap: 20px;
+            position: relative;
+        }
+
+        .roadmap-step::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+            z-index: 0;
+        }
+
+        .roadmap-step:last-child::before {
+            display: none;
+        }
+
+        .roadmap-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 2px solid #334155;
+            z-index: 1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+        }
+
+        .roadmap-step.reached .roadmap-dot {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+        .roadmap-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .roadmap-step.reached .roadmap-dot::after {
+            opacity: 1;
+        }
+
+        .roadmap-content {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 16px 20px;
+            flex-grow: 1;
+            transition: all 0.3s;
+        }
+
+        .roadmap-step.reached .roadmap-content {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
         .section-header {
             display: flex;
             align-items: center;
@@ -398,38 +476,31 @@
                     return;
                 }
 
-                const section = document.getElementById('milestones-section');
-                const bar = document.getElementById('milestone-progress-bar');
-                const info = document.getElementById('next-milestone-info');
+                // Roadmap Visuelle
+                const milestoneSection = document.getElementById('milestones-section');
+                const roadmapList = document.getElementById('roadmap-list');
                 const totalRaised = project.total_raised || 0;
 
-                // On ne montre la progression collective que si le projet a commencé à lever des fonds
-                // ou s'il y a au moins un palier défini.
-                if (milestones.length === 0) {
-                    section.style.display = 'none';
-                    return;
-                }
-                
-                // Masquer la barre si 0€ récoltés pour ne pas décourager (Focus sur le cadeau de bienvenue)
-                section.style.display = totalRaised > 0 ? 'block' : 'none';
-                
-                // Find next milestone
-                const next = milestones.find(m => m.amount_threshold > totalRaised);
-                const reached = milestones.filter(m => m.amount_threshold <= totalRaised);
-                const lastReached = reached.length > 0 ? reached[reached.length - 1] : { amount_threshold: 0 };
-
-                if (!next) {
-                    info.innerHTML = `🎉 Épopée Complétée !`;
-                    bar.style.width = '100%';
-                    document.getElementById('milestone-reward-desc').innerHTML = `Tous les paliers collectifs ont été débloqués !`;
+                if (milestones.length > 0) {
+                    milestoneSection.style.display = 'block';
+                    roadmapList.innerHTML = milestones.map(m => {
+                        const reached = totalRaised >= m.amount_threshold;
+                        return `
+                            <div class="roadmap-step ${reached ? 'reached' : ''}">
+                                <div class="roadmap-dot"></div>
+                                <div class="roadmap-content">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                        <span style="font-weight:900; color:white; font-size:0.9rem;">${m.amount_threshold} €</span>
+                                        ${reached ? '<span style="color:#3b82f6; font-size:0.65rem; font-weight:900; text-transform:uppercase;">DÉBLOQUÉ</span>' : ''}
+                                    </div>
+                                    <div style="font-size:0.85rem; font-weight:700; color:${reached ? 'white' : '#94a3b8'};">${m.title}</div>
+                                    <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">${m.description || ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
                 } else {
-                    const range = next.amount_threshold - lastReached.amount_threshold;
-                    const currentPos = totalRaised - lastReached.amount_threshold;
-                    const percent = Math.min(100, Math.max(0, Math.round((currentPos / range) * 100)));
-                    
-                    info.innerHTML = `Objectif : ${next.amount_threshold} €`;
-                    bar.style.width = `${percent}%`;
-                    document.getElementById('milestone-reward-desc').innerHTML = `<strong>Prochain Bonus :</strong> ${next.title}`;
+                    milestoneSection.style.display = 'none';
                 }
             } catch (err) {
                 console.error("Milestones Error:", err);
@@ -562,19 +633,36 @@
             loadProjectMilestones(project.id, totalRaised);
 
             const coverHtml = project.cover_url ? `<div class="hero-cover" style="background-image: url('${project.cover_url}');"></div>` : '';
-            const cleanDescription = (project.description || "").replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim();
 
             container.innerHTML = `
                 <section class="hero-project">
                     ${coverHtml}
-                    <div class="container hero-content">
-                        <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center;">
-                            <div class="badge-loc">${project.territory}</div>
-                            ${project.siret ? '<div class="badge-loc" style="background:#0f172a; color:#10b981; border-color:#10b981;">Structure Pro</div>' : ''}
-                            ${project.identity_verified ? '<div class="badge-loc" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;">Identité Vérifiée</div>' : ''}
+                    <div class="hero-content container">
+                        <div style="max-width: 800px;">
+                            <div style="display:flex; gap:12px; margin-bottom:24px; align-items:center;">
+                                <div class="badge-loc">${project.territory}</div>
+                                ${project.siret ? '<div class="badge-loc" style="background:#0f172a; color:#10b981; border-color:#10b981;">Structure Pro</div>' : ''}
+                                ${project.identity_verified ? '<div class="badge-loc" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;">Identité Vérifiée</div>' : ''}
+                            </div>
+                            <h1 style="font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 950; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 24px; color:white;">${project.title}</h1>
+                            <p style="font-size: 1.25rem; line-height: 1.6; color: #94a3b8; margin-bottom: 40px; font-weight: 500;">${project.short_description || ''}</p>
+                            
+                            <!-- RÉCAPITULATIF DE L'AMBITION -->
+                            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:20px; backdrop-filter:blur(10px);">
+                                    <div style="font-size:0.6rem; color:#10b981; font-weight:900; text-transform:uppercase; margin-bottom:8px; letter-spacing:0.1em;">Pourquoi</div>
+                                    <div style="font-size:0.85rem; color:white; font-weight:700; line-height:1.4;">${project.vision ? 'Vision Claire' : 'Ambition Noble'}</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:20px; backdrop-filter:blur(10px);">
+                                    <div style="font-size:0.6rem; color:#3b82f6; font-weight:900; text-transform:uppercase; margin-bottom:8px; letter-spacing:0.1em;">Objectif</div>
+                                    <div style="font-size:0.85rem; color:white; font-weight:700; line-height:1.4;">Mission Définie</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:20px; backdrop-filter:blur(10px);">
+                                    <div style="font-size:0.6rem; color:#f59e0b; font-weight:900; text-transform:uppercase; margin-bottom:8px; letter-spacing:0.1em;">Impact</div>
+                                    <div style="font-size:0.85rem; color:white; font-weight:700; line-height:1.4;">Enjeu Vital</div>
+                                </div>
+                            </div>
                         </div>
-                        <h1 class="project-title">${project.title}</h1>
-                        <p class="project-pitch">${cleanDescription}</p>
                     </div>
                 </section>
 
@@ -586,32 +674,21 @@
                             <div class="glass-card">
                                 <div class="section-header">
                                     <div class="section-dot"></div>
-                                    <span class="section-title">Le Manifeste Originel</span>
+                                    <span class="section-title">Manifeste de l'Épopée</span>
                                 </div>
                                 <div id="manifesto-content">
-                                    ${(() => {
-                                        const desc = project.description || "";
-                                        if (desc.includes('[[VISION]]')) {
-                                            const vision = desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim();
-                                            const mission = desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim();
-                                            const problem = desc.split('[[PROBLEM]]')[1].trim();
-                                            return `
-                                                <div class="manifesto-item">
-                                                    <h4 class="manifesto-label">La Vision</h4>
-                                                    <p class="manifesto-text">${vision}</p>
-                                                </div>
-                                                <div class="manifesto-item">
-                                                    <h4 class="manifesto-label">La Mission</h4>
-                                                    <p class="manifesto-text">${mission}</p>
-                                                </div>
-                                                <div class="manifesto-item" style="margin-bottom:0;">
-                                                    <h4 class="manifesto-label">L'Enjeu</h4>
-                                                    <p class="manifesto-text">${problem}</p>
-                                                </div>
-                                            `;
-                                        }
-                                        return `<p class="manifesto-text">${desc}</p>`;
-                                    })()}
+                                    <div class="manifesto-item">
+                                        <h4 class="manifesto-label">La Vision</h4>
+                                        <p class="manifesto-text">${project.vision || "Le porteur n'a pas encore détaillé sa vision à long terme."}</p>
+                                    </div>
+                                    <div class="manifesto-item">
+                                        <h4 class="manifesto-label">La Mission</h4>
+                                        <p class="manifesto-text">${project.mission || "Le porteur n'a pas encore détaillé les actions concrètes de sa mission."}</p>
+                                    </div>
+                                    <div class="manifesto-item" style="margin-bottom:0;">
+                                        <h4 class="manifesto-label">L'Enjeu Impact</h4>
+                                        <p class="manifesto-text">${project.enjeu || "Le détail de l'impact social ou économique est en cours de rédaction."}</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -649,18 +726,15 @@
                                     <span>${Math.max(0, fundingGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
                                 </div>
 
-                                <!-- L'ÉPOPÉE COLLECTIVE (STRETCH GOALS) -->
+                                <!-- FEUILLE DE ROUTE COLLECTIVE -->
                                 <div id="milestones-section" style="margin-bottom: 32px; padding: 24px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 24px; display:none;">
-                                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+                                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
                                         <div style="width:12px; height:12px; border-radius:50%; background:#3b82f6; box-shadow:0 0 12px rgba(59,130,246,0.5);"></div>
-                                        <span style="font-size:0.75rem; font-weight:900; color:#3b82f6; text-transform:uppercase; letter-spacing:0.1em;">L'Épopée Collective</span>
+                                        <span style="font-size:0.75rem; font-weight:900; color:#3b82f6; text-transform:uppercase; letter-spacing:0.1em;">Feuille de Route</span>
                                     </div>
-                                    <div id="next-milestone-info" style="font-size:1.1rem; font-weight:950; color:white; margin-bottom:12px; letter-spacing:-0.02em;">Chargement...</div>
-                                    <div class="progress-container" style="background:rgba(255,255,255,0.05); height:12px; margin-bottom:12px; border-radius:100px; overflow:hidden;">
-                                        <div id="milestone-progress-bar" class="progress-bar" style="width:0%; background: linear-gradient(90deg, #3b82f6, #60a5fa); border-radius:100px; height:100%;"></div>
-                                    </div>
-                                    <div id="milestone-reward-desc" style="font-size:0.85rem; color:#94a3b8; line-height:1.5; font-weight:500;">
-                                        Unissez vos forces pour débloquer le prochain bonus communautaire !
+                                    
+                                    <div id="roadmap-list" class="roadmap-container">
+                                        <!-- Chargé par JS -->
                                     </div>
                                 </div>
 
