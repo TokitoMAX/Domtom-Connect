@@ -528,75 +528,194 @@
             object-fit: cover;
         }
 
-        /* Success Engine Styles */
-        .success-engine-container {
-            margin-bottom: 40px;
-        }
-
-        .success-steps {
+        /* --- COCKPIT DE LEVÉE DE FONDS (Institutional UI) --- */
+        .cockpit-stepper {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            position: relative;
-            padding: 0 10px;
+            gap: 12px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.03);
+            overflow-x: auto;
+            scrollbar-width: none;
         }
 
-        .success-steps::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: var(--gray-200);
-            z-index: 1;
-        }
-
-        .step-item {
-            position: relative;
-            z-index: 2;
+        .cockpit-step {
+            flex: 1;
+            min-width: 140px;
+            padding: 16px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid var(--gray-100);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            width: 100px;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
         }
 
-        .step-circle {
-            width: 48px;
-            height: 48px;
+        .cockpit-step.active {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cockpit-step.completed {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .cockpit-step.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f1f5f9;
+        }
+
+        .step-number {
+            font-size: 0.65rem;
+            font-weight: 900;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .cockpit-step.active .step-number { color: #3b82f6; }
+        .cockpit-step.completed .step-number { color: #10b981; }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .step-status-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: white;
-            border: 2px solid var(--gray-200);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
+            font-size: 0.6rem;
         }
 
-        .step-item.active .step-circle {
+        .status-completed { background: #10b981; color: white; }
+        .status-pending { background: #f59e0b; color: white; }
+        .status-active { background: #3b82f6; color: white; }
+        .status-locked { background: var(--gray-300); color: white; }
+
+        .cockpit-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .cockpit-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kpi-cockpit {
             background: white;
-            border: 3px solid #10b981;
-            color: #10b981;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-            transform: scale(1.1);
+            border: 1px solid var(--gray-200);
+            border-radius: 24px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 48px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        .step-item.completed .step-circle {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
+        @media (max-width: 768px) {
+            .kpi-cockpit {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 20px;
+            }
         }
 
-        .step-label {
-            font-size: 0.8rem;
-            font-weight: 700;
+        .kpi-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kpi-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--text-muted);
+        }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.03em;
+        }
+
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .action-button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-cockpit {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+
+        .btn-cockpit.primary {
+            background: #0f172a;
+            color: white;
+            border: none;
+        }
+
+        .btn-cockpit.secondary {
+            background: white;
+            border-color: var(--gray-200);
+            color: var(--text-primary);
+        }
+
+        .btn-cockpit.outline {
+            background: transparent;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .btn-cockpit.danger {
+            background: #fef2f2;
+            color: #ef4444;
+            border-color: #fee2e2;
+        }
+        
+        .btn-cockpit.danger:hover {
+            background: #ef4444;
+            color: white;
         }
 
         .step-item.active .step-label,
@@ -1717,21 +1836,42 @@
 
         function updateSuccessStepper(score, projectId) {
             const steps = [
-                { id: 'step-1', min: 0, label: 'Manifeste' },
-                { id: 'step-2', min: 25, label: 'Boussole' },
-                { id: 'step-3', min: 50, label: 'Commando' },
-                { id: 'step-4', min: 75, label: 'Impulsion' }
+                { id: 'cockpit-step-1', threshold: 0, label: '01. Stratégie' },
+                { id: 'cockpit-step-2', threshold: 25, label: '02. Finance' },
+                { id: 'cockpit-step-3', threshold: 50, label: '03. Arsenal' },
+                { id: 'cockpit-step-4', threshold: 75, label: '04. Compliance' },
+                { id: 'cockpit-step-5', threshold: 90, label: '05. Lancement' }
             ];
 
-            steps.forEach(s => {
+            let activeIndex = -1;
+            steps.forEach((s, i) => {
                 const el = document.getElementById(s.id);
-                if (el) {
-                    if (score >= s.min) {
-                        el.classList.add('active');
-                        el.classList.remove('locked');
-                    } else {
-                        el.classList.remove('active');
-                        el.classList.add('locked');
+                if (!el) return;
+
+                if (score >= s.threshold) {
+                    el.classList.add('completed');
+                    el.classList.remove('locked', 'active');
+                    const icon = el.querySelector('.step-status-icon');
+                    if (icon) {
+                        icon.innerHTML = '✓';
+                        icon.className = 'step-status-icon status-completed';
+                    }
+                } else if (activeIndex === -1) {
+                    activeIndex = i;
+                    el.classList.add('active');
+                    el.classList.remove('locked', 'completed');
+                    const icon = el.querySelector('.step-status-icon');
+                    if (icon) {
+                        icon.innerHTML = '●';
+                        icon.className = 'step-status-icon status-active';
+                    }
+                } else {
+                    el.classList.add('locked');
+                    el.classList.remove('active', 'completed');
+                    const icon = el.querySelector('.step-status-icon');
+                    if (icon) {
+                        icon.innerHTML = '🔒';
+                        icon.className = 'step-status-icon status-locked';
                     }
                 }
             });
@@ -1759,126 +1899,163 @@
                         <div style="font-size:3rem; margin-bottom:16px;">🌟</div>
                         <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px;">Prêt pour votre première Épopée ?</h3>
                         <p style="color:var(--text-secondary); margin-bottom:24px; max-width:300px; margin-left:auto; margin-right:auto;">Structurez votre projet pas à pas et débloquez les meilleurs talents des Antilles.</p>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none;">Lancer mon Manifeste (Gratuit)</button>
-                    </div>
-                `;
-                return;
-            }
-
-            // Update Success Engine UI
+                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none;">Lancer mon Man            // Update Success Engine UI (Now "Fundraising Cockpit")
             if (projects.length > 0) {
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
-                updateSuccessStepper(totalScore, firstProj.id);
 
-                // Dynamiser le Header "Vision Card"
                 const headerContainer = document.getElementById('success-engine-header');
-                let headerHTML = "";
-                if (totalScore < 25) {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2);">
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 1 : Fondations</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Le Manifeste de Vision</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Votre 'Pourquoi' est le moteur de votre réussite. Affinez votre pitch pour captiver vos futurs partenaires."</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Écrire mon Manifeste</button>
-                                <a href="#my-projects-section" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px; font-size:1rem;">Voir mes épopées</a>
-                            </div>
-                        </div>
-                    `;
-                } else if (totalScore < 50) {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid rgba(16,185,129,0.2); background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);">
-                            <span style="font-size:0.75rem; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Étape 2 : Trajectoire</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">La Boussole Stratégique</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">"Une vision sans roadmap n'est qu'une hallucination. Tracez vos objectifs court, moyen et long terme."</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <button onclick="openRoadmapModal('${firstProj.id}')" class="cta-button primary" style="background:#34d399; color:#064e3b; border:none; padding:16px 32px; font-size:1rem; cursor:pointer; font-weight:800;">Ouvrir ma Boussole</button>
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button secondary" style="background:transparent; border-color:rgba(255,255,255,0.3); color:white; padding:16px 32px;">Modifier le Manifeste</button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    headerHTML = `
-                        <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid #10b981; background: #0f172a;">
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Progression Élevée</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Prêt pour l'Impact</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre épopée est structurée. Il est temps de mobiliser votre communauté et de débloquer vos premiers soutiens.</p>
-                            <div style="display:flex; justify-content:center; gap:16px;">
-                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Lancer ma Campagne</a>
-                            </div>
-                        </div>
-                    `;
-                }
-                headerContainer.innerHTML = headerHTML;
-
-                // Dynamic Call to Action
                 const engineStepContainer = document.getElementById('success-engine-step');
-                const pStatus = window.getProjectStatus(totalScore);
-                let nextStepHTML = "";
 
-                if (totalScore < 25) {
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Affinez votre Manifeste</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre vision n'est pas encore assez complète pour passer à la Boussole.</p>
-                                <button onclick="openProjectModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Compléter ma Vision</button>
-                            </div>
-                        `;
-                } else if (totalScore < 50) {
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Activez votre Boussole</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Votre Vision est validée. Il est temps de tracer votre trajectoire S, M et L.</p>
-                                <button onclick="openRoadmapModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Établir ma Roadmap</button>
-                            </div>
-                        `;
-                } else if (totalScore < 75) {
-                    nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Préparez l'Arsenal</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Identifiez vos besoins et votre budget pour justifier les futurs soutiens.</p>
-                                <button onclick="openArsenalModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Définir mes Besoins</button>
-                            </div>
-                        `;
-                } else {
-                    const isListed = firstProj.is_listed;
-                    const isApproved = firstProj.is_approved;
+                // Render Cockpit Foundation
+                headerContainer.innerHTML = `
+                    <div style="margin-bottom:32px;">
+                        <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
+                        <p style="color:#64748b; font-weight:600; font-size:1.05rem;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
+                    </div>
 
-                    if (isListed && !isApproved) {
-                        nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #f59e0b; padding: 40px; text-align:center; background: rgba(245, 158, 11, 0.05);">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center; color: #d97706;">⌛ Modération en cours</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0; color: #92400e;">Votre épopée est en cours d'examen par nos équipes. Elle sera visible sur la Marketplace dès validation de votre SIRET et de l'identité.</p>
-                                <div style="display:inline-block; padding:8px 20px; background:#fef3c7; border: 1px solid #fcd34d; border-radius:100px; color:#92400e; font-weight:800; font-size:0.8rem;">Statut : En attente</div>
-                            </div>
-                        `;
-                    } else {
-                        nextStepHTML = `
-                            <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isListed ? "Campagne Active" : "L'Impulsion Finale"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isListed ? "Votre projet récolte des soutiens sur la Marketplace. Partagez votre fiche !" : "Votre projet est mature. Publiez-le pour activer le Soutien Participatif."}</p>
-                                <button onclick="${isListed ? 'window.open(\'/marketplace/project?id=' + firstProj.id + '\', \'_blank\')' : 'unlistProject(\'' + firstProj.id + '\', false)'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
-                                    ${isListed ? "Voir ma Fiche Publique" : "Publier mon Épopée"}
-                                </button>
-                            </div>
-                        `;
-                    }
-                }
+                    <div class="cockpit-stepper" id="cockpit-stepper-container">
+                        <div class="cockpit-step" id="cockpit-step-1" onclick="showCockpitPhase(1)">
+                            <span class="step-number">Phase 01</span>
+                            <span class="step-label">Stratégie</span>
+                            <div class="step-status-icon status-locked">🔒</div>
+                        </div>
+                        <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
+                            <span class="step-number">Phase 02</span>
+                            <span class="step-label">Finance</span>
+                            <div class="step-status-icon status-locked">🔒</div>
+                        </div>
+                        <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
+                            <span class="step-number">Phase 03</span>
+                            <span class="step-label">Arsenal</span>
+                            <div class="step-status-icon status-locked">🔒</div>
+                        </div>
+                        <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
+                            <span class="step-number">Phase 04</span>
+                            <span class="step-label">Compliance</span>
+                            <div class="step-status-icon status-locked">🔒</div>
+                        </div>
+                        <div class="cockpit-step" id="cockpit-step-5" onclick="showCockpitPhase(5)">
+                            <span class="step-number">Phase 05</span>
+                            <span class="step-label">Lancement</span>
+                            <div class="step-status-icon status-locked">🔒</div>
+                        </div>
+                    </div>
 
-                const pData = projects && projects.length > 0 ? projects[0] : null;
+                    <div class="kpi-cockpit">
+                        <div class="kpi-item">
+                            <span class="kpi-label">Maturité du projet</span>
+                            <span class="kpi-value" style="color:#3b82f6;">${totalScore}%</span>
+                            <span class="kpi-sub">Indice de confiance banques</span>
+                        </div>
+                        <div class="kpi-item">
+                            <span class="kpi-label">Fonds Collectés</span>
+                            <span class="kpi-value" style="color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
+                            <span class="kpi-sub">+0.00% ces 7 derniers jours</span>
+                        </div>
+                        <div class="kpi-item">
+                            <span class="kpi-label">Commission (Est.)</span>
+                            <span class="kpi-value" style="color:#94a3b8;">${( (firstProj.total_raised || 0) * 0.05 ).toLocaleString('fr-FR')}€</span>
+                            <span class="kpi-sub">Frais Domtom Connect (5%)</span>
+                        </div>
+                    </div>
+                `;
 
-                engineStepContainer.innerHTML = `
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 24px;">
-                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px; background: rgba(16,185,129,0.05); border-radius: 24px; border: 1px solid rgba(16,185,129,0.1);">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Aventure</span>
-                                <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem; font-weight:900; color: #10b981;">${totalScore}%</span>
-                                    <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
-                                </div>
-                                <div style="margin-top:20px; width: 100%; padding:16px; background:white; border-radius:16px; border: 1px solid var(--gray-200);">
-                                    <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; margin-bottom:4px;">Cagnotte Récoltée</div>
-                                    <div style="font-size:1.8rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')} €</div>
+                // Render Phase-Specific Action Cards
+                let phasesHTML = "";
+                
+                // Phase 1 : Stratégie (Manifeste)
+                phasesHTML += `
+                    <div id="phase-card-1" class="cockpit-section dash-card highlight" style="border-color:#3b82f6; background:rgba(59,130,246,0.02);">
+                        <div class="card-title">01. Stratégie & Ambition</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Votre "Pourquoi" est le socle de votre épopée. Un manifeste clair attire les meilleurs experts.</p>
+                        <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-200); margin-bottom:24px;">
+                            <p style="font-size:0.85rem; color:#0f172a; font-weight:700; margin-bottom:4px;">Statut du Manifeste</p>
+                            <p style="font-size:0.75rem; color:#10b981; font-weight:700;">${totalScore >= 20 ? "✓ Audité et complet" : "⚠ Action requise : Complétez votre vision"}</p>
+                        </div>
+                        <div class="action-button-group">
+                            <button onclick="openProjectModal('${firstProj.id}')" class="btn-cockpit primary">Optimiser le Manifeste</button>
+                            <a href="/marketplace/project?id=${firstProj.id}" target="_blank" class="btn-cockpit secondary">Aperçu Public</a>
+                        </div>
+                    </div>
+                `;
+
+                // Phase 2 : Finance (Boussole/Roadmap)
+                phasesHTML += `
+                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#f59e0b; background:rgba(245,158,11,0.02);">
+                        <div class="card-title">02. Modélisation Financière</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Définissez vos objectifs collectifs (Feuille de Route) et vos paliers de financement.</p>
+                        <div class="action-button-group">
+                            <button onclick="openRoadmapModal('${firstProj.id}')" class="btn-cockpit primary">Éditer ma Boussole</button>
+                        </div>
+                    </div>
+                `;
+
+                // Phase 3 : Arsenal (Récompenses)
+                phasesHTML += `
+                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:rgba(16,185,129,0.02);">
+                        <div class="card-title">03. Arsenal de Reconnaissance</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Transformez vos soutiens en ambassadeurs avec des récompenses exclusives.</p>
+                        <div class="action-button-group">
+                            <button onclick="openArsenalModal('${firstProj.id}')" class="btn-cockpit primary">Gérer mes Récompenses</button>
+                        </div>
+                    </div>
+                `;
+
+                // Phase 4 : Compliance
+                phasesHTML += `
+                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:rgba(99,102,241,0.02);">
+                        <div class="card-title">04. Certification & Identité</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité et vos documents légaux pour débloquer les virements bancaires.</p>
+                        <div class="action-button-group">
+                            <button onclick="openImpulsionModal('${firstProj.id}')" class="btn-cockpit primary">Passer la Certification</button>
+                        </div>
+                    </div>
+                `;
+
+                // Phase 5 : Lancement
+                const isListed = firstProj.is_listed;
+                phasesHTML += `
+                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#0f172a; background:rgba(15,23,42,0.02);">
+                        <div class="card-title">05. Mise en Orbite</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Votre épopée est certifiée. Lancez votre campagne ou gérez votre visibilité sur la marketplace.</p>
+                        <div class="action-button-group">
+                            <button onclick="unlistProject('${firstProj.id}', ${isListed})" class="btn-cockpit primary">${isListed ? 'Retirer de la Marketplace' : 'Décoller / Publier'}</button>
+                            <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer définitivement</button>
+                        </div>
+                    </div>
+                `;
+
+                engineStepContainer.innerHTML = phasesHTML;
+
+                // Initialize Stepper state
+                updateSuccessStepper(totalScore, firstProj.id);
+                
+                // Show currently active phase card
+                let activePhase = 1;
+                if (totalScore >= 90) activePhase = 5;
+                else if (totalScore >= 75) activePhase = 4;
+                else if (totalScore >= 50) activePhase = 3;
+                else if (totalScore >= 25) activePhase = 2;
+                
+                window.showCockpitPhase = (phaseId) => {
+                    const steps = document.querySelectorAll('.cockpit-step');
+                    const cards = document.querySelectorAll('.cockpit-section');
+                    
+                    steps.forEach((s, idx) => {
+                        if (idx + 1 === phaseId) s.classList.add('active');
+                        else s.classList.remove('active');
+                    });
+                    
+                    cards.forEach((c, idx) => {
+                        if (idx + 1 === phaseId) c.classList.add('active');
+                        else c.classList.remove('active');
+                    });
+                };
+                
+                showCockpitPhase(activePhase);
+            }
+                        <div style="font-size:1.8rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')} €</div>
                                     <div style="font-size:0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--gray-100);">
                                         Net Estimé (85%) : <span style="color: #0f172a;">${((firstProj.total_raised || 0) * 0.85).toLocaleString('fr-FR')} €</span>
                                     </div>
