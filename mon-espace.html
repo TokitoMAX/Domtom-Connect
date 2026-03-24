@@ -1967,13 +1967,13 @@
                         <!-- GESTION DE L'ÉPOPÉE COLLECTIVE (PALIERS) -->
                         <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #3b82f6; background: rgba(59,130,246,0.02);">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0; color:#1d4ed8;">L'Épopée Collective (Stretch Goals)</div>
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0; color:#1d4ed8;">Objectifs Communs & Bonus</div>
                                 <button onclick="openMilestoneModal('${firstProj.id}')" class="cta-button primary" style="background:#3b82f6; font-size:0.75rem; padding:8px 16px;">+ Nouveau Palier</button>
                             </div>
-                            <p style="font-size:0.8rem; color:#64748b; margin-bottom:20px;">Définissez des objectifs communs. Quand ils sont atteints, <strong>tous</strong> vos supporters gagnent un bonus !</p>
+                            <p style="font-size:0.8rem; color:#64748b; margin-bottom:20px;">Créez une dynamique collective. Quand un objectif est atteint, <strong>tous</strong> vos soutiens reçoivent un bonus !</p>
                             
                             <div style="background:white; border:1px solid #bfdbfe; padding:20px; border-radius:12px; margin-bottom:24px;">
-                                <label style="display:block; font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase; margin-bottom:8px;">Le Cadeau de Base (Pour chaque donateur dès 1€)</label>
+                                <label style="display:block; font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase; margin-bottom:8px;">🎁 Votre Cadeau de Bienvenue (Pour tous dès 1€)</label>
                                 <div style="display:flex; gap:12px;">
                                     <input type="text" id="universal-reward-input" value="${firstProj.universal_reward || ''}" placeholder="Ex: Votre nom gravé au Mur de l'Épopée + Un badge digital" style="flex:1; padding:12px; border:1.5px solid #dbeafe; border-radius:10px; font-size:0.85rem;">
                                     <button onclick="updateUniversalReward('${firstProj.id}')" style="background:#3b82f6; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:800; cursor:pointer;">Enregistrer</button>

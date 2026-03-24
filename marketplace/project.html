@@ -398,7 +398,20 @@
                     return;
                 }
 
-                section.style.display = 'block';
+                const section = document.getElementById('milestones-section');
+                const bar = document.getElementById('milestone-progress-bar');
+                const info = document.getElementById('next-milestone-info');
+                const totalRaised = project.total_raised || 0;
+
+                // On ne montre la progression collective que si le projet a commencé à lever des fonds
+                // ou s'il y a au moins un palier défini.
+                if (milestones.length === 0) {
+                    section.style.display = 'none';
+                    return;
+                }
+                
+                // Masquer la barre si 0€ récoltés pour ne pas décourager (Focus sur le cadeau de bienvenue)
+                section.style.display = totalRaised > 0 ? 'block' : 'none';
                 
                 // Find next milestone
                 const next = milestones.find(m => m.amount_threshold > totalRaised);
@@ -406,10 +419,9 @@
                 const lastReached = reached.length > 0 ? reached[reached.length - 1] : { amount_threshold: 0 };
 
                 if (!next) {
-                    // All reached!
                     info.innerHTML = `🎉 Épopée Complétée !`;
                     bar.style.width = '100%';
-                    document.getElementById('milestone-reward-desc').innerHTML = `Tous les paliers collectifs ont été débloqués. Merci aux ${milestones.length} gardiens !`;
+                    document.getElementById('milestone-reward-desc').innerHTML = `Tous les paliers collectifs ont été débloqués !`;
                 } else {
                     const range = next.amount_threshold - lastReached.amount_threshold;
                     const currentPos = totalRaised - lastReached.amount_threshold;
@@ -417,7 +429,7 @@
                     
                     info.innerHTML = `Objectif : ${next.amount_threshold} €`;
                     bar.style.width = `${percent}%`;
-                    document.getElementById('milestone-reward-desc').innerHTML = `<strong>Bonus :</strong> ${next.title}<br/><span style="font-size:0.65rem; opacity:0.8;">${next.description || ''}</span>`;
+                    document.getElementById('milestone-reward-desc').innerHTML = `<strong>Prochain Bonus :</strong> ${next.title}`;
                 }
             } catch (err) {
                 console.error("Milestones Error:", err);
@@ -652,21 +664,20 @@
                                     </div>
                                 </div>
 
-                                <!-- CONTREPARTIES SECTION -->
+                                <!-- CONTREPARTIES SECTION (REGROUPÉES) -->
                                 <div id="rewards-container" style="margin-bottom: 24px;">
-                                    <h4 style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px;">Contreparties de l'Aventure</h4>
+                                    <h4 style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px;">Choisir une Récompense</h4>
                                     
                                     ${project.universal_reward ? `
-                                        <div style="background: rgba(59, 130, 246, 0.05); border: 2px solid rgba(59, 130, 246, 0.15); padding: 24px; border-radius: 24px; margin-bottom: 20px; position:relative; overflow:hidden; backdrop-filter: blur(10px);">
-                                            <div style="position:absolute; top:0; right:0; background:#3b82f6; color:white; font-size:0.6rem; font-weight:950; padding:4px 12px; border-bottom-left-radius:12px; text-transform:uppercase; letter-spacing:0.05em;">Inclus Par Défaut</div>
+                                        <div style="background: rgba(16, 185, 129, 0.05); border: 2px solid rgba(16, 185, 129, 0.15); padding: 24px; border-radius: 24px; margin-bottom: 20px; position:relative; overflow:hidden; backdrop-filter: blur(10px);">
+                                            <div style="position:absolute; top:0; right:0; background:#10b981; color:white; font-size:0.6rem; font-weight:950; padding:4px 12px; border-bottom-left-radius:12px; text-transform:uppercase; letter-spacing:0.05em;">Cadeau de Bienvenue</div>
                                             <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
                                                 <span style="font-size:1.5rem;">🎁</span>
-                                                <div style="font-size:1.1rem; font-weight:900; color:white; letter-spacing:-0.02em;">L'Ami de l'Épopée</div>
+                                                <div style="font-size:1.1rem; font-weight:900; color:white; letter-spacing:-0.02em;">Votre Badge d'Impact</div>
                                             </div>
                                             <p style="font-size:0.85rem; color:#94a3b8; margin:0; line-height:1.5; font-weight:500;">${project.universal_reward}</p>
-                                            <div style="font-size:0.65rem; color:#3b82f6; font-weight:800; margin-top:16px; display:flex; align-items:center; gap:6px;">
-                                                <div style="width:4px; height:4px; border-radius:50%; background:#3b82f6;"></div>
-                                                Débloqué pour TOUS les soutiens
+                                            <div style="font-size:0.65rem; color:#10b981; font-weight:800; margin-top:16px; display:flex; align-items:center; gap:6px;">
+                                                ✨ Débloqué pour TOUT don (dès 1€)
                                             </div>
                                         </div>
                                     ` : ''}
