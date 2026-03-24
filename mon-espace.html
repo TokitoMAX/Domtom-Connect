@@ -2003,11 +2003,20 @@
                                             <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
                                         </div>
                                     </div>
-                                    <div id="reward-visual-preview" style="height:100px; width:100%; border-radius:12px; background:#f1f5f9; border:1px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:0.75rem;">Aperçu du visuel</div>
-                                    <input type="text" id="reward-image-url" placeholder="Lien de l'image (URL)" oninput="document.getElementById('reward-visual-preview').style.background='url('+this.value+') center/cover no-repeat'; document.getElementById('reward-visual-preview').innerText='';"
-                                           style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-size:0.85rem;">
+                                    <div id="reward-visual-preview" style="height:140px; width:100%; border-radius:12px; background:#f1f5f9; border:2px dashed #cbd5e1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#94a3b8; font-size:0.75rem; transition:all 0.3s; position:relative; overflow:hidden;">
+                                        <span id="preview-placeholder">Aperçu du visuel</span>
+                                    </div>
                                     
-                                    <button onclick="saveReward('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px; font-weight:800; margin-top:12px;">Créer la récompense</button>
+                                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                                        <div style="position:relative;">
+                                            <button class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:10px;" onclick="document.getElementById('reward-file-input').click()">📁 Téléverser</button>
+                                            <input type="file" id="reward-file-input" style="display:none;" accept="image/*" onchange="handleRewardImageUpload(this, '${firstProj.id}')">
+                                        </div>
+                                        <input type="text" id="reward-image-url" placeholder="Ou lien URL..." oninput="updateRewardPreview(this.value)"
+                                               style="padding:10px; border:1px solid var(--gray-200); border-radius:10px; font-size:0.8rem;">
+                                    </div>
+                                    
+                                    <button onclick="saveReward('${firstProj.id}')" id="btn-save-reward" class="cta-button primary" style="background:#10b981; border:none; padding:16px; font-weight:800; margin-top:12px;">Créer la récompense</button>
                                 </div>
                             </div>
                         </div>
@@ -2305,6 +2314,62 @@
                 if (error) throw error;
                 window.location.reload();
             } catch (err) { alert(err.message); }
+        }
+
+        function updateRewardPreview(url) {
+            const preview = document.getElementById('reward-visual-preview');
+            const placeholder = document.getElementById('preview-placeholder');
+            if (url) {
+                preview.style.background = `url('${url}') center/cover no-repeat`;
+                preview.style.borderColor = '#10b981';
+                placeholder.style.display = 'none';
+            } else {
+                preview.style.background = '#f1f5f9';
+                preview.style.borderColor = '#cbd5e1';
+                placeholder.style.display = 'block';
+            }
+        }
+
+        async function handleRewardImageUpload(input, projectId) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            const btn = document.getElementById('btn-save-reward');
+            const placeholder = document.getElementById('preview-placeholder');
+            
+            try {
+                const session = await getSession();
+                if (!session) throw new Error("Veuillez vous reconnecter.");
+                const userId = session.user.id;
+
+                btn.disabled = true;
+                btn.innerText = "Téléchargement...";
+                placeholder.innerText = "Chargement...";
+
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${userId}/reward_${Math.random()}.${fileExt}`;
+                const filePath = `${fileName}`;
+
+                const { data, error } = await _supabase.storage
+                    .from('project-media')
+                    .upload(filePath, file);
+
+                if (error) throw error;
+
+                const { data: { publicUrl } } = _supabase.storage
+                    .from('project-media')
+                    .getPublicUrl(filePath);
+
+                document.getElementById('reward-image-url').value = publicUrl;
+                updateRewardPreview(publicUrl);
+                
+                btn.disabled = false;
+                btn.innerText = "Créer la récompense";
+            } catch (err) {
+                alert("Erreur upload: " + err.message);
+                btn.disabled = false;
+                btn.innerText = "Créer la récompense";
+                placeholder.innerText = "Échec upload";
+            }
         }
 
         async function handleIDUpload(input, projectId) {
