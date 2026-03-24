@@ -1879,7 +1879,7 @@
                         <!-- GESTION DE LA CAGNOTTE & VÉRIFICATION -->
                         <div style="display:grid; grid-template-columns: 1fr 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
                             <div class="dash-card" style="padding: 32px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🎯 Paramétrage</div>
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">Paramétrage</div>
                                 <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif (€)</label>
                                 <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
                                        style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
@@ -1887,27 +1887,28 @@
                             </div>
 
                             <div class="dash-card" style="padding: 32px; border-left: 4px solid ${firstProj.identity_verified ? '#10b981' : '#f59e0b'};">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🛡️ Confiance & Vérification</div>
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">Confiance et Vérification</div>
                                 
                                 <div style="margin-bottom: 20px;">
                                     <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Structure (SIRET)</label>
-                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Numéro SIRET (si structure)"
+                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Numéro SIRET (si existant)"
                                            style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
                                     <button onclick="updateProjectVerification('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Enregistrer la structure</button>
                                 </div>
 
-                                <div id="id-verification-box" style="padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--gray-200);">
-                                    <div style="font-size: 0.75rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">Identité Personnelle</div>
-                                    <p style="font-size: 0.7rem; color: #64748b; margin-bottom: 12px;">Validation de pièce d'identité requise pour les porteurs sans structure.</p>
-                                    <div id="id-status-text" style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : '#f59e0b'}; font-weight:800;">
-                                        ${firstProj.identity_verified ? '✓ Validée' : 'En attente'}
+                                <div style="border-top: 1px solid var(--gray-100); padding-top: 20px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                                        <div style="font-size: 0.8rem; font-weight: 800; color: #0f172a;">Identité Validée</div>
+                                        <div style="font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : '#f59e0b'}; font-weight:800;">
+                                            ${firstProj.identity_verified ? 'Oui' : 'En attente'}
+                                        </div>
                                     </div>
-                                    ${!firstProj.identity_verified ? `<button onclick="requestIDVerification('${firstProj.id}')" id="btn-id-verify" style="margin-top:12px; width:100%; background:white; border:1px solid var(--gray-200); padding:8px; border-radius:8px; font-size:0.7rem; font-weight:700; cursor:pointer;">Lancer la vérification</button>` : ''}
+                                    ${!firstProj.identity_verified ? `<button onclick="requestIDVerification('${firstProj.id}')" id="btn-id-verify" style="margin-top:12px; width:100%; background:white; border:1px solid var(--gray-200); padding:8px; border-radius:8px; font-size:0.7rem; font-weight:700; cursor:pointer; color:#0f172a;">Lancer la validation</button>` : ''}
                                 </div>
                             </div>
 
                             <div class="dash-card" style="padding: 32px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🤝 Vos Supporters</div>
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">Vos Supporters</div>
                                 <div id="supporters-list" style="max-height: 200px; overflow-y: auto;">
                                     <p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Chargement...</p>
                                 </div>
@@ -2156,7 +2157,7 @@
 
             // En vrai on enverrait une notification ou on mettrait à jour un champ 'identity_request_pending'
             setTimeout(() => {
-                alert("Votre demande de vérification d'identité a été envoyée à l'équipe Domtom Connect. Vous recevrez un e-mail pour finaliser l'envoi de vos documents.");
+                alert("Votre demande a été transmise. L'équipe Domtom Connect vous contactera directement pour valider votre identité.");
             }, 500);
         }
 
