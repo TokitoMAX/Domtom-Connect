@@ -354,7 +354,9 @@
 
         function selectReward(id, amt) {
             selectedRewardId = id;
-            selectedContributionAmount = amt;
+            selectedContributionAmount = parseFloat(amt);
+            
+            // Mise à jour visuelle
             document.querySelectorAll('.reward-item').forEach(el => {
                 el.style.borderColor = 'var(--gray-200)';
                 el.style.background = 'white';
@@ -364,8 +366,10 @@
                 selectedEl.style.borderColor = '#10b981';
                 selectedEl.style.background = '#f0fdf4';
             }
-            // Trigger PayPal modal directly? Or just wait for the main button?
-            // User might want to change the amount in the modal still, but this sets a baseline.
+
+            // Ouvrir le modal immédiatement avec le bon montant pré-rempli
+            document.getElementById('support-modal').style.display = 'block';
+            selectAmount(amt, null); // Pré-remplit le montant dans le modal
         }
 
         function renderProject(project) {
@@ -537,6 +541,17 @@
 
         async function confirmContribution(paymentId, amount) {
             try {
+                const { error } = await _supabase
+                    .from('contributions')
+                    .insert([{
+                        project_id: currentProject.id,
+                        donor_id: (await getSession())?.user?.id || null,
+                        amount: amount,
+                        reward_id: selectedRewardId,
+                        payment_id: paymentId,
+                        status: 'completed'
+                    }]);
+
                 if (error) throw error;
                 
                 // Success View in Modal
@@ -550,7 +565,7 @@
                         <button onclick="location.reload()" style="background: #10b981; color: #064e3b; border: none; border-radius: 100px; padding: 20px 40px; font-weight: 900; font-size: 1.1rem; cursor: pointer; width: 100%;">Continuer l'Exploration</button>
                     </div>
                 `;
-            } catch (err) { console.error(err); alert("Erreur d'enregistrement."); }
+            } catch (err) { console.error(err); alert("Erreur d'enregistrement de votre contribution."); }
         }
 
         function showError() {

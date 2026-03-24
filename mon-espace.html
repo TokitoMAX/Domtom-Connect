@@ -1910,12 +1910,14 @@
                                     <div style="display:flex; justify-content:space-between; align-items:center;">
                                         <div>
                                             <div style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">Pièce d'identité</div>
-                                            <div id="id-status-text" style="font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : (firstProj.verification_status === 'pending' ? '#f59e0b' : '#64748b')}; font-weight:800; margin-top:4px;">
-                                                ${firstProj.identity_verified ? 'Certifié ✅' : (firstProj.verification_status === 'pending' ? 'Vérification en cours ⏳' : 'Non soumise')}
+                                            <div id="id-status-text" style="font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : (firstProj.verification_status === 'pending' ? '#f59e0b' : (firstProj.verification_status === 'rejected' ? '#ef4444' : '#64748b'))}; font-weight:800; margin-top:4px;">
+                                                ${firstProj.identity_verified ? 'Certifié ✅' : (firstProj.verification_status === 'pending' ? 'Vérification en cours ⏳' : (firstProj.verification_status === 'rejected' ? 'Action requise ❌' : 'Non soumise'))}
                                             </div>
                                         </div>
                                         ${(!firstProj.identity_verified && firstProj.verification_status !== 'pending') ? `
-                                            <button onclick="document.getElementById('id-upload-input').click()" id="btn-id-verify" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:12px; font-size:0.75rem; font-weight:700; cursor:pointer;">Déposer</button>
+                                            <button onclick="document.getElementById('id-upload-input').click()" id="btn-id-verify" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:12px; font-size:0.75rem; font-weight:700; cursor:pointer;">
+                                                ${firstProj.verification_status === 'rejected' ? 'Réessayer' : 'Déposer'}
+                                            </button>
                                         ` : ''}
                                     </div>
                                     <input type="file" id="id-upload-input" accept="image/*,application/pdf" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
@@ -1923,6 +1925,13 @@
                                     ${firstProj.verification_status === 'pending' && !firstProj.identity_verified ? `
                                         <div style="margin-top:12px; padding:12px; background:#fff7ed; border:1px solid #ffedd5; border-radius:10px; font-size:0.7rem; color:#9a3412; font-weight:600;">
                                             Nos équipes analysent vos documents. Votre épopée sera certifiée dès validation.
+                                        </div>
+                                    ` : ''}
+
+                                    ${firstProj.verification_status === 'rejected' ? `
+                                        <div style="margin-top:12px; padding:12px; background:#fef2f2; border:1px solid #fee2e2; border-radius:10px; font-size:0.75rem; color:#991b1b;">
+                                            <div style="font-weight:800; margin-bottom:4px;">Document refusé</div>
+                                            <p style="margin:0; font-size:0.7rem;">${firstProj.rejection_reason || "Votre document n'est pas conforme. Veuillez en envoyer un nouveau."}</p>
                                         </div>
                                     ` : ''}
                                 
@@ -2217,9 +2226,13 @@
                 if (uploadError) throw uploadError;
 
                 // --- UPDATE DATABASE STATUS ---
+                // On remet le statut à 'pending' et on efface l'éventuel motif de rejet précédent
                 await _supabase
                     .from('projects')
-                    .update({ verification_status: 'pending' })
+                    .update({ 
+                        verification_status: 'pending',
+                        rejection_reason: null 
+                    })
                     .eq('id', projectId);
 
                 // --- SUCCESS STATE ---
