@@ -579,6 +579,7 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
+            white-space: nowrap;
         }
 
         .cockpit-step.active .step-number { color: #3b82f6; }
@@ -588,6 +589,9 @@
             font-size: 0.85rem;
             font-weight: 800;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .step-status-icon {
@@ -1206,7 +1210,7 @@
 
                     <div class="success-engine-container">
                         <div id="success-engine-header"></div>
-                        <div class="success-steps" style="max-width:800px; margin: 0 auto 48px;">
+                        <div class="success-steps" style="max-width:800px; margin: 0 auto 48px; display: none !important;">
                             <div class="step-item" id="step-1"><div class="step-circle">1</div><div class="step-label">Manifeste</div></div>
                             <div class="step-item" id="step-2"><div class="step-circle">2</div><div class="step-label">Boussole</div></div>
                             <div class="step-item" id="step-3"><div class="step-circle">3</div><div class="step-label">Commando</div></div>
@@ -1979,19 +1983,30 @@
                     </div>
                 `;
 
-                // --- PHASE 3 : ARSENAL (RÉCOMPENSES) ---
+                // --- PHASE 3 : ARSENAL (RECONNAISSANCE & BESOINS) ---
                 phasesHTML += `
                     <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:white;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <div>
-                                <div class="card-title">03. Arsenal de Reconnaissance</div>
-                                <p style="color:#64748b;">Transformez vos soutiens en ambassadeurs avec des récompenses exclusives.</p>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
+                            <!-- Column 1: Material Needs (User Request) -->
+                            <div style="border-right: 1px solid var(--gray-100); padding-right:32px;">
+                                <div class="card-title" style="color:#065f46; margin-bottom:12px;">Besoins en Ressources</div>
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">L'argent n'est qu'un moyen. Listez ici les talents ou le matériel dont vous avez besoin.</p>
+                                <textarea id="cockpit-needs" placeholder="Ex: Développeur React, Serveurs GPU, Local de stockage..." 
+                                          style="width:100%; height:120px; padding:16px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
+                                <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit secondary" style="width:100%;">Mettre à jour les besoins</button>
                             </div>
-                            <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981;">+ Ajouter une récompense</button>
-                        </div>
-                        
-                        <div id="dash-rewards-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
-                            <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Chargement de l'Arsenal...</p>
+
+                            <!-- Column 2: Rewards (Arsenal) -->
+                            <div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <div class="card-title" style="margin-bottom:0;">Arsenal (Récompenses)</div>
+                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981; padding:4px 12px; font-size:0.75rem;">+ Ajouter</button>
+                                </div>
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Engagez votre communauté avec des contreparties exclusives.</p>
+                                <div id="dash-rewards-list" style="display:grid; gap:12px; max-height:250px; overflow-y:auto; padding-right:8px;">
+                                    <p style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:20px;">Chargement de l'Arsenal...</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -2063,6 +2078,8 @@
 
                 // Initialize Stepper mechanics
                 updateSuccessStepper(totalScore, firstProj.id);
+                loadDashboardMilestones(firstProj.id);
+                loadDashboardRewards(firstProj.id);
                 
                 // Show initial phase based on maturity
                 let activePhase = 1;
@@ -2088,30 +2105,6 @@
                 
                 showCockpitPhase(activePhase);
             }
-
-            container.innerHTML = projects.map(p => {
-                const s = window.calculateProjectMaturity(p);
-                return `
-                    <div class="dash-card" style="margin-bottom:16px; border-left:4px solid #10b981;">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div>
-                                <h3 style="margin:0 0 4px 0; font-size:1.1rem; font-weight:700;">${p.title}</h3>
-                                <div style="font-size:0.75rem; color:var(--text-muted); display:flex; gap:12px;">
-                                    <span>${p.territory}</span>
-                                    <span>•</span>
-                                    <span>${p.status}</span>
-                                    <span>•</span>
-                                    <span style="color:#10b981; font-weight:700;">${window.getProjectStatus(s).label} (${s}%)</span>
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:8px;">
-                                <button onclick="openProjectModal('${p.id}')" class="cta-button primary" style="font-size:0.7rem; padding:6px 12px; background:#10b981; border:none;">Modifier</button>
-                                <button onclick="showView('success-engine')" class="cta-button secondary" style="font-size:0.7rem; padding:6px 12px;">Success Engine</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
         }
 
         async function updateFundingGoal(projectId) {
@@ -2239,7 +2232,13 @@
             }
         }
 
-        function openRewardModal() { document.getElementById('reward-modal').style.display = 'flex'; }
+        function openRewardModal(projectId) {
+            const modal = document.getElementById('reward-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.getElementById('reward-proj-id').value = projectId || '';
+            }
+        }
 
         async function saveReward(projectId) {
             const title = document.getElementById('reward-title').value.trim();
@@ -2273,12 +2272,37 @@
             }
         }
 
-        async function deleteReward(rewardId) {
+        async function loadDashboardRewards(projectId) {
+            const list = document.getElementById('dash-rewards-list');
+            if (!list) return;
+            try {
+                const { data: rewards, error } = await _supabase.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
+                if (error) throw error;
+                if (!rewards || rewards.length === 0) {
+                    list.innerHTML = '<p style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:20px;">Engagez votre communauté avec des contreparties exclusives.</p>';
+                    return;
+                }
+                list.innerHTML = rewards.map(r => `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:16px; border-radius:12px; display:flex; gap:12px; align-items:center;">
+                        <div style="width:40px; height:40px; border-radius:8px; background:white; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
+                            ${r.image_url ? `<img src="${r.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '🎁'}
+                        </div>
+                        <div style="flex:1;">
+                            <div style="font-size:0.85rem; font-weight:800; color:#0f172a;">${r.title}</div>
+                            <div style="font-size:0.75rem; color:#10b981; font-weight:800;">Dès ${r.amount} €</div>
+                        </div>
+                        <button onclick="deleteReward('${r.id}', '${projectId}')" style="background:none; border:none; color:#ef4444; font-size:1.2rem; cursor:pointer;">&times;</button>
+                    </div>
+                `).join('');
+            } catch (err) { console.error(err); }
+        }
+
+        async function deleteReward(rewardId, projectId) {
             if (!confirm("Supprimer cette récompense ?")) return;
             try {
                 const { error } = await _supabase.from('project_rewards').delete().eq('id', rewardId);
                 if (error) throw error;
-                window.location.reload();
+                loadDashboardRewards(projectId);
             } catch (err) { alert(err.message); }
         }
 
@@ -2300,6 +2324,20 @@
             }
         }
 
+        async function updateProjectNeeds(projectId) {
+            const needs = document.getElementById('cockpit-needs').value.trim();
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ needs })
+                    .eq('id', projectId);
+                if (error) throw error;
+                alert("✅ Besoins mis à jour !");
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
+        }
+
         async function updateUniversalReward(projectId) {
             const rewardText = document.getElementById('universal-reward-input').value.trim();
             try {
@@ -2307,6 +2345,21 @@
                 if (error) throw error;
                 alert("✅ Cadeau de base mis à jour !");
             } catch (err) { alert(err.message); }
+        }
+
+        async function updateProjectVerification(projectId) {
+            const siret = document.getElementById('input-siret').value.trim();
+            try {
+                const { error } = await _supabase.from('projects').update({ siret }).eq('id', projectId);
+                if (error) throw error;
+                alert("✅ Coordonnées enregistrées ! L'équipe Domtom Connect va procéder à la validation.");
+                // Update local status text
+                const statusText = document.getElementById('id-status-text');
+                if (statusText) {
+                    statusText.innerText = "Vérification en cours ⏳";
+                    statusText.style.color = "#f59e0b";
+                }
+            } catch (err) { alert("Erreur: " + err.message); }
         }
 
         async function loadDashboardMilestones(projectId) {
@@ -2335,7 +2388,13 @@
             } catch (err) { list.innerHTML = `<p style="color:#ef4444;">Erreur: ${err.message}</p>`; }
         }
 
-        function openMilestoneModal() { document.getElementById('milestone-modal').style.display = 'flex'; }
+        function openMilestoneModal(projectId) { 
+            const modal = document.getElementById('milestone-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.getElementById('milestone-proj-id').value = projectId || '';
+            }
+        }
 
         async function saveMilestone(projectId) {
             const threshold = document.getElementById('milestone-threshold').value;
@@ -4303,6 +4362,77 @@
 
         checkSession();
     </script>
-</body>
 
+    <!-- Reward Modal -->
+    <div class="modal-overlay" id="reward-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+        <div class="hero-modal" style="max-width:550px; background:white; padding:40px; border-radius:24px; position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Arsenal de Reconnaissance</h2>
+                <button onclick="document.getElementById('reward-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+            </div>
+            <div style="margin-bottom:24px;">
+                <div id="reward-visual-preview" style="width:100%; height:160px; border-radius:16px; background:#f8fafc; border:1px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; margin-bottom:16px; position:relative; overflow:hidden;">
+                    <div id="preview-placeholder">
+                        <span style="font-size:2rem; display:block; text-align:center;">🖼️</span>
+                        <span style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Aperçu de la récompense</span>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('reward-file-input').click()" class="btn-cockpit secondary" style="width:100%;">
+                    Choisir une image
+                </button>
+                <input type="file" id="reward-file-input" accept="image/*" style="display:none;" onchange="handleRewardImageUpload(this)">
+                <input type="hidden" id="reward-image-url">
+            </div>
+            <div style="display:grid; gap:20px;">
+                <div class="form-group">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Titre de la reconnaissance</label>
+                    <input type="text" id="reward-title" placeholder="Ex: Early Bird Access" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Description du privilège</label>
+                    <textarea id="reward-desc" placeholder="Que reçoit concrètement votre soutien ?" style="width:100%; height:80px; padding:14px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="form-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Seuil (€)</label>
+                        <input type="number" id="reward-amount" value="50" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; color:#10b981;">
+                    </div>
+                    <div class="form-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Stock (Qté)</label>
+                        <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px;">
+                    </div>
+                </div>
+                <button id="btn-save-reward" onclick="saveReward(document.getElementById('reward-proj-id').value)" class="btn-cockpit primary" style="width:100%; padding:16px; background:#10b981; border:none; color:white; font-weight:900; font-size:1rem;">CRÉER LA RÉCOMPENSE</button>
+            </div>
+        </div>
+        <input type="hidden" id="reward-proj-id">
+    </div>
+
+    <!-- Milestone Modal -->
+    <div class="modal-overlay" id="milestone-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+        <div class="hero-modal" style="max-width:500px; background:white; padding:40px; border-radius:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Nouveau Palier Épopée</h2>
+                <button onclick="document.getElementById('milestone-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+            </div>
+            <div style="display:grid; gap:20px;">
+                <div class="form-group">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Objectif de financement (€)</label>
+                    <input type="number" id="milestone-threshold" placeholder="Ex: 5000" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; color:#3b82f6;">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Nom de l'étape stratégique</label>
+                    <input type="text" id="milestone-title" placeholder="Ex: Recrutement Tech" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Description de la réussite</label>
+                    <textarea id="milestone-desc" placeholder="Que change cette réussite pour le territoire ?" style="width:100%; height:100px; padding:14px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
+                </div>
+                <button onclick="saveMilestone(document.getElementById('milestone-proj-id').value)" class="btn-cockpit primary" style="width:100%; padding:16px; background:#f59e0b; border:none; color:white; font-weight:900; font-size:1rem;">VALIDER CE PALIER</button>
+            </div>
+        </div>
+        <input type="hidden" id="milestone-proj-id">
+    </div>
+
+</body>
 </html>
