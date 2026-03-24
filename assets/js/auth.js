@@ -150,31 +150,29 @@ function calculateProjectMaturity(p) {
     let score = 0;
     const desc = p.description || "";
 
-    // Phase 1 : Stratégie (20 pts)
+    // PHASE 1 : STRATÉGIE (MANIFESTE) - 20 pts
     if (p.title && p.title.length > 5) score += 5;
-    if (desc.includes('[[VISION]]') || p.vision) score += 5;
-    if (desc.includes('[[MISSION]]') || p.mission) score += 5;
-    if (desc.includes('[[PROBLEM]]') || p.enjeu) score += 5;
+    if (p.vision && p.vision.length > 10) score += 5;
+    if (p.mission && p.mission.length > 10) score += 5;
+    if (p.enjeu && p.enjeu.length > 10) score += 5;
 
-    // Phase 2 : Finance (20 pts)
-    if (p.budget) score += 5; // Type de budget (bootstrap, seed, etc.)
-    if (p.funding_goal && p.funding_goal > 0) score += 5;
-    // On pourrait vérifier si des milestones existent (nécessite un join ou p.milestones chargé)
-    // Pour l'instant on se base sur roadmap si milestones non injectés
-    if (p.roadmap) score += 10;
-
-    // Phase 3 : Arsenal (20 pts)
+    // PHASE 2 : ARSENAL TECHNIQUE (BESOINS) - 20 pts
+    if (p.needs && p.needs.length > 10) score += 10;
     if (p.cover_url) score += 10;
-    if (p.needs && p.needs.length > 5) score += 10;
 
-    // Phase 4 : Compliance (20 pts)
+    // PHASE 3 : BOUSSOLE FINANCIÈRE (FINANCE) - 20 pts
+    if (p.funding_goal && p.funding_goal > 0) score += 5;
+    if (p.budget) score += 5; // Type de financement
+    if (p.roadmap || p.milestones_count > 0) score += 10;
+
+    // PHASE 4 : SÛRETÉ (COMPLIANCE) - 20 pts
     if (p.identity_verified) score += 10;
     if (p.siret && p.siret.length > 5) score += 5;
     if (p.social_links) score += 5;
 
-    // Phase 5 : Lancement (20 pts)
-    if (p.video_url) score += 10;
-    if (p.is_listed) score += 10;
+    // PHASE 5 : LANCEMENT (ORBITE) - 20 pts
+    if (p.video_url) score += 5;
+    if (p.is_listed) score += 15;
 
     return Math.min(100, score);
 }
