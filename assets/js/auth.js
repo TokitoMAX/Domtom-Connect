@@ -184,11 +184,11 @@ function calculateProjectMaturity(p) {
  * Adapté au Fundraising Cockpit (5 phases)
  */
 function getProjectStatus(score) {
-    if (score < 20) return { label: "Stratégie", step: 1, next: "Finance" };
-    if (score < 40) return { label: "Finance", step: 2, next: "Arsenal" };
-    if (score < 60) return { label: "Arsenal", step: 3, next: "Compliance" };
-    if (score < 80) return { label: "Compliance", step: 4, next: "Lancement" };
-    if (score < 100) return { label: "Lancement", step: 5, next: "Certification" };
+    if (score < 20) return { label: "Manifeste", step: 1, next: "Arsenal" };
+    if (score < 40) return { label: "Arsenal Technique", step: 2, next: "Boussole" };
+    if (score < 60) return { label: "Boussole Financière", step: 3, next: "Sûreté" };
+    if (score < 80) return { label: "Sûreté & Compliance", step: 4, next: "Orbite" };
+    if (score < 100) return { label: "Prêt pour Orbite", step: 5, next: "Certification" };
     return { label: "Épopée Certifiée", step: 5, next: "Déployé" };
 }
 

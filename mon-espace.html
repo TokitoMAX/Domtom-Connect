@@ -1792,11 +1792,11 @@
 
         function updateSuccessStepper(score, projectId) {
             const steps = [
-                { id: 'cockpit-step-1', threshold: 0, label: '01. Stratégie' },
-                { id: 'cockpit-step-2', threshold: 25, label: '02. Finance' },
-                { id: 'cockpit-step-3', threshold: 50, label: '03. Arsenal' },
-                { id: 'cockpit-step-4', threshold: 75, label: '04. Compliance' },
-                { id: 'cockpit-step-5', threshold: 90, label: '05. Lancement' }
+                { id: 'cockpit-step-1', threshold: 0, label: '01. Manifeste', hint: 'Toujours accessible' },
+                { id: 'cockpit-step-2', threshold: 25, label: '02. Arsenal', hint: 'Atteignez 25% de maturité' },
+                { id: 'cockpit-step-3', threshold: 50, label: '03. Boussole', hint: 'Atteignez 50% de maturité' },
+                { id: 'cockpit-step-4', threshold: 75, label: '04. Sûreté', hint: 'Atteignez 75% de maturité' },
+                { id: 'cockpit-step-5', threshold: 90, label: '05. Orbite', hint: 'Atteignez 90% de maturité' }
             ];
 
             let activeIndex = -1;
@@ -1807,6 +1807,7 @@
                 if (score >= s.threshold) {
                     el.classList.add('completed');
                     el.classList.remove('locked', 'active');
+                    el.title = "Phase complétée";
                     const icon = el.querySelector('.step-status-icon');
                     if (icon) {
                         icon.innerHTML = '✓';
@@ -1816,6 +1817,7 @@
                     activeIndex = i;
                     el.classList.add('active');
                     el.classList.remove('locked', 'completed');
+                    el.title = "Phase en cours";
                     const icon = el.querySelector('.step-status-icon');
                     if (icon) {
                         icon.innerHTML = '●';
@@ -1824,6 +1826,7 @@
                 } else {
                     el.classList.add('locked');
                     el.classList.remove('active', 'completed');
+                    el.title = `Verrouillé : ${s.hint}`;
                     const icon = el.querySelector('.step-status-icon');
                     if (icon) {
                         icon.innerHTML = '🔒';
@@ -1880,26 +1883,31 @@
                         <div class="cockpit-step" id="cockpit-step-1" onclick="showCockpitPhase(1)">
                             <span class="step-number">Phase 01</span>
                             <span class="step-label">Stratégie</span>
+                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">MANIFESTE</span>
                             <div class="step-status-icon status-locked">🔒</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
                             <span class="step-number">Phase 02</span>
-                            <span class="step-label">Finance</span>
+                            <span class="step-label">Ressources</span>
+                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">ARSENAL</span>
                             <div class="step-status-icon status-locked">🔒</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
                             <span class="step-number">Phase 03</span>
-                            <span class="step-label">Arsenal</span>
+                            <span class="step-label">Finance</span>
+                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">BOUSSOLE</span>
                             <div class="step-status-icon status-locked">🔒</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
                             <span class="step-number">Phase 04</span>
-                            <span class="step-label">Compliance</span>
+                            <span class="step-label">Certification</span>
+                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">SÛRETÉ</span>
                             <div class="step-status-icon status-locked">🔒</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-5" onclick="showCockpitPhase(5)">
                             <span class="step-number">Phase 05</span>
-                            <span class="step-label">Lancement</span>
+                            <span class="step-label">Marché</span>
+                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">ORBITE</span>
                             <div class="step-status-icon status-locked">🔒</div>
                         </div>
                     </div>
@@ -1957,53 +1965,60 @@
                     </div>
                 `;
 
-                // --- PHASE 2 : FINANCE (BOUSSOLE & OBJECTIF) ---
+                // --- PHASE 2 : ARSENAL TECHNIQUE (BESOINS) ---
                 phasesHTML += `
-                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#f59e0b; background:white;">
-                        <div class="card-title">02. Modélisation Financière</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Définissez vos objectifs collectifs (Feuille de Route) et vos paliers de financement.</p>
+                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#0284c7; background:white; position:relative;">
+                        ${totalScore < 25 ? `
+                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
+                                <div style="font-size:2.5rem; margin-bottom:16px;">🛠️</div>
+                                <h3 style="font-weight:900; margin-bottom:8px; color:#0369a1;">Arsenal Verrouillé</h3>
+                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Complétez votre Manifeste (Titre, Vision, Mission) pour atteindre <b>25% de maturité</b>.</p>
+                            </div>
+                        ` : ''}
+                        <div class="card-title">02. Arsenal Technique (BESOINS)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">L'argent n'est qu'un moyen. Listez les talents ou le matériel dont vous avez besoin pour réussir.</p>
                         
-                        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:24px;">
-                            <div style="background:#fffbeb; padding:24px; border-radius:16px; border:1px solid #fef3c7;">
-                                <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #92400e; margin-bottom: 8px; text-transform: uppercase;">Objectif de la Levée (€)</label>
-                                <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
-                                       style="width:100%; padding: 12px; border: 1.5px solid #fde68a; border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
-                                <button onclick="updateFundingGoal('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#f59e0b;">Mettre à jour</button>
-                            </div>
-                            
-                            <div style="background:#f8fafc; padding:24px; border-radius:16px; border:1px solid var(--gray-200);">
-                                <h4 style="margin:0 0 16px 0; font-size:1rem;">Boussole (Milestones)</h4>
-                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">Créez une dynamique collective. Quand un objectif est atteint, tous vos soutiens reçoivent un bonus !</p>
-                                <div id="dash-milestones-list" style="margin-bottom:16px; display:grid; gap:8px;">
-                                    <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
-                                </div>
-                                <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary">+ Ajouter un palier</button>
-                            </div>
+                        <div style="background:#f8fafc; padding:24px; border-radius:16px; border: 1px solid var(--gray-200); margin-bottom:24px;">
+                            <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Vos besoins (Équipement, Talents, Locaux...)</label>
+                            <textarea id="cockpit-needs" placeholder="Ex: Développeur React, Serveurs GPU, Local de stockage..." 
+                                      style="width:100%; height:120px; padding:16px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
+                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#0284c7;">Valider mon Arsenal</button>
                         </div>
                     </div>
                 `;
 
-                // --- PHASE 3 : ARSENAL (RECONNAISSANCE & BESOINS) ---
+                // --- PHASE 3 : BOUSSOLE FINANCIÈRE (PALIERS & RÉCOMPENSES) ---
                 phasesHTML += `
-                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:white;">
+                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:white; position:relative;">
+                        ${totalScore < 50 ? `
+                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
+                                <div style="font-size:2.5rem; margin-bottom:16px;">🧭</div>
+                                <h3 style="font-weight:900; margin-bottom:8px; color:#065f46;">Boussole Verrouillée</h3>
+                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Affinez votre Arsenal pour atteindre <b>50% de maturité</b> et débloquer l'ingénierie financière.</p>
+                            </div>
+                        ` : ''}
+                        
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
-                            <!-- Column 1: Material Needs (User Request) -->
+                            <!-- Column 1: Financial Milestones (Boussole) -->
                             <div style="border-right: 1px solid var(--gray-100); padding-right:32px;">
-                                <div class="card-title" style="color:#065f46; margin-bottom:12px;">Besoins en Ressources</div>
-                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">L'argent n'est qu'un moyen. Listez ici les talents ou le matériel dont vous avez besoin.</p>
-                                <textarea id="cockpit-needs" placeholder="Ex: Développeur React, Serveurs GPU, Local de stockage..." 
-                                          style="width:100%; height:120px; padding:16px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
-                                <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit secondary" style="width:100%;">Mettre à jour les besoins</button>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <div class="card-title" style="margin-bottom:0;">Boussole (Milestones)</div>
+                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 12px; font-size:0.75rem;">+ Ajouter</button>
+                                </div>
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Comment l'argent collecté sera investi stratégiquement.</p>
+                                <div id="dash-milestones-list" style="display:grid; gap:12px; max-height:300px; overflow-y:auto; padding-right:8px;">
+                                    <p style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:20px;">Chargement de la Boussole...</p>
+                                </div>
                             </div>
 
-                            <!-- Column 2: Rewards (Arsenal) -->
+                            <!-- Column 2: Rewards Tier -->
                             <div>
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                    <div class="card-title" style="margin-bottom:0;">Arsenal (Récompenses)</div>
+                                    <div class="card-title" style="margin-bottom:0;">Récompenses (Arsenal)</div>
                                     <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981; padding:4px 12px; font-size:0.75rem;">+ Ajouter</button>
                                 </div>
-                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Engagez votre communauté avec des contreparties exclusives.</p>
-                                <div id="dash-rewards-list" style="display:grid; gap:12px; max-height:250px; overflow-y:auto; padding-right:8px;">
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">Ce que vos soutiens gagnent en rejoignant le Commando.</p>
+                                <div id="dash-rewards-list" style="display:grid; gap:12px; max-height:300px; overflow-y:auto; padding-right:8px;">
                                     <p style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:20px;">Chargement de l'Arsenal...</p>
                                 </div>
                             </div>
@@ -2011,11 +2026,18 @@
                     </div>
                 `;
 
-                // --- PHASE 4 : COMPLIANCE (CERTIFICATION) ---
+                // --- PHASE 4 : SÛRETÉ (COMPLIANCE) ---
                 phasesHTML += `
-                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:white;">
-                        <div class="card-title">04. Certification & Identité</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité pour débloquer les fonds et rassurer les financeurs.</p>
+                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:white; position:relative;">
+                        ${totalScore < 75 ? `
+                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
+                                <div style="font-size:2.5rem; margin-bottom:16px;">🔑</div>
+                                <h3 style="font-weight:900; margin-bottom:8px; color:#1e1b4b;">Accès Sûr Verrouillé</h3>
+                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Complétez votre Manifeste, Arsenal et Boussole pour atteindre <b>75% de maturité</b>.</p>
+                            </div>
+                        ` : ''}
+                        <div class="card-title">04. Sûreté & Certification</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité pour sécuriser les fonds et rassurer les financeurs.</p>
                         
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
                             <div id="certification-status-box" style="background: #f8fafc; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200);">
@@ -2045,9 +2067,16 @@
                     </div>
                 `;
 
-                // --- PHASE 5 : LANCEMENT (DÉCOLLAGE) ---
+                // --- PHASE 5 : LANCEMENT (ORBITE) ---
                 phasesHTML += `
-                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#0f172a; background:white;">
+                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#0f172a; background:white; position:relative;">
+                        ${totalScore < 90 ? `
+                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
+                                <div style="font-size:2.5rem; margin-bottom:16px;">🚀</div>
+                                <h3 style="font-weight:900; margin-bottom:8px; color:#0f172a;">Prêt pour la Mise en Orbite ?</h3>
+                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Atteignez <b>90% de maturité</b> (Manifeste, Arsenal, Boussole et Sûreté validés) pour lancer votre épopée sur le marché.</p>
+                            </div>
+                        ` : ''}
                         <div class="card-title">05. Mise en Orbite</div>
                         <p style="color:#64748b; margin-bottom:24px;">Lancez votre campagne ou gérez votre visibilité sur la marketplace.</p>
                         
@@ -2076,11 +2105,6 @@
                 loadDashboardRewards(firstProj.id);
                 loadDashboardMilestones(firstProj.id);
 
-                // Initialize Stepper mechanics
-                updateSuccessStepper(totalScore, firstProj.id);
-                loadDashboardMilestones(firstProj.id);
-                loadDashboardRewards(firstProj.id);
-                
                 // Show initial phase based on maturity
                 let activePhase = 1;
                 if (totalScore >= 80) activePhase = 5;
