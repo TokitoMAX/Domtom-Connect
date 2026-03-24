@@ -10,9 +10,10 @@ CREATE TABLE IF NOT EXISTS public.contributions (
     status TEXT NOT NULL DEFAULT 'completed', -- 'pending', 'completed', 'failed', 'refunded'
     donor_name TEXT,
     donor_message TEXT,
+    payment_id TEXT, -- ID de transaction PayPal
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
-);
+ );
 
 -- Index pour accélérer les lookups par projet
 CREATE INDEX IF NOT EXISTS idx_contributions_project_id ON public.contributions(project_id);
