@@ -271,7 +271,7 @@
                 <button onclick="closeSupportModal()" style="background: rgba(255,255,255,0.05); border: none; color: #94a3b8; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;">✕</button>
             </div>
             
-            <p style="color: #94a3b8; margin-bottom: 32px; line-height: 1.6;">Choisissez votre niveau d'engagement pour propulser cette épopée vers ses sommets.</p>
+            <p style="color: #94a3b8; margin-bottom: 32px; line-height: 1.6;">Tout soutien, même le plus humble, scelle votre nom au <span style="color:#10b981; font-weight:800;">Mur de l'Épopée</span>. Choisissez votre niveau d'impact pour propulser cette aventure.</p>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
                 <button class="amount-btn active" onclick="selectAmount(15, this)">15 €</button>
@@ -316,7 +316,41 @@
                 }
                 renderProject(project);
                 loadProjectRewards(projectId);
+                loadProjectBackers(projectId);
             } catch (err) { console.error(err); showError(); }
+        }
+
+        async function loadProjectBackers(projectId) {
+            const list = document.getElementById('wall-of-fame');
+            const countLabel = document.getElementById('backers-count');
+            try {
+                const { data: backers, error } = await _supabase
+                    .from('contributions')
+                    .select('amount, donor_name, profiles(full_name), project_rewards(title)')
+                    .eq('project_id', projectId)
+                    .eq('status', 'completed')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                if (!backers || backers.length === 0) return;
+
+                if (countLabel) countLabel.innerText = `${backers.length} Supporter${backers.length > 1 ? 's' : ''}`;
+
+                list.innerHTML = backers.map(b => {
+                    const name = b.donor_name || b.profiles?.full_name || 'Anonyme';
+                    const rewardText = b.project_rewards?.title ? `<div style="font-size:0.55rem; color:#10b981; font-weight:900; text-transform:uppercase; margin-top:4px;">${b.project_rewards.title}</div>` : '';
+                    return `
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:16px; border-radius:16px; text-align:center;">
+                            <div style="width:40px; height:40px; background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05)); border-radius:12px; margin: 0 auto 12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:1.1rem;">
+                                ${name.slice(0, 1).toUpperCase()}
+                            </div>
+                            <div style="font-size:0.8rem; font-weight:800; color:white; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</div>
+                            <div style="font-size:0.7rem; color:#94a3b8; font-weight:700;">Garde de l'Impact</div>
+                            ${rewardText}
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) { console.error("Backers Error:", err); }
         }
 
         let currentRewards = [];
@@ -337,13 +371,25 @@
                 if (currentRewards.length > 0) {
                     list.innerHTML = currentRewards.map(r => `
                         <div class="reward-item" onclick="selectReward('${r.id}', ${r.amount})" id="reward-${r.id}" 
-                             style="cursor:pointer; padding: 16px; border: 1px solid var(--gray-200); border-radius: 12px; transition: all 0.2s; background: white;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                <span style="font-weight: 800; font-size: 0.9rem; color: #0f172a;">${r.title}</span>
-                                <span style="font-weight: 900; color: #10b981;">${r.amount} €</span>
+                             style="cursor:pointer; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: all 0.3s; background: rgba(255,255,255,0.03); overflow:hidden; position:relative;">
+                            ${r.image_url ? `
+                                <div style="height:120px; width:100%; background:url('${r.image_url}') center/cover no-repeat; border-bottom:1px solid rgba(255,255,255,0.1);"></div>
+                            ` : `
+                                <div style="height:80px; width:100%; background:linear-gradient(45deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1)); border-bottom:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.2); font-size:1.5rem;">🎁</div>
+                            `}
+                            <div style="padding:16px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-weight: 900; font-size: 1rem; color: white;">${r.title}</span>
+                                    <span style="font-weight: 950; color: #10b981; font-size:1.1rem;">${r.amount} €</span>
+                                </div>
+                                <p style="font-size: 0.75rem; color: #94a3b8; line-height: 1.5; margin: 0;">${r.description || ''}</p>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+                                    <span style="font-size: 0.65rem; color: #f59e0b; font-weight: 800; background:rgba(245,158,11,0.1); padding:4px 8px; border-radius:6px;">
+                                        ${r.stock !== null ? `Reste : ${r.stock}` : 'Illimité'}
+                                    </span>
+                                    <span style="font-size:0.6rem; color:#10b981; font-weight:900; text-transform:uppercase; letter-spacing:0.05em;">Choisir →</span>
+                                </div>
                             </div>
-                            <p style="font-size: 0.75rem; color: #64748b; line-height: 1.4; margin: 0;">${r.description || ''}</p>
-                            ${r.stock !== null ? `<div style="font-size: 0.65rem; color: #f59e0b; font-weight: 700; margin-top: 8px;">Reste : ${r.stock}</div>` : ''}
                         </div>
                     `).join('');
                 }
@@ -352,7 +398,14 @@
             }
         }
 
-        function selectReward(id, amt) {
+        async function selectReward(id, amt) {
+            // Empêcher l'auto-contribution
+            const session = await getSession();
+            if (session && session.user.id === currentProject.owner_id) {
+                alert("🔒 Action impossible : Vous ne pouvez pas contribuer à votre propre épopée.");
+                return;
+            }
+
             selectedRewardId = id;
             selectedContributionAmount = parseFloat(amt);
             
@@ -434,6 +487,20 @@
                                         }
                                         return `<p class="manifesto-text">${desc}</p>`;
                                     })()}
+                                </div>
+                            </div>
+
+                            <!-- MUR DE L'ÉPOPÉE -->
+                            <div class="glass-card">
+                                <div class="section-header" style="justify-content:space-between;">
+                                    <div style="display:flex; align-items:center; gap:12px;">
+                                        <div class="section-dot" style="background:#3b82f6; box-shadow:0 0 12px #3b82f6;"></div>
+                                        <span class="section-title">Le Mur de l'Épopée</span>
+                                    </div>
+                                    <div id="backers-count" style="font-size:0.7rem; font-weight:900; color:#10b981; background:rgba(16,185,129,0.1); padding:4px 10px; border-radius:100px;">0 Supporter(s)</div>
+                                </div>
+                                <div id="wall-of-fame" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:16px;">
+                                    <p style="grid-column: 1 / -1; color:#64748b; font-size:0.85rem; font-style:italic; text-align:center;">L'épopée attend son premier gardien...</p>
                                 </div>
                             </div>
                         </div>

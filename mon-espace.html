@@ -1982,6 +1982,10 @@
                                             <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
                                         </div>
                                     </div>
+                                    <div id="reward-visual-preview" style="height:100px; width:100%; border-radius:12px; background:#f1f5f9; border:1px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:0.75rem;">Aperçu du visuel</div>
+                                    <input type="text" id="reward-image-url" placeholder="Lien de l'image (URL)" oninput="document.getElementById('reward-visual-preview').style.background='url('+this.value+') center/cover no-repeat'; document.getElementById('reward-visual-preview').innerText='';"
+                                           style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-size:0.85rem;">
+                                    
                                     <button onclick="saveReward('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px; font-weight:800; margin-top:12px;">Créer la récompense</button>
                                 </div>
                             </div>
@@ -2079,7 +2083,7 @@
             try {
                 const { data: supporters, error } = await _supabase
                     .from('contributions')
-                    .select('*')
+                    .select('*, project_rewards(title)')
                     .eq('project_id', projectId)
                     .eq('status', 'completed')
                     .order('created_at', { ascending: false });
@@ -2091,15 +2095,21 @@
                     return;
                 }
 
-                list.innerHTML = supporters.map(s => `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px; border-bottom: 1px solid var(--gray-100);">
-                        <div>
-                            <div style="font-weight: 800; font-size: 0.9rem;">${s.donor_name || 'Anonyme'}</div>
-                            <div style="font-size: 0.7rem; color: #94a3b8;">${new Date(s.created_at).toLocaleDateString('fr-FR')}</div>
+                list.innerHTML = supporters.map(s => {
+                    const rewardTag = s.project_rewards ? `<div style="font-size:0.6rem; color:#10b981; font-weight:900; background:rgba(16,185,129,0.05); padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px;">${s.project_rewards.title}</div>` : `<div style="font-size:0.6rem; color:#64748b; font-weight:700; background:#f1f5f9; padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px;">Don Pur</div>`;
+                    return `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px; border-bottom: 1px solid var(--gray-100);">
+                            <div>
+                                <div style="font-weight: 800; font-size: 0.9rem;">${s.donor_name || 'Anonyme'}</div>
+                                ${rewardTag}
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight: 900; color: #10b981;">+${s.amount} €</div>
+                                <div style="font-size: 0.65rem; color: #94a3b8;">${new Date(s.created_at).toLocaleDateString('fr-FR')}</div>
+                            </div>
                         </div>
-                        <div style="font-weight: 900; color: #10b981;">+${s.amount} €</div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
 
             } catch (err) {
                 list.innerHTML = `<p style="color: #ef4444; font-size: 0.8rem;">Erreur chargement: ${err.message}</p>`;
@@ -2126,15 +2136,20 @@
                 }
 
                 list.innerHTML = rewards.map(r => `
-                    <div style="background:white; border:1px solid var(--gray-200); padding:20px; border-radius:12px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span style="font-weight:800; color:#0f172a;">${r.title}</span>
-                            <span style="font-weight:900; color:#10b981;">${r.amount} €</span>
-                        </div>
-                        <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">${r.description || ''}</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:0.7rem; color:#94a3b8;">Stock : ${r.stock === null ? 'Illimité' : r.stock}</span>
-                            <button onclick="deleteReward('${r.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; cursor:pointer; font-weight:700;">Supprimer</button>
+                    <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; overflow:hidden;">
+                        ${r.image_url ? `
+                            <div style="height:100px; width:100%; background:url('${r.image_url}') center/cover no-repeat; border-bottom:1px solid var(--gray-100);"></div>
+                        ` : ''}
+                        <div style="padding:20px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-weight:800; color:#0f172a;">${r.title}</span>
+                                <span style="font-weight:900; color:#10b981;">${r.amount} €</span>
+                            </div>
+                            <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">${r.description || ''}</p>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.7rem; color:#94a3b8;">Stock : ${r.stock === null ? 'Illimité' : r.stock}</span>
+                                <button onclick="deleteReward('${r.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; cursor:pointer; font-weight:700;">Supprimer</button>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -2150,6 +2165,7 @@
             const desc = document.getElementById('reward-desc').value.trim();
             const amt = document.getElementById('reward-amount').value;
             const stock = document.getElementById('reward-stock').value;
+            const imgUrl = document.getElementById('reward-image-url').value.trim();
 
             if (!title || !amt || amt <= 0) {
                 alert("Veuillez remplir au moins le titre et le montant.");
@@ -2164,7 +2180,8 @@
                         title,
                         description: desc,
                         amount: parseFloat(amt),
-                        stock: stock ? parseInt(stock) : null
+                        stock: stock ? parseInt(stock) : null,
+                        image_url: imgUrl || null
                     }]);
 
                 if (error) throw error;
