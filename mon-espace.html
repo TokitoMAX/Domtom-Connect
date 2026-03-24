@@ -1887,13 +1887,22 @@
                             </div>
 
                             <div class="dash-card" style="padding: 32px; border-left: 4px solid ${firstProj.identity_verified ? '#10b981' : '#f59e0b'};">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🛡️ Vérification</div>
-                                <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Numéro SIRET</label>
-                                <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="123 456 789 00012"
-                                       style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
-                                <button onclick="updateProjectVerification('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Enregistrer SIRET</button>
-                                <div style="margin-top:12px; font-size:0.7rem; color:${firstProj.identity_verified ? '#10b981' : '#94a3b8'}; font-weight:700;">
-                                    ${firstProj.identity_verified ? '✓ Identité Vérifiée' : '⚠ Identité non vérifiée'}
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🛡️ Confiance & Vérification</div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Structure (Optionnel)</label>
+                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Numéro SIRET (si pro)"
+                                           style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
+                                    <button onclick="updateProjectVerification('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Enregistrer Structure</button>
+                                </div>
+
+                                <div style="padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--gray-200);">
+                                    <div style="font-size: 0.75rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">Vérification d'Identité</div>
+                                    <p style="font-size: 0.7rem; color: #64748b; margin-bottom: 12px;">Obligatoire pour activer les paiements si vous n'avez pas de SIRET.</p>
+                                    <div style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : '#f59e0b'}; font-weight:800;">
+                                        ${firstProj.identity_verified ? '✓ Identité Validée' : '⚠ En attente de justificatif'}
+                                    </div>
+                                    ${!firstProj.identity_verified ? `<button onclick="alert('Fonctionnalité d\\'envoi de pièce d\\'identité bientôt disponible. Contactez le support pour valider manuellement.')" style="margin-top:12px; width:100%; background:white; border:1px solid var(--gray-200); padding:8px; border-radius:8px; font-size:0.7rem; font-weight:700; cursor:pointer;">Envoyer ma pièce d'identité</button>` : ''}
                                 </div>
                             </div>
 
