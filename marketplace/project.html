@@ -376,7 +376,8 @@
             const totalRaised = project.total_raised || 0;
             const fundingGoal = project.funding_goal || 1000;
             const progressPercent = Math.min(100, Math.round((totalRaised / fundingGoal) * 100));
-            const canFund = project.identity_verified || project.siret;
+            // Déblocage si : Identité vérifiée OU SIRET renseigné (et non vide)
+            const canFund = (project.identity_verified === true) || (project.siret && project.siret.trim() !== "");
 
             const coverHtml = project.cover_url ? `<div class="hero-cover" style="background-image: url('${project.cover_url}');"></div>` : '';
             const cleanDescription = (project.description || "").replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim();
