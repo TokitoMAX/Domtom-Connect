@@ -1845,19 +1845,41 @@
                 const pData = projects && projects.length > 0 ? projects[0] : null;
 
                 engineStepContainer.innerHTML = `
-                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 48px;">
-                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px;">
-                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Adventure</span>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom: 24px;">
+                            <div class="maturity-bar-container" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px; background: rgba(16,185,129,0.05); border-radius: 24px; border: 1px solid rgba(16,185,129,0.1);">
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:12px;">Maturité de votre Aventure</span>
                                 <div style="display:flex; align-items:baseline; gap:8px;">
-                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">${totalScore}%</span>
+                                    <span class="maturity-score-display" id="maturity-score" style="font-size:4rem; font-weight:900; color: #10b981;">${totalScore}%</span>
                                     <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
                                 </div>
-                                <div style="margin-top:20px; padding:12px 24px; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.1); border-radius:12px;">
+                                <div style="margin-top:20px; width: 100%; padding:16px; background:white; border-radius:16px; border: 1px solid var(--gray-200);">
                                     <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; margin-bottom:4px;">Cagnotte Récoltée</div>
-                                    <div style="font-size:1.5rem; font-weight:900; color:#10b981;">${firstProj.total_raised || 0} €</div>
+                                    <div style="font-size:1.8rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')} €</div>
+                                    <div style="font-size:0.8rem; color: #64748b; margin-top: 4px;">sur un objectif de ${ (firstProj.funding_goal || 1000).toLocaleString('fr-FR') } €</div>
                                 </div>
                             </div>
                             ${nextStepHTML}
+                        </div>
+
+                        <!-- GESTION DE LA CAGNOTTE (NEW) -->
+                        <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
+                            <div class="dash-card" style="padding: 32px;">
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🎯 Paramétrage Objectif</div>
+                                <label style="display:block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif de Financement (€)</label>
+                                <div style="display:flex; gap: 8px;">
+                                    <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
+                                           style="flex:1; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none;">
+                                    <button onclick="updateFundingGoal('${firstProj.id}')" class="cta-button primary" style="background: #0f172a; padding: 12px 20px; font-size: 0.8rem;">Mettre à jour</button>
+                                </div>
+                                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 12px; line-height: 1.5;">L'objectif définit le 100% de votre barre de progression publique sur la Marketplace.</p>
+                            </div>
+
+                            <div class="dash-card" style="padding: 32px;">
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🤝 Vos Supporters</div>
+                                <div id="supporters-list" style="max-height: 200px; overflow-y: auto;">
+                                    <p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Chargement des supporters...</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT (SoloPrice Only) -->
@@ -1896,6 +1918,61 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        async function updateFundingGoal(projectId) {
+            const newGoal = document.getElementById('input-funding-goal').value;
+            if (!newGoal || newGoal <= 0) {
+                alert("Veuillez entrer un objectif valide.");
+                return;
+            }
+
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ funding_goal: parseFloat(newGoal) })
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                alert("✅ Objectif mis à jour !");
+                window.location.reload();
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
+        }
+
+        async function loadProjectSupporters(projectId) {
+            const list = document.getElementById('supporters-list');
+            if (!list) return;
+
+            try {
+                const { data: supporters, error } = await _supabase
+                    .from('contributions')
+                    .select('*')
+                    .eq('project_id', projectId)
+                    .eq('status', 'completed')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!supporters || supporters.length === 0) {
+                    list.innerHTML = '<p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Aucun supporter pour le moment. L\'aventure commence !</p>';
+                    return;
+                }
+
+                list.innerHTML = supporters.map(s => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px; border-bottom: 1px solid var(--gray-100);">
+                        <div>
+                            <div style="font-weight: 800; font-size: 0.9rem;">${s.donor_name || 'Anonyme'}</div>
+                            <div style="font-size: 0.7rem; color: #94a3b8;">${new Date(s.created_at).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        <div style="font-weight: 900; color: #10b981;">+${s.amount} €</div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                list.innerHTML = `<p style="color: #ef4444; font-size: 0.8rem;">Erreur chargement: ${err.message}</p>`;
+            }
         }
 
         async function checkSession() {
