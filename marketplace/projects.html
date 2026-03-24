@@ -300,6 +300,7 @@
                     .from('projects')
                     .select('*')
                     .eq('is_listed', true)
+                    .eq('is_approved', true) // Uniquement les projets validés par Domtom Connect
                     .order('created_at', { ascending: false });
 
                 if (territoryFilter) query = query.eq('territory', territoryFilter);

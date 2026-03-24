@@ -1831,7 +1831,18 @@
                         `;
                 } else {
                     const isListed = firstProj.is_listed;
-                    nextStepHTML = `
+                    const isApproved = firstProj.is_approved;
+
+                    if (isListed && !isApproved) {
+                        nextStepHTML = `
+                            <div class="dash-card highlight" style="border-color: #f59e0b; padding: 40px; text-align:center; background: rgba(245, 158, 11, 0.05);">
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center; color: #d97706;">⌛ Modération en cours</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0; color: #92400e;">Votre épopée est en cours d'examen par nos équipes. Elle sera visible sur la Marketplace dès validation de votre SIRET et de l'identité.</p>
+                                <div style="display:inline-block; padding:8px 20px; background:#fef3c7; border: 1px solid #fcd34d; border-radius:100px; color:#92400e; font-weight:800; font-size:0.8rem;">Statut : En attente</div>
+                            </div>
+                        `;
+                    } else {
+                        nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
                                 <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isListed ? "Campagne Active" : "L'Impulsion Finale"}</div>
                                 <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isListed ? "Votre projet récolte des soutiens sur la Marketplace. Partagez votre fiche !" : "Votre projet est mature. Publiez-le pour activer le Soutien Participatif."}</p>
@@ -1840,6 +1851,7 @@
                                 </button>
                             </div>
                         `;
+                    }
                 }
 
                 const pData = projects && projects.length > 0 ? projects[0] : null;
@@ -1864,17 +1876,25 @@
                             ${nextStepHTML}
                         </div>
 
-                        <!-- GESTION DE LA CAGNOTTE (RESTAURÉ) -->
-                        <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
+                        <!-- GESTION DE LA CAGNOTTE & VÉRIFICATION -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
                             <div class="dash-card" style="padding: 32px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🎯 Paramétrage Objectif</div>
-                                <label style="display:block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif de Financement (€)</label>
-                                <div style="display:flex; gap: 8px;">
-                                    <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
-                                           style="flex:1; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none;">
-                                    <button onclick="updateFundingGoal('${firstProj.id}')" class="cta-button primary" style="background: #0f172a; padding: 12px 20px; font-size: 0.8rem;">Mettre à jour</button>
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🎯 Paramétrage</div>
+                                <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif (€)</label>
+                                <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
+                                       style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
+                                <button onclick="updateFundingGoal('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Mettre à jour</button>
+                            </div>
+
+                            <div class="dash-card" style="padding: 32px; border-left: 4px solid ${firstProj.identity_verified ? '#10b981' : '#f59e0b'};">
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🛡️ Vérification</div>
+                                <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Numéro SIRET</label>
+                                <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="123 456 789 00012"
+                                       style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
+                                <button onclick="updateProjectVerification('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Enregistrer SIRET</button>
+                                <div style="margin-top:12px; font-size:0.7rem; color:${firstProj.identity_verified ? '#10b981' : '#94a3b8'}; font-weight:700;">
+                                    ${firstProj.identity_verified ? '✓ Identité Vérifiée' : '⚠ Identité non vérifiée'}
                                 </div>
-                                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 12px; line-height: 1.5;">L'objectif définit le 100% de votre barre de progression publique sur la Marketplace.</p>
                             </div>
 
                             <div class="dash-card" style="padding: 32px;">
@@ -1885,6 +1905,40 @@
                             </div>
                         </div>
                         
+                        <!-- GESTION DES RÉCOMPENSES (CONTREPARTIES) -->
+                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #10b981;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
+                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0;">🎁 Vos Récompenses (Contreparties)</div>
+                                <button onclick="openRewardModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; font-size:0.75rem; padding:8px 16px;">+ Ajouter une récompense</button>
+                            </div>
+                            <div id="dash-rewards-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+                                <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Chargement des récompenses...</p>
+                            </div>
+                        </div>
+
+                        <!-- MODAL : AJOUTER RÉCOMPENSE -->
+                        <div id="reward-modal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center;">
+                            <div style="background:white; padding:32px; border-radius:24px; width:100%; max-width:500px; position:relative;">
+                                <button onclick="document.getElementById('reward-modal').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                                <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:24px;">Nouvelle Récompense</h3>
+                                <div style="display:flex; flex-direction:column; gap:16px;">
+                                    <input type="text" id="reward-title" placeholder="Nom (ex: Pack Bronze)" style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
+                                    <textarea id="reward-desc" placeholder="Description de la contrepartie..." style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; height:100px; font-family:inherit;"></textarea>
+                                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                                        <div>
+                                            <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Montant (€)</label>
+                                            <input type="number" id="reward-amount" placeholder="20" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
+                                        </div>
+                                        <div>
+                                            <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Stock (Optionnel)</label>
+                                            <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
+                                        </div>
+                                    </div>
+                                    <button onclick="saveReward('${firstProj.id}')" class="cta-button primary" style="background:#10b981; border:none; padding:16px; font-weight:800; margin-top:12px;">Créer la récompense</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT (SoloPrice Only) -->
                         <div id="porteur-resources-grid" style="margin-top: 32px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
                             <div class="dash-card highlight" style="border: 1px solid #0284c7; background: rgba(2,132,199,0.02); display: flex; align-items: center; justify-content: space-between; padding: 32px;">
@@ -1899,6 +1953,7 @@
                 
                 // Load Supporters
                 loadProjectSupporters(firstProj.id);
+                loadDashboardRewards(firstProj.id);
             }
 
             container.innerHTML = projects.map(p => {
@@ -1947,7 +2002,29 @@
             }
         }
 
+        async function updateProjectVerification(projectId) {
+            const siret = document.getElementById('input-siret').value.trim();
+            if (!siret || siret.length < 9) {
+                alert("Veuillez entrer un numéro SIRET valide.");
+                return;
+            }
+
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ siret: siret })
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                alert("✅ Informations de vérification enregistrées. Nos équipes vont examiner votre dossier.");
+                window.location.reload();
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
+        }
+
         async function loadProjectSupporters(projectId) {
+            // ... (existing code handles list population)
             const list = document.getElementById('supporters-list');
             if (!list) return;
 
@@ -1979,6 +2056,84 @@
             } catch (err) {
                 list.innerHTML = `<p style="color: #ef4444; font-size: 0.8rem;">Erreur chargement: ${err.message}</p>`;
             }
+        }
+
+        async function loadDashboardRewards(projectId) {
+            // ... (rest of function as defined before)
+            const list = document.getElementById('dash-rewards-list');
+            if (!list) return;
+
+            try {
+                const { data: rewards, error } = await _supabase
+                    .from('project_rewards')
+                    .select('*')
+                    .eq('project_id', projectId)
+                    .order('amount', { ascending: true });
+
+                if (error) throw error;
+
+                if (!rewards || rewards.length === 0) {
+                    list.innerHTML = '<p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center; padding: 32px; background:#f8fafc; border-radius:12px; border:1px dashed #e2e8f0;">Créez votre première récompense pour booster vos collectes !</p>';
+                    return;
+                }
+
+                list.innerHTML = rewards.map(r => `
+                    <div style="background:white; border:1px solid var(--gray-200); padding:20px; border-radius:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-weight:800; color:#0f172a;">${r.title}</span>
+                            <span style="font-weight:900; color:#10b981;">${r.amount} €</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">${r.description || ''}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:0.7rem; color:#94a3b8;">Stock : ${r.stock === null ? 'Illimité' : r.stock}</span>
+                            <button onclick="deleteReward('${r.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; cursor:pointer; font-weight:700;">Supprimer</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                list.innerHTML = `<p style="color:#ef4444; font-size:0.8rem;">Erreur: ${err.message}</p>`;
+            }
+        }
+
+        function openRewardModal() { document.getElementById('reward-modal').style.display = 'flex'; }
+
+        async function saveReward(projectId) {
+            const title = document.getElementById('reward-title').value.trim();
+            const desc = document.getElementById('reward-desc').value.trim();
+            const amt = document.getElementById('reward-amount').value;
+            const stock = document.getElementById('reward-stock').value;
+
+            if (!title || !amt || amt <= 0) {
+                alert("Veuillez remplir au moins le titre et le montant.");
+                return;
+            }
+
+            try {
+                const { error } = await _supabase
+                    .from('project_rewards')
+                    .insert([{
+                        project_id: projectId,
+                        title,
+                        description: desc,
+                        amount: parseFloat(amt),
+                        stock: stock ? parseInt(stock) : null
+                    }]);
+
+                if (error) throw error;
+                document.getElementById('reward-modal').style.display = 'none';
+                loadDashboardRewards(projectId);
+            } catch (err) {
+                alert("Erreur: " + err.message);
+            }
+        }
+
+        async function deleteReward(rewardId) {
+            if (!confirm("Supprimer cette récompense ?")) return;
+            try {
+                const { error } = await _supabase.from('project_rewards').delete().eq('id', rewardId);
+                if (error) throw error;
+                window.location.reload();
+            } catch (err) { alert(err.message); }
         }
 
         async function checkSession() {
