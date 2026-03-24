@@ -374,9 +374,9 @@
                     ${coverHtml}
                     <div class="container hero-content">
                         <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center;">
-                            <div class="badge-loc">📍 ${project.territory}</div>
-                            ${project.siret ? '<div class="badge-loc" style="background:#0f172a; color:#10b981; border-color:#10b981;">✓ Structure Pro</div>' : ''}
-                            ${project.identity_verified ? '<div class="badge-loc" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;">✓ Identité Vérifiée</div>' : ''}
+                            <div class="badge-loc">${project.territory}</div>
+                            ${project.siret ? '<div class="badge-loc" style="background:#0f172a; color:#10b981; border-color:#10b981;">Structure Pro</div>' : ''}
+                            ${project.identity_verified ? '<div class="badge-loc" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;">Identité Vérifiée</div>' : ''}
                         </div>
                         <h1 class="project-title">${project.title}</h1>
                         <p class="project-pitch">${cleanDescription}</p>
@@ -425,8 +425,8 @@
                         <div>
                             <div class="sidebar-card">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                    <span style="font-weight: 800; color: #10b981; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Cagnotte Récoltée</span>
-                                    <div class="maturity-badge">${maturityScore}% <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-left: 4px;">Score</span></div>
+                                    <span style="font-weight: 800; color: #10b981; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Cagnotte</span>
+                                    <div class="maturity-badge">${maturityScore}% <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-left: 4px;">Maturité</span></div>
                                 </div>
                                 
                                 <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
@@ -455,8 +455,7 @@
                                     </button>
                                 ` : `
                                     <div style="background: #f8fafc; border: 1px dashed #e2e8f0; padding: 20px; border-radius: 16px; text-align: center;">
-                                        <div style="font-size: 1.2rem; margin-bottom: 8px;">🌱</div>
-                                        <p style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin: 0;">Collecte de dons bientôt disponible pour cette épopée.</p>
+                                        <p style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin: 0;">Collecte de dons bientôt disponible.</p>
                                     </div>
                                 `}
                                 
