@@ -15,6 +15,11 @@ CREATE TABLE IF NOT EXISTS public.contributions (
     updated_at TIMESTAMPTZ DEFAULT now()
  );
 
+-- Sécurité : Ajout des colonnes si la table existe déjà sans elles
+ALTER TABLE public.contributions ADD COLUMN IF NOT EXISTS donor_name TEXT;
+ALTER TABLE public.contributions ADD COLUMN IF NOT EXISTS donor_message TEXT;
+ALTER TABLE public.contributions ADD COLUMN IF NOT EXISTS payment_id TEXT;
+
 -- Index pour accélérer les lookups par projet
 CREATE INDEX IF NOT EXISTS idx_contributions_project_id ON public.contributions(project_id);
 
