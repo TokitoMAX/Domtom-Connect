@@ -1721,54 +1721,6 @@
         }
 
 
-        function updateSuccessStepper(score, projectId = null) {
-            const steps = [
-                { id: '1', threshold: 25, title: 'Manifeste' },
-                { id: '2', threshold: 50, title: 'Boussole' },
-                { id: '3', threshold: 75, title: 'Commando' },
-                { id: '4', threshold: 100, title: 'Impulsion' }
-            ];
-
-            steps.forEach((step, index) => {
-                const el = document.getElementById(`step-${step.id}`);
-                if (!el) return;
-
-                el.classList.remove('active', 'completed');
-                el.style.cursor = 'pointer';
-
-                // Add click handler
-                el.onclick = () => {
-                    if (step.id === '1') openProjectModal(projectId);
-                    else if (step.id === '2') {
-                        if (score >= 25) openRoadmapModal(projectId);
-                        else {
-                            alert("Veuillez d'abord compléter votre Manifeste (Étape 1).");
-                            openProjectModal(projectId);
-                        }
-                    } else if (step.id === '3') {
-                        if (score >= 50) openArsenalModal(projectId);
-                        else {
-                            alert("Veuillez d'abord tracer votre Boussole (Étape 2).");
-                            openRoadmapModal(projectId);
-                        }
-                    } else if (step.id === '4') {
-                        if (score >= 75) openImpulsionModal(projectId);
-                        else {
-                            alert("Veuillez d'abord préparer votre Arsenal (Étape 3).");
-                            openArsenalModal(projectId);
-                        }
-                    }
-                };
-
-                if (score >= step.threshold) {
-                    el.classList.add('completed');
-                } else if (index === 0 && score < 25) {
-                    el.classList.add('active');
-                } else if (index > 0 && score >= steps[index - 1].threshold && score < step.threshold) {
-                    el.classList.add('active');
-                }
-            });
-        }
 
         async function handleSubscriptionSuccess(subId, tier) {
             const { error } = await _supabase
@@ -1899,13 +1851,19 @@
                         <div style="font-size:3rem; margin-bottom:16px;">🌟</div>
                         <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px;">Prêt pour votre première Épopée ?</h3>
                         <p style="color:var(--text-secondary); margin-bottom:24px; max-width:300px; margin-left:auto; margin-right:auto;">Structurez votre projet pas à pas et débloquez les meilleurs talents des Antilles.</p>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none;">Lancer mon Man            // Update Success Engine UI (Now "Fundraising Cockpit")
+                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none;">Lancer mon Manifeste</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Update Success Engine UI (Now "Fundraising Cockpit")
             if (projects.length > 0) {
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
-
                 const headerContainer = document.getElementById('success-engine-header');
                 const engineStepContainer = document.getElementById('success-engine-step');
+                const isListed = firstProj.is_listed;
 
                 // Render Cockpit Foundation
                 headerContainer.innerHTML = `
@@ -1961,82 +1919,157 @@
                     </div>
                 `;
 
-                // Render Phase-Specific Action Cards
+                // Render Phase-Specific Content
                 let phasesHTML = "";
                 
-                // Phase 1 : Stratégie (Manifeste)
+                // --- PHASE 1 : STRATÉGIE (MANIFESTE) ---
                 phasesHTML += `
-                    <div id="phase-card-1" class="cockpit-section dash-card highlight" style="border-color:#3b82f6; background:rgba(59,130,246,0.02);">
+                    <div id="phase-card-1" class="cockpit-section dash-card highlight" style="border-color:#3b82f6; background:white;">
                         <div class="card-title">01. Stratégie & Ambition</div>
                         <p style="color:#64748b; margin-bottom:24px;">Votre "Pourquoi" est le socle de votre épopée. Un manifeste clair attire les meilleurs experts.</p>
-                        <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-200); margin-bottom:24px;">
-                            <p style="font-size:0.85rem; color:#0f172a; font-weight:700; margin-bottom:4px;">Statut du Manifeste</p>
-                            <p style="font-size:0.75rem; color:#10b981; font-weight:700;">${totalScore >= 20 ? "✓ Audité et complet" : "⚠ Action requise : Complétez votre vision"}</p>
-                        </div>
-                        <div class="action-button-group">
-                            <button onclick="openProjectModal('${firstProj.id}')" class="btn-cockpit primary">Optimiser le Manifeste</button>
-                            <a href="/marketplace/project?id=${firstProj.id}" target="_blank" class="btn-cockpit secondary">Aperçu Public</a>
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+                            <div style="display:flex; flex-direction:column; gap:16px;">
+                                <div class="form-group">
+                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Vision</label>
+                                    <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.vision || ''}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Mission</label>
+                                    <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.mission || ''}</textarea>
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:16px;">
+                                <div class="form-group">
+                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">L'Enjeu</label>
+                                    <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial aujourd'hui ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.enjeu || ''}</textarea>
+                                </div>
+                                <div style="height:100%; display:flex; gap:12px; align-items:flex-end;">
+                                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="flex:1;">Enregistrer</button>
+                                    <a href="/marketplace/project?id=${firstProj.id}" target="_blank" class="btn-cockpit secondary">Aperçu Public</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                // Phase 2 : Finance (Boussole/Roadmap)
+                // --- PHASE 2 : FINANCE (BOUSSOLE & OBJECTIF) ---
                 phasesHTML += `
-                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#f59e0b; background:rgba(245,158,11,0.02);">
+                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#f59e0b; background:white;">
                         <div class="card-title">02. Modélisation Financière</div>
                         <p style="color:#64748b; margin-bottom:24px;">Définissez vos objectifs collectifs (Feuille de Route) et vos paliers de financement.</p>
-                        <div class="action-button-group">
-                            <button onclick="openRoadmapModal('${firstProj.id}')" class="btn-cockpit primary">Éditer ma Boussole</button>
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:24px;">
+                            <div style="background:#fffbeb; padding:24px; border-radius:16px; border:1px solid #fef3c7;">
+                                <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #92400e; margin-bottom: 8px; text-transform: uppercase;">Objectif de la Levée (€)</label>
+                                <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
+                                       style="width:100%; padding: 12px; border: 1.5px solid #fde68a; border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
+                                <button onclick="updateFundingGoal('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#f59e0b;">Mettre à jour</button>
+                            </div>
+                            
+                            <div style="background:#f8fafc; padding:24px; border-radius:16px; border:1px solid var(--gray-200);">
+                                <h4 style="margin:0 0 16px 0; font-size:1rem;">Boussole (Milestones)</h4>
+                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">Créez une dynamique collective. Quand un objectif est atteint, tous vos soutiens reçoivent un bonus !</p>
+                                <div id="dash-milestones-list" style="margin-bottom:16px; display:grid; gap:8px;">
+                                    <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
+                                </div>
+                                <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary">+ Ajouter un palier</button>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                // Phase 3 : Arsenal (Récompenses)
+                // --- PHASE 3 : ARSENAL (RÉCOMPENSES) ---
                 phasesHTML += `
-                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:rgba(16,185,129,0.02);">
-                        <div class="card-title">03. Arsenal de Reconnaissance</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Transformez vos soutiens en ambassadeurs avec des récompenses exclusives.</p>
-                        <div class="action-button-group">
-                            <button onclick="openArsenalModal('${firstProj.id}')" class="btn-cockpit primary">Gérer mes Récompenses</button>
+                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:white;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                            <div>
+                                <div class="card-title">03. Arsenal de Reconnaissance</div>
+                                <p style="color:#64748b;">Transformez vos soutiens en ambassadeurs avec des récompenses exclusives.</p>
+                            </div>
+                            <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981;">+ Ajouter une récompense</button>
+                        </div>
+                        
+                        <div id="dash-rewards-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+                            <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Chargement de l'Arsenal...</p>
                         </div>
                     </div>
                 `;
 
-                // Phase 4 : Compliance
+                // --- PHASE 4 : COMPLIANCE (CERTIFICATION) ---
                 phasesHTML += `
-                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:rgba(99,102,241,0.02);">
+                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:white;">
                         <div class="card-title">04. Certification & Identité</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité et vos documents légaux pour débloquer les virements bancaires.</p>
-                        <div class="action-button-group">
-                            <button onclick="openImpulsionModal('${firstProj.id}')" class="btn-cockpit primary">Passer la Certification</button>
+                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité pour débloquer les fonds et rassurer les financeurs.</p>
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+                            <div id="certification-status-box" style="background: #f8fafc; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200);">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <div style="font-size: 1rem; font-weight: 800; color: #0f172a;">Pièce d'identité</div>
+                                        <div id="id-status-text" style="font-size:0.8rem; color:${firstProj.identity_verified ? '#10b981' : '#f59e0b'}; font-weight:800; margin-top:4px;">
+                                            ${firstProj.identity_verified ? 'Certifié ✅' : (firstProj.verification_status === 'pending' ? 'Vérification en cours ⏳' : 'Action requise')}
+                                        </div>
+                                    </div>
+                                    ${(!firstProj.identity_verified && firstProj.verification_status !== 'pending') ? `
+                                        <button onclick="document.getElementById('id-upload-input').click()" class="btn-cockpit primary" style="background:#0f172a;">DÉPOSER</button>
+                                    ` : ''}
+                                </div>
+                                <input type="file" id="id-upload-input" accept="image/*,application/pdf" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
+                            </div>
+                            
+                            <div style="background:#f8fafc; padding:24px; border-radius:16px; border: 1px solid var(--gray-200);">
+                                <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Structure légale (SIRET)</label>
+                                <div style="display:flex; gap:8px;">
+                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Optionnel"
+                                           style="flex:1; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-size: 0.9rem; outline: none; font-weight:700;">
+                                    <button onclick="updateProjectVerification('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                // Phase 5 : Lancement
-                const isListed = firstProj.is_listed;
+                // --- PHASE 5 : LANCEMENT (DÉCOLLAGE) ---
                 phasesHTML += `
-                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#0f172a; background:rgba(15,23,42,0.02);">
+                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#0f172a; background:white;">
                         <div class="card-title">05. Mise en Orbite</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Votre épopée est certifiée. Lancez votre campagne ou gérez votre visibilité sur la marketplace.</p>
-                        <div class="action-button-group">
-                            <button onclick="unlistProject('${firstProj.id}', ${isListed})" class="btn-cockpit primary">${isListed ? 'Retirer de la Marketplace' : 'Décoller / Publier'}</button>
-                            <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer définitivement</button>
+                        <p style="color:#64748b; margin-bottom:24px;">Lancez votre campagne ou gérez votre visibilité sur la marketplace.</p>
+                        
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
+                            <div style="background:#f8fafc; padding:24px; border-radius:16px; border:1px solid var(--gray-200);">
+                                <h4 style="margin:0 0 16px 0; font-size:1rem;">Derniers Soutiens</h4>
+                                <div id="supporters-list" style="max-height: 200px; overflow-y: auto;">
+                                    <p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Chargement des supporters...</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display:flex; flex-direction:column; gap:12px; justify-content:center;">
+                                <button onclick="unlistProject('${firstProj.id}', ${isListed})" class="btn-cockpit primary" style="width:100%; height:50px;">
+                                    ${isListed ? 'Retirer du Marché' : '🚀 LANCER / PUBLIER'}
+                                </button>
+                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger" style="width:100%;">Supprimer définitivement</button>
+                            </div>
                         </div>
                     </div>
                 `;
 
                 engineStepContainer.innerHTML = phasesHTML;
 
-                // Initialize Stepper state
+                // Load data for all components
+                loadProjectSupporters(firstProj.id);
+                loadDashboardRewards(firstProj.id);
+                loadDashboardMilestones(firstProj.id);
+
+                // Initialize Stepper mechanics
                 updateSuccessStepper(totalScore, firstProj.id);
                 
-                // Show currently active phase card
+                // Show initial phase based on maturity
                 let activePhase = 1;
-                if (totalScore >= 90) activePhase = 5;
-                else if (totalScore >= 75) activePhase = 4;
-                else if (totalScore >= 50) activePhase = 3;
-                else if (totalScore >= 25) activePhase = 2;
+                if (totalScore >= 80) activePhase = 5;
+                else if (totalScore >= 60) activePhase = 4;
+                else if (totalScore >= 40) activePhase = 3;
+                else if (totalScore >= 20) activePhase = 2;
                 
                 window.showCockpitPhase = (phaseId) => {
                     const steps = document.querySelectorAll('.cockpit-step');
@@ -2047,225 +2080,13 @@
                         else s.classList.remove('active');
                     });
                     
-                    cards.forEach((c, idx) => {
-                        if (idx + 1 === phaseId) c.classList.add('active');
+                    cards.forEach((c) => {
+                        if (c.id === `phase-card-${phaseId}`) c.classList.add('active');
                         else c.classList.remove('active');
                     });
                 };
                 
                 showCockpitPhase(activePhase);
-            }
-                        <div style="font-size:1.8rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')} €</div>
-                                    <div style="font-size:0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--gray-100);">
-                                        Net Estimé (85%) : <span style="color: #0f172a;">${((firstProj.total_raised || 0) * 0.85).toLocaleString('fr-FR')} €</span>
-                                    </div>
-                                    <div style="font-size:0.65rem; color: #94a3b8; margin-top: 2px;">Après frais de plateforme & taxes</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- MANIFESTE DE L'ÉPOPÉE (AMBITION) -->
-                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #0f172a; padding: 32px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                                <div class="card-title" style="font-size: 1.2rem; margin-bottom: 0;">Manifeste de l'Épopée</div>
-                                <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">Structurez votre Ambition</span>
-                            </div>
-                            
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                                <div style="display:flex; flex-direction:column; gap:16px;">
-                                    <div class="form-group">
-                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Vision (Le "Pourquoi")</label>
-                                        <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ? Quelle est l'ambition ultime ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.vision || ''}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Mission (Le "Comment")</label>
-                                        <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ? Quelles sont les actions majeures ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.mission || ''}</textarea>
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction:column; gap:16px;">
-                                    <div class="form-group">
-                                        <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">L'Enjeu (Le "Maintenant")</label>
-                                        <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial aujourd'hui ? Quel est l'impact immédiat ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.enjeu || ''}</textarea>
-                                    </div>
-                                    <div style="height:100%; display:flex; align-items:flex-end;">
-                                        <button onclick="updateProjectManifesto('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding:16px; font-weight:800;">Enregistrer le Manifeste</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- GESTION DE LA CAGNOTTE & VÉRIFICATION -->
-                        <div style="display:grid; grid-template-columns: 1fr 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
-                            <div class="dash-card" style="padding: 32px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">Paramétrage</div>
-                                <label style="display:block; font-size: 0.7rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif (€)</label>
-                                <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || 1000}" 
-                                       style="width:100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-weight: 700; outline: none; margin-bottom:12px;">
-                                <button onclick="updateFundingGoal('${firstProj.id}')" class="cta-button primary" style="width:100%; background: #0f172a; padding: 12px; font-size: 0.8rem;">Mettre à jour</button>
-                            </div>
-
-                            <div class="dash-card" style="padding: 32px; border-left: 4px solid ${firstProj.identity_verified ? '#10b981' : '#f59e0b'};">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px; display:flex; align-items:center; gap:8px;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                    Certification
-                                </div>
-                                
-                                <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 24px;">Activez les dons financiers pour votre épopée en certifiant votre profil.</p>
-
-                                <div id="certification-status-box" style="background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid var(--gray-100);">
-                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                        <div>
-                                            <div style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">Pièce d'identité</div>
-                                            <div id="id-status-text" style="font-size:0.75rem; color:${firstProj.identity_verified ? '#10b981' : (firstProj.verification_status === 'pending' ? '#f59e0b' : (firstProj.verification_status === 'rejected' ? '#ef4444' : '#64748b'))}; font-weight:800; margin-top:4px;">
-                                                ${firstProj.identity_verified ? 'Certifié ✅' : (firstProj.verification_status === 'pending' ? 'Vérification en cours ⏳' : (firstProj.verification_status === 'rejected' ? 'Action requise ❌' : 'Non soumise'))}
-                                            </div>
-                                        </div>
-                                        ${(!firstProj.identity_verified && firstProj.verification_status !== 'pending') ? `
-                                            <button onclick="document.getElementById('id-upload-input').click()" id="btn-id-verify" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:12px; font-size:0.75rem; font-weight:700; cursor:pointer;">
-                                                ${firstProj.verification_status === 'rejected' ? 'Réessayer' : 'Déposer'}
-                                            </button>
-                                        ` : ''}
-                                    </div>
-                                    <input type="file" id="id-upload-input" accept="image/*,application/pdf" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
-                                    
-                                    ${firstProj.verification_status === 'pending' && !firstProj.identity_verified ? `
-                                        <div style="margin-top:12px; padding:12px; background:#fff7ed; border:1px solid #ffedd5; border-radius:10px; font-size:0.7rem; color:#9a3412; font-weight:600;">
-                                            Nos équipes analysent vos documents. Votre épopée sera certifiée dès validation.
-                                        </div>
-                                    ` : ''}
-
-                                    ${firstProj.verification_status === 'rejected' ? `
-                                        <div style="margin-top:12px; padding:12px; background:#fef2f2; border:1px solid #fee2e2; border-radius:10px; font-size:0.75rem; color:#991b1b;">
-                                            <div style="font-weight:800; margin-bottom:4px;">Document refusé</div>
-                                            <p style="margin:0; font-size:0.7rem;">${firstProj.rejection_reason || "Votre document n'est pas conforme. Veuillez en envoyer un nouveau."}</p>
-                                        </div>
-                                    ` : ''}
-                                
-                                <div style="margin-top:24px;">
-                                    <label style="display:block; font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase;">Structure (SIRET)</label>
-                                    <div style="display:flex; gap:8px;">
-                                        <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Optionnel"
-                                               style="flex:1; padding: 10px; border: 1px solid var(--gray-200); border-radius: 10px; font-size: 0.8rem; outline: none;">
-                                        <button onclick="updateProjectVerification('${firstProj.id}')" style="background:#f1f5f9; border:none; padding:10px; border-radius:10px; font-size:0.75rem; font-weight:700; cursor:pointer;">Ok</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dash-card" style="padding: 32px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">Vos Supporters</div>
-                                <div id="supporters-list" style="max-height: 200px; overflow-y: auto;">
-                                    <p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Chargement...</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- GESTION DES RÉCOMPENSES -->
-                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #10b981;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0;">Vos Récompenses</div>
-                                <button onclick="openRewardModal('${firstProj.id}')" class="cta-button primary" style="background:#10b981; font-size:0.75rem; padding:8px 16px;">+ Ajouter</button>
-                            </div>
-                            <div id="dash-rewards-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
-                                <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Chargement...</p>
-                            </div>
-                        </div>
-
-                        <!-- GESTION DE L'ÉPOPÉE COLLECTIVE (PALIERS) -->
-                        <div class="dash-card" style="margin-bottom: 48px; border-top: 4px solid #3b82f6; background: rgba(59,130,246,0.02);">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                                <div class="card-title" style="font-size: 1.1rem; margin-bottom: 0; color:#1d4ed8;">Objectifs Communs & Bonus</div>
-                                <button onclick="openMilestoneModal('${firstProj.id}')" class="cta-button primary" style="background:#3b82f6; font-size:0.75rem; padding:8px 16px;">+ Nouveau Palier</button>
-                            </div>
-                            <p style="font-size:0.8rem; color:#64748b; margin-bottom:20px;">Créez une dynamique collective. Quand un objectif est atteint, <strong>tous</strong> vos soutiens reçoivent un bonus !</p>
-                            
-                            <div style="background:white; border:1px solid #bfdbfe; padding:20px; border-radius:12px; margin-bottom:24px;">
-                                <label style="display:block; font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase; margin-bottom:8px;">🎁 Votre Cadeau de Bienvenue (Pour tous dès 1€)</label>
-                                <div style="display:flex; gap:12px;">
-                                    <input type="text" id="universal-reward-input" value="${firstProj.universal_reward || ''}" placeholder="Ex: Votre nom gravé au Mur de l'Épopée + Un badge digital" style="flex:1; padding:12px; border:1.5px solid #dbeafe; border-radius:10px; font-size:0.85rem;">
-                                    <button onclick="updateUniversalReward('${firstProj.id}')" style="background:#3b82f6; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:800; cursor:pointer;">Enregistrer</button>
-                                </div>
-                            </div>
-
-                            <div id="dash-milestones-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
-                                <p style="color:#94a3b8; font-size:0.9rem; grid-column: 1 / -1; text-align:center;">Aucun palier défini.</p>
-                            </div>
-                        </div>
-
-                        <!-- MODAL : AJOUTER RÉCOMPENSE -->
-                        <div id="reward-modal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center;">
-                            <div style="background:white; padding:32px; border-radius:24px; width:100%; max-width:500px; position:relative;">
-                                <button onclick="document.getElementById('reward-modal').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                                <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:24px;">Contrepartie</h3>
-                                <div style="display:flex; flex-direction:column; gap:16px;">
-                                    <input type="text" id="reward-title" placeholder="Nom (ex: Pack Bronze)" style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
-                                    <textarea id="reward-desc" placeholder="Description de la contrepartie..." style="padding:12px; border:1px solid var(--gray-200); border-radius:10px; height:100px; font-family:inherit;"></textarea>
-                                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-                                        <div>
-                                            <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Montant (€)</label>
-                                            <input type="number" id="reward-amount" placeholder="20" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
-                                        </div>
-                                        <div>
-                                            <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Stock (Optionnel)</label>
-                                            <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
-                                        </div>
-                                    </div>
-                                    <div id="reward-visual-preview" style="height:140px; width:100%; border-radius:12px; background:#f1f5f9; border:2px dashed #cbd5e1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#94a3b8; font-size:0.75rem; transition:all 0.3s; position:relative; overflow:hidden;">
-                                        <span id="preview-placeholder">Aperçu du visuel</span>
-                                    </div>
-                                    
-                                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                                        <div style="position:relative;">
-                                            <button class="cta-button secondary" style="width:100%; font-size:0.75rem; padding:10px;" onclick="document.getElementById('reward-file-input').click()">📁 Téléverser</button>
-                                            <input type="file" id="reward-file-input" style="display:none;" accept="image/*" onchange="handleRewardImageUpload(this, '${firstProj.id}')">
-                                        </div>
-                                        <input type="text" id="reward-image-url" placeholder="Ou lien URL..." oninput="updateRewardPreview(this.value)"
-                                               style="padding:10px; border:1px solid var(--gray-200); border-radius:10px; font-size:0.8rem;">
-                                    </div>
-                                    
-                                    <button onclick="saveReward('${firstProj.id}')" id="btn-save-reward" class="cta-button primary" style="background:#10b981; border:none; padding:16px; font-weight:800; margin-top:12px;">Créer la récompense</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- MODAL : AJOUTER PALIER COLLECTIF -->
-                        <div id="milestone-modal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center;">
-                            <div style="background:white; padding:32px; border-radius:24px; width:100%; max-width:500px; position:relative;">
-                                <button onclick="document.getElementById('milestone-modal').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
-                                <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:24px; color:#1d4ed8;">Nouveau Palier Collectif</h3>
-                                <div style="display:flex; flex-direction:column; gap:16px;">
-                                    <div class="form-group">
-                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Objectif à atteindre (€ total)</label>
-                                        <input type="number" id="milestone-threshold" placeholder="1000" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Titre du cadeau bonus</label>
-                                        <input type="text" id="milestone-title" placeholder="Ex: Fond d'écran collector pour tous" style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; font-weight:700;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Description</label>
-                                        <textarea id="milestone-desc" placeholder="Détails du bonus débloqué..." style="width:100%; padding:12px; border:1px solid var(--gray-200); border-radius:10px; height:80px; font-family:inherit;"></textarea>
-                                    </div>
-                                    <button onclick="saveMilestone('${firstProj.id}')" class="cta-button primary" style="background:#3b82f6; border:none; padding:16px; font-weight:800; margin-top:12px;">Ajouter à l'Épopée</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECTION : RESSOURCES & ACCOMPAGNEMENT (SoloPrice Only) -->
-                        <div id="porteur-resources-grid" style="margin-top: 32px; border-top: 1px solid var(--gray-200); padding-top: 32px;">
-                            <div class="dash-card highlight" style="border: 1px solid #0284c7; background: rgba(2,132,199,0.02); display: flex; align-items: center; justify-content: space-between; padding: 32px;">
-                                <div style="flex: 1;">
-                                    <div class="card-title" style="color: #0284c7; font-size: 1.4rem;">SoloPrice : Calculez votre Budget</div>
-                                    <p class="card-desc" style="font-size: 1.05rem; margin-top: 8px;">Utilisez notre outil expert pour estimer le coût de vos prestataires et cadrer votre besoin financier.</p>
-                                </div>
-                                <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="background: #0284c7; padding: 16px 32px; font-weight: 800;">Accéder à SoloPrice →</a>
-                            </div>
-                        </div>
-                    `;
-                
-                // Load Supporters
-                loadProjectSupporters(firstProj.id);
-                loadDashboardRewards(firstProj.id);
-                loadDashboardMilestones(firstProj.id);
             }
 
             container.innerHTML = projects.map(p => {
