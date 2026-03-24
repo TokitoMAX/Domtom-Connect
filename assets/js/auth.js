@@ -136,6 +136,64 @@ async function checkUserRole(session) {
     return session.user.user_metadata.role || null;
 }
 
+/**
+ * Calcule le score de maturité d'un projet (0-100)
+ * Unifiée pour tout l'écosystème Domtom Connect.
+ */
+function calculateProjectMaturity(p) {
+    if (!p) return 0;
+    let score = 0;
+    const desc = p.description || "";
+
+    // Etape 1 : Manifeste (Max 30 pts)
+    if (p.title && p.title.length > 5) score += 5;
+    if (desc.includes('[[VISION]]')) score += 10;
+    if (desc.includes('[[MISSION]]')) score += 10;
+    if (desc.includes('[[PROBLEM]]')) score += 5;
+
+    // Etape 2 : Boussole (Max 25 pts)
+    if (p.territory) score += 5;
+    if (p.roadmap) {
+        try {
+            const r = typeof p.roadmap === 'string' ? JSON.parse(p.roadmap) : p.roadmap;
+            if (r.short && r.short.length > 5) score += 10;
+            if (r.medium && r.medium.length > 5) score += 10;
+            if (r.long && r.long.length > 5) score += 5;
+        } catch(e) { /* ignore invalid json */ }
+    }
+
+    // Etape 3 : Arsenal (Max 25 pts)
+    if (p.budget) score += 10;
+    if (p.cover_url) score += 5;
+    if (p.needs && p.needs.length > 5) score += 10;
+
+    // Etape 4 : Impulsion (Max 20 pts)
+    if (p.video_url) score += 10;
+    if (p.social_links) {
+        try {
+            const s = typeof p.social_links === 'string' ? JSON.parse(p.social_links) : p.social_links;
+            if (s.linkedin || s.twitter || s.website) score += 10;
+        } catch(e) { /* ignore invalid json */ }
+    }
+
+    return Math.min(100, score);
+}
+
+/**
+ * Retourne le label de statut selon le score de maturité
+ */
+function getProjectStatus(score) {
+    if (score < 25) return { label: "Graine", step: 1, next: "Manifeste" };
+    if (score < 50) return { label: "Pousse", step: 2, next: "Boussole" };
+    if (score < 75) return { label: "Arbuste", step: 3, next: "Arsenal" };
+    if (score < 100) return { label: "Certification", step: 4, next: "Impulsion" };
+    return { label: "Épopée Certifiée", step: 4, next: "Terminé" };
+}
+
+// Exposition globale
+window.calculateProjectMaturity = calculateProjectMaturity;
+window.getProjectStatus = getProjectStatus;
+
 // Mise à jour globale de la Navbar
 async function loadGlobalNavbar() {
     const session = await getSession();

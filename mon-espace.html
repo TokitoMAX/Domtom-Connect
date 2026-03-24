@@ -1589,36 +1589,6 @@
             `;
         }
 
-        function calculateProjectMaturity(project) {
-            if (!project) return 0;
-            let score = 0;
-
-            // Étape 1 : Manifeste (Max 25%)
-            if (project.title) score += 10;
-            if (project.description && project.description.length > 5) score += 10;
-            if (project.territory) score += 5;
-
-            // Étape 2 : Boussole / Roadmap (Max 25%)
-            if (project.roadmap) {
-                const r = project.roadmap;
-                let roadmapScore = 0;
-                if (r.short) roadmapScore += 10;
-                if (r.medium) roadmapScore += 10;
-                if (r.long) roadmapScore += 5;
-                score += roadmapScore;
-            }
-
-            // Étape 3 : Arsenal Commando (Max 25%)
-            if (project.budget) score += 10;
-            if (project.cover_url) score += 5;
-            if (project.roadmap && project.roadmap.commando_started) score += 10;
-
-            // Étape 4 : Impulsion Finale (Max 25%)
-            if (project.video_url) score += 15;
-            if (project.social_links && (project.social_links.linkedin || project.social_links.twitter)) score += 10;
-
-            return Math.min(100, score);
-        }
 
         function updateSuccessStepper(score, projectId = null) {
             const steps = [
@@ -1732,28 +1702,6 @@
             }
         }
         
-        function calculateProjectMaturity(p) {
-            if (!p) return 0;
-            let score = 0;
-            const desc = p.description || "";
-            if (p.title && p.title.length > 5) score += 5;
-            if (desc.includes('[[VISION]]') && desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim().length > 20) score += 10;
-            if (desc.includes('[[MISSION]]') && desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim().length > 20) score += 10;
-            if (desc.includes('[[PROBLEM]]') && desc.split('[[PROBLEM]]')[1].trim().length > 20) score += 10;
-            
-            if (p.roadmap) {
-                let rd = p.roadmap;
-                if (typeof rd === 'string') {
-                    try { rd = JSON.parse(rd); } catch(e) { rd = {}; }
-                }
-                if (rd.short) score += 10;
-                if (rd.medium) score += 10;
-                if (rd.long) score += 10;
-                if (rd.commando_started) score += 10;
-                if (rd.is_certified) score += 25;
-            }
-            return Math.min(score, 100);
-        }
 
         function updateSuccessStepper(score, projectId) {
             const steps = [
@@ -1842,10 +1790,10 @@
                     headerHTML = `
                         <div class="vision-card" style="text-align:center; margin-bottom:48px; border:1px solid #10b981; background: #0f172a;">
                             <span style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:12px;">Progression Élevée</span>
-                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Succès en Approche</h2>
-                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre projet gagne en maturité. Suivez les étapes ci-dessous pour débloquer le Commando et l'Impulsion.</p>
+                            <h2 style="font-size:2.5rem; font-weight:900; color:white; margin-bottom:16px; letter-spacing:-0.02em;">Prêt pour l'Impact</h2>
+                            <p style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 32px; font-size:1.1rem; line-height:1.6;">Votre épopée est structurée. Il est temps de mobiliser votre communauté et de débloquer vos premiers soutiens.</p>
                             <div style="display:flex; justify-content:center; gap:16px;">
-                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Voir l'action suivante</a>
+                                <a href="#success-engine-step" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-size:1rem; cursor:pointer;">Lancer ma Campagne</a>
                             </div>
                         </div>
                     `;
@@ -1854,6 +1802,7 @@
 
                 // Dynamic Call to Action
                 const engineStepContainer = document.getElementById('success-engine-step');
+                const pStatus = window.getProjectStatus(totalScore);
                 let nextStepHTML = "";
 
                 if (totalScore < 25) {
@@ -1873,37 +1822,22 @@
                             </div>
                         `;
                 } else if (totalScore < 75) {
-                    const isCommandoStarted = firstProj.roadmap && firstProj.roadmap.commando_started;
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCommandoStarted ? "Le Commando est en route" : "Déployez le Commando"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCommandoStarted ? "Votre Roadmap est validée. Nos experts analysent votre profil pour un matching d'élite." : "Votre Roadmap est prête. Lancez le sourcing pour recruter vos experts diaspora."}</p>
-                                <button onclick="${isCommandoStarted ? '' : 'startCommando(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:${isCommandoStarted ? '#f1f5f9' : '#10b981'}; color:white; border:none; padding:16px 32px; font-weight:800; cursor:${isCommandoStarted ? 'default' : 'pointer'};">
-                                    ${isCommandoStarted ? "Sourcing en cours..." : "Lancer le Sourcing Expert →"}
-                                </button>
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">Préparez l'Arsenal</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">Identifiez vos besoins et votre budget pour justifier les futurs soutiens.</p>
+                                <button onclick="openArsenalModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">Définir mes Besoins</button>
                             </div>
                         `;
                 } else {
-                    const isCertified = firstProj.roadmap && firstProj.roadmap.is_certified;
-
+                    const isListed = firstProj.is_listed;
                     nextStepHTML = `
                             <div class="dash-card highlight" style="border-color: #10b981; padding: 40px; text-align:center;">
-                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isCertified ? "Épopée Certifiée" : "L'Impulsion Finale"}</div>
-                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isCertified ? "Votre projet a atteint le sommet. Vous êtes désormais une référence Domtom Connect." : "Votre projet est mature. Certifiez votre épopée pour débloquer le Badge et l'Appel Stratégique."}</p>
-                                <button onclick="${isCertified ? 'window.open(\'https://calendly.com/domtomconnect/30min\', \'_blank\')' : 'openImpulsionModal(\'' + firstProj.id + '\')'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
-                                    ${isCertified ? "Prendre RDV Stratégique" : "Certifier mon Épopée"}
+                                <div class="card-title" style="font-size:1.5rem; justify-content:center;">${isListed ? "Campagne Active" : "L'Impulsion Finale"}</div>
+                                <p class="card-desc" style="font-size:1.1rem; margin: 20px 0;">${isListed ? "Votre projet récolte des soutiens sur la Marketplace. Partagez votre fiche !" : "Votre projet est mature. Publiez-le pour activer le Soutien Participatif."}</p>
+                                <button onclick="${isListed ? 'window.open(\'/marketplace/project?id=' + firstProj.id + '\', \'_blank\')' : 'unlistProject(\'' + firstProj.id + '\', false)'}" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:800; cursor:pointer;">
+                                    ${isListed ? "Voir ma Fiche Publique" : "Publier mon Épopée"}
                                 </button>
-                                ${isCertified ? `
-                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px;">Appel de 30 min pour caler votre communication réseaux sociaux & podcast.</p>
-                                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
-                                        <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="cta-button ghost" style="font-size:0.8rem; border:1px solid var(--gray-300); color:var(--text-secondary);">
-                                            ${firstProj.is_listed ? "Retirer de la Marketplace" : "Republier mon Épopée"}
-                                        </button>
-                                        <button onclick="deleteProject('${firstProj.id}')" class="cta-button ghost" style="font-size:0.8rem; border:1px solid #ef4444; color:#ef4444;">
-                                            Supprimer l'Épopée
-                                        </button>
-                                    </div>
-                                ` : ''}
                             </div>
                         `;
                 }
@@ -1918,7 +1852,10 @@
                                     <span class="maturity-score-display" id="maturity-score" style="font-size:4rem;">${totalScore}%</span>
                                     <span style="font-size:1.2rem; color:#10b981; font-weight:700;">Success</span>
                                 </div>
-                                <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:20px; max-width:300px;">Plus ce score monte, plus vous débloquez d'autorité et de visibilité.</p>
+                                <div style="margin-top:20px; padding:12px 24px; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.1); border-radius:12px;">
+                                    <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:800; margin-bottom:4px;">Cagnotte Récoltée</div>
+                                    <div style="font-size:1.5rem; font-weight:900; color:#10b981;">${firstProj.total_raised || 0} €</div>
+                                </div>
                             </div>
                             ${nextStepHTML}
                         </div>
@@ -1937,7 +1874,7 @@
             }
 
             container.innerHTML = projects.map(p => {
-                const s = calculateProjectMaturity(p);
+                const s = window.calculateProjectMaturity(p);
                 return `
                     <div class="dash-card" style="margin-bottom:16px; border-left:4px solid #10b981;">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -1948,7 +1885,7 @@
                                     <span>•</span>
                                     <span>${p.status}</span>
                                     <span>•</span>
-                                    <span style="color:#10b981; font-weight:700;">${s}% de Maturité</span>
+                                    <span style="color:#10b981; font-weight:700;">${window.getProjectStatus(s).label} (${s}%)</span>
                                 </div>
                             </div>
                             <div style="display:flex; gap:8px;">
