@@ -257,6 +257,7 @@
 
 
         function renderProject(project) {
+            const container = document.getElementById('project-container');
             const ownerName = project.profiles?.full_name || 'Porteur Anonyme';
             const maturityScore = window.calculateProjectMaturity(project);
             const totalRaised = project.total_raised || 0;
