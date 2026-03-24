@@ -227,17 +227,19 @@
         }
 
         .roadmap-content {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: white;
+            border: 1px solid #e2e8f0;
             border-radius: 20px;
             padding: 16px 20px;
             flex-grow: 1;
             transition: all 0.3s;
+            color: #1e293b;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
 
         .roadmap-step.reached .roadmap-content {
-            background: rgba(59, 130, 246, 0.05);
-            border-color: rgba(59, 130, 246, 0.2);
+            background: #f0fdf4;
+            border-color: #bbf7d0;
         }
 
         .section-header {
@@ -479,12 +481,12 @@
                 // Roadmap Visuelle
                 const milestoneSection = document.getElementById('milestones-section');
                 const roadmapList = document.getElementById('roadmap-list');
-                const totalRaised = project.total_raised || 0;
+                const currentRaised = totalRaised || 0;
 
                 if (milestones.length > 0) {
                     milestoneSection.style.display = 'block';
                     roadmapList.innerHTML = milestones.map(m => {
-                        const reached = totalRaised >= m.amount_threshold;
+                        const reached = currentRaised >= m.amount_threshold;
                         return `
                             <div class="roadmap-step ${reached ? 'reached' : ''}">
                                 <div class="roadmap-dot"></div>
@@ -726,32 +728,42 @@
                                     <span>${Math.max(0, fundingGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
                                 </div>
 
-                                <!-- FEUILLE DE ROUTE COLLECTIVE -->
-                                <div id="milestones-section" style="margin-bottom: 32px; padding: 24px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 24px; display:none;">
-                                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
-                                        <div style="width:12px; height:12px; border-radius:50%; background:#3b82f6; box-shadow:0 0 12px rgba(59,130,246,0.5);"></div>
-                                        <span style="font-size:0.75rem; font-weight:900; color:#3b82f6; text-transform:uppercase; letter-spacing:0.1em;">Feuille de Route</span>
+                                <!-- DOSSIER D'ÉPOPÉE : FEUILLE DE ROUTE COLLECTIVE -->
+                                <div id="milestones-section" style="margin-bottom: 32px; padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 32px; display:none;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; border-bottom:1px solid #e2e8f0; padding-bottom:16px;">
+                                        <div style="display:flex; align-items:center; gap:12px;">
+                                            <div style="width:12px; height:12px; border-radius:50%; background:#3b82f6; box-shadow:0 0 12px rgba(59,130,246,0.3);"></div>
+                                            <span style="font-size:0.75rem; font-weight:900; color:#1e293b; text-transform:uppercase; letter-spacing:0.1em;">Dossier de Développement</span>
+                                        </div>
+                                        <div id="coll-progress-badge" style="font-size:0.65rem; font-weight:900; background:rgba(59,130,246,0.1); color:#3b82f6; padding:4px 12px; border-radius:100px;">MODE COLLECTIF ACTIF</div>
                                     </div>
                                     
                                     <div id="roadmap-list" class="roadmap-container">
                                         <!-- Chargé par JS -->
                                     </div>
+
+                                    <div style="margin-top:24px; padding-top:20px; border-top:1px dashed #e2e8f0; font-size:0.75rem; color:#64748b; font-weight:600; text-align:center; line-height:1.5;">
+                                        💡 Chaque palier atteint débloque son bonus pour <strong>tous</strong> les contributeurs du projet, sans exception.
+                                    </div>
                                 </div>
 
-                                <!-- CONTREPARTIES SECTION (REGROUPÉES) -->
+                                <!-- CONTREPARTIES ET ENGAGEMENTS -->
                                 <div id="rewards-container" style="margin-bottom: 24px;">
-                                    <h4 style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px;">Choisir une Récompense</h4>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                                        <h4 style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.15em; margin:0;">Offres de Soutien</h4>
+                                        <span style="font-size:0.65rem; color:#10b981; font-weight:800;">+ Cadeau de Bienvenue Inclus</span>
+                                    </div>
                                     
                                     ${project.universal_reward ? `
-                                        <div style="background: rgba(16, 185, 129, 0.05); border: 2px solid rgba(16, 185, 129, 0.15); padding: 24px; border-radius: 24px; margin-bottom: 20px; position:relative; overflow:hidden; backdrop-filter: blur(10px);">
-                                            <div style="position:absolute; top:0; right:0; background:#10b981; color:white; font-size:0.6rem; font-weight:950; padding:4px 12px; border-bottom-left-radius:12px; text-transform:uppercase; letter-spacing:0.05em;">Cadeau de Bienvenue</div>
+                                        <div style="background: rgba(16, 185, 129, 0.05); border: 2.5px solid #10b981; padding: 24px; border-radius: 24px; margin-bottom: 20px; position:relative; overflow:hidden; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2);">
+                                            <div style="position:absolute; top:0; right:0; background:#10b981; color:white; font-size:0.6rem; font-weight:950; padding:4px 12px; border-bottom-left-radius:12px; text-transform:uppercase; letter-spacing:0.05em;">Acquis par Défaut</div>
                                             <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                                                <span style="font-size:1.5rem;">🎁</span>
-                                                <div style="font-size:1.1rem; font-weight:900; color:white; letter-spacing:-0.02em;">Votre Badge d'Impact</div>
+                                                <span style="font-size:1.5rem;">🏺</span>
+                                                <div style="font-size:1.1rem; font-weight:900; color:white; letter-spacing:-0.02em;">Socle de l'Épopée</div>
                                             </div>
                                             <p style="font-size:0.85rem; color:#94a3b8; margin:0; line-height:1.5; font-weight:500;">${project.universal_reward}</p>
-                                            <div style="font-size:0.65rem; color:#10b981; font-weight:800; margin-top:16px; display:flex; align-items:center; gap:6px;">
-                                                ✨ Débloqué pour TOUT don (dès 1€)
+                                            <div style="font-size:0.65rem; color:#10b981; font-weight:900; margin-top:16px; display:flex; align-items:center; gap:6px; text-transform:uppercase; letter-spacing:0.05em;">
+                                                ✓ Garanti pour tout soutien dès 1€
                                             </div>
                                         </div>
                                     ` : ''}
