@@ -1861,7 +1861,7 @@
                             ${nextStepHTML}
                         </div>
 
-                        <!-- GESTION DE LA CAGNOTTE (NEW) -->
+                        <!-- GESTION DE LA CAGNOTTE (RESTAURÉ) -->
                         <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:24px; margin-bottom: 48px;">
                             <div class="dash-card" style="padding: 32px;">
                                 <div class="card-title" style="font-size: 1.1rem; margin-bottom: 24px;">🎯 Paramétrage Objectif</div>
@@ -1893,6 +1893,9 @@
                             </div>
                         </div>
                     `;
+                
+                // Load Supporters
+                loadProjectSupporters(firstProj.id);
             }
 
             container.innerHTML = projects.map(p => {
