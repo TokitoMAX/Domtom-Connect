@@ -2201,41 +2201,52 @@
                     statusText.style.color = "#0284c7";
                 }
 
-                // Simulation d'upload premium (progress bar)
+                // Pour un UX Premium, on garde la barre de progression (simulée pour le flux de données)
                 let progress = 0;
                 const interval = setInterval(() => {
                     progress += 5;
-                    if (progBar) progBar.style.width = progress + '%';
-                    if (progPercent) progPercent.innerText = progress + '%';
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        finalizeUpload();
-                    }
+                    if (progBar) progBar.style.width = Math.min(progress, 90) + '%';
+                    if (progPercent) progPercent.innerText = Math.min(progress, 90) + '%';
                 }, 100);
 
-                async function finalizeUpload() {
-                    // Logic: Upload to bucket 'verifications-id'
-                    // On simule pour le Dashboard en mettant à jour une métadata ou un flag si nécessaire
-                    // Pour cet MVP, on change juste le texte visuel pour rassurer le user
-                    if (statusText) {
-                        statusText.innerText = "Reçu - En cours de validation ⏳";
-                        statusText.style.color = "#f59e0b";
-                    }
-                    if (progContainer) {
-                        setTimeout(() => {
-                            progContainer.innerHTML = `
-                                <div style="display:flex; align-items:center; gap:8px; color:#10b981; font-size:0.7rem; font-weight:800;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-                                    Document transmis avec succès
-                                </div>
-                            `;
-                        }, 500);
-                    }
-                    alert("Document transmis ! L'équipe Domtom Connect va certifier votre profil dès vérification.");
+                // --- REAL UPLOAD TO SUPABASE ---
+                const { data: sessionData } = await _supabase.auth.getSession();
+                if (!sessionData || !sessionData.session) throw new Error("Session non trouvée.");
+                
+                const userId = sessionData.session.user.id;
+                const filePath = `${userId}/${Date.now()}-${file.name}`;
+                
+                const { error: uploadError } = await _supabase.storage
+                    .from('verifications-id')
+                    .upload(filePath, file);
+
+                clearInterval(interval);
+                if (uploadError) throw uploadError;
+
+                // --- SUCCESS STATE ---
+                if (progBar) progBar.style.width = '100%';
+                if (progPercent) progPercent.innerText = '100%';
+                
+                if (statusText) {
+                    statusText.innerText = "Reçu - En cours de validation ⏳";
+                    statusText.style.color = "#f59e0b";
                 }
+                
+                if (progContainer) {
+                    setTimeout(() => {
+                        progContainer.innerHTML = `
+                            <div style="display:flex; align-items:center; gap:8px; color:#10b981; font-size:0.7rem; font-weight:800;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                                Document transmis avec succès
+                            </div>
+                        `;
+                    }, 500);
+                }
+                alert("Document transmis ! L'équipe Domtom Connect va certifier votre profil dès vérification.");
             } catch (err) {
                 alert("Erreur: " + err.message);
                 if (btn) btn.style.display = 'block';
+                if (progContainer) progContainer.style.display = 'none';
             }
         }
 
