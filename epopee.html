@@ -2022,6 +2022,28 @@
                         </div>
                     `;
                 case 3:
+                    const isPending = p.verification_status === 'pending';
+                    const isVerified = p.verification_status === 'verified';
+                    
+                    if (isVerified) {
+                        return `
+                            <div style="background:#ecfdf5; padding:40px; border-radius:24px; border:1px solid #10b981; text-align:center;">
+                                <div style="font-size:3rem; margin-bottom:16px;">✅</div>
+                                <h3 style="color:#065f46; margin-bottom:8px;">Structure Validée</h3>
+                                <p style="color:#065f46; margin:0;">Votre identité a été certifiée par Domtom Connect. Vous pouvez maintenant lancer votre collecte !</p>
+                            </div>
+                        `;
+                    }
+                    if (isPending) {
+                        return `
+                            <div style="background:#fffbeb; padding:40px; border-radius:24px; border:1px solid #f59e0b; text-align:center;">
+                                <div style="font-size:3rem; margin-bottom:16px;">⌛</div>
+                                <h3 style="color:#92400e; margin-bottom:8px;">Vérification en cours</h3>
+                                <p style="color:#92400e; margin:0;">Nous analysons votre SIRET et votre pièce d'identité. Cette étape prend généralement moins de 24h.</p>
+                            </div>
+                        `;
+                    }
+
                     return `
                         <div class="sre-action-grid">
                             <div style="display:flex; flex-direction:column; gap:24px;">
@@ -2101,8 +2123,97 @@
 
         async function updateProjectVerification(id) {
             const siret = document.getElementById('input-siret').value;
-            await saveProjectField('siret', siret);
-            alert("✅ Informations de vérification envoyées !");
+            if (!siret) return alert("Veuillez saisir votre numéro SIRET.");
+            
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ 
+                        siret: siret,
+                        verification_status: 'pending' // Mark as pending
+                    })
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                alert("✅ Dossier envoyé ! Domtom Connect analyse vos informations. Vous recevrez une notification dès validation.");
+                renderSRECockpit(); // UI update to show 'En attente'
+            } catch (err) {
+                alert("Erreur : " + err.message);
+            }
+        }
+
+        function openRewardModal(projectId) {
+            document.getElementById('reward-proj-id').value = projectId;
+            
+            // Reset fields
+            document.getElementById('reward-title').value = '';
+            document.getElementById('reward-desc').value = '';
+            document.getElementById('reward-amount').value = '50';
+            document.getElementById('reward-stock').value = '';
+            document.getElementById('reward-image-url').value = '';
+            updateRewardPreview(null);
+            
+            document.getElementById('reward-modal').classList.add('open');
+        }
+
+        async function saveReward(projectId) {
+            const title = document.getElementById('reward-title').value;
+            const desc = document.getElementById('reward-desc').value;
+            const amount = parseFloat(document.getElementById('reward-amount').value);
+            const stock = parseInt(document.getElementById('reward-stock').value) || null;
+            const imageUrl = document.getElementById('reward-image-url').value;
+
+            if (!title || !amount) return alert("Titre et Seuil sont requis.");
+
+            const { error } = await _supabase.from('project_rewards').insert([{
+                project_id: projectId,
+                title,
+                description: desc,
+                amount,
+                stock,
+                image_url: imageUrl
+            }]);
+
+            if (error) {
+                alert("Erreur: " + error.message);
+            } else {
+                document.getElementById('reward-modal').classList.remove('open');
+                loadDashboardRewards(projectId);
+            }
+        }
+
+        function openMilestoneModal(projectId) {
+            document.getElementById('milestone-proj-id').value = projectId;
+            
+            // Reset
+            document.getElementById('milestone-threshold').value = '';
+            document.getElementById('milestone-title').value = '';
+            document.getElementById('milestone-desc').value = '';
+            
+            document.getElementById('milestone-modal').classList.add('open');
+        }
+
+        async function saveMilestone(projectId) {
+            const threshold = parseFloat(document.getElementById('milestone-threshold').value);
+            const title = document.getElementById('milestone-title').value;
+            const desc = document.getElementById('milestone-desc').value;
+
+            if (!threshold || !title) return alert("Objectif et Nom sont requis.");
+
+            const { error } = await _supabase.from('project_milestones').insert([{
+                project_id: projectId,
+                amount_threshold: threshold,
+                title,
+                description: desc
+            }]);
+
+            if (error) {
+                alert("Erreur: " + error.message);
+            } else {
+                document.getElementById('milestone-modal').classList.remove('open');
+                loadDashboardMilestones(projectId);
+            }
         }
 
         async function loadDashboardMilestones(id) {
@@ -2169,7 +2280,8 @@
             }
         }
 
-        async function handleRewardImageUpload(input, projectId) {
+        async function handleRewardImageUpload(input) {
+            const projectId = currentSREProject.id;
             if (!input.files || input.files.length === 0) return;
             const file = input.files[0];
             const btn = document.getElementById('btn-save-reward');
@@ -2189,7 +2301,7 @@
                 const filePath = `${fileName}`;
 
                 const { data, error } = await _supabase.storage
-                    .from('project-media')
+                    .from('project_assets')
                     .upload(filePath, file);
 
                 if (error) throw error;
