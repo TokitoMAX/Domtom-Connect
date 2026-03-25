@@ -1811,16 +1811,27 @@
 
         function calculateProjectMaturity(p) {
             let score = 0;
+            // Step 1: Identité (16%)
             const hasVision = p.vision && p.vision.trim() !== '' && !p.vision.includes('[[VISION]]');
             const hasMission = p.mission && p.mission.trim() !== '' && !p.mission.includes('[[MISSION]]');
             const hasEnjeu = p.enjeu && p.enjeu.trim() !== '' && !p.enjeu.includes('[[PROBLEM]]');
-
             if (hasVision && hasMission && hasEnjeu) score += 16;
-            if (p.equipe && p.equipe.trim() !== '') score += 16;
-            if (p.territory && p.status && p.territory !== 'Martinique') score += 17; // Count only if changed from default
-            if ((p.impact_local && p.impact_local.trim() !== '') || (p.innovation && p.innovation.trim() !== '')) score += 17;
+
+            // Step 2: Humain (16%)
+            if (p.equipe && p.equipe.trim().length > 10) score += 16;
+
+            // Step 3: Terrain (17%) - Check if Marche is filled (territory/status have defaults)
+            if (p.marche && p.marche.trim().length > 10) score += 17;
+
+            // Step 4: Valeur (17%)
+            if ((p.impact_local && p.impact_local.trim().length > 10) || (p.innovation && p.innovation.trim().length > 10)) score += 17;
+
+            // Step 5: Objectifs (17%)
             if (p.funding_goal > 0) score += 17;
-            if (p.verification_status === 'verified') score += 17;
+
+            // Step 6: Envol (17%) - Verified OR Pitch Written
+            if (p.verification_status === 'verified' || (p.pitch_texte && p.pitch_texte.trim().length > 20)) score += 17;
+
             return Math.min(score, 100);
         }
 
@@ -2041,22 +2052,25 @@
                             <label class="form-label">Territoire d'Éclat</label>
                             <select class="sre-input" onchange="saveProjectField('territory', this.value)">
                                 <option value="" disabled selected>Sélectionnez votre territoire...</option>
-                                <optgroup label="Antilles">
+                                <optgroup label="Antilles (FR/EN/ES)">
                                     <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
                                     <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
-                                    <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
-                                    <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy</option>
-                                </optgroup>
-                                <optgroup label="Sud">
                                     <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
+                                    <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
+                                    <option value="Saint-Barth" ${p.territory === 'Saint-Barth' ? 'selected' : ''}>Saint-Barthélemy</option>
+                                    <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haïti</option>
+                                    <option value="Dominique" ${p.territory === 'Dominique' ? 'selected' : ''}>Dominica</option>
+                                    <option value="Sainte-Lucie" ${p.territory === 'Sainte-Lucie' ? 'selected' : ''}>Sainte-Lucie</option>
+                                    <option value="Grenade" ${p.territory === 'Grenade' ? 'selected' : ''}>Grenade</option>
+                                    <option value="Barbade" ${p.territory === 'Barbade' ? 'selected' : ''}>Barbade</option>
                                 </optgroup>
                                 <optgroup label="Océan Indien">
                                     <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
                                     <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
                                 </optgroup>
-                                <optgroup label="International">
-                                    <option value="Diaspora" ${p.territory === 'Diaspora' ? 'selected' : ''}>Diaspora</option>
-                                    <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire</option>
+                                <optgroup label="Diaspora & Monde">
+                                    <option value="Diaspora" ${p.territory === 'Diaspora' ? 'selected' : ''}>Diaspora (Global)</option>
+                                    <option value="International" ${p.territory === 'International' ? 'selected' : ''}>International</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -2138,11 +2152,13 @@
                             <div style="background:#ecfdf5; padding:24px; border-radius:16px; border:1px solid #10b981; text-align:center;">
                                 <span style="font-size:2rem;">✅</span>
                                 <h4 style="color:#065f46; margin:8px 0;">Identité Validée</h4>
+                                <p style="font-size:0.8rem; color:#065f46; margin:0;">Votre profil est certifié. Vous pouvez maintenant lancer votre collecte.</p>
                             </div>
                         ` : isPending ? `
                             <div style="background:#fffbeb; padding:24px; border-radius:16px; border:1px solid #f59e0b; text-align:center;">
                                 <span style="font-size:2rem;">⌛</span>
                                 <h4 style="color:#92400e; margin:8px 0;">Analyse en cours</h4>
+                                <p style="font-size:0.8rem; color:#92400e; margin:0;">L'équipe Domtom Connect vérifie vos informations. <br>Patience, cela prend moins de 24h.</p>
                             </div>
                         ` : `
                             <div style="display:grid; gap:20px;">
@@ -2172,20 +2188,32 @@
                     </div>
 
                     <div style="text-align:center;">
-                        <div style="font-size:3rem; margin-bottom:16px;">🚀</div>
                         <h3 style="margin-bottom:12px;">Propulsion Finale</h3>
-                        <p style="color:#64748b; margin-bottom:24px; font-size:0.9rem;">Prêt pour le grand saut ? Lancez votre projet sur Domtom Connect.</p>
+                        <p style="color:#64748b; margin-bottom:24px; font-size:0.9rem;">Prêt pour le grand saut ? Voici votre manifeste final.</p>
                         
-                        <div style="margin-bottom:24px; text-align:left;">
-                            <label class="form-label">Lien Vidéo de Pitch</label>
-                            <input type="url" class="sre-input" onblur="saveProjectField('video_url', this.value)" 
-                                   value="${p.video_url || ''}" placeholder="https://youtube.com/watch?v=...">
+                        <div style="display:grid; gap:16px; text-align:left; margin-bottom:24px;">
+                            <div>
+                                <label class="form-label">Pitch Vidéo (Optionnel)</label>
+                                <input type="url" class="sre-input" onblur="saveProjectField('video_url', this.value)" 
+                                       value="${p.video_url || ''}" placeholder="https://youtube.com/watch?v=...">
+                            </div>
+                            <div>
+                                <label class="form-label">Pitch Écrit / Manifeste</label>
+                                <textarea class="sre-input" style="height:80px;" onblur="saveProjectField('pitch_texte', this.value)" 
+                                          placeholder="Exprimez votre passion et vos arguments clés ici...">${p.pitch_texte || ''}</textarea>
+                            </div>
                         </div>
 
-                        <button onclick="unlistProject('${p.id}', ${p.is_listed})" class="sre-btn primary" 
-                                style="background:${p.is_listed ? '#ef4444' : '#10b981'}; width:100%; padding:16px;">
-                            ${p.is_listed ? 'Retirer du Marché' : 'LANCER MON ÉPOPÉE'}
-                        </button>
+                        ${isVerified ? `
+                            <button onclick="unlistProject('${p.id}', ${p.is_listed})" class="sre-btn primary" 
+                                    style="background:${p.is_listed ? '#ef4444' : '#10b981'}; width:100%; padding:16px; font-weight:900;">
+                                ${p.is_listed ? 'RETIRER MON ÉPOPÉE' : 'LANCER MON ÉPOPÉE'}
+                            </button>
+                        ` : `
+                            <div style="padding:16px; background:#f1f5f9; border-radius:12px; color:#94a3b8; font-size:0.85rem; font-weight:700; border:1px solid #e2e8f0;">
+                                🔒 Lancement bloqué (Attente de vérification)
+                            </div>
+                        `}
                     </div>
                 </div>
             `;
@@ -2460,13 +2488,17 @@
                 clearInterval(interval);
                 if (uploadError) throw uploadError;
 
+                const { data: { publicUrl } } = _supabase.storage
+                    .from('verifications-id')
+                    .getPublicUrl(filePath);
+
                 // --- UPDATE DATABASE STATUS ---
-                // On remet le statut à 'pending' et on efface l'éventuel motif de rejet précédent
                 await _supabase
                     .from('projects')
                     .update({ 
                         verification_status: 'pending',
-                        rejection_reason: null 
+                        rejection_reason: null,
+                        verification_id_url: publicUrl
                     })
                     .eq('id', projectId);
 
