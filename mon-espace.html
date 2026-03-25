@@ -1869,101 +1869,47 @@
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
                 const headerContainer = document.getElementById('success-engine-header');
-                const engineStepContainer = document.getElementById('success-engine-step');
-                const isListed = firstProj.is_listed;
-
-                // Render Cockpit Foundation (Premium Instrument Design)
-                const strokeDasharray = 339.29; // 2 * PI * 54
-                const strokeDashoffset = strokeDasharray * (1 - totalScore / 100);
-
                 headerContainer.innerHTML = `
-                    <div style="margin-bottom:32px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h2 style="font-size:2.2rem; font-weight:900; color:#0f172a; margin:0; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
-                            <p style="color:#64748b; font-weight:600; font-size:1.1rem; margin-top:4px;">Gérez votre mission comme un projet institutionnel.</p>
-                        </div>
-                        <div style="display:flex; gap:12px;">
-                             <button onclick="location.reload()" class="btn-cockpit secondary" style="padding:10px 20px; border-radius:12px;">🔄 Actualiser</button>
-                        </div>
+                    <div style="margin-bottom:32px;">
+                        <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
+                        <p style="color:#64748b; font-weight:600; font-size:1.05rem;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
                     </div>
 
-                    <div class="cockpit-stepper" id="cockpit-stepper-container" style="margin-bottom:40px;">
+                    <div class="cockpit-stepper" id="cockpit-stepper-container" style="margin-bottom:32px; gap:8px;">
                         <div class="cockpit-step active" id="cockpit-step-1" onclick="showCockpitPhase(1)">
-                            <span class="step-number">Phase 01</span>
+                            <span class="step-number">01</span>
                             <span class="step-label">Stratégie</span>
-                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">MANIFESTE</span>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
-                            <span class="step-number">Phase 02</span>
-                            <span class="step-label">Ressources</span>
-                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">ARSENAL & FINANCE</span>
-                            <div class="step-status-icon status-locked">🔒</div>
+                            <span class="step-number">02</span>
+                            <span class="step-label">Arsenal</span>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
-                            <span class="step-number">Phase 03</span>
-                            <span class="step-label">Certification</span>
-                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">SÛRETÉ</span>
-                            <div class="step-status-icon status-locked">🔒</div>
+                            <span class="step-number">03</span>
+                            <span class="step-label">Boussole</span>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
-                            <span class="step-number">Phase 04</span>
-                            <span class="step-label">Marché</span>
-                            <span style="font-size:0.6rem; color:var(--text-muted); font-weight:700;">ORBITE</span>
-                            <div class="step-status-icon status-locked">🔒</div>
+                            <span class="step-number">04</span>
+                            <span class="step-label">Sûreté</span>
+                        </div>
+                        <div class="cockpit-step" id="cockpit-step-5" onclick="showCockpitPhase(5)">
+                            <span class="step-number">05</span>
+                            <span class="step-label">Orbite</span>
                         </div>
                     </div>
 
-                    <!-- SUCCESS ENGINE : PREMIUM GAUGE & HUD -->
-                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius:32px; padding:32px; border:1px solid #e2e8f0; display:grid; grid-template-columns: 200px 1fr; gap:48px; align-items:center; box-shadow: 0 20px 50px rgba(0,0,0,0.05); margin-bottom:48px; position:relative; overflow:hidden;">
-                        <!-- Gauge Circular -->
-                        <div style="position:relative; width:180px; height:180px; display:flex; align-items:center; justify-content:center;">
-                            <svg width="180" height="180" viewBox="0 0 120 120" style="transform: rotate(-90deg);">
-                                <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="8" />
-                                <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gauge-gradient)" stroke-width="8" 
-                                        stroke-dasharray="${strokeDasharray}" stroke-dashoffset="${strokeDashoffset}" 
-                                        stroke-linecap="round" style="transition: stroke-dashoffset 1s ease-out;" />
-                                <defs>
-                                    <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#3b82f6" />
-                                        <stop offset="100%" stop-color="#10b981" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div style="position:absolute; text-align:center;">
-                                <div style="font-size:2.8rem; font-weight:900; color:#0f172a; line-height:1;">${totalScore}%</div>
-                                <div style="font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Maturité</div>
-                            </div>
+                    <div class="kpi-cockpit" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:32px;">
+                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
+                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Maturité du projet</span>
+                            <span style="display:block; font-size:2rem; font-weight:900; color:#3b82f6;">${totalScore}%</span>
                         </div>
-
-                        <!-- HUD Stats -->
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
-                            <div>
-                                <div style="font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Fonds Collectés</div>
-                                <div style="font-size:2.2rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</div>
-                                <div style="display:flex; align-items:center; gap:6px; margin-top:8px;">
-                                    <span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:6px; font-size:0.75rem; font-weight:700;">🚀 Live</span>
-                                    <span style="font-size:0.8rem; color:#64748b;">+0% cette semaine</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div style="font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Indice Banques</div>
-                                <div style="font-size:2.2rem; font-weight:900; color:#3b82f6;">${totalScore > 60 ? 'B+' : 'C'}</div>
-                                <div style="font-size:0.85rem; color:#64748b; margin-top:8px; font-weight:600;">
-                                    ${totalScore >= 80 ? 'Dossier institutionnel complet' : (totalScore >= 50 ? 'Audit de ressources en cours' : 'Phase stratégique initiale')}
-                                </div>
-                            </div>
+                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
+                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Fonds Collectés</span>
+                            <span style="display:block; font-size:2rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
                         </div>
-
-                        <!-- Absolute logic indicators -->
-                        <div style="position:absolute; bottom:20px; right:32px; display:flex; gap:16px;">
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#10b981;"></div>
-                                <span style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Moteur : Prêt</span>
-                            </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#3b82f6;"></div>
-                                <span style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Données : Synergie</span>
-                            </div>
+                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
+                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Indice Banques</span>
+                            <span style="display:block; font-size:2rem; font-weight:900; color:#94a3b8;">${totalScore > 60 ? 'B+' : 'C'}</span>
                         </div>
                     </div>
                 `;
@@ -1973,29 +1919,28 @@
                 
                 // --- PHASE 1 : STRATÉGIE (MANIFESTE) ---
                 phasesHTML += `
-                    <div id="phase-card-1" class="cockpit-section dash-card highlight" style="border-color:#3b82f6; background:white;">
+                    <div id="phase-card-1" class="cockpit-section dash-card active">
                         <div class="card-title">01. Stratégie & Ambition</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Votre "Pourquoi" est le socle de votre épopée. Un manifeste clair attire les meilleurs experts.</p>
+                        <p style="color:#64748b; margin-bottom:24px;">Définissez la vision, la mission et les enjeux de votre projet.</p>
                         
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
                             <div style="display:flex; flex-direction:column; gap:16px;">
                                 <div class="form-group">
-                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Vision</label>
-                                    <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.vision || ''}</textarea>
+                                    <label>La Vision</label>
+                                    <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?" style="width:100%; height:80px;">${firstProj.vision || ''}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">La Mission</label>
-                                    <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.mission || ''}</textarea>
+                                    <label>La Mission</label>
+                                    <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ?" style="width:100%; height:80px;">${firstProj.mission || ''}</textarea>
                                 </div>
                             </div>
                             <div style="display:flex; flex-direction:column; gap:16px;">
                                 <div class="form-group">
-                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">L'Enjeu</label>
-                                    <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial aujourd'hui ?" style="width:100%; height:100px; padding:12px; border:1px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem;">${firstProj.enjeu || ''}</textarea>
+                                    <label>L'Enjeu</label>
+                                    <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial ?" style="width:100%; height:80px;">${firstProj.enjeu || ''}</textarea>
                                 </div>
-                                <div style="height:100%; display:flex; gap:12px; align-items:flex-end;">
+                                <div style="margin-top:auto; display:flex; gap:12px;">
                                     <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="flex:1;">Enregistrer</button>
-                                    <a href="/marketplace/project?id=${firstProj.id}" target="_blank" class="btn-cockpit secondary">Aperçu Public</a>
                                 </div>
                             </div>
                         </div>
@@ -2004,67 +1949,41 @@
 
                 // --- PHASE 2 : ARSENAL (BESOINS) ---
                 phasesHTML += `
-                    <div id="phase-card-2" class="cockpit-section dash-card highlight" style="border-color:#f59e0b; background:white; position:relative;">
-                        ${totalScore < 20 ? `
-                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
-                                <div style="font-size:2.5rem; margin-bottom:16px;">🛠️</div>
-                                <h3 style="font-weight:900; margin-bottom:8px; color:#92400e;">Arsenal Verrouillé</h3>
-                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Complétez votre Manifeste stratégique pour atteindre <b>20% de maturité</b>.</p>
-                            </div>
-                        ` : ''}
-                        <div class="card-title" style="margin-bottom:8px; font-size:1.1rem;">Arsenal (Besoins)</div>
-                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:12px;">Listez les moyens matériels, humains et techniques indispensables. Un arsenal complet rassure vos futurs soutiens.</p>
-                        
+                    <div id="phase-card-2" class="cockpit-section dash-card">
+                        <div class="card-title">02. Arsenal (Besoins)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Listez les moyens matériels, humains et techniques indispensables.</p>
                         <div class="form-group">
-                            <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Vos besoins (Équipement, Talents...)</label>
-                            <textarea id="cockpit-needs" placeholder="Ex: Développeur React, Serveurs GPU, Local de 50m2..." 
-                                      style="width:100%; height:180px; padding:20px; border:1px solid var(--gray-200); border-radius:16px; font-family:inherit; font-size:1rem; margin-bottom:24px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">${firstProj.needs || ''}</textarea>
-                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#f59e0b; height:54px; font-size:1.1rem; border-radius:12px; font-weight:800;">Enregistrer mon Arsenal</button>
+                            <textarea id="cockpit-needs" placeholder="Ex: Développeur, Matériel..." style="width:100%; height:120px; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
+                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary">Enregistrer l'Arsenal</button>
                         </div>
                     </div>
                 `;
 
-                // --- PHASE 3 : LA BOUSSOLE (FINANCE) ---
+                // --- PHASE 3 : BOUSSOLE (FINANCE) ---
                 phasesHTML += `
-                    <div id="phase-card-3" class="cockpit-section dash-card highlight" style="border-color:#10b981; background:white; position:relative;">
-                        ${totalScore < 40 ? `
-                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
-                                <div style="font-size:2.5rem; margin-bottom:16px;">🧭</div>
-                                <h3 style="font-weight:900; margin-bottom:8px; color:#065f46;">Boussole Verrouillée</h3>
-                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Définissez votre Arsenal pour atteindre <b>40% de maturité</b>.</p>
-                            </div>
-                        ` : ''}
-                        <div class="card-title" style="margin-bottom:8px; font-size:1.1rem;">Boussole (Milestones)</div>
-                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:12px;">Créez une dynamique collective. Quand un objectif est atteint, tous vos soutiens reçoivent un bonus !</p>
-                        
+                    <div id="phase-card-3" class="cockpit-section dash-card">
+                        <div class="card-title">03. Boussole (Finance)</div>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
                             <div>
-                                <div style="margin-bottom:24px;">
-                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Objectif de financement (€)</label>
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label>Objectif de financement (€)</label>
                                     <div style="display:flex; gap:8px;">
-                                        <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || ''}" 
-                                               style="flex:1; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-size: 1rem; font-weight:700;">
+                                        <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || ''}" style="flex:1;">
                                         <button onclick="updateFundingGoal('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
                                     </div>
                                 </div>
-
-                                <div style="text-align:center; padding:20px; border: 1px solid #e2e8f0; border-radius:16px; background: #f8fafc; margin-bottom:16px;">
-                                    <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:16px;">Prévoyez des paliers pour motiver vos supporters.</p>
-                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="background:white; border:1px solid #e2e8f0; padding:10px 24px; font-weight:800; color:#0f172a; border-radius:12px;">+ Ajouter un palier</button>
-                                </div>
-                                <div id="dash-milestones-list" style="display:grid; gap:8px; max-height:180px; overflow-y:auto;">
-                                    <!-- List rendered here -->
-                                </div>
-                            </div>
-
-                            <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px dashed #cbd5e1;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                    <div class="card-title" style="margin-bottom:0; font-size:0.9rem;">Contreparties (Récompenses)</div>
-                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981; padding:4px 12px; font-size:0.75rem;">+ Offrir</button>
+                                    <div style="font-weight:700;">Milestones (Paliers)</div>
+                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter</button>
                                 </div>
-                                <div id="dash-rewards-list" style="display:grid; gap:8px; max-height:220px; overflow-y:auto;">
-                                    <p style="color:#94a3b8; font-size:0.8rem; text-align:center;">Chargement...</p>
+                                <div id="dash-milestones-list" style="display:grid; gap:8px;"></div>
+                            </div>
+                            <div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <div style="font-weight:700;">Contreparties</div>
+                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter</button>
                                 </div>
+                                <div id="dash-rewards-list" style="display:grid; gap:8px;"></div>
                             </div>
                         </div>
                     </div>
@@ -2072,38 +1991,18 @@
 
                 // --- PHASE 4 : SÛRETÉ (COMPLIANCE) ---
                 phasesHTML += `
-                    <div id="phase-card-4" class="cockpit-section dash-card highlight" style="border-color:#6366f1; background:white; position:relative;">
-                        ${totalScore < 60 ? `
-                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
-                                <div style="font-size:2.5rem; margin-bottom:16px;">🔑</div>
-                                <h3 style="font-weight:900; margin-bottom:8px; color:#1e1b4b;">Certification Verrouillée</h3>
-                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Initialisez votre Boussole pour atteindre <b>60% de maturité</b>.</p>
-                            </div>
-                        ` : ''}
+                    <div id="phase-card-4" class="cockpit-section dash-card">
                         <div class="card-title">04. Sûreté & Certification</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité pour sécuriser les fonds et rassurer les financeurs.</p>
-                        
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                            <div id="certification-status-box" style="background: #f8fafc; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200);">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <div>
-                                        <div style="font-size: 1rem; font-weight: 800; color: #0f172a;">Pièce d'identité</div>
-                                        <div id="id-status-text" style="font-size:0.8rem; color:${firstProj.identity_verified ? '#10b981' : '#f59e0b'}; font-weight:800; margin-top:4px;">
-                                            ${firstProj.identity_verified ? 'Certifié ✅' : (firstProj.verification_status === 'pending' ? 'Vérification en cours ⏳' : 'Action requise')}
-                                        </div>
-                                    </div>
-                                    ${(!firstProj.identity_verified && firstProj.verification_status !== 'pending') ? `
-                                        <button onclick="document.getElementById('id-upload-input').click()" class="btn-cockpit primary" style="background:#0f172a;">DÉPOSER</button>
-                                    ` : ''}
-                                </div>
-                                <input type="file" id="id-upload-input" accept="image/*,application/pdf" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
+                            <div style="padding: 16px; background:#f8fafc; border-radius:12px;">
+                                <div style="font-weight:800; margin-bottom:8px;">Identité</div>
+                                <button onclick="document.getElementById('id-upload-input').click()" class="btn-cockpit primary">Déposer pièce d'identité</button>
+                                <input type="file" id="id-upload-input" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
                             </div>
-                            
-                            <div style="background:#f8fafc; padding:24px; border-radius:16px; border: 1px solid var(--gray-200);">
-                                <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Structure légale (SIRET)</label>
+                            <div style="padding: 16px; background:#f8fafc; border-radius:12px;">
+                                <label>SIRET</label>
                                 <div style="display:flex; gap:8px;">
-                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Optionnel"
-                                           style="flex:1; padding: 12px; border: 1px solid var(--gray-200); border-radius: 10px; font-size: 0.9rem; outline: none; font-weight:700;">
+                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" style="flex:1;">
                                     <button onclick="updateProjectVerification('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
                                 </div>
                             </div>
@@ -2111,36 +2010,20 @@
                     </div>
                 `;
 
-                // --- PHASE 5 : ORBITE (MARCHÉ) ---
+                // --- PHASE 5 : ORBITE (LANCEMENT) ---
                 phasesHTML += `
-                    <div id="phase-card-5" class="cockpit-section dash-card highlight" style="border-color:#ec4899; background:white; position:relative;">
-                        ${totalScore < 80 ? `
-                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:16px; text-align:center; padding:40px;">
-                                <div style="font-size:2.5rem; margin-bottom:16px;">🚀</div>
-                                <h3 style="font-weight:900; margin-bottom:8px; color:#500724;">Lancement Verrouillé</h3>
-                                <p style="color:#475569; max-width:300px; font-size:0.9rem;">Finalisez votre Certification pour atteindre <b>80% de maturité</b>.</p>
-                            </div>
-                        ` : ''}
+                    <div id="phase-card-5" class="cockpit-section dash-card">
                         <div class="card-title">05. Mise en Orbite</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Votre dossier est prêt. Lancez votre projet sur le marché Domtom Connect.</p>
-                        
                         <div style="display:grid; grid-template-columns: 2fr 1fr; gap:32px; align-items:center;">
-                            <div style="background:#fdf2f8; padding:24px; border-radius:20px; border: 1px solid #fbcfe8;">
-                                <div class="form-group">
-                                    <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom:8px; text-transform: uppercase;">Lien Vidéo (YouTube/Vimeo)</label>
-                                    <div style="display:flex; gap:8px;">
-                                        <input type="url" id="cockpit-video-url" value="${firstProj.video_url || ''}" placeholder="Lien vers votre pitch vidéo" 
-                                               style="flex:1; padding:12px; border:1px solid #fbcfe8; border-radius:12px; font-size:0.9rem;">
-                                        <button onclick="updateProjectVideo('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label>Lien Vidéo</label>
+                                <input type="url" id="cockpit-video-url" value="${firstProj.video_url || ''}" style="width:100%;">
                             </div>
-                            
-                            <div style="display:flex; flex-direction:column; gap:12px; justify-content:center;">
-                                <button onclick="unlistProject('${firstProj.id}', ${isListed})" class="btn-cockpit primary" style="width:100%; height:50px; background:#ec4899;">
-                                    ${isListed ? 'Retirer du Marché' : '🚀 LANCER / PUBLIER'}
+                            <div style="display:flex; flex-direction:column; gap:12px;">
+                                <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="btn-cockpit primary">
+                                    ${firstProj.is_listed ? 'Retirer du Marché' : '🚀 LANCER'}
                                 </button>
-                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger" style="width:100%;">Supprimer définitivement</button>
+                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer</button>
                             </div>
                         </div>
                     </div>
@@ -2153,7 +2036,7 @@
                 loadDashboardRewards(firstProj.id);
                 loadDashboardMilestones(firstProj.id);
 
-                // Show initial phase based on maturity (5-phase model)
+                // Show initial phase based on maturity (5-phase model - simple unlock)
                 let activePhase = 1;
                 if (totalScore >= 80) activePhase = 5;
                 else if (totalScore >= 60) activePhase = 4;
