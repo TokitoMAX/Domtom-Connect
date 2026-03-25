@@ -148,11 +148,27 @@ function calculateProjectMaturity(p) {
     if (!p) return 0;
     let score = 0;
 
-    // PHASE 1 : STRATÉGIE (MANIFESTE) - 20 pts
-    if (p.title && p.title.length > 5) score += 5;
-    if (p.vision && p.vision.length > 5) score += 5;
-    if (p.mission && p.mission.length > 5) score += 5;
-    if (p.enjeu && p.enjeu.length > 5) score += 5;
+    // Phase 01: Stratégie (Titre + Vision + Mission + Enjeu)
+    if (p.title && p.title !== 'Nouvelle Épopée') score += 5;
+    
+    // Support tant pour les nouveaux champs que pour l'ancien système de description
+    if (p.vision && p.vision.length > 20) {
+        score += 5;
+    } else if (p.description && p.description.includes('[[VISION]]')) {
+        score += 5;
+    }
+
+    if (p.mission && p.mission.length > 20) {
+        score += 5;
+    } else if (p.description && p.description.includes('[[MISSION]]')) {
+        score += 5;
+    }
+
+    if (p.enjeu && p.enjeu.length > 20) {
+        score += 5;
+    } else if (p.description && p.description.includes('[[PROBLEM]]')) {
+        score += 5;
+    }
 
     // PHASE 2 : ARSENAL (BESOINS) - 20 pts
     if (p.needs && p.needs.length > 10) score += 20;

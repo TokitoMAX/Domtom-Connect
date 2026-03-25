@@ -1950,13 +1950,18 @@
 
             const { data: projects, error } = await _supabase
                 .from('projects')
-                .select('*')
+                .select('id, title, status, description, territory, vision, mission, enjeu, needs, roadmap, total_raised, funding_goal, is_listed, created_at')
                 .eq('owner_id', userId)
                 .order('created_at', { ascending: false });
 
             if (error) {
                 console.error("Error loading projects:", error);
-                container.innerHTML = `<p style="color:#ef4444; padding:20px;">Erreur de chargement: ${error.message}</p>`;
+                container.innerHTML = `
+                    <div style="color:#ef4444; padding:20px; text-align:center;">
+                        <p><strong>Erreur de chargement :</strong> ${error.message}</p>
+                        <p style="font-size:0.8rem; color:var(--text-secondary);">Si l'erreur est 400, vérifiez que vous avez bien exécuté le script SQL <code>add_project_ambition_fields.sql</code>.</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -3130,11 +3135,20 @@
                 // Initialisation des données
                 await loadMyProjects(session.user.id);
 
-                // Récupération du score pour la carte Épopée
-                const { data: projects } = await _supabase.from('projects').select('id').eq('owner_id', session.user.id).limit(1);
-                const firstProj = projects && projects.length > 0 ? projects[0] : null;
-                const { data: pData } = firstProj ? await _supabase.from('projects').select('*').eq('id', firstProj.id).single() : { data: null };
-                const score = pData ? calculateProjectMaturity(pData) : 0;
+                // Récupération du score pour la carte Épopée (Robust & Explicit)
+                let score = 0;
+                try {
+                    const { data: projects, error: fetchError } = await _supabase.from('projects')
+                        .select('id, title, vision, mission, enjeu, status, description')
+                        .eq('owner_id', session.user.id)
+                        .limit(1);
+                        
+                    if (!fetchError && projects && projects.length > 0) {
+                        score = calculateProjectMaturity(projects[0]);
+                    }
+                } catch (e) {
+                    console.warn("Échec calcul maturité:", e);
+                }
 
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #3b82f6;">
@@ -3616,9 +3630,14 @@
             if (error) {
                 alert("Erreur lors de l'enregistrement de la Roadmap : " + error.message);
             } else {
-                alert("Boussole validée ! Vos objectifs sont tracés. Étape 3 (Commando) bientôt disponible.");
+                alert("✅ Boussole validée ! Vos objectifs sont tracés.");
                 closeRoadmapModal();
                 loadMyProjects(session.user.id);
+                
+                // ENCHAÎNER : Ouvrir l'Arsenal
+                setTimeout(() => {
+                    openArsenalModal(pid);
+                }, 500);
             }
         }
 
@@ -3627,7 +3646,9 @@
             const session = await getSession();
             if (!session) return;
 
-            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+            const { data: p } = await _supabase.from('projects')
+                .select('id, title, status, description, territory, vision, mission, enjeu, needs, roadmap')
+                .eq('id', projectId).single();
             if (!p) return;
 
             let modal = document.getElementById('arsenal-modal');
