@@ -3676,7 +3676,7 @@
                 const vision = document.getElementById('proj-vision').value.trim();
                 const mission = document.getElementById('proj-mission').value.trim();
                 const problem = document.getElementById('proj-problem').value.trim();
-                const territory = document.getElementById('proj-territory').value;
+                const territory = document.getElementById('proj-territory')?.value || 'Martinique';
                 const status = document.getElementById('proj-status').value;
                 const needs = document.getElementById('proj-needs').value;
 
