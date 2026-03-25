@@ -1833,6 +1833,9 @@
 
                 const { data, error } = await _supabase.from('projects').insert([{
                     title: 'Nouvelle Épopée',
+                    description: '[[VISION]]\n\n[[MISSION]]\n\n[[PROBLEM]]\n',
+                    territory: 'Martinique',
+                    status: 'Idée',
                     owner_id: session.user.id,
                     updated_at: new Date().toISOString()
                 }]).select('id').single();
