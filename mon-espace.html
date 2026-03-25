@@ -1987,39 +1987,20 @@
                 const isListed = firstProj.is_listed; // local flag
                 
                 headerContainer.innerHTML = `
-                    <div style="display:grid; grid-template-columns: 1.2fr 2fr; gap:40px; align-items:center; margin-bottom:40px;">
-                        <div>
-                            <div class="gauge-container" style="background: rgba(255,255,255,0.05); border-radius: 50%; padding: 10px;">
-                                <svg class="gauge-svg" viewBox="0 0 100 100">
-                                    <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
-                                    <circle class="gauge-progress" cx="50" cy="50" r="44" 
-                                            style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
-                                </svg>
-                                <div class="gauge-center">
-                                    <div class="gauge-value" style="background: linear-gradient(135deg, #0f172a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${totalScore}%</div>
-                                    <div class="gauge-label">Maturité</div>
-                                </div>
+                    <div style="display:flex; align-items:center; gap:24px; margin-bottom:32px;">
+                        <div class="gauge-container" style="width:120px; height:120px; margin:0;">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
+                                <circle class="gauge-progress" cx="50" cy="50" r="44" 
+                                        style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
+                            </svg>
+                            <div class="gauge-center">
+                                <div class="gauge-value" style="font-size:1.2rem;">${totalScore}%</div>
                             </div>
                         </div>
-
                         <div>
-                            <div style="margin-bottom:24px;">
-                                <h2 style="font-size:2.4rem; font-weight:900; color:#0f172a; margin-bottom:4px; letter-spacing:-0.04em; line-height:1.1;">Cockpit de l'Épopée</h2>
-                                <p style="color:#64748b; font-weight:600; font-size:1.15rem;">Pilotez votre mission vers le succès financier.</p>
-                            </div>
-
-                            <div class="hud-container">
-                                <div class="hud-card" style="border-left: 4px solid #10b981;">
-                                    <div class="hud-title">Fonds Collectés</div>
-                                    <div class="hud-value" style="color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</div>
-                                    <div style="font-size:0.65rem; color:#64748b; margin-top:4px;">+0.00% depuis 7j</div>
-                                </div>
-                                <div class="hud-card" style="border-left: 4px solid #3b82f6;">
-                                    <div class="hud-title">Indice Confiance</div>
-                                    <div class="hud-value" style="color:#3b82f6;">${totalScore > 60 ? 'B+' : 'C'}</div>
-                                    <div style="font-size:0.65rem; color:#64748b; margin-top:4px;">Score Bancaire (est.)</div>
-                                </div>
-                            </div>
+                            <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:4px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
+                            <p style="color:#64748b; font-weight:600; font-size:1rem;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
                         </div>
                     </div>
 
@@ -2031,7 +2012,7 @@
                         </div>
                         <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
                             <span class="step-number">02</span>
-                            <span class="step-label">Besoins</span>
+                            <span class="step-label">Arsenal</span>
                             <div class="step-status-icon status-active">●</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
@@ -2048,6 +2029,24 @@
                             <span class="step-number">05</span>
                             <span class="step-label">Orbite</span>
                             <div class="step-status-icon status-active">●</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-cockpit" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:32px;">
+                        <div class="kpi-item" style="background:white; padding:24px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <span style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Maturité du projet</span>
+                            <span style="display:block; font-size:3rem; font-weight:900; color:#3b82f6; line-height:1;">${totalScore}%</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:12px;">Indice de confiance banques</p>
+                        </div>
+                        <div class="kpi-item" style="background:white; padding:24px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <span style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Fonds Collectés</span>
+                            <span style="display:block; font-size:3rem; font-weight:900; color:#10b981; line-height:1;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:12px;">+0.00% ces 7 derniers jours</p>
+                        </div>
+                        <div class="kpi-item" style="background:white; padding:24px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <span style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Commission (Est.)</span>
+                            <span style="display:block; font-size:3rem; font-weight:900; color:#94a3b8; line-height:1;">${((firstProj.total_raised || 0) * 0.05).toLocaleString('fr-FR')}€</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:12px;">Frais Domtom Connect (5%)</p>
                         </div>
                     </div>
                 `;
@@ -2088,12 +2087,27 @@
                 // --- PHASE 2 : ARSENAL (BESOINS) ---
                 phasesHTML += `
                     <div id="phase-card-2" class="cockpit-section dash-card">
-                        <div class="card-title">02. Arsenal (Vos Besoins)</div>
-                        <p style="color:#64748b; margin-bottom:24px;">L'argent n'est qu'un moyen. Listez ici les talents ou le matériel dont vous avez besoin.</p>
-                        <div class="form-group">
-                            <label>Besoins en Ressources</label>
-                            <textarea id="cockpit-needs" placeholder="Ex: Développeur, Matériel informatique, Local..." style="width:100%; height:120px; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
-                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary">Mettre à jour les besoins</button>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
+                            <div style="padding-right:32px; border-right:1px solid #f1f5f9;">
+                                <div class="card-title" style="color:#10b981;">Besoins en Ressources</div>
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:24px;">L'argent n'est qu'un moyen. Listez ici les talents ou le matériel dont vous avez besoin.</p>
+                                <div class="form-group">
+                                    <textarea id="cockpit-needs" placeholder="Argent, Matériel, Talents..." style="width:100%; height:120px; margin-bottom:16px; border-radius:12px; border:1px solid #e2e8f0; padding:12px;">${firstProj.needs || ''}</textarea>
+                                    <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; height:48px;">Mettre à jour les besoins</button>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <div class="card-title">Arsenal (Récompenses)</div>
+                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit primary" style="padding:6px 12px; font-size:0.75rem; border-radius:8px;">+ Ajouter</button>
+                                </div>
+                                <p style="color:#64748b; font-size:0.85rem; margin-bottom:24px;">Engagez votre communauté avec des contreparties exclusives.</p>
+                                <div id="dash-rewards-list" style="display:grid; gap:12px;">
+                                    <div style="text-align:center; padding:32px; color:#94a3b8; font-size:0.85rem; border:1px dashed #e2e8f0; border-radius:12px;">
+                                        Engagez votre communauté avec des contreparties exclusives.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
