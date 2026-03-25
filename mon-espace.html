@@ -629,11 +629,11 @@
 
         .gauge-progress {
             fill: none;
-            stroke: #3b82f6;
+            stroke: #10b981;
             stroke-width: 12;
             stroke-linecap: round;
             transition: stroke-dashoffset 1s ease-in-out;
-            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
         }
 
         .gauge-center {
@@ -722,8 +722,8 @@
 
         .status-completed { background: #10b981; color: white; }
         .status-pending { background: #f59e0b; color: white; }
-        .status-active { background: #3b82f6; color: white; }
-        .status-locked { background: var(--gray-300); color: white; }
+        .status-active { background: #10b981; color: white; }
+        .status-locked { background: #cbd5e1; color: white; }
 
         .cockpit-section {
             display: none;
@@ -1967,11 +1967,22 @@
 
             if (!projects || projects.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align:center; padding:60px 20px; background:#f8fafc; border:2px dashed #e2e8f0; border-radius:16px;">
-                        <div style="font-size:3rem; margin-bottom:16px;">🌟</div>
-                        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:8px;">Prêt pour votre première Épopée ?</h3>
-                        <p style="color:var(--text-secondary); margin-bottom:24px; max-width:300px; margin-left:auto; margin-right:auto;">Structurez votre projet pas à pas et débloquez les meilleurs talents des Antilles.</p>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background:#10b981; border:none;">Lancer mon Manifeste</button>
+                    <div style="padding:80px 40px; background:linear-gradient(135deg, #0f172a, #1e293b); border-radius:32px; color:white; text-align:center; position:relative; overflow:hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+                        <div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; background:rgba(16,185,129,0.1); border-radius:50%; filter:blur(40px);"></div>
+                        <div style="position:absolute; bottom:-50px; left:-50px; width:200px; height:200px; background:rgba(16,185,129,0.05); border-radius:50%; filter:blur(40px);"></div>
+                        
+                        <div style="font-size:4rem; margin-bottom:24px; filter: drop-shadow(0 0 10px rgba(16,185,129,0.5));">🚀</div>
+                        <h2 style="font-size:2.5rem; font-weight:900; margin-bottom:12px; letter-spacing:-0.04em;">Lancez votre Épopée</h2>
+                        <p style="color:rgba(255,255,255,0.7); font-size:1.1rem; max-width:500px; margin:0 auto 40px; line-height:1.6; font-weight:500;">
+                            Structurez votre levée de fonds comme une mission institutionnelle. 
+                            Définissez vos besoins, vos paliers et accédez aux meilleurs talents des Antilles.
+                        </p>
+                        
+                        <div style="display:flex; justify-content:center; gap:16px;">
+                            <button onclick="openProjectModal()" class="btn-cockpit primary" style="background:#10b981; color:white; padding:16px 40px; font-size:1.1rem; border-radius:16px; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">
+                                Commencer la Mission
+                            </button>
+                        </div>
                     </div>
                 `;
                 return;
@@ -2042,7 +2053,7 @@
                     <div class="kpi-cockpit" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-bottom:40px;">
                         <div class="kpi-item" style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
                             <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Maturité du projet</span>
-                            <span style="display:block; font-size:3.5rem; font-weight:900; color:#3b82f6; line-height:1;">${totalScore}%</span>
+                            <span style="display:block; font-size:3.5rem; font-weight:900; color:#10b981; line-height:1;">${totalScore}%</span>
                             <p style="font-size:0.75rem; color:#94a3b8; margin-top:16px; font-weight:600;">Indice de confiance banques</p>
                         </div>
                         <div class="kpi-item" style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
