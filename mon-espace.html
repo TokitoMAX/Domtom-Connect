@@ -2950,7 +2950,17 @@
             // const role = profile?.role || 'user'; // Already defined above
             // const tier = profile?.tier || 'free'; // Already defined above
             // const isListed = profile?.is_listed || false; // Already defined above
-            const roleBadge = document.getElementById('user-role-badge'); // Use user-role-badge as defined in window.roleBadge
+            const roleBadge = document.getElementById('user-role-badge');
+            const epopeeLink = document.querySelector('a[href="/epopee"]');
+
+            // --- NAVIGATION SECURITY : Hide Cockpit for non-project owners ---
+            if (epopeeLink) {
+                if (role === 'expert' || role === 'prestataire' || role === 'entreprise') {
+                    epopeeLink.style.display = 'none';
+                } else {
+                    epopeeLink.style.display = 'flex';
+                }
+            }
 
             if (role === 'expert' || role === 'prestataire') {
                 if (roleBadge) {
@@ -3139,14 +3149,14 @@
                         <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir la messagerie</a>
                     </div>
 
-                    <!-- Carte Épopée (Simplifiée et intégrée au Hub) -->
-                    <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02); cursor: pointer;" onclick="showView('success-engine')">
+                    <!-- Carte Épopée (Lien externe vers Cockpit) -->
+                    <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02); cursor: pointer;" onclick="window.location.href='/epopee'">
                         <div class="card-title" style="color: #10b981;">
                             Mon Épopée
                             <span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:20px;">${score}%</span>
                         </div>
                         <p class="card-desc">Gérez la stratégie et le financement de votre projet via le Success Engine.</p>
-                        <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center; font-size: 0.8rem;">Piloter mon projet →</button>
+                        <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center; font-size: 0.8rem;" onclick="window.location.href='/epopee'">Piloter mon projet →</button>
                     </div>
 
                     <div class="dash-card">
