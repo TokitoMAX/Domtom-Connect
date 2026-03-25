@@ -2012,14 +2012,14 @@
                                 <p style="color:#475569; max-width:300px; font-size:0.9rem;">Complétez votre Manifeste stratégique pour atteindre <b>20% de maturité</b>.</p>
                             </div>
                         ` : ''}
-                        <div class="card-title">02. Arsenal & Ressources</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Listez les moyens matériels et humains nécessaires pour forger votre projet.</p>
+                        <div class="card-title" style="margin-bottom:8px; font-size:1.1rem;">Arsenal (Besoins)</div>
+                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:12px;">Listez les moyens matériels, humains et techniques indispensables. Un arsenal complet rassure vos futurs soutiens.</p>
                         
                         <div class="form-group">
                             <label style="display:block; font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Vos besoins (Équipement, Talents...)</label>
                             <textarea id="cockpit-needs" placeholder="Ex: Développeur React, Serveurs GPU, Local de 50m2..." 
                                       style="width:100%; height:180px; padding:20px; border:1px solid var(--gray-200); border-radius:16px; font-family:inherit; font-size:1rem; margin-bottom:24px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">${firstProj.needs || ''}</textarea>
-                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#f59e0b; height:54px; font-size:1.1rem;">Enregistrer mon Arsenal</button>
+                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary" style="width:100%; background:#f59e0b; height:54px; font-size:1.1rem; border-radius:12px; font-weight:800;">Enregistrer mon Arsenal</button>
                         </div>
                     </div>
                 `;
@@ -2034,8 +2034,8 @@
                                 <p style="color:#475569; max-width:300px; font-size:0.9rem;">Définissez votre Arsenal pour atteindre <b>40% de maturité</b>.</p>
                             </div>
                         ` : ''}
-                        <div class="card-title">03. La Boussole Financière</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Définissez vos objectifs, vos paliers et ce que vos soutiens recevront.</p>
+                        <div class="card-title" style="margin-bottom:8px; font-size:1.1rem;">Boussole (Milestones)</div>
+                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:12px;">Créez une dynamique collective. Quand un objectif est atteint, tous vos soutiens reçoivent un bonus !</p>
                         
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
                             <div>
@@ -2048,12 +2048,12 @@
                                     </div>
                                 </div>
 
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                    <div class="card-title" style="margin-bottom:0; font-size:0.9rem;">Milestones (Paliers)</div>
-                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 12px; font-size:0.75rem;">+ Ajouter</button>
+                                <div style="text-align:center; padding:20px; border: 1px solid #e2e8f0; border-radius:16px; background: #f8fafc; margin-bottom:16px;">
+                                    <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:16px;">Prévoyez des paliers pour motiver vos supporters.</p>
+                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="background:white; border:1px solid #e2e8f0; padding:10px 24px; font-weight:800; color:#0f172a; border-radius:12px;">+ Ajouter un palier</button>
                                 </div>
                                 <div id="dash-milestones-list" style="display:grid; gap:8px; max-height:180px; overflow-y:auto;">
-                                    <p style="color:#94a3b8; font-size:0.8rem; text-align:center;">Chargement...</p>
+                                    <!-- List rendered here -->
                                 </div>
                             </div>
 
