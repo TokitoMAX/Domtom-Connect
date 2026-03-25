@@ -1869,6 +1869,10 @@
                 const firstProj = projects[0];
                 const totalScore = calculateProjectMaturity(firstProj);
                 const headerContainer = document.getElementById('success-engine-header');
+                const engineStepContainer = document.getElementById('success-engine-step');
+                
+                const isListed = firstProj.is_listed; // local flag
+                
                 headerContainer.innerHTML = `
                     <div style="margin-bottom:32px;">
                         <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
