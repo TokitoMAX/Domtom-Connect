@@ -142,35 +142,34 @@ async function checkUserRole(session) {
  */
 /**
  * Calcule le score de maturité d'un projet (0-100)
- * Unifiée pour tout l'écosystème Domtom Connect.
- * Aligné sur le parcours institutionnel en 5 phases.
+ * Aligné sur le parcours premium en 5 phases : Stratégie -> Arsenal -> Boussole -> Sûreté -> Orbite.
  */
 function calculateProjectMaturity(p) {
     if (!p) return 0;
     let score = 0;
-    const desc = p.description || "";
 
-    // PHASE 1 : STRATÉGIE (MANIFESTE) - 25 pts
+    // PHASE 1 : STRATÉGIE (MANIFESTE) - 20 pts
     if (p.title && p.title.length > 5) score += 5;
-    if (p.vision && p.vision.length > 10) score += 10;
-    if (p.mission && p.mission.length > 10) score += 5;
-    if (p.enjeu && p.enjeu.length > 10) score += 5;
+    if (p.vision && p.vision.length > 5) score += 5;
+    if (p.mission && p.mission.length > 5) score += 5;
+    if (p.enjeu && p.enjeu.length > 5) score += 5;
 
-    // PHASE 2 : ARSENAL & FINANCE (RESSOURCES) - 40 pts
-    if (p.needs && p.needs.length > 10) score += 10;
-    if (p.cover_url) score += 10;
+    // PHASE 2 : ARSENAL (BESOINS) - 20 pts
+    if (p.needs && p.needs.length > 10) score += 20;
+
+    // PHASE 3 : BOUSSOLE (FINANCE) - 20 pts
     if (p.funding_goal && p.funding_goal > 0) score += 5;
-    if (p.budget) score += 5; 
-    if (p.roadmap || p.milestones_count > 0) score += 10;
+    if (p.milestones_count > 0) score += 10;
+    if (p.rewards_count > 0) score += 5;
 
-    // PHASE 3 : SÛRETÉ (COMPLIANCE) - 20 pts
+    // PHASE 4 : SÛRETÉ (COMPLIANCE) - 20 pts
     if (p.identity_verified) score += 10;
     if (p.siret && p.siret.length > 5) score += 5;
     if (p.social_links) score += 5;
 
-    // PHASE 4 : LANCEMENT (ORBITE) - 15 pts
+    // PHASE 5 : ORBITE (LANCEMENT) - 20 pts
     if (p.video_url) score += 5;
-    if (p.is_listed) score += 10;
+    if (p.is_listed) score += 15;
 
     return Math.min(100, score);
 }
@@ -180,11 +179,12 @@ function calculateProjectMaturity(p) {
  * Adapté au Fundraising Cockpit (5 phases)
  */
 function getProjectStatus(score) {
-    if (score < 25) return { label: "Manifeste", step: 1, next: "Ressources" };
-    if (score < 65) return { label: "Arsenal & Finance", step: 2, next: "Sûreté" };
-    if (score < 85) return { label: "Sûreté & Compliance", step: 3, next: "Orbite" };
-    if (score < 100) return { label: "Prêt pour Orbite", step: 4, next: "Lancement" };
-    return { label: "Épopée Certifiée", step: 4, next: "Déployé" };
+    if (score < 20) return { label: "Stratégie", step: 1, next: "Arsenal" };
+    if (score < 40) return { label: "Arsenal", step: 2, next: "Boussole" };
+    if (score < 60) return { label: "Boussole", step: 3, next: "Sûreté" };
+    if (score < 80) return { label: "Sûreté", step: 4, next: "Orbite" };
+    if (score < 100) return { label: "Prêt pour Orbite", step: 5, next: "Lancement" };
+    return { label: "Épopée Certifiée", step: 5, next: "Déployé" };
 }
 
 // Exposition globale
