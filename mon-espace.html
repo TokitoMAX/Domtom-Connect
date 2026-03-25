@@ -1993,74 +1993,29 @@
             };
 
             headerContainer.innerHTML = `
-                <div style="display:flex; align-items:center; gap:32px; margin-bottom:40px;">
-                    <div class="gauge-container" style="width:120px; height:120px; margin:0; flex-shrink:0;">
-                        <svg class="gauge-svg" viewBox="0 0 100 100">
-                            <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
-                            <circle class="gauge-progress" cx="50" cy="50" r="44" 
-                                    style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
-                        </svg>
-                        <div class="gauge-center">
-                            <div class="gauge-value" style="font-size:1.5rem;">${totalScore}%</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
+                    <div style="display:flex; align-items:center; gap:24px;">
+                        <div class="gauge-container" style="width:80px; height:80px; margin:0; flex-shrink:0;">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
+                                <circle class="gauge-progress" cx="50" cy="50" r="44" 
+                                        style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
+                            </svg>
+                            <div class="gauge-center">
+                                <div class="gauge-value" style="font-size:1.1rem;">${totalScore}%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 style="font-size:1.5rem; font-weight:900; color:#0f172a; margin:0;">${firstProj.title || 'Ma Nouvelle Épopée'}</h2>
+                            <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0 0;">Maturité du projet : ${totalScore}%</p>
                         </div>
                     </div>
-                    <div style="flex:1;">
-                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-                            <input type="text" id="cockpit-project-name" value="${firstProj.title || 'Ma Nouvelle Épopée'}" 
-                                   onblur="updateProjectTitle('${firstProj.id}', this.value)"
-                                   style="font-size:2.5rem; font-weight:900; color:#0f172a; border:none; background:transparent; letter-spacing:-0.05em; line-height:1; padding:0; width:100%; outline:none;"
-                                   placeholder="Nommez votre Épopée...">
-                        </div>
-                        <p style="color:#64748b; font-weight:600; font-size:1.1rem; opacity:0.8;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
-                    </div>
-                </div>
-
-                <div class="cockpit-stepper" id="cockpit-stepper-container" style="margin-bottom:40px; gap:8px;">
-                    <div class="cockpit-step active" id="cockpit-step-1" onclick="showCockpitPhase(1)">
-                        <span class="step-number">Phase 01</span>
-                        <span class="step-label">Stratégie</span>
-                        ${getStepIcon(0)}
-                    </div>
-                    <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
-                        <span class="step-number">Phase 02</span>
-                        <span class="step-label">Arsenal</span>
-                        ${getStepIcon(1)}
-                    </div>
-                    <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
-                        <span class="step-number">Phase 03</span>
-                        <span class="step-label">Finance</span>
-                        ${getStepIcon(2)}
-                    </div>
-                    <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
-                        <span class="step-number">Phase 04</span>
-                        <span class="step-label">Sûreté</span>
-                        ${getStepIcon(3)}
-                    </div>
-                    <div class="cockpit-step" id="cockpit-step-5" onclick="showCockpitPhase(5)">
-                        <span class="step-number">Phase 05</span>
-                        <span class="step-label">Orbite</span>
-                        ${getStepIcon(4)}
-                    </div>
-                </div>
-
-                <div class="kpi-cockpit" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-bottom:40px;">
-                    <div class="kpi-item" style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                        <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Maturité du projet</span>
-                        <span style="display:block; font-size:3.5rem; font-weight:900; color:#10b981; line-height:1;">${totalScore}%</span>
-                        <p style="font-size:0.75rem; color:#94a3b8; margin-top:16px; font-weight:600;">Indice de confiance banques</p>
-                    </div>
-                    <div class="kpi-item" style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                        <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Fonds Collectés</span>
-                        <span style="display:block; font-size:3.5rem; font-weight:900; color:#10b981; line-height:1;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
-                        <p style="font-size:0.75rem; color:#94a3b8; margin-top:16px; font-weight:600;">+0.00% ces 7 derniers jours</p>
-                    </div>
-                    <div class="kpi-item" style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                        <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Commission (Est.)</span>
-                        <span style="display:block; font-size:3.5rem; font-weight:900; color:#94a3b8; line-height:1;">${((firstProj.total_raised || 0) * 0.05).toLocaleString('fr-FR')}€</span>
-                        <p style="font-size:0.75rem; color:#94a3b8; margin-top:16px; font-weight:600;">Frais Domtom Connect (5%)</p>
-                    </div>
+                    <a href="/epopee" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; color:white; border-radius:12px; font-weight:800; cursor:pointer; text-decoration:none;">Piloter mon Épopée →</a>
                 </div>
             `;
+
+            // On vide le conteneur des phases sur le Hub
+            engineStepContainer.innerHTML = "";
 
                 // Render Phase-Specific Content
                 let phasesHTML = "";
