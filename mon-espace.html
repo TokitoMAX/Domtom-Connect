@@ -1969,7 +1969,7 @@
             // Fallback for 0 projects: instant empty cockpit
             let firstProj = projects && projects.length > 0 ? projects[0] : {
                 id: 'new',
-                name: 'Ma Nouvelle Épopée',
+                title: 'Ma Nouvelle Épopée',
                 vision: '',
                 mission: '',
                 enjeu: '',
@@ -2006,8 +2006,8 @@
                     </div>
                     <div style="flex:1;">
                         <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-                            <input type="text" id="cockpit-project-name" value="${firstProj.name || 'Ma Nouvelle Épopée'}" 
-                                   onblur="updateProjectName('${firstProj.id}', this.value)"
+                            <input type="text" id="cockpit-project-name" value="${firstProj.title || 'Ma Nouvelle Épopée'}" 
+                                   onblur="updateProjectTitle('${firstProj.id}', this.value)"
                                    style="font-size:2.5rem; font-weight:900; color:#0f172a; border:none; background:transparent; letter-spacing:-0.05em; line-height:1; padding:0; width:100%; outline:none;"
                                    placeholder="Nommez votre Épopée...">
                         </div>
@@ -2413,8 +2413,8 @@
             } catch (err) { alert(err.message); }
         }
 
-        async function updateProjectName(projectId, newName) {
-            if (!newName.trim()) return;
+        async function updateProjectTitle(projectId, newTitle) {
+            if (!newTitle.trim()) return;
             try {
                 if (projectId === 'new') {
                     // Triggers creation if not already done
@@ -2423,13 +2423,13 @@
 
                     const { data, error } = await _supabase
                         .from('projects')
-                        .insert([{ owner_id: user.id, name: newName.trim(), status: 'draft' }])
+                        .insert([{ owner_id: user.id, title: newTitle.trim(), status: 'draft' }])
                         .select();
                     if (error) throw error;
-                    alert("✅ Épopée créée sous le nom : " + newName);
+                    alert("✅ Épopée créée sous le nom : " + newTitle);
                     window.location.reload();
                 } else {
-                    const { error } = await _supabase.from('projects').update({ name: newName.trim() }).eq('id', projectId);
+                    const { error } = await _supabase.from('projects').update({ title: newTitle.trim() }).eq('id', projectId);
                     if (error) throw error;
                 }
             } catch (err) { alert(err.message); }
