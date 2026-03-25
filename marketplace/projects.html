@@ -6,14 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace Projets - Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <script src="https://t.contentsquare.net/uxa/86bd8964d6ff4.js"></script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TBM8LXJV');</script>
-    <!-- End Google Tag Manager -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -22,41 +14,49 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        .maturity-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
-            padding: 8px 16px;
+        /* Alphabet Filter */
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            margin: 32px 0;
+            padding: 16px;
+            background: #f8fafc;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        .maturity-value {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #10b981;
-            line-height: 1;
-        }
-
-        .maturity-text {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 2px;
-        }
-
-        .tag-need {
-            background: #f1f5f9;
-            color: #475569;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 8px;
             border: 1px solid #e2e8f0;
+        }
+
+        .letter-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+
+        .letter-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .letter-btn.active {
+            background: #0f172a;
+            color: white;
+            border-color: #0f172a;
+        }
+
+        .letter-btn.all {
+            width: auto;
+            padding: 0 12px;
         }
 
         /* Projet Cards - Aligné sur Experts/Entreprises */
@@ -75,7 +75,7 @@
 
         .project-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             border-color: #10b981;
         }
 
@@ -139,6 +139,16 @@
             margin-bottom: 32px;
         }
 
+        .tag-need {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
         .project-actions {
             display: flex;
             gap: 12px;
@@ -178,10 +188,6 @@
 </head>
 
 <body style="background: #f8fafc; color: #0f172a;">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBM8LXJV"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
@@ -196,11 +202,11 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="../marketplace/directory">Talents</a>
-                    <a href="../marketplace/jobs">Missions</a>
-                    <a href="/marketplace/projects" class="active">Projets</a>
-                    <a href="/marketplace/evenements">Événements</a>
-                    <a href="../marketplace/companies">Entreprises</a>
+                    <a href="directory.html">Talents</a>
+                    <a href="jobs.html">Missions</a>
+                    <a href="projects.html" class="active">Projets</a>
+                    <a href="evenements.html">Événements</a>
+                    <a href="companies.html">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
                     <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
@@ -210,7 +216,6 @@
         </div>
     </nav>
 
-    <!-- Header Section -->
     <header class="directory-header" style="background: white; border-bottom: 1px solid var(--gray-200); padding: 80px 0 60px;">
         <div class="container">
             <div class="section-header" style="text-align: center; margin-bottom: 40px;">
@@ -221,7 +226,10 @@
                 </p>
             </div>
 
-            <!-- Unified Search Bar -->
+            <div class="alphabet-filter" id="letter-filter-container">
+                <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
+            </div>
+
             <div class="search-bar-v3" style="max-width: 900px; margin: 0 auto; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid var(--gray-200); padding: 8px; border-radius: 16px; display: flex; gap: 8px;">
                 <div class="search-input-wrapper" style="flex: 2;">
                     <input type="text" id="search-input" placeholder="Rechercher une épopée, une vision..." 
@@ -233,13 +241,13 @@
                             style="width: 100%; padding: 14px 20px; border: none; outline: none; background: transparent; cursor: pointer; color: #475569; font-weight: 600;" 
                             onchange="loadProjects()">
                         <option value="">Tous les territoires</option>
-                        <option value="Guadeloupe">Guadeloupe</option>
                         <option value="Martinique">Martinique</option>
+                        <option value="Guadeloupe">Guadeloupe</option>
                         <option value="Guyane">Guyane</option>
                         <option value="Réunion">La Réunion</option>
                         <option value="Mayotte">Mayotte</option>
-                        <option value="Hauts-de-France">Hauts-de-France</option>
-                        <option value="Ile-de-France">Ile-de-France</option>
+                        <option value="Diaspora">Diaspora</option>
+                        <option value="International">International</option>
                     </select>
                 </div>
                 <button class="cta-button primary" style="padding: 14px 28px; background: #10b981; border: none; color: white; border-radius: 12px; font-weight: 800; cursor: pointer;" onclick="loadProjects()">Filtrer</button>
@@ -248,26 +256,18 @@
     </header>
 
     <main class="container" style="padding-top: 32px;">
-
-        <!-- Bandeau porteur de projet -->
         <div class="project-cta-banner" id="project-banner" style="display:none; background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); color: white; padding: 24px; border-radius: 16px; margin-bottom: 40px; justify-content: space-between; align-items: center;">
             <div>
                 <p><strong>Vous avez une idée ou un projet ?</strong></p>
-                <p style="color: #d1fae5; font-size: 0.85rem; margin-top: 4px;">Rejoignez le programme d'accompagnement
-                    pour propulser votre initiative et trouver vos futurs partenaires.</p>
+                <p style="color: #d1fae5; font-size: 0.85rem; margin-top: 4px;">Rejoignez le programme d'accompagnement pour propulser votre initiative.</p>
             </div>
-            <a href="/mon-espace#success-engine" class="cta-button primary"
-                style="white-space:nowrap;background:#ffffff;color:#065f46;border:none; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none;">
-                Propulser mon projet
-            </a>
+            <a href="/mon-espace#success-engine" class="cta-button primary" style="background:white; color:#065f46; border:none; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none;">Propulser mon projet</a>
         </div>
 
         <div class="directory-grid" id="projects-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; padding-bottom: 80px;"></div>
 
         <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
-            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun projet n'est encore affiché pour cette
-                recherche.</p>
-            <p style="color: var(--text-muted);">Soyez le premier à publier votre projet stratégique !</p>
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun projet n'est encore affiché pour cette recherche.</p>
         </div>
     </main>
 
@@ -276,28 +276,42 @@
     <script>
         let currentUserId = null;
         let currentUserRole = null;
+        let currentLetter = '';
 
         async function init() {
             const session = await getSession();
-            // N'oblige pas à être connecté pour voir la marketplace
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
                 await loadGlobalNavbar();
-
                 if (currentUserRole === 'project_owner' || currentUserRole === 'porteur_projet' || currentUserRole === 'porteur') {
                     const banner = document.getElementById('project-banner');
                     if (banner) banner.style.display = 'flex';
                 }
-            } else {
-                // Charge une navbar minimaliste pour les invités
-                const navLinks = document.getElementById('nav-links-container');
-                const navActions = document.getElementById('nav-actions-container');
-                if (navLinks) navLinks.innerHTML = `<a href="/marketplace/directory">Experts</a><a href="/marketplace/projects">Projets</a>`;
-                if (navActions) navActions.innerHTML = `<a href="/login" class="cta-button secondary">Connexion</a>`;
             }
-
+            generateAlphabet();
             await loadProjects();
+        }
+
+        function generateAlphabet() {
+            const container = document.getElementById('letter-filter-container');
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            alphabet.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.textContent = letter;
+                btn.onclick = () => filterByLetter(letter);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByLetter(letter) {
+            currentLetter = letter;
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                const isAll = btn.classList.contains('all');
+                btn.classList.toggle('active', isAll ? letter === '' : btn.textContent === letter);
+            });
+            loadProjects();
         }
 
         async function loadProjects() {
@@ -311,7 +325,7 @@
                     .from('projects')
                     .select('*')
                     .eq('is_listed', true)
-                    .eq('is_approved', true) // Uniquement les projets validés par Domtom Connect
+                    .eq('is_approved', true) 
                     .order('created_at', { ascending: false });
 
                 if (territoryFilter) query = query.eq('territory', territoryFilter);
@@ -319,13 +333,28 @@
                 const { data: projects, error } = await query;
                 if (error) throw error;
 
-                let filteredProjects = projects;
+                let filteredProjects = projects || [];
+
+                if (currentLetter) {
+                    filteredProjects = filteredProjects.filter(p => {
+                        const title = (p.title || "").toUpperCase();
+                        return title.startsWith(currentLetter);
+                    });
+                }
+
                 if (searchTxt) {
-                    filteredProjects = projects.filter(p =>
-                        p.title.toLowerCase().includes(searchTxt) ||
-                        p.description.toLowerCase().includes(searchTxt)
+                    filteredProjects = filteredProjects.filter(p =>
+                        (p.title || "").toLowerCase().includes(searchTxt) ||
+                        (p.description || "").toLowerCase().includes(searchTxt)
                     );
                 }
+
+                // Sorting A-Z
+                filteredProjects.sort((a, b) => {
+                    const nameA = (a.title || "").toUpperCase();
+                    const nameB = (b.title || "").toUpperCase();
+                    return nameA.localeCompare(nameB);
+                });
 
                 if (!filteredProjects || !filteredProjects.length) {
                     emptyState.style.display = 'block';
@@ -343,26 +372,21 @@
         }
 
         function renderProjectCard(p) {
-            const s = window.calculateProjectMaturity(p);
-            const status = window.getProjectStatus(s);
-            const initials = p.title.slice(0, 2).toUpperCase();
-            
+            const s = (typeof window.calculateProjectMaturity === 'function') ? window.calculateProjectMaturity(p) : 0;
+            const initials = p.title ? p.title.slice(0, 2).toUpperCase() : '??';
             return `
                 <div class="project-card">
-                    <div class="maturity-indicator">${status.label}</div>
                     <div class="project-card-header">
                         <div class="project-image-placeholder">${initials}</div>
                         <div class="project-info">
                             <h3>${p.title}</h3>
-                            <div class="project-location">
-                                ${p.territory}
-                            </div>
+                            <div class="project-location">${p.territory}</div>
                         </div>
                     </div>
-                    <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Projet en cours de structuration sur Domtom Connect.'}</p>
+                    <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Projet en cours de structuration.'}</p>
                     <div class="project-tags">
                         <span class="tag-need">Maturité ${s}%</span>
-                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(16,185,129,0.1); color:#10b981; border:1px solid rgba(16,185,129,0.2);">${p.total_raised}€ récoltés</span>` : ''}
+                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(16,185,129,0.1); color:#10b981;">${p.total_raised}€ récoltés</span>` : ''}
                     </div>
                     <div class="project-actions">
                         <a href="/marketplace/project?id=${p.id}" class="btn-view">Découvrir l'Aventure</a>
@@ -373,7 +397,5 @@
 
         init();
     </script>
-    <script src="../assets/js/script.js?v=2.2"></script>
 </body>
-
 </html>

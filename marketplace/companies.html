@@ -190,7 +190,51 @@
             color: #0f172a;
         }
 
-        /* Modal simple */
+        /* Alphabet Filter */
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            margin: 32px 0;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .letter-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+
+        .letter-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .letter-btn.active {
+            background: #0f172a;
+            color: white;
+            border-color: #0f172a;
+        }
+
+        .letter-btn.all {
+            width: auto;
+            padding: 0 12px;
+        }
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -233,11 +277,11 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="/marketplace/directory">Talents</a>
-                    <a href="/marketplace/jobs">Missions</a>
-                    <a href="/marketplace/projects">Projets</a>
-                    <a href="/marketplace/evenements">Événements</a>
-                    <a href="/marketplace/companies" class="active">Entreprises</a>
+                    <a href="directory.html">Talents</a>
+                    <a href="jobs.html">Missions</a>
+                    <a href="projects.html">Projets</a>
+                    <a href="evenements.html">Événements</a>
+                    <a href="companies.html" class="active">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
                     <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
@@ -253,12 +297,32 @@
                 <h1>Annuaire des Entreprises</h1>
                 <p>Découvrez les acteurs économiques qui recrutent et investissent dans nos régions.</p>
             </div>
+
+            <div class="alphabet-filter" id="letter-filter-container">
+                <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
+            </div>
+
             <div class="search-bar-v3">
                 <div class="search-input-wrapper">
-                    <input type="text" id="search-input" placeholder="Rechercher une entreprise, un secteur..." onkeyup="if(event.key === 'Enter') loadCompanies()">
+                    <input type="text" id="search-input" placeholder="Rechercher une entreprise..." oninput="loadCompanies()">
                 </div>
                 <div class="search-select-wrapper">
-                    <select id="territory-filter">
+                    <select id="sector-filter" onchange="loadCompanies()">
+                        <option value="">Tous les secteurs</option>
+                        <option>Agriculture & Agrolimentaire</option>
+                        <option>Artisanat & Commerce</option>
+                        <option>BTP & Ingénierie</option>
+                        <option>Culture & Tourisme</option>
+                        <option>Digital & Tech</option>
+                        <option>Énergie & Environnement</option>
+                        <option>Finance & Assurance</option>
+                        <option>Santé & Bien-être</option>
+                        <option>Services & Conseil</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+                <div class="search-select-wrapper">
+                    <select id="territory-filter" onchange="loadCompanies()">
                         <option value="">Tous les territoires</option>
                         <option value="Martinique">Martinique</option>
                         <option value="Guadeloupe">Guadeloupe</option>
@@ -269,27 +333,21 @@
                         <option value="International">International</option>
                     </select>
                 </div>
-                <button class="cta-button primary" style="background: #0369a1;"
-                    onclick="loadCompanies()">Filtrer</button>
+                <button class="cta-button primary" style="background: #0369a1;" onclick="loadCompanies()">Filtrer</button>
             </div>
         </div>
     </header>
 
     <main class="container" style="padding-top: 32px;">
         <div class="client-cta-banner" id="company-banner" style="display:none;">
-            <p><strong>Votre entreprise sur Domtom Connect.</strong> Faites-vous connaître de notre réseau d'experts et
-                attirez les meilleurs profils.</p>
-            <button class="cta-button primary" style="background:white; color:#0369a1; border:none;"
-                onclick="openCompanyModal()">Inscrire ma société</button>
+            <p><strong>Votre entreprise sur Domtom Connect.</strong> Faites-vous connaître et attirez les meilleurs talents.</p>
+            <button class="cta-button primary" style="background:white; color:#0369a1; border:none;" onclick="openCompanyModal()">Inscrire ma société</button>
         </div>
 
-        <div class="directory-grid" id="companies-container">
-            <!-- Rempli par le JS -->
-        </div>
+        <div class="directory-grid" id="companies-container"></div>
 
         <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
-            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucune entreprise ne s'est encore inscrite dans
-                l'annuaire.</p>
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucune entreprise ne correspond à votre recherche.</p>
         </div>
     </main>
 
@@ -298,31 +356,50 @@
     <script>
         let currentUserId = null;
         let currentUserRole = null;
+        let currentLetter = '';
 
         async function init() {
             const session = await getSession();
-            if (!session) { window.location.href = '/register-choice'; return; }
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
-                const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-
                 await loadGlobalNavbar();
-
                 if (currentUserRole === 'entreprise') {
                     document.getElementById('company-banner').style.display = 'flex';
                 }
             }
+            generateAlphabet();
             await loadCompanies();
+        }
+
+        function generateAlphabet() {
+            const container = document.getElementById('letter-filter-container');
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            alphabet.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.textContent = letter;
+                btn.onclick = () => filterByLetter(letter);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByLetter(letter) {
+            currentLetter = letter;
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                const isAll = btn.classList.contains('all');
+                btn.classList.toggle('active', isAll ? letter === '' : btn.textContent === letter);
+            });
+            loadCompanies();
         }
 
         async function loadCompanies() {
             const container = document.getElementById('companies-container');
             const emptyState = document.getElementById('empty-state');
-
             try {
                 const search = document.getElementById('search-input').value.toLowerCase().trim();
                 const territory = document.getElementById('territory-filter').value;
+                const sector = document.getElementById('sector-filter').value;
 
                 let query = _supabase
                     .from('profiles')
@@ -331,68 +408,51 @@
                     .or('role.eq.entreprise,subscription_tier.eq.business');
 
                 if (territory) query = query.eq('territory', territory);
+                if (sector) query = query.eq('sector', sector);
 
                 const { data: companies, error } = await query;
                 if (error) throw error;
 
-                let filteredCompanies = companies || [];
-
+                let filtered = companies || [];
+                if (currentLetter) {
+                    filtered = filtered.filter(c => (c.company || c.full_name || "").toUpperCase().startsWith(currentLetter));
+                }
                 if (search) {
-                    filteredCompanies = companies.filter(c => {
-                        const name = (c.company || c.full_name || "").toLowerCase();
-                        const sector = (c.sector || "").toLowerCase();
-                        const bio = (c.bio || "").toLowerCase();
-                        return name.includes(search) || sector.includes(search) || bio.includes(search);
-                    });
+                    filtered = filtered.filter(c => 
+                        (c.company || c.full_name || "").toLowerCase().includes(search) || 
+                        (c.sector || "").toLowerCase().includes(search)
+                    );
                 }
 
-                if (!filteredCompanies || filteredCompanies.length === 0) {
+                filtered.sort((a, b) => (a.company || a.full_name || "").localeCompare(b.company || b.full_name || ""));
+
+                if (!filtered.length) {
                     emptyState.style.display = 'block';
                     container.innerHTML = '';
                     return;
                 }
-
                 emptyState.style.display = 'none';
-                container.innerHTML = filteredCompanies.map(renderCompanyCard).join('');
-
-            } catch (err) {
-                console.error('Erreur :', err);
-            }
+                container.innerHTML = filtered.map(renderCompanyCard).join('');
+            } catch (err) { console.error(err); }
         }
 
         function renderCompanyCard(company) {
-            const name = company.company || company.full_name || 'Entreprise anonyme';
+            const name = company.company || company.full_name || 'Entreprise';
             const initials = name.slice(0, 2).toUpperCase();
-            const avatar = company.avatar_url
-                ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">`
-                : `<div class="company-logo">${initials}</div>`;
-
-            const tier = company.subscription_tier || 'free';
-            const badge = tier !== 'free' ? '<span class="tag tag-premium">● Business</span>' : '';
-
+            const avatar = company.avatar_url ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">` : `<div class="company-logo">${initials}</div>`;
             return `
                 <div class="company-card">
                     <div class="company-header">
                         ${avatar}
                         <div class="company-info">
-                            <h3>
-                                ${name} 
-                                ${company.verified ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#0284c7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}
-                            </h3>
+                            <h3>${name} ${company.verified ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#0284c7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}</h3>
                             <div class="company-sector">${company.sector || 'Expertise'}</div>
-                            <div class="company-territory">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                ${company.territory || 'OM/Diaspora'}
-                            </div>
+                            <div class="company-territory">${company.territory || 'OM/Diaspora'}</div>
                         </div>
                     </div>
-                    <p class="company-desc">${company.bio || 'Cet acteur économique n\'a pas encore publié de description détaillée.'}</p>
-                    <div class="company-tags">
-                        ${badge}
-                        ${company.project_type ? `<span class="tag">${company.project_type}</span>` : ''}
-                    </div>
+                    <p class="company-desc">${company.bio || 'Aucune description disponible.'}</p>
                     <div class="company-actions">
-                        <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Profil</button>
+                        <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Détails</button>
                         <a href="../messages?to=${company.id}" class="btn-contact">Contacter</a>
                     </div>
                 </div>
@@ -402,84 +462,30 @@
         async function showCompanyDetails(id) {
             const { data: company, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
             if (error || !company) return;
-
             const name = company.company || company.full_name || 'Entreprise';
-            const initials = name.slice(0, 2).toUpperCase();
-            const avatar = company.avatar_url
-                ? `<img src="${company.avatar_url}" class="company-logo" style="width:40px; height:40px; object-fit:cover;" alt="${name}">`
-                : `<div class="company-logo" style="width:40px; height:40px; font-size:1rem;">${initials}</div>`;
-
-            // Injection dans une modal (reutilisant l'overlay existant)
-            const modalHtml = `
-                <div class="modal" style="max-width: 640px;">
-                    <div class="modal-header">
-                        <div style="display:flex; align-items:center; gap:16px;">
-                            ${avatar}
-                            <div>
-                                <h2 style="margin:0; font-size:1.4rem;">${name}</h2>
-                                <p style="margin:4px 0 0 0; color:#0369a1; font-weight:700; font-size:0.9rem;">${company.sector || 'Entreprise'}</p>
-                            </div>
-                        </div>
-                        <button class="modal-close" onclick="closeModal()">×</button>
+            const overlay = document.getElementById('details-modal-overlay');
+            overlay.innerHTML = `
+                <div class="modal">
+                    <h2>${name}</h2>
+                    <p style="color:#0369a1; font-weight:700;">${company.sector || 'Entreprise'}</p>
+                    <p style="margin-top:20px;">${(company.written_presentation || company.bio || 'Non renseigné').replace(/\n/g, '<br>')}</p>
+                    <div style="margin-top:24px; padding:20px; background:#f0f9ff; border-radius:12px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <span><strong>Territoire:</strong> ${company.territory || '—'}</span>
+                        <span><strong>SIRET:</strong> ${company.siret || '—'}</span>
                     </div>
-
-                    <div style="display:grid; grid-template-columns: 1fr; gap:24px; margin-top:24px;">
-                        <section>
-                            <h4 style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8; letter-spacing:0.05em; margin-bottom:12px;">À propos de l'entreprise</h4>
-                            <p style="font-size:0.95rem; line-height:1.7; color:#334155;">${(company.written_presentation || company.bio || 'Aucune description détaillée disponible.').replace(/\n/g, '<br>')}</p>
-                        </section>
-
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; padding:20px; background:#f0f9ff; border-radius:12px;">
-                            <div>
-                                <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Territoire</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.territory || '—'}</p>
-                            </div>
-                            <div>
-                                <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">SIRET</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">${company.siret || 'Non renseigné'}</p>
-                            </div>
-                            <div>
-                                <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Site Web</label>
-                                <p style="font-size:0.9rem; font-weight:600; margin:4px 0;">
-                                    ${company.website_url ? `<a href="${company.website_url}" target="_blank" style="color:#0369a1; text-decoration:underline;">Visiter le site</a>` : 'Non renseigné'}
-                                </p>
-                            </div>
-                            <div>
-                                <label style="font-size:0.7rem; font-weight:700; color:#0369a1; text-transform:uppercase;">Statut</label>
-                                <p id="modal-statut-label" style="font-size:0.9rem; font-weight:600; margin:4px 0;">
-                                    ${company.verified ? '<span style="color:#10b981;">Vérifié Domtom Connect</span>' : (company.siret ? '<span style="color:#0369a1;">Identité Confirmée</span>' : '<span style="color:#94a3b8;">Membre Domtom Connect</span>')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div style="display:flex; gap:12px; padding-top:24px; border-top:1px solid #f1f5f9;">
-                            <a href="../messages?to=${company.id}" class="btn-contact" style="flex:1; background:#0369a1;">Envoyer un message</a>
-                            ${company.linkedin_url ? `<a href="${company.linkedin_url}" target="_blank" class="btn-web" style="display:flex; align-items:center; justify-content:center; gap:8px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                                LinkedIn
-                            </a>` : ''}
-                        </div>
+                    <div style="margin-top:24px; display:flex; gap:12px;">
+                        <button onclick="closeModal()" class="btn-web">Fermer</button>
+                        <a href="../messages?to=${company.id}" class="btn-contact" style="background:#0369a1;">Contacter</a>
                     </div>
                 </div>
             `;
-
-            const overlay = document.getElementById('details-modal-overlay');
-            overlay.innerHTML = modalHtml;
             overlay.classList.add('open');
         }
 
-        function closeModal() {
-            document.getElementById('details-modal-overlay').classList.remove('open');
-        }
-
-        function openCompanyModal() {
-            window.location.href = '../profile';
-        }
-
+        function closeModal() { document.getElementById('details-modal-overlay').classList.remove('open'); }
+        function openCompanyModal() { window.location.href = '../profile'; }
         init();
     </script>
-
-    <!-- Modal Overlay Dynamique -->
     <div class="modal-overlay" id="details-modal-overlay" onclick="if(event.target === this) closeModal()"></div>
 </body>
 
