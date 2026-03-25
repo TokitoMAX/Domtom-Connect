@@ -1886,11 +1886,11 @@
                         </div>
                         <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
                             <span class="step-number">02</span>
-                            <span class="step-label">Arsenal</span>
+                            <span class="step-label">Besoins</span>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
                             <span class="step-number">03</span>
-                            <span class="step-label">Boussole</span>
+                            <span class="step-label">Finance</span>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
                             <span class="step-number">04</span>
@@ -1906,14 +1906,17 @@
                         <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
                             <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Maturité du projet</span>
                             <span style="display:block; font-size:2rem; font-weight:900; color:#3b82f6;">${totalScore}%</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Indice de confiance banques</p>
                         </div>
                         <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
                             <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Fonds Collectés</span>
                             <span style="display:block; font-size:2rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">+0.00% ces 7 derniers jours</p>
                         </div>
                         <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
-                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Indice Banques</span>
-                            <span style="display:block; font-size:2rem; font-weight:900; color:#94a3b8;">${totalScore > 60 ? 'B+' : 'C'}</span>
+                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Commission (est.)</span>
+                            <span style="display:block; font-size:2rem; font-weight:900; color:#94a3b8;">${((firstProj.total_raised || 0) * 0.05).toLocaleString('fr-FR')}€</span>
+                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Frais Domtom Connect (5%)</p>
                         </div>
                     </div>
                 `;
@@ -1924,27 +1927,27 @@
                 // --- PHASE 1 : STRATÉGIE (MANIFESTE) ---
                 phasesHTML += `
                     <div id="phase-card-1" class="cockpit-section dash-card active">
-                        <div class="card-title">01. Stratégie & Ambition</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Définissez la vision, la mission et les enjeux de votre projet.</p>
+                        <div class="card-title">01. Stratégie & Vision</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
                         
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
                             <div style="display:flex; flex-direction:column; gap:16px;">
                                 <div class="form-group">
-                                    <label>La Vision</label>
+                                    <label>Votre Vision (Futur)</label>
                                     <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?" style="width:100%; height:80px;">${firstProj.vision || ''}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>La Mission</label>
+                                    <label>Votre Mission (Présent)</label>
                                     <textarea id="manifesto-mission" placeholder="Que fait le projet concrètement ?" style="width:100%; height:80px;">${firstProj.mission || ''}</textarea>
                                 </div>
                             </div>
                             <div style="display:flex; flex-direction:column; gap:16px;">
                                 <div class="form-group">
-                                    <label>L'Enjeu</label>
+                                    <label>L'Enjeu (Pourquoi ?)</label>
                                     <textarea id="manifesto-enjeu" placeholder="Pourquoi est-ce crucial ?" style="width:100%; height:80px;">${firstProj.enjeu || ''}</textarea>
                                 </div>
                                 <div style="margin-top:auto; display:flex; gap:12px;">
-                                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="flex:1;">Enregistrer</button>
+                                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="flex:1;">Enregistrer la Stratégie</button>
                                 </div>
                             </div>
                         </div>
@@ -1954,11 +1957,12 @@
                 // --- PHASE 2 : ARSENAL (BESOINS) ---
                 phasesHTML += `
                     <div id="phase-card-2" class="cockpit-section dash-card">
-                        <div class="card-title">02. Arsenal (Besoins)</div>
-                        <p style="color:#64748b; margin-bottom:24px;">Listez les moyens matériels, humains et techniques indispensables.</p>
+                        <div class="card-title">02. Arsenal (Vos Besoins)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">L'argent n'est qu'un moyen. Listez ici les talents ou le matériel dont vous avez besoin.</p>
                         <div class="form-group">
-                            <textarea id="cockpit-needs" placeholder="Ex: Développeur, Matériel..." style="width:100%; height:120px; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
-                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary">Enregistrer l'Arsenal</button>
+                            <label>Besoins en Ressources</label>
+                            <textarea id="cockpit-needs" placeholder="Ex: Développeur, Matériel informatique, Local..." style="width:100%; height:120px; margin-bottom:16px;">${firstProj.needs || ''}</textarea>
+                            <button onclick="updateProjectNeeds('${firstProj.id}')" class="btn-cockpit primary">Mettre à jour les besoins</button>
                         </div>
                     </div>
                 `;
@@ -1966,26 +1970,27 @@
                 // --- PHASE 3 : BOUSSOLE (FINANCE) ---
                 phasesHTML += `
                     <div id="phase-card-3" class="cockpit-section dash-card">
-                        <div class="card-title">03. Boussole (Finance)</div>
+                        <div class="card-title">03. Boussole (Objectifs Financiers)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Définissez vos étapes de réussite et comment vous remerciez vos soutiens.</p>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
                             <div>
                                 <div class="form-group" style="margin-bottom:20px;">
-                                    <label>Objectif de financement (€)</label>
+                                    <label>Objectif total à collecter (€)</label>
                                     <div style="display:flex; gap:8px;">
                                         <input type="number" id="input-funding-goal" value="${firstProj.funding_goal || ''}" style="flex:1;">
                                         <button onclick="updateFundingGoal('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
                                     </div>
                                 </div>
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                    <div style="font-weight:700;">Milestones (Paliers)</div>
-                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter</button>
+                                    <div style="font-weight:700;">Étapes (Paliers de succès)</div>
+                                    <button onclick="openMilestoneModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter un palier</button>
                                 </div>
                                 <div id="dash-milestones-list" style="display:grid; gap:8px;"></div>
                             </div>
                             <div>
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                    <div style="font-weight:700;">Contreparties</div>
-                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter</button>
+                                    <div style="font-weight:700;">Contreparties (Récompenses)</div>
+                                    <button onclick="openRewardModal('${firstProj.id}')" class="btn-cockpit secondary" style="padding:4px 8px; font-size:0.75rem;">+ Ajouter une offre</button>
                                 </div>
                                 <div id="dash-rewards-list" style="display:grid; gap:8px;"></div>
                             </div>
@@ -1996,17 +2001,18 @@
                 // --- PHASE 4 : SÛRETÉ (COMPLIANCE) ---
                 phasesHTML += `
                     <div id="phase-card-4" class="cockpit-section dash-card">
-                        <div class="card-title">04. Sûreté & Certification</div>
+                        <div class="card-title">04. Sûreté (Certification légale)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Validez votre identité et votre structure pour pouvoir recevoir les fonds.</p>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
                             <div style="padding: 16px; background:#f8fafc; border-radius:12px;">
-                                <div style="font-weight:800; margin-bottom:8px;">Identité</div>
-                                <button onclick="document.getElementById('id-upload-input').click()" class="btn-cockpit primary">Déposer pièce d'identité</button>
+                                <div style="font-weight:800; margin-bottom:8px;">Pièce d'identité</div>
+                                <button onclick="document.getElementById('id-upload-input').click()" class="btn-cockpit primary">Déposer mon ID</button>
                                 <input type="file" id="id-upload-input" style="display:none" onchange="handleIDUpload(this, '${firstProj.id}')">
                             </div>
                             <div style="padding: 16px; background:#f8fafc; border-radius:12px;">
-                                <label>SIRET</label>
+                                <label>Numéro SIRET (Entreprise/Asso)</label>
                                 <div style="display:flex; gap:8px;">
-                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" style="flex:1;">
+                                    <input type="text" id="input-siret" value="${firstProj.siret || ''}" placeholder="Ex: 123 456 789..." style="flex:1;">
                                     <button onclick="updateProjectVerification('${firstProj.id}')" class="btn-cockpit secondary">OK</button>
                                 </div>
                             </div>
@@ -2017,17 +2023,18 @@
                 // --- PHASE 5 : ORBITE (LANCEMENT) ---
                 phasesHTML += `
                     <div id="phase-card-5" class="cockpit-section dash-card">
-                        <div class="card-title">05. Mise en Orbite</div>
+                        <div class="card-title">05. Mise en Orbite (Lancement)</div>
+                        <p style="color:#64748b; margin-bottom:24px;">Tout est prêt ! Ajoutez une vidéo et lancez votre projet sur le marché.</p>
                         <div style="display:grid; grid-template-columns: 2fr 1fr; gap:32px; align-items:center;">
                             <div class="form-group">
-                                <label>Lien Vidéo</label>
-                                <input type="url" id="cockpit-video-url" value="${firstProj.video_url || ''}" style="width:100%;">
+                                <label>Lien Vidéo (YouTube ou Vimeo)</label>
+                                <input type="url" id="cockpit-video-url" value="${firstProj.video_url || ''}" placeholder="https://youtube.com/..." style="width:100%;">
                             </div>
                             <div style="display:flex; flex-direction:column; gap:12px;">
-                                <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="btn-cockpit primary">
-                                    ${firstProj.is_listed ? 'Retirer du Marché' : '🚀 LANCER'}
+                                <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="btn-cockpit primary" style="background:#ec4899;">
+                                    ${firstProj.is_listed ? 'Retirer du Marché' : '🚀 LANCER LE PROJET'}
                                 </button>
-                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer</button>
+                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer définitivement</button>
                             </div>
                         </div>
                     </div>
