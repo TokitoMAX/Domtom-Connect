@@ -1811,10 +1811,14 @@
 
         function calculateProjectMaturity(p) {
             let score = 0;
-            if (p.vision && p.mission && p.enjeu) score += 16;
-            if (p.equipe) score += 16;
-            if (p.territory && p.status) score += 17;
-            if (p.impact_local || p.innovation) score += 17;
+            const hasVision = p.vision && p.vision.trim() !== '' && !p.vision.includes('[[VISION]]');
+            const hasMission = p.mission && p.mission.trim() !== '' && !p.mission.includes('[[MISSION]]');
+            const hasEnjeu = p.enjeu && p.enjeu.trim() !== '' && !p.enjeu.includes('[[PROBLEM]]');
+
+            if (hasVision && hasMission && hasEnjeu) score += 16;
+            if (p.equipe && p.equipe.trim() !== '') score += 16;
+            if (p.territory && p.status && p.territory !== 'Martinique') score += 17; // Count only if changed from default
+            if ((p.impact_local && p.impact_local.trim() !== '') || (p.innovation && p.innovation.trim() !== '')) score += 17;
             if (p.funding_goal > 0) score += 17;
             if (p.verification_status === 'verified') score += 17;
             return Math.min(score, 100);
@@ -2034,13 +2038,26 @@
                 <div class="sre-action-grid">
                     <div style="display:flex; flex-direction:column; gap:24px;">
                         <div>
-                            <label class="form-label">Territoire Cible</label>
+                            <label class="form-label">Territoire d'Éclat</label>
                             <select class="sre-input" onchange="saveProjectField('territory', this.value)">
-                                <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
-                                <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
-                                <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
-                                <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
-                                <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
+                                <option value="" disabled selected>Sélectionnez votre territoire...</option>
+                                <optgroup label="Antilles">
+                                    <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
+                                    <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
+                                    <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
+                                    <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy</option>
+                                </optgroup>
+                                <optgroup label="Sud">
+                                    <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
+                                </optgroup>
+                                <optgroup label="Océan Indien">
+                                    <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
+                                    <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
+                                </optgroup>
+                                <optgroup label="International">
+                                    <option value="Diaspora" ${p.territory === 'Diaspora' ? 'selected' : ''}>Diaspora</option>
+                                    <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div>
@@ -2120,19 +2137,37 @@
                         ${isVerified ? `
                             <div style="background:#ecfdf5; padding:24px; border-radius:16px; border:1px solid #10b981; text-align:center;">
                                 <span style="font-size:2rem;">✅</span>
-                                <h4 style="color:#065f46; margin:8px 0;">Structure Validée</h4>
+                                <h4 style="color:#065f46; margin:8px 0;">Identité Validée</h4>
                             </div>
                         ` : isPending ? `
                             <div style="background:#fffbeb; padding:24px; border-radius:16px; border:1px solid #f59e0b; text-align:center;">
                                 <span style="font-size:2rem;">⌛</span>
-                                <h4 style="color:#92400e; margin:8px 0;">Vérification en cours</h4>
+                                <h4 style="color:#92400e; margin:8px 0;">Analyse en cours</h4>
                             </div>
                         ` : `
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label class="form-label">Numéro SIRET</label>
-                                <input type="text" id="input-siret" class="sre-input" value="${p.siret || ''}" placeholder="SIRET">
+                            <div style="display:grid; gap:20px;">
+                                <div>
+                                    <label class="form-label" style="font-size:0.75rem;">Option A : Numéro SIRET</label>
+                                    <div style="display:flex; gap:8px;">
+                                        <input type="text" id="input-siret" class="sre-input" value="${p.siret || ''}" placeholder="Ex: 123 456 789 00012">
+                                        <button onclick="updateProjectVerification('${p.id}')" class="sre-btn primary">Valider</button>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align:center; position:relative; margin:10px 0;">
+                                    <span style="background:#f8fafc; padding:0 12px; font-size:0.75rem; color:#94a3b8; font-weight:700;">OU</span>
+                                    <hr style="border:none; border-top:1px solid #e2e8f0; position:absolute; top:50%; width:100%; z-index:-1;">
+                                </div>
+
+                                <div>
+                                    <label class="form-label" style="font-size:0.75rem;">Option B : Pièce d'Identité (Justification)</label>
+                                    <div style="padding:20px; border:2px dashed #cbd5e1; border-radius:16px; text-align:center; background:white;">
+                                        <input type="file" id="id-upload-input" style="display:none" onchange="handleIDUpload(this, '${p.id}')">
+                                        <button onclick="document.getElementById('id-upload-input').click()" class="sre-btn secondary" style="font-size:0.8rem;">📤 Téléverser CNI / Passeport</button>
+                                        <p style="font-size:0.65rem; color:#94a3b8; margin-top:8px;">Format PDF, JPG ou PNG (Max 5Mo)</p>
+                                    </div>
+                                </div>
                             </div>
-                            <button onclick="updateProjectVerification('${p.id}')" class="sre-btn primary" style="width:100%;">Valider</button>
                         `}
                     </div>
 
@@ -4026,11 +4061,11 @@
     </script>
 
     <!-- Reward Modal -->
-    <div class="modal-overlay" id="reward-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-overlay" id="reward-modal">
         <div class="hero-modal" style="max-width:550px; background:white; padding:40px; border-radius:24px; position:relative;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
                 <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Arsenal de Reconnaissance</h2>
-                <button onclick="document.getElementById('reward-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                <button onclick="document.getElementById('reward-modal').classList.remove('open')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
             </div>
             <div style="margin-bottom:24px;">
                 <div id="reward-visual-preview" style="width:100%; height:160px; border-radius:16px; background:#f8fafc; border:1px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; margin-bottom:16px; position:relative; overflow:hidden;">
@@ -4071,11 +4106,11 @@
     </div>
 
     <!-- Milestone Modal -->
-    <div class="modal-overlay" id="milestone-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+    <div class="modal-overlay" id="milestone-modal">
         <div class="hero-modal" style="max-width:500px; background:white; padding:40px; border-radius:24px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
                 <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Nouveau Palier Épopée</h2>
-                <button onclick="document.getElementById('milestone-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                <button onclick="document.getElementById('milestone-modal').classList.remove('open')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
             </div>
             <div style="display:grid; gap:20px;">
                 <div class="form-group">
