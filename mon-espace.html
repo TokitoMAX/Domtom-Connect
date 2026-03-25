@@ -3111,68 +3111,65 @@
                 document.getElementById('admin-total-commissions').textContent = (total * 0.1).toFixed(2) + ' €';
 
             } else {
-                roleBadge.textContent = "Porteur de Projet";
-                roleBadge.style.background = "var(--bg-light)";
-                roleBadge.style.color = "var(--text-muted)";
-                roleBadge.style.border = "1px solid var(--gray-200)";
+                if (roleBadge) {
+                    roleBadge.textContent = "Porteur de Projet";
+                    roleBadge.style.background = "rgba(59, 130, 246, 0.1)";
+                    roleBadge.style.color = "#3b82f6";
+                }
 
-                // Structure Segmentée - Restauration des blocs et ajout de la Sécurité
-                // Remplissage initial
+                // Initialisation des données
                 await loadMyProjects(session.user.id);
-                
-                // On récupère le score pour l'affichage de l'Épopée dans le Success Engine
+
+                // Récupération du score pour la carte Épopée
                 const { data: projects } = await _supabase.from('projects').select('id').eq('owner_id', session.user.id).limit(1);
                 const firstProj = projects && projects.length > 0 ? projects[0] : null;
-                // Le score est déjà calculé dans loadMyProjects via updateSuccessStepper, 
-                // mais on en a besoin ici pour le template.
                 const { data: pData } = firstProj ? await _supabase.from('projects').select('*').eq('id', firstProj.id).single() : { data: null };
                 const score = pData ? calculateProjectMaturity(pData) : 0;
 
-                const segmentedHTML = `
-                            <!-- Carte Mon Épopée (Groupée) -->
-                            <div class="dash-card highlight" style="border-color: #10b981; cursor: pointer;" onclick="showView('success-engine')">
-                                <div class="card-title">
-                                    Mon Épopée
-                                    <span style="font-size:0.75rem; background:rgba(16,185,129,0.1); color:#10b981; padding:4px 10px; border-radius:20px;">${score}% Maturité</span>
-                                </div>
-                                <p class="card-desc">Suivez le Success Engine pour structurer votre projet et débloquer les prestataires idéaux.</p>
-                                <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center;" onclick="showView('success-engine')">Gérer mon projet →</button>
-                            </div>
+                cardsContainer.innerHTML = `
+                    <div class="dash-card highlight" style="border-color: #3b82f6;">
+                        <div class="card-title">Mes Billets</div>
+                        <p class="card-desc">Accédez aux QR codes de vos événements et téléchargez vos billets.</p>
+                        <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir mes billets →</button>
+                    </div>
 
-                            <!-- Carte Événements -->
-                            <div class="dash-card">
-                                <div class="card-title">Publier un Événement</div>
-                                <p class="card-desc">Faites la promotion de vos événements auprès de la communauté.</p>
-                                <button onclick="openEventModal()" class="cta-button primary" style="margin-top:auto; background:var(--primary-color); justify-content:center;">Créer un événement</button>
-                            </div>
+                    <div class="dash-card">
+                        <div class="card-title">Messagerie</div>
+                        <p class="card-desc">Échangez avec les membres du réseau Domtom Connect.</p>
+                        <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir la messagerie</a>
+                    </div>
 
-                            <!-- Carte Webinaires (Bloc d'origine) -->
-                            <div class="dash-card">
-                                <div class="card-title">Webinaires & Live</div>
-                                <p class="card-desc">Participez à nos sessions live pour poser vos questions et comprendre l'écosystème.</p>
-                                <a href="/landing/webinaire/index.html" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir le prochain live →</a>
-                            </div>
+                    <!-- Carte Épopée (Simplifiée et intégrée au Hub) -->
+                    <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02); cursor: pointer;" onclick="showView('success-engine')">
+                        <div class="card-title" style="color: #10b981;">
+                            Mon Épopée
+                            <span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:20px;">${score}%</span>
+                        </div>
+                        <p class="card-desc">Gérez la stratégie et le financement de votre projet via le Success Engine.</p>
+                        <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center; font-size: 0.8rem;">Piloter mon projet →</button>
+                    </div>
 
-                            <div class="dash-card">
-                                <div class="card-title">Annuaire Talents</div>
-                                <p class="card-desc">Explorez les experts de la diaspora prêts à propulser votre aventure.</p>
-                                <a href="/marketplace/directory" class="cta-button primary" style="margin-top:auto; justify-content:center;">Trouver un expert</a>
-                            </div>
+                    <div class="dash-card">
+                        <div class="card-title">Mon Profil</div>
+                        <p class="card-desc">Gérez vos informations personnelles et préférences.</p>
+                        <a href="profile.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Modifier le profil</a>
+                    </div>
 
-                            <div class="dash-card">
-                                <div class="card-title">Missions Marketplace</div>
-                                <p class="card-desc">Consultez les opportunités et collaborez avec d'autres membres.</p>
-                                <a href="/marketplace/jobs" class="cta-button primary" style="margin-top:auto; justify-content:center;">Voir les missions</a>
-                            </div>
+                    <div class="dash-card">
+                        <div class="card-title">Marketplace</div>
+                        <p class="card-desc">Trouvez des experts et des missions sur le réseau.</p>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:auto;">
+                            <a href="/marketplace/directory" class="cta-button secondary" style="font-size:0.75rem; justify-content:center; padding: 8px;">Talents</a>
+                            <a href="/marketplace/jobs" class="cta-button secondary" style="font-size:0.75rem; justify-content:center; padding: 8px;">Missions</a>
+                        </div>
+                    </div>
 
-                            <div class="dash-card">
-                                <div class="card-title">Ressources & Guides</div>
-                                <p class="card-desc">Toutes les checklists et guides pour éviter les erreurs classiques.</p>
-                                <a href="/blog" class="cta-button primary" style="margin-top:auto; justify-content:center;">Lire les guides</a>
-                            </div>
+                    <div class="dash-card">
+                        <div class="card-title">Communauté</div>
+                        <p class="card-desc">Webinaires, lives et ressources pour réussir.</p>
+                        <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ressources & Guides</a>
+                    </div>
                 `;
-
-                cardsContainer.innerHTML = segmentedHTML;
 
                 await loadMyProjects(session.user.id);
                 // NOT CALLED HERE - DOMContentLoaded and hashchange handle initial view

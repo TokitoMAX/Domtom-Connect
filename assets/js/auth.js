@@ -13,7 +13,7 @@ async function signInWithGoogle() {
     const { data, error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: window.location.origin + '/epopee'
+            redirectTo: window.location.origin + '/mon-espace'
         }
     });
     if (error) throw error;
@@ -259,7 +259,7 @@ async function loadGlobalNavbar() {
                         <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
                             Bonjour, ${name}
                         </a>
-                        <a href="/epopee" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
                             Mon Espace
                         </a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
