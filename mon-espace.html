@@ -1872,14 +1872,22 @@
                 const engineStepContainer = document.getElementById('success-engine-step');
                 const isListed = firstProj.is_listed;
 
-                // Render Cockpit Foundation
+                // Render Cockpit Foundation (Premium Instrument Design)
+                const strokeDasharray = 339.29; // 2 * PI * 54
+                const strokeDashoffset = strokeDasharray * (1 - totalScore / 100);
+
                 headerContainer.innerHTML = `
-                    <div style="margin-bottom:32px;">
-                        <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
-                        <p style="color:#64748b; font-weight:600; font-size:1.05rem;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
+                    <div style="margin-bottom:32px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h2 style="font-size:2.2rem; font-weight:900; color:#0f172a; margin:0; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
+                            <p style="color:#64748b; font-weight:600; font-size:1.1rem; margin-top:4px;">Gérez votre mission comme un projet institutionnel.</p>
+                        </div>
+                        <div style="display:flex; gap:12px;">
+                             <button onclick="location.reload()" class="btn-cockpit secondary" style="padding:10px 20px; border-radius:12px;">🔄 Actualiser</button>
+                        </div>
                     </div>
 
-                    <div class="cockpit-stepper" id="cockpit-stepper-container">
+                    <div class="cockpit-stepper" id="cockpit-stepper-container" style="margin-bottom:40px;">
                         <div class="cockpit-step active" id="cockpit-step-1" onclick="showCockpitPhase(1)">
                             <span class="step-number">Phase 01</span>
                             <span class="step-label">Stratégie</span>
@@ -1905,21 +1913,57 @@
                         </div>
                     </div>
 
-                    <div class="kpi-cockpit">
-                        <div class="kpi-item">
-                            <span class="kpi-label">Maturité du projet</span>
-                            <span class="kpi-value" style="color:#3b82f6;">${totalScore}%</span>
-                            <span class="kpi-sub">Indice de confiance banques</span>
+                    <!-- SUCCESS ENGINE : PREMIUM GAUGE & HUD -->
+                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius:32px; padding:32px; border:1px solid #e2e8f0; display:grid; grid-template-columns: 200px 1fr; gap:48px; align-items:center; box-shadow: 0 20px 50px rgba(0,0,0,0.05); margin-bottom:48px; position:relative; overflow:hidden;">
+                        <!-- Gauge Circular -->
+                        <div style="position:relative; width:180px; height:180px; display:flex; align-items:center; justify-content:center;">
+                            <svg width="180" height="180" viewBox="0 0 120 120" style="transform: rotate(-90deg);">
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="8" />
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gauge-gradient)" stroke-width="8" 
+                                        stroke-dasharray="${strokeDasharray}" stroke-dashoffset="${strokeDashoffset}" 
+                                        stroke-linecap="round" style="transition: stroke-dashoffset 1s ease-out;" />
+                                <defs>
+                                    <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#3b82f6" />
+                                        <stop offset="100%" stop-color="#10b981" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div style="position:absolute; text-align:center;">
+                                <div style="font-size:2.8rem; font-weight:900; color:#0f172a; line-height:1;">${totalScore}%</div>
+                                <div style="font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Maturité</div>
+                            </div>
                         </div>
-                        <div class="kpi-item">
-                            <span class="kpi-label">Fonds Collectés</span>
-                            <span class="kpi-value" style="color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
-                            <span class="kpi-sub">+0.00% ces 7 derniers jours</span>
+
+                        <!-- HUD Stats -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                            <div>
+                                <div style="font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Fonds Collectés</div>
+                                <div style="font-size:2.2rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</div>
+                                <div style="display:flex; align-items:center; gap:6px; margin-top:8px;">
+                                    <span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:6px; font-size:0.75rem; font-weight:700;">🚀 Live</span>
+                                    <span style="font-size:0.8rem; color:#64748b;">+0% cette semaine</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Indice Banques</div>
+                                <div style="font-size:2.2rem; font-weight:900; color:#3b82f6;">${totalScore > 60 ? 'B+' : 'C'}</div>
+                                <div style="font-size:0.85rem; color:#64748b; margin-top:8px; font-weight:600;">
+                                    ${totalScore >= 80 ? 'Dossier institutionnel complet' : (totalScore >= 50 ? 'Audit de ressources en cours' : 'Phase stratégique initiale')}
+                                </div>
+                            </div>
                         </div>
-                        <div class="kpi-item">
-                            <span class="kpi-label">Commission (Est.)</span>
-                            <span class="kpi-value" style="color:#94a3b8;">${( (firstProj.total_raised || 0) * 0.05 ).toLocaleString('fr-FR')}€</span>
-                            <span class="kpi-sub">Frais Domtom Connect (5%)</span>
+
+                        <!-- Absolute logic indicators -->
+                        <div style="position:absolute; bottom:20px; right:32px; display:flex; gap:16px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="width:8px; height:8px; border-radius:50%; background:#10b981;"></div>
+                                <span style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Moteur : Prêt</span>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="width:8px; height:8px; border-radius:50%; background:#3b82f6;"></div>
+                                <span style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Données : Synergie</span>
+                            </div>
                         </div>
                     </div>
                 `;
