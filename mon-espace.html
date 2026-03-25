@@ -1396,26 +1396,22 @@
                 if (billetterieView) billetterieView.style.display = 'none';
 
                 // 2. Show target
-                if (viewId === 'success-engine' || viewId === 'mon-projet') {
+                if (viewId === 'success-engine') {
+                    // On mon-espace (HUB), success-engine is NOT the main view. 
+                    // We only show it if explicitly requested by hash, but overview is better.
                     if (engineView) engineView.style.display = 'block';
                     if (greeting) greeting.style.display = 'none';
-                    if (pushState) window.location.hash = 'success-engine';
-                } else if (viewId === 'applications' || viewId === 'candidatures') {
-                    window.location.href = '/candidatures.html';
-                    return;
                 } else if (viewId === 'billetterie') {
                     if (billetterieView) billetterieView.style.display = 'block';
                     if (greeting) greeting.style.display = 'none';
-                    if (pushState) window.location.hash = 'billetterie';
                     if (typeof loadMyTicketing === 'function') loadMyTicketing();
                 } else if (viewId === 'mes-billets') {
                     const mesBilletsView = document.getElementById('mes-billets-view');
                     if (mesBilletsView) mesBilletsView.style.display = 'block';
                     if (greeting) greeting.style.display = 'none';
-                    if (pushState) window.location.hash = 'mes-billets';
                     if (typeof loadMyTickets === 'function') loadMyTickets();
                 } else {
-                    // Fallback to overview
+                    // DEFAULT: overview (The cards: Tickets, Missions, Profile)
                     if (mainContent) mainContent.style.display = 'block';
                     if (greeting) greeting.style.display = 'block';
                     if (pushState) window.location.hash = 'overview';
@@ -1453,23 +1449,12 @@
 
         // Initialize from URL pathname or params on page load
         function initRouting() {
-            console.log("DEBUG: initRouting triggered");
             const hash = window.location.hash.replace('#', '');
-            const params = new URLSearchParams(window.location.search);
-            const viewParam = params.get('view');
-            const isMonProjet = window.location.pathname.includes('mon-projet');
-
-            // 1. If we have a hash, let hashchange handle it
-            if (hash) {
-                console.log("DEBUG: Hash present, letting listener handle it:", hash);
+            if (hash && hash !== 'overview' && hash !== 'success-engine') {
                 showView(hash, false);
-                return;
+            } else {
+                showView('overview', false);
             }
-
-            // 2. Otherwise use URL params or defaults
-            if (viewParam === 'applications') window.location.href = '/candidatures.html';
-            else if (isMonProjet) showView('overview'); 
-            else showView('overview');
         }
 
         // Mobile Nav Toggle
