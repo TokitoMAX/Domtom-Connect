@@ -1940,9 +1940,15 @@
                         <input type="text" class="sre-project-title" value="${p.title || ''}" 
                                onblur="saveProjectField('title', this.value)" placeholder="Nom de votre projet...">
                     </div>
-                    <div class="sre-maturity-badge">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
-                        ${maturity}% Maturité
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <div class="sre-maturity-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+                            ${maturity}% Maturité
+                        </div>
+                        <button onclick="deleteSREProject('${p.id}')" title="Supprimer cette Épopée" 
+                                style="background:#fee2e2; color:#ef4444; border:none; padding:8px; border-radius:8px; cursor:pointer; display:flex; align-items:center; transition:all 0.2s;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                        </button>
                     </div>
                 </div>
 
@@ -2237,6 +2243,23 @@
                     }
                 });
             } catch (err) { console.error(err); }
+        }
+
+        async function deleteSREProject(id) {
+            if (!confirm("⚠️ Cette action est irréversible.\n\nSouhaitez-vous vraiment supprimer cette Épopée et recommencer ?")) return;
+            
+            try {
+                const { error } = await _supabase.from('projects').delete().eq('id', id);
+                if (error) throw error;
+                
+                currentSREProject = null;
+                const session = await getSession();
+                if (session) await loadMyProjects(session.user.id);
+                renderSREEmptyState();
+                alert("✅ Épopée supprimée.");
+            } catch (err) {
+                alert("Erreur suppression: " + err.message);
+            }
         }
 
         async function updateFundingGoal(id) {
