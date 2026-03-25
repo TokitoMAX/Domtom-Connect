@@ -2182,10 +2182,14 @@
                                 <input type="url" id="cockpit-video-url" value="${firstProj.video_url || ''}" placeholder="https://youtube.com/..." style="width:100%;">
                             </div>
                             <div style="display:flex; flex-direction:column; gap:12px;">
-                                <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="btn-cockpit primary" style="background:#ec4899;">
-                                    ${firstProj.is_listed ? 'Retirer du Marché' : '🚀 LANCER LE PROJET'}
-                                </button>
-                                <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer définitivement</button>
+                                ${firstProj.id === 'new' ? `
+                                    <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Enregistrez votre stratégie (Phase 01) pour débloquer le lancement.</p>
+                                ` : `
+                                    <button onclick="unlistProject('${firstProj.id}', ${firstProj.is_listed})" class="btn-cockpit primary" style="background:#ec4899;">
+                                        ${firstProj.is_listed ? 'Retirer du Marché' : '🚀 LANCER LE PROJET'}
+                                    </button>
+                                    <button onclick="deleteProject('${firstProj.id}')" class="btn-cockpit danger">Supprimer définitivement</button>
+                                `}
                             </div>
                         </div>
                     </div>
@@ -2290,6 +2294,11 @@
             const list = document.getElementById('supporters-list');
             if (!list) return;
 
+            if (projectId === 'new') {
+                list.innerHTML = '<p style="color: #94a3b8; font-size: 0.9rem; text-align: center; padding: 20px;">Aucun supporter pour le moment. L\'aventure commence !</p>';
+                return;
+            }
+
             try {
                 const { data: supporters, error } = await _supabase
                     .from('contributions')
@@ -2370,6 +2379,10 @@
         async function loadDashboardRewards(projectId) {
             const list = document.getElementById('dash-rewards-list');
             if (!list) return;
+            if (projectId === 'new') {
+                list.innerHTML = '<p style="color:#94a3b8; font-size:0.85rem; text-align:center; padding:20px;">Engagez votre communauté avec des contreparties exclusives.</p>';
+                return;
+            }
             try {
                 const { data: rewards, error } = await _supabase.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
                 if (error) throw error;
@@ -2484,6 +2497,10 @@
         async function loadDashboardMilestones(projectId) {
             const list = document.getElementById('dash-milestones-list');
             if (!list) return;
+            if (projectId === 'new') {
+                list.innerHTML = '<p style="color: #94a3b8; font-size: 0.85rem; text-align: center; padding: 12px; border: 1px dashed #e2e8f0; border-radius: 12px;">Définissez vos étapes de réussite.</p>';
+                return;
+            }
             try {
                 const { data: milestones, error } = await _supabase.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
                 if (error) throw error;
