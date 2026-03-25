@@ -1284,21 +1284,10 @@
                         <!-- Rendered by JS -->
                     </div>
 
-                    <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
+                     <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                             <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
-                            <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
-                        </div>
-                        <div id="my-projects-list">
-                            <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
-                        </div>
-                    </div>
-                </div>
-
-                    <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                            <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
-                            <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
+                            <button onclick="createNewSREProject()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
                         </div>
                         <div id="my-projects-list">
                             <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
@@ -1837,6 +1826,29 @@
         let currentSREProject = null;
         let currentSREStep = 1;
 
+        async function createNewSREProject() {
+            try {
+                const session = await getSession();
+                if (!session) return;
+
+                const { data, error } = await _supabase.from('projects').insert([{
+                    title: 'Nouvelle Épopée',
+                    owner_id: session.user.id,
+                    updated_at: new Date().toISOString()
+                }]).select('id').single();
+
+                if (error) throw error;
+                
+                // Recharger la liste et sélectionner le nouveau projet
+                await loadMyProjects(session.user.id);
+                selectProject(data.id);
+                switchSREStep(1);
+            } catch (err) {
+                console.error("Error creating project:", err);
+                alert("Erreur lors de la création du projet : " + err.message);
+            }
+        }
+
         async function loadMyProjects(userId) {
             const listContainer = document.getElementById('my-projects-list');
             if (!listContainer) return;
@@ -1856,7 +1868,7 @@
             if (!projects || projects.length === 0) {
                 listContainer.innerHTML = `<div style="text-align:center; padding:40px; border:2px dashed #e2e8f0; border-radius:20px;">
                     <p style="color:#64748b; font-weight:600; margin-bottom:16px;">Vous n'avez pas encore d'Épopée en cours.</p>
-                    <button onclick="openProjectModal()" class="sre-btn primary" style="margin:0 auto;">Démarrer mon projet</button>
+                    <button onclick="createNewSREProject()" class="sre-btn primary" style="margin:0 auto;">Démarrer mon projet</button>
                 </div>`;
                 renderSREEmptyState();
                 return;
@@ -1897,7 +1909,7 @@
                 <div style="text-align:center; padding:40px;">
                     <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">Bienvenue dans votre Success Engine</h2>
                     <p style="color:#64748b; max-width:500px; margin:0 auto 24px;">Structurez votre projet pour convaincre les investisseurs et sécuriser vos fonds.</p>
-                    <button onclick="openProjectModal()" class="sre-btn primary" style="margin:0 auto;">+ Créer mon Épopée</button>
+                    <button onclick="createNewSREProject()" class="sre-btn primary" style="margin:0 auto;">+ Créer mon Épopée</button>
                 </div>
             `;
         }
@@ -3071,268 +3083,6 @@
             if (commEl) commEl.textContent = (total * 0.1).toFixed(2) + ' €';
         });
 
-        async function openProjectModal(projectId = null) {
-            let modal = document.getElementById('project-modal');
-
-            // Créer le modal dynamiquement s'il n'existe pas
-            if (!modal) {
-                const modalHTML = `
-                    <div class="modal-overlay" id="project-modal">
-                        <div class="hero-modal">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px;">
-                                <div>
-                                    <h2 id="proj-modal-title">Propulser mon Épopée</h2>
-                                    <p style="color:rgba(255,255,255,0.6); font-size:0.9rem; margin:0;">Affinez votre Manifeste pour attirer l'élite.</p>
-                                </div>
-                                <button class="modal-close" onclick="closeProjectModal()">×</button>
-                            </div>
-                            <div id="project-wizard-progress" style="display:flex; gap:8px; margin-bottom:24px;">
-                                <div class="wizard-dot active" id="dot-1" style="flex:1; height:4px; background:var(--primary-color); border-radius:2px;"></div>
-                                <div class="wizard-dot" id="dot-2" style="flex:1; height:4px; background:var(--gray-200); border-radius:2px;"></div>
-                            </div>
-
-                            <form id="project-form" onsubmit="saveProject(event)">
-                                <input type="hidden" id="proj-id">
-                                
-                                <!-- Étape 1 : Le Manifeste -->
-                                <div id="wizard-step-1">
-                                    <div style="margin-bottom:24px;">
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Nom de l'Épopée *</label>
-                                        <input type="text" id="proj-title" placeholder="Ex: Révolution de l'Agrotech Antilles">
-                                    </div>
-                                    <div style="margin-bottom:20px;">
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Vision (Votre ambition à long terme) *</label>
-                                        <textarea id="proj-vision" placeholder="Où voulez-vous emmener ce projet d'ici 5 ans ? Quel impact voulez-vous avoir ?" style="height:120px;"></textarea>
-                                    </div>
-                                    <div style="margin-bottom:20px;">
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Mission & Solution (Le 'Comment') *</label>
-                                        <textarea id="proj-mission" placeholder="Comment résolvez-vous concrètement le problème ? Quelle est votre solution unique ?" style="height:120px;"></textarea>
-                                    </div>
-                                    <div style="margin-bottom:24px;">
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Le Problème (Le 'Pourquoi') *</label>
-                                        <textarea id="proj-problem" placeholder="À quel besoin critique ou douleur du marché répondez-vous ?" style="height:120px;"></textarea>
-                                    </div>
-                                    <button type="button" onclick="goToStep(2)" class="cta-button primary" style="width:100%; background:var(--primary-color); padding:16px; font-weight:800; font-size:1rem; border:none; cursor:pointer;">
-                                        Suivant : Logistique & Stratégie
-                                    </button>
-                                </div>
-
-                                <!-- Étape 2 : Logistique -->
-                                <div id="wizard-step-2" style="display:none;">
-                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
-                                        <div>
-                                            <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Territoire Cible *</label>
-                                            <select id="proj-territory" required>
-                                                <option value="Martinique">Martinique</option>
-                                                <option value="Guadeloupe">Guadeloupe</option>
-                                                <option value="Guyane">Guyane</option>
-                                                <option value="Réunion">La Réunion</option>
-                                                <option value="Mayotte">Mayotte</option>
-                                                <option value="Diaspora">Diaspora</option>
-                                                <option value="International">International</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Stade Actuel *</label>
-                                            <select id="proj-status" required>
-                                                <option value="Idée">Simple Idée</option>
-                                                <option value="MVP">MVP / Prototype</option>
-                                                <option value="Lancement">Lancement Imminent</option>
-                                                <option value="Développement">En Développement</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div style="margin-bottom:32px;">
-                                        <label class="form-label" style="font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; color:var(--primary-color);">Besoins Critiques (ex: Argent, Tech, Design...)</label>
-                                        <input type="text" id="proj-needs" placeholder="De quoi avez-vous le plus besoin maintenant ?">
-                                    </div>
-                                    
-                                    <div style="display:flex; gap:12px;">
-                                        <button type="button" onclick="goToStep(1)" class="cta-button" style="flex:1; background:var(--gray-100); color:var(--text-primary); padding:16px; font-weight:700; border:none; border-radius:12px; cursor:pointer;">
-                                            Retour
-                                        </button>
-                                        <button type="submit" id="btn-save-project" class="cta-button primary" style="flex:2; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; box-shadow:0 10px 20px rgba(16,185,129,0.2); cursor:pointer;">
-                                            Enregistrer mon Épopée
-                                        </button>
-                                    </div>
-                                    
-                                    <div style="margin-top:24px; display:flex; flex-direction:column; gap:12px;">
-                                        <button type="button" id="btn-unlist-proj" style="display:none; width:100%; background:transparent; border:1px solid var(--gray-300); color:var(--text-secondary); padding:12px; font-weight:600; font-size:0.85rem; border-radius:12px; cursor:pointer;">
-                                            Retirer de la Marketplace
-                                        </button>
-                                        <button type="button" onclick="deleteProject(document.getElementById('proj-id').value)" id="btn-delete-proj" style="display:none; width:100%; background:transparent; border:1px solid #ef4444; color:#ef4444; padding:12px; font-weight:600; font-size:0.85rem; border-radius:12px; cursor:pointer;">
-                                            Supprimer définitivement
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:16px;">Une vision claire débloque l'étape 2 du Success Engine : La Boussole.</p>
-                            </form>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-                modal = document.getElementById('project-modal');
-                // Fermer sur clic outside
-                modal.addEventListener('click', (e) => { if (e.target === modal) closeProjectModal(); });
-            }
-
-            // Always reset to step 1
-            if (typeof goToStep === 'function') goToStep(1);
-
-            if (projectId) {
-                const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
-                if (p) {
-                    document.getElementById('proj-id').value = p.id;
-                    document.getElementById('proj-title').value = p.title;
-
-                    // Parsing de la description structurée
-                    const desc = p.description || "";
-                    if (desc.includes('[[VISION]]')) {
-                        const vision = desc.split('[[VISION]]')[1].split('[[MISSION]]')[0].trim();
-                        const mission = desc.split('[[MISSION]]')[1].split('[[PROBLEM]]')[0].trim();
-                        const problem = desc.split('[[PROBLEM]]')[1].trim();
-
-                        document.getElementById('proj-vision').value = vision;
-                        document.getElementById('proj-mission').value = mission;
-                        document.getElementById('proj-problem').value = problem;
-                    } else {
-                        // Fallback pour les anciens projets
-                        document.getElementById('proj-vision').value = desc;
-                        document.getElementById('proj-mission').value = "";
-                        document.getElementById('proj-problem').value = "";
-                    }
-
-                    document.getElementById('proj-territory').value = p.territory;
-                    document.getElementById('proj-status').value = p.status;
-                    document.getElementById('proj-needs').value = p.needs || '';
-                    document.getElementById('btn-delete-proj').style.display = 'block';
-
-                    const unlistBtn = document.getElementById('btn-unlist-proj');
-                    if (unlistBtn) {
-                        unlistBtn.style.display = 'block';
-                        unlistBtn.textContent = p.is_listed ? "Retirer de la Marketplace" : "Republier sur la Marketplace";
-                        unlistBtn.onclick = () => unlistProject(p.id, p.is_listed);
-                    }
-
-                    document.getElementById('proj-modal-title').textContent = "Modifier mon Épopée";
-                }
-            } else {
-                if (document.getElementById('project-form')) document.getElementById('project-form').reset();
-                document.getElementById('proj-id').value = '';
-                document.getElementById('btn-delete-proj').style.display = 'none';
-                if (document.getElementById('btn-unlist-proj')) document.getElementById('btn-unlist-proj').style.display = 'none';
-                document.getElementById('proj-modal-title').textContent = "Propulser mon Épopée";
-            }
-            modal.classList.add('open');
-        }
-
-        function closeProjectModal() {
-            document.getElementById('project-modal').classList.remove('open');
-        }
-
-        function goToStep(step) {
-            const step1 = document.getElementById('wizard-step-1');
-            const step2 = document.getElementById('wizard-step-2');
-            const dot1 = document.getElementById('dot-1');
-            const dot2 = document.getElementById('dot-2');
-
-            if (step === 1) {
-                step1.style.display = 'block';
-                step2.style.display = 'none';
-                dot1.style.background = 'var(--primary-color)';
-                dot2.style.background = 'var(--gray-200)';
-            } else {
-                // Validation robuste des champs de l'étape 1
-                const title = document.getElementById('proj-title').value.trim();
-                const vision = document.getElementById('proj-vision').value.trim();
-                const mission = document.getElementById('proj-mission').value.trim();
-                const problem = document.getElementById('proj-problem').value.trim();
-
-                if (!title || !vision || !mission || !problem) {
-                    alert("Veuillez remplir tous les champs du Manifeste avant de passer à l'étape suivante (Titre, Vision, Mission et Problème).");
-                    return;
-                }
-                step1.style.display = 'none';
-                step2.style.display = 'block';
-                dot1.style.background = '#10b981';
-                dot2.style.background = 'var(--primary-color)';
-            }
-        }
-
-        async function saveProject(event) {
-            event.preventDefault();
-            const btn = document.getElementById('btn-save-project');
-            const originalText = btn.textContent;
-
-            try {
-                btn.disabled = true;
-                btn.textContent = "Enregistrement...";
-
-                const session = await getSession();
-                if (!session) return;
-
-                const title = document.getElementById('proj-title').value.trim();
-                const vision = document.getElementById('proj-vision').value.trim();
-                const mission = document.getElementById('proj-mission').value.trim();
-                const problem = document.getElementById('proj-problem').value.trim();
-                const territory = document.getElementById('proj-territory')?.value || 'Martinique';
-                const status = document.getElementById('proj-status').value;
-                const needs = document.getElementById('proj-needs').value;
-
-                if (!title || !vision || !mission || !problem) {
-                    alert("Erreur : Certains champs du Manifeste sont vides.");
-                    goToStep(1);
-                    return;
-                }
-
-                const data = {
-                    title: title,
-                    description: `[[VISION]]\n${vision}\n\n[[MISSION]]\n${mission}\n\n[[PROBLEM]]\n${problem}`,
-                    territory: territory,
-                    status: status,
-                    needs: needs,
-                    updated_at: new Date().toISOString()
-                };
-
-                const pid = document.getElementById('proj-id').value;
-                let error;
-
-                if (pid) {
-                    // Update: on ne renvoie pas owner_id pour éviter RLS conflicts
-                    const { error: err } = await _supabase.from('projects').update(data).eq('id', pid);
-                    error = err;
-                } else {
-                    // Insert: on inclut owner_id
-                    data.owner_id = session.user.id;
-                    const { error: err, data: newProjectData } = await _supabase.from('projects').insert([data]).select('id');
-                    error = err;
-                    if (!error && newProjectData && newProjectData.length > 0) {
-                        document.getElementById('proj-id').value = newProjectData[0].id; // Set the new project ID
-                    }
-                }
-
-                if (error) throw error;
- 
-                 alert("✅ Manifeste Enregistré !");
-                 
-                 // ENCHAÎNER : Ouvrir l'étape suivante (Boussole)
-                 const savedId = pid || document.getElementById('proj-id').value; // Use the newly set ID if it was an insert
-                 setTimeout(() => {
-                     openRoadmapModal(savedId);
-                 }, 500);
-
-                closeProjectModal();
-                loadMyProjects(session.user.id);
-
-            } catch (err) {
-                console.error("Erreur saveProject:", err);
-                alert("Erreur lors de l'enregistrement : " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = originalText;
-            }
-        }
 
         async function openRoadmapModal(projectId = null) {
             const session = await getSession();
@@ -3348,8 +3098,8 @@
             }
 
             if (!p) {
-                alert("Commencez par créer votre Manifeste (Étape 1) !");
-                openProjectModal();
+                alert("Créez d'abord votre projet !");
+                createNewSREProject();
                 return;
             }
             const roadmap = p.roadmap || { short: "", medium: "", long: "" };
