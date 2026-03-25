@@ -607,6 +607,119 @@
             font-size: 0.6rem;
         }
 
+        /* --- PREMIUM INSTRUMENT UI (Gauge & HUD) --- */
+        .gauge-container {
+            width: 240px;
+            height: 240px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .gauge-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .gauge-background {
+            fill: none;
+            stroke: #f1f5f9;
+            stroke-width: 12;
+        }
+
+        .gauge-progress {
+            fill: none;
+            stroke: #3b82f6;
+            stroke-width: 12;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+        }
+
+        .gauge-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gauge-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1;
+        }
+
+        .gauge-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .hud-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .hud-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .hud-card:hover {
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .hud-title {
+            font-size: 0.65rem;
+            font-weight: 900;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .hud-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .btn-cockpit {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-cockpit.primary { background: #0f172a; color: white; }
+        .btn-cockpit.secondary { background: #f1f5f9; color: #475569; }
+        .btn-cockpit.danger { background: #fef2f2; color: #ef4444; }
+
+        .btn-cockpit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        .cockpit-section { display: none; }
+        .cockpit-section.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .status-completed { background: #10b981; color: white; }
         .status-pending { background: #f59e0b; color: white; }
         .status-active { background: #3b82f6; color: white; }
@@ -1874,49 +1987,67 @@
                 const isListed = firstProj.is_listed; // local flag
                 
                 headerContainer.innerHTML = `
-                    <div style="margin-bottom:32px;">
-                        <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">Cockpit de l'Épopée</h2>
-                        <p style="color:#64748b; font-weight:600; font-size:1.05rem;">Gérez votre levée de fonds comme une mission institutionnelle.</p>
+                    <div style="display:grid; grid-template-columns: 1.2fr 2fr; gap:40px; align-items:center; margin-bottom:40px;">
+                        <div>
+                            <div class="gauge-container" style="background: rgba(255,255,255,0.05); border-radius: 50%; padding: 10px;">
+                                <svg class="gauge-svg" viewBox="0 0 100 100">
+                                    <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
+                                    <circle class="gauge-progress" cx="50" cy="50" r="44" 
+                                            style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
+                                </svg>
+                                <div class="gauge-center">
+                                    <div class="gauge-value" style="background: linear-gradient(135deg, #0f172a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${totalScore}%</div>
+                                    <div class="gauge-label">Maturité</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="margin-bottom:24px;">
+                                <h2 style="font-size:2.4rem; font-weight:900; color:#0f172a; margin-bottom:4px; letter-spacing:-0.04em; line-height:1.1;">Cockpit de l'Épopée</h2>
+                                <p style="color:#64748b; font-weight:600; font-size:1.15rem;">Pilotez votre mission vers le succès financier.</p>
+                            </div>
+
+                            <div class="hud-container">
+                                <div class="hud-card" style="border-left: 4px solid #10b981;">
+                                    <div class="hud-title">Fonds Collectés</div>
+                                    <div class="hud-value" style="color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</div>
+                                    <div style="font-size:0.65rem; color:#64748b; margin-top:4px;">+0.00% depuis 7j</div>
+                                </div>
+                                <div class="hud-card" style="border-left: 4px solid #3b82f6;">
+                                    <div class="hud-title">Indice Confiance</div>
+                                    <div class="hud-value" style="color:#3b82f6;">${totalScore > 60 ? 'B+' : 'C'}</div>
+                                    <div style="font-size:0.65rem; color:#64748b; margin-top:4px;">Score Bancaire (est.)</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="cockpit-stepper" id="cockpit-stepper-container" style="margin-bottom:32px; gap:8px;">
                         <div class="cockpit-step active" id="cockpit-step-1" onclick="showCockpitPhase(1)">
                             <span class="step-number">01</span>
                             <span class="step-label">Stratégie</span>
+                            <div class="step-status-icon status-active">●</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-2" onclick="showCockpitPhase(2)">
                             <span class="step-number">02</span>
                             <span class="step-label">Besoins</span>
+                            <div class="step-status-icon status-active">●</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-3" onclick="showCockpitPhase(3)">
                             <span class="step-number">03</span>
                             <span class="step-label">Finance</span>
+                            <div class="step-status-icon status-active">●</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-4" onclick="showCockpitPhase(4)">
                             <span class="step-number">04</span>
                             <span class="step-label">Sûreté</span>
+                            <div class="step-status-icon status-active">●</div>
                         </div>
                         <div class="cockpit-step" id="cockpit-step-5" onclick="showCockpitPhase(5)">
                             <span class="step-number">05</span>
                             <span class="step-label">Orbite</span>
-                        </div>
-                    </div>
-
-                    <div class="kpi-cockpit" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:32px;">
-                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
-                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Maturité du projet</span>
-                            <span style="display:block; font-size:2rem; font-weight:900; color:#3b82f6;">${totalScore}%</span>
-                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Indice de confiance banques</p>
-                        </div>
-                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
-                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Fonds Collectés</span>
-                            <span style="display:block; font-size:2rem; font-weight:900; color:#10b981;">${(firstProj.total_raised || 0).toLocaleString('fr-FR')}€</span>
-                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">+0.00% ces 7 derniers jours</p>
-                        </div>
-                        <div class="kpi-item" style="background:white; padding:20px; border-radius:16px; border:1px solid #e2e8f0; text-align:center;">
-                            <span style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Commission (est.)</span>
-                            <span style="display:block; font-size:2rem; font-weight:900; color:#94a3b8;">${((firstProj.total_raised || 0) * 0.05).toLocaleString('fr-FR')}€</span>
-                            <p style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">Frais Domtom Connect (5%)</p>
+                            <div class="step-status-icon status-active">●</div>
                         </div>
                     </div>
                 `;
@@ -2059,8 +2190,23 @@
                     const cards = document.querySelectorAll('.cockpit-section');
                     
                     steps.forEach((s, idx) => {
-                        if (idx + 1 === phaseId) s.classList.add('active');
-                        else s.classList.remove('active');
+                        const sId = idx + 1;
+                        s.classList.remove('active', 'completed');
+                        
+                        // Active state
+                        if (sId === phaseId) {
+                            s.classList.add('active');
+                        }
+                        
+                        // Completed state based on score (visual only, navigation remains open)
+                        const thresholds = [0, 20, 40, 60, 80];
+                        const icon = s.querySelector('.step-status-icon');
+                        if (totalScore >= thresholds[idx] + 20) {
+                            s.classList.add('completed');
+                            if (icon) icon.innerHTML = '✓';
+                        } else {
+                            if (icon) icon.innerHTML = '●';
+                        }
                     });
                     
                     cards.forEach((c) => {
