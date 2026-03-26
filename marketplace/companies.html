@@ -388,7 +388,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
@@ -406,14 +406,14 @@
                     <a href="companies.html" class="active">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
-                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                    <a href="../login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header class="directory-header" style="background: #f8fafc; border-bottom: 1px solid var(--gray-200);">
+    <header class="directory-header" style="background: #f8fafc; border-bottom: 1px solid var(--gray-200); padding-top: 100px;">
         <div class="container">
             <div class="section-header">
                 <h1>Annuaire des Entreprises</h1>
@@ -526,7 +526,6 @@
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
-                await loadGlobalNavbar();
                 if (currentUserRole === 'entreprise') {
                     document.getElementById('company-banner').style.display = 'flex';
                 }

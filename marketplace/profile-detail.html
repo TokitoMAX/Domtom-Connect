@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="seo-title">Profil Professionnel – Domtom Connect</title>
     <meta name="description" id="seo-description" content="Découvrez le profil professionnel sur Domtom Connect, la plateforme de mise en relation des talents et entreprises des Outre-mer.">
-    <link rel="stylesheet" href="/assets/css/style.css?v=3.5">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -32,7 +32,7 @@
                 radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0, transparent 50%), 
                 radial-gradient(at 50% 0%, rgba(3, 105, 161, 0.15) 0, transparent 50%),
                 radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.1) 0, transparent 50%);
-            padding: 40px 0 160px;
+            padding: 112px 0 160px; /* 72px navbar + 40px padding */
             color: white;
             position: relative;
             overflow: hidden;
@@ -287,7 +287,33 @@
 </head>
 <body>
 
-    <nav class="navbar" id="main-nav" style="background: white; border-bottom: 1px solid #e2e8f0;"></nav>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="directory.html" id="nav-talents">Talents</a>
+                    <a href="jobs.html">Missions</a>
+                    <a href="projects.html">Projets</a>
+                    <a href="evenements.html">Événements</a>
+                    <a href="companies.html">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="../register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <header class="profile-hero">
         <div class="hero-banner-bg"></div>
@@ -368,7 +394,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/auth.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script>
         async function loadProfile() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -498,6 +524,6 @@
 
         init();
     </script>
-    <script src="/assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
