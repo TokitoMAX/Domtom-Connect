@@ -7,11 +7,17 @@ ADD COLUMN IF NOT EXISTS zone TEXT,
 ADD COLUMN IF NOT EXISTS linkedin_url TEXT,
 ADD COLUMN IF NOT EXISTS facebook_url TEXT,
 ADD COLUMN IF NOT EXISTS instagram_url TEXT,
+ADD COLUMN IF NOT EXISTS youtube_url TEXT,
+ADD COLUMN IF NOT EXISTS tiktok_url TEXT,
+ADD COLUMN IF NOT EXISTS spotify_url TEXT,
 ADD COLUMN IF NOT EXISTS forme_juridique TEXT,
 ADD COLUMN IF NOT EXISTS is_featured BOOLEAN DEFAULT FALSE;
 
 COMMENT ON COLUMN public.profiles.zone IS 'Zone géographique précise (ex: Nord, Sud, Basse-Terre).';
 COMMENT ON COLUMN public.profiles.linkedin_url IS 'URL du profil LinkedIn.';
+COMMENT ON COLUMN public.profiles.youtube_url IS 'URL du profil YouTube.';
+COMMENT ON COLUMN public.profiles.tiktok_url IS 'URL du profil TikTok.';
+COMMENT ON COLUMN public.profiles.spotify_url IS 'URL du profil Spotify.';
 COMMENT ON COLUMN public.profiles.forme_juridique IS 'Forme juridique pour les entreprises (SAS, SARL, etc.).';
 
 -- 2. Updates for public.projects

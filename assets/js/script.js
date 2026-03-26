@@ -62,21 +62,6 @@ function handleNewsletterSubmit(event) {
 }
 
 /**
- * Mobile Navigation Logic
- */
-function initNavigation() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navContent = document.querySelector('.nav-content');
-
-    if (!navToggle || !navContent) return;
-
-    navToggle.addEventListener('click', () => {
-        const isOpen = navContent.classList.toggle('is-open');
-        navToggle.classList.toggle('is-open', isOpen);
-    });
-}
-
-/**
  * Scroll Animations (Intersection Observer)
  */
 function initScrollAnimations() {
@@ -120,7 +105,6 @@ function initFAQ() {
  * Initialize all components
  */
 function init() {
-    initNavigation();
     initScrollAnimations();
     initFAQ();
     console.log('Domtom Connect v3.0+ initialized');
