@@ -267,11 +267,11 @@
         }
 
         .avatar-preview {
-            width: 64px;
-            height: 64px;
-            border-radius: 12px;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
             background: var(--white);
-            border: 1px solid var(--gray-200);
+            border: 2px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -280,6 +280,14 @@
             color: var(--primary-color);
             overflow: hidden;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .avatar-preview:hover {
+            border-color: #10b981;
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(16,185,129,0.1);
         }
 
         .avatar-preview img {
@@ -756,7 +764,7 @@
                     <a href="/marketplace/directory">Talents</a>
                     <a href="/marketplace/jobs">Missions</a>
                     <a href="/marketplace/projects">Projets</a>
-                    <a href="/marketplace/evenements">Ã‰vénements</a>
+                    <a href="/marketplace/evenements">Événements</a>
                     <a href="/marketplace/companies">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -999,21 +1007,31 @@
                             <label>Territoire</label>
                             <select id="territory" name="territory" disabled>
                                 <option value="">Choisir un territoire</option>
-                                <option value="Martinique">Martinique</option>
-                                <option value="Guadeloupe">Guadeloupe</option>
-                                <option value="Guyane">Guyane</option>
-                                <option value="Diaspora">Diaspora</option>
-                                <option value="Réunion">La Réunion</option>
-                                <option value="Mayotte">Mayotte</option>
-                                <option value="Saint-Barthélemy">Saint-Barthélemy</option>
-                                <option value="Saint-Martin">Saint-Martin</option>
-                                <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                                <option value="Polynésie FranÃ§aise">Polynésie FranÃ§aise</option>
-                                <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
-                                <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                                <option value="HaÃ¯ti">HaÃ¯ti</option>
-                                <option value="Sainte-Lucie">Sainte-Lucie</option>
-                                <option value="Dominique">Dominique</option>
+                                <optgroup label="Antilles & Guyane">
+                                    <option value="Guadeloupe">Guadeloupe</option>
+                                    <option value="Martinique">Martinique</option>
+                                    <option value="Guyane">Guyane</option>
+                                    <option value="Saint-Martin">Saint-Martin</option>
+                                    <option value="Saint-Barthélemy">Saint-Barthélemy</option>
+                                    <option value="Antilles">Toutes les Antilles</option>
+                                </optgroup>
+                                <optgroup label="Océan Indien">
+                                    <option value="Réunion">La Réunion</option>
+                                    <option value="Mayotte">Mayotte</option>
+                                </optgroup>
+                                <optgroup label="Pacifique & Autres">
+                                    <option value="Polynésie Française">Polynésie Française</option>
+                                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
+                                    <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
+                                    <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
+                                </optgroup>
+                                <optgroup label="Caraïbes & Diaspora">
+                                    <option value="Haiti">Haïti</option>
+                                    <option value="Dominique">Dominique</option>
+                                    <option value="Sainte-Lucie">Sainte-Lucie</option>
+                                    <option value="France Hexagone">France Hexagone</option>
+                                    <option value="Diaspora">Diaspora</option>
+                                </optgroup>
                                 <option value="International">International</option>
                             </select>
                         </div>

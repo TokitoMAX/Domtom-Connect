@@ -513,12 +513,31 @@
                 <div class="search-select-wrapper" style="flex: 1;">
                     <select id="territory-filter" class="filter-select" onchange="loadProfiles()">
                         <option value="">Tous les Territoires</option>
-                        <option value="Martinique">Martinique</option>
-                        <option value="Guadeloupe">Guadeloupe</option>
-                        <option value="Guyane">Guyane</option>
-                        <option value="Réunion">La Réunion</option>
-                        <option value="Mayotte">Mayotte</option>
-                        <option value="Saint-Martin">Saint-Martin</option>
+                        <optgroup label="Antilles & Guyane">
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Martinique">Martinique</option>
+                            <option value="Guyane">Guyane</option>
+                            <option value="Saint-Martin">Saint-Martin</option>
+                            <option value="Saint-Barthélemy">Saint-Barthélemy</option>
+                            <option value="Antilles">Toutes les Antilles</option>
+                        </optgroup>
+                        <optgroup label="Océan Indien">
+                            <option value="Réunion">La Réunion</option>
+                            <option value="Mayotte">Mayotte</option>
+                        </optgroup>
+                        <optgroup label="Pacifique & Autres">
+                            <option value="Polynésie Française">Polynésie Française</option>
+                            <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
+                            <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
+                            <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
+                        </optgroup>
+                        <optgroup label="Caraïbes & Diaspora">
+                            <option value="Haiti">Haïti</option>
+                            <option value="Dominique">Dominique</option>
+                            <option value="Sainte-Lucie">Sainte-Lucie</option>
+                            <option value="France Hexagone">France Hexagone</option>
+                            <option value="Diaspora">Diaspora</option>
+                        </optgroup>
                         <option value="International">International</option>
                     </select>
                 </div>
