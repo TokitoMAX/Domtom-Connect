@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil – Domtom Connect</title>
+    <title>Mon Profil â€“ Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.6">
     <!-- PayPal SDK pour Abonnements -->
     <script
@@ -756,7 +756,7 @@
                     <a href="/marketplace/directory">Talents</a>
                     <a href="/marketplace/jobs">Missions</a>
                     <a href="/marketplace/projects">Projets</a>
-                    <a href="/marketplace/evenements">Événements</a>
+                    <a href="/marketplace/evenements">Ã‰vénements</a>
                     <a href="/marketplace/companies">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
@@ -840,7 +840,7 @@
                     <a href="/marketplace/directory" class="nav-market-link">Talents</a>
                     <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
                     <a href="/marketplace/projects" class="nav-market-link">Projets</a>
-                    <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
+                    <a href="/marketplace/evenements" class="nav-market-link">Ã‰vénements</a>
                     <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
                 </div>
             </nav>
@@ -940,17 +940,39 @@
                         </div>
                     </div>
 
-                    <div class="form-row" id="company-specific-fields" style="display:none;">
+                                        <div class="form-row" id="company-specific-fields" style="display:none;">
+                        <div class="form-group">
+                            <label>Forme Juridique</label>
+                            <select id="forme_juridique" name="forme_juridique" disabled>
+                                <option value="">Choisir...</option>
+                                <option value="SAS">SAS</option>
+                                <option value="SASU">SASU</option>
+                                <option value="SARL">SARL</option>
+                                <option value="EURL">EURL</option>
+                                <option value="SA">SA</option>
+                                <option value="SCI">SCI</option>
+                                <option value="Auto-entrepreneur">Auto-entrepreneur</option>
+                                <option value="Association">Association</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>SIRET (Optionnel)</label>
                             <input type="text" id="siret" name="siret" placeholder="123 456 789 00012" disabled>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Site Web</label>
-                            <input type="url" id="website_url" name="website_url" placeholder="https://votre-site.com"
-                                disabled>
+                            <input type="url" id="website_url" name="website_url" placeholder="https://votre-site.com" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Zone géographique (Expert/Projet)</label>
+                            <input type="text" id="zone" name="zone" placeholder="Ex: Nord, Sud, Basse-Terre..." disabled>
                         </div>
                     </div>
+
 
                     <div class="form-group">
                         <label>Bio courte</label>
@@ -986,10 +1008,10 @@
                                 <option value="Saint-Barthélemy">Saint-Barthélemy</option>
                                 <option value="Saint-Martin">Saint-Martin</option>
                                 <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                                <option value="Polynésie Française">Polynésie Française</option>
+                                <option value="Polynésie FranÃ§aise">Polynésie FranÃ§aise</option>
                                 <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
                                 <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                                <option value="Haïti">Haïti</option>
+                                <option value="HaÃ¯ti">HaÃ¯ti</option>
                                 <option value="Sainte-Lucie">Sainte-Lucie</option>
                                 <option value="Dominique">Dominique</option>
                                 <option value="International">International</option>
@@ -1012,7 +1034,7 @@
                             </div>
                         </div>
                         <div id="tjm-group" class="form-group">
-                            <label>TJM indicatif (€)</label>
+                            <label>TJM indicatif (â‚¬)</label>
                             <input type="number" id="tjm" name="tjm" placeholder="Ex : 450" min="0" disabled>
                         </div>
                     </div>
@@ -1032,10 +1054,37 @@
                         <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:4px;">Si vous ne souhaitez pas faire de vidéo, exprimez-vous ici par écrit.</p>
                     </div>
 
-                    <div class="form-group">
-                        <label>Lien LinkedIn (optionnel)</label>
-                        <input type="url" id="linkedin_url" name="linkedin_url"
-                            placeholder="https://linkedin.com/in/votre-profil" disabled>
+                                        <div class="form-row">
+                        <div class="form-group">
+                            <label>Lien LinkedIn</label>
+                            <input type="url" id="linkedin_url" name="linkedin_url" placeholder="https://linkedin.com/in/..." disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Lien Facebook</label>
+                            <input type="url" id="facebook_url" name="facebook_url" placeholder="https://facebook.com/..." disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Lien Instagram</label>
+                            <input type="url" id="instagram_url" name="instagram_url" placeholder="https://instagram.com/..." disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Lien YouTube</label>
+                            <input type="url" id="youtube_url" name="youtube_url" placeholder="https://youtube.com/..." disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Lien TikTok</label>
+                            <input type="url" id="tiktok_url" name="tiktok_url" placeholder="https://tiktok.com/@..." disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Lien Spotify / Podcast</label>
+                            <input type="url" id="spotify_url" name="spotify_url" placeholder="https://open.spotify.com/..." disabled>
+                        </div>
                     </div>
 
                     <div class="form-group" id="availability-group" style="display:none;">
@@ -1094,17 +1143,17 @@
                 <p class="sub-modal-subtitle">Propulsez votre profil et accédez au réseau premium Domtom Connect.</p>
             </div>
             <ul class="sub-modal-benefits" id="sub-modal-benefits">
-                <!-- Les bénéfices sont injectés par JS -->
+                <!-- Les bÃ©nÃ©fices sont injectÃ©s par JS -->
             </ul>
             <div class="sub-modal-price">
                 <div id="sub-modal-price">
-                    <span class="price-amount">9,99</span><span class="price-currency">€</span><span class="price-period">/mois</span>
+                    <span class="price-amount">9,99</span><span class="price-currency">â‚¬</span><span class="price-period">/mois</span>
                 </div>
             </div>
             <div id="paypal-button-container"></div>
             <div class="sub-modal-footer">
-                Paiement sécurisé via PayPal. <br>
-                Sans engagement, résiliable à tout moment.
+                Paiement sÃ©curisÃ© via PayPal. <br>
+                Sans engagement, rÃ©siliable à tout moment.
             </div>
         </div>
     </div>
@@ -1117,11 +1166,12 @@
         let hasExistingListing = false;
         let currentSubscriptionTier = 'free';
 
-        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'video_url', 'written_presentation', 'available', 'siret', 'website_url', 'company', 'btn-upload-trigger'];
+        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'facebook_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'spotify_url', 'video_url', 'written_presentation', 'available', 'siret', 'forme_juridique', 'zone', 'website_url', 'company', 'btn-upload-trigger'];
         let skillTags = [];
 
         function renderTags() {
             const container = document.getElementById('skills-tags');
+            if (!container) return;
             container.innerHTML = '';
             skillTags.forEach((tag, index) => {
                 const tagEl = document.createElement('div');
@@ -1132,10 +1182,10 @@
                 `;
                 container.appendChild(tagEl);
             });
-            document.getElementById('skills').value = skillTags.join(', ');
+            const skillsEl = document.getElementById('skills');
+            if (skillsEl) skillsEl.value = skillTags.join(', ');
         }
 
-        // Gestion de l'affichage du bouton (dynamique lors du changement de rôle dans le select)
         function updateEditBar(checkRole) {
             const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
             const listingBar = document.getElementById('listing-status-bar');
@@ -1162,7 +1212,8 @@
                 skillTags.push(tag);
                 renderTags();
             }
-            document.getElementById('skills-input').value = '';
+            const input = document.getElementById('skills-input');
+            if (input) input.value = '';
         }
 
         function removeTag(index) {
@@ -1180,12 +1231,13 @@
                 return;
             }
 
-            document.getElementById('file-name').textContent = file.name;
+            const fileNameEl = document.getElementById('file-name');
+            if (fileNameEl) fileNameEl.textContent = file.name;
 
-            // Prévisualisation instantanée
             const reader = new FileReader();
             reader.onload = (e) => {
-                document.getElementById('avatar-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                const preview = document.getElementById('avatar-preview');
+                if (preview) preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             };
             reader.readAsDataURL(file);
         }
@@ -1195,229 +1247,227 @@
             const fileName = `${currentUserId}-${Math.random().toString(36).slice(2)}.${fileExt}`;
             const filePath = `logos/${fileName}`;
 
-            // Tentative d'upload vers Supabase Storage (Bucket 'avatars' ou 'logos')
-            // Note : L'utilisateur doit avoir créé le bucket dans Supabase
             const { data, error } = await _supabase.storage
                 .from('avatars')
                 .upload(filePath, file);
 
             if (error) {
                 console.error("Storage Error:", error);
-                throw new Error("Erreur Supabase Storage : " + error.message + " (Vérifiez les politiques RLS du bucket 'avatars')");
+                throw new Error("Erreur Supabase Storage : " + error.message);
             }
 
-            // Récupérer l'URL publique
             const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(filePath);
             return publicUrl;
         }
 
         window.addEventListener('load', async () => {
-            console.log("Profile page loading...");
             try {
-            const session = await getSession();
-            if (!session) { window.location.href = '/login'; return; }
+                const session = await getSession();
+                if (!session) { window.location.href = '/login'; return; }
 
-            currentUserId = session.user.id;
-            const role = session.user.user_metadata?.role || null;
-            const name = (session.user.user_metadata?.full_name) || (session.user.email ? session.user.email.split('@')[0] : 'Utilisateur');
-            const isExpert = (role === 'expert' || role === 'prestataire');
+                currentUserId = session.user.id;
+                const role = session.user.user_metadata?.role || null;
+                const name = (session.user.user_metadata?.full_name) || (session.user.email ? session.user.email.split('@')[0] : 'Utilisateur');
 
-            console.log("User session found:", currentUserId, "Role:", role);
-
-            try {
-                await loadGlobalNavbar();
-            } catch (navErr) {
-                console.warn("Navbar loading failed, continuing profile init...", navErr);
-            }
-
-            // Adapter le badge rôle et le sélecteur
-            const badgeEl = document.getElementById('role-badge');
-            const roleSelect = document.getElementById('user_role');
-
-            if (role === 'expert' || role === 'prestataire') {
-                badgeEl.textContent = 'Expert / Indépendant';
-                badgeEl.style.background = 'rgba(16,185,129,0.1)';
-                badgeEl.style.color = '#10b981';
-                roleSelect.value = 'expert';
-            } else if (role === 'entreprise') {
-                badgeEl.textContent = 'Entreprise';
-                badgeEl.style.background = 'rgba(2,132,199,0.1)';
-                badgeEl.style.color = '#0284c7';
-                roleSelect.value = 'entreprise';
-            } else {
-                badgeEl.textContent = 'Porteur de Projet';
-                roleSelect.value = 'basique';
-            }
-
-
-            // Affichage initial
-            updateEditBar(roleSelect.value);
-            if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
-
-            // Evènement sur changement de rôle dans le sélecteur form
-            roleSelect.addEventListener('change', function () {
-                updateEditBar(this.value);
-                adaptTerminology(this.value);
-            });
-
-            // Pré-remplir nom depuis auth
-            document.getElementById('full_name').value = name;
-
-            // Charger profil existant depuis Supabase
-            const { data: profile } = await _supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', currentUserId)
-                .single();
-
-            if (profile) {
-                // PRIORITÉ : Si le rôle en DB est différent de l'Auth (Draft), on utilise la DB pour l'UI
-                const displayRole = profile.role || role; 
-                
-                // Mettre à jour le sélecteur et l'UI selon le rôle de "travail"
-                roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
-                updateEditBar(roleSelect.value);
-                if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
-
-                fillForm(profile);
-                hasExistingListing = !!profile.listed;
-                currentSubscriptionTier = profile.subscription_tier || 'free';
-                updateListingStatus(profile.listed, displayRole);
-                checkMonetizationBanner();
-
-                // --- RAPPEL D'ACHAT (Onboarding Fluide) ---
-                const planIntent = localStorage.getItem('onboarding_plan');
-                if (planIntent && currentSubscriptionTier === 'free') {
-                    console.log("Onboarding: Rappel d'achat pour le pack", planIntent);
-                    setTimeout(() => {
-                        openSubModal(displayRole);
-                        // On ne nettoie le plan qu'après l'ouverture pour éviter de le perdre en cas de refresh immédiat
-                        localStorage.removeItem('onboarding_plan');
-                    }, 1500);
+                try {
+                    await loadGlobalNavbar();
+                } catch (navErr) {
+                    console.warn("Navbar loading failed", navErr);
                 }
-            } else {
-                // FALLBACK : On regarde si l'utilisateur a une "intention" (URL ou localStorage via Google Login)
-                const urlParams = new URLSearchParams(window.location.search);
-                const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
-                
-                if (roleFromIntent) {
-                    roleSelect.value = (roleFromIntent === 'prestataire') ? 'expert' : roleFromIntent;
-                    console.log("Onboarding (Intention): Rôle récupéré (" + roleFromIntent + ")");
-                    
-                    // Nettoyage immédiat
-                    localStorage.removeItem('onboarding_role');
-                    localStorage.removeItem('onboarding_plan');
-                }
-                
-                updateEditBar(roleSelect.value);
-                if (typeof adaptTerminology === 'function') adaptTerminology(roleSelect.value);
 
-                // --- RAPPEL D'ACHAT (Cas nouvel utilisateur sans profil DB) ---
-                const planIntent = localStorage.getItem('onboarding_plan');
-                if (planIntent) {
-                    console.log("Onboarding: Nouveau compte détecté avec intention d'achat", planIntent);
-                    setTimeout(() => {
-                        openSubModal(roleSelect.value);
-                        localStorage.removeItem('onboarding_plan');
-                    }, 1500);
-                }
-            }
+                const badgeEl = document.getElementById('role-badge');
+                const roleSelect = document.getElementById('user_role');
 
-            // Toggle dispo
-            document.getElementById('available').addEventListener('change', function () {
-                document.getElementById('availability-label').textContent = this.checked ? 'Disponible pour missions' : 'Non disponible';
-            });
-
-            // Skills Input
-            const skillInput = document.getElementById('skills-input');
-            if (skillInput) {
-                skillInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addTag(skillInput.value);
+                if (role === 'expert' || role === 'prestataire') {
+                    if (badgeEl) {
+                        badgeEl.textContent = 'Expert / Indépendant';
+                        badgeEl.style.background = 'rgba(16,185,129,0.1)';
+                        badgeEl.style.color = '#10b981';
                     }
-                });
-                skillInput.addEventListener('blur', () => {
-                    addTag(skillInput.value);
-                });
+                    if (roleSelect) roleSelect.value = 'expert';
+                } else if (role === 'entreprise') {
+                    if (badgeEl) {
+                        badgeEl.textContent = 'Entreprise';
+                        badgeEl.style.background = 'rgba(2,132,199,0.1)';
+                        badgeEl.style.color = '#0284c7';
+                    }
+                    if (roleSelect) roleSelect.value = 'entreprise';
+                } else {
+                    if (badgeEl) badgeEl.textContent = 'Porteur de Projet';
+                    if (roleSelect) roleSelect.value = 'basique';
+                }
+
+                if (roleSelect) {
+                    updateEditBar(roleSelect.value);
+                    adaptTerminology(roleSelect.value);
+
+                    roleSelect.addEventListener('change', function () {
+                        updateEditBar(this.value);
+                        adaptTerminology(this.value);
+                    });
+                }
+
+                const nameInput = document.getElementById('full_name');
+                if (nameInput) nameInput.value = name;
+
+                const { data: profile } = await _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', currentUserId)
+                    .single();
+
+                if (profile) {
+                    const displayRole = profile.role || role; 
+                    if (roleSelect) {
+                        roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
+                        updateEditBar(roleSelect.value);
+                        adaptTerminology(roleSelect.value);
+                    }
+
+                    fillForm(profile);
+                    hasExistingListing = !!profile.listed;
+                    currentSubscriptionTier = profile.subscription_tier || 'free';
+                    updateListingStatus(profile.listed, displayRole);
+                    checkMonetizationBanner();
+
+                    const planIntent = localStorage.getItem('onboarding_plan');
+                    if (planIntent && currentSubscriptionTier === 'free') {
+                        setTimeout(() => {
+                            openSubModal(displayRole);
+                            localStorage.removeItem('onboarding_plan');
+                        }, 1500);
+                    }
+                } else {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
+                    if (roleFromIntent && roleSelect) {
+                        roleSelect.value = (roleFromIntent === 'prestataire') ? 'expert' : roleFromIntent;
+                        localStorage.removeItem('onboarding_role');
+                        localStorage.removeItem('onboarding_plan');
+                    }
+                    if (roleSelect) {
+                        updateEditBar(roleSelect.value);
+                        adaptTerminology(roleSelect.value);
+                    }
+                }
+
+                const availableEl = document.getElementById('available');
+                if (availableEl) {
+                    availableEl.addEventListener('change', function () {
+                        const label = document.getElementById('availability-label');
+                        if (label) label.textContent = this.checked ? 'Disponible pour missions' : 'Non disponible';
+                    });
+                }
+
+                const skillInput = document.getElementById('skills-input');
+                if (skillInput) {
+                    skillInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            addTag(skillInput.value);
+                        }
+                    });
+                    skillInput.addEventListener('blur', () => {
+                        addTag(skillInput.value);
+                    });
+                }
+            } catch (err) {
+                console.error("Critical error during profile init:", err);
             }
-        } catch (err) {
-            console.error("Critical error during profile init:", err);
-            // Fallback: show the edit button anyway if possible
-            const bar = document.getElementById('non-expert-edit-bar');
-            if (bar) bar.style.display = 'block';
-        }
         });
 
         function fillForm(profile) {
-            if (profile.full_name) document.getElementById('full_name').value = profile.full_name;
-            
-            // Migration/Auto-fill pour les entreprises
-            if (profile.role === 'entreprise' && !profile.company && profile.full_name) {
-                document.getElementById('company').value = profile.full_name;
-            } else if (profile.company) {
-                document.getElementById('company').value = profile.company;
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val || '';
             }
 
-            if (profile.title) document.getElementById('title').value = profile.title;
-            if (profile.bio) document.getElementById('bio').value = profile.bio;
-            if (profile.sector) document.getElementById('sector').value = profile.sector;
-            if (profile.territory) document.getElementById('territory').value = profile.territory;
+            setVal('full_name', profile.full_name);
+            if (profile.role === 'entreprise' && !profile.company && profile.full_name) {
+                setVal('company', profile.full_name);
+            } else {
+                setVal('company', profile.company);
+            }
+            
+            setVal('title', profile.title);
+            setVal('bio', profile.bio);
+            setVal('sector', profile.sector);
+            setVal('territory', profile.territory);
+            
             if (profile.skills) {
                 skillTags = profile.skills.split(',').map(s => s.trim()).filter(s => s);
                 renderTags();
             }
-            if (profile.tjm) document.getElementById('tjm').value = profile.tjm;
-            if (profile.linkedin_url) document.getElementById('linkedin_url').value = profile.linkedin_url;
-            if (profile.video_url) document.getElementById('video_url').value = profile.video_url;
-            if (profile.written_presentation) document.getElementById('written_presentation').value = profile.written_presentation;
-            if (profile.siret) document.getElementById('siret').value = profile.siret;
-            if (profile.website_url) document.getElementById('website_url').value = profile.website_url || '';
+            
+            setVal('tjm', profile.tjm);
+            setVal('linkedin_url', profile.linkedin_url);
+            setVal('facebook_url', profile.facebook_url);
+            setVal('instagram_url', profile.instagram_url);
+            setVal('youtube_url', profile.youtube_url);
+            setVal('tiktok_url', profile.tiktok_url);
+            setVal('spotify_url', profile.spotify_url);
+            setVal('video_url', profile.video_url);
+            setVal('written_presentation', profile.written_presentation);
+            setVal('siret', profile.siret);
+            setVal('forme_juridique', profile.forme_juridique);
+            setVal('zone', profile.zone);
+            setVal('website_url', profile.website_url);
+            
+            const preview = document.getElementById('avatar-preview');
+            const avatarUrlInput = document.getElementById('avatar_url');
+            const fileNameEl = document.getElementById('file-name');
+
             if (profile.avatar_url) {
-                document.getElementById('avatar_url').value = profile.avatar_url;
-                document.getElementById('avatar-preview').innerHTML = `<img src="${profile.avatar_url}" alt="Logo">`;
-                document.getElementById('file-name').textContent = "Fichier actuel enregistré";
-            }
-            else {
+                if (avatarUrlInput) avatarUrlInput.value = profile.avatar_url;
+                if (preview) preview.innerHTML = `<img src="${profile.avatar_url}" alt="Logo">`;
+                if (fileNameEl) fileNameEl.textContent = "Fichier actuel enregistré";
+            } else {
                 const name = profile.full_name || 'DC';
-                document.getElementById('avatar-preview').textContent = name.slice(0, 2).toUpperCase();
+                if (preview) preview.textContent = name.slice(0, 2).toUpperCase();
             }
-            document.getElementById('available').checked = !!profile.available;
-            document.getElementById('availability-label').textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
+            
+            const availableEl = document.getElementById('available');
+            if (availableEl) {
+                availableEl.checked = !!profile.available;
+                const label = document.getElementById('availability-label');
+                if (label) label.textContent = profile.available ? 'Disponible pour missions' : 'Non disponible';
+            }
         }
 
         function updateListingStatus(listed, displayRole = null) {
             const dot = document.getElementById('listing-dot');
             const text = document.getElementById('listing-status-text');
             const subtitle = document.getElementById('page-subtitle');
-            const role = displayRole || document.getElementById('user_role').value;
+            const roleSelect = document.getElementById('user_role');
+            const role = displayRole || (roleSelect ? roleSelect.value : '');
             const isExpert = (role === 'expert' || role === 'prestataire');
 
             if (listed) {
-                dot.classList.add('published');
-                text.textContent = isExpert ? 'Annonce publiée dans l\'annuaire experts' : 'Entreprise publiée dans l\'annuaire entreprises';
-                text.style.color = '#10b981';
-                subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
+                if (dot) dot.classList.add('published');
+                if (text) {
+                    text.textContent = isExpert ? 'Annonce publiée dans l\'annuaire experts' : 'Entreprise publiée dans l\'annuaire entreprises';
+                    text.style.color = '#10b981';
+                }
+                if (subtitle) subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
             } else {
-                dot.classList.remove('published');
-                text.textContent = 'Profil privé (Hors annuaire)';
-                text.style.color = 'var(--text-secondary)';
-                
-                if (currentSubscriptionTier === 'free' && role !== 'basique') {
-                    text.innerHTML = 'Profil en attente d\'activation <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">(Invisible)</span>';
+                if (dot) dot.classList.remove('published');
+                if (text) {
+                    text.textContent = 'Profil privé (Hors annuaire)';
+                    text.style.color = 'var(--text-secondary)';
+                    if (currentSubscriptionTier === 'free' && role !== 'basique') {
+                        text.innerHTML = 'Profil en attente d\'activation <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">(Invisible)</span>';
+                    }
                 }
             }
         }
 
         function checkMonetizationBanner() {
-            const role = document.getElementById('user_role').value;
+            const roleSelect = document.getElementById('user_role');
+            const role = roleSelect ? roleSelect.value : '';
             const isExpert = (role === 'expert' || role === 'prestataire');
-
-            // Nettoyer l'ancienne bannière si elle existe
             const oldBanner = document.getElementById('monetization-banner');
             if (oldBanner) oldBanner.remove();
 
-            // On ne montre la bannière de boost QUE pour les experts/entreprises en mode gratuit
             if ((isExpert || role === 'entreprise') && currentSubscriptionTier === 'free' && !hasExistingListing) {
                 const priceText = (role === 'entreprise') ? '29€/mois' : '9,99€/mois';
                 const bannerHtml = `
@@ -1433,7 +1483,8 @@
                         <div style="position:absolute; right:-15px; top:-15px; font-size:6rem; opacity:0.1; transform:rotate(15deg); pointer-events:none;">💎</div>
                     </div>
                 `;
-                document.getElementById('profile-form').insertAdjacentHTML('beforebegin', bannerHtml);
+                const form = document.getElementById('profile-form');
+                if (form) form.insertAdjacentHTML('beforebegin', bannerHtml);
             }
         }
 
@@ -1445,100 +1496,83 @@
             const tjmGroup = document.getElementById('tjm-group');
             const listingText = document.getElementById('listing-status-text');
             const labelLogo = document.getElementById('label-logo');
+            const formeJuridique = document.getElementById('forme_juridique');
 
             if (isCompany) {
-                labelName.textContent = "Votre Nom";
-                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'block';
-                labelTitle.textContent = "Secteur principal";
-                labelLogo.textContent = "Logo de l'entreprise";
-                companyFields.style.display = 'grid';
-                tjmGroup.style.display = 'none';
-                document.getElementById('video-presentation-group').style.display = 'block';
-                document.getElementById('written-presentation-group').style.display = 'block';
-                if (listingText.textContent.includes('Annonce')) {
+                if (labelName) labelName.textContent = "Votre Nom";
+                const companyNameGroup = document.getElementById('company-name-group');
+                if (companyNameGroup) companyNameGroup.style.display = 'block';
+                if (labelTitle) labelTitle.textContent = "Secteur principal";
+                if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
+                if (companyFields) companyFields.style.display = 'grid';
+                if (formeJuridique) {
+                    const group = formeJuridique.closest('.form-group');
+                    if (group) group.style.display = 'block';
+                    formeJuridique.disabled = !isEditing;
+                }
+                if (tjmGroup) tjmGroup.style.display = 'none';
+                const videoGroup = document.getElementById('video-presentation-group');
+                const writtenGroup = document.getElementById('written-presentation-group');
+                if (videoGroup) videoGroup.style.display = 'block';
+                if (writtenGroup) writtenGroup.style.display = 'block';
+                if (listingText && listingText.textContent.includes('Annonce')) {
                     listingText.textContent = "Page profil non publiée";
                 }
             } else if (role === 'basique') {
-                // Porteur de Projet
-                labelName.textContent = "Nom complet";
-                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'none';
-                labelTitle.textContent = "Expertises recherchées";
-                labelLogo.textContent = "Photo de profil";
-                companyFields.style.display = 'none';
-                tjmGroup.style.display = 'none';
-                document.getElementById('video-presentation-group').style.display = 'none';
-                document.getElementById('written-presentation-group').style.display = 'none';
+                if (labelName) labelName.textContent = "Nom complet";
+                const companyNameGroup = document.getElementById('company-name-group');
+                if (companyNameGroup) companyNameGroup.style.display = 'none';
+                if (labelTitle) labelTitle.textContent = "Expertises recherchées";
+                if (labelLogo) labelLogo.textContent = "Photo de profil";
+                if (companyFields) companyFields.style.display = 'none';
+                if (tjmGroup) tjmGroup.style.display = 'none';
+                const videoGroup = document.getElementById('video-presentation-group');
+                const writtenGroup = document.getElementById('written-presentation-group');
+                if (videoGroup) videoGroup.style.display = 'none';
+                if (writtenGroup) writtenGroup.style.display = 'none';
             } else {
-                // Expert
-                labelName.textContent = "Nom complet";
-                if (document.getElementById('company-name-group')) document.getElementById('company-name-group').style.display = 'none';
-                labelTitle.textContent = "Titre / Expertise";
-                labelLogo.textContent = "Photo de profil";
-                companyFields.style.display = 'none';
-                tjmGroup.style.display = 'block';
-                document.getElementById('video-presentation-group').style.display = 'block';
-                document.getElementById('written-presentation-group').style.display = 'block';
+                if (labelName) labelName.textContent = "Nom complet";
+                const companyNameGroup = document.getElementById('company-name-group');
+                if (companyNameGroup) companyNameGroup.style.display = 'none';
+                if (labelTitle) labelTitle.textContent = "Titre / Expertise";
+                if (labelLogo) labelLogo.textContent = "Photo de profil";
+                if (companyFields) companyFields.style.display = 'grid';
+                if (formeJuridique) {
+                    const group = formeJuridique.closest('.form-group');
+                    if (group) group.style.display = 'none';
+                }
+                if (tjmGroup) tjmGroup.style.display = 'block';
+                const videoGroup = document.getElementById('video-presentation-group');
+                const writtenGroup = document.getElementById('written-presentation-group');
+                if (videoGroup) videoGroup.style.display = 'block';
+                if (writtenGroup) writtenGroup.style.display = 'block';
             }
         }
 
         function toggleEditMode() {
-            console.log("Toggle Edit Mode triggered");
             try {
                 isEditing = true;
                 const userRoleEl = document.getElementById('user_role');
-                
-                // Add user_role only if not already present
                 if (!FIELDS.includes('user_role')) FIELDS.push('user_role');
-                
                 FIELDS.forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.disabled = false;
                 });
-                
                 const formActions = document.getElementById('form-actions');
                 if (formActions) formActions.style.display = 'flex';
-                
-                // Hide ALL possible edit buttons
                 const editBtn = document.getElementById('edit-toggle-btn');
-                if (editBtn) editBtn.style.display = 'none';
                 const editBtnBasic = document.getElementById('edit-toggle-btn-basic');
+                if (editBtn) editBtn.style.display = 'none';
                 if (editBtnBasic) editBtnBasic.style.display = 'none';
-                
-                // --- INTENTION ONBOARDING ---
-                if (userRoleEl && !userRoleEl.value) {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const roleFromIntent = urlParams.get('role') || localStorage.getItem('onboarding_role');
-                    
-                    if (roleFromIntent) {
-                        userRoleEl.value = roleFromIntent;
-                        updateEditBar(roleFromIntent);
-                        adaptTerminology(roleFromIntent);
-                        console.log("Intent-based onboarding (recovered): Role set to", roleFromIntent);
-                        
-                        localStorage.removeItem('onboarding_role');
-                        localStorage.removeItem('onboarding_plan');
-                    }
-                }
-                
-                if (userRoleEl && !userRoleEl.value) {
-                    userRoleEl.value = 'expert';
-                }
-                
                 if (userRoleEl) {
                     updateEditBar(userRoleEl.value);
                     adaptTerminology(userRoleEl.value);
                 }
-
                 const feedback = document.getElementById('save-feedback');
                 if (feedback) feedback.style.display = 'none';
-                
-                console.log("Enabling tags rendering...");
-                if (typeof renderTags === 'function') renderTags();
-                
-                console.log("Edit mode successfully enabled");
+                renderTags();
             } catch (err) {
                 console.error("Error in toggleEditMode:", err);
-                alert("Désolé, une erreur est survenue lors de l'activation de l'édition. Vérifiez la console.");
             }
         }
 
@@ -1548,8 +1582,8 @@
                 const el = document.getElementById(id);
                 if (el) el.disabled = true;
             });
-            document.getElementById('form-actions').style.display = 'none';
-            // Réafficher le bon bouton d'édition
+            const formActions = document.getElementById('form-actions');
+            if (formActions) formActions.style.display = 'none';
             const expertBar = document.getElementById('edit-toggle-btn');
             const basicBar = document.getElementById('edit-toggle-btn-basic');
             if (expertBar) expertBar.style.display = 'inline-flex';
@@ -1561,13 +1595,12 @@
             const title = document.getElementById('sub-modal-title');
             const benefits = document.getElementById('sub-modal-benefits');
             const price = document.getElementById('sub-modal-price');
-
             const checkIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
             if (role === 'entreprise') {
-                title.textContent = 'Pack Business Entreprise';
-                price.innerHTML = `<span class="price-amount">29</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
-                benefits.innerHTML = `
+                if (title) title.textContent = 'Pack Business Entreprise';
+                if (price) price.innerHTML = `<span class="price-amount">29</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
+                if (benefits) benefits.innerHTML = `
                     <li>${checkIcon} <span><strong>Publication de missions</strong> illimitées</span></li>
                     <li>${checkIcon} <span>Visibilité Prioritaire</span></li>
                     <li>${checkIcon} <span><strong>Podcast Corporate</strong> dédié</span></li>
@@ -1576,9 +1609,9 @@
                 `;
                 renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business');
             } else {
-                title.textContent = 'Pack Authority Expert';
-                price.innerHTML = `<span class="price-amount">9,99</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
-                benefits.innerHTML = `
+                if (title) title.textContent = 'Pack Authority Expert';
+                if (price) price.innerHTML = `<span class="price-amount">9,99</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
+                if (benefits) benefits.innerHTML = `
                     <li>${checkIcon} <span>Profil listé dans l'annuaire</span></li>
                     <li>${checkIcon} <span>Badge "Vérifié" permanent</span></li>
                     <li>${checkIcon} <span><strong>Visibilité</strong> : 3-4 posts / mois</span></li>
@@ -1586,27 +1619,30 @@
                 `;
                 renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority');
             }
-
-            modal.classList.add('active');
-            // Petit délai pour l'animation d'opacité
-            setTimeout(() => { modal.style.opacity = '1'; }, 10);
+            if (modal) {
+                modal.classList.add('active');
+                setTimeout(() => { modal.style.opacity = '1'; }, 10);
+            }
             document.body.style.overflow = 'hidden';
         }
 
         function closeSubModal() {
             const modal = document.getElementById('subscription-modal');
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-                document.getElementById('paypal-button-container').innerHTML = '';
-            }, 400); // Correspond à la durée de transition CSS
+            if (modal) {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    const container = document.getElementById('paypal-button-container');
+                    if (container) container.innerHTML = '';
+                }, 400);
+            }
         }
 
         function renderPayPalButton(planId, tier) {
             const container = document.getElementById('paypal-button-container');
+            if (!container) return;
             container.innerHTML = '';
-
             if (typeof paypal !== 'undefined') {
                 paypal.Buttons({
                     style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
@@ -1618,26 +1654,18 @@
                     },
                     onError: function (err) {
                         console.error('PayPal Error:', err);
-                        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide pour ce Client ID.'}</p>`;
+                        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide.'}</p>`;
                     }
                 }).render('#paypal-button-container');
             }
         }
 
         async function handleSubscriptionSuccess(subscriptionId, tier) {
-            const selectedRole = document.getElementById('user_role').value;
-            
-            // 1. Activation du rôle (Auth Metadata)
-            const { error: authError } = await _supabase.auth.updateUser({
-                data: { role: selectedRole }
-            });
+            const roleSelect = document.getElementById('user_role');
+            const selectedRole = roleSelect ? roleSelect.value : '';
+            const { error: authError } = await _supabase.auth.updateUser({ data: { role: selectedRole } });
+            if (authError) { alert('Erreur Auth : ' + authError.message); return; }
 
-            if (authError) {
-                alert('Erreur Auth : ' + authError.message);
-                return;
-            }
-
-            // 2. Activation DB (Tier, Date, Listed)
             const { error: dbError } = await _supabase
                 .from('profiles')
                 .update({
@@ -1652,11 +1680,9 @@
             if (dbError) {
                 alert('Erreur SQL : ' + dbError.message);
             } else {
-                // 3. Nettoyage de l'intention d'achat
                 localStorage.removeItem('onboarding_plan');
                 localStorage.removeItem('onboarding_role');
-                
-                alert('Félicitations ! Votre Pack est activé. Votre profil est désormais public.');
+                alert('Félicitations ! Votre Pack est activé.');
                 window.location.reload();
             }
         }
@@ -1664,53 +1690,58 @@
         async function saveProfile(event) {
             event.preventDefault();
             const btn = document.getElementById('save-btn');
-            const selectedRole = document.getElementById('user_role').value;
+            const roleSelect = document.getElementById('user_role');
+            const selectedRole = roleSelect ? roleSelect.value : '';
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
             
-            if (btn) {
-                btn.textContent = 'Enregistrement...';
-                btn.disabled = true;
-            }
+            if (btn) { btn.textContent = 'Enregistrement...'; btn.disabled = true; }
 
             try {
-                const { error: authError } = await _supabase.auth.updateUser({
-                    data: { role: selectedRole }
-                });
+                const { error: authError } = await _supabase.auth.updateUser({ data: { role: selectedRole } });
                 if (authError) throw authError;
 
-                let finalAvatarUrl = document.getElementById('avatar_url').value;
+                const avatarUrlEl = document.getElementById('avatar_url');
+                let finalAvatarUrl = avatarUrlEl ? avatarUrlEl.value : '';
                 const fileInput = document.getElementById('logo-file');
-
                 if (fileInput && fileInput.files.length > 0) {
                     if (btn) btn.textContent = 'Upload du logo...';
                     finalAvatarUrl = await uploadFile(fileInput.files[0]);
                 }
 
+                const getVal = (id) => {
+                    const el = document.getElementById(id);
+                    return el ? el.value.trim() : null;
+                }
+
                 const profileData = {
                     id: currentUserId,
-                    full_name: document.getElementById('full_name').value.trim(),
-                    title: document.getElementById('title').value.trim() || null,
-                    bio: document.getElementById('bio').value.trim() || null,
-                    sector: document.getElementById('sector').value || null,
-                    territory: document.getElementById('territory').value || null,
-                    skills: document.getElementById('skills').value.trim() || null,
-                    tjm: parseInt(document.getElementById('tjm').value) || null,
-                    linkedin_url: document.getElementById('linkedin_url').value.trim() || null,
-                    video_url: document.getElementById('video_url').value.trim() || null,
-                    written_presentation: document.getElementById('written_presentation').value.trim() || null,
-                    siret: document.getElementById('siret').value.trim() || null,
-                    website_url: document.getElementById('website_url').value.trim() || null,
-                    company: document.getElementById('company').value.trim() || null,
+                    full_name: getVal('full_name'),
+                    title: getVal('title'),
+                    bio: getVal('bio'),
+                    sector: document.getElementById('sector') ? document.getElementById('sector').value : null,
+                    territory: document.getElementById('territory') ? document.getElementById('territory').value : null,
+                    skills: getVal('skills'),
+                    tjm: document.getElementById('tjm') ? parseInt(document.getElementById('tjm').value) : null,
+                    linkedin_url: getVal('linkedin_url'),
+                    facebook_url: getVal('facebook_url'),
+                    instagram_url: getVal('instagram_url'),
+                    youtube_url: getVal('youtube_url'),
+                    tiktok_url: getVal('tiktok_url'),
+                    spotify_url: getVal('spotify_url'),
+                    video_url: getVal('video_url'),
+                    written_presentation: getVal('written_presentation'),
+                    siret: getVal('siret'),
+                    forme_juridique: document.getElementById('forme_juridique') ? document.getElementById('forme_juridique').value : null,
+                    zone: getVal('zone'),
+                    website_url: getVal('website_url'),
+                    company: getVal('company'),
                     avatar_url: finalAvatarUrl,
-                    available: document.getElementById('available').checked,
+                    available: document.getElementById('available') ? document.getElementById('available').checked : false,
                     role: selectedRole,
                     updated_at: new Date().toISOString()
                 };
 
-                const { error: dbError } = await _supabase
-                    .from('profiles')
-                    .upsert(profileData, { onConflict: 'id' });
-
+                const { error: dbError } = await _supabase.from('profiles').upsert(profileData, { onConflict: 'id' });
                 if (dbError) throw dbError;
 
                 const feedback = document.getElementById('save-feedback');
@@ -1719,9 +1750,7 @@
                     feedback.style.color = '#10b981';
                     feedback.style.display = 'block';
                 }
-
                 setTimeout(() => { window.location.reload(); }, 1500);
-
             } catch (err) {
                 console.error("Save Error:", err);
                 showError('Erreur : ' + err.message);
@@ -1733,44 +1762,24 @@
         }
 
         async function handleDeleteAccount() {
-            if (confirm("SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\nCela effacera vos projets, votre profil et vos accès. Cette action est irréversible.")) {
+            if (confirm("SUPPRESSION DÉFINITIVE
+
+Êtes-vous sûr de vouloir supprimer votre compte ?")) {
                 try {
                     const session = await getSession();
                     if (!session) return;
-                    const userId = session.user.id;
-
-                    // 1. Vider les données métier (Projets & Profil)
-                    await _supabase.from('projects').delete().eq('owner_id', userId);
-                    await _supabase.from('profiles').delete().eq('id', userId);
-
-                    // 2. Tentative de suppression Auth (True Deletion) via RPC
-                    const { error: rpcError } = await _supabase.rpc('delete_user_account');
-
-                    if (rpcError) {
-                        console.warn("RPC Deletion failed:", rpcError);
-                        // 3. Fallback : Reset des metadata pour forcer un nouveau onboarding si l'user revient
-                        await _supabase.auth.updateUser({ data: { role: null, onboarding_done: false } });
-                        alert("Données effacées, mais votre connexion persiste.\n\nNote : Pour une suppression TOTALE de l'accès, contactez le support ou revérifiez la config RPC.");
-                    } else {
-                        alert("Votre compte et toutes vos données ont été définitivement supprimés.");
-                    }
-
+                    await _supabase.from('projects').delete().eq('owner_id', session.user.id);
+                    await _supabase.from('profiles').delete().eq('id', session.user.id);
+                    await _supabase.rpc('delete_user_account');
                     await signOut();
                     window.location.href = '/login.html';
-                } catch (e) {
-                    console.error("Delete Error:", e);
-                    alert("Une erreur est survenue lors de la suppression.");
-                }
+                } catch (e) { console.error(e); }
             }
         }
 
         function showError(msg) {
             const fb = document.getElementById('save-feedback');
-            if (fb) {
-                fb.textContent = msg;
-                fb.style.color = '#ef4444';
-                fb.style.display = 'block';
-            }
+            if (fb) { fb.textContent = msg; fb.style.color = '#ef4444'; fb.style.display = 'block'; }
         }
     </script>
 
