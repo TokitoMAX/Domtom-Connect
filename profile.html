@@ -990,7 +990,7 @@
 
 
                     <div class="form-group">
-                        <label>Bio courte</label>
+                        <label>Votre Parcours & Histoire (Background)</label>
                         <textarea id="bio" name="bio" placeholder="Décrivez votre activité en 2-3 phrases..."
                             disabled></textarea>
                     </div>
@@ -1073,7 +1073,7 @@
                     </div>
 
                     <div class="form-group" id="written-presentation-group">
-                        <label>Ou présentation écrite (Pitch)</label>
+                        <label>Présentation Pro & Expertise</label>
                         <textarea id="written_presentation" name="written_presentation" placeholder="Décrivez votre parcours, vos motivations et ce que vous pouvez apporter..."
                             style="min-height: 120px;" disabled></textarea>
                         <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:4px;">Si vous ne souhaitez pas faire de vidéo, exprimez-vous ici par écrit.</p>
@@ -1126,13 +1126,13 @@
                 </div>
 
                 <!-- Portfolio (Experts/Entreprises) Section -->
-                <div class="profile-form-card" id="portfolio-card" style="display: none; border-left: 4px solid #7c3aed;">
-                    <h2 style="display: flex; align-items: center; gap: 12px; color: #7c3aed;">
+                <div class="profile-form-card" id="portfolio-card" style="display: none; border-left: 4px solid #10b981;">
+                    <h2 style="display: flex; align-items: center; gap: 12px; color: #10b981;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                        Votre Portfolio (Réalisations passées)
+                        Portfolio Professionnel
                     </h2>
                     <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
-                        Ajoutez vos travaux les plus marquants (vidéos, liens vers des sites, designs) pour convaincre vos futurs clients.
+                        Mettez en avant vos meilleures réalisations (vidéos, liens, designs). Ce portfolio est votre vitrine principale dans l'annuaire.
                     </p>
 
                     <!-- Liste des items du portfolio -->
@@ -1163,9 +1163,9 @@
                         </div>
                     </div>
 
-                    <button type="button" id="btn-show-port-form" class="cta-button secondary" onclick="togglePortfolioForm(true)" style="width: 100%; border: 1px dashed var(--gray-300); background: #f8fafc; color: #7c3aed; font-weight: 700; gap: 8px;">
+                    <button type="button" id="btn-show-port-form" class="cta-button secondary" onclick="togglePortfolioForm(true)" style="width: 100%; border: 1px dashed var(--gray-300); background: #f8fafc; color: #10b981; font-weight: 700; gap: 8px;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        Ajouter une réalisation à mon portfolio
+                        Ajouter une réalisation
                     </button>
                 </div>
 
@@ -1999,7 +1999,7 @@
                     <div style="flex: 1; overflow: hidden;">
                         <h4 style="margin: 0 0 4px 0; font-size: 0.95rem; font-weight: 700;">${item.title}</h4>
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #7c3aed; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Voir le média</a>
+                            <a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #10b981; text-decoration: underline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Voir le média</a>
                             ${item.description ? `<span style="font-size: 0.75rem; color: var(--text-muted);">| ${item.description.slice(0, 50)}${item.description.length > 50 ? '...' : ''}</span>` : ''}
                         </div>
                     </div>
