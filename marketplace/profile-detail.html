@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Professionnel – Domtom Connect</title>
+    <title id="seo-title">Profil Professionnel – Domtom Connect</title>
+    <meta name="description" id="seo-description" content="Découvrez le profil professionnel sur Domtom Connect, la plateforme de mise en relation des talents et entreprises des Outre-mer.">
     <link rel="stylesheet" href="/assets/css/style.css?v=3.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -27,10 +28,19 @@
         /* Hero Profile V3 */
         .profile-hero {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 80px 0 120px;
+            padding: 40px 0 120px;
             color: white;
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-banner-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(16,185,129,0.2), rgba(3,105,161,0.2));
+            z-index: 1;
         }
 
         .profile-hero::before {
@@ -236,6 +246,16 @@
     <nav class="navbar" id="main-nav" style="background: white; border-bottom: 1px solid #e2e8f0;"></nav>
 
     <header class="profile-hero">
+        <div class="hero-banner-bg"></div>
+        <div class="container" style="position:relative; z-index:5; margin-bottom: 30px;">
+            <nav style="display:flex; gap:8px; font-size:0.8rem; opacity:0.7; font-weight:600;">
+                <a href="/" style="color:white; text-decoration:none;">Accueil</a>
+                <span>/</span>
+                <a href="directory.html" style="color:white; text-decoration:none;" id="breadcrumb-parent">Annuaire</a>
+                <span>/</span>
+                <span id="breadcrumb-current" style="color:var(--primary);">Profil</span>
+            </nav>
+        </div>
         <div class="container hero-container">
             <div id="p-avatar" class="profile-avatar-large"></div>
             <div class="profile-hero-info">
@@ -264,8 +284,11 @@
                     <h2 class="section-title"><i class="fas fa-bolt"></i> Compétences & Expertise</h2>
                     <div class="skills-grid" id="p-skills"></div>
 
+                    <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-history"></i> Background & Parcours</h2>
+                    <div class="bio-text" id="p-background">Informations sur le parcours professionnel...</div>
+
                     <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-briefcase"></i> Réalisations & Projets</h2>
-                    <p class="bio-text" id="p-projects-list">L'historique des réalisations apparaîtra ici.</p>
+                    <div class="bio-text" id="p-projects-list">L'historique des réalisations apparaîtra ici.</div>
                 </div>
 
                 <div class="profile-card" id="company-sections" style="display:none;">
@@ -311,9 +334,18 @@
             const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
             if (error || !p) { console.error(error); return; }
 
+            // SEO & Breadcrumbs
+            const nameStr = p.company || p.full_name || 'Professionnel';
+            document.title = `${nameStr} - ${p.title || 'Expert'} | Domtom Connect`;
+            document.getElementById('seo-description').content = `${nameStr}, ${p.title || 'Expert'} à ${p.territory || 'OM'}. Découvrez ses réalisations et contactez ce professionnel sur Domtom Connect.`;
+            document.getElementById('breadcrumb-current').textContent = nameStr;
+            let isCompany = p.role === 'entreprise';
+            document.getElementById('breadcrumb-parent').textContent = isCompany ? 'Entreprises' : 'Talents';
+            document.getElementById('breadcrumb-parent').href = isCompany ? 'companies.html' : 'directory.html';
+
             // Name & Verified Badge
-            document.getElementById('p-name').innerHTML = `${p.company || p.full_name || 'Inconnu'} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
-            document.getElementById('p-title').textContent = p.title || (p.role === 'entreprise' ? 'Institution / Entreprise' : 'Expert Domtom Connect');
+            document.getElementById('p-name').innerHTML = `${nameStr} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
+            document.getElementById('p-title').textContent = p.title || (isCompany ? 'Institution / Entreprise' : 'Expert Domtom Connect');
             
             // Avatar
             const avatarDiv = document.getElementById('p-avatar');
@@ -330,7 +362,7 @@
             document.getElementById('p-bio').innerHTML = (p.bio || 'Aucune description disponible.').replace(/\n/g, '<br>');
 
             // Roles Logic
-            const isCompany = p.role === 'entreprise';
+            isCompany = p.role === 'entreprise';
             document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
             document.getElementById('company-sections').style.display = isCompany ? 'block' : 'none';
             document.getElementById('p-role').textContent = isCompany ? 'Profil Entreprise' : 'Profil Expert/Talent';
@@ -340,6 +372,13 @@
 
             if (p.forme_juridique) document.getElementById('p-forme').textContent = p.forme_juridique;
             else document.getElementById('forme-row').style.display = 'none';
+
+            // Background
+            if (p.background_info) {
+                document.getElementById('p-background').innerHTML = p.background_info.replace(/\n/g, '<br>');
+            } else if (p.bio) {
+                document.getElementById('p-background').innerHTML = p.bio.replace(/\n/g, '<br>');
+            }
 
             if (p.tjm) {
                 document.getElementById('tjm-row').style.display = 'block';

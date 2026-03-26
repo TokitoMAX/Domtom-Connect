@@ -630,14 +630,54 @@
                     </div>
 
                     <div class="company-actions">
-                        <a href="profile-detail.html?id=${company.id}" class="btn-web">Détails</a>
+                        <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Détails</button>
                         <a href="../messages?to=${company.id}" class="btn-contact">Contacter</a>
                     </div>
                 </div>
             `;
         }
 
-        function closeModal() { document.getElementById('details-modal-overlay').classList.remove('open'); }
+        async function showCompanyDetails(id) {
+            const { data: company, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
+            if (error || !company) return;
+            const name = company.company || company.full_name || 'Entreprise';
+            const overlay = document.getElementById('details-modal-overlay');
+            overlay.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header-v2">
+                        ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:80px; height:80px; border-radius:16px; object-fit:cover;">` : `<div style="width:80px; height:80px; border-radius:16px; background:#f0f9ff; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#0369a1;">${name.slice(0,2).toUpperCase()}</div>`}
+                        <div>
+                            <h2 style="margin:0; display: flex; align-items: center; gap: 8px;">
+                                ${name}
+                                ${company.siret ? `
+                                <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)" style="padding: 4px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h2>
+                            <p style="color:#0369a1; font-weight:700; margin:4px 0 0 0;">${company.sector || 'Entreprise'}</p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top:20px; line-height:1.6; color:#475569;">${(company.written_presentation || company.bio || 'Non renseigné').slice(0, 150)}...</p>
+                    
+                    <div class="modal-info-grid">
+                        <span><strong>📍 Territoire:</strong> ${company.territory || '—'}</span>
+                        <span><strong>🏢 SIRET:</strong> ${company.siret || '—'}</span>
+                    </div>
+
+                    <div style="margin-top:24px; display:flex; flex-direction: column; gap:12px;" class="modal-actions-v2">
+                        <a href="profile-detail.html?id=${company.id}" class="btn-web" style="text-align:center; background:#0369a1; color:white;">Consulter la page entreprise complète</a>
+                        <div style="display:flex; gap:12px;">
+                            <button onclick="closeModal()" class="btn-web btn-action-mobile" style="flex:1;">Fermer</button>
+                            <a href="../messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#0369a1; flex:1;">Contacter</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            overlay.classList.add('open');
+        }
         function openCompanyModal() { window.location.href = '../profile'; }
         init();
     </script>
