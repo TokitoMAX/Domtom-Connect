@@ -1810,7 +1810,9 @@
         
 
         function calculateProjectMaturity(p) {
+            if (!p) return 0;
             let score = 0;
+            
             // Step 1: Identité (16%)
             const hasVision = p.vision && p.vision.trim() !== '' && !p.vision.includes('[[VISION]]');
             const hasMission = p.mission && p.mission.trim() !== '' && !p.mission.includes('[[MISSION]]');
@@ -1820,17 +1822,29 @@
             // Step 2: Humain (16%)
             if (p.equipe && p.equipe.trim().length > 10) score += 16;
 
-            // Step 3: Terrain (17%) - Check if Marche is filled (territory/status have defaults)
+            // Step 3: Terrain (17%)
             if (p.marche && p.marche.trim().length > 10) score += 17;
 
             // Step 4: Valeur (17%)
             if ((p.impact_local && p.impact_local.trim().length > 10) || (p.innovation && p.innovation.trim().length > 10)) score += 17;
 
             // Step 5: Objectifs (17%)
-            if (p.funding_goal > 0) score += 17;
+            if (p.funding_goal && parseFloat(p.funding_goal) > 0) score += 17;
 
-            // Step 6: Envol (17%) - Verified OR Pitch Written
-            if (p.verification_status === 'verified' || (p.pitch_texte && p.pitch_texte.trim().length > 20)) score += 17;
+            // Step 6: Envol (17%)
+            const isVerified = p.verification_status === 'verified';
+            const hasPitch = p.pitch_texte && p.pitch_texte.trim().length > 20;
+            if (isVerified || hasPitch) score += 17;
+
+            console.log(`Maturity Debug [${p.title}]:`, {
+                score,
+                step1: hasVision && hasMission && hasEnjeu,
+                step2: p.equipe && p.equipe.trim().length > 10,
+                step3: p.marche && p.marche.trim().length > 10,
+                step4: (p.impact_local && p.impact_local.trim().length > 10) || (p.innovation && p.innovation.trim().length > 10),
+                step5: p.funding_goal && parseFloat(p.funding_goal) > 0,
+                step6: isVerified || hasPitch
+            });
 
             return Math.min(score, 100);
         }
@@ -1845,7 +1859,17 @@
 
                 const { data, error } = await _supabase.from('projects').insert([{
                     title: 'Nouvelle Épopée',
-                    description: '[[VISION]]\n\n[[MISSION]]\n\n[[PROBLEM]]\n',
+                    description: '',
+                    vision: '',
+                    mission: '',
+                    enjeu: '',
+                    equipe: '',
+                    marche: '',
+                    impact_local: '',
+                    innovation: '',
+                    pitch_texte: '',
+                    funding_goal: 0,
+                    verification_status: 'none',
                     territory: 'Martinique',
                     status: 'Idée',
                     owner_id: session.user.id,
@@ -1856,7 +1880,7 @@
                 
                 // Recharger la liste et sélectionner le nouveau projet
                 await loadMyProjects(session.user.id);
-                selectProject(data.id);
+                await selectProject(data.id);
                 switchSREStep(1);
             } catch (err) {
                 console.error("Error creating project:", err);
@@ -1906,8 +1930,8 @@
             `).join('');
 
             // Select first project by default if none selected
-            if (!currentSREProject) {
-                selectProject(projects[0].id);
+            if (!currentSREProject && projects.length > 0) {
+                await selectProject(projects[0].id);
             }
         }
 
@@ -1932,6 +1956,10 @@
         function renderSRECockpit() {
             const container = document.getElementById('sre-content');
             const p = currentSREProject;
+            if (!p) {
+                renderSREEmptyState();
+                return;
+            }
             const maturity = calculateProjectMaturity(p);
 
             container.innerHTML = `
@@ -1997,6 +2025,7 @@
 
         function renderSREStepContent() {
             const p = currentSREProject;
+            if (!p) return '';
             switch(currentSREStep) {
                 case 1: return renderStep1(p);
                 case 2: return renderStep2(p);
@@ -2226,6 +2255,7 @@
         }
 
         async function saveProjectField(field, value) {
+            if (!currentSREProject) return;
             try {
                 const { error } = await _supabase
                     .from('projects')
