@@ -14,17 +14,25 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        /* Alphabet Filter */
+        /* Alphabet Filter - Sticky & Premium */
+        .alphabet-filter-container {
+            position: sticky;
+            top: 70px;
+            z-index: 50;
+            background: rgba(248, 250, 252, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 12px 16px;
+            margin: 24px 0 32px 0;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
         .alphabet-filter {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
             justify-content: center;
-            margin: 32px 0;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
         }
 
         .letter-btn {
@@ -77,6 +85,28 @@
             transform: translateY(-6px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             border-color: #10b981;
+        }
+
+        /* Card Featured */
+        .project-card.featured {
+            border: 2px solid #10b981;
+            background: linear-gradient(135deg, white 0%, #f0fdf4 100%);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: #10b981;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            z-index: 10;
         }
 
         .project-card-header {
@@ -226,8 +256,10 @@
                 </p>
             </div>
 
-            <div class="alphabet-filter" id="letter-filter-container">
-                <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
+            <div class="alphabet-filter-container">
+                <div class="alphabet-filter" id="letter-filter-container">
+                    <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
+                </div>
             </div>
 
             <div class="search-bar-v3" style="max-width: 900px; margin: 0 auto; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid var(--gray-200); padding: 8px; border-radius: 16px; display: flex; gap: 8px;">
@@ -246,8 +278,30 @@
                         <option value="Guyane">Guyane</option>
                         <option value="Réunion">La Réunion</option>
                         <option value="Mayotte">Mayotte</option>
-                        <option value="Diaspora">Diaspora</option>
+                        <option value="Saint-Martin">Saint-Martin</option>
                         <option value="International">International</option>
+                    </select>
+                </div>
+                <div class="search-select-wrapper" style="flex: 1; border-left: 1px solid var(--gray-100);">
+                    <select id="zone-filter" 
+                            style="width: 100%; padding: 14px 20px; border: none; outline: none; background: transparent; cursor: pointer; color: #475569; font-weight: 600;" 
+                            onchange="loadProjects()">
+                        <option value="">Toutes les zones</option>
+                        <optgroup label="Martinique">
+                            <option value="Nord">Nord</option>
+                            <option value="Centre">Centre</option>
+                            <option value="Sud">Sud</option>
+                        </optgroup>
+                        <optgroup label="Guadeloupe">
+                            <option value="Basse-Terre">Basse-Terre</option>
+                            <option value="Grande-Terre">Grande-Terre</option>
+                        </optgroup>
+                        <optgroup label="Réunion">
+                            <option value="Nord-Run">Nord</option>
+                            <option value="Sud-Run">Sud</option>
+                            <option value="Est-Run">Est</option>
+                            <option value="Ouest-Run">Ouest</option>
+                        </optgroup>
                     </select>
                 </div>
                 <button class="cta-button primary" style="padding: 14px 28px; background: #10b981; border: none; color: white; border-radius: 12px; font-weight: 800; cursor: pointer;" onclick="loadProjects()">Filtrer</button>
@@ -329,6 +383,8 @@
                     .order('created_at', { ascending: false });
 
                 if (territoryFilter) query = query.eq('territory', territoryFilter);
+                const zoneFilter = document.getElementById('zone-filter').value;
+                if (zoneFilter) query = query.eq('zone', zoneFilter);
 
                 const { data: projects, error } = await query;
                 if (error) throw error;
@@ -374,19 +430,28 @@
         function renderProjectCard(p) {
             const s = (typeof window.calculateProjectMaturity === 'function') ? window.calculateProjectMaturity(p) : 0;
             const initials = p.title ? p.title.slice(0, 2).toUpperCase() : '??';
+            const isFeatured = p.is_featured === true;
+
             return `
-                <div class="project-card">
-                    <div class="project-card-header">
+                <div class="project-card ${isFeatured ? 'featured' : ''}">
+                    ${isFeatured ? '<div class="featured-badge">Projet à la Une</div>' : ''}
+                    <div class="project-card-header" style="${isFeatured ? 'margin-top: 20px;' : ''}">
                         <div class="project-image-placeholder">${initials}</div>
                         <div class="project-info">
                             <h3>${p.title}</h3>
-                            <div class="project-location">${p.territory}</div>
+                            <div class="project-location">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                ${p.territory} ${p.zone ? `• ${p.zone}` : ''}
+                            </div>
                         </div>
                     </div>
                     <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Projet en cours de structuration.'}</p>
                     <div class="project-tags">
-                        <span class="tag-need">Maturité ${s}%</span>
-                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(16,185,129,0.1); color:#10b981;">${p.total_raised}€ récoltés</span>` : ''}
+                        <span class="tag-need" style="background:rgba(16,185,129,0.1); color:#065f46; border-color: #bbf7d0;">Maturité ${s}%</span>
+                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(2, 132, 199,0.1); color:#0369a1; border-color: #bae6fd;">${p.total_raised}€ récoltés</span>` : ''}
+                    </div>
+                    <div class="maturity-indicator">
+                        ${p.status || 'Épopée'}
                     </div>
                     <div class="project-actions">
                         <a href="/marketplace/project?id=${p.id}" class="btn-view">Découvrir l'Aventure</a>
