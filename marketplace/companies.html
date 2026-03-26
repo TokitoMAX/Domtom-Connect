@@ -325,6 +325,20 @@
             border-color: #0f172a;
         }
 
+        /* Verified Badge */
+        .verified-badge-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #0369a1; /* Business blue */
+            margin-left: 6px;
+            vertical-align: middle;
+            background: rgba(3, 105, 161, 0.1);
+            padding: 2px;
+            border-radius: 50%;
+            cursor: help;
+        }
+
         .letter-btn.all {
             width: auto;
             padding: 0 12px;
@@ -586,11 +600,21 @@
                     <div class="company-header">
                         ${avatar}
                         <div class="company-info">
-                            <h3>${name} ${company.verified ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#0284c7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}</h3>
+                            <h3>
+                                ${name}
+                                ${company.siret ? `
+                                <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h3>
                             <div class="company-sector">${company.forme_juridique ? company.forme_juridique + ' • ' : ''}${company.sector || 'Expertise'}</div>
-                            <div class="company-territory">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                ${company.territory || 'OM/Diaspora'} ${company.zone ? `• ${company.zone}` : ''}
+                            <div class="company-territory" style="color: #64748b; font-weight: 700;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                <span style="color: #334155;">${company.territory || 'International'}</span> ${company.zone ? `<span style="margin: 0 4px; opacity: 0.5;">|</span> <span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">${company.zone}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -623,7 +647,15 @@
                     <div class="modal-header-v2">
                         ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:80px; height:80px; border-radius:16px; object-fit:cover;">` : `<div style="width:80px; height:80px; border-radius:16px; background:#f0f9ff; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#0369a1;">${name.slice(0,2).toUpperCase()}</div>`}
                         <div>
-                            <h2 style="margin:0;">${name} ${company.verified ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#0284c7" style="vertical-align:middle;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' : ''}</h2>
+                            <h2 style="margin:0; display: flex; align-items: center; gap: 8px;">
+                                ${name}
+                                ${company.siret ? `
+                                <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)" style="padding: 4px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h2>
                             <p style="color:#0369a1; font-weight:700; margin:4px 0 0 0;">${company.sector || 'Entreprise'}</p>
                         </div>
                     </div>

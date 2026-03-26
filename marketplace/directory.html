@@ -269,6 +269,20 @@
         .social-icon-btn.instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important; color: white !important; }
         .social-icon-btn.spotify { background: #1DB954; }
 
+        /* Verified Badge */
+        .verified-badge-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6; /* Blue premium */
+            margin-left: 6px;
+            vertical-align: middle;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px;
+            border-radius: 50%;
+            cursor: help;
+        }
+
         /* Detail Modal Responsive */
         .modal-info-grid {
             display: grid;
@@ -852,11 +866,21 @@
                             ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">` : initials}
                         </div>
                         <div class="expert-meta">
-                            <h3 class="expert-name">${p.full_name}</h3>
+                            <h3 class="expert-name">
+                                ${p.full_name}
+                                ${p.siret ? `
+                                <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h3>
                             <div class="expert-title">${p.title || 'Expert Domtom Connect'}</div>
-                            <div class="expert-location">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                ${p.territory || 'International'} ${p.zone ? `• ${p.zone}` : ''}
+                            <div class="expert-location" style="color: #64748b; font-weight: 700;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                <span style="color: #334155;">${p.territory || 'International'}</span> ${p.zone ? `<span style="margin: 0 4px; opacity: 0.5;">|</span> <span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">${p.zone}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -898,7 +922,15 @@
                             ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">` : (p.full_name || 'E')[0]}
                         </div>
                         <div>
-                            <h3 style="margin:0; font-size:1.5rem;">${p.full_name || 'Expert Domtom Connect'}</h3>
+                            <h3 style="margin:0; font-size:1.5rem; display: flex; align-items: center; gap: 8px;">
+                                ${p.full_name || 'Expert Domtom Connect'}
+                                ${p.siret ? `
+                                <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)" style="padding: 4px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h3>
                             <div style="color:#10b981; font-weight:700;">${p.title || 'Consultant Stratégique'}</div>
                         </div>
                     </div>

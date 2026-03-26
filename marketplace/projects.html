@@ -246,6 +246,20 @@
             filter: brightness(1.1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
+
+        /* Verified Badge */
+        .verified-badge-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981; /* Green for projects */
+            margin-left: 6px;
+            vertical-align: middle;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px;
+            border-radius: 50%;
+            cursor: help;
+        }
     </style>
 </head>
 
@@ -489,10 +503,20 @@
                     <div class="project-card-header" style="${isFeatured ? 'margin-top: 20px;' : ''}">
                         <div class="project-image-placeholder">${initials}</div>
                         <div class="project-info">
-                            <h3>${p.title}</h3>
-                            <div class="project-location">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                ${p.territory} ${p.zone ? `• ${p.zone}` : ''}
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                ${p.title}
+                                ${p.is_approved ? `
+                                <span class="verified-badge-inline" title="Projet Validé & Certifié">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </span>` : ''}
+                            </h3>
+                            <div class="project-location" style="color: #64748b; font-weight: 700;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                <span style="color: #334155;">${p.territory || 'International'}</span> ${p.zone ? `<span style="margin: 0 4px; opacity: 0.5;">|</span> <span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">${p.zone}</span>` : ''}
                             </div>
                         </div>
                     </div>
