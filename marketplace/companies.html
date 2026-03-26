@@ -616,6 +616,7 @@
                         <span><strong>🧭 Zone/Ville:</strong> ${company.zone || '—'}</span>
                         <span><strong>🏢 SIRET:</strong> ${company.siret || '—'}</span>
                         <span><strong>⚖️ Forme:</strong> ${company.forme_juridique || '—'}</span>
+                        ${company.website ? `<span><strong>🌐 Site:</strong> <a href="${company.website}" target="_blank" style="color:#0369a1; text-decoration:none;">Visiter</a></span>` : ''}
                     </div>
 
                     <div class="social-links-row" style="margin-top:24px; justify-content: center; border-top: 1px solid #f1f5f9; padding-top:24px; flex-wrap: wrap; gap: 12px;">

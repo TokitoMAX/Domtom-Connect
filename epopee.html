@@ -1826,7 +1826,10 @@
             if (p.marche && p.marche.trim().length > 10) score += 17;
 
             // Step 4: Valeur (17%)
-            if ((p.impact_local && p.impact_local.trim().length > 10) || (p.innovation && p.innovation.trim().length > 10)) score += 17;
+            const hasImpact = p.impact_local && p.impact_local.trim().length > 10;
+            const hasInnovation = p.innovation && p.innovation.trim().length > 10;
+            const hasJobs = p.emplois && p.emplois.trim().length > 2; // Emplois is shorter (e.g. "2 CDI")
+            if (hasImpact || hasInnovation || hasJobs) score += 17;
 
             // Step 5: Objectifs (17%)
             if (p.funding_goal && parseFloat(p.funding_goal) > 0) score += 17;
@@ -1841,7 +1844,7 @@
                 step1: hasVision && hasMission && hasEnjeu,
                 step2: p.equipe && p.equipe.trim().length > 10,
                 step3: p.marche && p.marche.trim().length > 10,
-                step4: (p.impact_local && p.impact_local.trim().length > 10) || (p.innovation && p.innovation.trim().length > 10),
+                step4: hasImpact || hasInnovation || hasJobs,
                 step5: p.funding_goal && parseFloat(p.funding_goal) > 0,
                 step6: isVerified || hasPitch
             });

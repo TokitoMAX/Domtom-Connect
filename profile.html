@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -1687,6 +1687,7 @@
             }
         }
 
+        
         async function saveProfile(event) {
             event.preventDefault();
             const btn = document.getElementById('save-btn');
@@ -1694,12 +1695,17 @@
             const selectedRole = roleSelect ? roleSelect.value : '';
             const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
             
-            if (btn) { btn.textContent = 'Enregistrement...'; btn.disabled = true; }
+            if (btn) { 
+                btn.textContent = 'Enregistrement...'; 
+                btn.disabled = true; 
+            }
 
             try {
+                // Update Auth Metadata
                 const { error: authError } = await _supabase.auth.updateUser({ data: { role: selectedRole } });
                 if (authError) throw authError;
 
+                // Handle Avatar Upload
                 const avatarUrlEl = document.getElementById('avatar_url');
                 let finalAvatarUrl = avatarUrlEl ? avatarUrlEl.value : '';
                 const fileInput = document.getElementById('logo-file');
@@ -1708,9 +1714,13 @@
                     finalAvatarUrl = await uploadFile(fileInput.files[0]);
                 }
 
+                // Robust data collection
                 const getVal = (id) => {
                     const el = document.getElementById(id);
-                    return el ? el.value.trim() : null;
+                    if (!el) return null;
+                    if (el.type === 'checkbox') return el.checked;
+                    const val = el.value ? el.value.trim() : "";
+                    return val || null;
                 }
 
                 const profileData = {
@@ -1718,10 +1728,10 @@
                     full_name: getVal('full_name'),
                     title: getVal('title'),
                     bio: getVal('bio'),
-                    sector: document.getElementById('sector') ? document.getElementById('sector').value : null,
-                    territory: document.getElementById('territory') ? document.getElementById('territory').value : null,
+                    sector: getVal('sector'),
+                    territory: getVal('territory'),
                     skills: getVal('skills'),
-                    tjm: document.getElementById('tjm') ? parseInt(document.getElementById('tjm').value) : null,
+                    tjm: (getVal('tjm') && !isNaN(parseInt(getVal('tjm')))) ? parseInt(getVal('tjm')) : null,
                     linkedin_url: getVal('linkedin_url'),
                     facebook_url: getVal('facebook_url'),
                     instagram_url: getVal('instagram_url'),
@@ -1731,15 +1741,17 @@
                     video_url: getVal('video_url'),
                     written_presentation: getVal('written_presentation'),
                     siret: getVal('siret'),
-                    forme_juridique: document.getElementById('forme_juridique') ? document.getElementById('forme_juridique').value : null,
+                    forme_juridique: getVal('forme_juridique'),
                     zone: getVal('zone'),
                     website_url: getVal('website_url'),
                     company: getVal('company'),
                     avatar_url: finalAvatarUrl,
-                    available: document.getElementById('available') ? document.getElementById('available').checked : false,
+                    available: !!getVal('available'),
                     role: selectedRole,
                     updated_at: new Date().toISOString()
                 };
+
+                console.log("Saving Profile Data:", profileData);
 
                 const { error: dbError } = await _supabase.from('profiles').upsert(profileData, { onConflict: 'id' });
                 if (dbError) throw dbError;
@@ -1750,6 +1762,8 @@
                     feedback.style.color = '#10b981';
                     feedback.style.display = 'block';
                 }
+                
+                // Keep edit mode until reload
                 setTimeout(() => { window.location.reload(); }, 1500);
             } catch (err) {
                 console.error("Save Error:", err);
@@ -1762,9 +1776,7 @@
         }
 
         async function handleDeleteAccount() {
-            if (confirm("SUPPRESSION DÉFINITIVE
-
-Êtes-vous sûr de vouloir supprimer votre compte ?")) {
+            if (confirm(`SUPPRESSION DÉFINITIVE\n\nÊtes-vous sûr de vouloir supprimer votre compte ?`)) {
                 try {
                     const session = await getSession();
                     if (!session) return;
