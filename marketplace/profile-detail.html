@@ -480,38 +480,67 @@
 
             document.getElementById('contact-link').href = `../messages?to=${p.id}`;
 
-            // --- LOAD RELATED PROJECTS ---
-            await loadRelatedProjects(id, isCompany);
+            // --- LOAD REALIZATIONS (Portfolio for Experts, Projects for Owners) ---
+            await loadPortfolioOrProjects(p);
         }
 
-        async function loadRelatedProjects(userId, isCompany) {
-            const container = isCompany ? document.getElementById('p-company-projects') : document.getElementById('p-projects-list');
-            try {
-                const { data: projects, error } = await _supabase
-                    .from('projects')
-                    .select('*')
-                    .eq('owner_id', userId)
-                    .eq('is_listed', true);
+        async function loadPortfolioOrProjects(profile) {
+            const userId = profile.id;
+            const isExpert = (profile.role === 'expert' || profile.role === 'prestataire' || profile.role === 'entreprise');
+            const container = (profile.role === 'entreprise') ? document.getElementById('p-company-projects') : document.getElementById('p-projects-list');
+            
+            if (!container) return;
 
-                if (error) throw error;
-                if (!projects || projects.length === 0) return;
+            if (isExpert) {
+                // CASE 1: Expert/Entreprise -> Show Portfolio from JSONB
+                const portfolio = Array.isArray(profile.portfolio) ? profile.portfolio : [];
+                if (portfolio.length === 0) {
+                    container.innerHTML = '<p style="color:var(--slate-500); font-style:italic;">Aucune réalisation mise en avant pour le moment.</p>';
+                    return;
+                }
 
-                const projectsHtml = projects.map(proj => `
+                container.innerHTML = portfolio.map(item => `
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; gap:20px; align-items:center;">
-                        <div style="width:60px; height:60px; background:var(--primary); color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
-                            ${(proj.title || 'P')[0].toUpperCase()}
+                        <div style="width:60px; height:60px; background:#7c3aed; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
+                            <i class="fas fa-briefcase"></i>
                         </div>
                         <div style="flex:1;">
-                            <h4 style="margin:0; font-size:1.1rem; color:var(--slate-900);">${proj.title}</h4>
-                            <p style="margin:4px 0 0; font-size:0.9rem; color:var(--slate-600); line-height:1.4;">${proj.short_description || 'Projet en cours de développement.'}</p>
+                            <h4 style="margin:0; font-size:1.1rem; color:var(--slate-900);">${item.title}</h4>
+                            <p style="margin:4px 0 0; font-size:0.9rem; color:var(--slate-600); line-height:1.4;">${item.description || "Consultez cette réalisation de l'expert."}</p>
                         </div>
-                        <a href="project.html?id=${proj.id}" class="social-sq" title="Voir le projet"><i class="fas fa-arrow-right"></i></a>
+                        <a href="${item.url}" class="social-sq" target="_blank" title="Voir le média"><i class="fas fa-external-link-alt"></i></a>
                     </div>
                 `).join('');
+            } else {
+                // CASE 2: Project Owner -> Show Projects from marketplace table
+                try {
+                    const { data: projects, error } = await _supabase
+                        .from('projects')
+                        .select('*')
+                        .eq('owner_id', userId)
+                        .eq('is_listed', true);
 
-                container.innerHTML = projectsHtml;
-            } catch (err) {
-                console.error("Error loading related projects:", err);
+                    if (error) throw error;
+                    if (!projects || projects.length === 0) {
+                        container.innerHTML = '<p style="color:var(--slate-500); font-style:italic;">Aucun projet marketplace publié pour le moment.</p>';
+                        return;
+                    }
+
+                    container.innerHTML = projects.map(proj => `
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; gap:20px; align-items:center;">
+                            <div style="width:60px; height:60px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
+                                ${(proj.title || 'P')[0].toUpperCase()}
+                            </div>
+                            <div style="flex:1;">
+                                <h4 style="margin:0; font-size:1.1rem; color:var(--slate-900);">${proj.title}</h4>
+                                <p style="margin:4px 0 0; font-size:0.9rem; color:var(--slate-600); line-height:1.4;">${proj.description?.slice(0, 100) || 'Projet innovant sur Domtom Connect.'}...</p>
+                            </div>
+                            <a href="project.html?id=${proj.id}" class="social-sq" title="Voir l'épopée"><i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    `).join('');
+                } catch (err) {
+                    console.error("Error loading projects:", err);
+                }
             }
         }
 

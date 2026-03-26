@@ -3236,13 +3236,26 @@
                 // Remplissage initial
                 await loadMyProjects(session.user.id);
                 
-                // On récupère le score pour l'affichage de l'Épopée dans le Success Engine
-                const { data: projects } = await _supabase.from('projects').select('id').eq('owner_id', session.user.id).limit(1);
-                const firstProj = projects && projects.length > 0 ? projects[0] : null;
-                // Le score est déjà calculé dans loadMyProjects via updateSuccessStepper, 
-                // mais on en a besoin ici pour le template.
-                const { data: pData } = firstProj ? await _supabase.from('projects').select('*').eq('id', firstProj.id).single() : { data: null };
-                const score = pData ? calculateProjectMaturity(pData) : 0;
+                // DP-LINKING: Check for specific project ID in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetId = urlParams.get('id');
+
+                let firstProj = null;
+                if (targetId && targetId !== 'new') {
+                    const { data: targetProj } = await _supabase.from('projects').select('*').eq('id', targetId).single();
+                    if (targetProj) firstProj = targetProj;
+                }
+
+                if (!firstProj) {
+                    const { data: projects } = await _supabase.from('projects').select('id').eq('owner_id', session.user.id).limit(1);
+                    const basicProj = projects && projects.length > 0 ? projects[0] : null;
+                    if (basicProj) {
+                        const { data: pData } = await _supabase.from('projects').select('*').eq('id', basicProj.id).single();
+                        firstProj = pData;
+                    }
+                }
+
+                const score = firstProj ? calculateProjectMaturity(firstProj) : 0;
 
                 const segmentedHTML = `
                             <!-- Carte Mon Épopée (Groupée) -->
