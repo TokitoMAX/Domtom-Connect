@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil â€“ Domtom Connect</title>
+    <title>Mon Profil – Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.6">
     <!-- PayPal SDK pour Abonnements -->
     <script
@@ -907,7 +907,9 @@
 
                     <!-- Upload de Logo / Photo (File based) -->
                     <div class="avatar-upload-container">
-                        <div id="avatar-preview" class="avatar-preview">DC</div>
+                        <div id="avatar-preview" class="avatar-preview" style="cursor: pointer;" 
+                            title="Cliquez pour changer la photo"
+                            onclick="if(isEditing) document.getElementById('logo-file').click()">DC</div>
                         <div style="flex:1;">
                             <label id="label-logo"
                                 style="display:block; font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:8px;">Logo
@@ -917,12 +919,17 @@
                                 <input type="file" id="logo-file" accept="image/*" style="display:none;"
                                     onchange="handleFileSelect(this)">
                                 <button type="button" class="cta-button secondary"
-                                    style="font-size:0.8rem; padding:8px 16px;"
+                                    style="font-size: 0.8rem; padding: 8px 16px;"
                                     onclick="document.getElementById('logo-file').click()" disabled
                                     id="btn-upload-trigger">
                                     Choisir un fichier
                                 </button>
-                                <span id="file-name" style="font-size:0.75rem; color:var(--text-muted);">Aucun fichier
+                                <button type="button" id="remove-avatar-btn" class="cta-button secondary" 
+                                    style="font-size: 0.75rem; padding: 6px 12px; display: none; background: #fee2e2; color: #b91c1c; border-color: #fca5a5;" 
+                                    onclick="removeAvatar()">
+                                    Supprimer
+                                </button>
+                                <span id="file-name" style="font-size: 0.75rem; color: var(--text-muted);">Aucun fichier
                                     choisi</span>
                             </div>
                             <input type="hidden" id="avatar_url" name="avatar_url">
@@ -1183,6 +1190,7 @@
         let isEditing = false;
         let hasExistingListing = false;
         let currentSubscriptionTier = 'free';
+        let currentProfile = null; // Global cache for current user profile
 
         const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'facebook_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'spotify_url', 'video_url', 'written_presentation', 'available', 'siret', 'forme_juridique', 'zone', 'website_url', 'company', 'btn-upload-trigger'];
         let skillTags = [];
@@ -1255,9 +1263,36 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 const preview = document.getElementById('avatar-preview');
-                if (preview) preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                if (preview) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                }
+                // Show remove button in edit mode after selection
+                const removeBtn = document.getElementById('remove-avatar-btn');
+                if (removeBtn) removeBtn.style.display = isEditing ? 'inline-block' : 'none';
             };
             reader.readAsDataURL(file);
+        }
+
+        function removeAvatar() {
+            if (!isEditing) return;
+            const avatarUrlEl = document.getElementById('avatar_url');
+            const fileInput = document.getElementById('logo-file');
+            const preview = document.getElementById('avatar-preview');
+            const fileNameEl = document.getElementById('file-name');
+            const removeBtn = document.getElementById('remove-avatar-btn');
+
+            if (avatarUrlEl) avatarUrlEl.value = '';
+            if (fileInput) fileInput.value = '';
+            if (fileNameEl) fileNameEl.textContent = 'Photo supprimée';
+            if (removeBtn) removeBtn.style.display = 'none';
+
+            // Reset initials
+            const nameEl = document.getElementById('full_name');
+            const name = (nameEl && nameEl.value) ? nameEl.value : 'DC';
+            if (preview) {
+                preview.innerHTML = '';
+                preview.textContent = name.slice(0, 2).toUpperCase();
+            }
         }
 
         async function uploadFile(file) {
@@ -1335,6 +1370,7 @@
                     .single();
 
                 if (profile) {
+                    currentProfile = profile; // Cache it
                     const displayRole = profile.role || role; 
                     if (roleSelect) {
                         roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
@@ -1434,14 +1470,20 @@
             const preview = document.getElementById('avatar-preview');
             const avatarUrlInput = document.getElementById('avatar_url');
             const fileNameEl = document.getElementById('file-name');
+            const removeBtn = document.getElementById('remove-avatar-btn');
 
             if (profile.avatar_url) {
                 if (avatarUrlInput) avatarUrlInput.value = profile.avatar_url;
                 if (preview) preview.innerHTML = `<img src="${profile.avatar_url}" alt="Logo">`;
-                if (fileNameEl) fileNameEl.textContent = "Fichier actuel enregistré";
+                if (fileNameEl) fileNameEl.textContent = "Image active";
+                if (removeBtn) removeBtn.style.display = isEditing ? 'inline-block' : 'none';
             } else {
                 const name = profile.full_name || 'DC';
-                if (preview) preview.textContent = name.slice(0, 2).toUpperCase();
+                if (preview) {
+                    preview.innerHTML = '';
+                    preview.textContent = name.slice(0, 2).toUpperCase();
+                }
+                if (removeBtn) removeBtn.style.display = 'none';
             }
             
             const availableEl = document.getElementById('available');
@@ -1596,16 +1638,21 @@
 
         function cancelEdit() {
             isEditing = false;
+            // Disable fields
             FIELDS.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.disabled = true;
             });
+            // Hide save actions
             const formActions = document.getElementById('form-actions');
             if (formActions) formActions.style.display = 'none';
+            // Show edit buttons
             const expertBar = document.getElementById('edit-toggle-btn');
             const basicBar = document.getElementById('edit-toggle-btn-basic');
             if (expertBar) expertBar.style.display = 'inline-flex';
             if (basicBar) basicBar.style.display = 'inline-flex';
+            // Restore data from cache
+            if (currentProfile) fillForm(currentProfile);
         }
 
         function openSubModal(role) {
