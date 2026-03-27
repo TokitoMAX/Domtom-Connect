@@ -1338,6 +1338,7 @@
             reader.readAsDataURL(file);
         }
 
+
         function removeAvatar() {
             if (!isEditing) return;
             const avatarUrlEl = document.getElementById('avatar_url');
@@ -1538,6 +1539,7 @@
             setVal('forme_juridique', profile.forme_juridique);
             setVal('zone', profile.zone);
             setVal('website_url', profile.website_url);
+            setVal('user_role', profile.role);
             
             const preview = document.getElementById('avatar-preview');
             const avatarUrlInput = document.getElementById('avatar_url');
@@ -1639,6 +1641,13 @@
             const tjmGroup = document.getElementById('tjm-group');
             const listingText = document.getElementById('listing-status-text');
             const labelLogo = document.getElementById('label-logo');
+
+            // Enable/Disable professional fields (Fix Persistence)
+            const isPro = (role !== 'basique');
+            const siretInput = document.getElementById('siret');
+            const formeInput = document.getElementById('forme_juridique');
+            if (siretInput) siretInput.disabled = !isPro;
+            if (formeInput) formeInput.disabled = !isPro;
 
             if (portfolioCard) portfolioCard.style.display = (isExpert || isCompany) ? 'block' : 'none';
             if (realizationsCard) realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';

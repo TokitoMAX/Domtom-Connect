@@ -429,7 +429,8 @@
             document.getElementById('p-location').textContent = `${p.territory || 'OM/Diaspora'} ${p.zone ? `• ${p.zone}` : ''}`;
             
             // Content Mapping (Three Pillars)
-            const isExpert = (p.role === 'expert' || p.role === 'prestataire');
+            const isExpert = (p.role === 'expert' || p.role === 'prestataire' || !p.role); // Default to expert if null
+            isCompany = (p.role === 'entreprise');
             
             // 1. TOP CARD: Offering / Mission
             const offeringTitle = document.getElementById('title-offering');
@@ -452,13 +453,30 @@
             }
 
             // Cards visibility logic
-            document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
-            document.getElementById('company-sections').style.display = isCompany ? 'block' : 'none';
-            document.getElementById('p-role').textContent = isCompany ? 'Profil Entreprise' : 'Profil Expert/Talent';
+            // Metadata Logic
+            const siretRow = document.getElementById('siret-row');
+            const siretEl = document.getElementById('p-siret');
+            if (p.siret) {
+                if (siretEl) siretEl.textContent = p.siret;
+                if (siretRow) siretRow.style.display = 'block';
+            } else if (siretRow) {
+                siretRow.style.display = 'none';
+            }
+
+            const formeRow = document.getElementById('forme-row');
+            const formeEl = document.getElementById('p-forme');
+            if (p.forme_juridique) {
+                if (formeEl) formeEl.textContent = p.forme_juridique;
+                if (formeRow) formeRow.style.display = 'block';
+            } else if (formeRow) {
+                formeRow.style.display = 'none';
+            }
 
             if (p.tjm) {
-                document.getElementById('tjm-row').style.display = 'block';
-                document.getElementById('p-tjm').textContent = p.tjm;
+                const tjmRow = document.getElementById('tjm-row');
+                const tjmEl = document.getElementById('p-tjm');
+                if (tjmRow) tjmRow.style.display = 'block';
+                if (tjmEl) tjmEl.textContent = p.tjm;
             }
 
             // Skills

@@ -870,7 +870,7 @@
             const isFeatured = p.is_featured === true;
             
             return `
-                <div class="expert-card-v2 ${isFeatured ? 'featured' : ''}">
+                <div class="expert-card-v2 ${isFeatured ? 'featured' : ''}" onclick="window.location.href='profile-detail.html?id=${p.id}'" style="cursor:pointer;">
                     ${isFeatured ? '<div class="featured-badge">Partenaire Authority</div>' : ''}
                     <div class="expert-card-header">
                         <div class="expert-avatar-v2">
@@ -911,8 +911,8 @@
                     </div>
 
                     <div class="expert-footer">
-                        <button onclick="showExpertDetails('${p.id}')" class="btn-expert secondary">Voir Profil</button>
-                        <a href="../messages?to=${p.id}" class="btn-expert primary">Contacter</a>
+                        <a href="profile-detail.html?id=${p.id}" class="btn-expert secondary">Voir Profil Complet</a>
+                        <a href="../messages?to=${p.id}" class="btn-expert primary" onclick="event.stopPropagation()">Contacter</a>
                     </div>
                 </div>
             `;

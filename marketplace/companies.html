@@ -607,7 +607,7 @@
             const isFeatured = company.is_featured === true;
 
             return `
-                <div class="company-card ${isFeatured ? 'featured' : ''}">
+                <div class="company-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='profile-detail.html?id=${company.id}'" style="cursor:pointer;">
                     ${isFeatured ? '<div class="featured-badge">Partenaire Authority</div>' : ''}
                     <div class="company-header">
                         ${avatar}
@@ -642,8 +642,8 @@
                     </div>
 
                     <div class="company-actions">
-                        <button onclick="showCompanyDetails('${company.id}')" class="btn-web">Détails</button>
-                        <a href="../messages?to=${company.id}" class="btn-contact">Contacter</a>
+                        <a href="profile-detail.html?id=${company.id}" class="btn-web">Détails Complets</a>
+                        <a href="../messages?to=${company.id}" class="btn-contact" onclick="event.stopPropagation()">Contacter</a>
                     </div>
                 </div>
             `;
