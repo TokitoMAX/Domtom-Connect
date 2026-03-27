@@ -1900,18 +1900,23 @@
 
                 console.log("Saving Profile Data:", profileData);
 
+                // Save Database
+                if (btn) btn.textContent = 'Mise à jour de la base...';
                 const { error: dbError } = await _supabase.from('profiles').upsert(profileData, { onConflict: 'id' });
-                if (dbError) throw dbError;
+                if (dbError) throw new Error('Erreur Base de données : ' + dbError.message);
 
                 const feedback = document.getElementById('save-feedback');
                 if (feedback) {
-                    feedback.textContent = 'Profil mis à jour !';
+                    feedback.textContent = 'Profil sauvegardé avec succès !';
                     feedback.style.color = '#10b981';
                     feedback.style.display = 'block';
                 }
                 
-                // Keep edit mode until reload
-                setTimeout(() => { window.location.reload(); }, 1500);
+                // Final reload after ensuring everything is done
+                setTimeout(() => { 
+                    if (btn) btn.textContent = 'Terminé !';
+                    window.location.reload(); 
+                }, 1000);
             } catch (err) {
                 console.error("Save Error:", err);
                 showError('Erreur : ' + err.message);
