@@ -1777,13 +1777,12 @@
                 if (labelName) labelName.textContent = "Nom de l'Entreprise / Institution";
                 if (companyNameGroup) companyNameGroup.style.display = 'block';
                 if (labelTitle) labelTitle.textContent = "Secteur d'Activité principal";
-                if (labelBio) labelBio.textContent = "Vision & Engagement (Background)";
-                if (labelWritten) labelWritten.textContent = "Présentation Institutionnelle & Offre";
-                if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
+                if (labelBio) labelBio.textContent = "Vision & Présentation Pro (Unified About)";
                 
                 if (inputTitle) inputTitle.placeholder = "Ex : Conseil Juridique, Agence Marketing...";
-                if (inputBio) inputBio.placeholder = "Quelle est la vision de votre entreprise ? Votre engagement pour le territoire ?";
-                if (inputWritten) inputWritten.placeholder = "Décrivez vos services, vos références et vos valeurs.";
+                if (inputBio) inputBio.placeholder = "Décrivez votre vision, vos services et votre engagement en un seul récit puissant.";
+                
+                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Clear redundancy
                 
                 if (companyFields) companyFields.style.display = 'grid';
                 if (tjmGroup) tjmGroup.style.display = 'none';
@@ -1795,6 +1794,8 @@
                 if (labelBio) labelBio.textContent = "Mon Histoire et mon Projet";
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
                 
+                if (inputWritten) inputWritten.parentElement.style.display = 'none';
+                
                 if (companyFields) companyFields.style.display = 'none';
                 if (tjmGroup) tjmGroup.style.display = 'none';
                 if (videoGroup) videoGroup.style.display = 'none';
@@ -1803,13 +1804,13 @@
                 if (labelName) labelName.textContent = "Nom complet";
                 if (companyNameGroup) companyNameGroup.style.display = 'none';
                 if (labelTitle) labelTitle.textContent = "Titre Professionnel Accrocheur";
-                if (labelBio) labelBio.textContent = "Mon Parcours & Histoire (Background)";
-                if (labelWritten) labelWritten.textContent = "Présentation Pro & Offre de Services";
+                if (labelBio) labelBio.textContent = "Ma Présentation Professionnelle (À propos)";
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
 
                 if (inputTitle) inputTitle.placeholder = "Ex : Consultant en Stratégie, Développeur Full-Stack...";
-                if (inputBio) inputBio.placeholder = "Racontez votre parcours et vos défis. Votre histoire crée la confiance.";
-                if (inputWritten) inputWritten.placeholder = "Que proposez-vous concrètement ? Quelles sont vos forces ? Pourquoi vous choisir ?";
+                if (inputBio) inputBio.placeholder = "Malt-style : Racontez votre parcours, vos compétences et ce que vous proposez. Un récit unifié inspire plus confiance.";
+                
+                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Hide redundant field
                 
                 if (companyFields) companyFields.style.display = 'grid';
                 if (tjmGroup) tjmGroup.style.display = 'block';

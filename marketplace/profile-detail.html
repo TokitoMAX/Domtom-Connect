@@ -140,6 +140,22 @@
             color: #ffffff;
             text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+
+        .status-dot-pulse {
+            width: 14px;
+            height: 14px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
         .profile-title {
             font-size: 1.5rem;
             color: var(--primary);
@@ -305,20 +321,9 @@
         <div class="profile-main-grid">
             
             <div class="profile-content">
-                <!-- À PROPOS UNIFIÉ -->
                 <div class="profile-card">
-                    <h2 class="section-title"><i class="fas fa-user-check"></i> À propos de ce compte</h2>
-                    <div class="about-section">
-                        <div class="about-block" id="block-background">
-                            <h3 id="h3-background"><i class="fas fa-history"></i> Mon Histoire & Parcours</h3>
-                            <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
-                        </div>
-                        <hr style="border:0; border-top:1px solid #f1f5f9; margin:0;">
-                        <div class="about-block" id="block-offering">
-                            <h3 id="h3-offering"><i class="fas fa-star"></i> Présentation Pro & Offre de Services</h3>
-                            <div class="bio-text" id="p-offering">Description en cours de rédaction.</div>
-                        </div>
-                    </div>
+                    <h2 class="section-title"><i class="fas fa-user-check"></i> À propos</h2>
+                    <div id="p-unified-about" class="bio-text">Chargement de la présentation...</div>
                 </div>
 
                 <!-- PORTFOLIO -->
@@ -374,7 +379,8 @@
             document.getElementById('breadcrumb-current').textContent = isOwner ? `${nameStr} (Votre Profil)` : nameStr;
 
             // Header
-            document.getElementById('p-name').innerHTML = `${nameStr} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
+            const statusDot = p.availability === 'disponible' ? '<span class="status-dot-pulse" title="Disponible"></span>' : '';
+            document.getElementById('p-name').innerHTML = `${nameStr} ${statusDot} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
             document.getElementById('p-title').textContent = p.title || (isCompany ? 'Institution / Entreprise' : 'Expert Domtom Connect');
             
             const badge = document.getElementById('p-role-badge');
@@ -386,11 +392,9 @@
 
             document.getElementById('p-location').textContent = `${p.territory || 'OM'} ${p.zone ? `• ${p.zone}` : ''}`;
 
-            // About
-            document.getElementById('h3-background').innerHTML = isCompany ? '<i class="fas fa-rocket"></i> Vision & Engagement' : '<i class="fas fa-history"></i> Mon Histoire & Parcours';
-            document.getElementById('h3-offering').innerHTML = isCompany ? '<i class="fas fa-building"></i> Présentation Institutionnelle & Offre' : '<i class="fas fa-star"></i> Présentation Pro & Offre de Services';
-            document.getElementById('p-background').innerHTML = (p.bio || 'Non renseigné.').replace(/\n/g, '<br>');
-            document.getElementById('p-offering').innerHTML = (p.written_presentation || 'Non renseigné.').replace(/\n/g, '<br>');
+            // Unified About
+            const combinedAbout = [p.bio, p.written_presentation].filter(t => t && t.trim()).join('<br><br>');
+            document.getElementById('p-unified-about').innerHTML = (combinedAbout || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>');
 
             // visibility
             document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
