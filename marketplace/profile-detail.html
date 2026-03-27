@@ -429,12 +429,6 @@
                     <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
                 </div>
 
-                <div class="sidebar-card" style="padding: 24px;">
-                    <div id="p-role-badge" class="role-type-pill expert">Chargement...</div>
-                    <div style="margin-bottom:12px;" id="siret-row"><strong>🏢 SIRET :</strong> <span id="p-siret">—</span></div>
-                    <div id="forme-row"><strong>⚖️ Juridique :</strong> <span id="p-forme">—</span></div>
-                    <div id="tjm-row" style="margin-top:12px; font-size:1.1rem; color:var(--primary); font-weight:800; display:none;">Tarif : <span id="p-tjm">0</span>€/j</div>
-                </div>
 
                 <!-- Metrics Card (Dynamic for both roles) -->
                 <div class="sidebar-card" id="metrics-card" style="display:none; padding: 24px;">
@@ -556,11 +550,18 @@
             
             if (metricsCard && metricsContent) {
                 let html = '';
+                // Role Badge at the top of metrics
+                const roleBadgeHtml = `
+                    <div class="role-type-pill ${isCompany ? 'company' : 'expert'}" style="margin-bottom:20px; display:inline-flex;">
+                        ${isCompany ? 'Institution / Entreprise' : 'Expert / Talent'}
+                    </div>
+                `;
+
                 if (isCompany) {
                     // Company Metrics
-                    if (p.creation_year || p.team_size) {
-                        metricsCard.style.display = 'block';
-                        html = `
+                    metricsCard.style.display = 'block';
+                    html = roleBadgeHtml + `
+                        <div class="metrics-grid">
                             <div class="metric-item">
                                 <i class="fas fa-calendar-alt"></i>
                                 <div>
@@ -575,34 +576,51 @@
                                     <span class="metric-value">${p.team_size || '—'}</span>
                                 </div>
                             </div>
-                        `;
-                    }
+                            <div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;">
+                                <i class="fas fa-file-contract"></i>
+                                <div>
+                                    <span class="metric-label">Juridique / SIRET</span>
+                                    <span class="metric-value" style="font-size:0.85rem;">${p.forme_juridique || '—'} ${p.siret ? `• ${p.siret}` : ''}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 } else if (isExpert) {
                     // Expert Metrics
                     metricsCard.style.display = 'block';
                     const availText = p.available ? 'Disponible' : 'Indisponible';
                     const availColor = p.available ? '#10b981' : '#ef4444';
-                    html = `
-                        <div class="metric-item">
-                            <i class="fas fa-tag"></i>
-                            <div>
-                                <span class="metric-label">Tarif (TJM)</span>
-                                <span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span>
+                    html = roleBadgeHtml + `
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <i class="fas fa-tag"></i>
+                                <div>
+                                    <span class="metric-label">Tarif (TJM)</span>
+                                    <span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-clock" style="color:${availColor};"></i>
-                            <div>
-                                <span class="metric-label">Statut</span>
-                                <span class="metric-value" style="color:${availColor};">${availText}</span>
+                            <div class="metric-item">
+                                <i class="fas fa-clock" style="color:${availColor};"></i>
+                                <div>
+                                    <span class="metric-label">Statut</span>
+                                    <span class="metric-value" style="color:${availColor};">${availText}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="metric-item" style="grid-column: span 2;">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <span class="metric-label">Zone d'intervention</span>
-                                <span class="metric-value">${p.zone || p.territory || 'OM/International'}</span>
+                            <div class="metric-item" style="grid-column: span 2;">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <span class="metric-label">Zone d'intervention</span>
+                                    <span class="metric-value">${p.zone || p.territory || 'OM/International'}</span>
+                                </div>
                             </div>
+                            ${p.siret ? `
+                            <div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;">
+                                <i class="fas fa-balance-scale"></i>
+                                <div>
+                                    <span class="metric-label">Professionnel</span>
+                                    <span class="metric-value" style="font-size:0.85rem;">${p.forme_juridique || 'Entrepreneur'} • ${p.siret}</span>
+                                </div>
+                            </div>` : ''}
                         </div>
                     `;
                 }
