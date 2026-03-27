@@ -346,16 +346,16 @@
             <div class="profile-content">
                 
                 <div class="profile-card">
-                    <h2 class="section-title"><i class="fas fa-user-circle"></i> Présentation Pro & Offre de Services</h2>
-                    <div class="bio-text" id="p-bio">...</div>
+                    <h2 class="section-title" id="title-offering"><i class="fas fa-user-circle"></i> Ma Mission & Offre de Services</h2>
+                    <div class="bio-text" id="p-offering">...</div>
                 </div>
 
                 <div class="profile-card" id="expert-sections" style="display:none;">
                     <h2 class="section-title"><i class="fas fa-bolt"></i> Compétences & Expertise</h2>
                     <div class="skills-grid" id="p-skills"></div>
 
-                    <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-history"></i> Mon Parcours & Histoire (Background)</h2>
-                    <div class="bio-text" id="p-background">Informations sur le parcours professionnel...</div>
+                    <h2 class="section-title" style="margin-top:40px;" id="title-background"><i class="fas fa-history"></i> Mon Parcours & Histoire (Background)</h2>
+                    <div class="bio-text" id="p-background">Chargement du parcours...</div>
 
                     <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-briefcase"></i> Réalisations & Projets</h2>
                     <div class="bio-text" id="p-projects-list">L'historique des réalisations apparaîtra ici.</div>
@@ -428,27 +428,33 @@
             // Location
             document.getElementById('p-location').textContent = `${p.territory || 'OM/Diaspora'} ${p.zone ? `• ${p.zone}` : ''}`;
             
-            // Bio
-            document.getElementById('p-bio').innerHTML = (p.bio || 'Aucune description disponible.').replace(/\n/g, '<br>');
+            // Content Mapping (Three Pillars)
+            const isExpert = (p.role === 'expert' || p.role === 'prestataire');
+            
+            // 1. TOP CARD: Offering / Mission
+            const offeringTitle = document.getElementById('title-offering');
+            const offeringText = document.getElementById('p-offering');
+            if (offeringTitle) {
+                offeringTitle.innerHTML = isCompany ? '<i class="fas fa-building"></i> Vision & Engagement' : '<i class="fas fa-user-circle"></i> Ma Mission & Offre de Services';
+            }
+            if (offeringText) {
+                offeringText.innerHTML = (p.written_presentation || (isCompany ? 'Vision en cours de rédaction.' : 'Offre de services en cours de rédaction.')).replace(/\n/g, '<br>');
+            }
 
-            // Roles Logic
-            isCompany = p.role === 'entreprise';
+            // 2. BOTTOM CARD: History / Background
+            const backgroundTitle = document.getElementById('title-background');
+            const backgroundText = document.getElementById('p-background');
+            if (backgroundTitle) {
+                backgroundTitle.innerHTML = isCompany ? '<i class="fas fa-history"></i> Notre Histoire (Background)' : '<i class="fas fa-history"></i> Mon Parcours & Histoire (Background)';
+            }
+            if (backgroundText) {
+                backgroundText.innerHTML = (p.bio || 'Histoire en cours de rédaction.').replace(/\n/g, '<br>');
+            }
+
+            // Cards visibility logic
             document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
             document.getElementById('company-sections').style.display = isCompany ? 'block' : 'none';
             document.getElementById('p-role').textContent = isCompany ? 'Profil Entreprise' : 'Profil Expert/Talent';
-            
-            if (p.siret) document.getElementById('p-siret').textContent = p.siret;
-            else document.getElementById('siret-row').style.display = 'none';
-
-            if (p.forme_juridique) document.getElementById('p-forme').textContent = p.forme_juridique;
-            else document.getElementById('forme-row').style.display = 'none';
-
-            // Background
-            if (p.background_info) {
-                document.getElementById('p-background').innerHTML = p.background_info.replace(/\n/g, '<br>');
-            } else if (p.bio) {
-                document.getElementById('p-background').innerHTML = p.bio.replace(/\n/g, '<br>');
-            }
 
             if (p.tjm) {
                 document.getElementById('tjm-row').style.display = 'block';

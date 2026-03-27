@@ -991,7 +991,7 @@
 
 
                     <div class="form-group">
-                        <label>Votre Parcours & Histoire (Background)</label>
+                        <label id="label-bio">Votre Parcours & Histoire (Background)</label>
                         <textarea id="bio" name="bio" placeholder="Racontez votre parcours, vos défis et ce qui vous a mené à votre expertise actuelle. Votre histoire crée la confiance."
                             style="min-height: 120px;" disabled></textarea>
                         <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Partagez votre aventure entrepreneuriale ou professionnelle.</p>
@@ -1075,7 +1075,7 @@
                     </div>
 
                     <div class="form-group" id="written-presentation-group">
-                        <label>Présentation Pro & Offre de Services</label>
+                        <label id="label-written-presentation">Présentation Pro & Offre de Services</label>
                         <textarea id="written_presentation" name="written_presentation" placeholder="Que proposez-vous concrètement ? Quelles sont vos forces ? Pourquoi vous choisir ?"
                             style="min-height: 150px;" disabled></textarea>
                         <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">C'est votre argumentaire commercial pour convaincre vos partenaires.</p>
@@ -1622,73 +1622,71 @@
 
         function adaptTerminology(role) {
             const isCompany = (role === 'entreprise');
+            const isExpert = (role === 'expert' || role === 'prestataire');
             const portfolioCard = document.getElementById('portfolio-card');
             const realizationsCard = document.getElementById('realizations-card');
+            
             const labelName = document.getElementById('label-name');
             const labelTitle = document.getElementById('label-title');
+            const labelBio = document.getElementById('label-bio');
+            const labelWritten = document.getElementById('label-written-presentation');
+            
+            const inputTitle = document.getElementById('title');
+            const inputBio = document.getElementById('bio');
+            const inputWritten = document.getElementById('written_presentation');
+            
             const companyFields = document.getElementById('company-specific-fields');
             const tjmGroup = document.getElementById('tjm-group');
             const listingText = document.getElementById('listing-status-text');
             const labelLogo = document.getElementById('label-logo');
-            const formeJuridique = document.getElementById('forme_juridique');
 
-            if (portfolioCard) {
-                // Show Portfolio for Experts and Companies
-                portfolioCard.style.display = (role === 'expert' || role === 'prestataire' || role === 'entreprise') ? 'block' : 'none';
-            }
-            if (realizationsCard) {
-                // Show Épopée for Project Owners
-                realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';
-            }
+            if (portfolioCard) portfolioCard.style.display = (isExpert || isCompany) ? 'block' : 'none';
+            if (realizationsCard) realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';
+
+            const companyNameGroup = document.getElementById('company-name-group');
+            const videoGroup = document.getElementById('video-presentation-group');
 
             if (isCompany) {
-                if (labelName) labelName.textContent = "Votre Nom";
-                const companyNameGroup = document.getElementById('company-name-group');
+                if (labelName) labelName.textContent = "Nom de l'Entreprise / Institution";
                 if (companyNameGroup) companyNameGroup.style.display = 'block';
-                if (labelTitle) labelTitle.textContent = "Secteur principal";
+                if (labelTitle) labelTitle.textContent = "Secteur d'Activité principal";
+                if (labelBio) labelBio.textContent = "Vision & Engagement (Background)";
+                if (labelWritten) labelWritten.textContent = "Présentation Institutionnelle & Offre";
                 if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
+                
+                if (inputTitle) inputTitle.placeholder = "Ex : Conseil Juridique, Agence Marketing...";
+                if (inputBio) inputBio.placeholder = "Quelle est la vision de votre entreprise ? Votre engagement pour le territoire ?";
+                if (inputWritten) inputWritten.placeholder = "Décrivez vos services, vos références et vos valeurs.";
+                
                 if (companyFields) companyFields.style.display = 'grid';
-                if (formeJuridique) {
-                    const group = formeJuridique.closest('.form-group');
-                    if (group) group.style.display = 'block';
-                    formeJuridique.disabled = !isEditing;
-                }
                 if (tjmGroup) tjmGroup.style.display = 'none';
-                const videoGroup = document.getElementById('video-presentation-group');
-                const writtenGroup = document.getElementById('written-presentation-group');
                 if (videoGroup) videoGroup.style.display = 'block';
-                if (writtenGroup) writtenGroup.style.display = 'block';
-                if (listingText && listingText.textContent.includes('Annonce')) {
-                    listingText.textContent = "Page profil non publiée";
-                }
             } else if (role === 'basique') {
                 if (labelName) labelName.textContent = "Nom complet";
-                const companyNameGroup = document.getElementById('company-name-group');
                 if (companyNameGroup) companyNameGroup.style.display = 'none';
-                if (labelTitle) labelTitle.textContent = "Expertises recherchées";
+                if (labelTitle) labelTitle.textContent = "Expertises recherchées pour mon épopée";
+                if (labelBio) labelBio.textContent = "Mon Histoire et mon Projet";
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
+                
                 if (companyFields) companyFields.style.display = 'none';
                 if (tjmGroup) tjmGroup.style.display = 'none';
-                const videoGroup = document.getElementById('video-presentation-group');
-                const writtenGroup = document.getElementById('written-presentation-group');
                 if (videoGroup) videoGroup.style.display = 'none';
-                if (writtenGroup) writtenGroup.style.display = 'none';
             } else {
+                // EXPERT / PRESTATAIRE
                 if (labelName) labelName.textContent = "Nom complet";
-                const companyNameGroup = document.getElementById('company-name-group');
                 if (companyNameGroup) companyNameGroup.style.display = 'none';
-                if (labelTitle) labelTitle.textContent = "Titre / Expertise";
+                if (labelTitle) labelTitle.textContent = "Titre Professionnel Accrocheur";
+                if (labelBio) labelBio.textContent = "Mon Parcours & Histoire (Background)";
+                if (labelWritten) labelWritten.textContent = "Présentation Pro & Offre de Services";
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
+
+                if (inputTitle) inputTitle.placeholder = "Ex : Consultant en Stratégie, Développeur Full-Stack...";
+                if (inputBio) inputBio.placeholder = "Racontez votre parcours et vos défis. Votre histoire crée la confiance.";
+                if (inputWritten) inputWritten.placeholder = "Que proposez-vous concrètement ? Quelles sont vos forces ? Pourquoi vous choisir ?";
+                
                 if (companyFields) companyFields.style.display = 'grid';
-                if (formeJuridique) {
-                    const group = formeJuridique.closest('.form-group');
-                    if (group) group.style.display = 'none';
-                }
                 if (tjmGroup) tjmGroup.style.display = 'block';
-                const videoGroup = document.getElementById('video-presentation-group');
-                const writtenGroup = document.getElementById('written-presentation-group');
                 if (videoGroup) videoGroup.style.display = 'block';
-                if (writtenGroup) writtenGroup.style.display = 'block';
             }
         }
 
