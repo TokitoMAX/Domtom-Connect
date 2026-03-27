@@ -1435,10 +1435,10 @@
             }
         }
 
-        async function uploadFile(file) {
+        async function uploadFile(file, folder = 'logos') {
             const fileExt = file.name.split('.').pop();
             const fileName = `${currentUserId}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-            const filePath = `logos/${fileName}`;
+            const filePath = `${folder}/${fileName}`;
 
             const { data, error } = await _supabase.storage
                 .from('avatars')
@@ -2029,7 +2029,16 @@
                 const fileInput = document.getElementById('logo-file');
                 if (fileInput && fileInput.files.length > 0) {
                     if (btn) btn.textContent = 'Upload du logo...';
-                    finalAvatarUrl = await uploadFile(fileInput.files[0]);
+                    finalAvatarUrl = await uploadFile(fileInput.files[0], 'logos');
+                }
+
+                // Handle Banner Upload
+                const bannerUrlEl = document.getElementById('banner_url');
+                let finalBannerUrl = bannerUrlEl ? bannerUrlEl.value : '';
+                const bannerInput = document.getElementById('banner-file');
+                if (bannerInput && bannerInput.files.length > 0) {
+                    if (btn) btn.textContent = 'Upload de la bannière...';
+                    finalBannerUrl = await uploadFile(bannerInput.files[0], 'banners');
                 }
 
                 const user_role_val = getVal('user_role') || '';
@@ -2054,7 +2063,7 @@
                     website_url: getVal('website_url'),
                     written_presentation: getVal('written_presentation'),
                     avatar_url: finalAvatarUrl,
-                    banner_url: getVal('banner_url'),
+                    banner_url: finalBannerUrl,
                     siret: getVal('siret'),
                     forme_juridique: getVal('forme_juridique'),
                     creation_year: getVal('creation_year'),
