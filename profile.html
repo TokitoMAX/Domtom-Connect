@@ -1982,12 +1982,39 @@
             }
 
             try {
+                // 1. Fetch Current Profile State for Gating Check
+                const { data: currentProfile } = await _supabase
+                    .from('profiles')
+                    .select('role, subscription_tier, listed')
+                    .eq('id', currentUserId)
+                    .single();
+
+                const currentRoleDB = currentProfile?.role || 'expert';
+                const currentTier = currentProfile?.subscription_tier || 'free';
+                let isListed = currentProfile?.listed || false;
+
                 // Validate Company Name for Entreprise Role
                 if (selectedRole === 'entreprise' && !getVal('company')) {
                     alert('Le nom de l\'entreprise est obligatoire pour le mode Entreprise.');
                     if (btn) btn.disabled = false;
                     btn.textContent = 'Enregistrer les modifications';
                     return;
+                }
+
+                // 2. Role-Switch Loyalty & Tier Check
+                if (selectedRole !== currentRoleDB) {
+                    console.log(`Changement de rôle détecté : ${currentRoleDB} -> ${selectedRole}`);
+                    
+                    let tierValid = false;
+                    if (selectedRole === 'expert' && currentTier === 'authority') tierValid = true;
+                    if (selectedRole === 'entreprise' && (currentTier === 'business' || currentTier === 'enterprise')) tierValid = true;
+                    if (selectedRole === 'user' || selectedRole === 'admin') tierValid = true; 
+
+                    if (!tierValid && isListed) {
+                        console.log("Tier insuffisant pour le nouveau rôle. Retrait automatique de l'annuaire.");
+                        isListed = false;
+                        alert("💡 Note : Votre visibilité dans l'annuaire a été suspendue. Votre abonnement actuel ne couvre pas votre nouveau rôle. Veuillez souscrire au Pack approprié dans votre Dashboard pour être à nouveau visible.");
+                    }
                 }
 
                 // Update Auth Metadata
@@ -2004,7 +2031,6 @@
                 }
 
                 const user_role_val = getVal('user_role') || '';
-                const skillTagsArray = skillTags; 
 
                 const profileData = {
                     id: currentUserId,
@@ -2032,10 +2058,11 @@
                     creation_year: getVal('creation_year'),
                     team_size: getVal('team_size'),
                     role: user_role_val,
+                    listed: isListed, // Persistence de la validation de tier
                     updated_at: new Date().toISOString()
                 };
 
-                console.log("Saving Profile Data:", profileData);
+                console.log("Saving Profile Data (with gate check):", profileData);
 
                 // Save Database
                 if (btn) btn.textContent = 'Mise à jour de la base...';
