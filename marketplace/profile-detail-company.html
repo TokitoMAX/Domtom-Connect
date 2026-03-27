@@ -107,7 +107,28 @@
             try {
                 const id = new URLSearchParams(window.location.search).get('id');
                 const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
-                if (error || !p) return;
+                if (error || !p) { window.location.href = 'directory.html'; return; }
+
+                // ROLE GUARD: Redirect if not an expert/basique
+                if (p.role !== 'entreprise') {
+                    window.location.replace(`profile-detail-expert.html?id=${id}`);
+                    return;
+                }
+
+                // LISTING GUARD: Block public access to unlisted profiles
+                if (!p.listed) {
+                    const session = await getSession();
+                    if (!session || session.user.id !== p.id) {
+                        window.location.href = 'directory.html';
+                        return;
+                    }
+                    // Owner viewing unlisted profile: Show a badge
+                    document.body.insertAdjacentHTML('afterbegin', `
+                        <div style="background:#1e40af; color:white; text-align:center; padding:12px; font-weight:800; font-size:0.9rem; position:sticky; top:0; z-index:9999;">
+                            <i class="fas fa-eye-slash" style="margin-right:8px;"></i> PROFIL PRIVÉ (DRAFT) - Seul vous pouvez voir cette page institutionnelle
+                        </div>
+                    `);
+                }
 
                 document.title = `${p.company || p.full_name} - Institution`;
                 

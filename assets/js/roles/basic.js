@@ -8,11 +8,11 @@ const BasicModule = {
     // UI Terminology & State
     initUI: () => {
         // Labels
-        const labelName = document.querySelector('label[for="full_name"]');
-        const labelTitle = document.querySelector('label[for="title"]');
-        const labelBio = document.querySelector('label[for="bio"]');
-        const labelLogo = document.querySelector('label[for="avatar_url"]');
-        const labelWritten = document.querySelector('label[for="written_presentation"]');
+        const labelName = document.getElementById('label-name');
+        const labelTitle = document.getElementById('label-title');
+        const labelBio = document.getElementById('label-bio');
+        const labelLogo = document.getElementById('label-logo');
+        const labelWritten = document.getElementById('label-written-presentation');
 
         if (labelName) labelName.textContent = "Nom complet";
         if (labelTitle) labelTitle.textContent = "Expertises recherchées / Role";
