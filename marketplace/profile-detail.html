@@ -436,23 +436,10 @@
                     <div id="tjm-row" style="margin-top:12px; font-size:1.1rem; color:var(--primary); font-weight:800; display:none;">Tarif : <span id="p-tjm">0</span>€/j</div>
                 </div>
 
-                <!-- Metrics Card (For Institutions) -->
+                <!-- Metrics Card (Dynamic for both roles) -->
                 <div class="sidebar-card" id="metrics-card" style="display:none; padding: 24px;">
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <div>
-                                <span class="metric-label">Création</span>
-                                <span class="metric-value" id="p-creation-year">—</span>
-                            </div>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-users"></i>
-                            <div>
-                                <span class="metric-label">Équipe</span>
-                                <span class="metric-value" id="p-team-size">—</span>
-                            </div>
-                        </div>
+                    <div class="metrics-grid" id="metrics-content">
+                        <!-- Content injected via JS based on role -->
                     </div>
                 </div>
             </aside>
@@ -563,12 +550,63 @@
                 heroBanner.style.backgroundImage = `url('${p.banner_url}')`;
             }
 
-            // Metrics Render
-            if (isCompany && (p.creation_year || p.team_size)) {
-                const metricsCard = document.getElementById('metrics-card');
-                if (metricsCard) metricsCard.style.display = 'block';
-                if (p.creation_year) document.getElementById('p-creation-year').textContent = p.creation_year;
-                if (p.team_size) document.getElementById('p-team-size').textContent = p.team_size;
+            // --- DYNAMIC METRICS CARD (AUTOMATED HARMONIZATION) ---
+            const metricsCard = document.getElementById('metrics-card');
+            const metricsContent = document.getElementById('metrics-content');
+            
+            if (metricsCard && metricsContent) {
+                let html = '';
+                if (isCompany) {
+                    // Company Metrics
+                    if (p.creation_year || p.team_size) {
+                        metricsCard.style.display = 'block';
+                        html = `
+                            <div class="metric-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>
+                                    <span class="metric-label">Création</span>
+                                    <span class="metric-value">${p.creation_year || '—'}</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <span class="metric-label">Équipe</span>
+                                    <span class="metric-value">${p.team_size || '—'}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else if (isExpert) {
+                    // Expert Metrics
+                    metricsCard.style.display = 'block';
+                    const availText = p.available ? 'Disponible' : 'Indisponible';
+                    const availColor = p.available ? '#10b981' : '#ef4444';
+                    html = `
+                        <div class="metric-item">
+                            <i class="fas fa-tag"></i>
+                            <div>
+                                <span class="metric-label">Tarif (TJM)</span>
+                                <span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fas fa-clock" style="color:${availColor};"></i>
+                            <div>
+                                <span class="metric-label">Statut</span>
+                                <span class="metric-value" style="color:${availColor};">${availText}</span>
+                            </div>
+                        </div>
+                        <div class="metric-item" style="grid-column: span 2;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span class="metric-label">Zone d'intervention</span>
+                                <span class="metric-value">${p.zone || p.territory || 'OM/International'}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                metricsContent.innerHTML = html;
             }
 
             // Skills
@@ -597,7 +635,7 @@
             const contactBtn = document.getElementById('contact-link');
             if (isOwner) {
                 contactBtn.innerHTML = '<i class="fas fa-edit"></i> Modifier mon profil';
-                contactBtn.href = '../mon-espace.html#overview';
+                contactBtn.href = '../profile.html'; // Go directly to settings
                 contactBtn.style.background = '#0f172a'; // Darker for admin feel
             } else {
                 contactBtn.href = `../messages?to=${p.id}`;
