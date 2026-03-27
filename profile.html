@@ -1311,7 +1311,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://admin.domtomconnect.com/assets/js/auth.js?v=2"></script>
+    <script src="assets/js/auth.js"></script>
     <!-- Nouveaux Modules de Rôles pour le Dashboard -->
     <script src="assets/js/roles/expert.js"></script>
     <script src="assets/js/roles/company.js"></script>
@@ -1507,11 +1507,15 @@
                 const nameInput = document.getElementById('full_name');
                 if (nameInput) nameInput.value = name;
 
-                const { data: profile } = await _supabase
+                const { data: profile, error: fetchErr } = await _supabase
                     .from('profiles')
                     .select('*')
                     .eq('id', currentUserId)
                     .single();
+
+                if (fetchErr) {
+                    console.error("Profile Fetch Error:", fetchErr);
+                }
 
                 if (profile) {
                     currentProfile = profile; // Cache it
