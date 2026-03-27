@@ -399,9 +399,24 @@
             <!-- CONTENU GAUCHE -->
             <div class="profile-content">
                 
-                <div class="profile-card">
-                    <h2 class="section-title" id="title-offering"><i class="fas fa-user-circle"></i> Ma Mission & Offre de Services</h2>
-                    <div class="bio-text" id="p-offering">...</div>
+                <!-- PILLAR 1: HISTORY/BACKGROUND -->
+                <div class="profile-card" id="card-background">
+                    <h2 class="section-title"><i class="fas fa-history"></i> Mon Histoire & Parcours (Background)</h2>
+                    <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
+                </div>
+
+                <!-- PILLAR 2: OFFERING/SERVICES -->
+                <div class="profile-card" id="card-offering">
+                    <h2 class="section-title"><i class="fas fa-user-circle"></i> Présentation Pro & Offre de Services</h2>
+                    <div class="bio-text" id="p-offering">Description de l'offre en cours de rédaction.</div>
+                </div>
+
+                <!-- PILLAR 3: PORTFOLIO / REALIZATIONS (Restored) -->
+                <div class="profile-card" id="expert-portfolio" style="display:none;">
+                    <h2 class="section-title"><i class="fas fa-briefcase"></i> Mon Portfolio & Réalisations</h2>
+                    <div id="p-portfolio-list">
+                        <!-- Items injected via JS -->
+                    </div>
                 </div>
 
                 <div class="profile-card" id="expert-sections" style="display:none;">
@@ -424,10 +439,6 @@
                     <div class="social-btn-row" id="p-socials"></div>
                 </div>
 
-                <div class="profile-card">
-                    <h2 class="section-title" id="title-background"><i class="fas fa-history"></i> Mon Parcours & Histoire (Background)</h2>
-                    <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
-                </div>
 
 
                 <!-- Metrics Card (Dynamic for both roles) -->
@@ -490,27 +501,37 @@
             document.getElementById('p-location').textContent = `${p.territory || 'OM/Diaspora'} ${p.zone ? `• ${p.zone}` : ''}`;
 
             // 3. Card Strategy (Titles & Visibility)
+            const cardBackground = document.getElementById('card-background');
+            const cardOffering = document.getElementById('card-offering');
+            const expertPortfolio = document.getElementById('expert-portfolio');
             const expertSections = document.getElementById('expert-sections');
             const companySections = document.getElementById('company-sections');
-            if (expertSections) expertSections.style.display = isCompany ? 'none' : 'block';
-            if (companySections) companySections.style.display = isCompany ? 'block' : 'none';
 
-            const offeringTitle = document.getElementById('title-offering');
-            const backgroundTitle = document.getElementById('title-background');
-            const offeringText = document.getElementById('p-offering');
-            const backgroundText = document.getElementById('p-background');
+            if (isCompany) {
+                if (cardBackground) cardBackground.style.display = 'block';
+                if (cardOffering) cardOffering.style.display = 'block';
+                if (expertPortfolio) expertPortfolio.style.display = 'none';
+                if (expertSections) expertSections.style.display = 'none';
+                if (companySections) companySections.style.display = 'block';
 
-            if (offeringTitle) {
-                offeringTitle.innerHTML = isCompany ? '<i class="fas fa-building"></i> Présentation Institutionnelle & Offre' : '<i class="fas fa-user-circle"></i> Ma Mission & Offre de Services';
-            }
-            if (offeringText) {
-                offeringText.innerHTML = (p.written_presentation || (isCompany ? 'Présentation en cours de rédaction.' : 'Offre de services en cours de rédaction.')).replace(/\n/g, '<br>');
-            }
-            if (backgroundTitle) {
-                backgroundTitle.innerHTML = isCompany ? '<i class="fas fa-rocket"></i> Vision & Engagement' : '<i class="fas fa-history"></i> Mon Parcours & Histoire (Background)';
-            }
-            if (backgroundText) {
-                backgroundText.innerHTML = (p.bio || (isCompany ? 'Vision en cours de rédaction.' : 'Histoire en cours de rédaction.')).replace(/\n/g, '<br>');
+                // Titles for Company
+                if (cardBackground) cardBackground.querySelector('h2').innerHTML = '<i class="fas fa-rocket"></i> Vision & Engagement';
+                if (cardOffering) cardOffering.querySelector('h2').innerHTML = '<i class="fas fa-building"></i> Présentation Institutionnelle & Offre';
+                
+                document.getElementById('p-background').innerHTML = (p.bio || 'Vision en cours de rédaction.').replace(/\n/g, '<br>');
+                document.getElementById('p-offering').innerHTML = (p.written_presentation || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>');
+            } else {
+                if (cardBackground) cardBackground.style.display = 'block';
+                if (cardOffering) cardOffering.style.display = 'block';
+                if (expertSections) expertSections.style.display = 'block';
+                if (companySections) companySections.style.display = 'none';
+                
+                // Titles for Expert
+                if (cardBackground) cardBackground.querySelector('h2').innerHTML = '<i class="fas fa-history"></i> Mon Histoire & Parcours (Background)';
+                if (cardOffering) cardOffering.querySelector('h2').innerHTML = '<i class="fas fa-user-circle"></i> Présentation Pro & Offre de Services';
+
+                document.getElementById('p-background').innerHTML = (p.bio || 'Histoire en cours de rédaction.').replace(/\n/g, '<br>');
+                document.getElementById('p-offering').innerHTML = (p.written_presentation || 'Offre de services en cours de rédaction.').replace(/\n/g, '<br>');
             }
 
             // Metadata Logic
@@ -663,31 +684,33 @@
 
         async function loadPortfolioOrProjects(profile) {
             const userId = profile.id;
-            const isExpert = (profile.role === 'expert' || profile.role === 'prestataire' || profile.role === 'entreprise');
-            const container = (profile.role === 'entreprise') ? document.getElementById('p-company-projects') : document.getElementById('p-projects-list');
+            const isCompany = profile.role === 'entreprise';
+            const container = isCompany ? document.getElementById('p-company-projects') : document.getElementById('p-portfolio-list');
+            const portfolioCard = document.getElementById('expert-portfolio');
             
             if (!container) return;
 
-            if (isExpert) {
-                // CASE 1: Expert/Entreprise -> Show Portfolio from JSONB
+            if (!isCompany) {
+                // CASE 1: Expert -> Show Portfolio from JSONB
                 const portfolio = Array.isArray(profile.portfolio) ? profile.portfolio : [];
-                if (portfolio.length === 0) {
-                    container.innerHTML = '<p style="color:var(--slate-500); font-style:italic;">Aucune réalisation mise en avant pour le moment.</p>';
-                    return;
+                if (portfolio.length > 0) {
+                    if (portfolioCard) portfolioCard.style.display = 'block';
+                    container.innerHTML = portfolio.map(item => `
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; gap:20px; align-items:center;">
+                            <div style="width:60px; height:60px; background:rgba(16, 185, 129, 0.1); color:var(--emerald-600); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div style="flex:1;">
+                                <h4 style="margin:0; font-size:1.1rem; color:var(--slate-900);">${item.title}</h4>
+                                <p style="margin:4px 0 0; font-size:0.9rem; color:var(--slate-600); line-height:1.4;">${item.description || "Consultez cette réalisation de l'expert."}</p>
+                            </div>
+                            <a href="${item.url || '#'}" class="social-sq" target="_blank" title="Voir le média"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    `).join('');
+                } else {
+                    if (portfolioCard) portfolioCard.style.display = 'none';
+                    container.innerHTML = '<p style="color:var(--slate-500); font-style:italic;">Aucune réalisation mise en avant.</p>';
                 }
-
-                container.innerHTML = portfolio.map(item => `
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; gap:20px; align-items:center;">
-                        <div style="width:60px; height:60px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <div style="flex:1;">
-                            <h4 style="margin:0; font-size:1.1rem; color:var(--slate-900);">${item.title}</h4>
-                            <p style="margin:4px 0 0; font-size:0.9rem; color:var(--slate-600); line-height:1.4;">${item.description || "Consultez cette réalisation de l'expert."}</p>
-                        </div>
-                        <a href="${item.url}" class="social-sq" target="_blank" title="Voir le média"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                `).join('');
             } else {
                 // CASE 2: Project Owner -> Show Projects from marketplace table
                 try {
@@ -705,7 +728,7 @@
 
                     container.innerHTML = projects.map(proj => `
                         <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px; margin-bottom:16px; display:flex; gap:20px; align-items:center;">
-                            <div style="width:60px; height:60px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
+                            <div style="width:60px; height:60px; background:rgba(16, 30, 129, 0.1); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">
                                 ${(proj.title || 'P')[0].toUpperCase()}
                             </div>
                             <div style="flex:1;">
