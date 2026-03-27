@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Expert – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #10b981; --primary-dark: #059669; --secondary: #0369a1; --slate-900: #0f172a; }
+        body { background-color: #f1f5f9; color: var(--slate-900); font-family: 'Inter', sans-serif; margin: 0; }
+        .navbar { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
+        .nav-logo { height: 38px; }
+        .profile-hero { 
+            background: #0f172a; padding: 100px 0 160px; color: white; position: relative; border-bottom: 4px solid var(--primary);
+            background-image: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.2) 0, transparent 50%);
+        }
+        .hero-container { display: flex; align-items: center; gap: 40px; position: relative; z-index: 5; }
+        .profile-avatar-large { width: 180px; height: 180px; border-radius: 32px; background: white; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 4.5rem; font-weight: 950; color: #1e293b; }
+        .profile-name { font-size: 3.5rem; font-weight: 950; margin: 0; display: flex; align-items: center; gap: 16px; letter-spacing: -0.04em; }
+        .status-dot-pulse { width: 14px; height: 14px; background: #10b981; border-radius: 50%; display: inline-block; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .profile-title { font-size: 1.5rem; color: var(--primary); font-weight: 800; margin-top: 8px; }
+        .profile-main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; margin-top: -100px; position: relative; z-index: 10; }
+        .profile-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 32px; padding: 48px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 40px; }
+        .section-title { font-size: 1.75rem; font-weight: 900; color: var(--slate-900); margin-bottom: 32px; display: flex; align-items: center; gap: 16px; }
+        .section-title i { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.1); color: var(--primary); border-radius: 14px; }
+        .bio-text { line-height: 1.8; color: var(--slate-700); font-size: 1.15rem; font-weight: 500; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .portfolio-card-premium { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; transition: all 0.3s ease; }
+        .portfolio-card-premium:hover { border-color: var(--primary); transform: translateY(-4px); }
+        .contact-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 18px; background: var(--primary); color: white; text-decoration: none; border-radius: 16px; font-weight: 800; }
+        .metric-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .metric-item i { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.1); color: var(--primary); border-radius: 10px; }
+        .skill-chip { padding: 8px 18px; background: #f1f5f9; color: #475569; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin: 4px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container"><a href="/"><img src="../assets/images/logo-domtomconnect.png" class="nav-logo"></a></div>
+    </nav>
+
+    <section class="profile-hero">
+        <div class="container container-large">
+            <div class="hero-container">
+                <div id="p-avatar" class="profile-avatar-large"></div>
+                <div class="profile-hero-info">
+                    <div class="role-type-pill expert" style="background:rgba(3,105,161,0.1); color:#0369a1; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:800; display:inline-block; margin-bottom:12px;">Profil Expert / Talent</div>
+                    <h1 class="profile-name" id="p-name">Chargement...</h1>
+                    <div class="profile-title" id="p-title">Chargement du titre...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="profile-main-grid">
+            <div class="profile-content">
+                <div class="profile-card">
+                    <div class="section-title"><i class="fas fa-user-tie"></i> À propos</div>
+                    <div id="p-bio" class="bio-text">Chargement de la présentation...</div>
+                </div>
+                <!-- PORTFOLIO -->
+                <div class="profile-card" id="expert-portfolio">
+                    <div class="section-title"><i class="fas fa-briefcase"></i> Portfolio & Réalisations</div>
+                    <div class="portfolio-grid" id="p-portfolio-list"></div>
+                </div>
+            </div>
+
+            <aside class="profile-sidebar">
+                <div class="profile-card" style="padding: 28px;">
+                    <a href="#" id="contact-link" class="contact-btn">Contacter l'Expert</a>
+                    <div id="metrics-content" style="margin-top:24px;"></div>
+                </div>
+                <div class="profile-card" style="padding: 28px;">
+                    <div id="p-skills"></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        async function loadExpertProfile() {
+            try {
+                const id = new URLSearchParams(window.location.search).get('id');
+                const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
+                if (error || !p) return;
+
+                document.title = `${p.full_name} - Expert | Domtom Connect`;
+                
+                // Avatar
+                const avatarEl = document.getElementById('p-avatar');
+                if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">`;
+                else avatarEl.textContent = p.full_name[0].toUpperCase();
+
+                // Name & Pulse
+                const nameHtml = `${p.full_name} ${p.availability === 'disponible' ? '<span class="status-dot-pulse"></span>' : ''}`;
+                document.getElementById('p-name').innerHTML = nameHtml;
+                document.getElementById('p-title').textContent = p.title || 'Expert Domtom Connect';
+                
+                // Bio unifiée
+                const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
+                document.getElementById('p-bio').innerHTML = (bioStr || 'En attente de rédaction.').replace(/\n/g, '<br>');
+
+                // Metrics
+                const avail = p.availability || 'disponible';
+                const availText = avail === 'disponible' ? 'Disponible' : (avail === 'occupe' ? 'Occupé' : 'Bientôt');
+                const html = `
+                    <div class="metric-item"><i class="fas fa-tag"></i><div><span style="font-size:0.75rem; color:#64748b;">TARIF</span><br><b>${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</b></div></div>
+                    <div class="metric-item"><i class="fas fa-clock"></i><div><span style="font-size:0.75rem; color:#64748b;">STATUT</span><br><b>${availText}</b></div></div>
+                    <div class="metric-item"><i class="fas fa-map-marker-alt"></i><div><span style="font-size:0.75rem; color:#64748b;">ZONE</span><br><b>${p.zone || p.territory || 'OM'}</b></div></div>
+                `;
+                document.getElementById('metrics-content').innerHTML = html;
+
+                // Portfolio
+                const items = Array.isArray(p.portfolio) ? p.portfolio : [];
+                document.getElementById('p-portfolio-list').innerHTML = items.map(item => `
+                    <div class="portfolio-card-premium">
+                        <h4 style="margin:0;">${item.title}</h4>
+                        <p style="font-size:0.9rem; color:#64748b;">${item.description || ''}</p>
+                    </div>
+                `).join('') || 'Aucun projet.';
+
+                // Skills
+                if (p.skills) document.getElementById('p-skills').innerHTML = p.skills.split(',').map(s => `<span class="skill-chip">${s.trim()}</span>`).join('');
+                document.getElementById('contact-link').href = `../messages?to=${p.id}`;
+
+            } catch (e) { console.error(e); }
+        }
+        document.addEventListener('DOMContentLoaded', loadExpertProfile);
+    </script>
+</body>
+</html>

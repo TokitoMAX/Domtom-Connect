@@ -2,472 +2,56 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="seo-title">Profil Professionnel – Domtom Connect</title>
-    <meta name="description" id="seo-description" content="Découvrez le profil professionnel sur Domtom Connect, la plateforme de mise en relation des talents et entreprises des Outre-mer.">
+    <title>Chargement du Profil... | Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --secondary: #0369a1;
-            --slate-900: #0f172a;
-            --slate-800: #1e293b;
-            --slate-700: #334155;
-            --slate-50: #f8fafc;
-        }
-
-        body {
-            background-color: #f1f5f9;
-            color: var(--slate-900);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-        }
-
-        .navbar { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
-        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo { height: 38px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05)); }
-        .nav-brand-name { font-weight: 950; font-size: 1.25rem; color: var(--slate-900); letter-spacing: -0.03em; }
-
-        .profile-hero {
-            background: #0f172a;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.2) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, rgba(3, 105, 161, 0.2) 0, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
-            padding: 100px 0 160px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 4px solid var(--primary);
-        }
-
-        .hero-banner-bg {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, #0f172a 100%);
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-        }
-
-        .breadcrumb-pill-bar {
-            display: inline-flex;
-            gap: 12px;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            padding: 8px 20px;
-            border-radius: 100px;
-            border: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 24px;
-        }
-        .metric-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .metric-item i {
-            width: 44px; height: 44px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            color: var(--primary);
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 10px;
-        }
-        .metric-label { font-size: 0.7rem; color: #64748b; display: block; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
-        .metric-value { font-size: 0.95rem; font-weight: 800; color: #0f172a; }
-
-        .role-type-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .role-type-pill.expert { background: rgba(3, 105, 161, 0.1); color: #0369a1; border: 1px solid rgba(3, 105, 161, 0.2); }
-        .role-type-pill.company { background: rgba(16, 185, 129, 0.1); color: #064e3b; border: 1px solid rgba(16, 185, 129, 0.2); }
-
-        .hero-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .profile-avatar-large {
-            width: 180px;
-            height: 180px;
-            border-radius: 32px;
-            background: white;
-            border: 6px solid rgba(255, 255, 255, 0.05);
-            object-fit: cover;
-            box-shadow: 0 20px 40px -8px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--slate-800);
-            backdrop-filter: blur(10px);
-        }
-
-        .profile-hero-info { flex: 1; }
-        .profile-name {
-            font-size: 3.5rem;
-            font-weight: 950;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            letter-spacing: -0.04em;
-            color: #ffffff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .status-dot-pulse {
-            width: 14px;
-            height: 14px;
-            background: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-        .profile-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: 800;
-            margin-top: 8px;
-        }
-
-        .profile-loc-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 18px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .profile-main-grid {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 40px;
-            margin-top: -100px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .profile-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 48px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 900;
-            color: var(--slate-900);
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .section-title i {
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--primary);
-            border-radius: 14px;
-            font-size: 1.25rem;
-        }
-
-        .about-section { display: flex; flex-direction: column; gap: 40px; }
-        .about-block h3 {
-            font-size: 1.3rem;
-            font-weight: 850;
-            color: var(--slate-900);
-            margin: 0 0 16px 0;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .about-block h3 i { color: var(--primary); font-size: 1.1rem; }
-        .bio-text { line-height: 1.8; color: var(--slate-700); font-size: 1.15rem; font-weight: 500; }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .portfolio-card-premium {
-            background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px;
-            transition: all 0.3s ease; display: flex; flex-direction: column; gap: 12px;
-        }
-        .portfolio-card-premium:hover { border-color: var(--primary); box-shadow: 0 15px 30px -10px rgba(16, 185, 129, 0.15); transform: translateY(-4px); }
-        .portfolio-icon-box {
-            width: 48px; height: 48px; background: rgba(16, 185, 129, 0.1); color: var(--primary);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
-        }
-
-        .profile-sidebar { position: sticky; top: 100px; }
-        .sidebar-card {
-            background: white; border-radius: 24px; padding: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            margin-bottom: 24px;
-        }
-        .contact-btn {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; padding: 18px; background: var(--primary); color: white;
-            text-decoration: none; border-radius: 16px; font-weight: 800;
-            transition: all 0.3s ease; margin-bottom: 12px;
-        }
-        .social-btn-row { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
-        .social-sq {
-            width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center;
-            justify-content: center; background: #f8fafc; color: #64748b; text-decoration: none;
-            transition: all 0.2s; border: 1px solid #e2e8f0;
-        }
-        .social-sq:hover { background: var(--slate-900); color: white; border-color: var(--slate-900); }
-
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-chip { padding: 8px 18px; background: #f1f5f9; color: #475569; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
-        .verified-badge { color: #3b82f6; font-size: 1.8rem; }
-
-        @media (max-width: 1024px) { .profile-main-grid { grid-template-columns: 1fr; } .profile-sidebar { position: static; } }
-        @media (max-width: 600px) { .hero-container { flex-direction: column; text-align: center; } .profile-name { font-size: 2.2rem; } }
+        body { background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: 'Inter', sans-serif; margin: 0; }
+        .router-box { text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="container">
-            <a href="/" class="nav-brand" id="logo-home">
-                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
-            </a>
-            <div class="nav-content">
-                <div class="nav-links">
-                    <a href="directory.html">Talents</a>
-                    <a href="jobs.html">Missions</a>
-                    <a href="projects.html">Projets</a>
-                    <a href="evenements.html">Événements</a>
-                    <a href="companies.html">Entreprises</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <section class="profile-hero">
-        <div id="p-banner" class="hero-banner-bg"></div>
-        <div class="container container-large" style="position:relative; z-index:5;">
-            <div class="breadcrumb-pill-bar">
-                <a href="/" style="color:white; text-decoration:none;">Accueil</a>
-                <span style="opacity:0.4;">/</span>
-                <a href="directory.html" style="color:white; text-decoration:none;">Annuaire</a>
-                <span style="opacity:0.4;">/</span>
-                <span id="breadcrumb-current" style="color:var(--primary);">Profil</span>
-            </div>
-
-            <div class="hero-container">
-                <div id="p-avatar" class="profile-avatar-large"></div>
-                <div class="profile-hero-info">
-                    <div id="p-role-badge" class="role-type-pill" style="margin-bottom: 12px;">Expert / Talent</div>
-                    <h1 class="profile-name" id="p-name">Chargement...</h1>
-                    <div class="profile-title" id="p-title">Professionnel</div>
-                </div>
-                <div class="profile-loc-badge">
-                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i>
-                    <span id="p-location">International</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <main class="container">
-        <div class="profile-main-grid">
-            
-            <div class="profile-content">
-                <div class="profile-card">
-                    <h2 class="section-title"><i class="fas fa-user-check"></i> À propos</h2>
-                    <div id="p-unified-about" class="bio-text">Chargement de la présentation...</div>
-                </div>
-
-                <!-- PORTFOLIO -->
-                <div class="profile-card" id="expert-portfolio" style="display:none;">
-                    <h2 class="section-title"><i class="fas fa-briefcase"></i> Portfolio & Réalisations</h2>
-                    <div class="portfolio-grid" id="p-portfolio-list"></div>
-                </div>
-
-                <div class="profile-card" id="expert-sections" style="display:none;">
-                    <h2 class="section-title"><i class="fas fa-bolt"></i> Compétences & Expertise</h2>
-                    <div class="skills-grid" id="p-skills"></div>
-                </div>
-
-                <div class="profile-card" id="company-sections" style="display:none;">
-                    <h2 class="section-title"><i class="fas fa-rocket"></i> Projets Actifs</h2>
-                    <div class="portfolio-grid" id="p-company-projects"></div>
-                </div>
-            </div>
-
-            <aside class="profile-sidebar">
-                <div class="sidebar-card">
-                    <a href="#" id="contact-link" class="contact-btn">Contacter</a>
-                    <a href="#" id="website-link" class="contact-btn" style="background:#f1f5f9; color:var(--slate-800); display:none;">Visiter le site web</a>
-                    <div class="social-btn-row" id="p-socials"></div>
-                </div>
-                <div class="sidebar-card" id="metrics-card" style="display:none; padding: 28px;">
-                    <div id="metrics-content" class="metrics-grid"></div>
-                </div>
-            </aside>
-        </div>
-    </main>
-
-    <footer style="padding: 60px 0; background: white; border-top: 1px solid #e2e8f0; margin-top: 80px; text-align: center;">
-        <p>© 2026 Domtom Connect. Tous droits réservés.</p>
-    </footer>
+    <div class="router-box">
+        <div class="spinner"></div>
+        <p>Redirection vers le profil professionnel...</p>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://admin.domtomconnect.com/assets/js/auth.js?v=2"></script>
-    <script src="../assets/js/roles/expert.js"></script>
-    <script src="../assets/js/roles/company.js"></script>
-    <script src="../assets/js/roles/basic.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script>
-        async function loadProfile() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            if (!id) { window.location.href = 'directory.html'; return; }
+        async function routeProfile() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                if (!id) { window.location.href = 'directory.html'; return; }
 
-            const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
-            if (error || !p) return;
-
-            const { data: { user } } = await _supabase.auth.getUser();
-            const isOwner = user && user.id === id;
-            const isCompany = p.role === 'entreprise';
-            const nameStr = p.company || p.full_name || 'Professionnel';
-
-            document.title = `${nameStr} - Profil | Domtom Connect`;
-            document.getElementById('breadcrumb-current').textContent = isOwner ? `${nameStr} (Votre Profil)` : nameStr;
-
-            // Header & Role-Based Indicators (DELEGATED TO MODULES)
-            let uiResult = {};
-            if (isCompany) {
-                uiResult = CompanyModule.renderPublicUI(p);
-            } else if (p.role === 'basique' || p.role === 'user') {
-                uiResult = BasicModule.renderPublicUI(p);
-            } else {
-                uiResult = ExpertModule.renderPublicUI(p);
-            }
-
-            document.getElementById('p-name').innerHTML = `${uiResult.nameHtml} ${p.siret ? '<span class="verified-badge" style="color:#10b981;"><i class="fas fa-certificate"></i></span>' : ''}`;
-            document.getElementById('p-title').textContent = p.title || uiResult.title;
-            
-            const badge = document.getElementById('p-role-badge');
-            badge.textContent = uiResult.roleLabel;
-            badge.className = `role-type-pill ${uiResult.roleClass}`;
-
-            if (p.avatar_url) document.getElementById('p-avatar').innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">`;
-            else document.getElementById('p-avatar').textContent = nameStr[0].toUpperCase();
-
-            document.getElementById('p-location').textContent = `${p.territory || 'OM'} ${p.zone ? `• ${p.zone}` : ''}`;
-
-            // Unified About
-            const combinedAbout = [p.bio, p.written_presentation].filter(t => t && t.trim()).join('<br><br>');
-            document.getElementById('p-unified-about').innerHTML = (combinedAbout || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>');
-
-            // visibility
-            document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
-            document.getElementById('company-sections').style.display = isCompany ? 'block' : 'none';
-
-            // Metrics
-            const metricsCard = document.getElementById('metrics-card');
-            const metricsContent = document.getElementById('metrics-content');
-            metricsCard.style.display = 'block';
-            let html = '';
-            if (isCompany) {
-                html = `<div class="metric-item" style="grid-column: span 2;"><i class="fas fa-calendar-alt"></i><div><span class="metric-label">Création</span><span class="metric-value">${p.creation_year || 'N/A'}</span></div></div>
-                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-users"></i><div><span class="metric-label">Équipe</span><span class="metric-value">${p.team_size || 'N/A'}</span></div></div>`;
-            } else {
-                const avail = p.availability || 'disponible';
-                const availText = avail === 'disponible' ? 'Disponible' : (avail === 'occupe' ? 'Occupé' : 'Bientôt disponible');
-                const availColor = avail === 'disponible' ? '#10b981' : (avail === 'occupe' ? '#ef4444' : '#f59e0b');
-                html = `<div class="metric-item" style="grid-column: span 2;"><i class="fas fa-tag"></i><div><span class="metric-label">Tarif (TJM)</span><span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span></div></div>
-                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-clock" style="color:${availColor};"></i><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${availText}</span></div></div>
-                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Zone d'intervention</span><span class="metric-value">${p.zone || p.territory || 'OM/International'}</span></div></div>`;
-            }
-            if (p.siret) html += `<div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;"><i class="fas fa-balance-scale"></i><div><span class="metric-label">Professionnel</span><span class="metric-value" style="font-size:0.85rem;">${p.forme_juridique || 'Entrepreneur'} • ${p.siret}</span></div></div>`;
-            metricsContent.innerHTML = html;
-
-            // Skills & Socials
-            if (p.skills) document.getElementById('p-skills').innerHTML = p.skills.split(',').map(s => `<span class="skill-chip">${s.trim()}</span>`).join('');
-            const socials = [{ id: 'linkedin_url', icon: 'fab fa-linkedin' }, { id: 'facebook_url', icon: 'fab fa-facebook' }, { id: 'instagram_url', icon: 'fab fa-instagram' }];
-            document.getElementById('p-socials').innerHTML = socials.filter(s => p[s.id]).map(s => `<a href="${p[s.id]}" class="social-sq" target="_blank"><i class="${s.icon}"></i></a>`).join('');
-
-            if (p.website_url || p.website) {
-                const wLink = document.getElementById('website-link');
-                wLink.href = p.website_url || p.website;
-                wLink.style.display = 'block';
-            }
-
-            const cLink = document.getElementById('contact-link');
-            if (isOwner) {
-                cLink.innerHTML = '<i class="fas fa-edit"></i> Modifier mon profil';
-                cLink.href = '../profile.html';
-                cLink.style.background = '#0f172a';
-            } else {
-                cLink.href = `../messages?to=${p.id}`;
-            }
-
-            // Portfolio
-            const container = isCompany ? document.getElementById('p-company-projects') : document.getElementById('p-portfolio-list');
-            if (!isCompany) {
-                const portfolio = Array.isArray(p.portfolio) ? p.portfolio : [];
-                if (portfolio.length > 0) {
-                    document.getElementById('expert-portfolio').style.display = 'block';
-                    container.innerHTML = portfolio.map(item => `<div class="portfolio-card-premium"><div style="display:flex; justify-content:space-between;"><div class="portfolio-icon-box"><i class="fas fa-briefcase"></i></div><a href="${item.url || '#'}" target="_blank" class="social-sq" style="border-radius:50%;"><i class="fas fa-external-link-alt"></i></a></div><div style="margin-top:12px;"><h4 style="margin:0; font-size:1.1rem; font-weight:800;">${item.title}</h4><p style="margin:8px 0 0; font-size:0.9rem; color:#64748b;">${item.description || 'Réalisation professionnelle.'}</p></div></div>`).join('');
+                // Fetch minimal profile data to determine role
+                const { data: p, error } = await _supabase.from('profiles').select('role').eq('id', id).single();
+                
+                if (error || !p) {
+                    console.error("Profil introuvable");
+                    window.location.href = 'directory.html';
+                    return;
                 }
-            } else {
-                const { data: projects } = await _supabase.from('projects').select('*').eq('owner_id', p.id).eq('is_listed', true);
-                if (projects && projects.length > 0) {
-                    container.innerHTML = projects.map(proj => `<div class="portfolio-card-premium"><div style="display:flex; justify-content:space-between;"><div class="portfolio-icon-box" style="background:rgba(30,58,138,0.1);">${proj.title[0]}</div><a href="project.html?id=${proj.id}" class="social-sq" style="border-radius:50%;"><i class="fas fa-arrow-right"></i></a></div><div style="margin-top:12px;"><h4 style="margin:0; font-size:1.1rem; font-weight:800;">${proj.title}</h4><p style="margin:8px 0 0; font-size:0.9rem; color:#64748b;">${proj.description?.slice(0, 100)}...</p></div></div>`).join('');
-                } else {
-                    container.innerHTML = '<p class="text-muted">Aucun projet publié.</p>';
+
+                // ULTIMATE PHYSICAL REDIRECTION (PONT-BY-POINT ARCHITECTURE)
+                let destination = 'profile-detail-expert.html';
+                if (p.role === 'entreprise') {
+                    destination = 'profile-detail-company.html';
+                } else if (p.role === 'basique' || p.role === 'user') {
+                    destination = 'profile-detail-expert.html'; // Default to expert style for basique for now
                 }
+
+                // Preserve query parameters (id, etc)
+                window.location.replace(`${destination}?${urlParams.toString()}`);
+
+            } catch (err) {
+                console.error("Router error:", err);
+                window.location.href = 'directory.html';
             }
         }
-        document.addEventListener('DOMContentLoaded', loadProfile);
+        document.addEventListener('DOMContentLoaded', routeProfile);
     </script>
 </body>
 </html>
