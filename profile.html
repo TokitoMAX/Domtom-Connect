@@ -899,6 +899,16 @@
                         </select>
                         <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">Modifiez cette option
                             pour changer votre tableau de bord et vos accès.</p>
+                        
+                        <!-- PANNEAU DE GUIDAGE RÔLE -->
+                        <div id="role-guidance" style="margin-top:20px; padding:16px; border-radius:12px; background:rgba(3, 105, 161, 0.05); border:1px solid rgba(3, 105, 161, 0.1); display:none;">
+                            <h4 style="margin:0 0 8px 0; font-size:0.85rem; color:var(--secondary); display:flex; align-items:center; gap:8px;">
+                                <i class="fas fa-info-circle"></i> <span id="role-guide-title">Mode Expert</span>
+                            </h4>
+                            <p id="role-guide-text" style="margin:0; font-size:0.8rem; color:var(--slate-700); line-height:1.4;">
+                                Idéal pour les freelances et prestataires individuels. Met en avant vos compétences et votre parcours personnel.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -1728,11 +1738,32 @@
             const formeInput = document.getElementById('forme_juridique');
             const creationInput = document.getElementById('creation_year');
             const teamInput = document.getElementById('team_size');
+            const companyInput = document.getElementById('company');
             
             if (siretInput) siretInput.disabled = !isPro;
             if (formeInput) formeInput.disabled = !isPro;
             if (creationInput) creationInput.disabled = !isPro;
             if (teamInput) teamInput.disabled = !isPro;
+            if (companyInput) companyInput.disabled = !isPro;
+
+            // Updated Role Guidance
+            const guidance = document.getElementById('role-guidance');
+            const gTitle = document.getElementById('role-guide-title');
+            const gText = document.getElementById('role-guide-text');
+            if (guidance) {
+                guidance.style.display = (role === 'basique') ? 'none' : 'block';
+                if (isCompany) {
+                    guidance.style.background = 'rgba(16, 185, 129, 0.05)';
+                    guidance.style.borderColor = 'rgba(16, 185, 129, 0.1)';
+                    if (gTitle) { gTitle.textContent = 'Mode Entreprise / Institution'; gTitle.parentElement.style.color = '#059669'; }
+                    if (gText) gText.textContent = 'Active la vitrine institutionnelle : bannières, chiffres clés (équipe, création) et terminologie corporate.';
+                } else {
+                    guidance.style.background = 'rgba(3, 105, 161, 0.05)';
+                    guidance.style.borderColor = 'rgba(3, 105, 161, 0.1)';
+                    if (gTitle) { gTitle.textContent = 'Mode Expert / Talent'; gTitle.parentElement.style.color = 'var(--secondary)'; }
+                    if (gText) gText.textContent = 'Idéal pour les freelances. Met en avant vos compétences, votre TJM et votre parcours personnel.';
+                }
+            }
 
             if (portfolioCard) portfolioCard.style.display = (isExpert || isCompany) ? 'block' : 'none';
             if (realizationsCard) realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';
@@ -1933,14 +1964,31 @@
             const btn = document.getElementById('save-btn');
             const roleSelect = document.getElementById('user_role');
             const selectedRole = roleSelect ? roleSelect.value : '';
-            const isExpert = (selectedRole === 'expert' || selectedRole === 'prestataire');
             
+            // Helpful data collection helper
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                if (!el) return null;
+                if (el.tagName === 'SELECT') return el.value || null;
+                if (el.type === 'checkbox') return el.checked;
+                const val = el.value ? el.value.trim() : "";
+                return val || null;
+            }
+
             if (btn) { 
                 btn.textContent = 'Enregistrement...'; 
                 btn.disabled = true; 
             }
 
             try {
+                // Validate Company Name for Entreprise Role
+                if (selectedRole === 'entreprise' && !getVal('company')) {
+                    alert('Le nom de l\'entreprise est obligatoire pour le mode Entreprise.');
+                    if (btn) btn.disabled = false;
+                    btn.textContent = 'Enregistrer les modifications';
+                    return;
+                }
+
                 // Update Auth Metadata
                 const { error: authError } = await _supabase.auth.updateUser({ data: { role: selectedRole } });
                 if (authError) throw authError;
@@ -1954,18 +2002,8 @@
                     finalAvatarUrl = await uploadFile(fileInput.files[0]);
                 }
 
-                // Robust data collection helper
-                const getVal = (id) => {
-                    const el = document.getElementById(id);
-                    if (!el) return null;
-                    if (el.tagName === 'SELECT') return el.value || null;
-                    if (el.type === 'checkbox') return el.checked;
-                    const val = el.value ? el.value.trim() : "";
-                    return val || null;
-                }
-
                 const user_role_val = getVal('user_role') || '';
-                const skillTagsArray = skillTags; // Using global skillTags
+                const skillTagsArray = skillTags; 
 
                 const profileData = {
                     id: currentUserId,

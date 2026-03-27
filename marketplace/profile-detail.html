@@ -85,6 +85,21 @@
         .metric-label { font-size: 0.75rem; color: #475569; display: block; font-weight: 600; text-transform: uppercase; }
         .metric-value { font-size: 1rem; font-weight: 800; color: #0f172a; }
 
+        .role-type-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+        .role-type-pill.expert { background: rgba(3, 105, 161, 0.1); color: var(--secondary); border: 1px solid rgba(3, 105, 161, 0.2); }
+        .role-type-pill.company { background: rgba(16, 185, 129, 0.1); color: var(--primary-dark); border: 1px solid rgba(16, 185, 129, 0.2); }
+
         .hero-container {
             display: flex;
             align-items: center;
@@ -414,8 +429,8 @@
                     <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
                 </div>
 
-                <div class="sidebar-card" style="padding: 20px; font-size: 0.9rem;">
-                    <div style="margin-bottom:12px;"><strong>💡 Type :</strong> <span id="p-role">—</span></div>
+                <div class="sidebar-card" style="padding: 24px;">
+                    <div id="p-role-badge" class="role-type-pill expert">Expert / Talent</div>
                     <div style="margin-bottom:12px;" id="siret-row"><strong>🏢 SIRET :</strong> <span id="p-siret">—</span></div>
                     <div id="forme-row"><strong>⚖️ Juridique :</strong> <span id="p-forme">—</span></div>
                     <div id="tjm-row" style="margin-top:12px; font-size:1.1rem; color:var(--primary); font-weight:800; display:none;">Tarif : <span id="p-tjm">0</span>€/j</div>
@@ -506,6 +521,12 @@
                 if (formeRow) formeRow.style.display = 'block';
             } else if (formeRow) {
                 formeRow.style.display = 'none';
+            }
+
+            const pRoleBadge = document.getElementById('p-role-badge');
+            if (pRoleBadge) {
+                pRoleBadge.textContent = isCompany ? 'Profil Entreprise' : 'Profil Expert / Talent';
+                pRoleBadge.className = `role-type-pill ${isCompany ? 'company' : 'expert'}`;
             }
 
             if (p.tjm) {
