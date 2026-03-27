@@ -216,8 +216,9 @@ async function loadGlobalNavbar() {
     const startButton = document.getElementById('start-button');
 
     if (session) {
-        const role = await checkUserRole(session);
-        const name = session.user.user_metadata.full_name || session.user.email.split('@')[0];
+        const meta = session.user.user_metadata || {};
+        const role = meta.role || null;
+        const name = meta.full_name || (session.user.email ? session.user.email.split('@')[0] : 'Membre');
 
         // Masquer login/start si présents (fallback)
         if (loginLink) loginLink.style.display = 'none';
@@ -258,13 +259,11 @@ async function loadGlobalNavbar() {
         // Liens de directory (Strategic regrouping)
         if (navLinks) {
             navLinks.innerHTML = `
-                <a href="/marketplace/directory" class="nav-market-link">Talents</a>
-                <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
-                <a href="/marketplace/projects" class="nav-market-link">Projets</a>
-                <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
-                <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
-                <a href="/messages" class="nav-mobile-link" style="display:none;">Messages</a>
-                <a href="/profile" class="nav-mobile-link" style="display:none;">Mon Profil</a>
+                <a href="${prefix}marketplace/directory.html" class="nav-market-link">Talents</a>
+                <a href="${prefix}marketplace/jobs.html" class="nav-market-link">Missions</a>
+                <a href="${prefix}marketplace/projects.html" class="nav-market-link">Projets</a>
+                <a href="${prefix}marketplace/evenements.html" class="nav-market-link">Événements</a>
+                <a href="${prefix}marketplace/companies.html" class="nav-market-link">Entreprises</a>
             `;
         }
 
@@ -272,10 +271,10 @@ async function loadGlobalNavbar() {
         if (navActions) {
             navActions.innerHTML = `
                     <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                        <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
+                        <a href="${prefix}profile.html" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
                             Bonjour, ${name}
                         </a>
-                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        <a href="${prefix}mon-espace.html" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
                             Mon Espace
                         </a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
@@ -285,7 +284,10 @@ async function loadGlobalNavbar() {
                 `;
         }
 
-        // Initialize Mobile Toggle globally
+        // Initialize Mobile Toggle globally (Moved outside session block)
+        initNavToggle();
+    } else {
+        // Fallback for non-logged in users (ensure toggle works for guests)
         initNavToggle();
     }
 }
@@ -348,4 +350,8 @@ function persistOnboardingIntent() {
 }
 
 // Capturer l'intention dès le chargement de n'importe quelle page incluant auth.js
-document.addEventListener('DOMContentLoaded', persistOnboardingIntent);
+document.addEventListener('DOMContentLoaded', () => {
+    persistOnboardingIntent();
+    // Auto-load navbar if not already handled by the page script
+    loadGlobalNavbar();
+});

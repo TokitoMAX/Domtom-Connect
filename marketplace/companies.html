@@ -530,6 +530,7 @@
                     document.getElementById('company-banner').style.display = 'flex';
                 }
             }
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
             generateAlphabet();
             await loadCompanies();
         }
