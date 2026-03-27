@@ -3057,9 +3057,10 @@
                                 <div id="paypal-authority-expert" style="margin-top:4px;"></div>
                                 <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:none;">Votre plan actuel</div>
                                 
+                                ${(isListed || tier === 'authority') ? `
                                 <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#10b981'}; color:${isListed ? '#ef4444' : '#10b981'}; font-size:0.8rem; height:36px; justify-content:center;">
                                     ${isListed ? 'Supprimer mon annonce expert' : 'Republier mon annonce expert'}
-                                </button>
+                                </button>` : ''}
                             </div>
 
                         </div>
@@ -3188,9 +3189,10 @@
                                     <div id="paypal-business-enterprise" style="margin-top:4px;"></div>
                                     <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:none;">Votre plan actuel</div>
 
+                                    ${(isListed || tier === 'business' || tier === 'enterprise') ? `
                                     <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#0284c7'}; color:${isListed ? '#ef4444' : '#0284c7'}; font-size:0.8rem; height:36px; justify-content:center;">
                                         ${isListed ? 'Supprimer mon annonce entreprise' : 'Republier mon annonce entreprise'}
-                                    </button>
+                                    </button>` : ''}
                                 </div>
 
                                 <!-- ENTERPRISE -->
@@ -4254,6 +4256,22 @@
             try {
                 const { data: { user } } = await _supabase.auth.getUser();
                 if (!user) return;
+
+                // --- SÉCURITÉ TIER (Gating) ---
+                if (newStatus) {
+                    const { data: profile } = await _supabase.from('profiles').select('role, subscription_tier').eq('id', user.id).single();
+                    const role = profile?.role || 'expert';
+                    const tier = profile?.subscription_tier || 'free';
+
+                    if (role === 'expert' && tier !== 'authority') {
+                        alert("⚠️ Action impossible : Vous devez avoir le Pack Expert (9,99€) pour publier votre profil dans l'annuaire.");
+                        return;
+                    }
+                    if (role === 'entreprise' && (tier !== 'business' && tier !== 'enterprise')) {
+                        alert("⚠️ Action impossible : Vous devez avoir le Pack Business (29€) pour publier votre profil entreprise.");
+                        return;
+                    }
+                }
 
                 const { error } = await _supabase
                     .from('profiles')
