@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Audit Onboarding - Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=1.1">
+    <style>
+        .audit-stat-card { border-bottom: 4px solid #e2e8f0; }
+        .stuck-user { border-left: 4px solid #ef4444 !important; }
+        .paid-user { border-left: 4px solid #10b981 !important; }
+        .duplicate-row { background: #fff1f2 !important; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div style="display:flex; justify-content:center; gap:20px; margin-bottom:10px;">
+                <a href="leads.html" style="text-decoration:none; color:#64748b; font-weight:700;">Leads Tracker</a>
+                <a href="audit-onboarding.html" style="text-decoration:none; color:#10b981; font-weight:800; border-bottom:2px solid #10b981;">Audit Onboarding</a>
+            </div>
+            <h1>🔭 Audit & Paiements</h1>
+            <p>Analyse de la santé de l'onboarding et des transactions</p>
+        </div>
+
+        <div id="login-section" class="login-section">
+            <div class="login-box">
+                <h2>Accès Sécurisé</h2>
+                <input type="password" id="admin-password" placeholder="Mot de passe" class="admin-input">
+                <button onclick="checkPassword()" class="cta-button primary">Vérifier</button>
+            </div>
+        </div>
+
+        <div id="audit-section" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card audit-stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content"><h3 id="stat-total">0</h3><p>Total Utilisateurs</p></div>
+                </div>
+                <div class="stat-card audit-stat-card" style="border-color:#ef4444;">
+                    <div class="stat-icon" style="background:rgba(239, 68, 68, 0.1); color:#ef4444;">🛑</div>
+                    <div class="stat-content"><h3 id="stat-stuck">0</h3><p>Bloqués (Sans Rôle)</p></div>
+                </div>
+                <div class="stat-card audit-stat-card" style="border-color:#10b981;">
+                    <div class="stat-icon" style="background:rgba(16, 185, 129, 0.1); color:#10b981;">💰</div>
+                    <div class="stat-content"><h3 id="stat-paid">0</h3><p>Paiements Validés</p></div>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Détails des Utilisateurs</h2>
+                    <div>
+                        <button onclick="exportCSV()" class="cta-button secondary">Exporter CSV</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Rôle</th>
+                                <th>Pack</th>
+                                <th>Public</th>
+                                <th>Statut Audit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        let allProfiles = [];
+
+        function checkPassword() {
+            const pass = document.getElementById('admin-password').value;
+            if (pass === 'Doconnect2024') { // Mot de passe par défaut local
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('audit-section').style.display = 'block';
+                loadAuditData();
+            } else { alert("Mot de passe incorrect"); }
+        }
+
+        async function loadAuditData() {
+            const { data, error } = await _supabase.from('profiles').select('*').order('created_at', { ascending: false });
+            if (error) return console.error(error);
+            allProfiles = data;
+            renderAudit();
+        }
+
+        function renderAudit() {
+            const tbody = document.getElementById('audit-tbody');
+            let stuck = 0, paid = 0;
+            
+            const nameCount = {};
+            allProfiles.forEach(p => { nameCount[p.full_name] = (nameCount[p.full_name] || 0) + 1; });
+
+            tbody.innerHTML = allProfiles.map(p => {
+                const isStuck = !p.role;
+                const isPaid = p.subscription_tier && p.subscription_tier !== 'free';
+                const isDup = nameCount[p.full_name] > 1;
+                
+                if (isStuck) stuck++;
+                if (isPaid) paid++;
+
+                const statusLabel = isStuck ? '<span class="badge badge-warning">⚠️ INCOMPLET</span>' : 
+                                  isPaid ? '<span class="badge badge-success">✅ PAYÉ</span>' : 
+                                  '<span class="badge badge-secondary">🆓 GRATUIT</span>';
+
+                return `
+                    <tr class="${isStuck ? 'stuck-user' : isPaid ? 'paid-user' : ''} ${isDup ? 'duplicate-row' : ''}">
+                        <td><strong>${p.full_name || 'Inconnu'}</strong> ${isDup ? '👯' : ''}</td>
+                        <td>${p.role || '---'}</td>
+                        <td>${p.subscription_tier || 'free'}</td>
+                        <td>${p.listed ? 'OUI' : 'NON'}</td>
+                        <td>${statusLabel}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('stat-total').textContent = allProfiles.length;
+            document.getElementById('stat-stuck').textContent = stuck;
+            document.getElementById('stat-paid').textContent = paid;
+        }
+
+        function exportCSV() {
+            let csv = "Nom,Role,Pack,Public,Statut\n";
+            allProfiles.forEach(p => {
+                const status = !p.role ? 'Incomplet' : p.subscription_tier !== 'free' ? 'Paye' : 'Gratuit';
+                csv += `"${p.full_name}","${p.role || ''}","${p.subscription_tier}","${p.listed ? 'Oui' : 'Non'}","${status}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `audit_domtom_connect_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
