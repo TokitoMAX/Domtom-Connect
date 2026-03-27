@@ -978,6 +978,23 @@
                         </div>
                     </div>
 
+                    <div class="form-row" id="metrics-row" style="display:none; margin-top:16px;">
+                        <div class="form-group">
+                            <label id="label-creation-year">Année de Création</label>
+                            <input type="text" id="creation_year" placeholder="Ex: 2022" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label id="label-team-size">Taille de l'équipe</label>
+                            <select id="team_size" disabled>
+                                <option value="">Choisir...</option>
+                                <option value="Indépendant">Indépendant (1)</option>
+                                <option value="2-10">2-10 collaborateurs</option>
+                                <option value="11-50">11-50 collaborateurs</option>
+                                <option value="50+">Plus de 50</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>Site Web</label>
@@ -1140,6 +1157,42 @@
                     <!-- Liste des items du portfolio -->
                     <div id="portfolio-items-list" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
                         <!-- Injecté par JS -->
+                    </div>
+
+                    <!-- SECTION : BANNIÈRE DE COUVERTURE (PREMIUM) -->
+                    <div class="card" id="banner-card" style="margin-bottom:32px; display:none;">
+                        <div class="card-header">
+                            <div class="header-icon"><i class="fas fa-image"></i></div>
+                            <h3>Bannière de Couverture</h3>
+                        </div>
+                        <div class="avatar-upload-container" style="max-width: none;">
+                            <style>
+                                .banner-preview-box {
+                                    width: 100%;
+                                    height: 160px;
+                                    background: #f8fafc;
+                                    border: 2px dashed #cbd5e1;
+                                    border-radius: 16px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    overflow: hidden;
+                                    margin-bottom: 16px;
+                                }
+                                .banner-preview-box img { width: 100%; height: 100%; object-fit: cover; }
+                            </style>
+                            <div id="banner-preview" class="banner-preview-box">
+                                <span style="opacity:0.5;">Aucun bandeau défini (Format recommandé : 1200x300)</span>
+                            </div>
+                            <div class="avatar-upload-info" style="flex:1;">
+                                <label for="banner-file" class="btn-action primary" style="display:inline-flex; width:auto; padding:8px 16px;">
+                                    <i class="fas fa-camera"></i> Choisir une couverture
+                                </label>
+                                <input type="file" id="banner-file" accept="image/*" style="display:none;" onchange="handleBannerSelect(this)">
+                                <input type="hidden" id="banner_url">
+                                <p id="banner-file-name" style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">Format JPG, PNG ou WEBP. Max 5 Mo.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Formulaire d'ajout rapide -->
@@ -1334,6 +1387,18 @@
                 // Show remove button in edit mode after selection
                 const removeBtn = document.getElementById('remove-avatar-btn');
                 if (removeBtn) removeBtn.style.display = isEditing ? 'inline-block' : 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleBannerSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.getElementById('banner-preview');
+                if (preview) preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             };
             reader.readAsDataURL(file);
         }
@@ -1540,6 +1605,15 @@
             setVal('zone', profile.zone);
             setVal('website_url', profile.website_url);
             setVal('user_role', profile.role);
+            setVal('creation_year', profile.creation_year);
+            setVal('team_size', profile.team_size);
+            setVal('banner_url', profile.banner_url);
+            
+            // Render Banner Preview
+            const bannerPreview = document.getElementById('banner-preview');
+            if (profile.banner_url && bannerPreview) {
+                bannerPreview.innerHTML = `<img src="${profile.banner_url}" alt="Banner">`;
+            }
             
             const preview = document.getElementById('avatar-preview');
             const avatarUrlInput = document.getElementById('avatar_url');
@@ -1642,12 +1716,23 @@
             const listingText = document.getElementById('listing-status-text');
             const labelLogo = document.getElementById('label-logo');
 
+            // Metrics and Banner rows visibility
+            const metricsRow = document.getElementById('metrics-row');
+            const bannerCard = document.getElementById('banner-card');
+            if (metricsRow) metricsRow.style.display = isCompany ? 'flex' : 'none';
+            if (bannerCard) bannerCard.style.display = isCompany ? 'block' : 'none';
+
             // Enable/Disable professional fields (Fix Persistence)
             const isPro = (role !== 'basique');
             const siretInput = document.getElementById('siret');
             const formeInput = document.getElementById('forme_juridique');
+            const creationInput = document.getElementById('creation_year');
+            const teamInput = document.getElementById('team_size');
+            
             if (siretInput) siretInput.disabled = !isPro;
             if (formeInput) formeInput.disabled = !isPro;
+            if (creationInput) creationInput.disabled = !isPro;
+            if (teamInput) teamInput.disabled = !isPro;
 
             if (portfolioCard) portfolioCard.style.display = (isExpert || isCompany) ? 'block' : 'none';
             if (realizationsCard) realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';
@@ -1869,14 +1954,18 @@
                     finalAvatarUrl = await uploadFile(fileInput.files[0]);
                 }
 
-                // Robust data collection
+                // Robust data collection helper
                 const getVal = (id) => {
                     const el = document.getElementById(id);
                     if (!el) return null;
+                    if (el.tagName === 'SELECT') return el.value || null;
                     if (el.type === 'checkbox') return el.checked;
                     const val = el.value ? el.value.trim() : "";
                     return val || null;
                 }
+
+                const user_role_val = getVal('user_role') || '';
+                const skillTagsArray = skillTags; // Using global skillTags
 
                 const profileData = {
                     id: currentUserId,
@@ -1885,7 +1974,8 @@
                     bio: getVal('bio'),
                     sector: getVal('sector'),
                     territory: getVal('territory'),
-                    skills: getVal('skills'),
+                    zone: getVal('zone'),
+                    skills: skillTags.join(','),
                     tjm: (getVal('tjm') && !isNaN(parseInt(getVal('tjm')))) ? parseInt(getVal('tjm')) : null,
                     linkedin_url: getVal('linkedin_url'),
                     facebook_url: getVal('facebook_url'),
@@ -1894,16 +1984,15 @@
                     tiktok_url: getVal('tiktok_url'),
                     spotify_url: getVal('spotify_url'),
                     video_url: getVal('video_url'),
+                    website_url: getVal('website_url'),
                     written_presentation: getVal('written_presentation'),
+                    avatar_url: finalAvatarUrl,
+                    banner_url: getVal('banner_url'),
                     siret: getVal('siret'),
                     forme_juridique: getVal('forme_juridique'),
-                    zone: getVal('zone'),
-                    website_url: getVal('website_url'),
-                    company: getVal('company'),
-                    avatar_url: finalAvatarUrl,
-                    available: !!getVal('available'),
-                    portfolio: currentPortfolio, // SAVE PORTFOLIO ARRAY
-                    role: selectedRole,
+                    creation_year: getVal('creation_year'),
+                    team_size: getVal('team_size'),
+                    role: user_role_val,
                     updated_at: new Date().toISOString()
                 };
 

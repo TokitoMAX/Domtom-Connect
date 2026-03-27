@@ -42,10 +42,32 @@
         .hero-banner-bg {
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 240px;
+            height: 320px;
             background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, #0f172a 100%);
+            background-size: cover;
+            background-position: center;
             z-index: 1;
         }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+        }
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .metric-item i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .metric-label { font-size: 0.75rem; color: #475569; display: block; font-weight: 600; text-transform: uppercase; }
+        .metric-value { font-size: 1rem; font-weight: 800; color: #0f172a; }
 
         .hero-container {
             display: flex;
@@ -314,23 +336,24 @@
             </div>
         </div>
     </nav>
-
-    <header class="profile-hero">
-        <div class="hero-banner-bg"></div>
-        <div class="container" style="position:relative; z-index:5; margin-bottom: 30px;">
-            <nav style="display:flex; gap:8px; font-size:0.8rem; opacity:0.7; font-weight:600;">
+    <section class="profile-hero">
+        <div id="p-banner" class="hero-banner-bg"></div>
+        <div class="container container-large" style="position:relative; z-index:5;">
+            <!-- Breadcrumbs -->
+            <nav style="display:flex; gap:8px; font-size:0.8rem; opacity:0.7; font-weight:600; margin-bottom:30px;">
                 <a href="/" style="color:white; text-decoration:none;">Accueil</a>
                 <span>/</span>
                 <a href="directory.html" style="color:white; text-decoration:none;" id="breadcrumb-parent">Annuaire</a>
                 <span>/</span>
                 <span id="breadcrumb-current" style="color:var(--primary);">Profil</span>
             </nav>
-        </div>
-        <div class="container hero-container">
-            <div id="p-avatar" class="profile-avatar-large"></div>
-            <div class="profile-hero-info">
-                <h1 class="profile-name" id="p-name">Chargement...</h1>
-                <div class="profile-title" id="p-title">Professionnel</div>
+
+            <div class="hero-container">
+                <div id="p-avatar" class="profile-avatar-large"></div>
+                <div class="profile-hero-info">
+                    <h1 class="profile-name" id="p-name">Chargement...</h1>
+                    <div class="profile-title" id="p-title">Professionnel</div>
+                </div>
                 <div class="profile-loc-badge">
                     <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i>
                     <span id="p-location">International</span>
@@ -477,6 +500,20 @@
                 const tjmEl = document.getElementById('p-tjm');
                 if (tjmRow) tjmRow.style.display = 'block';
                 if (tjmEl) tjmEl.textContent = p.tjm;
+            }
+
+            // Banner Render
+            const heroBanner = document.getElementById('p-banner');
+            if (p.banner_url && heroBanner) {
+                heroBanner.style.backgroundImage = `url('${p.banner_url}')`;
+            }
+
+            // Metrics Render
+            if (isCompany && (p.creation_year || p.team_size)) {
+                const metricsCard = document.getElementById('metrics-card');
+                if (metricsCard) metricsCard.style.display = 'block';
+                if (p.creation_year) document.getElementById('p-creation-year').textContent = p.creation_year;
+                if (p.team_size) document.getElementById('p-team-size').textContent = p.team_size;
             }
 
             // Skills
