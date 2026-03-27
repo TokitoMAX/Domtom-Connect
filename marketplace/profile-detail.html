@@ -378,13 +378,23 @@
             document.title = `${nameStr} - Profil | Domtom Connect`;
             document.getElementById('breadcrumb-current').textContent = isOwner ? `${nameStr} (Votre Profil)` : nameStr;
 
-            // Header
-            const statusDot = p.availability === 'disponible' ? '<span class="status-dot-pulse" title="Disponible"></span>' : '';
-            document.getElementById('p-name').innerHTML = `${nameStr} ${statusDot} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
+            // Header & Role-Based Indicators
+            let indicatorHtml = '';
+            if (isCompany) {
+                // Business Verification Badge (Malt style)
+                indicatorHtml = `<span class="verified-badge" style="background:#1e40af; color:white; font-size:0.9rem; padding:4px 10px; border-radius:30px; margin-left:10px; display:inline-flex; align-items:center; gap:6px;"><i class="fas fa-check-circle"></i> Entreprise</span>`;
+            } else {
+                // Expert Availability Pulse
+                if (p.availability === 'disponible') {
+                    indicatorHtml = `<span class="status-dot-pulse" title="Disponible" style="margin-left:10px;"></span>`;
+                }
+            }
+
+            document.getElementById('p-name').innerHTML = `${nameStr} ${indicatorHtml} ${p.siret ? '<span class="verified-badge" style="color:#10b981;"><i class="fas fa-certificate"></i></span>' : ''}`;
             document.getElementById('p-title').textContent = p.title || (isCompany ? 'Institution / Entreprise' : 'Expert Domtom Connect');
             
             const badge = document.getElementById('p-role-badge');
-            badge.textContent = isCompany ? 'Institution / Entreprise' : 'Expert / Talent';
+            badge.textContent = isCompany ? 'Profil Institutionnel' : 'Profil Expert / Talent';
             badge.className = `role-type-pill ${isCompany ? 'company' : 'expert'}`;
 
             if (p.avatar_url) document.getElementById('p-avatar').innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">`;

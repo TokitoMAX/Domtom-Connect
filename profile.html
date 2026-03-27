@@ -1773,25 +1773,31 @@
             const companyNameGroup = document.getElementById('company-name-group');
             const videoGroup = document.getElementById('video-presentation-group');
 
+            // 2. APPLY ROLE-SPECIFIC UI CHANGES (STRICT SEPARATION)
             if (isCompany) {
+                // ENTREPRISE / INSTITUTION
                 if (labelName) labelName.textContent = "Nom de l'Entreprise / Institution";
                 if (companyNameGroup) companyNameGroup.style.display = 'block';
                 if (labelTitle) labelTitle.textContent = "Secteur d'Activité principal";
-                if (labelBio) labelBio.textContent = "Vision & Présentation Pro (Unified About)";
+                if (labelBio) labelBio.textContent = "Présentation Institutionnelle (Vision & Offre)";
+                if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
                 
                 if (inputTitle) inputTitle.placeholder = "Ex : Conseil Juridique, Agence Marketing...";
-                if (inputBio) inputBio.placeholder = "Décrivez votre vision, vos services et votre engagement en un seul récit puissant.";
+                if (inputBio) inputBio.placeholder = "Un récit unifié : Présentez votre mission, votre engagement et vos services phares.";
                 
-                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Clear redundancy
+                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Unification Malt
                 
                 if (companyFields) companyFields.style.display = 'grid';
                 if (tjmGroup) tjmGroup.style.display = 'none';
                 if (videoGroup) videoGroup.style.display = 'block';
-            } else if (role === 'basique') {
+                if (portfolioCard) portfolioCard.style.display = 'block';
+
+            } else if (role === 'basique' || role === 'user') {
+                // UTILISATEUR BASIQUE / PORTEUR DE PROJET
                 if (labelName) labelName.textContent = "Nom complet";
                 if (companyNameGroup) companyNameGroup.style.display = 'none';
-                if (labelTitle) labelTitle.textContent = "Expertises recherchées pour mon épopée";
-                if (labelBio) labelBio.textContent = "Mon Histoire et mon Projet";
+                if (labelTitle) labelTitle.textContent = "Expertises recherchées";
+                if (labelBio) labelBio.textContent = "Mon Projet & Historique";
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
                 
                 if (inputWritten) inputWritten.parentElement.style.display = 'none';
@@ -1799,8 +1805,10 @@
                 if (companyFields) companyFields.style.display = 'none';
                 if (tjmGroup) tjmGroup.style.display = 'none';
                 if (videoGroup) videoGroup.style.display = 'none';
+                if (portfolioCard) portfolioCard.style.display = 'none';
+
             } else {
-                // EXPERT / PRESTATAIRE
+                // EXPERT / PRESTATAIRE (Role defined as anything else)
                 if (labelName) labelName.textContent = "Nom complet";
                 if (companyNameGroup) companyNameGroup.style.display = 'none';
                 if (labelTitle) labelTitle.textContent = "Titre Professionnel Accrocheur";
@@ -1808,13 +1816,14 @@
                 if (labelLogo) labelLogo.textContent = "Photo de profil";
 
                 if (inputTitle) inputTitle.placeholder = "Ex : Consultant en Stratégie, Développeur Full-Stack...";
-                if (inputBio) inputBio.placeholder = "Malt-style : Racontez votre parcours, vos compétences et ce que vous proposez. Un récit unifié inspire plus confiance.";
+                if (inputBio) inputBio.placeholder = "Malt-style : Racontez votre parcours, vos compétences et ce que vous proposez.";
                 
-                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Hide redundant field
+                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Unification Malt
                 
                 if (companyFields) companyFields.style.display = 'grid';
                 if (tjmGroup) tjmGroup.style.display = 'block';
                 if (videoGroup) videoGroup.style.display = 'block';
+                if (portfolioCard) portfolioCard.style.display = 'block';
             }
         }
 
