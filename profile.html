@@ -895,7 +895,7 @@
                             style="font-weight:600; font-size:1rem; padding: 12px 16px; border-width:2px; background:#f8fafc;">
                             <option value="expert">Expert / Indépendant (Proposer mes services)</option>
                             <option value="entreprise">Entreprise (Recruter & publier des besoins)</option>
-                            <option value="basique">Porteur de Projet (Lancer mon projet)</option>
+                            <option value="user">Porteur de Projet (Lancer mon projet)</option>
                         </select>
                         <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">Modifiez cette option
                             pour changer votre tableau de bord et vos accès.</p>
@@ -1487,7 +1487,7 @@
                     if (roleSelect) roleSelect.value = 'entreprise';
                 } else {
                     if (badgeEl) badgeEl.textContent = 'Porteur de Projet';
-                    if (roleSelect) roleSelect.value = 'basique';
+                    if (roleSelect) roleSelect.value = 'user';
                 }
 
                 if (roleSelect) {
@@ -1658,6 +1658,7 @@
             const roleSelect = document.getElementById('user_role');
             const role = displayRole || (roleSelect ? roleSelect.value : '');
             const isExpert = (role === 'expert' || role === 'prestataire');
+            const isUser = (role === 'user');
 
             if (listed) {
                 if (dot) dot.classList.add('published');
@@ -1671,7 +1672,7 @@
                 if (text) {
                     text.textContent = 'Profil privé (Hors annuaire)';
                     text.style.color = 'var(--text-secondary)';
-                    if (currentSubscriptionTier === 'free' && role !== 'basique') {
+                    if (currentSubscriptionTier === 'free' && !isUser) {
                         text.innerHTML = 'Profil en attente d\'activation <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">(Invisible)</span>';
                     }
                 }
@@ -1732,7 +1733,7 @@
             if (bannerCard) bannerCard.style.display = isCompany ? 'block' : 'none';
 
             // Enable/Disable professional fields (Fix Persistence)
-            const isPro = (role !== 'basique');
+            const isPro = (role === 'expert' || role === 'entreprise' || role === 'prestataire');
             const siretInput = document.getElementById('siret');
             const formeInput = document.getElementById('forme_juridique');
             const creationInput = document.getElementById('creation_year');
@@ -1752,7 +1753,7 @@
             const gTitle = document.getElementById('role-guide-title');
             const gText = document.getElementById('role-guide-text');
             if (guidance) {
-                guidance.style.display = (role === 'basique') ? 'none' : 'block';
+                guidance.style.display = (role === 'user') ? 'none' : 'block';
                 if (isCompany) {
                     guidance.style.background = 'rgba(16, 185, 129, 0.05)';
                     guidance.style.borderColor = 'rgba(16, 185, 129, 0.1)';
@@ -2011,9 +2012,10 @@
                     if (selectedRole === 'user' || selectedRole === 'admin') tierValid = true; 
 
                     if (!tierValid && isListed) {
-                        console.log("Tier insuffisant pour le nouveau rôle. Retrait automatique de l'annuaire.");
+                        console.warn("Tier insuffisant pour le nouveau rôle. Retrait automatique de l'annuaire.");
                         isListed = false;
-                        alert("💡 Note : Votre visibilité dans l'annuaire a été suspendue. Votre abonnement actuel ne couvre pas votre nouveau rôle. Veuillez souscrire au Pack approprié dans votre Dashboard pour être à nouveau visible.");
+                        // Use a more prominent alert
+                        alert("⚠️ ATTENTION : Votre visibilité a été suspendue.\n\nVotre abonnement actuel (" + currentTier + ") ne couvre pas le rôle '" + selectedRole + "'.\n\nVous avez été automatiquement retiré de l'annuaire pour éviter toute non-conformité. Veuillez souscrire au Pack approprié pour être à nouveau visible.");
                     }
                 }
 

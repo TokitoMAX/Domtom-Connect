@@ -729,44 +729,36 @@
         let hasExistingListing = false;
         let currentLetter = '';
 
+        let currentSubscriptionTier = 'free';
+
         async function init() {
             const session = await getSession();
-            // Removed forced redirect to login for public directory
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
-                const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
                 
-                await loadGlobalNavbar();
-                // ... rest of the auth logic ...
-            } else {
-                // If not logged in, we still need to load the navbar for links
-                if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
-            }
-            
-            generateAlphabet();
-            await loadProfiles();
-            
-            // Check if user is expert to show banner
-            if (session && (currentUserRole === 'expert' || currentUserRole === 'prestataire')) {
                 const { data: profile } = await _supabase
                     .from('profiles')
-                    .select('full_name, title, bio, sector, territory, skills, tjm, linkedin_url, facebook_url, instagram_url, youtube_url, tiktok_url, spotify_url, listed')
+                    .select('subscription_tier, listed, full_name, title, bio, sector, territory, skills, tjm, linkedin_url, facebook_url, instagram_url, youtube_url, tiktok_url, spotify_url')
                     .eq('id', currentUserId)
                     .single();
                 
                 if (profile) {
-                    const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-                    document.getElementById('expert-banner').style.display = 'flex';
-                    if (profile.listed) {
-                        hasExistingListing = true;
-                        document.getElementById('listing-btn').textContent = 'Modifier mon annonce';
-                        prefillModal(profile, name);
-                    } else {
-                        prefillModal({ full_name: name }, name);
+                    currentSubscriptionTier = profile.subscription_tier || 'free';
+                    const name = session.user.user_metadata?.full_name || (session.user.email ? session.user.email.split('@')[0] : 'Expert');
+                    if (currentUserRole === 'expert' || currentUserRole === 'prestataire') {
+                        document.getElementById('expert-banner').style.display = 'flex';
+                        if (profile.listed) {
+                            hasExistingListing = true;
+                            document.getElementById('listing-btn').textContent = 'Modifier mon annonce';
+                        }
                     }
+                    prefillModal(profile, name);
                 }
             }
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            generateAlphabet();
+            await loadProfiles();
         }
 
         function generateAlphabet() {
@@ -821,7 +813,7 @@
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)
-                    .in('role', ['expert', 'prestataire', 'talent', 'independant']);
+                    .in('subscription_tier', ['authority', 'enterprise']);
                 
                 if (territory) query = query.eq('territory', territory);
                 if (zone) query = query.eq('zone', zone);
@@ -975,6 +967,13 @@
 
         async function saveListing(event) {
             event.preventDefault();
+            
+            if (currentSubscriptionTier === 'free') {
+                alert("Votre profil est actuellement en mode gratuit. Pour paraître dans l'annuaire des talents, vous devez souscrire au Pack Authority (9,99€/mois).");
+                window.location.href = '../mon-espace.html#pricing'; // Redirect to pricing section or specific page
+                return;
+            }
+
             const btn = document.getElementById('modal-save-btn');
             btn.textContent = 'Enregistrement...';
             btn.disabled = true;

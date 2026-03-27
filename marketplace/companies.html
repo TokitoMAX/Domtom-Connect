@@ -568,7 +568,7 @@
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)
-                    .or('role.eq.entreprise,subscription_tier.eq.business');
+                    .in('subscription_tier', ['business', 'enterprise']);
 
                 if (territory) query = query.eq('territory', territory);
                 if (zone) query = query.eq('zone', zone);
