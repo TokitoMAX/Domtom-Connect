@@ -360,7 +360,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
     <main class="container">
         <div class="profile-main-grid">
@@ -428,9 +428,9 @@
             document.title = `${nameStr} - ${p.title || 'Expert'} | Domtom Connect`;
             document.getElementById('seo-description').content = `${nameStr}, ${p.title || 'Expert'} à ${p.territory || 'OM'}. Découvrez ses réalisations et contactez ce professionnel sur Domtom Connect.`;
             document.getElementById('breadcrumb-current').textContent = nameStr;
-            let isCompany = p.role === 'entreprise';
-            document.getElementById('breadcrumb-parent').textContent = isCompany ? 'Entreprises' : 'Talents';
-            document.getElementById('breadcrumb-parent').href = isCompany ? 'companies.html' : 'directory.html';
+            // Content Mapping (Three Pillars)
+            const isExpert = (p.role === 'expert' || p.role === 'prestataire' || !p.role); // Default to expert if null
+            const isCompany = (p.role === 'entreprise');
 
             // Name & Verified Badge
             document.getElementById('p-name').innerHTML = `${nameStr} ${p.siret ? '<span class="verified-badge"><i class="fas fa-check-circle"></i></span>' : ''}`;
@@ -447,9 +447,6 @@
             // Location
             document.getElementById('p-location').textContent = `${p.territory || 'OM/Diaspora'} ${p.zone ? `• ${p.zone}` : ''}`;
             
-            // Content Mapping (Three Pillars)
-            const isExpert = (p.role === 'expert' || p.role === 'prestataire' || !p.role); // Default to expert if null
-            isCompany = (p.role === 'entreprise');
             
             // 1. TOP CARD: Mission (Expert) / Presentation (Company)
             const offeringTitle = document.getElementById('title-offering');
