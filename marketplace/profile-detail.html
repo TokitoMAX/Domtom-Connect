@@ -353,19 +353,10 @@
                 <div class="profile-card" id="expert-sections" style="display:none;">
                     <h2 class="section-title"><i class="fas fa-bolt"></i> Compétences & Expertise</h2>
                     <div class="skills-grid" id="p-skills"></div>
-
-                    <h2 class="section-title" style="margin-top:40px;" id="title-background"><i class="fas fa-history"></i> Mon Parcours & Histoire (Background)</h2>
-                    <div class="bio-text" id="p-background">Chargement du parcours...</div>
-
-                    <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-briefcase"></i> Réalisations & Projets</h2>
-                    <div class="bio-text" id="p-projects-list">L'historique des réalisations apparaîtra ici.</div>
                 </div>
 
                 <div class="profile-card" id="company-sections" style="display:none;">
-                    <h2 class="section-title"><i class="fas fa-building"></i> Vision & Engagement</h2>
-                    <p class="bio-text" id="p-vision">Favoriser le développement économique et social au cœur de la diaspora.</p>
-
-                    <h2 class="section-title" style="margin-top:40px;"><i class="fas fa-rocket"></i> Projets Actifs</h2>
+                    <h2 class="section-title"><i class="fas fa-rocket"></i> Projets Actifs</h2>
                     <div id="p-company-projects">Aucun projet public pour le moment.</div>
                 </div>
 
@@ -377,6 +368,11 @@
                     <a href="#" id="contact-link" class="contact-btn">Contacter</a>
                     <a href="#" id="website-link" class="contact-btn" style="background:#f1f5f9; color:var(--slate-800); display:none;">Visiter le site web</a>
                     <div class="social-btn-row" id="p-socials"></div>
+                </div>
+
+                <div class="profile-card">
+                    <h2 class="section-title" id="title-background"><i class="fas fa-history"></i> Mon Parcours & Histoire (Background)</h2>
+                    <div class="bio-text" id="p-background">Informations en cours de chargement...</div>
                 </div>
 
                 <div class="sidebar-card" style="padding: 20px; font-size: 0.9rem;">
@@ -432,24 +428,24 @@
             const isExpert = (p.role === 'expert' || p.role === 'prestataire' || !p.role); // Default to expert if null
             isCompany = (p.role === 'entreprise');
             
-            // 1. TOP CARD: Offering / Mission
+            // 1. TOP CARD: Mission (Expert) / Presentation (Company)
             const offeringTitle = document.getElementById('title-offering');
             const offeringText = document.getElementById('p-offering');
             if (offeringTitle) {
-                offeringTitle.innerHTML = isCompany ? '<i class="fas fa-building"></i> Vision & Engagement' : '<i class="fas fa-user-circle"></i> Ma Mission & Offre de Services';
+                offeringTitle.innerHTML = isCompany ? '<i class="fas fa-building"></i> Présentation Institutionnelle & Offre' : '<i class="fas fa-user-circle"></i> Ma Mission & Offre de Services';
             }
             if (offeringText) {
-                offeringText.innerHTML = (p.written_presentation || (isCompany ? 'Vision en cours de rédaction.' : 'Offre de services en cours de rédaction.')).replace(/\n/g, '<br>');
+                offeringText.innerHTML = (p.written_presentation || (isCompany ? 'Présentation en cours de rédaction.' : 'Offre de services en cours de rédaction.')).replace(/\n/g, '<br>');
             }
 
-            // 2. BOTTOM CARD: History / Background
+            // 2. BOTTOM CARD: Background (Expert) / Vision (Company)
             const backgroundTitle = document.getElementById('title-background');
             const backgroundText = document.getElementById('p-background');
             if (backgroundTitle) {
-                backgroundTitle.innerHTML = isCompany ? '<i class="fas fa-history"></i> Notre Histoire (Background)' : '<i class="fas fa-history"></i> Mon Parcours & Histoire (Background)';
+                backgroundTitle.innerHTML = isCompany ? '<i class="fas fa-rocket"></i> Vision & Engagement' : '<i class="fas fa-history"></i> Mon Parcours & Histoire (Background)';
             }
             if (backgroundText) {
-                backgroundText.innerHTML = (p.bio || 'Histoire en cours de rédaction.').replace(/\n/g, '<br>');
+                backgroundText.innerHTML = (p.bio || (isCompany ? 'Vision en cours de rédaction.' : 'Histoire en cours de rédaction.')).replace(/\n/g, '<br>');
             }
 
             // Cards visibility logic
