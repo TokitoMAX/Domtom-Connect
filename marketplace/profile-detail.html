@@ -25,7 +25,11 @@
             margin: 0;
         }
 
-        /* Hero Profile V3 - Premium Mesh */
+        .navbar { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo { height: 38px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05)); }
+        .nav-brand-name { font-weight: 950; font-size: 1.25rem; color: var(--slate-900); letter-spacing: -0.03em; }
+
         .profile-hero {
             background: #0f172a;
             background-image: 
@@ -303,7 +307,7 @@
             <div class="profile-content">
                 <!-- À PROPOS UNIFIÉ -->
                 <div class="profile-card">
-                    <h2 class="section-title"><i class="fas fa-id-card"></i> À propos de ce compte</h2>
+                    <h2 class="section-title"><i class="fas fa-user-check"></i> À propos de ce compte</h2>
                     <div class="about-section">
                         <div class="about-block" id="block-background">
                             <h3 id="h3-background"><i class="fas fa-history"></i> Mon Histoire & Parcours</h3>
@@ -401,12 +405,14 @@
                 html = `<div class="metric-item" style="grid-column: span 2;"><i class="fas fa-calendar-alt"></i><div><span class="metric-label">Création</span><span class="metric-value">${p.creation_year || 'N/A'}</span></div></div>
                         <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-users"></i><div><span class="metric-label">Équipe</span><span class="metric-value">${p.team_size || 'N/A'}</span></div></div>`;
             } else {
-                const availColor = p.availability === 'disponible' ? '#10b981' : (p.availability === 'occupe' ? '#ef4444' : '#f59e0b');
+                const avail = p.availability || 'disponible';
+                const availText = avail === 'disponible' ? 'Disponible' : (avail === 'occupe' ? 'Occupé' : 'Bientôt disponible');
+                const availColor = avail === 'disponible' ? '#10b981' : (avail === 'occupe' ? '#ef4444' : '#f59e0b');
                 html = `<div class="metric-item" style="grid-column: span 2;"><i class="fas fa-tag"></i><div><span class="metric-label">Tarif (TJM)</span><span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span></div></div>
-                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-clock" style="color:${availColor};"></i><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${p.availability || 'N/A'}</span></div></div>
-                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Zone</span><span class="metric-value">${p.zone || p.territory || 'N/A'}</span></div></div>`;
+                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-clock" style="color:${availColor};"></i><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${availText}</span></div></div>
+                        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Zone d'intervention</span><span class="metric-value">${p.zone || p.territory || 'OM/International'}</span></div></div>`;
             }
-            if (p.siret) html += `<div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;"><i class="fas fa-balance-scale"></i><div><span class="metric-label">Professionnel</span><span class="metric-value">${p.forme_juridique || 'Entrepreneur'} • ${p.siret}</span></div></div>`;
+            if (p.siret) html += `<div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;"><i class="fas fa-balance-scale"></i><div><span class="metric-label">Professionnel</span><span class="metric-value" style="font-size:0.85rem;">${p.forme_juridique || 'Entrepreneur'} • ${p.siret}</span></div></div>`;
             metricsContent.innerHTML = html;
 
             // Skills & Socials
