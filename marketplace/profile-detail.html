@@ -474,11 +474,15 @@
             const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
             if (error || !p) { console.error(error); return; }
 
+            // Owner Detection
+            const { data: { user } } = await _supabase.auth.getUser();
+            const isOwner = user && user.id === id;
+
             // SEO & Breadcrumbs
             const nameStr = p.company || p.full_name || 'Professionnel';
             document.title = `${nameStr} - ${p.title || 'Expert'} | Domtom Connect`;
             document.getElementById('seo-description').content = `${nameStr}, ${p.title || 'Expert'} à ${p.territory || 'OM'}. Découvrez ses réalisations et contactez ce professionnel sur Domtom Connect.`;
-            document.getElementById('breadcrumb-current').textContent = nameStr;
+            document.getElementById('breadcrumb-current').textContent = isOwner ? `${nameStr} (Votre Profil)` : nameStr;
             // Content Mapping (Three Pillars)
             // --- ROLE-BASED UI CONFIGURATION (Consolidated & Robust) ---
             const isCompany = (p.role === 'entreprise');
@@ -590,7 +594,14 @@
                 wLink.style.display = 'block';
             }
 
-            document.getElementById('contact-link').href = `../messages?to=${p.id}`;
+            const contactBtn = document.getElementById('contact-link');
+            if (isOwner) {
+                contactBtn.innerHTML = '<i class="fas fa-edit"></i> Modifier mon profil';
+                contactBtn.href = '../mon-espace.html#overview';
+                contactBtn.style.background = '#0f172a'; // Darker for admin feel
+            } else {
+                contactBtn.href = `../messages?to=${p.id}`;
+            }
 
             // --- LOAD REALIZATIONS (Portfolio for Experts, Projects for Owners) ---
             await loadPortfolioOrProjects(p);
