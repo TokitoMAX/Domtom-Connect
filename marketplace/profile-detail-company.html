@@ -81,9 +81,31 @@
                     <div class="section-title"><i class="fas fa-building"></i> Présentation Institutionnelle</div>
                     <div id="p-bio" class="bio-text">Chargement...</div>
                 </div>
+
+                <!-- STRATEGIC SECTIONS (VISION, MISSION, ENJEU) -->
+                <div id="strategic-blocks" style="display:none;">
+                    <div class="profile-card" id="block-vision" style="display:none; border-left: 4px solid #1e40af;">
+                        <div class="section-title" style="font-size:1.4rem;"><i class="fas fa-eye"></i> Notre Vision</div>
+                        <div id="p-vision" class="bio-text"></div>
+                    </div>
+                    <div class="profile-card" id="block-mission" style="display:none; border-left: 4px solid #10b981;">
+                        <div class="section-title" style="font-size:1.4rem;"><i class="fas fa-bullseye"></i> Notre Mission</div>
+                        <div id="p-mission" class="bio-text"></div>
+                    </div>
+                    <div class="profile-card" id="block-enjeu" style="display:none; border-left: 4px solid #f59e0b;">
+                        <div class="section-title" style="font-size:1.4rem;"><i class="fas fa-mountain"></i> Nos Enjeux</div>
+                        <div id="p-enjeu" class="bio-text"></div>
+                    </div>
+                </div>
                 <div class="profile-card">
                     <div class="section-title"><i class="fas fa-project-diagram"></i> Projets & Missions Publiés</div>
                     <div class="portfolio-grid" id="p-project-list"></div>
+                </div>
+
+                <!-- PORTFOLIO / REALIZATIONS -->
+                <div class="profile-card" id="portfolio-section" style="display:none;">
+                    <div class="section-title"><i class="fas fa-star"></i> Réalisations & Succès</div>
+                    <div class="portfolio-grid" id="p-portfolio-list"></div>
                 </div>
             </div>
 
@@ -143,7 +165,36 @@
                 document.getElementById('p-title').textContent = p.title || 'Institution / Entreprise';
                 
                 const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
-                document.getElementById('p-bio').innerHTML = (bioStr || 'Vision institutionnelle en cours.').replace(/\n/g, '<br>');
+                document.getElementById('p-bio').innerHTML = (bioStr || 'Présentation institutionnelle en cours.').replace(/\n/g, '<br>');
+
+                // STRATEGIC BLOCKS RENDERING
+                const blocks = [
+                    { id: 'vision', val: p.vision, el: 'p-vision', block: 'block-vision' },
+                    { id: 'mission', val: p.mission, el: 'p-mission', block: 'block-mission' },
+                    { id: 'enjeu', val: p.enjeu, el: 'p-enjeu', block: 'block-enjeu' }
+                ];
+                let hasAnyBlock = false;
+                blocks.forEach(b => {
+                    if (b.val && b.val.length > 5) {
+                        document.getElementById(b.el).innerHTML = b.val.replace(/\n/g, '<br>');
+                        document.getElementById(b.block).style.display = 'block';
+                        hasAnyBlock = true;
+                    }
+                });
+                if (hasAnyBlock) document.getElementById('strategic-blocks').style.display = 'block';
+
+                // PORTFOLIO / REALIZATIONS RENDERING
+                const portfolio = Array.isArray(p.portfolio) ? p.portfolio : [];
+                if (portfolio.length > 0) {
+                    document.getElementById('portfolio-section').style.display = 'block';
+                    document.getElementById('p-portfolio-list').innerHTML = portfolio.map(item => `
+                        <div class="portfolio-card">
+                            <h4 style="margin:0; font-size:1.1rem; color:#0f172a;">${item.title}</h4>
+                            <p style="font-size:0.95rem; color:#475569; margin:10px 0;">${item.description || ''}</p>
+                            ${item.url ? `<a href="${item.url}" target="_blank" style="color:#1e40af; font-weight:700; text-decoration:none; font-size:0.85rem;">En savoir plus →</a>` : ''}
+                        </div>
+                    `).join('');
+                }
 
                 document.getElementById('metrics-content').innerHTML = `
                     <div class="metric-item"><i class="fas fa-calendar-alt"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">CRÉATION</span><br><b>${p.creation_year || 'N/A'}</b></div></div>
@@ -152,13 +203,26 @@
                 `;
 
                 const { data: projects } = await _supabase.from('projects').select('*').eq('owner_id', p.id).eq('is_listed', true);
-                document.getElementById('p-project-list').innerHTML = (projects || []).map(proj => `
+                const { data: missions } = await _supabase.from('job_offers').select('*').eq('company_id', p.id).eq('is_active', true);
+
+                let projectsHtml = (projects || []).map(proj => `
                     <div class="portfolio-card">
                         <h4 style="margin:0; font-size:1.1rem; color:#0f172a;">${proj.title}</h4>
                         <p style="font-size:0.95rem; color:#475569; margin:10px 0;">${proj.description?.slice(0, 100)}...</p>
                         <a href="project.html?id=${proj.id}" style="color:#1e40af; font-weight:700; text-decoration:none; font-size:0.85rem;">Voir le projet →</a>
                     </div>
-                `).join('') || '<p style="color:#64748b;">Aucun projet publié.</p>';
+                `).join('') || '';
+
+                let missionsHtml = (missions || []).map(job => `
+                    <div class="portfolio-card" style="border-left: 3px solid #0f172a;">
+                        <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">Mission Active</span>
+                        <h4 style="margin:4px 0; font-size:1.1rem; color:#0f172a;">${job.title}</h4>
+                        <p style="font-size:0.9rem; color:#475569; margin:8px 0;">${job.mission_type} | ${job.territory}</p>
+                        <a href="jobs.html" style="color:#0f172a; font-weight:700; text-decoration:none; font-size:0.8rem;">En savoir plus →</a>
+                    </div>
+                `).join('') || '';
+
+                document.getElementById('p-project-list').innerHTML = (projectsHtml + missionsHtml) || '<p style="color:#64748b;">Aucun projet ni mission en cours.</p>';
 
                 document.getElementById('contact-link').href = `../messages?to=${p.id}`;
 

@@ -227,6 +227,14 @@
             renderJobs();
         }
 
+        function parseMarkdown(text) {
+            if (!text) return "";
+            return text
+                .replace(/### (.*)/g, '<h4 style="margin: 16px 0 8px 0; color: #0f172a; font-size: 1rem;">$1</h4>')
+                .replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
         function renderJobs() {
             const container = document.getElementById('jobs-container');
             container.innerHTML = allJobs.map(renderJobCard).join('');
@@ -240,8 +248,11 @@
             const canSee = isPremium || isOwner || currentUserRole === 'basique';
             
             let d = job.description || "";
-            let missions = d.split('### PROFIL')[0].replace('### MISSIONS', '').trim();
-            let profil = d.includes('### PROFIL') ? d.split('### PROFIL')[1].trim() : "Non spécifié.";
+            let missionsRaw = d.split('### PROFIL')[0].replace('### MISSIONS', '').trim();
+            let profilRaw = d.includes('### PROFIL') ? d.split('### PROFIL')[1].trim() : "Non spécifié.";
+
+            const missions = parseMarkdown(missionsRaw);
+            const profil = parseMarkdown(profilRaw);
 
             return `
                 <div class="premium-card">
