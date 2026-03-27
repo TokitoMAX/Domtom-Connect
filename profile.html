@@ -1311,7 +1311,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/auth.js"></script>
+    <script src="https://admin.domtomconnect.com/assets/js/auth.js?v=2"></script>
+    <script src="assets/js/roles/expert.js"></script>
+    <script src="assets/js/roles/company.js"></script>
+    <script src="assets/js/roles/basic.js"></script>
     <script>
         let currentUserId = null;
         let isEditing = false;
@@ -1707,48 +1710,19 @@
         }
 
         function adaptTerminology(role) {
-            const isCompany = (role === 'entreprise');
             const isExpert = (role === 'expert' || role === 'prestataire');
-            const portfolioCard = document.getElementById('portfolio-card');
-            const realizationsCard = document.getElementById('realizations-card');
+            const isCompany = (role === 'entreprise');
             
-            const labelName = document.getElementById('label-name');
-            const labelTitle = document.getElementById('label-title');
-            const labelBio = document.getElementById('label-bio');
-            const labelWritten = document.getElementById('label-written-presentation');
-            
-            const inputTitle = document.getElementById('title');
-            const inputBio = document.getElementById('bio');
-            const inputWritten = document.getElementById('written_presentation');
-            
-            const companyFields = document.getElementById('company-specific-fields');
-            const tjmGroup = document.getElementById('tjm-group');
-            const listingText = document.getElementById('listing-status-text');
-            const labelLogo = document.getElementById('label-logo');
+            // 1. DISPATCH TO EXPLICIT ROLE MODULES
+            if (isCompany) {
+                CompanyModule.initUI();
+            } else if (role === 'basique' || role === 'user') {
+                BasicModule.initUI();
+            } else {
+                ExpertModule.initUI();
+            }
 
-            // Metrics and Banner rows visibility
-            const metricsRow = document.getElementById('metrics-row');
-            const bannerCard = document.getElementById('banner-card');
-            if (metricsRow) metricsRow.style.display = isCompany ? 'flex' : 'none';
-            if (bannerCard) bannerCard.style.display = isCompany ? 'block' : 'none';
-
-            // Enable/Disable professional fields (Fix Persistence)
-            const isPro = (role === 'expert' || role === 'entreprise' || role === 'prestataire');
-            const siretInput = document.getElementById('siret');
-            const formeInput = document.getElementById('forme_juridique');
-            const creationInput = document.getElementById('creation_year');
-            const teamInput = document.getElementById('team_size');
-            const companyInput = document.getElementById('company');
-            
-            if (siretInput) siretInput.disabled = !isPro;
-            if (formeInput) formeInput.disabled = !isPro;
-            if (creationInput) creationInput.disabled = !isPro;
-            if (teamInput) teamInput.disabled = !isPro;
-            if (companyInput) companyInput.disabled = !isPro;
-
-            // Banner trigger
-            const bannerTrigger = document.getElementById('btn-banner-trigger');
-            if (bannerTrigger) bannerTrigger.disabled = !isEditing;
+            // 2. COMMON DASHBOARD LOGIC (GUIDANCE)
             const guidance = document.getElementById('role-guidance');
             const gTitle = document.getElementById('role-guide-title');
             const gText = document.getElementById('role-guide-text');
@@ -1765,65 +1739,6 @@
                     if (gTitle) { gTitle.textContent = 'Mode Expert / Talent'; gTitle.parentElement.style.color = 'var(--secondary)'; }
                     if (gText) gText.textContent = 'Idéal pour les freelances. Met en avant vos compétences, votre TJM et votre parcours personnel.';
                 }
-            }
-
-            if (portfolioCard) portfolioCard.style.display = (isExpert || isCompany) ? 'block' : 'none';
-            if (realizationsCard) realizationsCard.style.display = (role === 'basique') ? 'block' : 'none';
-
-            const companyNameGroup = document.getElementById('company-name-group');
-            const videoGroup = document.getElementById('video-presentation-group');
-
-            // 2. APPLY ROLE-SPECIFIC UI CHANGES (STRICT SEPARATION)
-            if (isCompany) {
-                // ENTREPRISE / INSTITUTION
-                if (labelName) labelName.textContent = "Nom de l'Entreprise / Institution";
-                if (companyNameGroup) companyNameGroup.style.display = 'block';
-                if (labelTitle) labelTitle.textContent = "Secteur d'Activité principal";
-                if (labelBio) labelBio.textContent = "Présentation Institutionnelle (Vision & Offre)";
-                if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
-                
-                if (inputTitle) inputTitle.placeholder = "Ex : Conseil Juridique, Agence Marketing...";
-                if (inputBio) inputBio.placeholder = "Un récit unifié : Présentez votre mission, votre engagement et vos services phares.";
-                
-                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Unification Malt
-                
-                if (companyFields) companyFields.style.display = 'grid';
-                if (tjmGroup) tjmGroup.style.display = 'none';
-                if (videoGroup) videoGroup.style.display = 'block';
-                if (portfolioCard) portfolioCard.style.display = 'block';
-
-            } else if (role === 'basique' || role === 'user') {
-                // UTILISATEUR BASIQUE / PORTEUR DE PROJET
-                if (labelName) labelName.textContent = "Nom complet";
-                if (companyNameGroup) companyNameGroup.style.display = 'none';
-                if (labelTitle) labelTitle.textContent = "Expertises recherchées";
-                if (labelBio) labelBio.textContent = "Mon Projet & Historique";
-                if (labelLogo) labelLogo.textContent = "Photo de profil";
-                
-                if (inputWritten) inputWritten.parentElement.style.display = 'none';
-                
-                if (companyFields) companyFields.style.display = 'none';
-                if (tjmGroup) tjmGroup.style.display = 'none';
-                if (videoGroup) videoGroup.style.display = 'none';
-                if (portfolioCard) portfolioCard.style.display = 'none';
-
-            } else {
-                // EXPERT / PRESTATAIRE (Role defined as anything else)
-                if (labelName) labelName.textContent = "Nom complet";
-                if (companyNameGroup) companyNameGroup.style.display = 'none';
-                if (labelTitle) labelTitle.textContent = "Titre Professionnel Accrocheur";
-                if (labelBio) labelBio.textContent = "Ma Présentation Professionnelle (À propos)";
-                if (labelLogo) labelLogo.textContent = "Photo de profil";
-
-                if (inputTitle) inputTitle.placeholder = "Ex : Consultant en Stratégie, Développeur Full-Stack...";
-                if (inputBio) inputBio.placeholder = "Malt-style : Racontez votre parcours, vos compétences et ce que vous proposez.";
-                
-                if (labelWritten) labelWritten.parentElement.style.display = 'none'; // Unification Malt
-                
-                if (companyFields) companyFields.style.display = 'grid';
-                if (tjmGroup) tjmGroup.style.display = 'block';
-                if (videoGroup) videoGroup.style.display = 'block';
-                if (portfolioCard) portfolioCard.style.display = 'block';
             }
         }
 
