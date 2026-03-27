@@ -453,6 +453,10 @@
             }
 
             // Cards visibility logic
+            document.getElementById('expert-sections').style.display = isCompany ? 'none' : 'block';
+            document.getElementById('company-sections').style.display = isCompany ? 'block' : 'none';
+            document.getElementById('p-role').textContent = isCompany ? 'Profil Entreprise' : 'Profil Expert/Talent';
+
             // Metadata Logic
             const siretRow = document.getElementById('siret-row');
             const siretEl = document.getElementById('p-siret');
