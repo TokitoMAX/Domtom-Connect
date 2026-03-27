@@ -29,24 +29,40 @@
         .profile-hero {
             background: #0f172a;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, rgba(3, 105, 161, 0.15) 0, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.1) 0, transparent 50%);
-            padding: 112px 0 160px; /* 72px navbar + 40px padding */
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.2) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, rgba(3, 105, 161, 0.2) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+            padding: 100px 0 160px;
             color: white;
             position: relative;
             overflow: hidden;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 4px solid var(--primary); /* La barrière accentuée */
         }
 
         .hero-banner-bg {
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 320px;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, #0f172a 100%);
+            height: 100%;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, #0f172a 100%);
             background-size: cover;
             background-position: center;
             z-index: 1;
+        }
+
+        /* Breadcrumb pill bar */
+        .breadcrumb-pill-bar {
+            display: inline-flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 8px 20px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 40px;
         }
 
         .metrics-grid {
@@ -339,14 +355,14 @@
     <section class="profile-hero">
         <div id="p-banner" class="hero-banner-bg"></div>
         <div class="container container-large" style="position:relative; z-index:5;">
-            <!-- Breadcrumbs -->
-            <nav style="display:flex; gap:8px; font-size:0.8rem; opacity:0.7; font-weight:600; margin-bottom:30px;">
-                <a href="/" style="color:white; text-decoration:none;">Accueil</a>
-                <span>/</span>
-                <a href="directory.html" style="color:white; text-decoration:none;" id="breadcrumb-parent">Annuaire</a>
-                <span>/</span>
+            <!-- Breadcrumbs Pill Bar -->
+            <div class="breadcrumb-pill-bar">
+                <a href="/" style="color:white; text-decoration:none; opacity:0.8;">Accueil</a>
+                <span style="opacity:0.4;">/</span>
+                <a href="directory.html" style="color:white; text-decoration:none; opacity:0.8;" id="breadcrumb-parent">Annuaire</a>
+                <span style="opacity:0.4;">/</span>
                 <span id="breadcrumb-current" style="color:var(--primary);">Profil</span>
-            </nav>
+            </div>
 
             <div class="hero-container">
                 <div id="p-avatar" class="profile-avatar-large"></div>
