@@ -113,6 +113,10 @@ async function loadMyProjects(userId) {
         </div>
     `;
 
+    // Also update the dashboard badge if present
+    const dashBadge = document.getElementById('epopee-score-badge');
+    if (dashBadge) dashBadge.textContent = `${totalScore}%`;
+
     // Render Phases on the Hub
     let phasesHTML = `
         <div id="phase-card-1" class="cockpit-section dash-card active">
@@ -354,3 +358,5 @@ async function saveNewProject() {
 
 window.openProjectModal = openProjectModal;
 window.saveNewProject = saveNewProject;
+window.loadMyProjects = loadMyProjects;
+window.calculateProjectMaturity = calculateProjectMaturity;
