@@ -8,18 +8,37 @@
 function showView(viewId) {
     console.log("Showing view:", viewId);
     
-    // Hide all views
-    const views = document.querySelectorAll('.dashboard-view');
-    views.forEach(v => v.style.display = 'none');
+    const viewMap = {
+        'overview': 'main-dashboard-content',
+        'success-engine': 'success-engine-view-fixed',
+        'billetterie': 'billetterie-view',
+        'mes-billets': 'mes-billets-view'
+    };
 
-    // Show target view
-    const target = document.getElementById('view-' + viewId);
+    const targetId = viewMap[viewId] || 'main-dashboard-content';
+    const target = document.getElementById(targetId);
+    
+    // Hide all major view containers
+    const views = [
+        'main-dashboard-content', 
+        'success-engine-view-fixed', 
+        'billetterie-view', 
+        'mes-billets-view'
+    ];
+    
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+
+    const greeting = document.querySelector('.dash-section-header');
+
     if (target) {
         target.style.display = 'block';
-    } else {
-        // Fallback to overview
-        const overview = document.getElementById('view-overview');
-        if (overview) overview.style.display = 'block';
+        // Show/Hide greeting based on view
+        if (greeting) {
+            greeting.style.display = (viewId === 'overview') ? 'block' : 'none';
+        }
     }
 
     // Update Sidebar Active State
@@ -29,17 +48,32 @@ function showView(viewId) {
         if (onclick && onclick.includes(`'${viewId}'`)) {
             link.classList.add('active');
         } else {
-            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (viewId === 'overview' && (href === '/mon-espace' || href === 'mon-espace.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
         }
     });
 
     // Handle initial loading of specific views
     if (viewId === 'billetterie') {
-        loadMyTicketing();
+        if (typeof loadMyTicketing === 'function') loadMyTicketing();
     } else if (viewId === 'mes-billets') {
-        loadMyTickets();
+        if (typeof loadMyTickets === 'function') loadMyTickets();
+    }
+
+    window.scrollTo(0, 0);
+}
+
+function scrollToPacks() {
+    const additional = document.getElementById('additional-content');
+    if (additional) {
+        additional.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
+
 
 function initRouting() {
     const hash = window.location.hash.replace('#', '') || 'overview';
@@ -199,16 +233,61 @@ function renderDashboardCards(role, tier, isListed, profile) {
         
         if (additional) {
             additional.innerHTML = `
-                <div style="margin-top:40px;">
-                    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre présence sur Domtom Connect</h2>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;margin-top:20px;">
-                        <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
-                            <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Plan Actuel</div>
-                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">${tier === 'authority' ? 'Expert 9,99€' : 'Gratuit'}</div>
-                            <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; justify-content:center;">
-                                ${isListed ? 'Masquer mon profil' : 'Publier mon profil'}
-                            </button>
+                <div style="margin-top:60px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                    <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:12px; color:var(--text-primary); text-align:center;">NOS PACKS & OFFRES</h2>
+                    <p style="text-align:center; color:var(--text-secondary); margin-bottom:40px;">Choisissez le plan adapté à votre niveau d'ambition.</p>
+                    
+                    <div class="pricing-grid">
+                        <!-- Pack Expert (Authority) -->
+                        <div class="pricing-card ${tier === 'authority' ? 'featured' : ''}">
+                            <span class="pricing-badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Experts</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Authority</h3>
+                            <div class="pricing-price">9,99€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Profil listé dans l'annuaire</li>
+                                <li><span>✓</span> Badge "Vérifié" permanent</li>
+                                <li><span>✓</span> Visibilité 3-4 posts / mois</li>
+                                <li><span>✓</span> Participation aux podcasts DC</li>
+                            </ul>
+                            ${tier === 'authority' ? 
+                                '<button class="cta-button secondary" disabled style="width:100%; justify-content:center;">Plan Actuel</button>' : 
+                                '<a href="/#pricing" class="cta-button secondary" style="width:100%; justify-content:center;">Choisir ce pack</a>'}
                         </div>
+
+                        <!-- Pack Business (Entreprise) -->
+                        <div class="pricing-card">
+                            <span class="pricing-badge" style="background:rgba(2, 132, 199, 0.1); color:#0284c7;">Entreprises</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Business</h3>
+                            <div class="pricing-price">29€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Visibilité Annuaire (Mise en avant)</li>
+                                <li><span>✓</span> Publication de missions illimitées</li>
+                                <li><span>✓</span> 1 Podcast Corporate dédié</li>
+                                <li><span>✓</span> 2-3 Contenus réseaux sociaux / mois</li>
+                            </ul>
+                            <a href="/#pricing" class="cta-button primary" style="width:100%; justify-content:center; background:#111827;">Passer au Plan Business</a>
+                        </div>
+
+                        <!-- Enterprise -->
+                        <div class="pricing-card dark">
+                            <span class="pricing-badge" style="background:rgba(255,255,255,0.1); color:white;">Grands Projets</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Enterprise</h3>
+                            <div class="pricing-price" style="color:white;">Sur Devis</div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Accompagnement Stratégique</li>
+                                <li><span>✓</span> Étude de Besoin & Sourcing Dédié</li>
+                                <li><span>✓</span> Pilotage de A à Z</li>
+                                <li><span>✓</span> Accès VIP Réseau</li>
+                            </ul>
+                            <a href="mailto:domtomconnect@gmail.com" class="cta-button ghost" style="width:100%; justify-content:center; border-color:rgba(255,255,255,0.3); color:white;">Contacter l'Équipe</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:40px; background:white; border:1.5px solid var(--gray-200); border-radius:16px; padding:28px; max-width:400px; margin-left:auto; margin-right:auto;">
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Visibilité de votre Profil</div>
+                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; justify-content:center;">
+                            ${isListed ? 'Masquer mon profil' : 'Publier mon profil'}
+                        </button>
                     </div>
                 </div>
             `;
@@ -239,21 +318,66 @@ function renderDashboardCards(role, tier, isListed, profile) {
 
         if (additional) {
             additional.innerHTML = `
-                <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre Pack Entreprise</h2>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;margin-top:20px;">
-                         <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
-                            <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Plan</div>
-                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">${tier === 'business' ? 'Business' : 'Starter'}</div>
-                            <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; justify-content:center;">
-                                ${isListed ? 'Masquer mon annonce' : 'Publier mon annonce'}
-                            </button>
+                <div style="margin-top:60px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                    <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:12px; color:var(--text-primary); text-align:center;">NOS PACKS & OFFRES</h2>
+                    <p style="text-align:center; color:var(--text-secondary); margin-bottom:40px;">Choisissez le plan adapté à votre niveau d'ambition.</p>
+                    
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <span class="pricing-badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Experts</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Authority</h3>
+                            <div class="pricing-price">9,99€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Profil listé dans l'annuaire</li>
+                                <li><span>✓</span> Badge "Vérifié" permanent</li>
+                                <li><span>✓</span> Visibilité 3-4 posts / mois</li>
+                                <li><span>✓</span> Participation aux podcasts DC</li>
+                            </ul>
+                            <a href="/#pricing" class="cta-button secondary" style="width:100%; justify-content:center;">Découvrir l'offre</a>
                         </div>
+
+                        <div class="pricing-card ${tier === 'business' ? 'featured' : ''}">
+                            <span class="pricing-badge" style="background:rgba(2, 132, 199, 0.1); color:#0284c7;">Entreprises</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Business</h3>
+                            <div class="pricing-price">29€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Visibilité Annuaire (Mise en avant)</li>
+                                <li><span>✓</span> Publication de missions illimitées</li>
+                                <li><span>✓</span> 1 Podcast Corporate dédié</li>
+                                <li><span>✓</span> 2-3 Contenus réseaux sociaux / mois</li>
+                            </ul>
+                            ${tier === 'business' ? 
+                                '<button class="cta-button primary" disabled style="width:100%; justify-content:center; background:#111827;">Plan Actuel</button>' : 
+                                '<a href="/#pricing" class="cta-button primary" style="width:100%; justify-content:center; background:#111827;">Rejoindre le Réseau</a>'}
+                        </div>
+
+                        <div class="pricing-card dark ${tier === 'enterprise' ? 'featured' : ''}">
+                            <span class="pricing-badge" style="background:rgba(255,255,255,0.1); color:white;">Grands Projets</span>
+                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Enterprise</h3>
+                            <div class="pricing-price" style="color:white;">Sur Devis</div>
+                            <ul class="pricing-features">
+                                <li><span>✓</span> Accompagnement Stratégique</li>
+                                <li><span>✓</span> Étude de Besoin & Sourcing Dédié</li>
+                                <li><span>✓</span> Pilotage de A à Z</li>
+                                <li><span>✓</span> Accès VIP Réseau</li>
+                            </ul>
+                            <a href="mailto:domtomconnect@gmail.com" class="cta-button ghost" style="width:100%; justify-content:center; border-color:rgba(255,255,255,0.3); color:white;">Contacter l'Équipe</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:40px; background:white; border:1.5px solid var(--gray-200); border-radius:16px; padding:28px; max-width:400px; margin-left:auto; margin-right:auto;">
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Statut de votre annonce</div>
+                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; justify-content:center;">
+                            ${isListed ? 'Masquer mon annonce' : 'Publier mon annonce'}
+                        </button>
                     </div>
                 </div>
 
-                <div id="matchmaking-section" style="display:none; margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                    <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:24px; color:var(--text-primary);">MATCHMAKING EXPERTS</h2>
+                <div id="matchmaking-section" style="display:none; margin-top:80px; border-top: 1px solid var(--gray-200); padding-top: 60px;">
+                    <div style="text-align:center; margin-bottom:40px;">
+                        <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:8px; color:var(--text-primary);">MATCHMAKING EXPERTS</h2>
+                        <p style="color:var(--text-secondary);">Mise en relation directe avec les meilleurs profils pour vos besoins locaux.</p>
+                    </div>
                     <div id="matches-container" class="cards-grid">
                         <!-- Rempli par le JS -->
                     </div>
