@@ -250,8 +250,15 @@
             <div class="search-bar-v3">
                 <input type="text" id="search-input" placeholder="Mots-clés..." style="flex: 2;">
                 <select id="type-filter" style="flex: 1;">
-                    <option value="">Contrat</option>
-                    <option value="CDI">CDI</option><option value="CDD">CDD</option><option value="Freelance">Freelance</option>
+                    <option value="">Toutes les Zones</option>
+                    <option value="Martinique">Martinique</option>
+                    <option value="Guadeloupe">Guadeloupe</option>
+                    <option value="Guyane">Guyane</option>
+                    <option value="Saint-Martin">Saint-Martin</option>
+                    <option value="Réunion">Réunion</option>
+                    <option value="Mayotte">Mayotte</option>
+                    <option value="France Hexagonale">Diaspora (Hexagone)</option>
+                    <option value="International">Diaspora (Monde)</option>
                 </select>
                 <button class="cta-button primary" onclick="loadJobs()">Filtrer</button>
             </div>
@@ -281,7 +288,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>📝 Note de motivation</label>
+                    <label>Note de motivation</label>
                     <textarea id="apply-note" class="form-textarea" placeholder="Expliquez brièvement pourquoi ce projet vous intéresse..." style="min-height: 180px;"></textarea>
                 </div>
                 <button class="btn-postuler-premium" id="btn-confirm-apply" onclick="confirmApply()" style="width: 100%;">Confirmer ma candidature</button>
@@ -298,12 +305,12 @@
             </div>
             <form onsubmit="saveJob(event)">
                 <div class="form-group">
-                    <label>🏷️ Titre du poste</label>
+                    <label>Titre du poste</label>
                     <input type="text" id="j-title" class="form-input" placeholder="Ex: Directeur Marketing Freelance" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>📑 Type</label>
+                        <label>Type</label>
                         <select id="j-type" class="form-select">
                             <option value="Freelance">Freelance</option>
                             <option value="CDI">CDI</option>
@@ -311,22 +318,25 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>📍 Zone</label>
+                        <label>Zone</label>
                         <select id="j-territory" class="form-select">
                             <option value="Martinique">Martinique</option>
                             <option value="Guadeloupe">Guadeloupe</option>
                             <option value="Guyane">Guyane</option>
+                            <option value="Saint-Martin">Saint-Martin</option>
                             <option value="Réunion">Réunion</option>
-                            <option value="France Hexagonale">France Hexagonale</option>
+                            <option value="Mayotte">Mayotte</option>
+                            <option value="France Hexagonale">France Hexagonale (Diaspora)</option>
+                            <option value="International">International (Diaspora)</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>🎯 Missions</label>
+                    <label>Missions</label>
                     <textarea id="j-missions" class="form-textarea" placeholder="Détaillez les objectifs clés..." style="min-height: 120px;" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>💎 Profil Recherché</label>
+                    <label>Profil Recherché</label>
                     <textarea id="j-profil" class="form-textarea" placeholder="Compétences, expérience requise..." style="min-height: 120px;" required></textarea>
                 </div>
                 <button type="submit" class="btn-postuler-premium" id="modal-save-btn" style="width:100%;">Publier l'annonce</button>
@@ -418,7 +428,7 @@
                     <div class="lock-container">
                         ${!canSee ? '<div class="lock-overlay"><i class="fas fa-lock" style="margin-right:10px;"></i> Accès Premium requis</div>' : ''}
                         <div class="job-content-preview ${!canSee ? 'locked-data' : ''}">
-                            <div class="job-label">📌 Aperçu Mission</div>
+                            <div class="job-label">Aperçu Mission</div>
                             <div class="job-snippet" style="font-size: 0.95rem; line-height: 1.6; color: #475569;">${snippet}</div>
                         </div>
                     </div>
