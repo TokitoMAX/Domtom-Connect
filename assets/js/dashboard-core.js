@@ -151,11 +151,13 @@ async function loadDashboardContent(session) {
     }
 
     // --- NAVIGATION SECURITY : Hide Cockpit for non-project owners ---
-    const epopeeLink = document.querySelector('a[href="/epopee"]');
+    const epopeeLink = document.getElementById('nav-success-engine');
     if (epopeeLink) {
+        // "L'Épopée" est RÉSERVÉ aux porteurs de projet uniquement
         if (role === 'expert' || role === 'prestataire' || role === 'entreprise') {
             epopeeLink.style.display = 'none';
         } else {
+            // Seuls les porteurs de projet voient ce lien
             epopeeLink.style.display = 'flex';
         }
     }
