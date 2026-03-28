@@ -120,8 +120,10 @@ async function loadDashboardContent(session) {
     const isListed = !!profile.listed;
 
     // UI Updates
+    // UI Updates
     const greetingEl = document.getElementById('user-greeting');
-    if (greetingEl) greetingEl.textContent = `Bonjour, ${name}.`;
+    // Mettre à jour le greeting avec le nom complet sans point final si possible (pour coller au screen)
+    if (greetingEl) greetingEl.textContent = `Bonjour, ${name}.`; // On garde le point car il est dans epopee.html
 
     const roleBadge = document.getElementById('user-role-badge');
     if (roleBadge) {
@@ -163,23 +165,27 @@ async function loadDashboardContent(session) {
 
 function renderRoleBadge(el, role) {
     if (role === 'expert' || role === 'prestataire') {
-        el.textContent = "Profil Expert";
+        el.textContent = "PROFIL EXPERT";
         el.style.background = "rgba(16, 185, 129, 0.1)";
         el.style.color = "#10b981";
     } else if (role === 'entreprise') {
-        el.textContent = "Profil Entreprise";
+        el.textContent = "PROFIL ENTREPRISE";
         el.style.background = "rgba(2, 132, 199, 0.1)";
         el.style.color = "#0284c7";
     } else if (role === 'admin') {
-        el.textContent = "Administrateur Système";
+        el.textContent = "ADMINISTRATEUR SYSTÈME";
         el.style.background = "#0f172a";
         el.style.color = "white";
     } else {
-        el.textContent = "Porteur de Projet";
+        el.textContent = "PORTEUR DE PROJET";
         el.style.background = "rgba(59, 130, 246, 0.1)";
         el.style.color = "#3b82f6";
     }
     el.style.display = 'inline-block';
+    el.style.textTransform = 'uppercase';
+    el.style.fontWeight = '800';
+    el.style.fontSize = '0.7rem';
+    el.style.letterSpacing = '0.05em';
 }
 
 function renderDashboardCards(role, tier, isListed, profile) {
@@ -231,66 +237,97 @@ function renderDashboardCards(role, tier, isListed, profile) {
             </div>
         `;
         
-        if (additional) {
-            additional.innerHTML = `
-                <div style="margin-top:60px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                    <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:12px; color:var(--text-primary); text-align:center;">NOS PACKS & OFFRES</h2>
-                    <p style="text-align:center; color:var(--text-secondary); margin-bottom:40px;">Choisissez le plan adapté à votre niveau d'ambition.</p>
-                    
-                    <div class="pricing-grid">
-                        <!-- Pack Expert (Authority) -->
-                        <div class="pricing-card ${tier === 'authority' ? 'featured' : ''}">
-                            <span class="pricing-badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Experts</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Authority</h3>
-                            <div class="pricing-price">9,99€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Profil listé dans l'annuaire</li>
-                                <li><span>✓</span> Badge "Vérifié" permanent</li>
-                                <li><span>✓</span> Visibilité 3-4 posts / mois</li>
-                                <li><span>✓</span> Participation aux podcasts DC</li>
-                            </ul>
-                            ${tier === 'authority' ? 
-                                '<button class="cta-button secondary" disabled style="width:100%; justify-content:center;">Plan Actuel</button>' : 
-                                '<a href="/#pricing" class="cta-button secondary" style="width:100%; justify-content:center;">Choisir ce pack</a>'}
-                        </div>
+        // Update Profile Strength
+        updateProfileStrength(profile);
+        renderVisibilityPreview(profile);
 
-                        <!-- Pack Business (Entreprise) -->
-                        <div class="pricing-card">
-                            <span class="pricing-badge" style="background:rgba(2, 132, 199, 0.1); color:#0284c7;">Entreprises</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Business</h3>
-                            <div class="pricing-price">29€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Visibilité Annuaire (Mise en avant)</li>
-                                <li><span>✓</span> Publication de missions illimitées</li>
-                                <li><span>✓</span> 1 Podcast Corporate dédié</li>
-                                <li><span>✓</span> 2-3 Contenus réseaux sociaux / mois</li>
-                            </ul>
-                            <a href="/#pricing" class="cta-button primary" style="width:100%; justify-content:center; background:#111827;">Passer au Plan Business</a>
-                        </div>
+        // === PACKS HYBRIDES (Restauré depuis epopee.html) ===
+        const packsHTML = `
+            <div style="margin-top:40px;">
+                <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Développez votre clientèle</p>
+                <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre présence sur Domtom Connect</h2>
+                <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Nous construisons votre visibilité pendant que vous vous concentrez sur vos missions.</p>
 
-                        <!-- Enterprise -->
-                        <div class="pricing-card dark">
-                            <span class="pricing-badge" style="background:rgba(255,255,255,0.1); color:white;">Grands Projets</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Enterprise</h3>
-                            <div class="pricing-price" style="color:white;">Sur Devis</div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Accompagnement Stratégique</li>
-                                <li><span>✓</span> Étude de Besoin & Sourcing Dédié</li>
-                                <li><span>✓</span> Pilotage de A à Z</li>
-                                <li><span>✓</span> Accès VIP Réseau</li>
-                            </ul>
-                            <a href="mailto:domtomconnect@gmail.com" class="cta-button ghost" style="width:100%; justify-content:center; border-color:rgba(255,255,255,0.3); color:white;">Contacter l'Équipe</a>
-                        </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+
+                    <!-- PACK 1 : PRÉSENCE -->
+                    <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                        <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Présence</div>
+                        <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                        <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Accès restreint</p>
+                        <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                            <li>— Accès au fil du réseau</li>
+                            <li>— Mise en relation basique</li>
+                            <li>— Candidatures aux missions</li>
+                            <li style="color:var(--gray-300);">— Invisible dans l'annuaire</li>
+                            <li style="color:var(--gray-300);">— Pas de badge "Vérifié"</li>
+                        </ul>
+                        <div id="current-plan-free" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:${tier === 'free' ? 'block' : 'none'};">Votre plan actuel</div>
                     </div>
 
-                    <div style="margin-top:40px; background:white; border:1.5px solid var(--gray-200); border-radius:16px; padding:28px; max-width:400px; margin-left:auto; margin-right:auto;">
-                        <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Visibilité de votre Profil</div>
-                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; justify-content:center;">
-                            ${isListed ? 'Masquer mon profil' : 'Publier mon profil'}
+                    <!-- PACK 2 : PACK EXPERT -->
+                    <div style="background:white;border:2px solid #10b981;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(16,185,129,0.12);">
+                        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Visibilité & Contenu</div>
+                        <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Pack Expert</div>
+                        <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">9,99€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                        <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">S'abonner — Sans engagement</p>
+                        <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                            <li style="font-weight:600;color:var(--text-primary);">— <strong>Inscrit dans l'Annuaire</strong></li>
+                            <li style="font-weight:600;color:var(--text-primary);">— Badge <strong>Expert Vérifié</strong></li>
+                            <li style="font-weight:600;color:var(--text-primary);">— <strong>Podcast & Contenu</strong> co-créés</li>
+                            <li>— Accès illimité aux missions</li>
+                            <li>— Mise en avant prioritaire</li>
+                        </ul>
+                        <div id="paypal-authority-expert" style="margin-top:4px; display:${tier === 'authority' ? 'none' : 'block'};"></div>
+                        <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:${tier === 'authority' ? 'block' : 'none'};">Votre plan actuel</div>
+                        
+                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#10b981'}; color:${isListed ? '#ef4444' : '#10b981'}; font-size:0.8rem; height:36px; justify-content:center;">
+                            ${isListed ? 'Supprimer mon annonce expert' : 'Republier mon annonce expert'}
                         </button>
                     </div>
+
                 </div>
-            `;
+            </div>
+        `;
+        if (additional) {
+            additional.innerHTML = packsHTML;
+            
+            // Add Premium Services for Expert if tier matches
+            if (tier === 'authority') {
+                const expertServicesHTML = `
+                    <div style="margin-top: 24px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.02); padding: 24px; border-radius:16px;">
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #10b981; margin-bottom: 20px;">Vos Services Premium (Pack Expert)</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 800; color: #10b981; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">PODCAST</div>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Réservez votre séance d'interview.</p>
+                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="font-size: 0.75rem; background: #10b981; border: none; padding: 8px 12px;">Prendre RDV</a>
+                            </div>
+                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 800; color: #10b981; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">COMMUNAUTÉ</div>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Rejoignez le groupe WhatsApp Privé.</p>
+                                <a href="https://chat.whatsapp.com/Fe8LuB5IUa1K8JbP00qOdt" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #10b981; color: #10b981; padding: 8px 12px;">Accéder au groupe</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                additional.insertAdjacentHTML('beforeend', expertServicesHTML);
+            }
+            
+            // Re-render PayPal for Expert
+            setTimeout(() => {
+                if (typeof paypal !== 'undefined' && document.getElementById('paypal-authority-expert') && tier !== 'authority') {
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({ 'plan_id': 'P-3DX69524C1114072WNG2AOZQ' });
+                        },
+                        onApprove: function (data, actions) {
+                            handleSubscriptionSuccess(data.subscriptionID, 'authority');
+                        }
+                    }).render('#paypal-authority-expert');
+                }
+            }, 100);
         }
     } else if (role === 'entreprise') {
          container.innerHTML = `
@@ -317,62 +354,105 @@ function renderDashboardCards(role, tier, isListed, profile) {
         `;
 
         if (additional) {
-            additional.innerHTML = `
-                <div style="margin-top:60px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                    <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:12px; color:var(--text-primary); text-align:center;">NOS PACKS & OFFRES</h2>
-                    <p style="text-align:center; color:var(--text-secondary); margin-bottom:40px;">Choisissez le plan adapté à votre niveau d'ambition.</p>
-                    
-                    <div class="pricing-grid">
-                        <div class="pricing-card">
-                            <span class="pricing-badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Experts</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Authority</h3>
-                            <div class="pricing-price">9,99€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Profil listé dans l'annuaire</li>
-                                <li><span>✓</span> Badge "Vérifié" permanent</li>
-                                <li><span>✓</span> Visibilité 3-4 posts / mois</li>
-                                <li><span>✓</span> Participation aux podcasts DC</li>
+            const enterprisePacksHTML = `
+                <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre Pack Entreprise</h2>
+                    <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Propulsez vos offres auprès de l'élite locale.</p>
+
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
+
+                        <!-- STARTER -->
+                        <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
+                            <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Starter</div>
+                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
+                            <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Testez le réseau</p>
+                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                <li>— 1 publication de mission</li>
+                                <li>— Candidatures libres</li>
+                                <li>— Accès à la messagerie</li>
+                                <li style="color:var(--gray-300);">— Invisible dans l'annuaire</li>
                             </ul>
-                            <a href="/#pricing" class="cta-button secondary" style="width:100%; justify-content:center;">Découvrir l'offre</a>
+                            <div id="current-plan-starter" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:${tier === 'free' ? 'block' : 'none'};">Votre plan actuel</div>
                         </div>
 
-                        <div class="pricing-card ${tier === 'business' ? 'featured' : ''}">
-                            <span class="pricing-badge" style="background:rgba(2, 132, 199, 0.1); color:#0284c7;">Entreprises</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Pack Business</h3>
-                            <div class="pricing-price">29€ <span style="font-size:1rem; color:var(--text-muted);">/m</span></div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Visibilité Annuaire (Mise en avant)</li>
-                                <li><span>✓</span> Publication de missions illimitées</li>
-                                <li><span>✓</span> 1 Podcast Corporate dédié</li>
-                                <li><span>✓</span> 2-3 Contenus réseaux sociaux / mois</li>
+                        <!-- BUSINESS -->
+                        <div style="background:white;border:2px solid #0284c7;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(2,132,199,0.12);">
+                            <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#0284c7;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Missions & Visibilité</div>
+                            <div style="font-size:0.75rem;font-weight:700;color:#0284c7;text-transform:uppercase;margin-bottom:12px;">Pack Business</div>
+                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">29€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
+                            <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing & Contenu — Rentable dès le 1er contrat</p>
+                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
+                                <li style="font-weight:600;color:var(--text-primary);">— <strong>Missions Illimitées</strong></li>
+                                <li style="font-weight:600;color:var(--text-primary);">— <strong>Visibilité Annuaire</strong> (Prioritaire)</li>
+                                <li style="font-weight:600;color:var(--text-primary);">— 1 <strong>Podcast Corporate</strong> dédié</li>
+                                <li>— 2-3 Contenus réseaux sociaux / mois</li>
+                                <li>— Sourcing Expert (Accès direct)</li>
                             </ul>
-                            ${tier === 'business' ? 
-                                '<button class="cta-button primary" disabled style="width:100%; justify-content:center; background:#111827;">Plan Actuel</button>' : 
-                                '<a href="/#pricing" class="cta-button primary" style="width:100%; justify-content:center; background:#111827;">Rejoindre le Réseau</a>'}
+                            <div id="paypal-business-enterprise" style="margin-top:4px; display:${tier === 'business' ? 'none' : 'block'};"></div>
+                            <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:${tier === 'business' ? 'block' : 'none'};">Votre plan actuel</div>
+
+                            <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#0284c7'}; color:${isListed ? '#ef4444' : '#0284c7'}; font-size:0.8rem; height:36px; justify-content:center;">
+                                ${isListed ? 'Supprimer mon annonce entreprise' : 'Republier mon annonce entreprise'}
+                            </button>
                         </div>
 
-                        <div class="pricing-card dark ${tier === 'enterprise' ? 'featured' : ''}">
-                            <span class="pricing-badge" style="background:rgba(255,255,255,0.1); color:white;">Grands Projets</span>
-                            <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:10px;">Enterprise</h3>
-                            <div class="pricing-price" style="color:white;">Sur Devis</div>
-                            <ul class="pricing-features">
-                                <li><span>✓</span> Accompagnement Stratégique</li>
-                                <li><span>✓</span> Étude de Besoin & Sourcing Dédié</li>
-                                <li><span>✓</span> Pilotage de A à Z</li>
-                                <li><span>✓</span> Accès VIP Réseau</li>
+                        <!-- ENTERPRISE -->
+                        <div style="background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%);border:1.5px solid var(--gray-700);border-radius:16px;padding:28px;">
+                            <div style="font-size:0.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px;">Enterprise</div>
+                            <div style="font-size:1.8rem;font-weight:800;color:white;margin-bottom:4px;">Sur Devis</div>
+                            <p style="font-size:0.8rem;font-weight:600;color:var(--gray-400);margin-bottom:16px;">Solutions Sur Mesure</p>
+                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--gray-300);">
+                                <li style="font-weight:600;color:white;">— Accompagnement Sur Mesure</li>
+                                <li>— Sourcing International (Diaspora)</li>
+                                <li>— Étude de besoin spécifique</li>
+                                <li>— Toute autre demande <strong>sur devis</strong></li>
                             </ul>
-                            <a href="mailto:domtomconnect@gmail.com" class="cta-button ghost" style="width:100%; justify-content:center; border-color:rgba(255,255,255,0.3); color:white;">Contacter l'Équipe</a>
+                            <a href="mailto:domtomconnect@gmail.com?subject=Demande Pack Enterprise" class="cta-button primary" style="justify-content:center; background:white; color:var(--text-primary);border:1px solid white;">Nous contacter</a>
                         </div>
-                    </div>
-
-                    <div style="margin-top:40px; background:white; border:1.5px solid var(--gray-200); border-radius:16px; padding:28px; max-width:400px; margin-left:auto; margin-right:auto;">
-                        <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Statut de votre annonce</div>
-                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; justify-content:center;">
-                            ${isListed ? 'Masquer mon annonce' : 'Publier mon annonce'}
-                        </button>
                     </div>
                 </div>
+            `;
+            additional.innerHTML = enterprisePacksHTML;
 
+            // Premiums for Company
+            if (tier === 'business') {
+                const companyPremiumsHTML = `
+                    <div style="margin-top: 24px; border: 1px solid #0284c7; background: rgba(2, 132, 199, 0.02); padding: 24px; border-radius:16px;">
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0284c7; margin-bottom: 20px;">Vos Services Premium (Pack Business)</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 800; color: #0284c7; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">PODCAST CORP</div>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Prenez rendez-vous pour préparer votre interview entreprise.</p>
+                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #0284c7; color: #0284c7; padding: 8px 12px;">Prendre RDV Briefing</a>
+                            </div>
+                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 800; color: #0284c7; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">RÉSEAUX SOCIAUX</div>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Briefez Loïc sur vos posts mensuels et vos besoins contenu.</p>
+                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #0284c7; color: #0284c7; padding: 8px 12px;">RDV Briefing Contenu</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                additional.insertAdjacentHTML('beforeend', companyPremiumsHTML);
+            }
+
+            // Re-render PayPal for Company
+            setTimeout(() => {
+                if (typeof paypal !== 'undefined' && document.getElementById('paypal-business-enterprise') && tier !== 'business') {
+                    paypal.Buttons({
+                        style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({ 'plan_id': 'P-6JG84131PK915684CNG3VDSQ' });
+                        },
+                        onApprove: function (data, actions) {
+                            handleSubscriptionSuccess(data.subscriptionID, 'business');
+                        }
+                    }).render('#paypal-business-enterprise');
+                }
+            }, 100);
+
+            // Matchmaking Section
+            const matchmakingSectionHTML = `
                 <div id="matchmaking-section" style="display:none; margin-top:80px; border-top: 1px solid var(--gray-200); padding-top: 60px;">
                     <div style="text-align:center; margin-bottom:40px;">
                         <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:8px; color:var(--text-primary);">MATCHMAKING EXPERTS</h2>
@@ -383,6 +463,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
                     </div>
                 </div>
             `;
+            additional.insertAdjacentHTML('beforeend', matchmakingSectionHTML);
         }
     } else if (role === 'admin') {
          container.innerHTML = `
