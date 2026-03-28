@@ -187,7 +187,13 @@ function calculateProjectMaturity(p) {
     if (p.video_url) score += 5;
     if (p.is_listed) score += 15;
 
-    return Math.min(100, score);
+    const finalScore = Math.min(100, score);
+    
+    // Sync with dashboard badge if present
+    const dashBadge = document.getElementById('epopee-score-badge');
+    if (dashBadge) dashBadge.textContent = finalScore + '%';
+
+    return finalScore;
 }
 
 /**
