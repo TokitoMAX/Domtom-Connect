@@ -68,20 +68,17 @@ async function loadDashboardContent(session) {
     const profile = await getProfile(user.id);
     if (!profile) return;
 
-    const userNameEl = document.getElementById('dashboard-user-name');
-    if (userNameEl) userNameEl.textContent = profile.full_name || user.email.split('@')[0];
+    const userNameEl = document.getElementById('user-greeting');
+    if (userNameEl) userNameEl.textContent = `Bonjour, ${profile.full_name || user.email.split('@')[0]}.`;
 
-    // Role-based UI components logic
-    const role = profile.role || 'user';
-    const tier = profile.subscription_tier || 'free';
-    const isListed = profile.listed || false;
-
-    // Dispatch to specific loading if needed
-    if (role === 'expert') {
-        // Render expert specific cards
-    } else if (role === 'entreprise') {
-        // Render enterprise specific cards
+    const roleBadge = document.getElementById('user-role-badge');
+    if (roleBadge) {
+        roleBadge.textContent = profile.role || 'Membre';
+        roleBadge.style.display = 'inline-block';
     }
+
+    // Update Profile Strength if applicable
+    updateProfileStrength(profile);
 
     // Call projects load if available (from success-engine.js)
     if (typeof loadMyProjects === 'function') {
@@ -95,9 +92,11 @@ async function loadDashboardContent(session) {
 
 function updateProfileStrength(profile) {
     const score = calculateProfileStrength(profile);
-    const strengthBar = document.getElementById('profile-strength-bar');
-    const strengthText = document.getElementById('profile-strength-text');
+    const strengthBar = document.getElementById('strength-bar');
+    const strengthText = document.getElementById('strength-percentage');
+    const container = document.getElementById('profile-strength-container');
     
+    if (container) container.style.display = (profile.role === 'expert') ? 'block' : 'none';
     if (strengthBar) strengthBar.style.width = score + '%';
     if (strengthText) strengthText.textContent = score + '%';
 }

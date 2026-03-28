@@ -122,25 +122,29 @@ async function loadMyProjects(userId) {
                 <div style="display:flex; flex-direction:column; gap:16px;">
                     <div class="form-group">
                         <label>Votre Vision (Futur)</label>
-                        <textarea id="manifesto-vision" style="width:100%; height:80px;">${firstProj.vision || ''}</textarea>
+                        <textarea id="manifesto-vision" style="width:100%; height:60px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.vision || ''}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Votre Mission (Présent)</label>
-                        <textarea id="manifesto-mission" style="width:100%; height:80px;">${firstProj.mission || ''}</textarea>
+                        <textarea id="manifesto-mission" style="width:100%; height:60px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.mission || ''}</textarea>
                     </div>
                 </div>
                 <div style="display:flex; flex-direction:column; gap:16px;">
                     <div class="form-group">
                         <label>L'Enjeu (Pourquoi ?)</label>
-                        <textarea id="manifesto-enjeu" style="width:100%; height:80px;">${firstProj.enjeu || ''}</textarea>
+                        <textarea id="manifesto-enjeu" style="width:100%; height:80px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.enjeu || ''}</textarea>
                     </div>
-                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary">Enregistrer la Stratégie</button>
+                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981; color:white; border:none; padding:16px; border-radius:12px; font-weight:800; cursor:pointer; width:100%;">Enregistrer ma Stratégie →</button>
                 </div>
             </div>
         </div>
     `;
 
     engineStepContainer.innerHTML = phasesHTML;
+}
+
+function openImpulsionModal(projectId) {
+    alert("🚀 Phase d'Impulsion : Cette fonctionnalité (Certificat de Maturité) arrive très prochainement dans votre cockpit !");
 }
 
 // --- 3. MANIFESTO & STRATEGY ---
@@ -291,11 +295,62 @@ async function saveMilestone(projId) {
     } catch (err) { alert(err.message); }
 }
 
-// --- EXPORTS ---
+async function openProjectModal() {
+    let modal = document.getElementById('project-modal');
+    if (!modal) {
+        const modalHTML = `
+            <div class="modal-overlay" id="project-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+                <div class="hero-modal" style="max-width:600px; background:white; padding:40px; border-radius:32px; color:#0f172a; border:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                        <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Nouvelle Épopée</h2>
+                        <button onclick="document.getElementById('project-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                    </div>
+                    <div style="display:grid; gap:20px;">
+                        <div class="form-group">
+                            <label style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Nom de votre projet</label>
+                            <input type="text" id="new-project-title" placeholder="Ex: Mon Application Mobile" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Territoire d'Impact</label>
+                            <select id="new-project-territory" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                                <option value="Guadeloupe">Guadeloupe</option>
+                                <option value="Martinique">Martinique</option>
+                                <option value="Guyane">Guyane</option>
+                                <option value="Réunion">Réunion</option>
+                                <option value="Mayotte">Mayotte</option>
+                                <option value="Hexagone">Hexagone / Diaspora</option>
+                            </select>
+                        </div>
+                        <button onclick="saveNewProject()" class="btn-cockpit primary" style="width:100%; padding:16px; background:#10b981; border:none; color:white; font-weight:900; border-radius:12px; cursor:pointer;">CRÉER MON PROJET →</button>
+                    </div>
+                </div>
+            </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        modal = document.getElementById('project-modal');
+    }
+    modal.style.display = 'flex';
+}
 
-window.openArsenalModal = openArsenalModal;
-window.closeArsenalModal = closeArsenalModal;
-window.handleArsenalFileSelect = handleArsenalFileSelect;
-window.openRewardModal = openRewardModal;
-window.saveReward = saveReward;
-window.saveMilestone = saveMilestone;
+async function saveNewProject() {
+    const title = document.getElementById('new-project-title').value.trim();
+    const territory = document.getElementById('new-project-territory').value;
+    if (!title) return alert("Veuillez donner un nom à votre épopée.");
+
+    try {
+        const session = await getSession();
+        if (!session) return;
+
+        const { error } = await _supabase.from('projects').insert([{
+            owner_id: session.user.id,
+            title,
+            territory,
+            status: 'draft'
+        }]);
+        if (error) throw error;
+        alert("✅ Épopée créée avec succès !");
+        window.location.reload();
+    } catch (err) { alert(err.message); }
+}
+
+window.openProjectModal = openProjectModal;
+window.saveNewProject = saveNewProject;
