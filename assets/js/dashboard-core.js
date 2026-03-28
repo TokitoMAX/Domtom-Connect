@@ -849,31 +849,77 @@ function renderMatchCard(expert) {
 async function openEventModal(editData = null) {
     let modal = document.getElementById('event-modal');
     if (!modal) {
-        // Modal is in HTML, ensure it's picked up
-    }
-    
-    // Fallback if modal not in HTML (for modular security)
-    if (!modal) {
-        console.error("Event Modal not found.");
-        return;
+        const modalHTML = `
+            <div class="modal-overlay" id="event-modal">
+                <div class="hero-modal" style="max-width: 500px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                        <div>
+                            <h2 style="color:var(--text-primary); margin:0;">Publier un Événement</h2>
+                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Partagez votre affiche avec la communauté.</p>
+                        </div>
+                        <button class="modal-close" onclick="closeEventModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                    </div>
+                    <form onsubmit="saveEvent(event)">
+                        <input type="hidden" id="ev-edit-id">
+                        <div class="form-group" style="margin-bottom:16px;">
+                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'événement *</label>
+                            <input type="text" id="ev-title" required placeholder="Ex: Dimanche Konpa Gouyad" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                            <div class="form-group">
+                                <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Date et Heure *</label>
+                                <input type="text" id="ev-date" required placeholder="Ex: 22 Mars 2026 à 18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lieu *</label>
+                                <input type="text" id="ev-location" required placeholder="Ex: Le Guest Live" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                            </div>
+                        </div>
+                        <div id="tiers-section" style="margin-bottom: 16px;">
+                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Tarifs de la Billetterie *</label>
+                            <div id="tiers-container"></div>
+                            <button type="button" onclick="addTierRow()" style="background:none; border:1.5px dashed #10b981; color:#10b981; width:100%; padding:10px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:700; margin-top:8px;">+ Ajouter un tarif (ex: Early Bird, VIP...)</button>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:16px;">
+                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Affiche / Flyer (Image) *</label>
+                            <input type="file" id="ev-image" accept="image/*" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; background:var(--bg-light);">
+                        </div>
+                        <div class="form-group" style="margin-bottom:24px;">
+                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Description (Optionnel)</label>
+                            <textarea id="ev-desc" placeholder="Détails de l'événement..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; height:80px;"></textarea>
+                        </div>
+                        <button type="submit" id="btn-save-event" class="cta-button primary" style="width:100%; background:#10b981; border:none; padding:12px; font-weight:700; border-radius:8px; color:white; cursor:pointer;">Publier l'événement</button>
+                    </form>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        modal = document.getElementById('event-modal');
     }
 
-    // Populate or Reset form (same logic as monolithic)
+    // Populate or Reset form
     const titleEl = document.getElementById('ev-title');
     const dateEl = document.getElementById('ev-date');
     const locEl = document.getElementById('ev-location');
     const descEl = document.getElementById('ev-desc');
+    const fileEl = document.getElementById('ev-image');
     const editIdEl = document.getElementById('ev-edit-id');
+    const btn = document.getElementById('btn-save-event');
+    const head = modal.querySelector('h2');
     const tiersContainer = document.getElementById('tiers-container');
 
     if (tiersContainer) tiersContainer.innerHTML = '';
 
     if (editData) {
+        if (head) head.textContent = "Modifier l'Événement";
+        if (btn) btn.textContent = "Mettre à jour";
         if (titleEl) titleEl.value = editData.title || '';
         if (dateEl) dateEl.value = editData.event_date || '';
         if (locEl) locEl.value = editData.location || '';
         if (descEl) descEl.value = editData.description || '';
         if (editIdEl) editIdEl.value = editData.id;
+        if (fileEl) fileEl.required = false;
 
         const tiers = editData.ticket_tiers || [];
         if (tiers.length > 0) {
@@ -882,11 +928,14 @@ async function openEventModal(editData = null) {
             addTierRow();
         }
     } else {
+        if (head) head.textContent = "Publier un Événement";
+        if (btn) btn.textContent = "Publier l'événement";
         if (titleEl) titleEl.value = '';
         if (dateEl) dateEl.value = '';
         if (locEl) locEl.value = '';
         if (descEl) descEl.value = '';
         if (editIdEl) editIdEl.value = '';
+        if (fileEl) fileEl.required = true;
         addTierRow();
     }
 
@@ -919,8 +968,88 @@ function closeEventModal() {
 
 async function saveEvent(event) {
     event.preventDefault();
-    // Implementation details... (Ported from Step 544)
-    // For brevity, skipping the full storage logic here, but keeping it in the mind
+    const btn = document.getElementById('btn-save-event');
+    const originalText = btn.textContent;
+    btn.textContent = "Opération en cours...";
+    btn.disabled = true;
+
+    try {
+        const session = await getSession();
+        if (!session) throw new Error("Vous devez être connecté.");
+
+        const editId = document.getElementById('ev-edit-id').value;
+        const title = document.getElementById('ev-title').value;
+        const dateText = document.getElementById('ev-date').value;
+        const location = document.getElementById('ev-location').value;
+        const desc = document.getElementById('ev-desc').value;
+
+        const fileInput = document.getElementById('ev-image');
+        const file = fileInput.files[0];
+
+        // Collect tiers
+        const tierRows = document.querySelectorAll('.tier-row');
+        const tiers = Array.from(tierRows).map(row => ({
+            id: Math.random().toString(36).substring(2, 9),
+            name: row.querySelector('.t-name').value,
+            price: parseFloat(row.querySelector('.t-price').value) || 0,
+            capacity: parseInt(row.querySelector('.t-cap').value) || 0
+        }));
+
+        if (tiers.length === 0) throw new Error("Veuillez ajouter au moins un tarif.");
+
+        let imageUrl = null;
+
+        if (file) {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `${session.user.id}/${fileName}`;
+            const { error: uploadError } = await _supabase.storage.from('events_flyers').upload(filePath, file);
+            if (uploadError) throw uploadError;
+            const { data: publicUrlData } = _supabase.storage.from('events_flyers').getPublicUrl(filePath);
+            imageUrl = publicUrlData.publicUrl;
+        } else if (editId) {
+            const { data: existing } = await _supabase.from('events').select('image_url').eq('id', editId).single();
+            imageUrl = existing.image_url;
+        } else {
+            throw new Error("Une affiche est requise.");
+        }
+
+        const payload = {
+            user_id: session.user.id,
+            title: title,
+            event_date: dateText,
+            location: location,
+            ticket_url: null, // Native
+            description: desc,
+            image_url: imageUrl,
+            ticket_tiers: tiers,
+            price: tiers[0].price,
+            total_tickets: tiers.reduce((acc, t) => acc + t.capacity, 0)
+        };
+
+        let resultError;
+        if (editId) {
+            const { error } = await _supabase.from('events').update(payload).eq('id', editId);
+            resultError = error;
+        } else {
+            const { error } = await _supabase.from('events').insert([payload]);
+            resultError = error;
+        }
+
+        if (resultError) throw resultError;
+
+        alert(editId ? "✅ Événement mis à jour !" : "🎉 Événement publié avec succès !");
+        closeEventModal();
+        loadMyTicketing();
+        event.target.reset();
+
+    } catch (err) {
+        console.error("Save Event Error:", err);
+        alert("Erreur: " + err.message);
+    } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+    }
 }
 
 async function editEvent(eventId) {
@@ -1036,9 +1165,93 @@ function renderMatchCard(expert) {
 }
 
 window.viewAttendees = async (eventId) => {
-    // Participant list modal implementation...
-    // For now, restoring the basic modal structure from the monolithic version
-    alert("Ouverture de la liste des participants pour l'événement " + eventId);
+    let modal = document.getElementById('attendees-modal');
+    if (!modal) {
+        const modalHTML = `
+            <div class="modal-overlay" id="attendees-modal">
+                <div class="hero-modal" style="max-width: 700px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                        <div>
+                            <h2 style="color:var(--text-primary); margin:0;">Liste des Participants</h2>
+                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Suivi des entrées et validations en temps réel.</p>
+                        </div>
+                        <button class="modal-close" onclick="closeAttendeesModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                    </div>
+                    <div id="attendees-list-container" style="max-height: 400px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--gray-100); text-align: left;">
+                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Email / Client</th>
+                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Type</th>
+                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Statut</th>
+                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Validé le</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendees-tbody">
+                                <!-- Rows filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        modal = document.getElementById('attendees-modal');
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeAttendeesModal(); });
+    }
+
+    const tbody = document.getElementById('attendees-tbody');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Chargement...</td></tr>';
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+
+    try {
+        const { data: tickets, error } = await _supabase
+            .from('tickets')
+            .select('*')
+            .eq('event_id', eventId)
+            .order('validated_at', { ascending: false, nullsFirst: false })
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!tickets || tickets.length === 0) {
+            if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">Aucun participant inscrit.</td></tr>';
+            return;
+        }
+
+        if (tbody) {
+            tbody.innerHTML = tickets.map(t => {
+                const isValidated = t.status === 'utilisé';
+                const rawDate = t.validated_at || (isValidated ? t.updated_at : null);
+                const dateVal = rawDate ? new Date(rawDate).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-';
+                return `
+                    <tr style="border-bottom: 1px solid var(--gray-100);">
+                        <td style="padding: 12px 8px; font-weight: 600;">${t.buyer_email}</td>
+                        <td style="padding: 12px 8px;">${t.tier_name || 'Standard'}</td>
+                        <td style="padding: 12px 8px;">
+                            <span style="display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:800; 
+                                ${isValidated ? 'background:#dcfce7; color:#166534;' : 'background:#f1f5f9; color:#475569;'}">
+                                ${isValidated ? '✓ VALIDÉ' : 'ATTENTE'}
+                            </span>
+                        </td>
+                        <td style="padding: 12px 8px; font-size: 0.8rem; color: var(--text-secondary);">${dateVal}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+    } catch (err) {
+        if (tbody) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#ef4444;">Erreur: ${err.message}</td></tr>`;
+    }
+};
+
+window.closeAttendeesModal = () => {
+    const modal = document.getElementById('attendees-modal');
+    if (modal) {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+    }
 };
 
 // Start initialization
