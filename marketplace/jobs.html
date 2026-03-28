@@ -386,8 +386,16 @@
             const isOwner = currentUserId === job.company_id;
             const canSee = isPremium || isOwner || currentUserRole === 'basique';
             
-            // Clean content for snippet (remove markdown symbols)
-            const snippetRaw = (job.description || "").split('### PROFIL')[0].replace('### MISSIONS', '').replace(/###/g, '').replace(/\*\*/g, '').trim();
+            // Refined snippet logic: Get the first part (Missions), remove technical tags, and keep it clean
+            let snippet = (job.description || "").split('### PROFIL')[0]
+                .replace('### MISSIONS', '')
+                .replace(/###/g, '')
+                .replace(/\*\*/g, '')
+                .trim();
+            
+            // Limit snippet and add ellipsis if needed
+            if (snippet.length > 160) snippet = snippet.substring(0, 157) + '...';
+
             const typeClass = job.mission_type.toLowerCase().includes('freelance') ? 'type-freelance' : 
                              job.mission_type.toLowerCase().includes('cdi') ? 'type-cdi' : 'type-cdd';
 
@@ -410,15 +418,15 @@
                         ${!canSee ? '<div class="lock-overlay"><i class="fas fa-lock" style="margin-right:10px;"></i> Accès Premium requis</div>' : ''}
                         <div class="job-content-preview ${!canSee ? 'locked-data' : ''}">
                             <div class="job-label">📌 Aperçu Mission</div>
-                            <div class="job-snippet">${snippetRaw}</div>
+                            <div class="job-snippet" style="font-size: 0.95rem; line-height: 1.6; color: #475569;">${snippet}</div>
                         </div>
                     </div>
 
                     <div class="premium-footer">
-                        ${isOwner ? '<button class="btn-premium btn-sent" disabled><i class="fas fa-user-tie"></i> Votre offre</button>' : 
+                        ${isOwner ? '<button class="btn-premium btn-sent" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0; box-shadow:none;" disabled><i class="fas fa-user-tie"></i> Votre offre</button>' : 
                           userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled><i class="fas fa-check-circle"></i> Postulé</button>' :
                           canSee ? `<button onclick="openApplyModal('${job.id}','${job.title}')" class="btn-premium btn-apply">Postuler maintenant</button>` :
-                          `<button onclick="window.location.href='/#pricing'" class="btn-premium" style="background:var(--primary); color:white;">Débloquer le Pack</button>`}
+                          `<button onclick="window.location.href='/#pricing'" class="btn-premium" style="background:#10b981; color:white;">Débloquer le Pack</button>`}
                     </div>
                 </div>`;
         }
