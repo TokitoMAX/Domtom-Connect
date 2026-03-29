@@ -1229,7 +1229,13 @@
                 input.value = '';
             } catch (err) {
                 console.error("Upload error:", err);
-                alert("Erreur lors de l'envoi du fichier.");
+                let msg = "Erreur lors de l'envoi du fichier.";
+                if (err.message && err.message.includes("bucket not found")) {
+                    msg += " \nLe dossier de stockage 'chat-media' n'existe pas encore côté serveur. Veuillez contacter l'administrateur ou exécuter le script de mise à jour.";
+                } else if (err.message) {
+                    msg += " (" + err.message + ")";
+                }
+                alert(msg);
             } finally {
                 btn.innerHTML = originalIcon;
                 btn.disabled = false;

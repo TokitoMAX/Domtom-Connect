@@ -9,12 +9,25 @@ ADD COLUMN IF NOT EXISTS read_at TIMESTAMPTZ,
 ADD COLUMN IF NOT EXISTS media_url TEXT,
 ADD COLUMN IF NOT EXISTS media_type TEXT; -- 'image', 'video', 'document'
 
--- 2. Création d'un bucket de stockage pour les médias de messagerie (si non existant)
--- Note: À exécuter dans l'interface Supabase Storage ou via API
--- Nom du bucket recommandé : 'chat-media'
--- Politique RLS recommandée : Authenticated users can upload, participants can read.
+-- 2. Création d'un bucket de stockage pour les médias de messagerie
+INSERT INTO storage.buckets (id, name, public)
+SELECT 'chat-media', 'chat-media', true
+WHERE NOT EXISTS (
+    SELECT 1 FROM storage.buckets WHERE id = 'chat-media'
+);
 
--- 3. Index pour performance sur les messages non lus
+-- 3. Politiques RLS pour le bucket 'chat-media'
+-- Autoriser les utilisateurs connectés à uploader
+CREATE POLICY "Les utilisateurs connectés peuvent uploader des médias"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'chat-media');
+
+-- Autoriser la lecture publique ou limitée (ici publique pour simplifier l'affichage immédiat)
+CREATE POLICY "Les médias sont visibles par tous"
+ON storage.objects FOR SELECT TO public
+USING (bucket_id = 'chat-media');
+
+-- 4. Index pour performance sur les messages non lus
 CREATE INDEX IF NOT EXISTS idx_messages_unread 
 ON public.messages (conversation_id, sender_id) 
 WHERE read_at IS NULL;
