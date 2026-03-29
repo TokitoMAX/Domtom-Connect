@@ -594,6 +594,83 @@
                 display: flex;
             }
         }
+        /* WhatsApp-style Ticks */
+        .msg-status {
+            display: inline-flex;
+            margin-left: 4px;
+            vertical-align: bottom;
+        }
+
+        .tick {
+            width: 14px;
+            height: 14px;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .tick.read {
+            color: #34b7f1; /* WhatsApp Blue */
+            opacity: 1;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            padding: 8px 32px;
+            font-size: 0.8rem;
+            color: var(--emerald-color);
+            font-weight: 600;
+            font-style: italic;
+            height: 30px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Media Attachments */
+        .btn-attach {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .btn-attach:hover {
+            color: var(--emerald-color);
+        }
+
+        .message-media {
+            margin-bottom: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .message-media img {
+            max-width: 100%;
+            display: block;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Presence Dot */
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            display: inline-block;
+            margin-left: 6px;
+        }
+
+        .status-dot.online {
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        }
     </style>
 </head>
 
@@ -737,6 +814,7 @@
                             <div>
                                 <h3 id="active-name" style="display:flex; align-items:center; gap:6px;">
                                     Chargement...
+                                    <span id="active-status-dot" class="status-dot"></span>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981"
                                         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                                         title="Conversation sécurisée">
@@ -759,8 +837,18 @@
                         <!-- Messages injectés ici -->
                     </div>
 
+                    <div class="typing-indicator" id="typing-indicator">
+                        <span id="typing-text">Robert est en train d'écrire...</span>
+                    </div>
+
                     <div class="chat-input-area">
                         <form class="chat-input-wrapper" onsubmit="sendMessage(event)">
+                            <button type="button" class="btn-attach" onclick="document.getElementById('file-input').click()" title="Joindre un fichier">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                                </svg>
+                            </button>
+                            <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(this)" accept="image/*,application/pdf">
                             <textarea id="message-input" placeholder="Écrivez votre message..." rows="1"
                                 oninput="autoResize(this)" required></textarea>
                             <button type="submit" class="btn-send" id="btn-send">
@@ -784,7 +872,9 @@
         let currentUserId = null;
         let activeConversationId = null;
         let realtimeChannel = null;
+        let presenceChannel = null; // WhatsApp Presence
         let cachedProfiles = {};
+        let typingTimeout = null; // WhatsApp Typing
 
         function autoResize(textarea) {
             textarea.style.height = 'auto';
@@ -1051,13 +1141,110 @@
             const el = document.createElement('div');
             el.className = 'message ' + (isMe ? 'sent' : 'received');
 
-            const escapedContent = msg.content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
+            const escapedContent = (msg.content || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
+            let statusHtml = '';
+            if (isMe) {
+                const isRead = !!msg.read_at;
+                statusHtml = `
+                    <span class="msg-status">
+                        <svg class="tick ${isRead ? 'read' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M20 6L9 17l-5-5"/>
+                            <path d="M20 6L9 17l-5-5" style="transform: translateX(4px)"/>
+                        </svg>
+                    </span>
+                `;
+            }
+
+            let mediaHtml = '';
+            if (msg.media_url) {
+                if (msg.media_type === 'image') {
+                    mediaHtml = `<div class="message-media"><img src="${msg.media_url}" onclick="window.open(this.src)"></div>`;
+                } else {
+                    mediaHtml = `<div class="message-media"><a href="${msg.media_url}" target="_blank" style="color:var(--emerald-color); font-weight:700;">📎 Fichier joint</a></div>`;
+                }
+            }
+
             el.innerHTML = `
+                ${mediaHtml}
                 <div class="message-bubble">${escapedContent}</div>
-                <div class="message-time">${time}</div>
+                <div class="message-time">${time}${statusHtml}</div>
             `;
 
             thread.appendChild(el);
+        }
+
+        function handleTyping() {
+            if (!presenceChannel) return;
+            
+            presenceChannel.track({
+                user_id: currentUserId,
+                typing: true,
+                last_seen: new Date().toISOString()
+            });
+
+            if (typingTimeout) clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                presenceChannel.track({
+                    user_id: currentUserId,
+                    typing: false,
+                    last_seen: new Date().toISOString()
+                });
+            }, 3000);
+        }
+
+        async function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file || !activeConversationId) return;
+
+            const btn = document.querySelector('.btn-attach');
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<div class="loader" style="width:16px; height:16px; margin:0;"></div>';
+            btn.disabled = true;
+
+            try {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+                const filePath = `chat/${activeConversationId}/${fileName}`;
+
+                const { data, error: uploadError } = await _supabase.storage
+                    .from('chat-media')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = _supabase.storage
+                    .from('chat-media')
+                    .getPublicUrl(filePath);
+
+                const mediaType = file.type.startsWith('image/') ? 'image' : 'document';
+
+                await _supabase.from('messages').insert({
+                    conversation_id: activeConversationId,
+                    sender_id: currentUserId,
+                    content: '',
+                    media_url: publicUrl,
+                    media_type: mediaType
+                });
+
+                input.value = '';
+            } catch (err) {
+                console.error("Upload error:", err);
+                alert("Erreur lors de l'envoi du fichier.");
+            } finally {
+                btn.innerHTML = originalIcon;
+                btn.disabled = false;
+            }
+        }
+
+        async function markMessagesAsRead(convId) {
+            const { error } = await _supabase
+                .from('messages')
+                .update({ read_at: new Date().toISOString() })
+                .eq('conversation_id', convId)
+                .neq('sender_id', currentUserId)
+                .is('read_at', null);
+
+            if (error) console.error("Error marking as read:", error.message);
         }
 
         function scrollToBottom() {
@@ -1110,9 +1297,64 @@
                     if (newMsg.sender_id !== currentUserId) {
                         appendMessage(newMsg);
                         scrollToBottom();
+                        markMessagesAsRead(convId);
+                    }
+                })
+                .on('postgres_changes', {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'messages',
+                    filter: `conversation_id=eq.${convId}`
+                }, payload => {
+                    const updatedMsg = payload.new;
+                    if (updatedMsg.sender_id === currentUserId && updatedMsg.read_at) {
+                        loadMessages(convId);
                     }
                 })
                 .subscribe();
+
+            subscribeToPresence(convId);
+            markMessagesAsRead(convId);
+        }
+
+        function subscribeToPresence(convId) {
+            if (presenceChannel) _supabase.removeChannel(presenceChannel);
+
+            presenceChannel = _supabase.channel('presence_' + convId, {
+                config: { presence: { key: currentUserId } }
+            });
+
+            presenceChannel
+                .on('presence', { event: 'sync' }, () => {
+                    const state = presenceChannel.presenceState();
+                    const otherUsers = Object.values(state).flat().filter(u => u.user_id !== currentUserId);
+                    
+                    const statusDot = document.getElementById('active-status-dot');
+                    const typingIndicator = document.getElementById('typing-indicator');
+                    
+                    if (otherUsers.length > 0) {
+                        statusDot.classList.add('online');
+                        const someoneTyping = otherUsers.some(u => u.typing);
+                        if (someoneTyping) {
+                            typingIndicator.style.display = 'flex';
+                            document.getElementById('typing-text').textContent = "L'autre personne écrit...";
+                        } else {
+                            typingIndicator.style.display = 'none';
+                        }
+                    } else {
+                        statusDot.classList.remove('online');
+                        typingIndicator.style.display = 'none';
+                    }
+                })
+                .subscribe(async (status) => {
+                    if (status === 'SUBSCRIBED') {
+                        await presenceChannel.track({
+                            user_id: currentUserId,
+                            typing: false,
+                            last_seen: new Date().toISOString()
+                        });
+                    }
+                });
         }
 
         window.addEventListener('load', initMessages);
