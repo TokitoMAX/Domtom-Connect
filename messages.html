@@ -671,6 +671,42 @@
             background: #10b981;
             box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
         }
+        /* Preview Pièce Jointe */
+        .attachment-preview {
+            background: rgba(16, 185, 129, 0.05);
+            border-top: 1px solid var(--gray-200);
+            padding: 8px 16px;
+        }
+
+        .preview-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+            color: var(--text-main);
+            max-width: fit-content;
+        }
+
+        .btn-remove-file {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-remove-file:hover {
+            color: #b91c1c;
+        }
     </style>
 </head>
 
@@ -841,6 +877,13 @@
                         <span id="typing-text">Robert est en train d'écrire...</span>
                     </div>
 
+                    <div id="attachment-preview" class="attachment-preview" style="display:none;">
+                        <div class="preview-content">
+                            <span id="preview-name">image.png</span>
+                            <button type="button" class="btn-remove-file" onclick="clearAttachment()" title="Supprimer la pièce jointe">×</button>
+                        </div>
+                    </div>
+
                     <div class="chat-input-area">
                         <form class="chat-input-wrapper" onsubmit="sendMessage(event)">
                             <button type="button" class="btn-attach" onclick="document.getElementById('file-input').click()" title="Joindre un fichier">
@@ -850,7 +893,7 @@
                             </button>
                             <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(this)" accept="image/*,application/pdf">
                             <textarea id="message-input" placeholder="Écrivez votre message..." rows="1"
-                                oninput="autoResize(this)" required></textarea>
+                                oninput="handleTyping(); autoResize(this)"></textarea>
                             <button type="submit" class="btn-send" id="btn-send">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -875,6 +918,7 @@
         let presenceChannel = null; // WhatsApp Presence
         let cachedProfiles = {};
         let typingTimeout = null; // WhatsApp Typing
+        let pendingFile = null; // WhatsApp Attachment
 
         function autoResize(textarea) {
             textarea.style.height = 'auto';
@@ -1193,23 +1237,32 @@
             }, 3000);
         }
 
-        async function handleFileUpload(input) {
+        function handleFileUpload(input) {
             const file = input.files[0];
-            if (!file || !activeConversationId) return;
+            if (!file) return;
 
-            const btn = document.querySelector('.btn-attach');
-            const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<div class="loader" style="width:16px; height:16px; margin:0;"></div>';
-            btn.disabled = true;
+            pendingFile = file;
+            document.getElementById('preview-name').textContent = file.name;
+            document.getElementById('attachment-preview').style.display = 'block';
+            input.value = ''; // Reset input to allow re-selection
+        }
 
+        function clearAttachment() {
+            pendingFile = null;
+            document.getElementById('attachment-preview').style.display = 'none';
+            document.getElementById('file-input').value = '';
+        }
+
+        async function uploadPendingFile(convId) {
+            if (!pendingFile) return null;
             try {
-                const fileExt = file.name.split('.').pop();
+                const fileExt = pendingFile.name.split('.').pop();
                 const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
-                const filePath = `chat/${activeConversationId}/${fileName}`;
+                const filePath = `chat/${convId}/${fileName}`;
 
                 const { data, error: uploadError } = await _supabase.storage
                     .from('chat-media')
-                    .upload(filePath, file);
+                    .upload(filePath, pendingFile);
 
                 if (uploadError) throw uploadError;
 
@@ -1217,29 +1270,11 @@
                     .from('chat-media')
                     .getPublicUrl(filePath);
 
-                const mediaType = file.type.startsWith('image/') ? 'image' : 'document';
-
-                await _supabase.from('messages').insert({
-                    conversation_id: activeConversationId,
-                    sender_id: currentUserId,
-                    content: '',
-                    media_url: publicUrl,
-                    media_type: mediaType
-                });
-
-                input.value = '';
+                const mediaType = pendingFile.type.startsWith('image/') ? 'image' : 'document';
+                return { url: publicUrl, type: mediaType };
             } catch (err) {
                 console.error("Upload error:", err);
-                let msg = "Erreur lors de l'envoi du fichier.";
-                if (err.message && err.message.includes("bucket not found")) {
-                    msg += " \nLe dossier de stockage 'chat-media' n'existe pas encore côté serveur. Veuillez contacter l'administrateur ou exécuter le script de mise à jour.";
-                } else if (err.message) {
-                    msg += " (" + err.message + ")";
-                }
-                alert(msg);
-            } finally {
-                btn.innerHTML = originalIcon;
-                btn.disabled = false;
+                throw err;
             }
         }
 
@@ -1256,7 +1291,7 @@
 
         function scrollToBottom() {
             const thread = document.getElementById('chat-thread');
-            thread.scrollTop = thread.scrollHeight;
+            if (thread) thread.scrollTop = thread.scrollHeight;
         }
 
         async function sendMessage(e) {
@@ -1265,30 +1300,57 @@
 
             const input = document.getElementById('message-input');
             const content = input.value.trim();
-            if (!content) return;
+            if (!content && !pendingFile) return;
 
-            input.value = '';
-            input.style.height = 'auto';
+            const btnSend = document.getElementById('btn-send');
+            const originalBtnHtml = btnSend ? btnSend.innerHTML : '';
 
-            const tempMsg = {
-                sender_id: currentUserId,
-                content: content,
-                created_at: new Date().toISOString()
-            };
+            try {
+                if (pendingFile && btnSend) {
+                    btnSend.innerHTML = '<div class="loader" style="width:16px; height:16px; margin:0;"></div>';
+                    btnSend.disabled = true;
+                }
 
-            appendMessage(tempMsg);
-            scrollToBottom();
+                const uploadRes = await uploadPendingFile(activeConversationId);
 
-            const { error } = await _supabase.from('messages').insert({
-                conversation_id: activeConversationId,
-                sender_id: currentUserId,
-                content: content
-            });
+                input.value = '';
+                input.style.height = 'auto';
 
-            if (error) {
-                console.error("Send error:", error.message);
+                const tempMsg = {
+                    sender_id: currentUserId,
+                    content: content,
+                    media_url: uploadRes?.url || null,
+                    media_type: uploadRes?.type || null,
+                    created_at: new Date().toISOString()
+                };
+
+                appendMessage(tempMsg);
+                scrollToBottom();
+
+                const { error } = await _supabase.from('messages').insert({
+                    conversation_id: activeConversationId,
+                    sender_id: currentUserId,
+                    content: content,
+                    media_url: uploadRes?.url || null,
+                    media_type: uploadRes?.type || null
+                });
+
+                if (error) throw error;
+                if (pendingFile) clearAttachment();
+
+            } catch (err) {
+                console.error("Send error:", err);
+                alert("Erreur lors de l'envoi : " + (err.message || err));
+            } finally {
+                if (btnSend) {
+                    btnSend.innerHTML = originalBtnHtml;
+                    btnSend.disabled = false;
+                }
             }
         }
+
+
+
 
         function subscribeToMessages(convId) {
             if (realtimeChannel) _supabase.removeChannel(realtimeChannel);
@@ -1334,14 +1396,16 @@
             presenceChannel
                 .on('presence', { event: 'sync' }, () => {
                     const state = presenceChannel.presenceState();
-                    const otherUsers = Object.values(state).flat().filter(u => u.user_id !== currentUserId);
+                    if (!state) return;
+                    
+                    const otherUsers = Object.values(state).flat().filter(u => u && u.user_id !== currentUserId);
                     
                     const statusDot = document.getElementById('active-status-dot');
                     const typingIndicator = document.getElementById('typing-indicator');
                     
                     if (otherUsers.length > 0) {
                         if (statusDot) statusDot.classList.add('online');
-                        const someoneTyping = otherUsers.some(u => u.typing);
+                        const someoneTyping = otherUsers.some(u => u && u.typing);
                         if (someoneTyping) {
                             if (typingIndicator) typingIndicator.style.display = 'flex';
                             const typingText = document.getElementById('typing-text');
