@@ -519,21 +519,52 @@
 
             .messaging-container {
                 flex-direction: column;
-                height: calc(100vh - 60px);
-                margin-top: 60px;
-                margin-left: 0 !important; /* Critical Fix: Overlap on mobile */
+                height: 100vh;
+                margin-top: 0; /* Full screen on mobile */
+                margin-left: 0 !important;
                 padding-bottom: 0;
             }
 
+            .top-nav {
+                display: none !important; /* Hide marketplace pill on mobile messaging */
+            }
+
+            .chat-layout {
+                height: 100vh;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Stack Navigation: List vs Chat */
             .conversations-list {
                 width: 100%;
-                height: 35vh; /* Better ratio for list vs chat */
-                border-right: none;
-                border-bottom: 1px solid var(--gray-200);
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                transition: transform 0.3s ease;
+                z-index: 10;
+                background: var(--bg-primary);
             }
 
             .chat-area {
-                height: 65vh;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 100%; /* Hidden on the right by default */
+                top: 0;
+                transition: transform 0.3s ease;
+                z-index: 20;
+                background: var(--bg-primary);
+            }
+
+            /* Active State */
+            .chat-layout.mobile-chat-active .conversations-list {
+                transform: translateX(-100%);
+            }
+
+            .chat-layout.mobile-chat-active .chat-area {
+                transform: translateX(-100%);
             }
 
             .chat-messages {
@@ -545,6 +576,21 @@
                 padding: 8px 12px;
                 border-top: 1px solid var(--gray-100);
             }
+
+            .mobile-back-btn {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+                color: var(--text-primary);
+                cursor: pointer;
+            }
+        }
+
+        .mobile-back-btn {
+            display: none;
         }
 
         /* Hidden redundant top navbar on desktop dashboard */
@@ -992,6 +1038,11 @@
                 <div id="chat-active" style="display:none; flex-direction:column; height: 100%;">
                     <div class="chat-header" style="display:flex; justify-content:space-between; align-items:center;">
                         <div style="display:flex; align-items:center; gap:12px;">
+                            <div class="mobile-back-btn" onclick="backToList()">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                </svg>
+                            </div>
                             <div class="conv-avatar" id="active-avatar">DC</div>
                             <div>
                                 <h3 style="display:flex; align-items:center; gap:6px;">
@@ -1329,6 +1380,10 @@
             document.getElementById('chat-empty').style.display = 'none';
             document.getElementById('chat-active').style.display = 'flex';
 
+            // Phase 2: Mobile Stack Navigation toggle
+            const layout = document.querySelector('.chat-layout');
+            if (layout) layout.classList.add('mobile-chat-active');
+
             const name = profile.full_name || 'Anonyme';
             const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
             const nameTextEl = document.getElementById('active-name-text');
@@ -1346,6 +1401,11 @@
 
             subscribeToMessages(convId);
             await loadMessages(convId);
+        }
+
+        function backToList() {
+            const layout = document.querySelector('.chat-layout');
+            if (layout) layout.classList.remove('mobile-chat-active');
         }
 
         async function loadMessages(convId) {
