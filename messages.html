@@ -707,6 +707,148 @@
         .btn-remove-file:hover {
             color: #b91c1c;
         }
+
+        /* Phase 2: Replies & Reactions */
+        .message-bubble { position: relative; }
+        
+        .reaction-bar {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 4px 8px;
+            display: none;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .message:hover .reaction-bar { display: flex; }
+        
+        .btn-react {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+            padding: 2px;
+        }
+
+        .btn-react:hover { transform: scale(1.3); }
+
+        .message-reactions {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .reaction-chip {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Reply UI */
+        .reply-preview-container {
+            background: #f8fafc;
+            border-left: 4px solid var(--emerald-color);
+            padding: 8px 16px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reply-header-bubble {
+            background: rgba(0,0,0,0.05);
+            border-left: 3px solid var(--emerald-color);
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .message.sent .reply-header-bubble { border-left-color: #34b7f1; }
+
+        /* Media Player Improved */
+        .message-media video {
+            width: 100%;
+            border-radius: 8px;
+            background: black;
+        }
+
+        .message-media audio {
+            width: 100%;
+            height: 40px;
+        }
+
+        /* Deleted state */
+        .message.is-deleted .message-bubble {
+            background: #f3f4f6 !important;
+            color: var(--text-muted) !important;
+            font-style: italic;
+            border: 1px dashed var(--gray-300) !important;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            border: none; background: none;
+        }
+
+        /* Reply Button on Message */
+        .btn-msg-reply {
+            position: absolute;
+            bottom: -20px;
+            right: 10px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            color: var(--text-muted);
+            z-index: 5;
+        }
+
+        .message:hover .btn-msg-reply { display: flex; }
+        .btn-msg-reply:hover { color: var(--emerald-color); }
     </style>
 </head>
 
@@ -877,6 +1019,15 @@
                         <span id="typing-text">Robert est en train d'écrire...</span>
                     </div>
 
+                    <!-- Reply Preview (Phase 2) -->
+                    <div id="reply-preview" class="reply-preview-container">
+                        <div class="conv-info" style="border-left: 3px solid var(--emerald-color); padding-left: 10px;">
+                            <p id="reply-to-name" style="font-weight: 700; font-size: 0.8rem; margin: 0; color: var(--emerald-color);">Répondre à...</p>
+                            <p id="reply-to-content" style="margin: 0; font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;"></p>
+                        </div>
+                        <button type="button" class="btn-remove-file" onclick="cancelReply()">×</button>
+                    </div>
+
                     <div id="attachment-preview" class="attachment-preview" style="display:none;">
                         <div class="preview-content">
                             <span id="preview-name">image.png</span>
@@ -891,7 +1042,7 @@
                                     <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
                                 </svg>
                             </button>
-                            <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(this)" accept="image/*,application/pdf">
+                            <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(this)" accept="image/*,video/*,audio/*,application/pdf">
                             <textarea id="message-input" placeholder="Écrivez votre message..." rows="1"
                                 oninput="handleTyping(); autoResize(this)"></textarea>
                             <button type="submit" class="btn-send" id="btn-send">
@@ -919,10 +1070,65 @@
         let cachedProfiles = {};
         let typingTimeout = null; // WhatsApp Typing
         let pendingFile = null; // WhatsApp Attachment
+        let replyToId = null; // WhatsApp Reply (Phase 2)
 
         function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = (textarea.scrollHeight < 120 ? textarea.scrollHeight : 120) + 'px';
+        }
+
+        // --- Phase 2: Utilities ---
+
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lb.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function handleReply(msgId, senderName, content) {
+            replyToId = msgId;
+            document.getElementById('reply-to-name').textContent = `Répondre à ${senderName}`;
+            document.getElementById('reply-to-content').textContent = content;
+            document.getElementById('reply-preview').style.display = 'flex';
+            document.getElementById('message-input').focus();
+        }
+
+        function cancelReply() {
+            replyToId = null;
+            document.getElementById('reply-preview').style.display = 'none';
+        }
+
+        async function addReaction(msgId, emoji) {
+            // Logique simplifiée : on récupère les réactions actuelles et on ajoute la nôtre
+            const { data: msg } = await _supabase.from('messages').select('reactions').eq('id', msgId).single();
+            let reactions = msg.reactions || [];
+            
+            // Format: [{emoji: "❤️", user_ids: ["..."]}]
+            const idx = reactions.findIndex(r => r.emoji === emoji);
+            if (idx > -1) {
+                if (!reactions[idx].user_ids.includes(currentUserId)) {
+                    reactions[idx].user_ids.push(currentUserId);
+                } else {
+                    // Toggle off if already reacted
+                    reactions[idx].user_ids = reactions[idx].user_ids.filter(id => id !== currentUserId);
+                    if (reactions[idx].user_ids.length === 0) reactions.splice(idx, 1);
+                }
+            } else {
+                reactions.push({ emoji: emoji, user_ids: [currentUserId] });
+            }
+
+            await _supabase.from('messages').update({ reactions: reactions }).eq('id', msgId);
+            // Pas besoin de recharger tout, le Realtime s'en chargera via subscribeToMessages (si UPDATE est écouté)
+        }
+
+        async function deleteMessage(msgId) {
+            if (!confirm("Supprimer ce message pour tout le monde ?")) return;
+            await _supabase.from('messages').update({ is_deleted: true, content: "Message supprimé" }).eq('id', msgId);
         }
 
         async function initMessages() {
@@ -1176,19 +1382,90 @@
             scrollToBottom();
         }
 
+        let cachedMessages = {}; // Cache pour les citations (Phase 2)
+
         function appendMessage(msg) {
+            if (!msg) return;
+            cachedMessages[msg.id] = msg;
+            
             const thread = document.getElementById('chat-thread');
             const isMe = (msg.sender_id === currentUserId);
+            const isDeleted = msg.is_deleted === true;
 
             const timeObj = new Date(msg.created_at);
             const time = !isNaN(timeObj) ? timeObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
-            const el = document.createElement('div');
-            el.className = 'message ' + (isMe ? 'sent' : 'received');
+            // Si le message existe déjà (UPDATE), on le remplace
+            const existing = document.getElementById('msg-' + msg.id);
+            if (existing) {
+                const newEl = createMessageElement(msg, isMe, isDeleted, time);
+                existing.replaceWith(newEl);
+                return;
+            }
 
-            const escapedContent = (msg.content || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
+            const el = createMessageElement(msg, isMe, isDeleted, time);
+            thread.appendChild(el);
+        }
+
+        function createMessageElement(msg, isMe, isDeleted, time) {
+            const el = document.createElement('div');
+            el.id = 'msg-' + msg.id;
+            el.className = 'message ' + (isMe ? 'sent' : 'received') + (isDeleted ? ' is-deleted' : '');
+
+            // --- Media Html ---
+            let mediaHtml = '';
+            if (msg.media_url && !isDeleted) {
+                const url = msg.media_url;
+                if (msg.media_type === 'image') {
+                    mediaHtml = `<div class="message-media"><img src="${url}" onclick="openLightbox('${url}')"></div>`;
+                } else if (msg.media_type === 'video') {
+                    mediaHtml = `<div class="message-media"><video src="${url}" controls></video></div>`;
+                } else if (msg.media_type === 'audio') {
+                    mediaHtml = `<div class="message-media"><audio src="${url}" controls></audio></div>`;
+                } else {
+                    mediaHtml = `<div class="message-media"><a href="${url}" target="_blank" style="color:var(--emerald-color); font-weight:700;">📎 Document</a></div>`;
+                }
+            }
+
+            // --- Reply Context ---
+            let replyHtml = '';
+            if (msg.reply_to_id && !isDeleted) {
+                const parent = cachedMessages[msg.reply_to_id];
+                if (parent) {
+                    const pName = isMe ? "Moi" : (cachedProfiles[parent.sender_id]?.full_name || "L'autre");
+                    const pContent = parent.is_deleted ? "Message supprimé" : (parent.content || "Média");
+                    replyHtml = `<div class="reply-header-bubble" onclick="document.getElementById('msg-${parent.id}')?.scrollIntoView({behavior:'smooth'})">
+                        <strong>${pName}</strong>: ${pContent.substring(0, 50)}${pContent.length > 50 ? '...' : ''}
+                    </div>`;
+                }
+            }
+
+            // --- Reactions Html ---
+            let reactionsHtml = '';
+            if (msg.reactions && msg.reactions.length > 0) {
+                reactionsHtml = '<div class="message-reactions">';
+                msg.reactions.forEach(r => {
+                    const active = r.user_ids.includes(currentUserId);
+                    reactionsHtml += `<span class="reaction-chip" onclick="addReaction('${msg.id}', '${r.emoji}')" style="${active ? 'border-color:var(--emerald-color); background:rgba(16,185,129,0.05);' : ''}">${r.emoji} ${r.user_ids.length}</span>`;
+                });
+                reactionsHtml += '</div>';
+            }
+
+            // --- Context Menu / Bar (Phase 2) ---
+            const optionsHtml = isDeleted ? '' : `
+                <div class="reaction-bar">
+                    <button class="btn-react" onclick="addReaction('${msg.id}', '❤️')">❤️</button>
+                    <button class="btn-react" onclick="addReaction('${msg.id}', '👍')">👍</button>
+                    <button class="btn-react" onclick="addReaction('${msg.id}', '😂')">😂</button>
+                    ${isMe ? `<button class="btn-react" onclick="deleteMessage('${msg.id}')" title="Supprimer">🗑️</button>` : ''}
+                </div>
+                <button class="btn-msg-reply" onclick="handleReply('${msg.id}', '${isMe ? 'Moi' : (cachedProfiles[msg.sender_id]?.full_name || 'Expert')}', '${(msg.content || 'Média').replace(/'/g, "\\'")}')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 10h10a5 5 0 015 5v2M3 10l6-6m-6 6l6 6"/></svg>
+                </button>
+            `;
+
             let statusHtml = '';
-            if (isMe) {
+            if (isMe && !isDeleted) {
                 const isRead = !!msg.read_at;
                 statusHtml = `
                     <span class="msg-status">
@@ -1200,22 +1477,19 @@
                 `;
             }
 
-            let mediaHtml = '';
-            if (msg.media_url) {
-                if (msg.media_type === 'image') {
-                    mediaHtml = `<div class="message-media"><img src="${msg.media_url}" onclick="window.open(this.src)"></div>`;
-                } else {
-                    mediaHtml = `<div class="message-media"><a href="${msg.media_url}" target="_blank" style="color:var(--emerald-color); font-weight:700;">📎 Fichier joint</a></div>`;
-                }
-            }
+            const escapedContent = isDeleted ? "Message supprimé" : (msg.content || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
 
             el.innerHTML = `
-                ${mediaHtml}
-                <div class="message-bubble">${escapedContent}</div>
+                ${optionsHtml}
+                <div class="message-bubble">
+                    ${replyHtml}
+                    ${mediaHtml}
+                    ${escapedContent}
+                </div>
                 <div class="message-time">${time}${statusHtml}</div>
+                ${reactionsHtml}
             `;
-
-            thread.appendChild(el);
+            return el;
         }
 
         function handleTyping() {
@@ -1270,7 +1544,11 @@
                     .from('chat-media')
                     .getPublicUrl(filePath);
 
-                const mediaType = pendingFile.type.startsWith('image/') ? 'image' : 'document';
+                let mediaType = 'document';
+                if (pendingFile.type.startsWith('image/')) mediaType = 'image';
+                else if (pendingFile.type.startsWith('video/')) mediaType = 'video';
+                else if (pendingFile.type.startsWith('audio/')) mediaType = 'audio';
+
                 return { url: publicUrl, type: mediaType };
             } catch (err) {
                 console.error("Upload error:", err);
@@ -1321,6 +1599,7 @@
                     content: content,
                     media_url: uploadRes?.url || null,
                     media_type: uploadRes?.type || null,
+                    reply_to_id: replyToId, // Phase 2
                     created_at: new Date().toISOString()
                 };
 
@@ -1332,11 +1611,13 @@
                     sender_id: currentUserId,
                     content: content,
                     media_url: uploadRes?.url || null,
-                    media_type: uploadRes?.type || null
+                    media_type: uploadRes?.type || null,
+                    reply_to_id: replyToId // Phase 2
                 });
 
                 if (error) throw error;
                 if (pendingFile) clearAttachment();
+                if (replyToId) cancelReply(); // Phase 2
 
             } catch (err) {
                 console.error("Send error:", err);
@@ -1375,10 +1656,8 @@
                     table: 'messages',
                     filter: `conversation_id=eq.${convId}`
                 }, payload => {
-                    const updatedMsg = payload.new;
-                    if (updatedMsg.sender_id === currentUserId && updatedMsg.read_at) {
-                        loadMessages(convId);
-                    }
+                    // Phase 2: Refraîchir les réactions ou la suppression en temps réel
+                    appendMessage(payload.new);
                 })
                 .subscribe();
 
@@ -1442,6 +1721,12 @@
         });
 
     </script>
+
+    <!-- Lightbox (Phase 2) -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <img id="lightbox-img" src="" alt="Aperçu">
+    </div>
 </body>
 
 </html>
