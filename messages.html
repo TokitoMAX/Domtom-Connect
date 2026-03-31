@@ -1563,8 +1563,21 @@
             const timeObj = new Date(msg.created_at);
             const time = !isNaN(timeObj) ? timeObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
-            // 1. Dédoublonnage : Si le message existe déjà par son ID (server-side id)
+            // 1. Dédoublonnage : Si le message existe déjà par son ID
             if (msg.id) {
+                // Si c'est un message réel (du serveur), on regarde s'il y a un message temporaire qui lui ressemble
+                // (Même contenu, même expéditeur, ID commençant par 'temp-')
+                if (!isDeleted && msg.sender_id === currentUserId) {
+                    const temps = document.querySelectorAll('[id^="msg-temp-"]');
+                    for (let t of temps) {
+                        const contentEl = t.querySelector('.message-content');
+                        if (contentEl && contentEl.textContent.trim() === (msg.content || '').trim()) {
+                            t.id = 'msg-' + msg.id; // On réclame l'élément temporaire avec le bon ID
+                            break;
+                        }
+                    }
+                }
+
                 cachedMessages[msg.id] = msg;
                 const existing = document.getElementById('msg-' + msg.id);
                 if (existing) {
@@ -1574,8 +1587,7 @@
                 }
             }
 
-            // 2. Gestion de l'optimisme : Si c'est un message envoyé par moi sans ID (donc temporaire), 
-            // on lui donne un ID temporaire côté DOM pour éviter les erreurs.
+            // 2. Création et Ajout
             const el = createMessageElement(msg, isMe, isDeleted, time);
             thread.appendChild(el);
             scrollToBottom();
@@ -1799,6 +1811,7 @@
                 }
 
                 const tempMsg = {
+                    id: 'temp-' + Date.now(),
                     sender_id: currentUserId,
                     content: content,
                     media_url: mediaUrl,
