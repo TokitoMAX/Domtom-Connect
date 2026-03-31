@@ -21,5 +21,15 @@
             "destination": "/epopee",
             "permanent": true
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/marketplace/company/:id",
+            "destination": "/marketplace/profile-detail-company.html?id=:id"
+        },
+        {
+            "source": "/marketplace/expert/:id",
+            "destination": "/marketplace/profile-detail-expert.html?id=:id"
+        }
     ]
 }

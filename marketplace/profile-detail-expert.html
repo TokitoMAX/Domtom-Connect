@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
     <title>Profil Expert – Domtom Connect</title>
+    <meta name="description" content="Découvrez le profil de l'expert et ses réalisations sur Domtom Connect.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Profil Expert – Domtom Connect">
+    <meta property="og:description" content="Découvrez le profil de l'expert et ses réalisations sur Domtom Connect.">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Profil Expert – Domtom Connect">
+    <meta property="twitter:description" content="Découvrez le profil de l'expert et ses réalisations sur Domtom Connect.">
+    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+
     <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -117,8 +134,42 @@
         </div>
     </main>
 
-    <footer style="padding: 60px 0; background: white; border-top: 1px solid #e2e8f0; margin-top: 80px; text-align: center;">
-        <p style="color:#64748b; font-weight:600;">© 2026 Domtom Connect. Excellence & Diaspora.</p>
+    <footer class="footer">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div>
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Marketplace</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <li><a href="/marketplace/directory" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Annuaire des Experts</a></li>
+                        <li><a href="/marketplace/jobs" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Missions & Opportunités</a></li>
+                        <li><a href="/marketplace/projects" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Projets & Épopées</a></li>
+                        <li><a href="/marketplace/evenements" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Événements Pro</a></li>
+                        <li><a href="/marketplace/companies" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Annuaire Entreprises</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Ressources</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <li><a href="/blog" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Blog & Podcasts</a></li>
+                        <li><a href="/a-propos" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">À Propos</a></li>
+                        <li><a href="/login" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Connexion</a></li>
+                        <li><a href="/register-choice" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">S'inscrire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Suivez-nous</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">TikTok</a>
+                        <a href="https://www.instagram.com/domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Instagram</a>
+                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">YouTube</a>
+                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 2rem; text-align: center;">
+                <p style="font-size: 0.85rem; color: #64748b;">&copy; 2025 Domtom Connect. L'expertise au service des territoires.</p>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -151,13 +202,45 @@
                     `);
                 }
 
-                document.title = `${p.full_name} - Profil Expert`;
+                const nameStr = p.full_name || 'Expert';
+                const metaDesc = p.bio ? p.bio.substring(0, 160) : `Découvrez le profil de ${nameStr} sur Domtom Connect.`;
+                
+                // Dynamic SEO update
+                document.title = `${nameStr} - Profil Expert | Domtom Connect`;
+                document.querySelector('meta[name="description"]')?.setAttribute('content', metaDesc);
+                document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${nameStr} - Domtom Connect`);
+                document.querySelector('meta[property="og:description"]')?.setAttribute('content', metaDesc);
+                if (p.avatar_url) {
+                    document.querySelector('meta[property="og:image"]')?.setAttribute('content', p.avatar_url);
+                    document.querySelector('meta[property="twitter:image"]')?.setAttribute('content', p.avatar_url);
+                }
+
+                // JSON-LD Structured Data
+                const ldJson = {
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "name": nameStr,
+                    "jobTitle": p.title || "Expert",
+                    "description": p.bio || "",
+                    "url": window.location.href,
+                    "image": p.avatar_url || "",
+                    "sameAs": [
+                        p.linkedin_url,
+                        p.facebook_url,
+                        p.instagram_url,
+                        p.website_url
+                    ].filter(u => u)
+                };
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(ldJson);
+                document.head.appendChild(script);
                 
                 const avatarEl = document.getElementById('p-avatar');
                 if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:24px;">`;
                 else avatarEl.textContent = p.full_name[0].toUpperCase();
 
-                document.getElementById('p-name').textContent = p.full_name;
+                document.getElementById('p-name').textContent = nameStr;
                 document.getElementById('p-title').textContent = p.title || 'Expert Domtom Connect';
                 
                 const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
