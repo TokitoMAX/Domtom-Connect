@@ -599,55 +599,6 @@
             .dashboard-layout { padding-top: 0; }
         }
 
-        /* --- Phase 3: SaaS CRM Styles --- */
-        .lead-status-badge {
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .status-nouveau { background: #eff6ff; color: #3b82f6; border-color: #dbeafe; }
-        .status-discussion { background: #fff7ed; color: #f97316; border-color: #ffedd5; }
-        .status-gagne { background: #f0fdf4; color: #10b981; border-color: #dcfce7; }
-        .status-perdu { background: #fef2f2; color: #ef4444; border-color: #fee2e2; }
-
-        .business-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 16px;
-            margin: 12px 0;
-            max-width: 320px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .business-card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            color: var(--emerald-color);
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 8px;
-        }
-
-        .business-card-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 8px 12px;
-            font-size: 0.85rem;
-        }
-
-        .business-card-label { color: #64748b; font-weight: 600; }
         .business-card-value { color: #0f172a; font-weight: 700; }
 
         /* Modal Lead Capture */
@@ -1801,6 +1752,89 @@
         function scrollToBottom() {
             const thread = document.getElementById('chat-thread');
             if (thread) thread.scrollTop = thread.scrollHeight;
+        }
+
+        async function deleteMessage(msgId) {
+            if (!confirm("Supprimer ce message pour tout le monde ?")) return;
+            
+            const { error } = await _supabase
+                .from('messages')
+                .update({ is_deleted: true, content: 'Message supprimé' })
+                .eq('id', msgId)
+                .eq('sender_id', currentUserId);
+
+            if (error) {
+                console.error("Delete error:", error);
+                alert("Erreur lors de la suppression.");
+            }
+        }
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordStartTime;
+        let recordingInterval;
+
+        async function toggleVoiceRecord() {
+            const btn = document.getElementById('voice-record-btn');
+            const statusText = document.getElementById('voice-status');
+
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const fileName = `audio_${Date.now()}.webm`;
+                        const filePath = `${activeConversationId}/${fileName}`;
+                        
+                        const { error } = await _supabase.storage
+                            .from('chat-media')
+                            .upload(filePath, audioBlob);
+
+                        if (error) {
+                            console.error("Audio upload error:", error);
+                            return;
+                        }
+
+                        const { data: { publicUrl } } = _supabase.storage
+                            .from('chat-media')
+                            .getPublicUrl(filePath);
+
+                        await sendMessage("Message audio", { type: 'audio', url: publicUrl });
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordStartTime = Date.now();
+                    btn.classList.add('recording');
+                    statusText.style.display = 'inline';
+                    
+                    recordingInterval = setInterval(() => {
+                        const sec = Math.floor((Date.now() - recordStartTime) / 1000);
+                        statusText.textContent = `${Math.floor(sec/60)}:${(sec%60).toString().padStart(2, '0')} ●`;
+                    }, 500);
+
+                } catch (err) {
+                    console.error("Mic access denied:", err);
+                    alert("Accès micro refusé ou non supporté.");
+                }
+            } else {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+                isRecording = false;
+                btn.classList.remove('recording');
+                statusText.style.display = 'none';
+                clearInterval(recordingInterval);
+            }
         }
 
         async function sendMessage(payload, metadata) {
