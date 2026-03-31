@@ -812,8 +812,7 @@
                 let query = _supabase
                     .from('profiles')
                     .select('*')
-                    .eq('listed', true)
-                    .in('subscription_tier', ['authority', 'enterprise']);
+                    .eq('listed', true); // Allow all listed profiles
                 
                 if (territory) query = query.eq('territory', territory);
                 if (zone) query = query.eq('zone', zone);
@@ -822,8 +821,16 @@
                 const { data: profiles, error } = await query;
                 if (error) throw error;
 
-                // Client-side filtering and sorting
+                // Client-side filtering and SaaS Priority Sorting
                 let filtered = profiles || [];
+
+                // Tier Rank: Enterprise (3) > Authority (2) > Business (1) > Free/Other (0)
+                const getTierRank = (tier) => {
+                    if (tier === 'enterprise') return 3;
+                    if (tier === 'authority') return 2;
+                    if (tier === 'business') return 1;
+                    return 0;
+                };
 
                 if (currentLetter) {
                     filtered = filtered.filter(item => {
@@ -839,8 +846,13 @@
                     });
                 }
 
-                // A-Z Sorting
+                // SaaS Sorting: Tier Rank (DESC) then Name (ASC)
                 filtered.sort((a, b) => {
+                    const rankA = getTierRank(a.subscription_tier);
+                    const rankB = getTierRank(b.subscription_tier);
+                    
+                    if (rankA !== rankB) return rankB - rankA;
+
                     const nameA = (a.full_name || a.title || "").toUpperCase();
                     const nameB = (b.full_name || b.title || "").toUpperCase();
                     return nameA.localeCompare(nameB);

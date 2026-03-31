@@ -599,6 +599,94 @@
             .dashboard-layout { padding-top: 0; }
         }
 
+        /* --- Phase 3: SaaS CRM Styles --- */
+        .lead-status-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-nouveau { background: #eff6ff; color: #3b82f6; border-color: #dbeafe; }
+        .status-discussion { background: #fff7ed; color: #f97316; border-color: #ffedd5; }
+        .status-gagne { background: #f0fdf4; color: #10b981; border-color: #dcfce7; }
+        .status-perdu { background: #fef2f2; color: #ef4444; border-color: #fee2e2; }
+
+        .business-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            max-width: 320px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .business-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--emerald-color);
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+
+        .business-card-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        .business-card-label { color: #64748b; font-weight: 600; }
+        .business-card-value { color: #0f172a; font-weight: 700; }
+
+        /* Modal Lead Capture */
+        .saas-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .saas-modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .saas-form-group { margin-bottom: 20px; }
+        .saas-form-label { display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px; }
+        .saas-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; transition: border-color 0.2s; }
+        .saas-input:focus { outline: none; border-color: var(--emerald-color); }
+
+
         /* Mobile Bottom Nav Premium */
         .mobile-nav {
             display: none;
@@ -1063,6 +1151,16 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Phase 3: Lead Status (SaaS CRM) -->
+                        <div id="lead-status-container" style="display:none;">
+                            <select id="lead-status-select" class="lead-status-badge" onchange="updateLeadStatus(this.value)">
+                                <option value="Nouveau">Nouveau Lead</option>
+                                <option value="Discussion">En Discussion</option>
+                                <option value="Gagné">Gagné</option>
+                                <option value="Perdu">Perdu</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="chat-messages" id="chat-thread">
@@ -1108,6 +1206,37 @@
                                 </svg>
                             </button>
                         </form>
+                    </div>
+                </div>
+                <!-- Modal Qualification de Lead (SaaS) -->
+                <div id="lead-modal" class="saas-modal-overlay">
+                    <div class="saas-modal">
+                        <h2 style="font-weight:900; letter-spacing:-0.03em; margin-bottom:8px;">Nouvelle Opportunité</h2>
+                        <p style="color:#64748b; font-size:0.9rem; margin-bottom:24px;">Qualifiez votre demande pour obtenir une réponse prioritaire de l'expert.</p>
+                        
+                        <div class="saas-form-group">
+                            <label class="saas-form-label">Sujet de la mission</label>
+                            <input type="text" id="lead-subject" class="saas-input" placeholder="Ex: Développement d'une App Mobile">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                            <div class="saas-form-group">
+                                <label class="saas-form-label">Budget estimé (€)</label>
+                                <input type="number" id="lead-budget" class="saas-input" placeholder="500">
+                            </div>
+                            <div class="saas-form-group">
+                                <label class="saas-form-label">Délai souhaité</label>
+                                <input type="text" id="lead-deadline" class="saas-input" placeholder="2 semaines">
+                            </div>
+                        </div>
+                        <div class="saas-form-group">
+                            <label class="saas-form-label">Message d'introduction</label>
+                            <textarea id="lead-intro" class="saas-input" style="height:100px; resize:none;" placeholder="Décrivez votre besoin..."></textarea>
+                        </div>
+                        
+                        <div style="display:flex; gap:12px; margin-top:24px;">
+                            <button onclick="closeLeadModal()" class="saas-btn secondary" style="flex:1;">Annuler</button>
+                            <button onclick="submitLead()" class="saas-btn primary" style="flex:2;">Lancer la discussion ⚡</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1370,6 +1499,60 @@
             }
         }
 
+        // --- Phase 3: SaaS CRM Logic ---
+
+        function openLeadModal() {
+            document.getElementById('lead-modal').style.display = 'flex';
+        }
+
+        function closeLeadModal() {
+            document.getElementById('lead-modal').style.display = 'none';
+        }
+
+        async function submitLead() {
+            const subject = document.getElementById('lead-subject').value;
+            const budget = document.getElementById('lead-budget').value;
+            const deadline = document.getElementById('lead-deadline').value;
+            const intro = document.getElementById('lead-intro').value;
+
+            if (!subject || !intro) {
+                alert("Veuillez remplir au moins le sujet et l'introduction.");
+                return;
+            }
+
+            const metadata = {
+                type: 'business_card',
+                business_data: { subject, budget, deadline, intro }
+            };
+
+            await sendMessage(intro, metadata);
+            closeLeadModal();
+
+            // Auto-update status to 'Discussion'
+            updateLeadStatus('Discussion');
+        }
+
+        async function updateLeadStatus(newStatus) {
+            if (!activeConversationId) return;
+
+            const { error } = await _supabase
+                .from('conversation_participants')
+                .update({ lead_status: newStatus })
+                .eq('conversation_id', activeConversationId)
+                .eq('user_id', currentUserId);
+
+            if (error) {
+                console.error("Error updating lead status:", error);
+            } else {
+                console.log("Lead status updated to:", newStatus);
+                // Update select UI class
+                const select = document.getElementById('lead-status-select');
+                if (select) {
+                    select.className = 'lead-status-badge status-' + newStatus.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                }
+            }
+        }
+
         async function selectConversation(convId, profile) {
             activeConversationId = convId;
 
@@ -1379,6 +1562,27 @@
 
             document.getElementById('chat-empty').style.display = 'none';
             document.getElementById('chat-active').style.display = 'flex';
+
+            // Phase 3: Sync Lead Status in Header
+            const statusContainer = document.getElementById('lead-status-container');
+            const statusSelect = document.getElementById('lead-status-select');
+            
+            if (statusContainer && statusSelect) {
+                statusContainer.style.display = 'block';
+                // Fetch current status for this participant
+                const { data: part } = await _supabase
+                    .from('conversation_participants')
+                    .select('lead_status')
+                    .eq('conversation_id', convId)
+                    .eq('user_id', currentUserId)
+                    .single();
+                
+                if (part && part.lead_status) {
+                    statusSelect.value = part.lead_status;
+                    statusSelect.className = 'lead-status-badge status-' + part.lead_status.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                }
+            }
+
 
             // Phase 2: Mobile Stack Navigation toggle
             const layout = document.querySelector('.chat-layout');
@@ -1444,7 +1648,14 @@
 
             if (messages) messages.forEach(msg => appendMessage(msg));
             scrollToBottom();
+
+            // Phase 3: If conversation is empty and coming from a "to" param, trigger Lead Modal
+            const urlParams = new URLSearchParams(window.location.search);
+            if ((!messages || messages.length === 0) && urlParams.get('to')) {
+                openLeadModal();
+            }
         }
+
 
         let cachedMessages = {}; // Cache pour les citations (Phase 2)
 
@@ -1541,17 +1752,44 @@
                 `;
             }
 
+            // --- Phase 3: Business Lead Card ---
+            let businessHtml = '';
+            if (msg.metadata?.type === 'business_card' && !isDeleted) {
+                const data = msg.metadata.business_data;
+                businessHtml = `
+                    <div class="business-card">
+                        <div class="business-card-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            <span style="font-weight:900; letter-spacing:-0.03em;">Détails de l'Opportunité</span>
+                        </div>
+                        <div class="business-card-grid">
+                            <span class="business-card-label">Sujet:</span>
+                            <span class="business-card-value">${data.subject}</span>
+                            <span class="business-card-label">Budget:</span>
+                            <span class="business-card-value">${data.budget} €</span>
+                            <span class="business-card-label">Délai:</span>
+                            <span class="business-card-value">${data.deadline}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
             const escapedContent = isDeleted ? "Message supprimé" : (msg.content || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
 
+
             el.innerHTML = `
-                ${optionsHtml}
                 <div class="message-bubble">
                     ${replyHtml}
+                    ${businessHtml}
                     ${mediaHtml}
-                    ${escapedContent}
+                    <div class="message-content">${escapedContent}</div>
+                    <div class="message-info">
+                        ${time}
+                        ${statusHtml}
+                    </div>
+                    ${reactionsHtml}
+                    ${optionsHtml}
                 </div>
-                <div class="message-time">${time}${statusHtml}</div>
-                ${reactionsHtml}
             `;
             return el;
         }
