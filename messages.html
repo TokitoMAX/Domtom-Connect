@@ -673,6 +673,40 @@
             color: var(--primary-color);
         }
 
+        .message-actions-bar {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .message:hover .message-actions-bar {
+            opacity: 1;
+        }
+
+        .btn-msg-action {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .btn-msg-action:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
         .mobile-nav-link svg {
             width: 24px;
             height: 24px;
@@ -1178,15 +1212,7 @@
                                 </button>
                                 <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(this)" accept="image/*,video/*,audio/*,application/pdf">
                                 
-                                <button type="button" class="btn-attach" id="voice-record-btn" onclick="toggleVoiceRecord()" title="Enregistrer un message audio" style="color: #6366f1;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                        <line x1="12" y1="19" x2="12" y2="23"></line>
-                                        <line x1="8" y1="23" x2="16" y2="23"></line>
-                                    </svg>
-                                </button>
-                                <span id="voice-status" style="display:none; color:#ef4444; font-size:0.75rem; font-weight:700; margin-left:4px; min-width:40px;">0:00 ●</span>
+                                <!-- Bouton Audio supprimé pour simplification -->
 
                                 <textarea id="message-input" placeholder="Écrivez votre message..." rows="1"
                                     oninput="handleTyping(); autoResize(this)"></textarea>
@@ -1248,28 +1274,7 @@
             document.getElementById('reply-preview').style.display = 'none';
         }
 
-        async function addReaction(msgId, emoji) {
-            // Logique simplifiée : on récupère les réactions actuelles et on ajoute la nôtre
-            const { data: msg } = await _supabase.from('messages').select('reactions').eq('id', msgId).single();
-            let reactions = msg.reactions || [];
-            
-            // Format: [{emoji: "❤️", user_ids: ["..."]}]
-            const idx = reactions.findIndex(r => r.emoji === emoji);
-            if (idx > -1) {
-                if (!reactions[idx].user_ids.includes(currentUserId)) {
-                    reactions[idx].user_ids.push(currentUserId);
-                } else {
-                    // Toggle off if already reacted
-                    reactions[idx].user_ids = reactions[idx].user_ids.filter(id => id !== currentUserId);
-                    if (reactions[idx].user_ids.length === 0) reactions.splice(idx, 1);
-                }
-            } else {
-                reactions.push({ emoji: emoji, user_ids: [currentUserId] });
-            }
-
-            await _supabase.from('messages').update({ reactions: reactions }).eq('id', msgId);
-            // Pas besoin de recharger tout, le Realtime s'en chargera via subscribeToMessages (si UPDATE est écouté)
-        }
+        // addReaction supprimé pour simplification
 
         async function deleteMessage(msgId) {
             if (!confirm("Supprimer ce message pour tout le monde ?")) return;
@@ -1609,28 +1614,16 @@
                 }
             }
 
-            // --- Reactions Html ---
-            let reactionsHtml = '';
-            if (msg.reactions && msg.reactions.length > 0) {
-                reactionsHtml = '<div class="message-reactions">';
-                msg.reactions.forEach(r => {
-                    const active = r.user_ids.includes(currentUserId);
-                    reactionsHtml += `<span class="reaction-chip" onclick="addReaction('${msg.id}', '${r.emoji}')" style="${active ? 'border-color:var(--emerald-color); background:rgba(16,185,129,0.05);' : ''}">${r.emoji} ${r.user_ids.length}</span>`;
-                });
-                reactionsHtml += '</div>';
-            }
-
             // --- Context Menu / Bar ---
             const optionsHtml = (isDeleted || !msg.id) ? '' : `
-                <div class="reaction-bar">
-                    <button class="btn-react" onclick="addReaction('${msg.id}', '❤️')">❤️</button>
-                    <button class="btn-react" onclick="addReaction('${msg.id}', '👍')">👍</button>
-                    <button class="btn-react" onclick="addReaction('${msg.id}', '😂')">😂</button>
-                    ${isMe ? `<button class="btn-react" onclick="deleteMessage('${msg.id}')" title="Supprimer">🗑️</button>` : ''}
+                <div class="message-actions-bar">
+                    ${isMe ? `<button class="btn-msg-action" onclick="deleteMessage('${msg.id}')" title="Supprimer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>` : ''}
+                    <button class="btn-msg-action" onclick="handleReply('${msg.id}', '${isMe ? 'Moi' : (cachedProfiles[msg.sender_id]?.full_name || 'Expert')}', '${(msg.content || 'Média').replace(/'/g, "\\'")}')" title="Répondre">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 10h10a5 5 0 015 5v2M3 10l6-6m-6 6l6 6"/></svg>
+                    </button>
                 </div>
-                <button class="btn-msg-reply" onclick="handleReply('${msg.id}', '${isMe ? 'Moi' : (cachedProfiles[msg.sender_id]?.full_name || 'Expert')}', '${(msg.content || 'Média').replace(/'/g, "\\'")}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 10h10a5 5 0 015 5v2M3 10l6-6m-6 6l6 6"/></svg>
-                </button>
             `;
 
             let statusHtml = '';
@@ -1660,12 +1653,7 @@
                         ${time}
                         ${statusHtml}
                     </div>
-                    ${reactionsHtml}
                     ${optionsHtml}
-                    ${msg.sender_id === currentUserId ? `
-                    <button class="msg-delete-btn" onclick="deleteMessage('${msg.id}')" title="Supprimer">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                    </button>` : ''}
                 </div>
             `;
             return el;
@@ -1774,73 +1762,7 @@
             }
         }
 
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-        let recordStartTime;
-        let recordingInterval;
-
-        async function toggleVoiceRecord() {
-            const btn = document.getElementById('voice-record-btn');
-            const statusText = document.getElementById('voice-status');
-
-            if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-                    
-                    mediaRecorder.ondataavailable = (event) => {
-                        audioChunks.push(event.data);
-                    };
-
-                    mediaRecorder.onstop = async () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                        const fileName = `audio_${Date.now()}.webm`;
-                        const filePath = `${activeConversationId}/${fileName}`;
-                        
-                        const { error } = await _supabase.storage
-                            .from('chat-media')
-                            .upload(filePath, audioBlob);
-
-                        if (error) {
-                            console.error("Audio upload error:", error);
-                            return;
-                        }
-
-                        const { data: { publicUrl } } = _supabase.storage
-                            .from('chat-media')
-                            .getPublicUrl(filePath);
-
-                        await sendMessage("Message audio", { type: 'audio', url: publicUrl });
-                        stream.getTracks().forEach(track => track.stop());
-                    };
-
-                    mediaRecorder.start();
-                    isRecording = true;
-                    recordStartTime = Date.now();
-                    btn.classList.add('recording');
-                    statusText.style.display = 'inline';
-                    
-                    recordingInterval = setInterval(() => {
-                        const sec = Math.floor((Date.now() - recordStartTime) / 1000);
-                        statusText.textContent = `${Math.floor(sec/60)}:${(sec%60).toString().padStart(2, '0')} ●`;
-                    }, 500);
-
-                } catch (err) {
-                    console.error("Mic access denied:", err);
-                    alert("Accès micro refusé ou non supporté.");
-                }
-            } else {
-                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                    mediaRecorder.stop();
-                }
-                isRecording = false;
-                btn.classList.remove('recording');
-                statusText.style.display = 'none';
-                clearInterval(recordingInterval);
-            }
-        }
+        // toggleVoiceRecord supprimé pour simplification
 
         async function sendMessage(payload, metadata) {
             if (!activeConversationId) return;
