@@ -35,20 +35,17 @@
                     return;
                 }
 
-                // ULTIMATE PHYSICAL REDIRECTION (PONT-BY-POINT ARCHITECTURE)
-                let destination = 'profile-detail-expert.html';
+                // NEW SEO-FRIENDLY REDIRECTION
+                let cleanPath = '/marketplace/expert/';
                 if (p.role === 'entreprise') {
-                    destination = 'profile-detail-company.html';
-                } else if (p.role === 'basique' || p.role === 'user') {
-                    destination = 'profile-detail-expert.html'; // Default to expert style for basique for now
+                    cleanPath = '/marketplace/company/';
                 }
-
-                // Preserve query parameters (id, etc)
-                window.location.replace(`${destination}?${urlParams.toString()}`);
+                
+                window.location.replace(`${cleanPath}${id}`);
 
             } catch (err) {
                 console.error("Router error:", err);
-                window.location.href = 'directory.html';
+                window.location.href = '/marketplace/directory';
             }
         }
         document.addEventListener('DOMContentLoaded', routeProfile);
