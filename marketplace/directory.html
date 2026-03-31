@@ -812,7 +812,9 @@
                 let query = _supabase
                     .from('profiles')
                     .select('*')
-                    .eq('listed', true); // Allow all listed profiles
+                    .eq('listed', true)
+                    .in('role', ['expert', 'prestataire'])
+                    .neq('full_name', 'Domtom Connect');
                 
                 if (territory) query = query.eq('territory', territory);
                 if (zone) query = query.eq('zone', zone);
