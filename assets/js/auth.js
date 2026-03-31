@@ -119,7 +119,8 @@ async function getExperts({ territory } = {}) {
     let query = _supabase
         .from('profiles')
         .select('*')
-        .eq('role', 'expert');
+        .eq('role', 'expert')
+        .neq('full_name', 'Domtom Connect'); // Exclure le profil système/test de l'annuaire
 
     if (territory) {
         query = query.eq('territory', territory);
