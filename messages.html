@@ -1779,7 +1779,8 @@
                 alert("Action impossible ou message introuvable.");
             } else {
                 console.log("Delete success:", data);
-                // Le Realtime se charge de mettre à jour l'UI partout
+                // Mise à jour immédiate de l'UI locale pour éviter d'attendre le Realtime
+                appendMessage(data[0]);
             }
         }
 
