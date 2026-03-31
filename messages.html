@@ -1570,14 +1570,16 @@
             if (statusContainer && statusSelect) {
                 statusContainer.style.display = 'block';
                 // Fetch current status for this participant
-                const { data: part } = await _supabase
+                const { data: part, error: statErr } = await _supabase
                     .from('conversation_participants')
                     .select('lead_status')
                     .eq('conversation_id', convId)
                     .eq('user_id', currentUserId)
-                    .single();
-                
-                if (part && part.lead_status) {
+                    .maybeSingle(); // MaybeSingle avoids some 406 errors
+
+                if (statErr) {
+                    console.warn("Lead status not found (DB update might be missing):", statErr.message);
+                } else if (part && part.lead_status) {
                     statusSelect.value = part.lead_status;
                     statusSelect.className = 'lead-status-badge status-' + part.lead_status.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 }
