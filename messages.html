@@ -1371,14 +1371,13 @@
         async function loadConversations() {
             const loader = document.getElementById('conv-loader');
             const convListEl = document.getElementById('conv-list');
+            if (convListEl) convListEl.innerHTML = ''; 
             loader.style.display = 'block';
 
             const { data: myConvs, error: errorConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
 
             if (errorConvs) {
                 console.error("Erreur participants (myConvs):", errorConvs.message);
-                if (errorConvs.details) console.error("Détails:", errorConvs.details);
-                if (errorConvs.hint) console.error("Hint:", errorConvs.hint);
                 loader.style.display = 'none';
                 return;
             }
@@ -1401,13 +1400,7 @@
                 return;
             }
 
-            if (!otherParticipants || otherParticipants.length === 0) {
-                loader.style.display = 'none';
-                return;
-            }
-
             const otherUserIds = otherParticipants.map(p => p.user_id);
-
             const { data: profiles, error: errorProf } = await _supabase.from('profiles')
                 .select('id, full_name, avatar_url, title, skills')
                 .in('id', otherUserIds);
@@ -1420,10 +1413,7 @@
 
             loader.style.display = 'none';
             if (!profiles) return;
-
             profiles.forEach(p => cachedProfiles[p.id] = p);
-
-            convListEl.innerHTML = '';
 
             otherParticipants.forEach(participant => {
                 const profile = cachedProfiles[participant.user_id];
@@ -1598,7 +1588,7 @@
             el.id = 'msg-' + msg.id;
             el.className = 'message ' + (isMe ? 'sent' : 'received') + (isDeleted ? ' is-deleted' : '');
 
-            // --- Media Html ---
+            // --- Media Html (Simplié pour retrait audio/docs complexes) ---
             let mediaHtml = '';
             if (msg.media_url && !isDeleted) {
                 const url = msg.media_url;
@@ -1607,9 +1597,9 @@
                 } else if (msg.media_type === 'video') {
                     mediaHtml = `<div class="message-media"><video src="${url}" controls></video></div>`;
                 } else if (msg.media_type === 'audio') {
-                    mediaHtml = `<div class="message-media"><audio src="${url}" controls></audio></div>`;
+                    mediaHtml = `<div class="message-media-placeholder" style="font-size:0.8rem; color:var(--text-muted); font-style:italic;">[Note Vocale]</div>`;
                 } else {
-                    mediaHtml = `<div class="message-media"><a href="${url}" target="_blank" style="color:var(--emerald-color); font-weight:700;">📎 Document</a></div>`;
+                    mediaHtml = `<div class="message-media-placeholder" style="font-size:0.8rem; color:var(--text-muted); font-style:italic;">[Fichier Joint]</div>`;
                 }
             }
 

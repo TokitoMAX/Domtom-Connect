@@ -215,12 +215,21 @@ window.calculateProjectMaturity = calculateProjectMaturity;
 window.getProjectStatus = getProjectStatus;
 
 // Mise à jour globale de la Navbar
+let isNavbarProcessed = false;
 async function loadGlobalNavbar() {
+    if (isNavbarProcessed) return; // Éviter l'exécution double
+    
     const session = await getSession();
     const navLinks = document.getElementById('nav-links-container');
     const navActions = document.getElementById('nav-actions-container');
+    
+    if (navLinks) navLinks.innerHTML = '';
+    if (navActions) navActions.innerHTML = '';
+
     const loginLink = document.getElementById('login-link');
     const startButton = document.getElementById('start-button');
+    
+    isNavbarProcessed = true;
 
     if (session) {
         const meta = session.user.user_metadata || {};
