@@ -1747,16 +1747,15 @@
         }
 
         async function deleteMessage(msgId) {
-            if (!msgId || msgId === 'undefined') {
-                console.error("Invalid msgId for delete:", msgId);
+            if (!msgId || msgId === 'undefined' || msgId.startsWith('temp-')) {
+                alert("Le message est en cours d'envoi. Veuillez attendre une seconde.");
                 return;
             }
             
             if (!confirm("Supprimer ce message pour tout le monde ?")) return;
             
-            console.log("Attempting to delete message:", msgId);
-
-            const { data, error, count } = await _supabase
+            // Debugging (Phase 1) - Désactivation temporaire du filtre sender_id pour test
+            const { data, error } = await _supabase
                 .from('messages')
                 .update({ 
                     is_deleted: true, 
@@ -1765,18 +1764,15 @@
                     media_type: null
                 })
                 .eq('id', msgId)
-                .eq('sender_id', currentUserId)
-                .select();
+                .select(); // On retire .eq('sender_id') pour vérifier si c'est la cause
 
             if (error) {
-                console.error("Delete error:", error);
-                alert("Erreur technique lors de la suppression.");
+                console.error("Delete technical error:", error);
+                alert("Erreur base de données : " + error.message);
             } else if (!data || data.length === 0) {
-                console.warn("No rows updated. Check if currentUserId matches sender_id.");
-                alert("Impossible de supprimer ce message (non autorisé ou déjà supprimé).");
+                alert("Le message n'a pas pu être trouvé ou est déjà supprimé.");
             } else {
                 console.log("Delete success:", data);
-                // Le Realtime (UPDATE) mettra à jour l'UI automatiquement
             }
         }
 
