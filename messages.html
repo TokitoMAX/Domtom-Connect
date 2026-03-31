@@ -1550,7 +1550,6 @@
 
         function appendMessage(msg) {
             if (!msg) return;
-            cachedMessages[msg.id] = msg;
             
             const thread = document.getElementById('chat-thread');
             const isMe = (msg.sender_id === currentUserId);
@@ -1559,16 +1558,22 @@
             const timeObj = new Date(msg.created_at);
             const time = !isNaN(timeObj) ? timeObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
-            // Si le message existe déjà (UPDATE), on le remplace
-            const existing = document.getElementById('msg-' + msg.id);
-            if (existing) {
-                const newEl = createMessageElement(msg, isMe, isDeleted, time);
-                existing.replaceWith(newEl);
-                return;
+            // 1. Dédoublonnage : Si le message existe déjà par son ID (server-side id)
+            if (msg.id) {
+                cachedMessages[msg.id] = msg;
+                const existing = document.getElementById('msg-' + msg.id);
+                if (existing) {
+                    const newEl = createMessageElement(msg, isMe, isDeleted, time);
+                    existing.replaceWith(newEl);
+                    return;
+                }
             }
 
+            // 2. Gestion de l'optimisme : Si c'est un message envoyé par moi sans ID (donc temporaire), 
+            // on lui donne un ID temporaire côté DOM pour éviter les erreurs.
             const el = createMessageElement(msg, isMe, isDeleted, time);
             thread.appendChild(el);
+            scrollToBottom();
         }
 
         function createMessageElement(msg, isMe, isDeleted, time) {
@@ -1615,8 +1620,8 @@
                 reactionsHtml += '</div>';
             }
 
-            // --- Context Menu / Bar (Phase 2) ---
-            const optionsHtml = isDeleted ? '' : `
+            // --- Context Menu / Bar ---
+            const optionsHtml = (isDeleted || !msg.id) ? '' : `
                 <div class="reaction-bar">
                     <button class="btn-react" onclick="addReaction('${msg.id}', '❤️')">❤️</button>
                     <button class="btn-react" onclick="addReaction('${msg.id}', '👍')">👍</button>
@@ -1883,16 +1888,20 @@
                 appendMessage(tempMsg);
                 scrollToBottom();
 
-                const { error } = await _supabase.from('messages').insert({
+                const { data, error } = await _supabase.from('messages').insert({
                     conversation_id: activeConversationId,
                     sender_id: currentUserId,
                     content: content,
                     media_url: mediaUrl,
                     media_type: mediaType,
                     reply_to_id: replyToId
-                });
+                }).select().single();
 
                 if (error) throw error;
+                
+                // On remplace le message temporaire par le vrai message avec son ID final
+                if (data) appendMessage(data);
+
                 if (pendingFile) clearAttachment();
                 if (replyToId) cancelReply();
 
