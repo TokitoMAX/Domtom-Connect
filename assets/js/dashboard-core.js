@@ -200,31 +200,6 @@ function renderDashboardCards(role, tier, isListed, profile) {
 
     if (role === 'expert' || role === 'prestataire') {
         container.innerHTML = `
-            <div class="dash-card highlight" style="border-color: #10b981; grid-column: 1 / -1;">
-                <div class="card-title" style="color: #10b981;">Cockpit Performance Business (SaaS)</div>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:20px; margin-top:16px;">
-                    <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-100); text-align:center;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Apparitions Annuaire</div>
-                        <div style="font-size:1.75rem; font-weight:900;">248</div>
-                        <div style="font-size:0.7rem; color:#10b981; font-weight:700;">+12% vs mois dernier</div>
-                    </div>
-                    <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-100); text-align:center;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Inquiries (Leads)</div>
-                        <div style="font-size:1.75rem; font-weight:900;">12</div>
-                        <div style="font-size:0.7rem; color:#10b981; font-weight:700;">4 en attente</div>
-                    </div>
-                     <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-100); text-align:center;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Conversion</div>
-                        <div style="font-size:1.75rem; font-weight:900;">25%</div>
-                        <div style="font-size:0.7rem; color:#64748b;">Moyenne réseau</div>
-                    </div>
-                    <div style="background:white; padding:16px; border-radius:12px; border:1px solid var(--gray-100); text-align:center;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Prochain Podcast</div>
-                        <div style="font-size:0.9rem; font-weight:800; color:#10b981; margin-top:8px;">DISPONIBLE</div>
-                        <button onclick="window.open('https://calendly.com/domtomconnect/30min')" class="cta-button secondary" style="font-size:0.65rem; padding:4px 8px; margin-top:8px; width:100%;">Réserver</button>
-                    </div>
-                </div>
-            </div>
 
             <div class="dash-card">
                 <div class="card-title">Mes Billets</div>
