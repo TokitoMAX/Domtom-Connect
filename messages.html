@@ -1276,10 +1276,7 @@
 
         // addReaction supprimé pour simplification
 
-        async function deleteMessage(msgId) {
-            if (!confirm("Supprimer ce message pour tout le monde ?")) return;
-            await _supabase.from('messages').update({ is_deleted: true, content: "Message supprimé" }).eq('id', msgId);
-        }
+        // deleteMessage déplacé en bas de fichier pour éviter les conflits
 
         async function initMessages() {
             try {
@@ -1750,17 +1747,36 @@
         }
 
         async function deleteMessage(msgId) {
+            if (!msgId || msgId === 'undefined') {
+                console.error("Invalid msgId for delete:", msgId);
+                return;
+            }
+            
             if (!confirm("Supprimer ce message pour tout le monde ?")) return;
             
-            const { error } = await _supabase
+            console.log("Attempting to delete message:", msgId);
+
+            const { data, error, count } = await _supabase
                 .from('messages')
-                .update({ is_deleted: true, content: 'Message supprimé' })
+                .update({ 
+                    is_deleted: true, 
+                    content: 'Message supprimé',
+                    media_url: null,
+                    media_type: null
+                })
                 .eq('id', msgId)
-                .eq('sender_id', currentUserId);
+                .eq('sender_id', currentUserId)
+                .select();
 
             if (error) {
                 console.error("Delete error:", error);
-                alert("Erreur lors de la suppression.");
+                alert("Erreur technique lors de la suppression.");
+            } else if (!data || data.length === 0) {
+                console.warn("No rows updated. Check if currentUserId matches sender_id.");
+                alert("Impossible de supprimer ce message (non autorisé ou déjà supprimé).");
+            } else {
+                console.log("Delete success:", data);
+                // Le Realtime (UPDATE) mettra à jour l'UI automatiquement
             }
         }
 
