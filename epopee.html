@@ -2204,7 +2204,7 @@
                                     <label class="form-label" style="font-size:0.75rem;">Option A : Numéro SIRET</label>
                                     <div style="display:flex; gap:8px;">
                                         <input type="text" id="input-siret" class="sre-input" value="${p.siret || ''}" placeholder="Ex: 123 456 789 00012">
-                                        <button onclick="updateProjectVerification('${p.id}')" class="sre-btn primary">Valider</button>
+                                        <button id="btn-siret-validate" onclick="updateProjectVerification('${p.id}')" class="sre-btn primary">Valider</button>
                                     </div>
                                 </div>
                                 
@@ -2215,9 +2215,9 @@
 
                                 <div>
                                     <label class="form-label" style="font-size:0.75rem;">Option B : Pièce d'Identité (Justification)</label>
-                                    <div style="padding:20px; border:2px dashed #cbd5e1; border-radius:16px; text-align:center; background:white;">
+                                    <div id="id-upload-container" style="padding:20px; border:2px dashed #cbd5e1; border-radius:16px; text-align:center; background:white; transition:all 0.3s;">
                                         <input type="file" id="id-upload-input" style="display:none" onchange="handleIDUpload(this, '${p.id}')">
-                                        <button onclick="document.getElementById('id-upload-input').click()" class="sre-btn secondary" style="font-size:0.8rem;">📤 Téléverser CNI / Passeport</button>
+                                        <button id="btn-id-verify" onclick="document.getElementById('id-upload-input').click()" class="sre-btn secondary" style="font-size:0.8rem;">📤 Téléverser CNI / Passeport</button>
                                         <p style="font-size:0.65rem; color:#94a3b8; margin-top:8px;">Format PDF, JPG ou PNG (Max 5Mo)</p>
                                     </div>
                                 </div>
@@ -2305,7 +2305,15 @@
             const siret = document.getElementById('input-siret').value;
             if (!siret) return alert("Veuillez saisir votre numéro SIRET.");
             
+            const btn = document.getElementById('btn-siret-validate');
+            const input = document.getElementById('input-siret');
+            
             try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerText = "Envoi...";
+                }
+
                 const { error } = await _supabase
                     .from('projects')
                     .update({ 
@@ -2316,9 +2324,21 @@
                 
                 if (error) throw error;
                 
-                alert("✅ Dossier envoyé ! Domtom Connect analyse vos informations. Vous recevrez une notification dès validation.");
-                renderSRECockpit(); // UI update to show 'En attente'
+                if (btn) {
+                    btn.innerText = "Envoyé ✅";
+                    btn.style.background = "#10b981";
+                }
+                if (input) input.disabled = true;
+
+                setTimeout(() => {
+                    alert("✅ Dossier envoyé ! Domtom Connect analyse vos informations. Vous recevrez une notification dès validation.");
+                    renderSRECockpit(); // UI update to show 'En attente'
+                }, 500);
             } catch (err) {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = "Valider";
+                }
                 alert("Erreur : " + err.message);
             }
         }
@@ -2514,6 +2534,7 @@
             const filenameLabel = document.getElementById('upload-filename');
 
             try {
+                const container = document.getElementById('id-upload-container');
                 if (btn) btn.style.display = 'none';
                 if (progContainer) progContainer.style.display = 'block';
                 if (filenameLabel) filenameLabel.innerText = file.name;
@@ -2521,6 +2542,7 @@
                     statusText.innerText = "Dépôt en cours...";
                     statusText.style.color = "#0284c7";
                 }
+                if (container) container.style.background = "#f8fafc";
 
                 // Pour un UX Premium, on garde la barre de progression (simulée pour le flux de données)
                 let progress = 0;
@@ -2567,17 +2589,29 @@
                     statusText.style.color = "#f59e0b";
                 }
                 
+                if (container) {
+                    container.style.borderColor = "#10b981";
+                    container.style.background = "#f0fdf4";
+                }
+
                 if (progContainer) {
                     setTimeout(() => {
                         progContainer.innerHTML = `
-                            <div style="display:flex; align-items:center; gap:8px; color:#10b981; font-size:0.7rem; font-weight:800;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-                                Document transmis avec succès
+                            <div style="display:flex; flex-direction:column; align-items:center; gap:8px; color:#10b981; font-size:0.75rem; font-weight:800;">
+                                <div style="width:32px; height:32px; border-radius:50%; background:#10b981; color:white; display:flex; align-items:center; justify-content:center; margin-bottom:4px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                                </div>
+                                Document transmis avec succès ✅
+                                <p style="font-weight:400; color:#64748b; font-size:0.65rem; margin:0;">Analyse en cours par Domtom Connect</p>
                             </div>
                         `;
                     }, 500);
                 }
-                alert("Document transmis ! L'équipe Domtom Connect va certifier votre profil dès vérification.");
+                
+                setTimeout(() => {
+                    alert("Document transmis ! L'équipe Domtom Connect va certifier votre profil dès vérification.");
+                    renderSRECockpit(); // Refetch to show the 'Analysis in progress' badge
+                }, 1500);
             } catch (err) {
                 alert("Erreur: " + err.message);
                 if (btn) btn.style.display = 'block';
