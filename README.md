@@ -41,6 +41,6 @@ DomtomConnect-Website/
 
 ## 📄 Licence
 
-© 2025 Domtom Connect. Tous droits réservés.
+© 2026 Domtom Connect. Tous droits réservés.
 ---
 **Domtom Connect** - L'accélérateur de business nouvelle génération pour les territoires ultramarins.
