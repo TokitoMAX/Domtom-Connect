@@ -1142,6 +1142,7 @@
                     </svg>
                 </div>
                 <span class="sidebar-label" style="color:#10b981; font-weight:800;">🚀 L'Épopée</span>
+                <span id="admin-notif-dot" style="display:none; position:absolute; top:12px; right:12px; width:10px; height:10px; background:#ef4444; border-radius:50%; border:2px solid white; box-shadow:0 0 10px rgba(239, 68, 68, 0.5);"></span>
             </a>
 
             <a href="/marketplace/projects" class="sidebar-link" title="Projets">
@@ -1359,9 +1360,16 @@
             if (viewId === 'overview' || viewId === 'projects') {
                 const el = document.getElementById('main-dashboard-content');
                 if (el) el.style.display = 'block';
-            } else if (viewId === 'epopee' || viewId === 'sre') {
+            } else if (viewId === 'epopee' || viewId === 'sre' || viewId === 'success-engine') {
                 const el = document.getElementById('success-engine-view-fixed');
                 if (el) el.style.display = 'block';
+                // Trigger project load if not already loaded
+                if (!currentSREProject) {
+                    const session = _session; // Assuming _session is available globally or get it
+                    if (session && typeof loadMyProjects === 'function') {
+                        loadMyProjects(session.user.id);
+                    }
+                }
             } else if (viewId === 'billetterie') {
                 const el = document.getElementById('billetterie-view');
                 if (el) el.style.display = 'block';
@@ -1735,39 +1743,46 @@
         }
 
         async function loadMatchmaking(userId) {
+            // Priority: Check if we have a matchmaking-section container
             const container = document.getElementById('matches-container');
             const section = document.getElementById('matchmaking-section');
             if (!container) return;
-            const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
-            if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
-                // Upsell is handled in "Mon Offre", we just hide the raw matches here or show a locked state
+
+            try {
+                const { data: profile } = await _supabase.from('profiles').select('subscription_tier, role').eq('id', userId).single();
+                if (!profile) return;
+
+                const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
+
                 if (section) section.style.display = 'block';
-                container.innerHTML = `
-                    <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
-                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
-                        <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
-                        <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Passer au Pack Business</a>
-                    </div>
-                `;
-                return;
-            }
 
-            section.style.display = 'block';
+                if (!isPremium) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez vos Pépites</h3>
+                            <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts (vos pépites) pour votre projet.</p>
+                            <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Découvrir le Pack Business</a>
+                        </div>
+                    `;
+                    return;
+                }
 
-            // Récupérer les 3 derniers matchs pour les missions de l'entreprise
-            // Simulé ici en attendant d'exécuter le SQL RPC sur le serveur
-            const { data: experts, error } = await _supabase
-                .from('profiles')
-                .select('*')
-                .eq('role', 'expert')
-                .eq('listed', true)
-                .limit(3);
+                // Récupérer les 3 derniers matchs (Experts)
+                const { data: experts, error } = await _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('role', 'expert')
+                    .eq('listed', true)
+                    .limit(3);
 
-            if (experts && experts.length > 0) {
-                container.innerHTML = experts.map(renderMatchCard).join('');
-            } else {
-                container.innerHTML = '<p style="color:var(--text-muted);">Aucun match trouvé pour le moment.</p>';
+                if (experts && experts.length > 0) {
+                    container.innerHTML = experts.map(renderMatchCard).join('');
+                } else {
+                    container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">Aucune pépite trouvée pour le moment.</p>';
+                }
+            } catch (err) {
+                console.error("Load Matchmaking Error:", err);
             }
         }
 
@@ -1829,10 +1844,6 @@
 
         function renderVisibilityPreview(profile) {
             console.log("Render Visibility Preview for:", profile?.id);
-        }
-
-        async function loadMatchmaking(userId) {
-            console.log("Loading matchmaking for:", userId);
         }
 
         async function toggleListing(currentStatus) {
@@ -2079,7 +2090,23 @@
                 <div class="sre-content-area" id="sre-step-content">
                     ${renderSREStepContent()}
                 </div>
+
+                <!-- Section Pépites (Matchmaking) -->
+                <div id="matchmaking-section" style="display:none; margin-top:60px; padding-top:40px; border-top:1px solid var(--gray-200);">
+                    <div style="margin-bottom:24px;">
+                        <h2 style="font-size:1.5rem; font-weight:800; margin:0; display:flex; align-items:center; gap:12px;">
+                            💎 VOS PÉPITES <span style="font-size:0.75rem; background:#7c3aed; color:white; padding:4px 10px; border-radius:20px;">TALENTS MATCHÉS</span>
+                        </h2>
+                        <p style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Nos recommandations d'experts pour propulser votre Épopée.</p>
+                    </div>
+                    <div id="matches-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
+                        <!-- Match Cards -->
+                    </div>
+                </div>
             `;
+
+            // Load matches immediately for project owners
+            loadMatchmaking(_session.user.id);
 
             if (currentSREStep === 5) {
                 loadDashboardRewards(p.id);
@@ -3319,7 +3346,21 @@
                         <p class="card-desc">Valider les nouveaux profils et vérifier les badges Authority.</p>
                         <a href="marketplace/directory" class="cta-button primary" style="background:var(--text-primary); margin-top:auto; justify-content:center;">Ouvrir l'annuaire →</a>
                     </div>
+
+                    <!-- NEW: Validation des Épopées -->
+                    <div class="dash-card" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.02); grid-column: 1 / -1;">
+                        <div class="card-title" style="color: #d97706; display: flex; justify-content: space-between;">
+                            Validation des Épopées
+                            <span id="pending-count-badge" style="background: #ef4444; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; display: none;">0 en attente</span>
+                        </div>
+                        <div id="pending-projects-container" style="margin-top: 20px;">
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Chargement des projets à valider...</p>
+                        </div>
+                    </div>
                 `;
+
+                // Charger les dossiers à valider
+                loadPendingProjects();
 
                 // Charger les stats globales (Simulé via localStorage)
                 const total = parseFloat(localStorage.getItem('dc_total_signed') || 0);
@@ -4332,5 +4373,77 @@
         <input type="hidden" id="milestone-proj-id">
     </div>
 
+        async function loadPendingProjects() {
+            const container = document.getElementById('pending-projects-container');
+            const badge = document.getElementById('pending-count-badge');
+            const menuDot = document.getElementById('admin-notif-dot');
+            
+            try {
+                const { data: projects, error } = await _supabase
+                    .from('projects')
+                    .select('*, profiles(full_name)')
+                    .eq('is_approved', false)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!projects || projects.length === 0) {
+                    if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">✅ Aucun projet en attente de validation.</p>';
+                    if (badge) badge.style.display = 'none';
+                    if (menuDot) menuDot.style.display = 'none';
+                    return;
+                }
+
+                if (badge) {
+                    badge.textContent = `${projects.length} en attente`;
+                    badge.style.display = 'inline-block';
+                }
+                if (menuDot) menuDot.style.display = 'block';
+
+                if (container) {
+                    container.innerHTML = `
+                        <div style="display: grid; gap: 12px;">
+                            ${projects.map(p => `
+                                <div style="background: white; border: 1px solid var(--gray-200); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: 800; color: #111827;">${p.title}</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Par <strong>${p.profiles?.full_name || 'Utilisateur'}</strong> • Maturité : ${calculateProjectMaturity(p)}%</div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px;">
+                                        <a href="/marketplace/project?id=${p.id}" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px;">Voir</a>
+                                        <button onclick="approveSREProject('${p.id}')" class="cta-button primary" style="font-size: 0.75rem; padding: 6px 16px; background: #10b981;">Approuver</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error("Load Pending Projects Error:", err);
+            }
+        }
+
+        async function approveSREProject(projectId) {
+            if (!confirm("Voulez-vous vraiment approuver et publier cette Épopée ?")) return;
+            
+            try {
+                const { error } = await _supabase
+                    .from('projects')
+                    .update({ 
+                        is_approved: true,
+                        is_listed: true,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                
+                alert("🚀 Projet approuvé et publié avec succès !");
+                loadPendingProjects();
+            } catch (err) {
+                alert("Erreur lors de l'approbation : " + err.message);
+            }
+        }
+    </script>
 </body>
 </html>
