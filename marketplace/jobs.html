@@ -459,7 +459,7 @@
 
                     <div class="premium-footer">
                         ${isOwner ? '<button class="btn-premium btn-sent" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0; box-shadow:none;" disabled><i class="fas fa-user-tie"></i> Votre offre</button>' : 
-                          currentUserRole === 'user' ? `
+                          ['user', 'porteur', 'basique'].includes(currentUserRole) ? `
                             <div style="flex: 1; text-align: center;">
                                 <p style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Accès réservé aux Experts</p>
                                 <a href="/marketplace/directory" class="btn-premium" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; text-decoration: none; display: block; font-size: 0.9rem; padding: 14px;">Trouver un Expert</a>

@@ -1,6 +1,6 @@
--- Restreindre les candidatures pour les Porteurs de Projet (rôle 'user')
+-- Restreindre les candidatures pour les Porteurs de Projet (rôles 'user', 'porteur', 'basique')
 -- Seuls les Experts et les Entreprises peuvent désormais postuler aux missions.
--- Les Porteurs de Projet sont invités à recruter via l'annuaire.
+-- Les autres rôles sont invités à recruter via l'annuaire.
 
 DROP POLICY IF EXISTS "Les candidats peuvent postuler" ON job_applications;
 
@@ -11,8 +11,8 @@ WITH CHECK (
   AND EXISTS (
     SELECT 1 FROM profiles 
     WHERE id = auth.uid() 
-    AND role != 'user'
+    AND (role = 'expert' OR role = 'entreprise')
   )
 );
 
-COMMENT ON POLICY "Les candidats peuvent postuler" ON job_applications IS 'Bloque les candidatures provenant du rôle Porteur de Projet (user).';
+COMMENT ON POLICY "Les candidats peuvent postuler" ON job_applications IS 'Limite les candidatures aux rôles expert et entreprise.';
