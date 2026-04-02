@@ -137,40 +137,18 @@
         </div>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" style="padding: 60px 0 40px; border-top: 1px solid #e2e8f0; background: white; margin-top: 100px;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Marketplace</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-                        <li><a href="/marketplace/directory" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Annuaire des Experts</a></li>
-                        <li><a href="/marketplace/jobs" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Missions & Opportunités</a></li>
-                        <li><a href="/marketplace/projects" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Projets & Épopées</a></li>
-                        <li><a href="/marketplace/evenements" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Événements Pro</a></li>
-                        <li><a href="/marketplace/companies" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Annuaire Entreprises</a></li>
-                    </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0; font-weight: 500;">&copy; 2025 Domtom Connect. L'expertise au service des territoires.</p>
                 </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Ressources</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-                        <li><a href="/blog" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Blog & Podcasts</a></li>
-                        <li><a href="/a-propos" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">À Propos</a></li>
-                        <li><a href="/login" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Connexion</a></li>
-                        <li><a href="/register-choice" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">S'inscrire</a></li>
-                    </ul>
+                <div style="display: flex; gap: 32px;">
+                    <a href="/legal" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Mentions Légales</a>
+                    <a href="/privacy" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Confidentialité</a>
+                    <a href="/contact" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
                 </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1.5rem;">Suivez-nous</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">TikTok</a>
-                        <a href="https://www.instagram.com/domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Instagram</a>
-                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">YouTube</a>
-                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">LinkedIn</a>
-                    </div>
-                </div>
-            </div>
-            <div style="border-top: 1px solid #e2e8f0; padding-top: 2rem; text-align: center;">
-                <p style="font-size: 0.85rem; color: #64748b;">&copy; 2025 Domtom Connect. L'expertise au service des territoires.</p>
             </div>
         </div>
     </footer>
@@ -283,9 +261,13 @@
 
                 const items = Array.isArray(p.portfolio) ? p.portfolio : [];
                 document.getElementById('p-portfolio-list').innerHTML = items.map(item => `
-                    <div class="portfolio-card">
-                        <h4 style="margin:0; font-size:1.1rem; color:#0f172a;">${item.title}</h4>
+                    <div class="portfolio-card" style="cursor: pointer; position: relative;" onclick="window.open('${item.url || '#'}', '_blank')">
+                        <h4 style="margin:0; font-size:1.1rem; color:#0f172a; display: flex; justify-content: space-between; align-items: center;">
+                            ${item.title}
+                            ${item.url ? '<i class="fas fa-external-link-alt" style="font-size: 0.8rem; color: var(--primary);"></i>' : ''}
+                        </h4>
                         <p style="font-size:0.95rem; color:#475569; margin:10px 0 0;">${item.description || ''}</p>
+                        ${item.url ? `<p style="font-size:0.75rem; color:var(--primary); font-weight:700; margin-top:12px; text-transform:uppercase; letter-spacing:0.05em;">Voir le projet <i class="fas fa-arrow-right"></i></p>` : ''}
                     </div>
                 `).join('') || '<p style="color:#64748b;">Aucun projet encore publié.</p>';
 

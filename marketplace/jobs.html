@@ -254,11 +254,11 @@
             </a>
             <div class="nav-content">
                 <div class="nav-links">
-                    <a href="/marketplace/directory">Annuaire des Experts</a>
-                    <a href="/marketplace/jobs" class="active">Missions & Opportunités</a>
-                    <a href="/marketplace/projects">Projets & Épopées</a>
-                    <a href="/marketplace/evenements">Événements Pro</a>
-                    <a href="/marketplace/companies">Annuaire Entreprises</a>
+                    <a href="/marketplace/directory">Talents</a>
+                    <a href="/marketplace/jobs" class="active">Missions</a>
+                    <a href="/marketplace/projects">Projets</a>
+                    <a href="/marketplace/evenements">Événements</a>
+                    <a href="/marketplace/companies">Entreprises</a>
                 </div>
                 <div id="nav-actions-container" style="display: flex; gap: 12px;"></div>
             </div>
@@ -312,10 +312,22 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Note de motivation</label>
-                    <textarea id="apply-note" class="form-textarea" placeholder="Expliquez brièvement pourquoi ce projet vous intéresse..." style="min-height: 180px;"></textarea>
+                    <label style="font-weight: 800; color: #0f172a; margin-bottom: 12px; display: block;">Lettre de motivation & Approche</label>
+                    <textarea id="apply-note" class="form-textarea" placeholder="Détaillez votre expertise pour ce projet..." style="min-height: 180px; width: 100%; box-sizing: border-box;"></textarea>
                 </div>
-                <button class="btn-postuler-premium" id="btn-confirm-apply" onclick="confirmApply()" style="width: 100%;">Confirmer ma candidature</button>
+                <div class="form-group" style="margin-top: 24px;">
+                    <label style="font-weight: 800; color: #0f172a; margin-bottom: 12px; display: block;">Votre CV / Portfolio (PDF)</label>
+                    <div style="border: 2px dashed #e2e8f0; padding: 40px; border-radius: 20px; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.3s;" onclick="document.getElementById('apply-cv').click()" id="cv-dropzone">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #10b981; margin-bottom: 16px;"></i>
+                        <p id="cv-filename" style="margin: 0; font-weight: 700; color: #475569;">Cliquez pour charger votre PDF</p>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 8px;">Format PDF uniquement (Max 10Mo)</p>
+                        <input type="file" id="apply-cv" accept=".pdf" style="display: none;" onchange="handleCVSelect(event)">
+                    </div>
+                </div>
+                <div style="margin-top: 32px;">
+                    <button class="btn-postuler-premium" id="btn-confirm-apply" onclick="confirmApply()" style="width: 100%;">Envoyer ma candidature sécurisée</button>
+                    <p style="text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 16px;"><i class="fas fa-lock"></i> Vos données sont protégées par chiffrement</p>
+                </div>
             </div>
         </div>
     </div>
@@ -497,25 +509,71 @@
 
         async function confirmApply() {
             if (!currentUserId) { alert("Veuillez vous connecter pour postuler."); return; }
+            
             const note = document.getElementById('apply-note').value;
+            const cvFile = document.getElementById('apply-cv').files[0];
             const btn = document.getElementById('btn-confirm-apply');
             
+            if (!note || note.length < 20) { alert("Veuillez rédiger une note de motivation plus détaillée (min 20 caractères)."); return; }
+            
             btn.disabled = true;
-            btn.textContent = "Envoi...";
+            btn.textContent = "Téléchargement du CV...";
+
+            let cvUrl = null;
+            if (cvFile) {
+                const fileExt = cvFile.name.split('.').pop();
+                const fileName = `${currentUserId}_${Date.now()}.${fileExt}`;
+                const { data: uploadData, error: uploadError } = await _supabase.storage
+                    .from('applications-docs')
+                    .upload(`cvs/${fileName}`, cvFile);
+
+                if (uploadError) {
+                    alert("Erreur lors de l'envoi du CV : " + uploadError.message);
+                    btn.disabled = false;
+                    btn.textContent = "Envoyer ma candidature sécurisée";
+                    return;
+                }
+                const { data: { publicUrl } } = _supabase.storage.from('applications-docs').getPublicUrl(`cvs/${fileName}`);
+                cvUrl = publicUrl;
+            }
+
+            btn.textContent = "Finalisation de l'envoi...";
 
             const { error } = await _supabase.from('job_applications').insert([{
                 job_id: currentApplyJobId,
                 candidate_id: currentUserId,
                 motivation_note: note,
+                cv_url: cvUrl,
                 status: 'pending'
             }]);
 
             if (error) {
                 alert("Erreur : " + error.message);
                 btn.disabled = false;
-                btn.textContent = "Confirmer ma candidature";
+                btn.textContent = "Envoyer ma candidature sécurisée";
             } else {
-                location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Candidature envoyée !',
+                    text: 'Votre expertise a bien été transmise à l\'entreprise.',
+                    confirmButtonColor: '#10b981'
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }
+
+        function handleCVSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.type !== 'application/pdf') {
+                    alert("Seuls les fichiers PDF sont acceptés.");
+                    event.target.value = '';
+                    return;
+                }
+                document.getElementById('cv-filename').textContent = file.name;
+                document.getElementById('cv-dropzone').style.borderColor = '#10b981';
+                document.getElementById('cv-dropzone').style.background = '#f0fdf4';
             }
         }
 
@@ -523,40 +581,18 @@
 
         init();
     </script>
-    <footer class="footer">
+    <footer class="footer" style="padding: 60px 0 40px; border-top: 1px solid #e2e8f0; background: white; margin-top: 100px;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">Marketplace</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-                        <li><a href="/marketplace/directory" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Annuaire des Experts</a></li>
-                        <li><a href="/marketplace/jobs" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Missions & Opportunités</a></li>
-                        <li><a href="/marketplace/projects" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Projets & Épopées</a></li>
-                        <li><a href="/marketplace/evenements" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Événements Pro</a></li>
-                        <li><a href="/marketplace/companies" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Annuaire Entreprises</a></li>
-                    </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin: 0; font-weight: 500;">&copy; 2025 Domtom Connect. L'expertise au service des territoires.</p>
                 </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">Ressources</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-                        <li><a href="/blog" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Blog & Podcasts</a></li>
-                        <li><a href="/a-propos" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">À Propos</a></li>
-                        <li><a href="/login" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Connexion</a></li>
-                        <li><a href="/register-choice" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">S'inscrire</a></li>
-                    </ul>
+                <div style="display: flex; gap: 32px;">
+                    <a href="/legal" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Mentions Légales</a>
+                    <a href="/privacy" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Confidentialité</a>
+                    <a href="/contact" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
                 </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">Suivez-nous</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TikTok</a>
-                        <a href="https://www.instagram.com/domtomconnect" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Instagram</a>
-                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">YouTube</a>
-                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">LinkedIn</a>
-                    </div>
-                </div>
-            </div>
-            <div style="border-top: 1px solid var(--gray-200); padding-top: 2rem; text-align: center;">
-                <p style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2025 Domtom Connect. Tous droits réservés. L'expertise au service des territoires.</p>
             </div>
         </div>
     </footer>
