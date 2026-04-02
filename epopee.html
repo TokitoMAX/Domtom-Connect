@@ -1341,12 +1341,42 @@
     <script>
         // NUCLEAR FIX: Global showView with zero ambiguous selectors
         function showView(viewId, pushState = true) {
-            // Epopee is specialized: force Success Engine
-            const view = document.getElementById('success-engine-view-fixed');
-            if (view) view.style.display = 'block';
+            console.log("DEBUG: showView called for", viewId);
+            const views = [
+                'success-engine-view-fixed', 
+                'main-dashboard-content', 
+                'billetterie-view', 
+                'mes-billets-view'
+            ];
             
-            const mainHub = document.getElementById('main-dashboard-content');
-            if (mainHub) mainHub.style.display = 'none';
+            // Hide all
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            // Show target
+            if (viewId === 'overview' || viewId === 'projects') {
+                const el = document.getElementById('main-dashboard-content');
+                if (el) el.style.display = 'block';
+            } else if (viewId === 'epopee' || viewId === 'sre') {
+                const el = document.getElementById('success-engine-view-fixed');
+                if (el) el.style.display = 'block';
+            } else if (viewId === 'billetterie') {
+                const el = document.getElementById('billetterie-view');
+                if (el) el.style.display = 'block';
+                if (typeof loadMyTicketing === 'function') loadMyTicketing();
+            } else if (viewId === 'mes-billets') {
+                const el = document.getElementById('mes-billets-view');
+                if (el) el.style.display = 'block';
+                if (typeof loadMyTicketsAttendee === 'function') loadMyTicketsAttendee();
+            } else if (viewId === 'applications') {
+                window.location.href = '/candidatures.html';
+            }
+
+            if (pushState && pushState !== false) {
+               window.location.hash = viewId;
+            }
         }
 
         // Routing logic
@@ -1684,15 +1714,22 @@
         }
 
         async function deleteEvent(eventId) {
-            if (!confirm("⚠️ SUPPRESSION ÉVÉNEMENT\n\nÊtes-vous sûr de vouloir supprimer cette annonce ?\nCette action est irréversible.")) return;
+            if (!confirm("⚠️ SUPPRESSION ÉVÉNEMENT\n\nÊtes-vous sûr de vouloir supprimer cette annonce ?\nCette action est irréversible et supprimera également les réservations associées.")) return;
             
             try {
+                // Check if any tickets are active before deleting (optional extra check for safety)
+                const { data: tickets } = await _supabase.from('tickets').select('id').eq('event_id', eventId).limit(1);
+                if (tickets && tickets.length > 0) {
+                   if (!confirm("Attention : Des billets ont déjà été vendus/générés pour cet événement. La suppression annulera tout. Continuer ?")) return;
+                }
+
                 const { error } = await _supabase.from('events').delete().eq('id', eventId);
                 if (error) throw error;
                 
                 alert("Annonce supprimée avec succès.");
-                loadMyTicketing();
+                if (typeof loadMyTicketing === 'function') loadMyTicketing();
             } catch (err) {
+                console.error("Delete Event Error:", err);
                 alert("Erreur lors de la suppression: " + err.message);
             }
         }
@@ -1846,7 +1883,10 @@
             // Step 6: Envol (17%)
             const isVerified = p.verification_status === 'verified';
             const hasPitch = p.pitch_texte && p.pitch_texte.trim().length > 20;
-            if (isVerified || hasPitch) score += 17;
+            
+            // For Step 6 to be completed, Identity must be verified (SRE Policy)
+            if (isVerified && hasPitch) score += 17;
+            else if (isVerified || hasPitch) score += 8; // Partial progress
 
             console.log(`Maturity Debug [${p.title}]:`, {
                 score,
