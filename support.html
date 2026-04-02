@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Aide | Domtom Connect - L'expertise au service des territoires</title>
+    <meta name="description" content="Accédez au support et à l'aide de Domtom Connect - Foire Aux Questions et contact.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --emerald-color: #10b981;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --bg-page: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+        }
+
+        body { font-family: 'Inter', sans-serif; color: var(--text-primary); line-height: 1.6; background: var(--bg-page); margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
+        
+        header { text-align: center; margin-bottom: 80px; }
+        .nav-brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 32px; }
+        .nav-logo { height: 32px; }
+        .nav-brand-name { font-weight: 800; font-size: 1.25rem; color: #000; }
+        
+        h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 20px; color: #000; }
+        .subtitle { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+        .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 60px; }
+        
+        .support-card { background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--gray-200); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .support-card i { font-size: 2rem; color: var(--emerald-color); margin-bottom: 24px; }
+        .support-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; margin-top: 0; }
+        .support-card p { color: var(--text-secondary); margin-bottom: 24px; }
+        
+        .cta-button { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: #000; color: #fff; text-decoration: none; border-radius: 14px; font-weight: 700; transition: 0.3s; }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+        .faq-section { margin-top: 100px; }
+        .faq-section h2 { font-size: 2rem; font-weight: 900; text-align: center; margin-bottom: 48px; }
+        
+        .faq-item { background: #fff; border: 1px solid var(--gray-200); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+        .faq-question { padding: 24px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { padding: 0 24px 24px; color: var(--text-secondary); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question { color: var(--emerald-color); }
+
+        .back-home { display: block; text-align: center; margin-top: 80px; color: var(--text-muted); text-decoration: none; font-weight: 600; }
+        .back-home:hover { color: #000; }
+
+        footer { text-align: center; margin-top: 100px; padding: 40px 0; border-top: 1px solid var(--gray-200); }
+        footer p { font-size: 0.85rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="/" class="nav-brand">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <h1>Besoin d'aide ?</h1>
+            <p class="subtitle">Nous sommes là pour vous accompagner dans votre réussite sur Domtom Connect.</p>
+        </header>
+
+        <div class="support-grid">
+            <div class="support-card">
+                <i class="fas fa-envelope-open-text"></i>
+                <h2>Contactez-nous</h2>
+                <p>Notre équipe support est disponible du lundi au vendredi pour répondre à toutes vos questions techniques ou commerciales.</p>
+                <a href="mailto:support@domtomconnect.com" class="cta-button">Envoyer un Email</a>
+            </div>
+            <div class="support-card">
+                <i class="fab fa-whatsapp"></i>
+                <h2>Assistance Directe</h2>
+                <p>Une urgence ? Contactez notre équipe via WhatsApp pour une assistance rapide et personnalisée.</p>
+                <a href="https://wa.me/33600000000" target="_blank" class="cta-button" style="background:#25D366;">WhatsApp Direct</a>
+            </div>
+        </div>
+
+        <section class="faq-section">
+            <h2>Foire Aux Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Comment puis-je modifier mon profil ?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Connectez-vous à votre compte et accédez à l'onglet "Profil" depuis votre tableau de bord. Vous pourrez y modifier vos informations personnelles, votre logo et vos compétences.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    L'inscription est-elle gratuite ?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Oui, l'inscription de base est gratuite pour tous les utilisateurs. Nous proposons des abonnements Premium optionnels pour augmenter votre visibilité et accéder à des fonctionnalités exclusives.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Comment sont protégées mes données ?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Toutes vos données sont stockées de manière sécurisée et traitées conformément au RGPD. Consultez notre page "Confidentialité" pour plus de détails.
+                </div>
+            </div>
+        </section>
+
+        <a href="/" class="back-home"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+
+        <footer>
+            <p>&copy; 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
