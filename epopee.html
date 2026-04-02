@@ -1340,6 +1340,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
     <script>
+        let _currentSession = null;
+
         // NUCLEAR FIX: Global showView with zero ambiguous selectors
         function showView(viewId, pushState = true) {
             console.log("DEBUG: showView called for", viewId);
@@ -1365,7 +1367,7 @@
                 if (el) el.style.display = 'block';
                 // Trigger project load if not already loaded
                 if (!currentSREProject) {
-                    const session = _session; // Assuming _session is available globally or get it
+                    const session = _currentSession; 
                     if (session && typeof loadMyProjects === 'function') {
                         loadMyProjects(session.user.id);
                     }
@@ -2106,7 +2108,9 @@
             `;
 
             // Load matches immediately for project owners
-            loadMatchmaking(_session.user.id);
+            if (_currentSession) {
+                loadMatchmaking(_currentSession.user.id);
+            }
 
             if (currentSREStep === 5) {
                 loadDashboardRewards(p.id);
@@ -2379,7 +2383,7 @@
                 if (error) throw error;
                 
                 currentSREProject = null;
-                const session = await getSession();
+                const session = _currentSession || await getSession();
                 if (session) await loadMyProjects(session.user.id);
                 renderSREEmptyState();
                 alert("✅ Épopée supprimée.");
@@ -2581,7 +2585,7 @@
             const placeholder = document.getElementById('preview-placeholder');
             
             try {
-                const session = await getSession();
+                const session = _currentSession || await getSession();
                 if (!session) throw new Error("Veuillez vous reconnecter.");
                 const userId = session.user.id;
 
@@ -2646,10 +2650,10 @@
                 }, 100);
 
                 // --- REAL UPLOAD TO SUPABASE ---
-                const { data: sessionData } = await _supabase.auth.getSession();
-                if (!sessionData || !sessionData.session) throw new Error("Session non trouvée.");
+                const session = _currentSession || await getSession();
+                if (!session) throw new Error("Session non trouvée.");
                 
-                const userId = sessionData.session.user.id;
+                const userId = session.user.id;
                 const filePath = `${userId}/${Date.now()}-${file.name}`;
                 
                 const { error: uploadError } = await _supabase.storage
@@ -2718,41 +2722,42 @@
         }
 
         async function checkSession() {
-            try {
-                const session = await getSession();
-                if (!session) {
-                    window.location.href = 'login';
-                    return;
-                }
-
-                // Load Navbar in background (non-blocking)
-                loadGlobalNavbar().catch(e => console.error("Navbar Load Error:", e));
-
-                if (!session.user.email_confirmed_at) {
-                    console.log("Accès Dashboard refusé: Email non confirmé nativement.");
-                    window.location.href = 'registration/verify-email';
-                    return;
-                }
-
-                // Prioritize Dashboard Content
-                await loadDashboardContent(session);
-
-                // Initialize Routing after content is ready
-                const hash = window.location.hash.replace('#', '') || 'overview';
-                showView(hash, false);
-
-            } catch (err) {
-                console.error("Critical Dash Init Error:", err);
-                // Fallback UI if everything dies
-                document.getElementById('user-role-badge').textContent = "Erreur";
-                document.getElementById('user-greeting').textContent = "Oups !";
+            const { data: { session }, error } = await _supabase.auth.getSession();
+            if (error) {
+                console.error("Critical Auth Error:", error);
+                window.location.href = '/login';
+                return;
             }
+
+            if (!session) {
+                console.log("No session found, redirecting...");
+                window.location.href = '/login';
+                return;
+            }
+
+            _currentSession = session;
+
+            // Load Navbar in background (non-blocking)
+            loadGlobalNavbar().catch(e => console.error("Navbar Load Error:", e));
+
+            if (!session.user.email_confirmed_at) {
+                console.log("Accès Dashboard refusé: Email non confirmé nativement.");
+                window.location.href = 'registration/verify-email';
+                return;
+            }
+
+            // Prioritize Dashboard Content
+            await loadDashboardContent(session);
+
+            // Initialize Routing after content is ready
+            const hash = window.location.hash.replace('#', '') || 'overview';
+            showView(hash, false);
         }
 
         async function loadMyTickets() {
             const container = document.getElementById('mes-billets-list');
             try {
-                const session = await getSession();
+                const session = _currentSession || await getSession();
                 if (!session) return;
                 const userId = session.user.id;
 
@@ -2913,19 +2918,6 @@
 
         // Renamed loadDashboard to loadDashboardContent to be called by checkSession
         async function loadDashboardContent(session) {
-            // The session is already checked and confirmed by checkSession()
-            // if (!session) {
-            //     window.location.href = 'login';
-            //     return;
-            // }
-
-            // Gating Native Supabase (Phase 10) - This check is now done in checkSession()
-            // if (!session.user.email_confirmed_at) {
-            //     console.log("Accès Dashboard refusé: Email non confirmé nativement.");
-            //     window.location.href = 'registration/verify-email';
-            //     return;
-            // }
-
             const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
             let profile = null;
             try {
