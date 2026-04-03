@@ -144,7 +144,7 @@ async function loadDashboardContent(session) {
     renderVisibilityPreview(profile);
 
     // Load Success Engine data if applicable (only for project owners)
-    const isProjectOwner = role !== 'expert' && role !== 'prestataire' && role !== 'entreprise';
+    const isProjectOwner = role !== 'expert' && role !== 'prestataire' && role !== 'entreprise' && role !== 'admin';
     if (typeof loadMyProjects === 'function' && isProjectOwner) {
         loadMyProjects(user.id);
     }
@@ -205,29 +205,49 @@ function renderDashboardCards(role, tier, isListed, profile) {
     const additional = document.getElementById('additional-content');
     if (!container) return;
 
-    container.innerHTML = '';
-    if (additional) additional.innerHTML = '';
-
-    // --- BLOC ADMIN PRIORITAIRE ---
+    // --- BLOC ADMIN PRIORITAIRE (NUCLEAR FIX) ---
     if (role === 'admin') {
-        const adminValidationHTML = `
-            <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02);">
-                <div class="card-title" style="color: #7c3aed;">🚀 VALIDATION DES ÉPOPÉES <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(124,58,237,0.2);color:#7c3aed;padding:2px 8px;border-radius:20px;">0</span></div>
-                <p class="card-desc">Zone réservée à Domtom Connect pour approuver les projets des membres.</p>
+        const adminDashboardHTML = `
+            <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02); grid-column: 1 / -1; padding: 40px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div>
+                        <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #7c3aed; font-weight: 800; margin-bottom: 8px;">Pilotage Central</div>
+                        <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #1e1b4b;">VALIDATION DES ÉPOPÉES</h2>
+                        <p style="color: var(--text-secondary); margin-top: 4px;">Examinez les nouveaux projets soumis par la communauté.</p>
+                    </div>
+                    <button onclick="showView('success-engine')" class="cta-button primary" style="background: #7c3aed; border: none; padding: 12px 24px; font-weight: 800;">Ouvrir le Cockpit Admin →</button>
+                </div>
+                
+                <div id="admin-pending-summary" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
+                    <div id="pending-projects-container">
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Chargement des dossiers en attente...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="card-title">Audit Interne</div>
+                <p class="card-desc">Accédez aux statistiques réelles d'onboarding et de paiement.</p>
                 <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                    <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#7c3aed; border:none; color:white; font-weight:800;">ACCÉDER AU COCKPIT DE VALIDATION →</button>
+                    <a href="/admin/audit-onboarding.html" class="cta-button secondary" style="justify-content:center; font-size:0.8rem;">Ouvrir l'Audit</a>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="card-title">Gestion Experts</div>
+                <p class="card-desc">Contrôlez l'annuaire et validez les badges Authority.</p>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                    <a href="marketplace/directory" class="cta-button secondary" style="justify-content:center; font-size:0.8rem;">Voir l'Annuaire</a>
                 </div>
             </div>
         `;
-        container.insertAdjacentHTML('beforeend', adminValidationHTML);
+        container.innerHTML = adminDashboardHTML;
         
-        // Charger le compteur en tâche de fond
+        // Charger immédiatement les projets
         if (typeof loadPendingProjects === 'function') {
             loadPendingProjects();
         }
-    }
-
-    if (role === 'expert' || role === 'prestataire') {
+    } else if (role === 'expert' || role === 'prestataire') {
         container.innerHTML = `
 
             <div class="dash-card">
@@ -497,35 +517,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
             `;
             additional.insertAdjacentHTML('beforeend', matchmakingSectionHTML);
         }
-    } else if (role === 'admin') {
-         container.innerHTML = `
-            <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02); grid-column: 1 / -1;">
-                <div class="card-title" style="color: #7c3aed;">Vue d'Ensemble Plateforme (Admin)</div>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:24px; margin-top:20px;">
-                    <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
-                        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Chiffre d'Affaire (Total)</div>
-                        <div style="font-size:1.75rem; font-weight:900;" id="admin-total-revenue">0.00 €</div>
-                    </div>
-                    <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
-                        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Commissions Prévues (10%)</div>
-                        <div style="font-size:1.75rem; font-weight:900; color:#10b981;" id="admin-total-commissions">0.00 €</div>
-                    </div>
-                    <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
-                        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Experts Actifs</div>
-                        <div style="font-size:1.75rem; font-weight:900;">42</div>
-                    </div>
-                    <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
-                        <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Missions en cours</div>
-                        <div style="font-size:1.75rem; font-weight:900;">12</div>
-                    </div>
-                </div>
-            </div>
-            <div class="dash-card">
-                <div class="card-title">Gestion des Experts</div>
-                <p class="card-desc">Valider les nouveaux profils et vérifier les badges Authority.</p>
-                <a href="marketplace/directory" class="cta-button primary" style="background:var(--text-primary); margin-top:auto; justify-content:center;">Ouvrir l'annuaire →</a>
-            </div>
-        `;
+
     } else {
         // Default: Porteur de Projet
         container.innerHTML = `
