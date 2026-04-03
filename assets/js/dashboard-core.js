@@ -3,7 +3,155 @@
  * Handles Navigation, Routing, Session, and Global Handlers.
  */
 
-// --- 1. NAVIGATION & ROUTING ---
+// --- 1. NAVIGATION
+/**
+ * --- ADMIN VALIDATION UTILITIES ---
+ * Moved to core for global access from Dashboard & Epopee pages.
+ */
+let isAdminInspection = false;
+
+function calculateProjectMaturity(p) {
+    if (!p) return 0;
+    let score = 0;
+    
+    // Step 1: Identité (16%)
+    const hasVision = p.vision && p.vision.trim() !== '' && !p.vision.includes('[[VISION]]');
+    const hasMission = p.mission && p.mission.trim() !== '' && !p.mission.includes('[[MISSION]]');
+    const hasEnjeu = p.enjeu && p.enjeu.trim() !== '' && !p.enjeu.includes('[[PROBLEM]]');
+    if (hasVision && hasMission && hasEnjeu) score += 16;
+
+    // Step 2: Humain (16%)
+    if (p.equipe && p.equipe.trim().length > 10) score += 16;
+
+    // Step 3: Terrain (17%)
+    if (p.marche && p.marche.trim().length > 10) score += 17;
+
+    // Step 4: Valeur (17%)
+    const hasImpact = p.impact_local && p.impact_local.trim().length > 10;
+    const hasInnovation = p.innovation && p.innovation.trim().length > 10;
+    const hasJobs = p.emplois && p.emplois.trim().length > 2;
+    if (hasImpact || hasInnovation || hasJobs) score += 17;
+
+    // Step 5: Objectifs (17%)
+    if (p.funding_goal && parseFloat(p.funding_goal) > 0) score += 17;
+
+    // Step 6: Envol (17%)
+    const isVerified = p.verification_status === 'verified';
+    const hasPitch = p.pitch_texte && p.pitch_texte.trim().length > 20;
+    
+    if (isVerified && hasPitch) score += 17;
+    else if (isVerified || hasPitch) score += 8;
+
+    return Math.min(score, 100);
+}
+
+async function loadPendingProjects() {
+    const container = document.getElementById('pending-projects-container');
+    const badge = document.getElementById('pending-count-badge');
+    const menuDot = document.getElementById('admin-notif-dot');
+    
+    try {
+        const { data: projects, error } = await _supabase
+            .from('projects')
+            .select('*, profiles(full_name)')
+            .eq('is_approved', false)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!projects || projects.length === 0) {
+            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">✅ Aucun projet en attente de validation.</p>';
+            if (badge) badge.style.display = 'none';
+            if (menuDot) menuDot.style.display = 'none';
+            return;
+        }
+
+        if (badge) {
+            badge.textContent = `${projects.length} en attente`;
+            badge.style.display = 'inline-block';
+        }
+        if (menuDot) menuDot.style.display = 'block';
+
+        if (container) {
+            container.innerHTML = `
+                <div style="display: grid; gap: 12px;">
+                    ${projects.map(p => `
+                        <div style="background: white; border: 1px solid var(--gray-200); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 800; color: #111827;">${p.title}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Par <strong>${p.profiles?.full_name || 'Utilisateur'}</strong> • Maturité : ${calculateProjectMaturity(p)}%</div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="inspectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #7c3aed; color: #7c3aed;">Inspecter</button>
+                                <button onclick="approveSREProject('${p.id}')" class="cta-button primary" style="font-size: 0.75rem; padding: 6px 16px; background: #10b981;">Approuver</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+    } catch (err) {
+        console.error("Load Pending Projects Error:", err);
+    }
+}
+
+async function approveSREProject(projectId) {
+    if (!confirm("Voulez-vous vraiment approuver et publier cette Épopée ?")) return;
+    
+    try {
+        const { error } = await _supabase
+            .from('projects')
+            .update({ 
+                is_approved: true,
+                is_listed: true,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', projectId);
+
+        if (error) throw error;
+        
+        alert("🚀 Projet approuvé et publié avec succès !");
+        
+        if (isAdminInspection) {
+            isAdminInspection = false;
+            showView('overview'); 
+        }
+        loadPendingProjects();
+    } catch (err) {
+        alert("Erreur lors de l'approbation : " + err.message);
+    }
+}
+
+async function inspectSREProject(projectId) {
+    try {
+        const { data: project, error } = await _supabase
+            .from('projects')
+            .select('*')
+            .eq('id', projectId)
+            .single();
+
+        if (error) throw error;
+        if (!project) throw new Error("Projet non trouvé.");
+
+        isAdminInspection = true;
+        
+        // Navigation vers le cockpit Success Engine
+        if (typeof showView === 'function') {
+            showView('success-engine');
+        } else {
+            window.location.href = '/epopee#' + projectId;
+            return;
+        }
+
+        // Charger les données du projet dans le cockpit
+        if (typeof renderSRECockpit === 'function') {
+            currentSREProject = project;
+            renderSRECockpit(project);
+        }
+    } catch (err) {
+        alert("Erreur lors de l'inspection : " + err.message);
+    }
+}
 
 function showView(viewId) {
     console.log("Showing view:", viewId);
@@ -244,9 +392,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
         container.innerHTML = adminDashboardHTML;
         
         // Charger immédiatement les projets
-        if (typeof loadPendingProjects === 'function') {
-            loadPendingProjects();
-        }
+        loadPendingProjects();
     } else if (role === 'expert' || role === 'prestataire') {
         container.innerHTML = `
 
