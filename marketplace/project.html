@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Épopée – Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=3.6">
-    <!-- PayPal SDK -->
+    <!-- PayPal SDK (Mode Capture pour dons ponctuels) -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"
+        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture"
         data-sdk-integration-source="button-factory"></script>
     <style>
         :root {
@@ -576,6 +576,7 @@
 
         async function loadProjectRewards(projectId) {
             const list = document.getElementById('rewards-list');
+            if (!list) return; // Sécurité : le conteneur n'est pas encore rendu
             try {
                 const { data: rewards, error } = await _supabase
                     .from('project_rewards')
@@ -660,11 +661,6 @@
             const progressPercent = Math.min(100, Math.round((totalRaised / fundingGoal) * 100));
             // Déblocage si : Identité vérifiée OU SIRET renseigné (et non vide)
             const canFund = (project.identity_verified === true) || (project.siret && project.siret.trim() !== "");
-
-            // Initial Load of child data
-            loadProjectSupporters(project.id);
-            loadProjectRewards(project.id);
-            loadProjectMilestones(project.id, totalRaised);
 
             const coverHtml = project.cover_url ? `<div class="hero-cover" style="background-image: url('${project.cover_url}');"></div>` : '';
 
@@ -893,6 +889,14 @@
                     </div>
                 </div>
             `;
+            
+            // Sécurité : petit délai pour laisser au DOM le temps de se stabiliser
+            setTimeout(() => {
+                loadProjectSupporters(project.id);
+                loadProjectRewards(project.id);
+                loadProjectMilestones(project.id, totalRaised);
+            }, 50);
+
             document.getElementById('loading-state').style.display = 'none';
             container.style.display = 'block';
         }
