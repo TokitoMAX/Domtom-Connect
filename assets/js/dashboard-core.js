@@ -51,10 +51,11 @@ async function loadPendingProjects() {
     const menuDot = document.getElementById('admin-notif-dot');
     
     try {
+        // On récupère TOUS les projets qui ne sont pas explicitement approuvés (false ou null)
         const { data: projects, error } = await _supabase
             .from('projects')
-            .select('*') // Requête simple sans jointure problématique
-            .eq('is_approved', false)
+            .select('*')
+            .or('is_approved.eq.false,is_approved.is.null') 
             .order('created_at', { ascending: false });
 
         if (error) {
@@ -139,19 +140,8 @@ async function inspectSREProject(projectId) {
 
         isAdminInspection = true;
         
-        // Navigation vers le cockpit Success Engine
-        if (typeof showView === 'function') {
-            showView('success-engine');
-        } else {
-            window.location.href = '/epopee#' + projectId;
-            return;
-        }
-
-        // Charger les données du projet dans le cockpit
-        if (typeof renderSRECockpit === 'function') {
-            currentSREProject = project;
-            renderSRECockpit(project);
-        }
+        // Redirection vers epopee.html avec l'ID du projet et le flag d'inspection
+        window.location.href = `epopee.html?inspect=${projectId}`;
     } catch (err) {
         alert("Erreur lors de l'inspection : " + err.message);
     }

@@ -2725,7 +2725,35 @@
             // Prioritize Dashboard Content
             await loadDashboardContent(session);
 
-            // Initialize Routing after content is ready
+            // Check for Inspection Mode from URL parameters
+            const urlParams = new URL(window.location.href).searchParams;
+            const inspectId = urlParams.get('inspect');
+
+            if (inspectId) {
+                console.log("Admin Inspection Mode triggered for:", inspectId);
+                isAdminInspection = true;
+                
+                try {
+                    const { data: project, error } = await _supabase
+                        .from('projects')
+                        .select('*')
+                        .eq('id', inspectId)
+                        .single();
+
+                    if (error) throw error;
+                    if (project) {
+                        currentSREProject = project;
+                        showView('success-engine', false);
+                        renderSRECockpit(project);
+                        return; // Stop standard flow
+                    }
+                } catch (err) {
+                    console.error("Inspection Error:", err);
+                    alert("Impossible de charger le projet pour inspection.");
+                }
+            }
+
+            // Standard Flow: Initialize Routing after content is ready
             const hash = window.location.hash.replace('#', '') || 'overview';
             showView(hash, false);
         }
