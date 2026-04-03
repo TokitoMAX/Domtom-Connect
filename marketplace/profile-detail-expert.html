@@ -106,6 +106,21 @@
                     <div class="section-title"><i class="fas fa-id-card"></i> À propos</div>
                     <div id="p-bio" class="bio-text">Chargement...</div>
                 </div>
+                <div id="strategic-blocks" style="display:none;">
+                    <div class="profile-card">
+                        <div class="section-title"><i class="fas fa-eye"></i> Vision & Ambition</div>
+                        <div id="p-vision" class="bio-text"></div>
+                    </div>
+                    <div class="profile-card">
+                        <div class="section-title"><i class="fas fa-bullseye"></i> Mission</div>
+                        <div id="p-mission" class="bio-text"></div>
+                    </div>
+                    <div class="profile-card">
+                        <div class="section-title"><i class="fas fa-exclamation-triangle"></i> L'Enjeu</div>
+                        <div id="p-enjeu" class="bio-text"></div>
+                    </div>
+                </div>
+
                 <div class="profile-card">
                     <div class="section-title"><i class="fas fa-star"></i> Portfolio & Projets</div>
                     <div class="portfolio-grid" id="p-portfolio-list"></div>
@@ -162,7 +177,8 @@
                 if (error || !p) { window.location.href = 'directory.html'; return; }
 
                 // ROLE GUARD: Redirect if not an expert/basique
-                if (p.role === 'entreprise') {
+                const currentRole = (p.role || '').toLowerCase().trim();
+                if (currentRole === 'entreprise') {
                     window.location.replace(`profile-detail-company.html?id=${id}`);
                     return;
                 }
@@ -216,9 +232,22 @@
                 script.text = JSON.stringify(ldJson);
                 document.head.appendChild(script);
                 
+                if (p.banner_url) {
+                    const hero = document.querySelector('.profile-hero');
+                    if (hero) {
+                        hero.style.backgroundImage = `url(${p.banner_url})`;
+                        hero.style.backgroundSize = 'cover';
+                        hero.style.backgroundPosition = 'center';
+                        // Add overlay if missing
+                        if (!document.querySelector('.hero-banner-overlay')) {
+                            hero.insertAdjacentHTML('afterbegin', '<div class="hero-banner-overlay" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%); z-index: 1;"></div>');
+                        }
+                    }
+                }
+
                 const avatarEl = document.getElementById('p-avatar');
-                if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:24px;">`;
-                else avatarEl.textContent = p.full_name[0].toUpperCase();
+                if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;">`;
+                else avatarEl.textContent = (nameStr || 'E')[0].toUpperCase();
 
                 document.getElementById('p-name').textContent = nameStr;
                 document.getElementById('p-title').textContent = p.title || 'Expert Domtom Connect';
@@ -257,6 +286,19 @@
                     }
                 });
                 if (hasAnySocial) document.getElementById('social-grid').style.display = 'grid';
+
+                // STRATEGIC BLOCKS (Vision, Mission, Enjeu)
+                if (p.vision || p.mission || p.enjeu) {
+                    document.getElementById('strategic-blocks').style.display = 'block';
+                    if (p.vision) document.getElementById('p-vision').innerHTML = p.vision.replace(/\n/g, '<br>');
+                    else document.getElementById('p-vision').parentElement.style.display = 'none';
+
+                    if (p.mission) document.getElementById('p-mission').innerHTML = p.mission.replace(/\n/g, '<br>');
+                    else document.getElementById('p-mission').parentElement.style.display = 'none';
+
+                    if (p.enjeu) document.getElementById('p-enjeu').innerHTML = p.enjeu.replace(/\n/g, '<br>');
+                    else document.getElementById('p-enjeu').parentElement.style.display = 'none';
+                }
 
                 const items = Array.isArray(p.portfolio) ? p.portfolio : [];
                 document.getElementById('p-portfolio-list').innerHTML = items.map(item => `

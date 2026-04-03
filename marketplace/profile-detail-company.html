@@ -185,8 +185,9 @@
                 const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
                 if (error || !p) { window.location.href = 'directory.html'; return; }
 
-                // ROLE GUARD: Redirect if not an expert/basique
-                if (p.role !== 'entreprise') {
+                // ROLE GUARD: Redirect if not an enterprise
+                const targetRole = (p.role || '').toLowerCase().trim();
+                if (targetRole !== 'entreprise') {
                     window.location.replace(`profile-detail-expert.html?id=${id}`);
                     return;
                 }
@@ -259,13 +260,18 @@
 
                 // VIDEO RENDERING
                 if (p.video_url) {
-                    let vid = p.video_url;
-                    if (vid.includes('watch?v=')) vid = vid.split('v=')[1].split('&')[0];
-                    else if (vid.includes('youtu.be/')) vid = vid.split('youtu.be/')[1].split('?')[0];
-                    
-                    if (vid) {
-                        document.getElementById('p-video').src = `https://www.youtube.com/embed/${vid}`;
-                        document.getElementById('video-block').style.display = 'block';
+                    try {
+                        let vid = p.video_url;
+                        let videoId = null;
+                        if (vid.includes('watch?v=')) videoId = vid.split('v=')[1].split('&')[0];
+                        else if (vid.includes('youtu.be/')) videoId = vid.split('youtu.be/')[1].split('?')[0];
+                        
+                        if (videoId) {
+                            document.getElementById('p-video').src = `https://www.youtube.com/embed/${videoId}`;
+                            document.getElementById('video-block').style.display = 'block';
+                        }
+                    } catch (vidErr) {
+                        console.warn("Invalid YouTube URL:", p.video_url);
                     }
                 }
 
