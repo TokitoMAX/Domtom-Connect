@@ -407,7 +407,7 @@
     <div id="support-modal" class="modal" style="display: none; padding: 20px;">
         <div class="modal-content" style="max-width: 500px; margin: 40px auto; border-radius: 32px; padding: 40px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h2 style="font-weight: 900; font-size: 1.8rem; margin: 0; color: white;">Impulser l'Aventure</h2>
+                <h2 id="support-modal-title" style="font-weight: 900; font-size: 1.8rem; margin: 0; color: white;">Impulser l'Aventure</h2>
                 <button onclick="closeSupportModal()" style="background: rgba(255,255,255,0.05); border: none; color: #94a3b8; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">✕</button>
             </div>
             
@@ -627,7 +627,7 @@
             selectedRewardId = id;
             selectedContributionAmount = parseFloat(amt);
             
-            // Mise à jour visuelle
+            // Mise à jour visuelle des packs
             document.querySelectorAll('.reward-item').forEach(el => {
                 el.style.borderColor = 'rgba(255,255,255,0.08)';
                 el.style.background = 'rgba(255,255,255,0.03)';
@@ -640,11 +640,16 @@
                 selectedEl.style.boxShadow = '0 0 30px rgba(16,185,129,0.1)';
             }
 
-            // Ouvrir le modal immédiatement avec le bon montant pré-rempli
+            // Ouvrir le modal
             const modal = document.getElementById('support-modal');
-            if (modal.style.display === 'block') return; // Déjà ouvert
-            
             modal.style.display = 'block';
+            
+            // Mettre à jour le titre du modal
+            const reward = currentRewards.find(r => r.id === id);
+            if (reward) {
+                document.getElementById('support-modal-title').innerText = `Pack : ${reward.title}`;
+            }
+
             selectAmount(amt, null); // Pré-remplit le montant dans le modal
         }
 
@@ -924,13 +929,20 @@
 
         function selectAmount(amt, btn) {
             selectedContributionAmount = parseFloat(amt) || 0;
+            
+            // Si c'est un montant libre (pas venant d'un bouton prédéfini), on reset la reward de rang
+            if (!btn || !btn.classList.contains('amount-btn')) {
+                selectedRewardId = null;
+                document.getElementById('support-modal-title').innerText = "Impulser l'Aventure";
+            }
+
             document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
             if (btn && btn.classList.contains('amount-btn')) {
                 btn.classList.add('active');
                 document.getElementById('custom-amount').value = '';
             }
             updateRewardSummary();
-            if (selectedContributionAmount > 0) renderPaypalButtons();
+            renderPaypalButtons();
         }
 
         async function updateRewardSummary() {
@@ -973,8 +985,18 @@
 
         function renderPaypalButtons() {
             const container = document.getElementById('paypal-button-container');
+            if (!container) return;
             container.innerHTML = '';
-            if (typeof paypal === 'undefined') return;
+            
+            // Sécurité : si PayPal n'est pas encore chargé, on attend un peu
+            if (typeof paypal === 'undefined') {
+                console.warn("PayPal SDK non prêt, nouvel essai dans 500ms...");
+                setTimeout(renderPaypalButtons, 500);
+                return;
+            }
+
+            // Ne pas rendre si montant nul
+            if (selectedContributionAmount <= 0) return;
 
             paypal.Buttons({
                 createOrder: (data, actions) => actions.order.create({
