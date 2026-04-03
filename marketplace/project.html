@@ -642,6 +642,21 @@
             document.getElementById('support-modal').style.display = 'block';
         }
 
+        function renderProject(project) {
+            currentProject = project;
+            const container = document.getElementById('project-container');
+            const ownerName = project.profiles?.full_name || 'Porteur';
+            const totalRaised = project.total_raised || 0;
+            const effectiveGoal = project.goal_amount || 5000;
+            const progressPercent = Math.min(100, Math.round((totalRaised / effectiveGoal) * 100));
+            const maturityScore = project.maturity_index || 45;
+            const canFund = project.status === 'published';
+
+            // SEO & Title
+            document.title = `${project.title} – Domtom Connect`;
+
+            const coverUrl = project.cover_url || '../assets/images/project-placeholder.jpg';
+            const coverHtml = `<div class="hero-cover" style="background-image: url('${coverUrl}')"></div>`;
             const svgCheck = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
             const svgLock = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
 
@@ -650,11 +665,8 @@
                     ${coverHtml}
                     <div class="hero-content container">
                         <div style="max-width: 850px;">
-                            <div class="category-pill">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                Projets Impact & Innovation
-                            </div>
-                            <h1 class="project-title">${project.title}</h1>
+                            <div class="badge-loc">PROJET IMPACT & INNOVATION</div>
+                            <h1 class="project-title" style="-webkit-text-fill-color: white; color: white;">${project.title}</h1>
                             <p class="project-pitch">${project.short_description || ''}</p>
                             
                             <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:40px;">
@@ -663,12 +675,8 @@
                                     ${project.territory}
                                 </div>
                                 ${project.siret ? `
-                                    <div class="badge-loc" style="background:rgba(16,185,129,0.1); color:var(--emerald-500); border-color:rgba(16,185,129,0.2);">
+                                    <div class="badge-loc" style="background:rgba(16,185,129,0.1); color:#10b981; border-color:rgba(16,185,129,0.2);">
                                         ${svgCheck} Structure Vérifiée
-                                    </div>` : ''}
-                                ${project.identity_verified ? `
-                                    <div class="badge-loc" style="background:rgba(59,130,246,0.1); color:#3b82f6; border-color:rgba(59,130,246,0.2);">
-                                        ${svgCheck} Porteur Certifié
                                     </div>` : ''}
                             </div>
                         </div>
@@ -680,46 +688,55 @@
                         
                         <!-- Main Content -->
                         <div>
-                            <div class="onyx-card">
-                                <div class="section-tag">Manifeste & Impact</div>
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot"></div>
+                                    <span class="section-title">Manifeste & Impact</span>
+                                </div>
                                 
-                                <div class="manifesto-block">
-                                    <h3>Vision Stratégique</h3>
-                                    <p>${project.vision || 'Vision en cours de déploiement...'}</p>
+                                <div class="manifesto-item">
+                                    <h3 class="manifesto-label">Vision Stratégique</h3>
+                                    <p class="manifesto-text">${project.vision || 'Vision en cours de déploiement...'}</p>
                                 </div>
 
-                                <div class="manifesto-block">
-                                    <h3>Notre Mission</h3>
-                                    <p>${project.mission || 'Mission en cours de structuration...'}</p>
+                                <div class="manifesto-item">
+                                    <h3 class="manifesto-label">Notre Mission</h3>
+                                    <p class="manifesto-text">${project.mission || 'Mission en cours de structuration...'}</p>
                                 </div>
 
-                                <div class="manifesto-block">
-                                    <h3>L'Enjeu du Projet</h3>
-                                    <p>${project.enjeu || 'Analyse d\'impact en cours...'}</p>
+                                <div class="manifesto-item">
+                                    <h3 class="manifesto-label">L'Enjeu du Projet</h3>
+                                    <p class="manifesto-text">${project.enjeu || 'Analyse d\'impact en cours...'}</p>
                                 </div>
 
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:60px; padding-top:60px; border-top:1px solid rgba(255,255,255,0.05);">
                                     <div>
-                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:var(--slate-700); margin-bottom:12px;">Équipe</h4>
+                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Porteur</h4>
                                         <p style="font-size:1.1rem; font-weight:700; color:white;">${ownerName}</p>
                                     </div>
                                     <div>
-                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:var(--slate-700); margin-bottom:12px;">Innovation tier</h4>
-                                        <p style="font-size:1.1rem; font-weight:700; color:var(--emerald-500);">${project.innovation_tier || 'Stratégique'}</p>
+                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Innovation Tier</h4>
+                                        <p style="font-size:1.1rem; font-weight:700; color:#10b981;">${project.innovation_tier || 'Stratégique'}</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="onyx-card" id="milestones-section">
-                                <div class="section-tag">Impact & Paliers</div>
-                                <div class="timeline" id="roadmap-list">
+                            <div class="glass-card" id="milestones-section">
+                                <div class="section-header">
+                                    <div class="section-dot"></div>
+                                    <span class="section-title">Impact & Paliers</span>
+                                </div>
+                                <div class="roadmap-container" id="roadmap-list">
                                     <!-- Timeline Steps via JS -->
                                 </div>
                             </div>
 
-                            <div class="onyx-card">
-                                <div class="section-tag">Packs de Soutien</div>
-                                <div id="rewards-list" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot"></div>
+                                    <span class="section-title">Participer à l'Aventure</span>
+                                </div>
+                                <div id="rewards-list" style="display:grid; grid-template-columns:1fr; gap:24px;">
                                     <!-- Rewards via JS -->
                                 </div>
                             </div>
@@ -727,49 +744,43 @@
 
                         <!-- Sidebar -->
                         <div>
-                            <div class="contribution-card">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px;">
-                                    <div>
-                                        <span style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:var(--slate-700); display:block; margin-bottom:8px;">Levée Actuelle</span>
-                                        <div class="raised-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                                        <div class="goal-amount">sur ${effectiveGoal.toLocaleString('fr-FR')} €</div>
-                                    </div>
-                                    <div style="background:var(--slate-800); padding:12px 20px; border-radius:100px; font-weight:950; color:var(--emerald-500); font-size:1.2rem;">
-                                        ${progressPercent}%
+                            <div class="sidebar-card">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                                    <span class="manifesto-label" style="font-size: 1rem; margin-bottom: 0;">Cagnotte Épique</span>
+                                    <div class="maturity-badge" style="font-size: 0.9rem; padding: 4px 12px;">
+                                        ${maturityScore}% Maturité
                                     </div>
                                 </div>
 
-                                <div class="progress-track">
-                                    <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                                <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
+                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
+
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: ${progressPercent}%"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 40px;">
+                                    <span>${progressPercent}% Engagé</span>
+                                    <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
                                 </div>
 
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;">
-                                    <div>
-                                        <span style="font-size:0.65rem; font-weight:900; color:var(--slate-700); text-transform:uppercase;">Supporters</span>
-                                        <div style="font-size:1.2rem; font-weight:950; color:white;" id="backers-count">...</div>
-                                    </div>
-                                    <div style="text-align:right;">
-                                        <span style="font-size:0.65rem; font-weight:900; color:var(--slate-700); text-transform:uppercase;">Indice Cockpit</span>
-                                        <div style="font-size:1.2rem; font-weight:950; color:var(--emerald-500);">${maturityScore}%</div>
-                                    </div>
+                                <div style="margin-bottom: 40px;">
+                                    ${canFund ? `
+                                        <button onclick="handleContribution()" class="amount-btn active" style="width: 100%; padding: 20px; font-size: 1.1rem; margin-bottom: 12px;">Propulser l'Épopée</button>
+                                    ` : `
+                                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(239, 68, 68, 0.3); padding: 24px; border-radius: 20px; text-align: center; color: #ef4444; font-size: 0.85rem; font-weight: 600;">
+                                            ${svgLock} Collecte suspendue (Bientôt disponible)
+                                        </div>
+                                    `}
+                                    <a href="../messages?to=${project.owner_id}" style="display: block; width: 100%; margin-top: 12px; text-align: center; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700;">Contacter le Porteur</a>
                                 </div>
 
-                                <button class="btn-propulse" onclick="openSupportModal()">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                    Propulser l'Épopée
-                                </button>
-                                
-                                ${!canFund ? `
-                                    <div style="margin-top:20px; background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.2); padding:16px; border-radius:16px; text-align:center;">
-                                        <span style="font-size:0.7rem; font-weight:900; color:#ef4444; text-transform:uppercase; display:block; margin-bottom:4px;">${svgLock} Collecte Suspendue</span>
-                                        <p style="font-size:0.75rem; color:rgba(239, 68, 68, 0.8); margin:0;">En attente de vérification administrative.</p>
+                                <div id="wall-of-fame-section">
+                                    <div class="section-header" style="margin-bottom: 24px;">
+                                        <div class="section-dot" style="background:#10b981;"></div>
+                                        <span class="section-title">Gardiens de l'Épopée</span>
                                     </div>
-                                ` : ''}
-
-                                <div style="margin-top:40px; padding-top:40px; border-top:1px solid rgba(255,255,255,0.05);">
-                                    <div class="section-tag" style="margin-bottom:24px;">Gardiens de l'Épopée</div>
-                                    <div id="wall-of-fame" style="display:flex; flex-wrap:wrap; gap:8px;">
-                                        <!-- Mini Avatars -->
+                                    <div id="wall-of-fame" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                        <!-- Mini Avatars via JS -->
                                     </div>
                                 </div>
                             </div>
@@ -782,169 +793,6 @@
             loadProjectMilestones(project.id, totalRaised, project.milestones);
             loadProjectRewards(project.id);
             loadProjectSupporters(project.id);
-        }
-
-                <div class="container" style="padding-bottom: 120px;">
-                    <div class="project-content-grid">
-                        
-                        <!-- Content -->
-                        <div>
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot"></div>
-                                    <span class="section-title">Manifeste de l'Épopée</span>
-                                </div>
-
-                                <div style="margin-bottom: 48px;">
-                                    <h3 class="manifesto-title">La Vision</h3>
-                                    <p class="manifesto-text">${project.vision || 'Vision en cours de structuration...'}</p>
-                                </div>
-
-                                <div style="margin-bottom: 48px;">
-                                    <h3 class="manifesto-title">La Mission</h3>
-                                    <p class="manifesto-text">${project.mission || 'Mission en cours de structuration...'}</p>
-                                </div>
-
-                                <div style="margin-bottom: 48px;">
-                                    <h3 class="manifesto-title">L'Enjeu Impact</h3>
-                                    <p class="manifesto-text">${project.enjeu || 'Enjeu stratégique en cours de définition...'}</p>
-                                </div>
-
-                                <div style="margin-bottom: 48px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 48px;">
-                                    <h3 class="manifesto-title">L'Équipe & Strategy</h3>
-                                    <p class="manifesto-text">${project.team_description || 'Présentation de l\'équipe à venir.'}</p>
-                                    <div style="font-size: 0.85rem; color: #475569; font-style: italic; margin-top: 16px;">
-                                        " ${project.quote || 'Innover pour transformer les territoires.'} "
-                                    </div>
-                                </div>
-
-                                <div style="margin-bottom: 48px;">
-                                    <h3 class="manifesto-title">Marché & Cible</h3>
-                                    <p class="manifesto-text">${project.market_description || 'Étude de marché en cours.'}</p>
-                                </div>
-
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                                    <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 20px;">
-                                        <span class="manifesto-label" style="color: #10b981;">Territoire</span>
-                                        <div class="manifesto-text" style="color: white; font-weight: 700;">${project.territory || 'Antilles & Guyane'}</div>
-                                    </div>
-                                    <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 20px;">
-                                        <span class="manifesto-label" style="color: #3b82f6;">Innovation</span>
-                                        <div class="manifesto-text" style="color: white; font-weight: 700;">${project.innovation_tier || 'Stratégique'}</div>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top: 32px; background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 16px 24px; border-radius: 4px;">
-                                    <div style="font-size: 0.85rem; color: white; font-weight: 700;">Impact Emplois : <span style="font-weight: 500; font-size: 0.8rem; color: #94a3b8;">${project.jobs_impact || 'Impact local Direct'}</span></div>
-                                </div>
-                            </div>
-
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot"></div>
-                                    <span class="section-title">Le Mur de l'Épopée</span>
-                                    <div id="backers-count" style="margin-left: auto; font-size: 0.7rem; font-weight: 900; color: #10b981; background: rgba(16,185,129,0.1); padding: 4px 12px; border-radius: 100px;">0 Supporter(s)</div>
-                                </div>
-                                <div id="wall-of-fame" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px;">
-                                    <p style="grid-column: 1 / -1; color: #475569; font-size: 0.8rem; text-align: center; padding: 40px 0;">L'épopée attend son premier gardien...</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sidebar -->
-                        <div>
-                            <div class="sidebar-card">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-                                    <span class="manifesto-label">Cagnotte</span>
-                                    <div class="maturity-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                        ${maturityScore}% <span style="opacity: 0.6; font-weight: 500;">Maturité</span>
-                                    </div>
-                                </div>
-
-                                <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
-
-                                <div id="next-goal-callout" style="margin-bottom: 24px;">
-                                    ${(() => {
-                                        const next = (project.milestones || []).find(m => m.amount_threshold > totalRaised);
-                                        if (next) {
-                                            const remaining = next.amount_threshold - totalRaised;
-                                            return `
-                                                <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 20px;">
-                                                    <div style="font-size: 0.65rem; color: #3b82f6; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Objectif Suivant</div>
-                                                    <div style="font-size: 0.95rem; font-weight: 800; color: white; margin-bottom: 4px;">${next.title}</div>
-                                                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">
-                                                        Plus que <span style="color: #3b82f6; font-weight: 900;">${remaining.toLocaleString('fr-FR')} €</span> pour franchir cette étape !
-                                                    </div>
-                                                </div>
-                                            `;
-                                        }
-                                        return '';
-                                    })()}
-                                </div>
-
-                                <div style="background: rgba(255,255,255,0.03); height: 8px; border-radius: 100px; position: relative; margin-bottom: 12px;">
-                                    <div style="width: ${progressPercent}%; background: #3b82f6; height: 100%; border-radius: 100px; box-shadow: 0 0 15px rgba(59,130,246,0.3);"></div>
-                                    <div style="position: absolute; top: -20px; left: ${progressPercent}%; transform: translateX(-50%); font-size: 0.65rem; font-weight: 900; color: #3b82f6;">${progressPercent}%</div>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 40px;">
-                                    <span>${progressPercent}% Engagé</span>
-                                    <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
-                                </div>
-
-                                <div style="margin-bottom: 48px;">
-                                    ${canFund ? `
-                                        <button onclick="handleContribution()" class="cta-epic">Propulser l'Épopée</button>
-                                    ` : `
-                                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); padding: 24px; border-radius: 20px; text-align: center; color: #475569; font-size: 0.85rem; font-weight: 600;">Collecte de dons bientôt disponible.</div>
-                                    `}
-                                    <a href="../messages?to=${project.owner_id}" style="display: block; width: 100%; margin-top: 12px; text-align: center; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700;">Contacter le Porteur</a>
-                                </div>
-
-                                <div id="rewards-container" style="margin-bottom: 48px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                        <span class="manifesto-label">Choisissez votre Cadeau</span>
-                                        <span style="font-size: 0.6rem; color: #10b981; font-weight: 950; text-transform: uppercase;">+ Bonus Inclus</span>
-                                    </div>
-                                    
-                                    <div id="rewards-list" style="display: flex; flex-direction: column; gap: 16px;">
-                                        <p style="font-size: 0.8rem; color: #475569; text-align: center; padding: 40px 0;">Chargement des privilèges...</p>
-                                    </div>
-                                </div>
-
-                                <div id="milestones-section" style="margin-bottom: 48px; display: none;">
-                                    <div class="section-header" style="margin-bottom: 24px;">
-                                        <div class="section-dot"></div>
-                                        <span class="section-title">Objectifs d'Impact</span>
-                                    </div>
-                                    <div id="roadmap-list" class="roadmap-container"></div>
-                                    <div style="margin-top: 24px; color: #475569; font-size: 0.7rem; text-align: center; font-weight: 600; line-height: 1.5;">
-                                        Note : Chaque palier débloqué profite à l'ensemble de la communauté du projet.
-                                    </div>
-                                </div>
-
-                                <div style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px;">
-                                    <div style="width: 48px; height: 48px; border-radius: 16px; background: #1e293b; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 950; font-size: 1.2rem; color: white;">
-                                        ${ownerName.slice(0, 1).toUpperCase()}
-                                    </div>
-                                    <div>
-                                        <span class="manifesto-label" style="margin-bottom: 2px;">Porteur de l'Épopée</span>
-                                        <div style="font-weight: 800; font-size: 1.1rem; color: white; letter-spacing: -0.01em;">${ownerName}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Sécurité : petit délai pour laisser au DOM le temps de se stabiliser
-            setTimeout(() => {
-                loadProjectSupporters(project.id);
-                loadProjectRewards(project.id);
-                loadProjectMilestones(project.id, totalRaised, project.milestones);
-            }, 50);
 
             document.getElementById('loading-state').style.display = 'none';
             container.style.display = 'block';

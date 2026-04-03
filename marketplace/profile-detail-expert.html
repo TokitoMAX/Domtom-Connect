@@ -172,7 +172,8 @@
     <script>
         async function loadExpertProfile() {
             const timeout = setTimeout(() => {
-                if (document.getElementById('p-name').textContent === 'Chargement...') {
+                const nameEl = document.getElementById('p-name');
+                if (nameEl && nameEl.textContent === 'Chargement...') {
                     showError("Dépassement du délai de connexion. Veuillez rafraîchir la page.");
                 }
             }, 8000);
@@ -244,10 +245,10 @@
                         p.website_url
                     ].filter(u => u)
                 };
-                const script = document.createElement('script');
-                script.type = 'application/ld+json';
-                script.text = JSON.stringify(ldJson);
-                document.head.appendChild(script);
+                const scriptEl = document.createElement('script');
+                scriptEl.type = 'application/ld+json';
+                scriptEl.text = JSON.stringify(ldJson);
+                document.head.appendChild(scriptEl);
                 
                 if (p.banner_url) {
                     const hero = document.querySelector('.profile-hero');
@@ -263,23 +264,34 @@
                 }
 
                 const avatarEl = document.getElementById('p-avatar');
-                if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;">`;
-                else avatarEl.textContent = (nameStr || 'E')[0].toUpperCase();
+                if (avatarEl) {
+                    if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;">`;
+                    else avatarEl.textContent = (nameStr || 'E')[0].toUpperCase();
+                }
 
-                document.getElementById('p-name').textContent = nameStr;
-                document.getElementById('p-title').textContent = p.title || 'Expert Domtom Connect';
+                const nameEl = document.getElementById('p-name');
+                if (nameEl) nameEl.textContent = nameStr;
+
+                const titleEl = document.getElementById('p-title');
+                if (titleEl) titleEl.textContent = p.title || 'Expert Domtom Connect';
                 
-                const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
-                document.getElementById('p-bio').innerHTML = (bioStr || 'En attente de rédaction.').replace(/\n/g, '<br>');
+                const bioEl = document.getElementById('p-bio');
+                if (bioEl) {
+                    const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
+                    bioEl.innerHTML = (bioStr || 'En attente de rédaction.').replace(/\n/g, '<br>');
+                }
 
                 const avail = p.availability || 'disponible';
                 const availColor = avail === 'disponible' ? '#10b981' : '#f59e0b';
                 
-                document.getElementById('metrics-content').innerHTML = `
-                    <div class="metric-item"><i class="fas fa-tag"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">TARIF JUMELÉ</span><br><b>${p.tjm ? `${p.tjm}€/jour` : 'Sur devis'}</b></div></div>
-                    <div class="metric-item"><i class="fas fa-clock" style="color:${availColor}"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">STATUT</span><br><b style="color:${availColor}">${avail.toUpperCase()}</b></div></div>
-                    <div class="metric-item"><i class="fas fa-map-marker-alt"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">ZONE</span><br><b>${p.zone || p.territory || 'OM'}</b></div></div>
-                `;
+                const metricsEl = document.getElementById('metrics-content');
+                if (metricsEl) {
+                    metricsEl.innerHTML = `
+                        <div class="metric-item"><i class="fas fa-tag"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">TARIF JUMELÉ</span><br><b>${p.tjm ? `${p.tjm}€/jour` : 'Sur devis'}</b></div></div>
+                        <div class="metric-item"><i class="fas fa-clock" style="color:${availColor}"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">STATUT</span><br><b style="color:${availColor}">${avail.toUpperCase()}</b></div></div>
+                        <div class="metric-item"><i class="fas fa-map-marker-alt"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">ZONE</span><br><b>${p.zone || p.territory || 'OM'}</b></div></div>
+                    `;
+                }
 
                 // SOCIAL GRID RENDERING
                 const socialMapping = [
@@ -294,47 +306,65 @@
                 let hasAnySocial = false;
                 socialMapping.forEach(m => {
                     const el = document.getElementById(m.id);
-                    if (m.val && m.val.length > 5) {
-                        el.href = m.val;
-                        el.style.display = 'flex';
-                        hasAnySocial = true;
-                    } else {
-                        el.style.display = 'none';
+                    if (el) {
+                        if (m.val && m.val.length > 5) {
+                            el.href = m.val;
+                            el.style.display = 'flex';
+                            hasAnySocial = true;
+                        } else {
+                            el.style.display = 'none';
+                        }
                     }
                 });
-                if (hasAnySocial) document.getElementById('social-grid').style.display = 'grid';
+                const socialGrid = document.getElementById('social-grid');
+                if (socialGrid && hasAnySocial) socialGrid.style.display = 'grid';
 
                 // STRATEGIC BLOCKS (Vision, Mission, Enjeu)
-                if (p.vision || p.mission || p.enjeu) {
-                    document.getElementById('strategic-blocks').style.display = 'block';
-                    if (p.vision) document.getElementById('p-vision').innerHTML = p.vision.replace(/\n/g, '<br>');
-                    else document.getElementById('p-vision').parentElement.style.display = 'none';
+                const stratBlocks = document.getElementById('strategic-blocks');
+                if (stratBlocks && (p.vision || p.mission || p.enjeu)) {
+                    stratBlocks.style.display = 'block';
+                    const visionEl = document.getElementById('p-vision');
+                    if (visionEl) {
+                        if (p.vision) visionEl.innerHTML = p.vision.replace(/\n/g, '<br>');
+                        else visionEl.parentElement.style.display = 'none';
+                    }
 
-                    if (p.mission) document.getElementById('p-mission').innerHTML = p.mission.replace(/\n/g, '<br>');
-                    else document.getElementById('p-mission').parentElement.style.display = 'none';
+                    const missionEl = document.getElementById('p-mission');
+                    if (missionEl) {
+                        if (p.mission) missionEl.innerHTML = p.mission.replace(/\n/g, '<br>');
+                        else missionEl.parentElement.style.display = 'none';
+                    }
 
-                    if (p.enjeu) document.getElementById('p-enjeu').innerHTML = p.enjeu.replace(/\n/g, '<br>');
-                    else document.getElementById('p-enjeu').parentElement.style.display = 'none';
+                    const enjeuEl = document.getElementById('p-enjeu');
+                    if (enjeuEl) {
+                        if (p.enjeu) enjeuEl.innerHTML = p.enjeu.replace(/\n/g, '<br>');
+                        else enjeuEl.parentElement.style.display = 'none';
+                    }
                 }
 
-                const items = Array.isArray(p.portfolio) ? p.portfolio : [];
-                document.getElementById('p-portfolio-list').innerHTML = items.map(item => `
-                    <div class="portfolio-card" style="cursor: pointer; position: relative;" onclick="window.open('${item.url || '#'}', '_blank')">
-                        <h4 style="margin:0; font-size:1.1rem; color:#0f172a; display: flex; justify-content: space-between; align-items: center;">
-                            ${item.title}
-                            ${item.url ? '<i class="fas fa-external-link-alt" style="font-size: 0.8rem; color: var(--primary);"></i>' : ''}
-                        </h4>
-                        <p style="font-size:0.95rem; color:#475569; margin:10px 0 0;">${item.description || ''}</p>
-                        ${item.url ? `<p style="font-size:0.75rem; color:var(--primary); font-weight:700; margin-top:12px; text-transform:uppercase; letter-spacing:0.05em;">Voir le projet <i class="fas fa-arrow-right"></i></p>` : ''}
-                    </div>
-                `).join('') || '<p style="color:#64748b;">Aucun projet encore publié.</p>';
+                const portfolioList = document.getElementById('p-portfolio-list');
+                if (portfolioList) {
+                    const items = Array.isArray(p.portfolio) ? p.portfolio : [];
+                    portfolioList.innerHTML = items.map(item => `
+                        <div class="portfolio-card" style="cursor: pointer; position: relative;" onclick="window.open('${item.url || '#'}', '_blank')">
+                            <h4 style="margin:0; font-size:1.1rem; color:#0f172a; display: flex; justify-content: space-between; align-items: center;">
+                                ${item.title}
+                                ${item.url ? '<i class="fas fa-external-link-alt" style="font-size: 0.8rem; color: var(--primary);"></i>' : ''}
+                            </h4>
+                            <p style="font-size:0.95rem; color:#475569; margin:10px 0 0;">${item.description || ''}</p>
+                            ${item.url ? `<p style="font-size:0.75rem; color:var(--primary); font-weight:700; margin-top:12px; text-transform:uppercase; letter-spacing:0.05em;">Voir le projet <i class="fas fa-arrow-right"></i></p>` : ''}
+                        </div>
+                    `).join('') || '<p style="color:#64748b;">Aucun projet encore publié.</p>';
+                }
 
-                if (p.skills) {
+                const skillsEl = document.getElementById('p-skills');
+                if (p.skills && skillsEl) {
                     const cleanSkills = p.skills.replace(/;/g, ',').split(',').map(s => s.trim()).filter(s => s);
-                    document.getElementById('p-skills').innerHTML = cleanSkills.map(s => `<span class="skill-chip">${s}</span>`).join('');
+                    skillsEl.innerHTML = cleanSkills.map(s => `<span class="skill-chip">${s}</span>`).join('');
                 }
                 
-                document.getElementById('contact-link').href = `../messages?to=${p.id}`;
+                const contactBtn = document.getElementById('contact-link');
+                if (contactBtn) contactBtn.href = `../messages?to=${p.id}`;
 
             } catch (e) { 
                 console.error(e); 

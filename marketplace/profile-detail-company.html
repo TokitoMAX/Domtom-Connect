@@ -257,22 +257,30 @@
                 script.text = JSON.stringify(ldJson);
                 document.head.appendChild(script);
                 
-                if (p.banner_url) document.getElementById('p-banner-bg').style.backgroundImage = `url(${p.banner_url})`;
+                const bannerBg = document.getElementById('p-banner-bg');
+                if (bannerBg && p.banner_url) bannerBg.style.backgroundImage = `url(${p.banner_url})`;
 
                 const avatarEl = document.getElementById('p-avatar');
-                if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:24px;">`;
-                else avatarEl.textContent = nameStr[0].toUpperCase();
+                if (avatarEl) {
+                    if (p.avatar_url) avatarEl.innerHTML = `<img src="${p.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:24px;">`;
+                    else avatarEl.textContent = (nameStr || 'E')[0].toUpperCase();
+                }
 
-                document.getElementById('p-name').innerHTML = `${nameStr} <span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifiée</span>`;
-                document.getElementById('p-title').textContent = p.title || 'Institution / Entreprise';
+                const nameEl = document.getElementById('p-name');
+                if (nameEl) nameEl.innerHTML = `${nameStr} <span class="verified-badge"><i class="fas fa-check-circle"></i> Vérifiée</span>`;
+                
+                const titleEl = document.getElementById('p-title');
+                if (titleEl) titleEl.textContent = p.title || 'Institution / Entreprise';
                 
                 const bioStr = [p.bio, p.written_presentation].filter(t => t).join('\n\n');
-                document.getElementById('p-bio').innerHTML = (bioStr || 'Présentation institutionnelle en cours.').replace(/\n/g, '<br>');
+                const bioEl = document.getElementById('p-bio');
+                if (bioEl) bioEl.innerHTML = (bioStr || 'Présentation institutionnelle en cours.').replace(/\n/g, '<br>');
 
                 // SKILLS RENDERING
                 const skills = (p.skills || '').split(',').map(s => s.trim()).filter(s => s);
-                if (skills.length > 0) {
-                    document.getElementById('p-skills').innerHTML = skills.map(s => `<span class="skill-badge">${s}</span>`).join('');
+                const skillsEl = document.getElementById('p-skills');
+                if (skillsEl && skills.length > 0) {
+                    skillsEl.innerHTML = skills.map(s => `<span class="skill-badge">${s}</span>`).join('');
                 }
 
                 // VIDEO RENDERING
