@@ -2275,10 +2275,18 @@
                                 <p style="font-size:0.8rem; color:#92400e; margin:0;">L'équipe Domtom Connect vérifie vos informations. <br>Patience, cela prend moins de 24h.</p>
                                 
                                 ${isAdminInspection && hasDocument ? `
-                                    <a href="${p.verification_id_url}" target="_blank" class="sre-btn secondary" style="margin-top:16px; background:white; color:#f59e0b; border-color:#f59e0b; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-                                        Voir la pièce jointe 📄
-                                    </a>
+                                    ${p.verification_id_url.includes('verifications-id') || p.verification_id_url.includes('project-media') ? `
+                                        <div style="background:#fef2f2; border:1px solid #fee2e2; padding:12px; border-radius:12px; margin-top:12px; color:#991b1b; font-size:0.7rem;">
+                                            ⚠️ <b>Lien obsolète détecté</b><br>
+                                            Ce document a été envoyé avant la mise à jour du stockage. <br>
+                                            <i>Veuillez demander au porteur de le re-télécharger.</i>
+                                        </div>
+                                    ` : `
+                                        <a href="${p.verification_id_url}" target="_blank" class="sre-btn secondary" style="margin-top:16px; background:white; color:#f59e0b; border-color:#f59e0b; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                                            Voir la pièce jointe 📄
+                                        </a>
+                                    `}
                                 ` : ''}
                             </div>
                         ` : `
