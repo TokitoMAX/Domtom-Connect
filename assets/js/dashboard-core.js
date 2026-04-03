@@ -9,6 +9,7 @@
  * Moved to core for global access from Dashboard & Epopee pages.
  */
 let isAdminInspection = false;
+let currentSREProject = null;
 
 function calculateProjectMaturity(p) {
     if (!p) return 0;
