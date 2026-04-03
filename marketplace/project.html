@@ -427,6 +427,12 @@
                 <div id="epic-rewards-list" style="display:flex; flex-direction:column; gap:12px;"></div>
             </div>
 
+            <!-- CONFIRMATION DE PAIEMENT -->
+            <div id="paypal-amount-badge" style="display:none; text-align:center; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); border-radius:20px; padding:16px; margin-bottom:24px;">
+                <span style="font-size:0.65rem; color:#10b981; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:4px;">Transaction à confirmer</span>
+                <span id="confirmed-payment-amount" style="font-size:1.5rem; font-weight:950; color:white;">0.00 €</span>
+            </div>
+
             <div id="paypal-button-container" style="min-height: 150px;"></div>
             
             <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:32px; opacity:0.5;">
@@ -650,7 +656,23 @@
                 document.getElementById('support-modal-title').innerText = `Pack : ${reward.title}`;
             }
 
-            selectAmount(amt, null); // Pré-remplit le montant dans le modal
+            // Sélectionner visuellement le bouton montant correspondant s'il existe
+            const buttons = document.querySelectorAll('.amount-btn');
+            let matched = false;
+            buttons.forEach(b => {
+                if (parseFloat(b.innerText) === amt) {
+                    selectAmount(amt, b);
+                    matched = true;
+                }
+            });
+
+            if (!matched) {
+                document.getElementById('custom-amount').value = amt;
+                selectAmount(amt, null);
+            }
+
+            // Ouvrir le modal
+            document.getElementById('support-modal').style.display = 'block';
         }
 
         function renderProject(project) {
@@ -941,6 +963,17 @@
                 btn.classList.add('active');
                 document.getElementById('custom-amount').value = '';
             }
+
+            // Afficher le badge de confirmation
+            const badge = document.getElementById('paypal-amount-badge');
+            const totalSpan = document.getElementById('confirmed-payment-amount');
+            if (badge && totalSpan && selectedContributionAmount > 0) {
+                totalSpan.innerText = `${selectedContributionAmount.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €`;
+                badge.style.display = 'block';
+            } else if (badge) {
+                badge.style.display = 'none';
+            }
+
             updateRewardSummary();
             renderPaypalButtons();
         }
