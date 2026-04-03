@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../assets/css/style.css?v=3.6">
     <!-- PayPal SDK (Mode Capture pour dons ponctuels) -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture&v=1.1"
+        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture"
         data-sdk-integration-source="button-factory"></script>
     <style>
         :root {
@@ -983,6 +983,7 @@
             }
         }
 
+        let paypalRetryCount = 0;
         function renderPaypalButtons() {
             const container = document.getElementById('paypal-button-container');
             if (!container) return;
@@ -990,8 +991,14 @@
             
             // Sécurité : si PayPal n'est pas encore chargé, on attend un peu
             if (typeof paypal === 'undefined') {
-                console.warn("PayPal SDK non prêt, nouvel essai dans 500ms...");
-                setTimeout(renderPaypalButtons, 500);
+                paypalRetryCount++;
+                if (paypalRetryCount < 20) {
+                    console.warn(`PayPal SDK non prêt (essai ${paypalRetryCount}/20), nouvel essai dans 500ms...`);
+                    setTimeout(renderPaypalButtons, 500);
+                } else {
+                    console.error("Échec du chargement du SDK PayPal après 10 secondes. Veuillez rafraîchir la page.");
+                    container.innerHTML = '<p style="color: #64748b; font-size: 0.85rem; text-align: center;">Impossible de charger les boutons de paiement. Vérifiez votre connexion.</p>';
+                }
                 return;
             }
 
