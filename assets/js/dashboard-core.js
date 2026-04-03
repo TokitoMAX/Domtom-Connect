@@ -53,11 +53,15 @@ async function loadPendingProjects() {
     try {
         const { data: projects, error } = await _supabase
             .from('projects')
-            .select('*, profiles(full_name)')
+            .select('*, profiles!owner_id(full_name)') // Force l'utilisation de owner_id pour la relation
             .eq('is_approved', false)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error("Supabase Query Error:", error);
+            alert("Erreur Supabase (400) : " + error.message + "\nIndice : " + (error.hint || "Aucun"));
+            throw error;
+        }
 
         if (!projects || projects.length === 0) {
             if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">✅ Aucun projet en attente de validation.</p>';
