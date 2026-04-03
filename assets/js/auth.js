@@ -46,7 +46,8 @@ async function signInWithEmail(email, password) {
 async function signOut() {
     const { error } = await _supabase.auth.signOut();
     if (error) console.error('Erreur Déconnexion:', error.message);
-    window.location.href = '/login';
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    window.location.href = isLocal ? '/login.html' : '/login';
 }
 
 async function getSession() {
@@ -248,13 +249,16 @@ async function loadGlobalNavbar() {
         }
 
         // Liens de directory (Strategic regrouping)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const ext = isLocal ? '.html' : '';
+
         if (navLinks) {
             navLinks.innerHTML = `
-                <a href="/marketplace/directory" class="nav-market-link">Talents</a>
-                <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
-                <a href="/marketplace/projects" class="nav-market-link">Projets</a>
-                <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
-                <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
+                <a href="/marketplace/directory${ext}" class="nav-market-link">Talents</a>
+                <a href="/marketplace/jobs${ext}" class="nav-market-link">Missions</a>
+                <a href="/marketplace/projects${ext}" class="nav-market-link">Projets</a>
+                <a href="/marketplace/evenements${ext}" class="nav-market-link">Événements</a>
+                <a href="/marketplace/companies${ext}" class="nav-market-link">Entreprises</a>
             `;
         }
 
@@ -262,10 +266,10 @@ async function loadGlobalNavbar() {
         if (navActions) {
             navActions.innerHTML = `
                     <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                        <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
+                        <a href="/profile${ext}" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
                             Bonjour, ${name}
                         </a>
-                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        <a href="/mon-espace${ext}" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
                             Mon Espace
                         </a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">

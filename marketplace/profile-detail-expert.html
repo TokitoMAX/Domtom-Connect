@@ -196,8 +196,9 @@
 
                 // ROLE GUARD: Redirect if not an expert/basique
                 const currentRole = (p.role || '').toLowerCase().trim();
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 if (currentRole === 'entreprise') {
-                    window.location.replace(`profile-detail-company.html?id=${id}`);
+                    window.location.replace(isLocal ? `/marketplace/profile-detail-company.html?id=${id}` : `/marketplace/company/${id}`);
                     return;
                 }
 
@@ -364,7 +365,7 @@
                 }
                 
                 const contactBtn = document.getElementById('contact-link');
-                if (contactBtn) contactBtn.href = `../messages?to=${p.id}`;
+                if (contactBtn) contactBtn.href = `/messages?to=${p.id}`;
 
             } catch (e) { 
                 console.error(e); 

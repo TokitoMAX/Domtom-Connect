@@ -204,8 +204,9 @@
 
                 // ROLE GUARD: Redirect if not an enterprise
                 const targetRole = (p.role || '').toLowerCase().trim();
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 if (targetRole !== 'entreprise') {
-                    window.location.replace(`profile-detail-expert.html?id=${id}`);
+                    window.location.replace(isLocal ? `/marketplace/profile-detail-expert.html?id=${id}` : `/marketplace/expert/${id}`);
                     return;
                 }
 
@@ -367,7 +368,7 @@
                 const { data: missions } = await _supabase.from('job_offers').select('*').eq('company_id', p.id).eq('is_active', true);
 
                 let projectsHtml = (projects || []).map(proj => `
-                    <div class="portfolio-card" style="cursor: pointer;" onclick="window.location.href='project.html?id=${proj.id}'">
+                    <div class="portfolio-card" style="cursor: pointer;" onclick="window.location.href='/marketplace/project.html?id=${proj.id}'">
                         <h4 style="margin:0; font-size:1.1rem; color:#0f172a;">${proj.title}</h4>
                         <p style="font-size:0.95rem; color:#475569; margin:10px 0;">${proj.description?.slice(0, 100)}...</p>
                         <p style="font-size:0.75rem; color:#1e40af; font-weight:700; margin-top:12px; text-transform:uppercase;">Voir le projet →</p>
@@ -375,7 +376,7 @@
                 `).join('') || '';
 
                 let missionsHtml = (missions || []).map(job => `
-                    <div class="portfolio-card" style="border-left: 3px solid #0f172a; cursor: pointer;" onclick="window.location.href='jobs.html'">
+                    <div class="portfolio-card" style="border-left: 3px solid #0f172a; cursor: pointer;" onclick="window.location.href='/marketplace/jobs.html'">
                         <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">Mission Active</span>
                         <h4 style="margin:4px 0; font-size:1.1rem; color:#0f172a;">${job.title}</h4>
                         <p style="font-size:0.9rem; color:#475569; margin:8px 0;">${job.mission_type} | ${job.territory}</p>
@@ -385,7 +386,7 @@
 
                 document.getElementById('p-project-list').innerHTML = (projectsHtml + missionsHtml) || '<p style="color:#64748b;">Aucun projet ni mission en cours.</p>';
 
-                document.getElementById('contact-link').href = `../messages?to=${p.id}`;
+                document.getElementById('contact-link').href = `/messages?to=${p.id}`;
 
             } catch (e) { 
                 console.error(e); 
