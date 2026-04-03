@@ -1338,6 +1338,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/dashboard-core.js"></script>
     <script src="assets/js/auth.js"></script>
     <script>
         let _currentSession = null;
@@ -4414,24 +4415,6 @@
         <input type="hidden" id="milestone-proj-id">
     </div>
 
-    <script>
-                    .eq('id', projectId)
-                    .single();
-
-                if (error) throw error;
-                if (!project) throw new Error("Projet non trouvé.");
-
-                isAdminInspection = true;
-                currentSREProject = project;
-                currentSREStep = 1;
-                
-                showView('success-engine');
-                renderSRECockpit();
-                
-            } catch (err) {
-                alert("Erreur lors de l'inspection : " + err.message);
-            }
-        }
     </script>
 </body>
 </html>
