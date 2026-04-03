@@ -2584,13 +2584,13 @@
                 const filePath = `${fileName}`;
 
                 const { data, error } = await _supabase.storage
-                    .from('project-media')
+                    .from('avatars')
                     .upload(filePath, file);
 
                 if (error) throw error;
 
                 const { data: { publicUrl } } = _supabase.storage
-                    .from('project-media')
+                    .from('avatars')
                     .getPublicUrl(filePath);
 
                 document.getElementById('reward-image-url').value = publicUrl;
@@ -2643,14 +2643,14 @@
                 const filePath = `${userId}/${Date.now()}-${file.name}`;
                 
                 const { error: uploadError } = await _supabase.storage
-                    .from('project-media')
+                    .from('avatars')
                     .upload(filePath, file);
 
                 clearInterval(interval);
                 if (uploadError) throw uploadError;
 
                 const { data: { publicUrl } } = _supabase.storage
-                    .from('project-media')
+                    .from('avatars')
                     .getPublicUrl(filePath);
 
                 // --- UPDATE DATABASE STATUS ---
