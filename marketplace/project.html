@@ -669,6 +669,7 @@
 
         function renderProject(project) {
             currentProject = project;
+            const ownerName = project.profiles?.full_name || 'Anonyme';
             const container = document.getElementById('project-container');
             const totalRaised = project.total_raised || 0;
             const fundingGoal = project.funding_goal || 1000;
