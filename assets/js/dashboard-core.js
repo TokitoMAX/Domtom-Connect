@@ -56,7 +56,7 @@ async function loadPendingProjects() {
         const { data: projects, error } = await _supabase
             .from('projects')
             .select('*')
-            .or('is_approved.eq.false,is_approved.is.null') 
+            .eq('verification_status', 'pending')
             .order('created_at', { ascending: false });
 
         if (error) {
@@ -107,7 +107,11 @@ async function approveSREProject(projectId) {
     try {
         const { error } = await _supabase
             .from('projects')
-            .update({ is_approved: true, updated_at: new Date().toISOString() })
+            .update({ 
+                is_approved: true, 
+                verification_status: 'approved',
+                updated_at: new Date().toISOString() 
+            })
             .eq('id', projectId);
         if (error) throw error;
         alert("Projet approuvé et publié ! ✅");
