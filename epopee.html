@@ -3003,7 +3003,9 @@
             if (additionalContent) additionalContent.innerHTML = '';
             if (cardsContainer) cardsContainer.innerHTML = '';
 
-            if (role === 'admin') {
+            const isAdmin = (role === 'admin' || session.user.email === 'domtomconnect@gmail.com');
+
+            if (isAdmin) {
                 roleBadge.textContent = "Administrateur Système";
                 roleBadge.style.background = "rgba(124, 58, 237, 0.1)";
                 roleBadge.style.color = "#7c3aed";
@@ -3011,16 +3013,16 @@
                 // Admin Specific Summary
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #7c3aed;">
-                        <div class="card-title">Validation des Épopées <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(124,58,237,0.1);color:#7c3aed;padding:2px 8px;border-radius:20px;"></span></div>
-                        <p class="card-desc">Gérez les demandes de validation et analysez les dossiers en attente.</p>
+                        <div class="card-title">🚀 VALIDATION DES ÉPOPÉES <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(124,58,237,0.2);color:#7c3aed;padding:2px 8px;border-radius:20px;">0</span></div>
+                        <p class="card-desc">Zone réservée à Domtom Connect pour approuver les projets des membres.</p>
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#7c3aed; border:none; color:white;">Accéder aux validations →</button>
+                            <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#7c3aed; border:none; color:white; font-weight:800;">ACCÉDER AUX VALIDATIONS →</button>
                         </div>
                     </div>
 
                     <div class="dash-card">
                         <div class="card-title">Audit Onboarding</div>
-                        <p class="card-desc">Suivez les statistiques d'onboarding et les paiements en attente.</p>
+                        <p class="card-desc">Suivez les statistiques d'onboarding et les paiements.</p>
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
                             <a href="/admin/audit-onboarding.html" class="cta-button secondary" style="justify-content:center; font-size:0.8rem;">Ouvrir l'audit détaillé</a>
                         </div>
@@ -3029,16 +3031,16 @@
 
                 if (additionalContent) {
                     additionalContent.innerHTML = `
-                        <section style="margin-top: 40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
+                        <section id="admin-validation-zone" style="margin-top: 40px; border-top: 2px solid #7c3aed; padding-top: 40px; background: rgba(124, 58, 237, 0.02); padding: 30px; border-radius: 24px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                                 <div>
-                                    <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0;">Validation des Épopées</h2>
-                                    <p style="color: var(--text-secondary); margin-top: 4px;">Dossiers soumis par les porteurs de projet pour publication sur la marketplace.</p>
+                                    <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #1e1b4b;">🛠 ZONE DE VALIDATION (ADMIN)</h2>
+                                    <p style="color: var(--text-secondary); margin-top: 4px;">Point par point : examinez et approuvez les projets soumis.</p>
                                 </div>
                             </div>
                             <div id="pending-projects-container">
-                                <div style="text-align: center; padding: 40px; background: #f8fafc; border: 1px dashed var(--gray-300); border-radius: 20px;">
-                                    <p style="color: var(--text-muted);">Chargement des dossiers en attente...</p>
+                                <div style="text-align: center; padding: 40px;">
+                                    <p style="color: var(--text-muted);">Récupération des dossiers...</p>
                                 </div>
                             </div>
                         </section>
