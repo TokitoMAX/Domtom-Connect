@@ -115,10 +115,16 @@ async function loadDashboardContent(session) {
     }
 
     // Role & Tier
-    const role = user.user_metadata?.role || profile.role || 'user';
+    // Priorité absolue à la base de données (profile.role) pour permettre la promotion admin
+    // Fallback sur metadata pour le rôle initial
+    const dbRole = (profile && profile.role) ? profile.role : (user.user_metadata?.role || 'user');
+    const isAdmin = (dbRole === 'admin' || user.email === 'domtomconnect@gmail.com');
+    const role = isAdmin ? 'admin' : dbRole;
+    
     const tier = profile.subscription_tier || 'free';
     const isListed = !!profile.listed;
 
+    console.log("Dashboard Core Debug - Role:", role, "IsAdmin:", isAdmin, "Tier:", tier);
     // UI Updates
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
@@ -153,11 +159,15 @@ async function loadDashboardContent(session) {
     // --- NAVIGATION SECURITY : Hide Cockpit for non-project owners ---
     const epopeeLink = document.getElementById('nav-success-engine');
     if (epopeeLink) {
-        // "L'Épopée" est RÉSERVÉ aux porteurs de projet uniquement
-        if (role === 'expert' || role === 'prestataire' || role === 'entreprise') {
+        // "L'Épopée" est RÉSERVÉ aux porteurs de projet OU aux Admins
+        if (role === 'admin') {
+            epopeeLink.style.display = 'flex';
+            // Ajout d'une pastille de notif si admin
+            const dot = document.getElementById('admin-notif-dot');
+            if (dot) dot.style.display = 'block'; 
+        } else if (role === 'expert' || role === 'prestataire' || role === 'entreprise') {
             epopeeLink.style.display = 'none';
         } else {
-            // Seuls les porteurs de projet voient ce lien
             epopeeLink.style.display = 'flex';
         }
     }
@@ -197,6 +207,25 @@ function renderDashboardCards(role, tier, isListed, profile) {
 
     container.innerHTML = '';
     if (additional) additional.innerHTML = '';
+
+    // --- BLOC ADMIN PRIORITAIRE ---
+    if (role === 'admin') {
+        const adminValidationHTML = `
+            <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02);">
+                <div class="card-title" style="color: #7c3aed;">🚀 VALIDATION DES ÉPOPÉES <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(124,58,237,0.2);color:#7c3aed;padding:2px 8px;border-radius:20px;">0</span></div>
+                <p class="card-desc">Zone réservée à Domtom Connect pour approuver les projets des membres.</p>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                    <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#7c3aed; border:none; color:white; font-weight:800;">ACCÉDER AU COCKPIT DE VALIDATION →</button>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', adminValidationHTML);
+        
+        // Charger le compteur en tâche de fond
+        if (typeof loadPendingProjects === 'function') {
+            loadPendingProjects();
+        }
+    }
 
     if (role === 'expert' || role === 'prestataire') {
         container.innerHTML = `
