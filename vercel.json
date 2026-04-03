@@ -2,6 +2,14 @@
     "cleanUrls": true,
     "rewrites": [
         {
+            "source": "/marketplace/expert/directory",
+            "destination": "/marketplace/directory"
+        },
+        {
+            "source": "/marketplace/company/directory",
+            "destination": "/marketplace/companies"
+        },
+        {
             "source": "/marketplace/company/:id",
             "destination": "/marketplace/profile-detail-company?id=:id"
         },

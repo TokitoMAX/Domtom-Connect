@@ -13,7 +13,7 @@
     <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Épopée – Domtom Connect</title>
-    <link rel="stylesheet" href="../assets/css/style.css?v=3.6">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3.6">
     <!-- PayPal SDK (Mode Capture pour dons ponctuels) -->
     <script
         src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture"
@@ -348,7 +348,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
@@ -429,8 +429,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/script.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/script.js"></script>
     <script>
         let isInitialized = false;
         async function init() {
@@ -655,7 +655,7 @@
             // SEO & Title
             document.title = `${project.title} – Domtom Connect`;
 
-            const coverUrl = project.cover_url || '../assets/images/project-placeholder.jpg';
+            const coverUrl = project.cover_url || '/assets/images/project-placeholder.jpg';
             const coverHtml = `<div class="hero-cover" style="background-image: url('${coverUrl}')"></div>`;
             const svgCheck = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
             const svgLock = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
