@@ -14,6 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Épopée – Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=3.6">
+    <!-- PayPal SDK -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"
+        data-sdk-integration-source="button-factory"></script>
     <style>
         :root {
             --primary: #10b981;
@@ -443,13 +447,23 @@
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/script.js"></script>
     <script>
+        let isInitialized = false;
         async function init() {
+            if (isInitialized) return;
+            isInitialized = true;
+            
             if (typeof loadGlobalNavbar === 'function') {
                 await loadGlobalNavbar();
             }
             await loadProjectDetails();
         }
-        init();
+        
+        // Un seul point d'entrée
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
     <script>
         let selectedContributionAmount = 15;
@@ -629,7 +643,10 @@
             }
 
             // Ouvrir le modal immédiatement avec le bon montant pré-rempli
-            document.getElementById('support-modal').style.display = 'block';
+            const modal = document.getElementById('support-modal');
+            if (modal.style.display === 'block') return; // Déjà ouvert
+            
+            modal.style.display = 'block';
             selectAmount(amt, null); // Pré-remplit le montant dans le modal
         }
 
@@ -887,7 +904,17 @@
                 alert("🔒 Action impossible : Vous ne pouvez pas contribuer à votre propre épopée.");
                 return;
             }
-            document.getElementById('support-modal').style.display = 'block';
+            
+            // S'assurer que le modal est propre et non déjà ouvert
+            const modal = document.getElementById('support-modal');
+            if (modal.style.display === 'block') return;
+            
+            modal.style.display = 'block';
+            
+            // Réinitialiser les boutons paypal pour éviter les doublons
+            const container = document.getElementById('paypal-button-container');
+            if (container) container.innerHTML = '';
+            
             renderPaypalButtons();
         }
 
@@ -993,7 +1020,7 @@
             document.getElementById('error-state').style.display = 'flex';
         }
 
-        loadProjectDetails();
+        // Le chargement est géré par la fonction init() en haut du fichier
     </script>
 
     <style>
