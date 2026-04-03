@@ -135,35 +135,14 @@
             box-shadow: 0 0 20px rgba(16,185,129,0.3);
         }
 
-        .cta-epic {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            border: none;
-            color: white !important;
-            font-weight: 950;
-            padding: 20px;
-            border-radius: 20px;
-            width: 100%;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 1rem;
-            box-shadow: 0 10px 30px -10px rgba(16,185,129,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-
-        .cta-epic:hover {
-            transform: scale(1.02) translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(59,130,246,0.6);
-        }
-
         .reward-item:hover {
             transform: translateY(-5px);
             border-color: rgba(255,255,255,0.2) !important;
             background: rgba(255,255,255,0.06) !important;
+        }
+
+        .maturity-badge svg {
+            color: #10b981;
         }
 
         /* Roadmap Styles */
@@ -518,19 +497,17 @@
                         <div class="roadmap-step ${reached ? 'reached' : ''}">
                             <div class="roadmap-dot"></div>
                             <div class="roadmap-content">
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                                    <span style="font-weight:950; color:white; font-size:1rem; letter-spacing:-0.01em;">${m.amount_threshold.toLocaleString('fr-FR')} €</span>
-                                    ${reached ? '<span style="color:#3b82f6; font-size:0.65rem; font-weight:900; text-transform:uppercase; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:100px;">DÉBLOQUÉ</span>' : ''}
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <span style="font-weight:900; color:white; font-size:1.1rem; letter-spacing:-0.02em;">${m.amount_threshold.toLocaleString('fr-FR')} €</span>
+                                    ${reached ? '<span style="color:#3b82f6; font-size:0.6rem; font-weight:900; text-transform:uppercase; background:rgba(59,130,246,0.1); padding:4px 10px; border-radius:100px; border: 1px solid rgba(59,130,246,0.2);">Validé</span>' : ''}
                                 </div>
-                                <div style="font-size:0.9rem; font-weight:800; color:${reached ? '#3b82f6' : 'white'}; margin-bottom:4px;">${m.title}</div>
-                                <div style="font-size:0.8rem; color:#94a3b8; line-height:1.4; font-weight:500;">${m.description || ''}</div>
+                                <div style="font-size:0.95rem; font-weight:800; color:${reached ? '#3b82f6' : 'white'}; margin-bottom:8px;">${m.title}</div>
+                                <div style="font-size:0.85rem; color:#64748b; line-height:1.6; font-weight:500;">${m.description || ''}</div>
                             </div>
                         </div>
                     `;
                 }).join('');
-            } catch (err) {
-                console.error("Milestones Error:", err);
-            }
+            } catch (err) { console.error("Milestones Error:", err); }
         }
 
         async function loadProjectSupporters(projectId) {
@@ -551,27 +528,27 @@
 
                 list.innerHTML = backers.map(b => {
                     const name = b.donor_name || b.profiles?.full_name || 'Anonyme';
-                    const rewardText = b.project_rewards?.title ? `<div style="font-size:0.55rem; color:#10b981; font-weight:900; text-transform:uppercase; margin-top:4px;">${b.project_rewards.title}</div>` : '';
+                    const rewardText = b.project_rewards?.title ? `<div style="font-size:0.55rem; color:#3b82f6; font-weight:900; text-transform:uppercase; margin-top:6px; letter-spacing:0.05em;">${b.project_rewards.title}</div>` : '';
                     return `
-                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:16px; border-radius:16px; text-align:center;">
-                            <div style="width:40px; height:40px; background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05)); border-radius:12px; margin: 0 auto 12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:1.1rem;">
+                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; transition: all 0.3s ease;">
+                            <div style="width:44px; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; margin: 0 auto 12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:1.1rem; letter-spacing:-0.02em;">
                                 ${name.slice(0, 1).toUpperCase()}
                             </div>
-                            <div style="font-size:0.8rem; font-weight:800; color:white; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</div>
-                            <div style="font-size:0.7rem; color:#94a3b8; font-weight:700;">Garde de l'Impact</div>
+                            <div style="font-size:0.85rem; font-weight:800; color:white; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-bottom:2px;">${name}</div>
+                            <div style="font-size:0.7rem; color:#64748b; font-weight:600;">Contributeur</div>
                             ${rewardText}
                         </div>
                     `;
                 }).join('');
             } catch (err) { console.error("Backers Error:", err); }
         }
-
+    
         let currentRewards = [];
         let selectedRewardId = null;
 
         async function loadProjectRewards(projectId) {
             const list = document.getElementById('rewards-list');
-            if (!list) return; // Sécurité : le conteneur n'est pas encore rendu
+            if (!list) return;
             try {
                 const { data: rewards, error } = await _supabase
                     .from('project_rewards')
@@ -585,25 +562,23 @@
                 if (currentRewards.length > 0) {
                     list.innerHTML = currentRewards.map(r => `
                         <div class="reward-item" onclick="selectReward('${r.id}', ${r.amount})" id="reward-${r.id}" 
-                             style="cursor:pointer; border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(255,255,255,0.03); overflow:hidden; position:relative; backdrop-filter: blur(10px);">
+                             style="cursor:pointer; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; transition: all 0.3s ease; background: rgba(255,255,255,0.02); overflow:hidden; position:relative;">
                             ${r.image_url ? `
-                                <div style="height:140px; width:100%; background:url('${r.image_url}') center/cover no-repeat; border-bottom:1px solid rgba(255,255,255,0.08);"></div>
+                                <div style="height:140px; width:100%; background:url('${r.image_url}') center/cover no-repeat; border-bottom:1px solid rgba(255,255,255,0.05);"></div>
                             ` : `
-                                <div style="height:100px; width:100%; background:linear-gradient(45deg, rgba(16,185,129,0.05), rgba(59,130,246,0.05)); border-bottom:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.1); font-size:2rem;">🎁</div>
-                            `}
-                            <div style="padding:20px;">
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                                    <span style="font-weight: 900; font-size: 1.1rem; color: white; letter-spacing:-0.01em;">${r.title}</span>
-                                    <span style="font-weight: 950; color: #10b981; font-size:1.2rem;">${r.amount} €</span>
+                                <div style="height:100px; width:100%; background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.1);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
                                 </div>
-                                <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin: 0; font-weight:500;">${r.description || ''}</p>
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">
-                                    <span style="font-size: 0.65rem; color: #f59e0b; font-weight: 900; background:rgba(245,158,11,0.1); padding:6px 12px; border-radius:100px; text-transform:uppercase; letter-spacing:0.05em;">
-                                        ${r.stock !== null ? `Reste : ${r.stock}` : 'Illimité'}
-                                    </span>
-                                    <span style="font-size:0.75rem; color:#10b981; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; display:flex; align-items:center; gap:4px;">
-                                        Choisir <span style="font-size:1.1rem;">→</span>
-                                    </span>
+                            `}
+                            <div style="padding:24px;">
+                                <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:12px;">
+                                    <span style="font-weight: 800; font-size: 1.1rem; color: white; letter-spacing:-0.01em; line-height:1.2;">${r.title}</span>
+                                    <span style="font-weight: 900; color: #10b981; font-size: 1.1rem; background: rgba(16,185,129,0.1); padding: 4px 12px; border-radius: 8px;">${r.amount} €</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: #64748b; line-height: 1.6; margin: 0; font-weight:500;">${r.description || ''}</p>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">
+                                    <span style="font-size:0.65rem; color:#475569; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">Privilège de Rang</span>
+                                    <div style="color: #10b981; font-size: 0.7rem; font-weight: 900; text-transform:uppercase;">Choisir</div>
                                 </div>
                             </div>
                         </div>
@@ -745,74 +720,59 @@
                                     <div class="section-dot"></div>
                                     <span class="section-title">Manifeste de l'Épopée</span>
                                 </div>
-                                <div id="manifesto-content">
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">La Vision</h4>
-                                        <p class="manifesto-text">${(project.vision || "Le porteur n'a pas encore détaillé sa vision à long terme.").replace(/\n/g, '<br>')}</p>
-                                    </div>
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">La Mission</h4>
-                                        <p class="manifesto-text">${(project.mission || "Le porteur n'a pas encore détaillé les actions concrètes de sa mission.").replace(/\n/g, '<br>')}</p>
-                                    </div>
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">L'Enjeu Impact</h4>
-                                        <p class="manifesto-text">${(project.enjeu || "Le détail de l'impact social ou économique est en cours de rédaction.").replace(/\n/g, '<br>')}</p>
-                                    </div>
-                                    
-                                    ${project.equipe ? `
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">L'Équipe & Strategy</h4>
-                                        <p class="manifesto-text">${project.equipe.replace(/\n/g, '<br>')}</p>
-                                        ${project.motivation ? `<p style="margin-top:12px; font-style:italic; opacity:0.8;">" ${project.motivation} "</p>` : ''}
-                                    </div>
-                                    ` : ''}
 
-                                    ${project.marche ? `
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">Marché & Cible</h4>
-                                        <p class="manifesto-text">${project.marche.replace(/\n/g, '<br>')}</p>
-                                    </div>
-                                    ` : ''}
+                                <div style="margin-bottom: 48px;">
+                                    <h3 class="manifesto-title">La Vision</h3>
+                                    <p class="manifesto-text">${project.vision || 'Vision en cours de structuration...'}</p>
+                                </div>
 
-                                    ${project.impact_local || project.innovation ? `
-                                    <div class="manifesto-item">
-                                        <h4 class="manifesto-label">Impact & Innovation</h4>
-                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                                            <div>
-                                                <div style="color:#10b981; font-weight:800; font-size:0.7rem; text-transform:uppercase; margin-bottom:8px;">Territoire</div>
-                                                <p class="manifesto-text" style="font-size:0.95rem;">${project.impact_local || 'Engagement local fort.'}</p>
-                                            </div>
-                                            <div>
-                                                <div style="color:#3b82f6; font-weight:800; font-size:0.7rem; text-transform:uppercase; margin-bottom:8px;">Innovation</div>
-                                                <p class="manifesto-text" style="font-size:0.95rem;">${project.innovation || 'Approche unique.'}</p>
-                                            </div>
-                                        </div>
-                                        ${project.emplois ? `<div style="margin-top:16px; background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); font-size:0.85rem; color:#94a3b8;"><span style="color:white; font-weight:800;">🚀 Emplois :</span> ${project.emplois}</div>` : ''}
-                                    </div>
-                                    ` : ''}
+                                <div style="margin-bottom: 48px;">
+                                    <h3 class="manifesto-title">La Mission</h3>
+                                    <p class="manifesto-text">${project.mission || 'Mission en cours de structuration...'}</p>
+                                </div>
 
-                                    ${project.video_url ? `
-                                    <div class="manifesto-item" style="margin-bottom:0;">
-                                        <h4 class="manifesto-label">Pitch Vidéo</h4>
-                                        <div style="border-radius:24px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); box-shadow:0 20px 40px rgba(0,0,0,0.5);">
-                                            <iframe width="100%" height="400" src="${project.video_url.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen></iframe>
-                                        </div>
+                                <div style="margin-bottom: 48px;">
+                                    <h3 class="manifesto-title">L'Enjeu Impact</h3>
+                                    <p class="manifesto-text">${project.enjeu || 'Enjeu stratégique en cours de définition...'}</p>
+                                </div>
+
+                                <div style="margin-bottom: 48px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 48px;">
+                                    <h3 class="manifesto-title">L'Équipe & Strategy</h3>
+                                    <p class="manifesto-text">${project.team_description || 'Présentation de l\'équipe à venir.'}</p>
+                                    <div style="font-size: 0.85rem; color: #475569; font-style: italic; margin-top: 16px;">
+                                        " ${project.quote || 'Innover pour transformer les territoires.'} "
                                     </div>
-                                    ` : ''}
+                                </div>
+
+                                <div style="margin-bottom: 48px;">
+                                    <h3 class="manifesto-title">Marché & Cible</h3>
+                                    <p class="manifesto-text">${project.market_description || 'Étude de marché en cours.'}</p>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                                    <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 20px;">
+                                        <span class="manifesto-label" style="color: #10b981;">Territoire</span>
+                                        <div class="manifesto-text" style="color: white; font-weight: 700;">${project.territory || 'Antilles & Guyane'}</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 20px;">
+                                        <span class="manifesto-label" style="color: #3b82f6;">Innovation</span>
+                                        <div class="manifesto-text" style="color: white; font-weight: 700;">${project.innovation_tier || 'Stratégique'}</div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 32px; background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 16px 24px; border-radius: 4px;">
+                                    <div style="font-size: 0.85rem; color: white; font-weight: 700;">Impact Emplois : <span style="font-weight: 500; font-size: 0.8rem; color: #94a3b8;">${project.jobs_impact || 'Impact local Direct'}</span></div>
                                 </div>
                             </div>
 
-                            <!-- MUR DE L'ÉPOPÉE -->
                             <div class="glass-card">
-                                <div class="section-header" style="justify-content:space-between;">
-                                    <div style="display:flex; align-items:center; gap:12px;">
-                                        <div class="section-dot" style="background:#3b82f6; box-shadow:0 0 12px #3b82f6;"></div>
-                                        <span class="section-title">Le Mur de l'Épopée</span>
-                                    </div>
-                                    <div id="backers-count" style="font-size:0.7rem; font-weight:900; color:#10b981; background:rgba(16,185,129,0.1); padding:4px 10px; border-radius:100px;">0 Supporter(s)</div>
+                                <div class="section-header">
+                                    <div class="section-dot"></div>
+                                    <span class="section-title">Le Mur de l'Épopée</span>
+                                    <div id="backers-count" style="margin-left: auto; font-size: 0.7rem; font-weight: 900; color: #10b981; background: rgba(16,185,129,0.1); padding: 4px 12px; border-radius: 100px;">0 Supporter(s)</div>
                                 </div>
-                                <div id="wall-of-fame" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:16px;">
-                                    <p style="grid-column: 1 / -1; color:#64748b; font-size:0.85rem; font-style:italic; text-align:center;">L'épopée attend son premier gardien...</p>
+                                <div id="wall-of-fame" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px;">
+                                    <p style="grid-column: 1 / -1; color: #475569; font-size: 0.8rem; text-align: center; padding: 40px 0;">L'épopée attend son premier gardien...</p>
                                 </div>
                             </div>
                         </div>
@@ -820,25 +780,27 @@
                         <!-- Sidebar -->
                         <div>
                             <div class="sidebar-card">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                    <span style="font-weight: 800; color: #10b981; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Cagnotte</span>
-                                    <div class="maturity-badge">${maturityScore}% <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-left: 4px;">Maturité</span></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                                    <span class="manifesto-label">Cagnotte</span>
+                                    <div class="maturity-badge">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        ${maturityScore}% <span style="opacity: 0.6; font-weight: 500;">Maturité</span>
+                                    </div>
                                 </div>
-                                
+
                                 <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 24px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
-                                
-                                <!-- PROCHAIN PALIER (INDICATEUR DYNAMIQUE) -->
-                                <div id="next-goal-callout" style="margin-bottom: 20px;">
+                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
+
+                                <div id="next-goal-callout" style="margin-bottom: 24px;">
                                     ${(() => {
                                         const next = (project.milestones || []).find(m => m.amount_threshold > totalRaised);
                                         if (next) {
                                             const remaining = next.amount_threshold - totalRaised;
                                             return `
-                                                <div style="background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3b82f6; padding: 12px 16px; border-radius: 12px;">
-                                                    <div style="font-size: 0.65rem; color: #3b82f6; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">🎯 Objectif Suivant</div>
-                                                    <div style="font-size: 0.9rem; font-weight: 800; color: white;">${next.title}</div>
-                                                    <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-top: 2px;">
+                                                <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 20px;">
+                                                    <div style="font-size: 0.65rem; color: #3b82f6; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Objectif Suivant</div>
+                                                    <div style="font-size: 0.95rem; font-weight: 800; color: white; margin-bottom: 4px;">${next.title}</div>
+                                                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">
                                                         Plus que <span style="color: #3b82f6; font-weight: 900;">${remaining.toLocaleString('fr-FR')} €</span> pour franchir cette étape !
                                                     </div>
                                                 </div>
@@ -848,88 +810,57 @@
                                     })()}
                                 </div>
 
-                                <div class="progress-container" style="background: rgba(255,255,255,0.05); height: 12px; border-radius: 100px; overflow: visible; position:relative;">
-                                    <div class="progress-bar" style="width: ${progressPercent}%; background: linear-gradient(90deg, #3b82f6, #10b981); height: 100%; border-radius: 100px; box-shadow: 0 0 15px rgba(59,130,246,0.3);"></div>
-                                    <div style="position:absolute; top:-24px; left:${progressPercent}%; transform:translateX(-50%); background:#3b82f6; color:white; font-size:0.65rem; font-weight:900; padding:2px 8px; border-radius:4px; white-space:nowrap;">${progressPercent}%</div>
+                                <div style="background: rgba(255,255,255,0.03); height: 8px; border-radius: 100px; position: relative; margin-bottom: 12px;">
+                                    <div style="width: ${progressPercent}%; background: #3b82f6; height: 100%; border-radius: 100px; box-shadow: 0 0 15px rgba(59,130,246,0.3);"></div>
+                                    <div style="position: absolute; top: -20px; left: ${progressPercent}%; transform: translateX(-50%); font-size: 0.65rem; font-weight: 900; color: #3b82f6;">${progressPercent}%</div>
                                 </div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #64748b; margin-top: 12px; margin-bottom: 32px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 40px;">
                                     <span>${progressPercent}% Engagé</span>
                                     <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
                                 </div>
 
-                                <!-- ACTION PRIORITAIRE -->
-                                <div style="margin-bottom: 32px;">
-                                    ${canFund ? `
-                                        <button onclick="handleContribution()" class="cta-epic">
-                                            Propulser l'Épopée
-                                        </button>
+                                <div style="margin-bottom: 48px;">
+                                    ${reachedVerdict ? `
+                                        <button onclick="handleContribution()" class="cta-epic">Propulser l'Épopée</button>
                                     ` : `
-                                        <div style="background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; text-align: center;">
-                                            <p style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin: 0;">Collecte de dons bientôt disponible.</p>
-                                        </div>
+                                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); padding: 24px; border-radius: 20px; text-align: center; color: #475569; font-size: 0.85rem; font-weight: 600;">Collecte de dons bientôt disponible.</div>
                                     `}
-                                    <a href="../messages?to=${project.owner_id}" class="cta-button secondary" style="width: 100%; margin-top: 12px; justify-content: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight:700; border-radius:20px;">
-                                        Contacter le Porteur
-                                    </a>
+                                    <a href="../messages?to=${project.owner_id}" style="display: block; width: 100%; margin-top: 12px; text-align: center; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700;">Contacter le Porteur</a>
                                 </div>
 
-                                <!-- CONTREPARTIES ET ENGAGEMENTS -->
-                                <div id="rewards-container" style="margin-bottom: 32px;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                                        <h4 style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.15em; margin:0;">Choisissez votre Cadeau</h4>
-                                        <span style="font-size:0.65rem; color:#10b981; font-weight:800;">+ Bonus Inclus</span>
+                                <div id="rewards-container" style="margin-bottom: 48px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                        <span class="manifesto-label">Choisissez votre Cadeau</span>
+                                        <span style="font-size: 0.6rem; color: #10b981; font-weight: 950; text-transform: uppercase;">+ Bonus Inclus</span>
                                     </div>
                                     
-                                    ${project.universal_reward ? `
-                                        <div style="background: rgba(16, 185, 129, 0.05); border: 2.5px solid #10b981; padding: 24px; border-radius: 24px; margin-bottom: 20px; position:relative; overflow:hidden; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.2); transition: transform 0.3s ease;">
-                                            <div style="position:absolute; top:0; right:0; background:#10b981; color:white; font-size:0.6rem; font-weight:950; padding:4px 12px; border-bottom-left-radius:12px; text-transform:uppercase; letter-spacing:0.05em;">Le Pack Gardien</div>
-                                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                                                <span style="font-size:1.5rem;">🏺</span>
-                                                <div style="font-size:1.1rem; font-weight:900; color:white; letter-spacing:-0.02em;">Le Cadeau de l'Épopée</div>
-                                            </div>
-                                            <p style="font-size:0.85rem; color:#94a3b8; margin:0; line-height:1.5; font-weight:500;">${project.universal_reward}</p>
-                                            <div style="font-size:0.65rem; color:#10b981; font-weight:900; margin-top:16px; display:flex; align-items:center; gap:6px; text-transform:uppercase; letter-spacing:0.05em;">
-                                                ✓ Offert pour tout soutien dès 1€
-                                            </div>
-                                        </div>
-                                    ` : ''}
-
                                     <div id="rewards-list" style="display: flex; flex-direction: column; gap: 16px;">
-                                        <!-- Chargé dynamiquement -->
-                                        <p style="font-size: 0.9rem; color: #64748b; font-style: italic; text-align:center; padding:40px 0;">Chargement des privilèges...</p>
+                                        <p style="font-size: 0.8rem; color: #475569; text-align: center; padding: 40px 0;">Chargement des privilèges...</p>
                                     </div>
                                 </div>
 
-                                <!-- PALIERS D'IMPACT : FEUILLE DE ROUTE -->
-                                <div id="milestones-section" style="margin-bottom: 32px; padding: 24px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 32px; display:none;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                                        <div style="display:flex; align-items:center; gap:12px;">
-                                            <div style="width:10px; height:10px; border-radius:50%; background:#3b82f6; box-shadow:0 0 12px rgba(59,130,246,0.5);"></div>
-                                            <span style="font-size:0.7rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em;">Objectifs d'Impact</span>
-                                        </div>
+                                <div id="milestones-section" style="margin-bottom: 48px; display: none;">
+                                    <div class="section-header" style="margin-bottom: 24px;">
+                                        <div class="section-dot"></div>
+                                        <span class="section-title">Objectifs d'Impact</span>
                                     </div>
-                                    
-                                    <div id="roadmap-list" class="roadmap-container">
-                                        <!-- Chargé par JS -->
-                                    </div>
-
-                                    <div style="margin-top:20px; padding-top:16px; border-top:1px dashed rgba(255,255,255,0.1); font-size:0.7rem; color:#64748b; font-weight:600; text-align:center; line-height:1.5;">
-                                        💡 Chaque palier débloqué profite à **tous** les gardiens du projet.
+                                    <div id="roadmap-list" class="roadmap-container"></div>
+                                    <div style="margin-top: 24px; color: #475569; font-size: 0.7rem; text-align: center; font-weight: 600; line-height: 1.5;">
+                                        Note : Chaque palier débloqué profite à l'ensemble de la communauté du projet.
                                     </div>
                                 </div>
 
-                                <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 16px;">
-                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; color: white;">
+                                <div style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px;">
+                                    <div style="width: 48px; height: 48px; border-radius: 16px; background: #1e293b; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 950; font-size: 1.2rem; color: white;">
                                         ${ownerName.slice(0, 1).toUpperCase()}
                                     </div>
                                     <div>
-                                        <div style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Porteur de l'Épopée</div>
-                                        <div style="font-weight: 800; font-size: 1.1rem; color: white;">${ownerName}</div>
+                                        <span class="manifesto-label" style="margin-bottom: 2px;">Porteur de l'Épopée</span>
+                                        <div style="font-weight: 800; font-size: 1.1rem; color: white; letter-spacing: -0.01em;">${ownerName}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             `;
@@ -1006,14 +937,14 @@
             
             // 1. Universal Reward
             if (currentProject.universal_reward) {
-                items.push(`<div style="font-size:0.75rem; color:white; font-weight:700;">🎁 ${currentProject.universal_reward} <span style="font-weight:400; opacity:0.6;">(Cadeau de base)</span></div>`);
+                items.push(`<div style="font-size:0.75rem; color:white; font-weight:700;">PROJET : ${currentProject.universal_reward} <span style="font-weight:400; opacity:0.6;">(Cadeau de base)</span></div>`);
             }
 
             // 2. Selected Tier
             if (selectedRewardId) {
                 const reward = currentRewards.find(r => r.id === selectedRewardId);
                 if (reward) {
-                    items.push(`<div style="font-size:0.75rem; color:#10b981; font-weight:800;">🏆 ${reward.title} <span style="font-weight:400; opacity:0.8;">(Contrepartie de rang)</span></div>`);
+                    items.push(`<div style="font-size:0.75rem; color:#3b82f6; font-weight:800;">RANG : ${reward.title} <span style="font-weight:400; opacity:0.8;">(Contrepartie de rang)</span></div>`);
                 }
             }
 
@@ -1022,7 +953,7 @@
                 const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', currentProject.id).lte('amount_threshold', currentProject.total_raised || 0);
                 if (milestones && milestones.length > 0) {
                     milestones.forEach(m => {
-                        items.push(`<div style="font-size:0.75rem; color:#3b82f6; font-weight:700;">💙 ${m.title} <span style="font-weight:400; opacity:0.6;">(Bonus débloqué par la communauté)</span></div>`);
+                        items.push(`<div style="font-size:0.75rem; color:#10b981; font-weight:700;">IMPACT : ${m.title} <span style="font-weight:400; opacity:0.6;">(Bonus débloqué par la communauté)</span></div>`);
                     });
                 }
             } catch (e) {}
@@ -1084,15 +1015,14 @@
 
                 if (error) throw error;
                 
-                // Success View in Modal
                 document.querySelector('.modal-content').innerHTML = `
                     <div style="text-align: center; padding: 40px 0;">
-                        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px;">
-                            <span style="font-size: 2.5rem;">🔥</span>
+                        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                         </div>
-                        <h2 style="font-weight: 950; font-size: 2rem; margin-bottom: 16px;">Impact Reçu</h2>
-                        <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 40px;">Votre soutien a été scellé dans l'épopée. L'aventure prend de l'élan grâce à vous.</p>
-                        <button onclick="location.reload()" style="background: #10b981; color: #064e3b; border: none; border-radius: 100px; padding: 20px 40px; font-weight: 900; font-size: 1.1rem; cursor: pointer; width: 100%;">Continuer l'Exploration</button>
+                        <h2 style="font-weight: 950; font-size: 2rem; margin-bottom: 16px; color: white;">Impact Reçu</h2>
+                        <p style="color: #64748b; line-height: 1.6; margin-bottom: 40px; font-weight: 500;">Votre soutien a été scellé dans l'épopée. L'aventure prend de l'élan grâce à vous.</p>
+                        <button onclick="location.reload()" style="background: #10b981; color: white; border: none; border-radius: 100px; padding: 20px 40px; font-weight: 900; font-size: 1.1rem; cursor: pointer; width: 100%;">Continuer l'Exploration</button>
                     </div>
                 `;
             } catch (err) { console.error(err); alert("Erreur d'enregistrement de votre contribution."); }
