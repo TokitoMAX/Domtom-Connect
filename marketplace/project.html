@@ -453,6 +453,8 @@
     <script>
         let selectedContributionAmount = 15;
         let currentProject = null;
+        let currentRewards = [];
+        let selectedRewardId = null;
 
         async function loadProjectDetails() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -542,9 +544,6 @@
                 }).join('');
             } catch (err) { console.error("Backers Error:", err); }
         }
-    
-        let currentRewards = [];
-        let selectedRewardId = null;
 
         async function loadProjectRewards(projectId) {
             const list = document.getElementById('rewards-list');
@@ -590,7 +589,6 @@
         }
 
         async function selectReward(id, amt) {
-            // Empêcher l'auto-contribution
             const session = await getSession();
             if (session && session.user.id === currentProject.owner_id) {
                 alert("🔒 Action impossible : Vous ne pouvez pas contribuer à votre propre épopée.");
@@ -600,7 +598,6 @@
             selectedRewardId = id;
             selectedContributionAmount = parseFloat(amt);
             
-            // Mise à jour visuelle des packs
             document.querySelectorAll('.reward-item').forEach(el => {
                 el.style.borderColor = 'rgba(255,255,255,0.08)';
                 el.style.background = 'rgba(255,255,255,0.03)';
@@ -613,17 +610,14 @@
                 selectedEl.style.boxShadow = '0 0 30px rgba(16,185,129,0.1)';
             }
 
-            // Ouvrir le modal
             const modal = document.getElementById('support-modal');
             modal.style.display = 'block';
             
-            // Mettre à jour le titre du modal
             const reward = currentRewards.find(r => r.id === id);
             if (reward) {
                 document.getElementById('support-modal-title').innerText = `Pack : ${reward.title}`;
             }
 
-            // Sélectionner visuellement le bouton montant correspondant s'il existe
             const buttons = document.querySelectorAll('.amount-btn');
             let matched = false;
             buttons.forEach(b => {
@@ -637,8 +631,6 @@
                 document.getElementById('custom-amount').value = amt;
                 selectAmount(amt, null);
             }
-
-            // Ouvrir le modal
             document.getElementById('support-modal').style.display = 'block';
         }
 
@@ -652,7 +644,6 @@
             const maturityScore = project.maturity_index || 45;
             const canFund = project.status === 'published';
 
-            // SEO & Title
             document.title = `${project.title} – Domtom Connect`;
 
             const coverUrl = project.cover_url || '/assets/images/project-placeholder.jpg';
@@ -685,8 +676,6 @@
 
                 <div class="container" style="padding-bottom: 120px;">
                     <div class="project-content-grid">
-                        
-                        <!-- Main Content -->
                         <div>
                             <div class="glass-card">
                                 <div class="section-header">
@@ -742,7 +731,6 @@
                             </div>
                         </div>
 
-                        <!-- Sidebar -->
                         <div>
                             <div class="sidebar-card">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
@@ -789,7 +777,6 @@
                 </div>
             `;
 
-            // Charger les sections dynamiques
             loadProjectMilestones(project.id, totalRaised, project.milestones);
             loadProjectRewards(project.id);
             loadProjectSupporters(project.id);
@@ -799,20 +786,17 @@
         }
 
         async function handleContribution() {
-            // Empêcher l'auto-contribution
             const session = await getSession();
             if (session && session.user.id === currentProject.owner_id) {
                 alert("🔒 Action impossible : Vous ne pouvez pas contribuer à votre propre épopée.");
                 return;
             }
             
-            // S'assurer que le modal est propre et non déjà ouvert
             const modal = document.getElementById('support-modal');
             if (modal.style.display === 'block') return;
             
             modal.style.display = 'block';
             
-            // Réinitialiser les boutons paypal pour éviter les doublons
             const container = document.getElementById('paypal-button-container');
             if (container) container.innerHTML = '';
             
@@ -824,7 +808,6 @@
         function selectAmount(amt, btn) {
             selectedContributionAmount = parseFloat(amt) || 0;
             
-            // Si c'est un montant libre (pas venant d'un bouton prédéfini), on reset la reward de rang
             if (!btn || !btn.classList.contains('amount-btn')) {
                 selectedRewardId = null;
                 document.getElementById('support-modal-title').innerText = "Impulser l'Aventure";
@@ -836,7 +819,6 @@
                 document.getElementById('custom-amount').value = '';
             }
 
-            // Afficher le badge de confirmation
             const badge = document.getElementById('paypal-amount-badge');
             const totalSpan = document.getElementById('confirmed-payment-amount');
             if (badge && totalSpan && selectedContributionAmount > 0) {
@@ -857,12 +839,10 @@
 
             let items = [];
             
-            // 1. Universal Reward
             if (currentProject.universal_reward) {
                 items.push(`<div style="font-size:0.75rem; color:white; font-weight:700;">PROJET : ${currentProject.universal_reward} <span style="font-weight:400; opacity:0.6;">(Cadeau de base)</span></div>`);
             }
 
-            // 2. Selected Tier
             if (selectedRewardId) {
                 const reward = currentRewards.find(r => r.id === selectedRewardId);
                 if (reward) {
@@ -870,7 +850,6 @@
                 }
             }
 
-            // 3. Reached Milestones
             try {
                 const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', currentProject.id).lte('amount_threshold', currentProject.total_raised || 0);
                 if (milestones && milestones.length > 0) {
@@ -894,7 +873,6 @@
             if (!container) return;
             container.innerHTML = '';
             
-            // Sécurité : si PayPal n'est pas encore chargé, on attend un peu
             if (typeof paypal === 'undefined') {
                 paypalRetryCount++;
                 if (paypalRetryCount < 20) {
@@ -907,7 +885,6 @@
                 return;
             }
 
-            // Ne pas rendre si montant nul
             if (selectedContributionAmount <= 0) return;
 
             paypal.Buttons({
@@ -954,8 +931,6 @@
             document.getElementById('loading-state').style.display = 'none';
             document.getElementById('error-state').style.display = 'flex';
         }
-
-        // Le chargement est géré par la fonction init() en haut du fichier
     </script>
 
     <style>

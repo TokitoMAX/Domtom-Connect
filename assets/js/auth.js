@@ -247,39 +247,14 @@ async function loadGlobalNavbar() {
             solopriceCta.textContent = 'Accéder à mon espace';
         }
 
-        // Calculer le préfixe selon la profondeur
-        const depth = window.location.pathname.split('/').filter(p => p).length;
-        // Si c'est un fichier à la racine (ex: /index.html ou /), depth peut varier
-        // Note: On utilise des chemins absolus (ex: /mon-espace) pour garantir
-        // que les liens fonctionnent depuis n'importe quelle profondeur (blog, territoires).
-        let prefix = '';
-        if (window.location.pathname.includes('/marketplace/') ||
-            window.location.pathname.includes('/registration/') ||
-            window.location.pathname.includes('/blog/') ||
-            window.location.pathname.includes('/landing/')) {
-            prefix = '../';
-        }
-        if (window.location.pathname.includes('/territoires/')) {
-            prefix = '../../';
-        }
-        // Cas spécifique pour landing avec 2 niveaux (ex: landing/porteurs-projets/index.html)
-        const pathParts = window.location.pathname.split('/').filter(p => p);
-        if (pathParts.length >= 2) {
-            if (pathParts[0] === 'territoires' || (pathParts[0] === 'landing' && pathParts.length > 2)) {
-                prefix = '../../';
-            } else if (pathParts[0] === 'marketplace' || pathParts[0] === 'registration' || pathParts[0] === 'landing') {
-                prefix = '../';
-            }
-        }
-
         // Liens de directory (Strategic regrouping)
         if (navLinks) {
             navLinks.innerHTML = `
-                <a href="${prefix}marketplace/directory.html" class="nav-market-link">Talents</a>
-                <a href="${prefix}marketplace/jobs.html" class="nav-market-link">Missions</a>
-                <a href="${prefix}marketplace/projects.html" class="nav-market-link">Projets</a>
-                <a href="${prefix}marketplace/evenements.html" class="nav-market-link">Événements</a>
-                <a href="${prefix}marketplace/companies.html" class="nav-market-link">Entreprises</a>
+                <a href="/marketplace/directory" class="nav-market-link">Talents</a>
+                <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
+                <a href="/marketplace/projects" class="nav-market-link">Projets</a>
+                <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
+                <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
             `;
         }
 
@@ -287,10 +262,10 @@ async function loadGlobalNavbar() {
         if (navActions) {
             navActions.innerHTML = `
                     <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                        <a href="${prefix}profile.html" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
+                        <a href="/profile" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
                             Bonjour, ${name}
                         </a>
-                        <a href="${prefix}mon-espace.html" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        <a href="/mon-espace" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
                             Mon Espace
                         </a>
                         <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">

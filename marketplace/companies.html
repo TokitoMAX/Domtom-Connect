@@ -429,8 +429,8 @@
                     <a href="/marketplace/companies" class="active">Entreprises</a>
                 </div>
                 <div class="nav-actions" id="nav-actions-container">
-                    <a href="../login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="../register-choice" class="cta-button primary" id="start-button">Démarrer</a>
+                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
                 </div>
             </div>
         </div>
@@ -707,14 +707,14 @@
                         <a href="/marketplace/company/${company.id}" class="btn-web" style="text-align:center; background:#0369a1; color:white;">Consulter la page entreprise complète</a>
                         <div style="display:flex; gap:12px;">
                             <button onclick="closeModal()" class="btn-web btn-action-mobile" style="flex:1;">Fermer</button>
-                            <a href="../messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#0369a1; flex:1;">Contacter</a>
+                            <a href="/messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#0369a1; flex:1;">Contacter</a>
                         </div>
                     </div>
                 </div>
             `;
             overlay.classList.add('open');
         }
-        function openCompanyModal() { window.location.href = '../profile'; }
+        function openCompanyModal() { window.location.href = '/profile'; }
         init();
     </script>
     <div class="modal-overlay" id="details-modal-overlay" onclick="if(event.target === this) closeModal()"></div>

@@ -901,8 +901,12 @@
             const skills = (p.skills || '').split(',').map(s => s.trim()).filter(s => s).slice(0, 3);
             const isFeatured = p.is_featured === true;
             
+            // Détection de l'environnement pour le lien (Local vs Prod)
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const profileUrl = isLocal ? `/marketplace/profile-detail-expert.html?id=${p.id}` : `/marketplace/expert/${p.id}`;
+            
             return `
-                <div class="expert-card-v2 ${isFeatured ? 'featured' : ''}" onclick="window.location.href='/marketplace/expert/${p.id}'" style="cursor:pointer;">
+                <div class="expert-card-v2 ${isFeatured ? 'featured' : ''}" onclick="window.location.href='${profileUrl}'" style="cursor:pointer;">
                     ${isFeatured ? '<div class="featured-badge">Partenaire Authority</div>' : ''}
                     <div class="expert-card-header">
                         <div class="expert-avatar-v2">
@@ -943,7 +947,7 @@
                     </div>
 
                     <div class="expert-footer">
-                        <a href="/marketplace/expert/${p.id}" class="btn-expert secondary">Voir Profil Complet</a>
+                        <a href="${profileUrl}" class="btn-expert secondary">Voir Profil Complet</a>
                         <a href="../messages?to=${p.id}" class="btn-expert primary" onclick="event.stopPropagation()">Contacter</a>
                     </div>
                 </div>
