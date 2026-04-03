@@ -53,18 +53,18 @@ async function loadPendingProjects() {
     try {
         const { data: projects, error } = await _supabase
             .from('projects')
-            .select('*, profiles!owner_id(full_name)') // Force l'utilisation de owner_id pour la relation
+            .select('*') // Requête simple sans jointure problématique
             .eq('is_approved', false)
             .order('created_at', { ascending: false });
 
         if (error) {
             console.error("Supabase Query Error:", error);
-            alert("Erreur Supabase (400) : " + error.message + "\nIndice : " + (error.hint || "Aucun"));
-            throw error;
+            container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">⚠️ Erreur Supabase: ${error.message}</p>`;
+            return;
         }
 
         if (!projects || projects.length === 0) {
-            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">✅ Aucun projet en attente de validation.</p>';
+            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem;">✅ Aucun dossier en attente.</p>';
             if (badge) badge.style.display = 'none';
             if (menuDot) menuDot.style.display = 'none';
             return;
@@ -82,8 +82,8 @@ async function loadPendingProjects() {
                     ${projects.map(p => `
                         <div style="background: white; border: 1px solid var(--gray-200); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <div style="font-weight: 800; color: #111827;">${p.title}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Par <strong>${p.profiles?.full_name || 'Utilisateur'}</strong> • Maturité : ${calculateProjectMaturity(p)}%</div>
+                                <div style="font-weight: 800; color: #111827; font-size: 0.95rem;">${p.title}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Maturité : <strong>${calculateProjectMaturity(p)}%</strong> • Réf: ${p.id.substring(0,8)}...</div>
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button onclick="inspectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #7c3aed; color: #7c3aed;">Inspecter</button>
@@ -95,7 +95,7 @@ async function loadPendingProjects() {
             `;
         }
     } catch (err) {
-        console.error("Load Pending Projects Error:", err);
+        console.error("Critical Load Error:", err);
     }
 }
 
