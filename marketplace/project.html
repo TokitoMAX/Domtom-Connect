@@ -481,61 +481,53 @@
             if (!projectId) { showError(); return; }
 
             try {
+                // Charger le projet
                 const { data: project, error } = await _supabase.from('projects').select('*').eq('id', projectId).single();
                 if (error || !project || !project.is_listed) { showError(); return; }
 
+                // Charger le profil du porteur
                 if (project.owner_id) {
                     const { data: profile } = await _supabase.from('profiles').select('full_name, avatar_url, role').eq('id', project.owner_id).single();
                     if (profile) project.profiles = profile;
                 }
+
+                // Charger les paliers d'impact IMMÉDIATEMENT pour synchroniser l'objectif
+                const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
+                project.milestones = milestones || [];
+
                 renderProject(project);
             } catch (err) { console.error(err); showError(); }
         }
 
-        async function loadProjectMilestones(projectId, totalRaised) {
-            const section = document.getElementById('milestones-section');
-            const info = document.getElementById('next-milestone-info');
-            const bar = document.getElementById('milestone-progress-bar');
-            
-            try {
-                const { data: milestones, error } = await _supabase
-                    .from('project_milestones')
-                    .select('*')
-                    .eq('project_id', projectId)
-                    .order('amount_threshold', { ascending: true });
+        async function loadProjectMilestones(projectId, totalRaised, milestonesInput) {
+            const milestoneSection = document.getElementById('milestones-section');
+            const roadmapList = document.getElementById('roadmap-list');
+            const currentRaised = totalRaised || 0;
 
-                if (error) throw error;
-                if (!milestones || milestones.length === 0) {
-                    section.style.display = 'none';
+            try {
+                const milestones = milestonesInput || [];
+                if (milestones.length === 0) {
+                    milestoneSection.style.display = 'none';
                     return;
                 }
 
-                // Roadmap Visuelle
-                const milestoneSection = document.getElementById('milestones-section');
-                const roadmapList = document.getElementById('roadmap-list');
-                const currentRaised = totalRaised || 0;
-
-                if (milestones.length > 0) {
-                    milestoneSection.style.display = 'block';
-                    roadmapList.innerHTML = milestones.map(m => {
-                        const reached = currentRaised >= m.amount_threshold;
-                        return `
-                            <div class="roadmap-step ${reached ? 'reached' : ''}">
-                                <div class="roadmap-dot"></div>
-                                <div class="roadmap-content">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                                        <span style="font-weight:950; color:white; font-size:1rem; letter-spacing:-0.01em;">${m.amount_threshold.toLocaleString('fr-FR')} €</span>
-                                        ${reached ? '<span style="color:#3b82f6; font-size:0.65rem; font-weight:900; text-transform:uppercase; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:100px;">DÉBLOQUÉ</span>' : ''}
-                                    </div>
-                                    <div style="font-size:0.9rem; font-weight:800; color:${reached ? '#3b82f6' : 'white'}; margin-bottom:4px;">${m.title}</div>
-                                    <div style="font-size:0.8rem; color:#94a3b8; line-height:1.4; font-weight:500;">${m.description || ''}</div>
+                milestoneSection.style.display = 'block';
+                roadmapList.innerHTML = milestones.map(m => {
+                    const reached = currentRaised >= m.amount_threshold;
+                    return `
+                        <div class="roadmap-step ${reached ? 'reached' : ''}">
+                            <div class="roadmap-dot"></div>
+                            <div class="roadmap-content">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-weight:950; color:white; font-size:1rem; letter-spacing:-0.01em;">${m.amount_threshold.toLocaleString('fr-FR')} €</span>
+                                    ${reached ? '<span style="color:#3b82f6; font-size:0.65rem; font-weight:900; text-transform:uppercase; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:100px;">DÉBLOQUÉ</span>' : ''}
                                 </div>
+                                <div style="font-size:0.9rem; font-weight:800; color:${reached ? '#3b82f6' : 'white'}; margin-bottom:4px;">${m.title}</div>
+                                <div style="font-size:0.8rem; color:#94a3b8; line-height:1.4; font-weight:500;">${m.description || ''}</div>
                             </div>
-                        `;
-                    }).join('');
-                } else {
-                    milestoneSection.style.display = 'none';
-                }
+                        </div>
+                    `;
+                }).join('');
             } catch (err) {
                 console.error("Milestones Error:", err);
             }
@@ -678,11 +670,16 @@
         function renderProject(project) {
             currentProject = project;
             const container = document.getElementById('project-container');
-            const ownerName = project.profiles?.full_name || 'Porteur Anonyme';
-            const maturityScore = window.calculateProjectMaturity(project);
             const totalRaised = project.total_raised || 0;
             const fundingGoal = project.funding_goal || 1000;
-            const progressPercent = Math.min(100, Math.round((totalRaised / fundingGoal) * 100));
+            
+            // SYNCHRONISATION LOGIQUE : L'objectif effectif est le plus haut palier d'impact
+            const milestoneThresholds = (project.milestones || []).map(m => m.amount_threshold);
+            const effectiveGoal = Math.max(fundingGoal, ...milestoneThresholds, 0);
+            
+            const progressPercent = Math.min(100, Math.floor((totalRaised / effectiveGoal) * 100));
+            const maturityScore = window.calculateProjectMaturity(project);
+            
             // Déblocage si : Identité vérifiée OU SIRET renseigné (et non vide)
             const canFund = (project.identity_verified === true) || (project.siret && project.siret.trim() !== "");
 
@@ -828,12 +825,12 @@
                                 </div>
                                 
                                 <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                                <div style="color: #64748b; font-weight: 600; font-size: 0.9rem; margin-bottom: 24px;">Objectif : ${fundingGoal.toLocaleString('fr-FR')} €</div>
+                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 24px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
                                 
                                 <!-- PROCHAIN PALIER (INDICATEUR DYNAMIQUE) -->
                                 <div id="next-goal-callout" style="margin-bottom: 20px;">
                                     ${(() => {
-                                        const next = (currentProject.milestones || []).find(m => m.amount_threshold > totalRaised);
+                                        const next = (project.milestones || []).find(m => m.amount_threshold > totalRaised);
                                         if (next) {
                                             const remaining = next.amount_threshold - totalRaised;
                                             return `
@@ -856,7 +853,7 @@
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #64748b; margin-top: 12px; margin-bottom: 32px;">
                                     <span>${progressPercent}% Engagé</span>
-                                    <span>${Math.max(0, fundingGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
+                                    <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
                                 </div>
 
                                 <!-- ACTION PRIORITAIRE -->
@@ -940,7 +937,7 @@
             setTimeout(() => {
                 loadProjectSupporters(project.id);
                 loadProjectRewards(project.id);
-                loadProjectMilestones(project.id, totalRaised);
+                loadProjectMilestones(project.id, totalRaised, project.milestones);
             }, 50);
 
             document.getElementById('loading-state').style.display = 'none';
