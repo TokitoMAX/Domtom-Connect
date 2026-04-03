@@ -171,10 +171,27 @@
     <script src="../assets/js/auth.js"></script>
     <script>
         async function loadExpertProfile() {
+            const timeout = setTimeout(() => {
+                if (document.getElementById('p-name').textContent === 'Chargement...') {
+                    showError("Dépassement du délai de connexion. Veuillez rafraîchir la page.");
+                }
+            }, 8000);
+
             try {
                 const id = new URLSearchParams(window.location.search).get('id');
-                const { data: p, error } = await _supabase.from('profiles').select('*').eq('id', id).single();
-                if (error || !p) { window.location.href = 'directory.html'; return; }
+                if (!id) { window.location.href = 'directory.html'; return; }
+
+                // Robust Supabase Access
+                const sb = window._supabase || (typeof _supabase !== 'undefined' ? _supabase : null);
+                if (!sb) throw new Error("Supabase client not initialized.");
+
+                const { data: p, error } = await sb.from('profiles').select('*').eq('id', id).single();
+                clearTimeout(timeout);
+
+                if (error || !p) {
+                    showError("Le profil recherché est introuvable ou n'est plus public.");
+                    return;
+                }
 
                 // ROLE GUARD: Redirect if not an expert/basique
                 const currentRole = (p.role || '').toLowerCase().trim();
@@ -319,8 +336,19 @@
                 
                 document.getElementById('contact-link').href = `../messages?to=${p.id}`;
 
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e); 
+                showError("Une erreur est survenue lors du chargement du profil.");
+            }
         }
+
+        function showError(msg) {
+            document.getElementById('p-name').textContent = "Erreur de chargement";
+            document.getElementById('p-bio').innerHTML = `<div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.2); padding:24px; border-radius:16px; color:#ef4444; font-weight:700;">
+                <i class="fas fa-exclamation-circle" style="margin-right:12px;"></i> ${msg}
+            </div>`;
+        }
+
         document.addEventListener('DOMContentLoaded', loadExpertProfile);
     </script>
 </body>
