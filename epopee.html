@@ -2002,7 +2002,8 @@
                         <div>
                             <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; font-weight: 700;">Mode Inspection Administrateur</div>
                             <div style="font-size: 1.1rem; font-weight: 800;">Examen de : ${p.title}</div>
-                            <div style="font-size: 0.75rem; opacity: 0.7;">Identifié via owner_id : ${p.id.substring(0,8)}...</div>
+                            <div style="font-size: 0.75rem; opacity: 0.7;">Réf Projet: ${p.id}</div>
+                            <button onclick="console.log('Project Data:', currentSREProject); alert('Données envoyées en console (F12)');" style="font-size:0.6rem; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:2px 6px; border-radius:4px; cursor:pointer; margin-top:4px;">Afficher les données brutes (Debug)</button>
                         </div>
                         <div style="display: flex; gap: 12px;">
                             <button onclick="isAdminInspection=false; showView('overview');" class="cta-button secondary" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">Quitter</button>
@@ -2119,17 +2120,17 @@
                     <div style="display:flex; flex-direction:column; gap:24px;">
                         <div>
                             <label class="form-label">Vision (Futur)</label>
-                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('vision', this.value)" placeholder="Où voyez-vous ce projet dans 5 ans ?" ${isAdminInspection ? 'disabled' : ''}>${p.vision || ''}</textarea>
+                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('vision', this.value)" placeholder="Où voyez-vous ce projet dans 5 ans ?" ${isAdminInspection ? 'disabled' : ''}>${p.vision || p.Vision || p.VISION || ''}</textarea>
                         </div>
                         <div>
                             <label class="form-label">Mission (Présent)</label>
-                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('mission', this.value)" placeholder="Que fait le projet concrètement ?" ${isAdminInspection ? 'disabled' : ''}>${p.mission || ''}</textarea>
+                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('mission', this.value)" placeholder="Que fait le projet concrètement ?" ${isAdminInspection ? 'disabled' : ''}>${p.mission || p.Mission || p.MISSION || ''}</textarea>
                         </div>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:24px;">
                         <div>
                             <label class="form-label">L'Enjeu (Pourquoi ?)</label>
-                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('enjeu', this.value)" placeholder="Pourquoi est-ce crucial pour votre territoire ?" ${isAdminInspection ? 'disabled' : ''}>${p.enjeu || ''}</textarea>
+                            <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('enjeu', this.value)" placeholder="Pourquoi est-ce crucial pour votre territoire ?" ${isAdminInspection ? 'disabled' : ''}>${p.enjeu || p.Enjeu || p.ENJEU || ''}</textarea>
                         </div>
                         <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
                             <p style="font-size:0.85rem; color:#64748b; margin:0;">Le "Pourquoi" est ce qui convainc les partenaires institutionnels en premier.</p>
