@@ -89,6 +89,7 @@ async function loadPendingProjects() {
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button onclick="inspectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #7c3aed; color: #7c3aed;">Inspecter</button>
+                                <button onclick="rejectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #ef4444; color: #ef4444;">Refuser</button>
                                 <button onclick="approveSREProject('${p.id}')" class="cta-button primary" style="font-size: 0.75rem; padding: 6px 16px; background: #10b981;">Approuver</button>
                             </div>
                         </div>
@@ -97,34 +98,51 @@ async function loadPendingProjects() {
             `;
         }
     } catch (err) {
-        console.error("Critical Load Error:", err);
+        console.error("Critical Load Error:", err.message);
     }
 }
 
 async function approveSREProject(projectId) {
-    if (!confirm("Voulez-vous vraiment approuver et publier cette Épopée ?")) return;
-    
+    if (!confirm("Voulez-vous vraiment approuver et publier ce projet ?")) return;
+    try {
+        const { error } = await _supabase
+            .from('projects')
+            .update({ is_approved: true, updated_at: new Date().toISOString() })
+            .eq('id', projectId);
+        if (error) throw error;
+        alert("Projet approuvé et publié ! ✅");
+        if (isAdminInspection) {
+            isAdminInspection = false;
+            showView('overview');
+        }
+        loadPendingProjects();
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+async function rejectSREProject(projectId) {
+    const reason = prompt("Indiquez la raison du refus (optionnel) :");
+    if (reason === null) return; // Annulé
     try {
         const { error } = await _supabase
             .from('projects')
             .update({ 
-                is_approved: true,
-                is_listed: true,
-                updated_at: new Date().toISOString()
+                is_approved: false, 
+                verification_status: 'rejected',
+                rejection_reason: reason,
+                updated_at: new Date().toISOString() 
             })
             .eq('id', projectId);
-
         if (error) throw error;
-        
-        alert("🚀 Projet approuvé et publié avec succès !");
-        
+        alert("Projet refusé. Le porteur en sera informé. ❌");
         if (isAdminInspection) {
             isAdminInspection = false;
-            showView('overview'); 
+            showView('overview');
         }
         loadPendingProjects();
     } catch (err) {
-        alert("Erreur lors de l'approbation : " + err.message);
+        alert("Erreur: " + err.message);
     }
 }
 
