@@ -95,6 +95,61 @@
             max-width: 700px;
         }
 
+        /* Tabs Styling */
+        .project-tabs {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .project-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 12px 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            color: #10b981;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; width: 100%; height: 2px;
+            background: #10b981;
+            box-shadow: 0 0 12px #10b981;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .project-tabs { top: 60px; padding: 0 20px; margin-left: -20px; width: calc(100% + 40px); }
+        }
+
         /* Layout Grid */
         .project-content-grid {
             display: grid;
@@ -639,7 +694,15 @@
             const effectiveGoal = project.goal_amount || 5000;
             const progressPercent = Math.min(100, Math.round((totalRaised / effectiveGoal) * 100));
             const maturityScore = project.maturity_index || 45;
-            const canFund = true; // Débloqué par défaut pour tous les projets listés
+            const canFund = true; // Unblocked by default
+
+            window.switchTab = function(tabId) {
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                if (event) event.currentTarget.classList.add('active');
+            };
+
 
             document.title = `${project.title} – Domtom Connect`;
 
@@ -673,183 +736,214 @@
 
                 <div class="container" style="padding-bottom: 120px;">
                     <div class="project-content-grid">
-                        <div>
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot"></div>
-                                    <span class="section-title">Manifeste & Impact</span>
-                                </div>
-                                
-                                <div class="manifesto-item">
-                                    <h3 class="manifesto-label">Vision Stratégique</h3>
-                                    <p class="manifesto-text">${project.vision || 'Vision en cours de déploiement...'}</p>
-                                </div>
+                        <div id="left-column"></div>
+                        <div id="right-column"></div>
+                    </div>
+                </div>
+            `;
 
-                                <div class="manifesto-item">
-                                    <h3 class="manifesto-label">Notre Mission</h3>
-                                    <p class="manifesto-text">${project.mission || 'Mission en cours de structuration...'}</p>
-                                </div>
+            const leftColumn = document.getElementById('left-column');
+            const rightColumn = document.getElementById('right-column');
 
-                                <div class="manifesto-item">
-                                    <h3 class="manifesto-label">L'Enjeu du Projet</h3>
-                                    <p class="manifesto-text">${project.enjeu || 'Analyse d\'impact en cours...'}</p>
-                                </div>
+            // LEFT COLUMN - TABS & NAVIGATION
+            leftColumn.innerHTML = `
+                <div class="project-tabs">
+                    <button class="tab-btn active" onclick="switchTab('tab-epopee')">L'Épopée</button>
+                    <button class="tab-btn" onclick="switchTab('tab-strategie')">Stratégie</button>
+                    <button class="tab-btn" onclick="switchTab('tab-equipe')">Équipe & Impact</button>
+                    <button class="tab-btn" onclick="switchTab('tab-arsenal')">Besoins</button>
+                </div>
 
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:60px; padding-top:60px; border-top:1px solid rgba(255,255,255,0.05);">
-                                    <div>
-                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Porteur</h4>
-                                        <p style="font-size:1.1rem; font-weight:700; color:white;">${ownerName}</p>
-                                    </div>
-                                    <div>
-                                        <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Innovation Tier</h4>
-                                        <p style="font-size:1.1rem; font-weight:700; color:#10b981;">${project.innovation_tier || 'Stratégique'}</p>
-                                    </div>
-                                </div>
+                <!-- TAB 1: L'ÉPOPÉE -->
+                <div id="tab-epopee" class="tab-content active">
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot"></div>
+                            <span class="section-title">Manifeste & Impact</span>
+                        </div>
+                        <div class="manifesto-grid">
+                            <div class="manifesto-item">
+                                <span class="manifesto-label">Vision Stratégique</span>
+                                <p class="manifesto-text">${project.vision || 'Vision en cours de déploiement...'}</p>
                             </div>
-
-                            ${project.pitch_texte ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
-                                    <span class="section-title">Le Pitch de l'Épopée</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap; font-style: italic; font-size: 1.2rem;">"${project.pitch_texte}"</div>
+                            <div class="manifesto-item">
+                                <span class="manifesto-label">Notre Mission</span>
+                                <p class="manifesto-text">${project.mission || 'Mission en cours de structuration...'}</p>
                             </div>
-                            ` : ''}
-
-                            ${project.description ? `
-                            <div class="glass-card">
-                                <div class="section-header"> ... </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
-                            </div>
-                            ` : ''}
-
-                            ${project.motivation ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#8b5cf6; box-shadow: 0 0 12px #8b5cf6;"></div>
-                                    <span class="section-title">Pourquoi ce Projet ?</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.motivation}</div>
-                            </div>
-                            ` : ''}
-
-                            ${project.equipe ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#ec4899; box-shadow: 0 0 12px #ec4899;"></div>
-                                    <span class="section-title">L'Équipe du Projet</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.equipe}</div>
-                            </div>
-                            ` : ''}
-
-                            ${project.innovation ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#fbbf24; box-shadow: 0 0 12px #fbbf24;"></div>
-                                    <span class="section-title">Innovation & Différenciation</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.innovation}</div>
-                            </div>
-                            ` : ''}
-
-                            ${project.marche ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#14b8a6; box-shadow: 0 0 12px #14b8a6;"></div>
-                                    <span class="section-title">Notre Marché</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.marche}</div>
-                            </div>
-                            ` : ''}
-
-                            ${project.impact_local ? `
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
-                                    <span class="section-title">Impact pour le Territoire</span>
-                                </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.impact_local}</div>
-                                ${project.emplois ? `
-                                <div style="margin-top:24px; padding:16px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:12px;">
-                                    <span style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:#3b82f6; display:block; margin-bottom:4px;">Emplois créés / prévus</span>
-                                    <span style="font-size:1.1rem; font-weight:800; color:white;">${project.emplois}</span>
-                                </div>
-                                ` : ''}
-                            </div>
-                            ` : ''}
-
-                            ${project.needs ? `
-                            <div class="glass-card">
-                                <div class="section-header"> ... </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.needs}</div>
-                            </div>
-                            ` : ''}
-
-                            <div class="glass-card" id="milestones-section">
-                                <div class="section-header">
-                                    <div class="section-dot"></div>
-                                    <span class="section-title">Impact & Paliers</span>
-                                </div>
-                                <div class="roadmap-container" id="roadmap-list">
-                                    <!-- Timeline Steps via JS -->
-                                </div>
-                            </div>
-
-                            <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot"></div>
-                                    <span class="section-title">Participer à l'Aventure</span>
-                                </div>
-                                <div id="rewards-list" style="display:grid; grid-template-columns:1fr; gap:24px;">
-                                    <!-- Rewards via JS -->
-                                </div>
+                            <div class="manifesto-item">
+                                <span class="manifesto-label">L'Enjeu du Projet</span>
+                                <p class="manifesto-text">${project.enjeu || 'Analyse d\'impact en cours...'}</p>
                             </div>
                         </div>
-
-                        <div>
-                            <div class="sidebar-card">
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                                    <span class="manifesto-label" style="font-size: 1.1rem; margin-bottom: 0; color: #10b981;">Cagnotte Épique</span>
-                                </div>
-
-                                <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                                <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
-
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: ${progressPercent}%"></div>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 40px;">
-                                    <span>${progressPercent}% Engagé</span>
-                                    <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
-                                </div>
-
-                                <div style="margin-bottom: 40px;">
-                                    ${canFund ? `
-                                        <button onclick="handleContribution()" class="amount-btn active" style="width: 100%; padding: 20px; font-size: 1.1rem; margin-bottom: 12px;">Propulser l'Épopée</button>
-                                    ` : `
-                                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16, 185, 129, 0.2); padding: 24px; border-radius: 20px; text-align: center; color: white; font-size: 0.85rem; font-weight: 600;">
-                                            <div style="font-size:1.5rem; margin-bottom:8px;">🔒</div>
-                                            <div style="font-weight:800; margin-bottom:4px;">Certification Domtom Connect Recommandée</div>
-                                            <p style="font-size:0.75rem; color:#64748b; margin:0; line-height:1.4;">
-                                                Ce projet est en cours de revue. La collecte de fonds sera activée après validation par nos équipes.
-                                            </p>
-                                        </div>
-                                    `}
-                                    <a href="/messages?to=${project.owner_id}" style="display: block; width: 100%; margin-top: 12px; text-align: center; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700;">Contacter le Porteur</a>
-                                </div>
-
-                                <div id="wall-of-fame-section">
-                                    <div class="section-header" style="margin-bottom: 24px;">
-                                        <div class="section-dot" style="background:#10b981;"></div>
-                                        <span class="section-title">Gardiens de l'Épopée</span>
-                                    </div>
-                                    <div id="wall-of-fame" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                                        <!-- Mini Avatars via JS -->
-                                    </div>
-                                </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:60px; padding-top:60px; border-top:1px solid rgba(255,255,255,0.05);">
+                            <div>
+                                <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Porteur</h4>
+                                <p style="font-size:1.1rem; font-weight:700; color:white;">${ownerName}</p>
                             </div>
+                            <div>
+                                <h4 style="font-size:0.75rem; font-weight:900; text-transform:uppercase; color:#64748b; margin-bottom:12px;">Innovation Tier</h4>
+                                <p style="font-size:1.1rem; font-weight:700; color:#10b981;">${project.innovation_tier || 'Stratégique'}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${project.pitch_texte ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
+                            <span class="section-title">Le Pitch de l'Épopée</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap; font-style: italic; font-size: 1.2rem;">"${project.pitch_texte}"</div>
+                    </div>
+                    ` : ''}
+
+                    ${project.description ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
+                            <span class="section-title">L'Épopée en Détails</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- TAB 2: STRATÉGIE -->
+                <div id="tab-strategie" class="tab-content">
+                    ${project.innovation ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#fbbf24; box-shadow: 0 0 12px #fbbf24;"></div>
+                            <span class="section-title">Innovation & Différenciation</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.innovation}</div>
+                    </div>
+                    ` : ''}
+
+                    ${project.motivation ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#8b5cf6; box-shadow: 0 0 12px #8b5cf6;"></div>
+                            <span class="section-title">Pourquoi ce Projet ?</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.motivation}</div>
+                    </div>
+                    ` : ''}
+
+                    ${project.marche ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#14b8a6; box-shadow: 0 0 12px #14b8a6;"></div>
+                            <span class="section-title">Notre Marché</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.marche}</div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- TAB 3: ÉQUIPE & IMPACT -->
+                <div id="tab-equipe" class="tab-content">
+                    ${project.equipe ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#ec4899; box-shadow: 0 0 12px #ec4899;"></div>
+                            <span class="section-title">L'Équipe du Projet</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.equipe}</div>
+                    </div>
+                    ` : ''}
+
+                    ${project.impact_local ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
+                            <span class="section-title">Impact pour le Territoire</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.impact_local}</div>
+                        ${project.emplois ? `
+                        <div style="margin-top:24px; padding:16px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:12px;">
+                            <span style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:#3b82f6; display:block; margin-bottom:4px;">Emplois créés / prévus</span>
+                            <span style="font-size:1.1rem; font-weight:800; color:white;">${project.emplois}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+
+                    <div class="glass-card" id="milestones-section">
+                        <div class="section-header">
+                            <div class="section-dot"></div>
+                            <span class="section-title">Impact & Paliers</span>
+                        </div>
+                        <div class="roadmap-container" id="roadmap-list">
+                            <!-- Timeline Steps via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: ARSENAL/BESOINS -->
+                <div id="tab-arsenal" class="tab-content">
+                    ${project.needs ? `
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot" style="background:#f59e0b; box-shadow: 0 0 12px #f59e0b;"></div>
+                            <span class="section-title">Nos Besoins Techniques</span>
+                        </div>
+                        <div class="manifesto-text" style="white-space: pre-wrap;">${project.needs}</div>
+                    </div>
+                    ` : ''}
+
+                    <div class="glass-card">
+                        <div class="section-header">
+                            <div class="section-dot"></div>
+                            <span class="section-title">Participer à l'Aventure</span>
+                        </div>
+                        <div id="rewards-list" style="display:grid; grid-template-columns:1fr; gap:24px;">
+                            <!-- Rewards via JS -->
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // RIGHT COLUMN - STICKY SIDEBAR
+            rightColumn.innerHTML = `
+                <div class="sidebar-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                        <span class="manifesto-label" style="font-size: 1.1rem; margin-bottom: 0; color: #10b981;">Cagnotte Épique</span>
+                    </div>
+
+                    <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
+                    <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 40px;">
+                        <span>${progressPercent}% Engagé</span>
+                        <span>${Math.max(0, effectiveGoal - totalRaised).toLocaleString('fr-FR')} € restant(s)</span>
+                    </div>
+
+                    <div style="margin-bottom: 40px;">
+                        ${canFund ? `
+                            <button onclick="handleContribution()" class="amount-btn active" style="width: 100%; padding: 20px; font-size: 1.1rem; margin-bottom: 12px;">Propulser l'Épopée</button>
+                        ` : `
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16, 185, 129, 0.2); padding: 24px; border-radius: 20px; text-align: center; color: white; font-size: 0.85rem; font-weight: 600;">
+                                <div style="font-size:1.5rem; margin-bottom:8px;">🔒</div>
+                                <div style="font-weight:800; margin-bottom:4px;">Certification Domtom Connect Recommandée</div>
+                                <p style="font-size:0.75rem; color:#64748b; margin:0; line-height:1.4;">
+                                    Ce projet est en cours de revue. La collecte de fonds sera activée après validation par nos équipes.
+                                </p>
+                            </div>
+                        `}
+                        <a href="/messages?to=${project.owner_id}" style="display: block; width: 100%; margin-top: 12px; text-align: center; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 100px; color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700;">Contacter le Porteur</a>
+                    </div>
+
+                    <div id="wall-of-fame-section">
+                        <div class="section-header" style="margin-bottom: 24px;">
+                            <div class="section-dot" style="background:#10b981;"></div>
+                            <span class="section-title">Gardiens de l'Épopée</span>
+                        </div>
+                        <div id="wall-of-fame" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <!-- Supporters Icons -->
                         </div>
                     </div>
                 </div>
