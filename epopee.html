@@ -1940,7 +1940,7 @@
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <div style="font-weight:800; font-size:1.1rem; color:#111827;">${p.title || 'Sans titre'}</div>
-                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">${p.is_listed ? '🚀 En ligne' : '🛠️ En cours'} • ${calculateProjectMaturity(p)}% de maturité</div>
+                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">${p.is_listed ? '🚀 En ligne' : '🛠️ En cours'}</div>
                         </div>
                         <div style="text-align:right;">
                             <div style="font-weight:900; color:#10b981;">${(p.total_raised || 0).toLocaleString()} €</div>
@@ -2027,10 +2027,7 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
                         </button>
 
-                        <div class="sre-maturity-badge">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
-                            ${maturity}% Maturité
-                        </div>
+                        <!-- Maturity removed as per user request -->
                         ${!isAdminInspection ? `
                         <button onclick="deleteSREProject('${p.id}')" title="Supprimer cette Épopée" 
                                 style="background:#fee2e2; color:#ef4444; border:none; padding:8px; border-radius:8px; cursor:pointer; display:flex; align-items:center; transition:all 0.2s;">
@@ -2041,27 +2038,27 @@
                 </div>
 
                 <div class="sre-stepper" style="display:grid; grid-template-columns:repeat(6, 1fr); gap:8px;">
-                    <div class="sre-step ${currentSREStep === 1 ? 'active' : ''} ${maturity >= 16 ? 'completed' : ''}" onclick="switchSREStep(1)">
+                    <div class="sre-step ${currentSREStep === 1 ? 'active' : ''}" onclick="switchSREStep(1)">
                         <span class="sre-step-num">01</span>
                         <span class="sre-step-label">Identité</span>
                     </div>
-                    <div class="sre-step ${currentSREStep === 2 ? 'active' : ''} ${maturity >= 32 ? 'completed' : ''}" onclick="switchSREStep(2)">
+                    <div class="sre-step ${currentSREStep === 2 ? 'active' : ''}" onclick="switchSREStep(2)">
                         <span class="sre-step-num">02</span>
                         <span class="sre-step-label">Équipe</span>
                     </div>
-                    <div class="sre-step ${currentSREStep === 3 ? 'active' : ''} ${maturity >= 49 ? 'completed' : ''}" onclick="switchSREStep(3)">
+                    <div class="sre-step ${currentSREStep === 3 ? 'active' : ''}" onclick="switchSREStep(3)">
                         <span class="sre-step-num">03</span>
                         <span class="sre-step-label">Terrain</span>
                     </div>
-                    <div class="sre-step ${currentSREStep === 4 ? 'active' : ''} ${maturity >= 66 ? 'completed' : ''}" onclick="switchSREStep(4)">
+                    <div class="sre-step ${currentSREStep === 4 ? 'active' : ''}" onclick="switchSREStep(4)">
                         <span class="sre-step-num">04</span>
                         <span class="sre-step-label">Valeur</span>
                     </div>
-                    <div class="sre-step ${currentSREStep === 5 ? 'active' : ''} ${maturity >= 83 ? 'completed' : ''}" onclick="switchSREStep(5)">
+                    <div class="sre-step ${currentSREStep === 5 ? 'active' : ''}" onclick="switchSREStep(5)">
                         <span class="sre-step-num">05</span>
                         <span class="sre-step-label">Objectifs</span>
                     </div>
-                    <div class="sre-step ${currentSREStep === 6 ? 'active' : ''} ${maturity >= 100 ? 'completed' : ''}" onclick="switchSREStep(6)">
+                    <div class="sre-step ${currentSREStep === 6 ? 'active' : ''}" onclick="switchSREStep(6)">
                         <span class="sre-step-num">06</span>
                         <span class="sre-step-label">Envol</span>
                     </div>

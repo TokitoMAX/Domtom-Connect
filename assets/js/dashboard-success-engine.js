@@ -94,28 +94,19 @@ async function loadMyProjects(userId) {
     headerContainer.innerHTML = `
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
             <div style="display:flex; align-items:center; gap:24px;">
-                <div class="gauge-container" style="width:80px; height:80px; margin:0; flex-shrink:0;">
-                    <svg class="gauge-svg" viewBox="0 0 100 100">
-                        <circle class="gauge-background" cx="50" cy="50" r="44"></circle>
-                        <circle class="gauge-progress" cx="50" cy="50" r="44" 
-                                style="stroke-dasharray: 276.46; stroke-dashoffset: ${276.46 * (1 - totalScore / 100)}"></circle>
-                    </svg>
-                    <div class="gauge-center">
-                        <div class="gauge-value" style="font-size:1.1rem;">${totalScore}%</div>
-                    </div>
-                </div>
+                <div style="width:60px; height:60px; background:rgba(16,185,129,0.1); border-radius:16px; display:flex; align-items:center; justify-content:center; color:#10b981; font-size:1.5rem;">🚀</div>
                 <div>
                     <h2 style="font-size:1.5rem; font-weight:900; color:#0f172a; margin:0;">${firstProj.title || 'Ma Nouvelle Épopée'}</h2>
-                    <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0 0;">Maturité du projet : ${totalScore}%</p>
+                    <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0 0;">Tableau de bord de pilotage</p>
                 </div>
             </div>
             <a href="/epopee" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; color:white; border-radius:12px; font-weight:800; cursor:pointer; text-decoration:none;">Piloter mon Épopée →</a>
         </div>
     `;
 
-    // Also update the dashboard badge if present
+    // Maturity labels removed as per user request
     const dashBadge = document.getElementById('epopee-score-badge');
-    if (dashBadge) dashBadge.textContent = `${totalScore}%`;
+    if (dashBadge) dashBadge.style.display = 'none';
 
     // Render Phases on the Hub
     let phasesHTML = `

@@ -707,22 +707,82 @@
                                 </div>
                             </div>
 
+                            ${project.pitch_texte ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
+                                    <span class="section-title">Le Pitch de l'Épopée</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap; font-style: italic; font-size: 1.2rem;">"${project.pitch_texte}"</div>
+                            </div>
+                            ` : ''}
+
                             ${project.description ? `
+                            <div class="glass-card">
+                                <div class="section-header"> ... </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.motivation ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#8b5cf6; box-shadow: 0 0 12px #8b5cf6;"></div>
+                                    <span class="section-title">Pourquoi ce Projet ?</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.motivation}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.equipe ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#ec4899; box-shadow: 0 0 12px #ec4899;"></div>
+                                    <span class="section-title">L'Équipe du Projet</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.equipe}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.innovation ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#fbbf24; box-shadow: 0 0 12px #fbbf24;"></div>
+                                    <span class="section-title">Innovation & Différenciation</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.innovation}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.marche ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#14b8a6; box-shadow: 0 0 12px #14b8a6;"></div>
+                                    <span class="section-title">Notre Marché</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.marche}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.impact_local ? `
                             <div class="glass-card">
                                 <div class="section-header">
                                     <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
-                                    <span class="section-title">L'Épopée en Détails</span>
+                                    <span class="section-title">Impact pour le Territoire</span>
                                 </div>
-                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.impact_local}</div>
+                                ${project.emplois ? `
+                                <div style="margin-top:24px; padding:16px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:12px;">
+                                    <span style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:#3b82f6; display:block; margin-bottom:4px;">Emplois créés / prévus</span>
+                                    <span style="font-size:1.1rem; font-weight:800; color:white;">${project.emplois}</span>
+                                </div>
+                                ` : ''}
                             </div>
                             ` : ''}
 
                             ${project.needs ? `
                             <div class="glass-card">
-                                <div class="section-header">
-                                    <div class="section-dot" style="background:#f59e0b; box-shadow: 0 0 12px #f59e0b;"></div>
-                                    <span class="section-title">Nos Besoins Techniques</span>
-                                </div>
+                                <div class="section-header"> ... </div>
                                 <div class="manifesto-text" style="white-space: pre-wrap;">${project.needs}</div>
                             </div>
                             ` : ''}
@@ -751,10 +811,7 @@
                         <div>
                             <div class="sidebar-card">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                                    <span class="manifesto-label" style="font-size: 1rem; margin-bottom: 0;">Cagnotte Épique</span>
-                                    <div class="maturity-badge" style="font-size: 0.9rem; padding: 4px 12px;">
-                                        ${maturityScore}% Maturité
-                                    </div>
+                                    <span class="manifesto-label" style="font-size: 1.1rem; margin-bottom: 0; color: #10b981;">Cagnotte Épique</span>
                                 </div>
 
                                 <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
