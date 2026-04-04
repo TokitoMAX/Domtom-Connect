@@ -748,14 +748,14 @@
             // LEFT COLUMN - TABS & NAVIGATION
             leftColumn.innerHTML = `
                 <div class="project-tabs">
-                    <button class="tab-btn active" onclick="switchTab('tab-epopee')">L'Épopée</button>
+                    <button class="tab-btn active" onclick="switchTab('tab-manifeste')">Le Manifeste</button>
                     <button class="tab-btn" onclick="switchTab('tab-strategie')">Stratégie</button>
                     <button class="tab-btn" onclick="switchTab('tab-equipe')">Équipe & Impact</button>
-                    <button class="tab-btn" onclick="switchTab('tab-arsenal')">Besoins</button>
+                    <button class="tab-btn" onclick="switchTab('tab-propulsion')">Propulsion</button>
                 </div>
 
-                <!-- TAB 1: L'ÉPOPÉE -->
-                <div id="tab-epopee" class="tab-content active">
+                <!-- TAB 1: LE MANIFESTE -->
+                <div id="tab-manifeste" class="tab-content active">
                     <div class="glass-card">
                         <div class="section-header">
                             <div class="section-dot"></div>
@@ -880,8 +880,8 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: ARSENAL/BESOINS -->
-                <div id="tab-arsenal" class="tab-content">
+                <!-- TAB 4: PROPULSION (BESOINS & RÉCOMPENSES) -->
+                <div id="tab-propulsion" class="tab-content">
                     ${project.needs ? `
                     <div class="glass-card">
                         <div class="section-header">
