@@ -639,7 +639,7 @@
             const effectiveGoal = project.goal_amount || 5000;
             const progressPercent = Math.min(100, Math.round((totalRaised / effectiveGoal) * 100));
             const maturityScore = project.maturity_index || 45;
-            const canFund = project.status === 'published';
+            const canFund = true; // Débloqué par défaut pour tous les projets listés
 
             document.title = `${project.title} – Domtom Connect`;
 
@@ -706,6 +706,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            ${project.description ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
+                                    <span class="section-title">L'Épopée en Détails</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
+                            </div>
+                            ` : ''}
+
+                            ${project.needs ? `
+                            <div class="glass-card">
+                                <div class="section-header">
+                                    <div class="section-dot" style="background:#f59e0b; box-shadow: 0 0 12px #f59e0b;"></div>
+                                    <span class="section-title">Nos Besoins Techniques</span>
+                                </div>
+                                <div class="manifesto-text" style="white-space: pre-wrap;">${project.needs}</div>
+                            </div>
+                            ` : ''}
 
                             <div class="glass-card" id="milestones-section">
                                 <div class="section-header">
