@@ -234,12 +234,17 @@
                 }
 
                 // ROLE GUARD: Redirect if not an enterprise
+                // ROLE GUARD: Redirect to expert if not an enterprise and NOT on a premium tier
                 const targetRole = (p.role || '').toLowerCase().trim();
+                const tier = (p.subscription_tier || 'free').toLowerCase();
+                const isCompanyTier = ['business', 'enterprise'].includes(tier);
+
                 const isLocal = window.location.hostname === 'localhost' || 
                                  window.location.hostname === '127.0.0.1' || 
                                  window.location.hostname.startsWith('192.168.') || 
                                  window.location.port !== '';
-                if (targetRole !== 'entreprise') {
+
+                if (targetRole !== 'entreprise' && !isCompanyTier) {
                     window.location.replace(isLocal ? `/marketplace/profile-detail-expert.html?id=${id}` : `/marketplace/expert/${id}`);
                     return;
                 }

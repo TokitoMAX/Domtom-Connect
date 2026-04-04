@@ -221,12 +221,17 @@
                 }
 
                 // ROLE GUARD: Redirect if not an expert/basique
+                // ROLE GUARD: Redirect to company if explicitly role 'entreprise' OR on a business/enterprise tier
                 const currentRole = (p.role || '').toLowerCase().trim();
+                const tier = (p.subscription_tier || 'free').toLowerCase();
+                const isCompanyTier = ['business', 'enterprise'].includes(tier);
+
                 const isLocal = window.location.hostname === 'localhost' || 
                                  window.location.hostname === '127.0.0.1' || 
                                  window.location.hostname.startsWith('192.168.') || 
                                  window.location.port !== '';
-                if (currentRole === 'entreprise') {
+
+                if (currentRole === 'entreprise' || isCompanyTier) {
                     window.location.replace(isLocal ? `/marketplace/profile-detail-company.html?id=${id}` : `/marketplace/company/${id}`);
                     return;
                 }
