@@ -630,11 +630,7 @@
             const avatar = company.avatar_url ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">` : `<div class="company-logo">${initials}</div>`;
             const isFeatured = company.is_featured === true;
 
-            const isLocal = window.location.hostname === 'localhost' || 
-                             window.location.hostname === '127.0.0.1' || 
-                             window.location.hostname.startsWith('192.168.') || 
-                             window.location.port !== '';
-            const profileUrl = isLocal ? `/marketplace/profile-detail-company.html?id=${company.id}` : `/marketplace/company/${company.id}`;
+            const profileUrl = `/marketplace/profile-detail-company.html?id=${company.id}`;
 
             return `
                 <div class="company-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='${profileUrl}'" style="cursor:pointer;">
@@ -710,7 +706,7 @@
                     </div>
 
                     <div style="margin-top:24px; display:flex; flex-direction: column; gap:12px;" class="modal-actions-v2">
-                        <a href="${isLocal ? `/marketplace/profile-detail-company.html?id=${company.id}` : `/marketplace/company/${company.id}`}" class="btn-web" style="text-align:center; background:#0369a1; color:white;">Consulter la page entreprise complète</a>
+                        <a href="/marketplace/profile-detail-company.html?id=${company.id}" class="btn-web" style="text-align:center; background:#0369a1; color:white;">Consulter la page entreprise complète</a>
                         <div style="display:flex; gap:12px;">
                             <button onclick="closeModal()" class="btn-web btn-action-mobile" style="flex:1;">Fermer</button>
                             <a href="/messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#0369a1; flex:1;">Contacter</a>

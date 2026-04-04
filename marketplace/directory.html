@@ -901,12 +901,7 @@
             const skills = (p.skills || '').split(',').map(s => s.trim()).filter(s => s).slice(0, 3);
             const isFeatured = p.is_featured === true;
             
-            // Détection de l'environnement pour le lien (Local vs Prod)
-            const isLocal = window.location.hostname === 'localhost' || 
-                             window.location.hostname === '127.0.0.1' || 
-                             window.location.hostname.startsWith('192.168.') || 
-                             window.location.port !== '';
-            const profileUrl = isLocal ? `/marketplace/profile-detail-expert.html?id=${p.id}` : `/marketplace/expert/${p.id}`;
+            const profileUrl = `/marketplace/profile-detail-expert.html?id=${p.id}`;
             
             return `
                 <div class="expert-card-v2 ${isFeatured ? 'featured' : ''}" onclick="window.location.href='${profileUrl}'" style="cursor:pointer;">
@@ -995,7 +990,7 @@
                     </div>
 
                     <div class="modal-actions-v2" style="display:flex; flex-direction: column; gap:12px; border-top:1px solid #f1f5f9; padding-top:24px;">
-                        <a href="profile-detail.html?id=${p.id}" class="btn-expert primary" style="margin:0; text-align:center; background:#0f172a;">Consulter le profil complet</a>
+                        <a href="/marketplace/profile-detail-expert.html?id=${p.id}" class="btn-expert primary" style="margin:0; text-align:center; background:#0f172a;">Consulter le profil complet</a>
                         <div style="display:flex; gap:12px;">
                             <button onclick="closeExpertModal()" class="btn-expert secondary btn-action-mobile" style="margin:0; flex:1;">Fermer</button>
                             <a href="../messages?to=${p.id}" class="btn-expert primary btn-action-mobile" style="margin:0; flex:1;">Contacter</a>
