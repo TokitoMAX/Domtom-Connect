@@ -902,7 +902,10 @@
             const isFeatured = p.is_featured === true;
             
             // Détection de l'environnement pour le lien (Local vs Prod)
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const isLocal = window.location.hostname === 'localhost' || 
+                             window.location.hostname === '127.0.0.1' || 
+                             window.location.hostname.startsWith('192.168.') || 
+                             window.location.port !== '';
             const profileUrl = isLocal ? `/marketplace/profile-detail-expert.html?id=${p.id}` : `/marketplace/expert/${p.id}`;
             
             return `

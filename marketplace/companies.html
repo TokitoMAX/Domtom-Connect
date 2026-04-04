@@ -630,7 +630,10 @@
             const avatar = company.avatar_url ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">` : `<div class="company-logo">${initials}</div>`;
             const isFeatured = company.is_featured === true;
 
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const isLocal = window.location.hostname === 'localhost' || 
+                             window.location.hostname === '127.0.0.1' || 
+                             window.location.hostname.startsWith('192.168.') || 
+                             window.location.port !== '';
             const profileUrl = isLocal ? `/marketplace/profile-detail-company.html?id=${company.id}` : `/marketplace/company/${company.id}`;
 
             return `

@@ -196,7 +196,10 @@
 
                 // ROLE GUARD: Redirect if not an expert/basique
                 const currentRole = (p.role || '').toLowerCase().trim();
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isLocal = window.location.hostname === 'localhost' || 
+                                 window.location.hostname === '127.0.0.1' || 
+                                 window.location.hostname.startsWith('192.168.') || 
+                                 window.location.port !== '';
                 if (currentRole === 'entreprise') {
                     window.location.replace(isLocal ? `/marketplace/profile-detail-company.html?id=${id}` : `/marketplace/company/${id}`);
                     return;

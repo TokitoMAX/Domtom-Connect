@@ -204,7 +204,10 @@
 
                 // ROLE GUARD: Redirect if not an enterprise
                 const targetRole = (p.role || '').toLowerCase().trim();
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isLocal = window.location.hostname === 'localhost' || 
+                                 window.location.hostname === '127.0.0.1' || 
+                                 window.location.hostname.startsWith('192.168.') || 
+                                 window.location.port !== '';
                 if (targetRole !== 'entreprise') {
                     window.location.replace(isLocal ? `/marketplace/profile-detail-expert.html?id=${id}` : `/marketplace/expert/${id}`);
                     return;
