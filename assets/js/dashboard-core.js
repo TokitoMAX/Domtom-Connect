@@ -423,17 +423,17 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 
                 <div class="ecosystem-grid">
                     <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">💰</div>
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight: 800; font-size: 0.8rem;">TJM</div>
                         <div class="card-title">Cadrage Financier</div>
                         <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie.</p>
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM →</a>
+                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM</a>
                             <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center;">Gérer ma facturation</a>
                         </div>
                     </div>
 
                     <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">🖋️</div>
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight: 800; font-size: 0.8rem;">EUR</div>
                         <div class="card-title">Contrats & Commissions</div>
                         <p class="card-desc">Déclarez vos contrats signés et suivez vos gains.</p>
                         <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
@@ -443,10 +443,10 @@ function renderDashboardCards(role, tier, isListed, profile) {
                     </div>
 
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">🎫</div>
+                        <div class="dash-card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b; font-weight: 800; font-size: 0.8rem;">EVT</div>
                         <div class="card-title">Ma Billetterie</div>
                         <p class="card-desc">Gérez vos propres événements et suivez vos ventes.</p>
-                        <button onclick="showView('billetterie')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Gérer mes ventes →</button>
+                        <button onclick="showView('billetterie')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Gérer mes ventes</button>
                     </div>
                 </div>
             </div>
@@ -456,19 +456,19 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
                 <div class="ecosystem-grid">
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">✉️</div>
+                        <div class="dash-card-icon">NAV</div>
                         <div class="card-title">Messagerie</div>
                         <p class="card-desc">Échangez avec les porteurs et entreprises.</p>
                         <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">🎟️</div>
+                        <div class="dash-card-icon">TIC</div>
                         <div class="card-title">Mes Billets</div>
                         <p class="card-desc">Vos accès aux événements du réseau.</p>
                         <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">📚</div>
+                        <div class="dash-card-icon">ART</div>
                         <div class="card-title">Ressources</div>
                         <p class="card-desc">Blog, guides et astuces pour réussir.</p>
                         <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>
@@ -582,21 +582,21 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 
                 <div class="ecosystem-grid">
                     <div class="dash-card-premium" style="border-left: 4px solid #0284c7;">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">👥</div>
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">CAND</div>
                         <div class="card-title">Candidatures Reçues</div>
                         <p class="card-desc">Suivez les dossiers des talents qui ont postulé.</p>
                         <a href="/candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
                     </div>
 
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">🔍</div>
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">DIR</div>
                         <div class="card-title">Sourcing Talents</div>
                         <p class="card-desc">Parcourez l'annuaire des meilleurs experts locaux.</p>
                         <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Trouver un expert</a>
                     </div>
 
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">📡</div>
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">MATCH</div>
                         <div class="card-title">Matchmaking</div>
                         <p class="card-desc">Mise en relation automatique avec les profils compatibles.</p>
                         <button onclick="document.getElementById('matchmaking-section').scrollIntoView({behavior:'smooth'})" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir mes matchs</button>
@@ -609,19 +609,19 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
                 <div class="ecosystem-grid">
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">✉️</div>
+                        <div class="dash-card-icon">MSG</div>
                         <div class="card-title">Messagerie</div>
                         <p class="card-desc">Discutez avec vos candidats et partenaires.</p>
                         <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">🎟️</div>
+                        <div class="dash-card-icon">TIC</div>
                         <div class="card-title">Mes Billets</div>
                         <p class="card-desc">Vos accès aux événements VIP & Réseautage.</p>
                         <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">🎙️</div>
+                        <div class="dash-card-icon">POD</div>
                         <div class="card-title">Podcast Corporate</div>
                         <p class="card-desc">Préparation de votre interview visibilité.</p>
                         <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Réserver</a>
@@ -756,15 +756,15 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 </div>
                 
                 <div class="ecosystem-grid">
-                    <div class="dash-card-premium" style="grid-column: span 2; border-left: 4px solid #10b981; background: linear-gradient(135deg, #fff 0%, rgba(16,185,129,0.02) 100%);">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">🚀</div>
+                    <div class="dash-card-premium" style="grid-column: span 2; border-left: 4px solid #10b981;">
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">PROJET</div>
                         <div class="card-title" style="font-size: 1.5rem;">Succès Engine</div>
                         <p class="card-desc" style="font-size: 1rem;">Accédez au cockpit pour gérer vos phases de maturité (Stratégie, Arsenal, Boussole...).</p>
-                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:16px; font-weight:900; font-size:1.1rem; margin-top:20px;">PILOTER MON PROJET DIRECTEMENT →</button>
+                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:16px; font-weight:900; font-size:1.1rem; margin-top:20px;">PILOTER MON PROJET DIRECTEMENT</button>
                     </div>
 
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">💵</div>
+                        <div class="dash-card-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">€€€</div>
                         <div class="card-title">Mes Financements</div>
                         <p class="card-desc">Suivez les contributions reçues pour votre projet.</p>
                         <div style="margin: 12px 0; font-size: 1.1rem; font-weight:800; color:#3b82f6;">0,00 €</div>
@@ -778,25 +778,25 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">SERVICES & ÉCOSYSTÈME</h3>
                 <div class="ecosystem-grid">
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">👥</div>
+                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">TALENT</div>
                         <div class="card-title">Annuaire Talents</div>
                         <p class="card-desc">Trouvez les experts pour votre projet.</p>
                         <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Chercher</a>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">⚡</div>
+                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">MISSION</div>
                         <div class="card-title">Missions / Jobs</div>
                         <p class="card-desc">Recrutez des indépendants locaux.</p>
                         <a href="/marketplace/jobs" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Publier</a>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">🎥</div>
+                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">LIVE</div>
                         <div class="card-title">Webinaires Live</div>
                         <p class="card-desc">Formations et sessions en direct.</p>
                         <a href="/webinaires" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Accéder</a>
                     </div>
                     <div class="dash-card-premium">
-                        <div class="dash-card-icon">📖</div>
+                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">BLOG</div>
                         <div class="card-title">Blog & Guides</div>
                         <p class="card-desc">Ressources d'accompagnement.</p>
                         <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>

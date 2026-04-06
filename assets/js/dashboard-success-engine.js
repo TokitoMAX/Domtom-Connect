@@ -73,75 +73,116 @@ async function loadMyProjects(userId) {
         return;
     }
 
-    const session = await getSession();
-    const pendingProjectName = session?.user?.user_metadata?.pending_project_name;
-
-    let firstProj = projects && projects.length > 0 ? projects[0] : {
-        id: 'new',
-        title: pendingProjectName || 'Ma Nouvelle Épopée',
-        vision: '',
-        mission: '',
-        enjeu: '',
-        total_raised: 0,
-        funding_goal: 0,
-        is_listed: false,
-        needs: ''
-    };
-
-    // If we have a pending name and no project yet, we could auto-create it or just let the user save.
-    // For now, we pre-fill the title.
-
-    const totalScore = calculateProjectMaturity(firstProj);
+async function loadMyProjects(userId) {
     const headerContainer = document.getElementById('success-engine-header');
     const engineStepContainer = document.getElementById('success-engine-step');
-    
     if (!headerContainer || !engineStepContainer) return;
 
-    headerContainer.innerHTML = `
-        <div class="success-engine-header-card">
-            <div class="success-engine-title-group">
-                <div class="success-engine-icon">🚀</div>
-                <div>
-                    <h2 class="success-engine-project-title">${firstProj.title || 'Ma Nouvelle Épopée'}</h2>
-                    <p class="success-engine-subtitle">Tableau de bord de pilotage</p>
+    try {
+        const { data: projects, error } = await _supabase
+            .from('projects')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // --- 1. HEADER SOBRE ---
+        headerContainer.innerHTML = `
+            <div class="dash-section-header" style="margin-bottom: 32px;">
+                <h1 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">MON ÉPOPÉE</h1>
+                <p style="color: #64748b;">Gérez la stratégie et le développement de vos projets.</p>
+            </div>
+        `;
+
+        // --- 2. LISTE DES PROJETS (PAR DÉFAUT) ---
+        let listHTML = `
+            <div id="project-list-view">
+                <div class="dash-section-pilotage" style="background: #0f172a; color: white; border: none; margin-bottom:40px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2 style="color: white; margin: 0; font-size: 1.5rem;">Ma Nouvelle Épopée</h2>
+                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet structuré.</p>
+                        </div>
+                        <button onclick="openProjectModal()" class="cta-button primary" style="background: white; color: #0f172a; border: none;">+ Nouveau Projet</button>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">Mes Épopées</h3>
+                <div class="ecosystem-grid">
+                    ${projects && projects.length > 0 ? projects.map(p => `
+                        <div class="dash-card-premium">
+                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">ESTRAT</div>
+                            <div class="card-title">${p.title || 'Sans titre'}</div>
+                            <p class="card-desc">Tableau de bord de pilotage stratégique.</p>
+                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto;">Piloter mon Épopée</button>
+                        </div>
+                    `).join('') : '<p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p>'}
                 </div>
             </div>
-            <a href="/epopee" class="cta-button primary success-engine-cta">Piloter mon Épopée →</a>
-        </div>
-    `;
 
-    // Maturity labels removed as per user request
-    const dashBadge = document.getElementById('epopee-score-badge');
-    if (dashBadge) dashBadge.style.display = 'none';
+            <!-- CONTENEUR COCKPIT (MASQUÉ) -->
+            <div id="project-cockpit-view" style="display: none;">
+                <button onclick="closeProjectCockpit()" class="cta-button secondary" style="margin-bottom: 32px;">&larr; Retour à mes projets</button>
+                <div id="cockpit-content-internal"></div>
+            </div>
+        `;
 
-    // Render Phases on the Hub
-    let phasesHTML = `
-        <div id="phase-card-1" class="cockpit-section dash-card active">
-            <div class="card-title">01. Stratégie & Vision</div>
-            <p class="card-desc" style="margin-bottom:24px;">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
-            <div class="cockpit-grid">
-                <div class="cockpit-column">
-                    <div class="form-group">
-                        <label>Votre Vision (Futur)</label>
-                        <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?">${firstProj.vision || ''}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Votre Mission (Présent)</label>
-                        <textarea id="manifesto-mission" placeholder="Que faites-vous concrètement aujourd'hui ?">${firstProj.mission || ''}</textarea>
-                    </div>
+        engineStepContainer.innerHTML = listHTML;
+
+    } catch (err) {
+        console.error("Error loading projects:", err);
+    }
+}
+
+async function openProjectCockpit(projectId) {
+    const list = document.getElementById('project-list-view');
+    const cockpit = document.getElementById('project-cockpit-view');
+    const content = document.getElementById('cockpit-content-internal');
+    
+    if (!list || !cockpit || !content) return;
+
+    try {
+        const { data: p, error } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+        if (error) throw error;
+
+        list.style.display = 'none';
+        cockpit.style.display = 'block';
+
+        content.innerHTML = `
+            <div class="success-engine-card">
+                 <div class="success-engine-card-header">
+                    <h3 class="success-engine-card-title">01. Stratégie & Vision</h3>
+                    <p class="success-engine-card-subtitle">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
                 </div>
-                <div class="cockpit-column">
-                    <div class="form-group">
-                        <label>L'Enjeu (Pourquoi ?)</label>
-                        <textarea id="manifesto-enjeu" placeholder="Quel problème majeur résolvez-vous ?">${firstProj.enjeu || ''}</textarea>
+                
+                <div class="success-engine-grid">
+                    <div class="success-engine-field">
+                        <label class="success-engine-label">Votre Vision (Futur)</label>
+                        <textarea id="manifesto-vision" class="success-engine-textarea" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
                     </div>
-                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="width:100%;">Enregistrer ma Stratégie →</button>
+                    <div class="success-engine-field">
+                        <label class="success-engine-label">L'Enjeu (Pourquoi ?)</label>
+                        <textarea id="manifesto-enjeu" class="success-engine-textarea" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
+                    </div>
+                    <div class="success-engine-field">
+                        <label class="success-engine-label">Votre Mission (Présent)</label>
+                        <textarea id="manifesto-mission" class="success-engine-textarea" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
+                    </div>
+                    <div style="display:flex; align-items:flex-end;">
+                        <button onclick="updateProjectManifesto('${p.id}')" class="cta-button primary" style="width:100%; background:#0f172a; height: 50px; justify-content:center;">Enregistrer ma Stratégie</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
 
-    engineStepContainer.innerHTML = phasesHTML;
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+function closeProjectCockpit() {
+    document.getElementById('project-list-view').style.display = 'block';
+    document.getElementById('project-cockpit-view').style.display = 'none';
 }
 
 function openImpulsionModal(projectId) {

@@ -1160,9 +1160,6 @@ body {
     border-radius: 24px;
     padding: 32px;
     margin-bottom: 40px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    position: relative;
-    overflow: hidden;
 }
 
 .dash-pilotage-header {
