@@ -1153,9 +1153,84 @@ body {
         font-size: 1.25rem;
     }
 
-    .cockpit-grid {
-        grid-template-columns: 1fr;
+/* --- NEW PILOTAGE & ECOSYSTEM SECTIONS --- */
+.dash-section-pilotage {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-pilotage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.dash-section-ecosystem {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.dash-card-premium {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+}
+
+.dash-card-premium:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    border-color: var(--emerald-color);
+}
+
+.dash-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .dash-section-pilotage {
+        padding: 24px;
+        border-radius: 20px;
+    }
+    
+    .dash-pilotage-header {
+        flex-direction: column;
+        align-items: flex-start;
         gap: 16px;
+    }
+    
+    .ecosystem-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .dash-card-premium {
+        padding: 20px;
     }
 }
 
@@ -1310,7 +1385,63 @@ body {
     transition: border-color 0.2s;
 }
 
-.tier-row input:focus {
-    border-color: #10b981;
-    outline: none;
+}
+
+/* --- RECRUITMENT & SEARCH --- */
+.search-filter-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    background: white;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.search-filter-bar div {
+    transition: all 0.2s;
+}
+
+/* Modal Dossier Talent Responsive */
+.modal-content-flex {
+    display: flex;
+    min-height: 600px;
+}
+
+.modal-sidebar {
+    width: 340px;
+    background: #f8fafc;
+    padding: 60px 40px;
+    border-right: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+.modal-main-body {
+    flex: 1;
+    padding: 60px;
+    overflow-y: auto;
+    max-height: 85vh;
+}
+
+@media (max-width: 768px) {
+    .search-filter-bar {
+        flex-direction: column;
+        padding: 16px;
+    }
+    
+    .modal-content-flex {
+        flex-direction: column;
+    }
+    
+    .modal-sidebar {
+        width: 100%;
+        padding: 40px 20px;
+        border-right: none;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .modal-main-body {
+        padding: 30px 20px;
+    }
 }

@@ -412,43 +412,68 @@ function renderDashboardCards(role, tier, isListed, profile) {
         loadPendingProjects();
     } else if (role === 'expert' || role === 'prestataire') {
         container.innerHTML = `
+            <!-- ZONE DE PILOTAGE EXPERT -->
+            <div class="dash-section-pilotage">
+                <div class="dash-pilotage-header">
+                    <div>
+                        <h2 class="success-engine-project-title">MON ACTIVITÉ EXPERT</h2>
+                        <p class="success-engine-subtitle">Gérez vos missions, contrats et revenus.</p>
+                    </div>
+                </div>
+                
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">💰</div>
+                        <div class="card-title">Cadrage Financier</div>
+                        <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie.</p>
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM →</a>
+                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center;">Gérer ma facturation</a>
+                        </div>
+                    </div>
 
-            <div class="dash-card">
-                <div class="card-title">Mes Billets</div>
-                <p class="card-desc">Accédez aux QR codes de vos événements et téléchargez vos billets.</p>
-                <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir mes billets →</button>
-            </div>
+                    <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">🖋️</div>
+                        <div class="card-title">Contrats & Commissions</div>
+                        <p class="card-desc">Déclarez vos contrats signés et suivez vos gains.</p>
+                        <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
+                            <div style="display:flex; justify-content:space-between;"><span>Cumul HT :</span> <strong id="total-signed">0 €</strong></div>
+                        </div>
+                        <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; margin-top:auto;">Déclarer Signature</button>
+                    </div>
 
-            <div class="dash-card highlight" style="border-color: #10b981;">
-                <div class="card-title">Cadrage Financier <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">Indispensable</span></div>
-                <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie avec SoloPrice Pro.</p>
-                <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                    <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM exact →</a>
-                    <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981;">Gérer ma facturation</a>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">🎫</div>
+                        <div class="card-title">Ma Billetterie</div>
+                        <p class="card-desc">Gérez vos propres événements et suivez vos ventes.</p>
+                        <button onclick="showView('billetterie')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Gérer mes ventes →</button>
+                    </div>
                 </div>
             </div>
-            
-            <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02);">
-                <div class="card-title" style="color: #10b981; display: flex; justify-content: space-between; align-items: center;">
-                    Signatures & Commissions
-                </div>
-                <p class="card-desc">Déclarez vos contrats signés et gérez votre facturation via SoloPrice Pro.</p>
-                <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
-                    <div style="display:flex; justify-content:space-between;"><span>Cumul HT :</span> <strong id="total-signed">0 €</strong></div>
-                </div>
-                <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; font-size:0.75rem; width:100%; margin-top:auto;">Déclarer Signature</button>
-            </div>
 
-            <div class="dash-card">
-                <div class="card-title">Ma Billetterie</div>
-                <p class="card-desc">Gérez vos événements et suivez vos ventes.</p>
-                <button onclick="showView('billetterie')" class="cta-button primary" style="margin-top:auto; justify-content:center;">Gérer mes ventes →</button>
-            </div>
-
-            <div class="dash-card">
-                <div class="card-title">Messagerie</div>
-                <p class="card-desc">Échangez avec les membres du réseau.</p>
-                <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir la messagerie</a>
+            <!-- ZONE ÉCOSYSTÈME & SERVICES -->
+            <div class="dash-section-ecosystem">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">✉️</div>
+                        <div class="card-title">Messagerie</div>
+                        <p class="card-desc">Échangez avec les porteurs et entreprises.</p>
+                        <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">🎟️</div>
+                        <div class="card-title">Mes Billets</div>
+                        <p class="card-desc">Vos accès aux événements du réseau.</p>
+                        <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">📚</div>
+                        <div class="card-title">Ressources</div>
+                        <p class="card-desc">Blog, guides et astuces pour réussir.</p>
+                        <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>
+                    </div>
+                </div>
             </div>
         `;
         
@@ -546,25 +571,62 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
     } else if (role === 'entreprise') {
          container.innerHTML = `
-            <div class="dash-card highlight" style="border-color: #0284c7;">
-                <div class="card-title">Candidatures Reçues</div>
-                <p class="card-desc">Suivez les talents qui ont postulé.</p>
-                <a href="/candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
+            <!-- ZONE DE PILOTAGE ENTREPRISE -->
+            <div class="dash-section-pilotage">
+                <div class="dash-pilotage-header">
+                    <div>
+                        <h2 class="success-engine-project-title">PILOTAGE RECRUTEMENT</h2>
+                        <p class="success-engine-subtitle">Gérez vos offres et trouvez vos futurs talents.</p>
+                    </div>
+                </div>
+                
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium" style="border-left: 4px solid #0284c7;">
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">👥</div>
+                        <div class="card-title">Candidatures Reçues</div>
+                        <p class="card-desc">Suivez les dossiers des talents qui ont postulé.</p>
+                        <a href="/candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
+                    </div>
+
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">🔍</div>
+                        <div class="card-title">Sourcing Talents</div>
+                        <p class="card-desc">Parcourez l'annuaire des meilleurs experts locaux.</p>
+                        <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Trouver un expert</a>
+                    </div>
+
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">📡</div>
+                        <div class="card-title">Matchmaking</div>
+                        <p class="card-desc">Mise en relation automatique avec les profils compatibles.</p>
+                        <button onclick="document.getElementById('matchmaking-section').scrollIntoView({behavior:'smooth'})" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir mes matchs</button>
+                    </div>
+                </div>
             </div>
-            <div class="dash-card">
-                <div class="card-title">Recrutement & Talents</div>
-                <p class="card-desc">Trouvez les meilleurs experts locaux.</p>
-                <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Parcourir l'annuaire</a>
-            </div>
-            <div class="dash-card">
-                <div class="card-title">Mes Billets</div>
-                <p class="card-desc">Vos accès aux événements.</p>
-                <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir mes billets →</button>
-            </div>
-            <div class="dash-card">
-                <div class="card-title">Messagerie</div>
-                <p class="card-desc">Échangez avec les membres.</p>
-                <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir la messagerie</a>
+
+            <!-- ZONE ÉCOSYSTÈME -->
+            <div class="dash-section-ecosystem">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">✉️</div>
+                        <div class="card-title">Messagerie</div>
+                        <p class="card-desc">Discutez avec vos candidats et partenaires.</p>
+                        <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">🎟️</div>
+                        <div class="card-title">Mes Billets</div>
+                        <p class="card-desc">Vos accès aux événements VIP & Réseautage.</p>
+                        <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">🎙️</div>
+                        <div class="card-title">Podcast Corporate</div>
+                        <p class="card-desc">Préparation de votre interview visibilité.</p>
+                        <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Réserver</a>
+                    </div>
+                </div>
             </div>
         `;
 
@@ -682,48 +744,64 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // Default: Porteur de Projet
+        // --- ZONE DE PILOTAGE PORTEUR DE PROJET ---
         container.innerHTML = `
-            <div class="dash-card highlight" style="border-color: #3b82f6;">
-                <div class="card-title">Mes Billets</div>
-                <p class="card-desc">Accédez aux QR codes de vos événements et téléchargez vos billets.</p>
-                <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir mes billets →</button>
-            </div>
-
-            <div class="dash-card">
-                <div class="card-title">Messagerie</div>
-                <p class="card-desc">Échangez avec les membres du réseau Domtom Connect.</p>
-                <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir la messagerie</a>
-            </div>
-
-            <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02); cursor: pointer;" onclick="window.location.href='/epopee'">
-                <div class="card-title" style="color: #10b981;">
-                    Mon Épopée
-                    <span id="epopee-score-badge" style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:20px;">0%</span>
+            <div class="dash-section-pilotage">
+                <div class="dash-pilotage-header">
+                    <div>
+                        <h2 class="success-engine-project-title">PILOTAGE DE MON ÉPOPÉE</h2>
+                        <p class="success-engine-subtitle">Le cockpit de contrôle de votre stratégie et financement.</p>
+                    </div>
+                    <div id="epopee-score-badge" style="font-size:1.25rem; font-weight:900; color:#10b981; background:rgba(16,185,129,0.1); padding:8px 16px; border-radius:12px; border:1px solid rgba(16,185,129,0.2);">0%</div>
                 </div>
-                <p class="card-desc">Gérez la stratégie et le financement de votre projet via le Success Engine.</p>
-                <button class="cta-button primary" style="margin-top:auto; background:#10b981; justify-content:center; font-size: 0.8rem;" onclick="window.location.href='/epopee'">Piloter mon projet →</button>
-            </div>
+                
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium" style="grid-column: span 2; border-left: 4px solid #10b981; background: linear-gradient(135deg, #fff 0%, rgba(16,185,129,0.02) 100%);">
+                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">🚀</div>
+                        <div class="card-title" style="font-size: 1.5rem;">Succès Engine</div>
+                        <p class="card-desc" style="font-size: 1rem;">Accédez au cockpit pour gérer vos phases de maturité (Stratégie, Arsenal, Boussole...).</p>
+                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:16px; font-weight:900; font-size:1.1rem; margin-top:20px;">PILOTER MON PROJET DIRECTEMENT →</button>
+                    </div>
 
-            <div class="dash-card">
-                <div class="card-title">Mon Profil</div>
-                <p class="card-desc">Gérez vos informations personnelles et préférences.</p>
-                <a href="profile.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Modifier le profil</a>
-            </div>
-
-            <div class="dash-card">
-                <div class="card-title">Marketplace</div>
-                <p class="card-desc">Trouvez des experts et des missions sur le réseau.</p>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:auto;">
-                    <a href="/marketplace/directory" class="cta-button secondary" style="font-size:0.75rem; justify-content:center; padding: 8px;">Talents</a>
-                    <a href="/marketplace/jobs" class="cta-button secondary" style="font-size:0.75rem; justify-content:center; padding: 8px;">Missions</a>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">💵</div>
+                        <div class="card-title">Mes Financements</div>
+                        <p class="card-desc">Suivez les contributions reçues pour votre projet.</p>
+                        <div style="margin: 12px 0; font-size: 1.1rem; font-weight:800; color:#3b82f6;">0,00 €</div>
+                        <button onclick="showView('success-engine')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Détails</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="dash-card">
-                <div class="card-title">Communauté</div>
-                <p class="card-desc">Webinaires, lives et ressources pour réussir.</p>
-                <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ressources & Guides</a>
+            <!-- ZONE ÉCOSYSTÈME PORTEUR -->
+            <div class="dash-section-ecosystem">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">SERVICES & ÉCOSYSTÈME</h3>
+                <div class="ecosystem-grid">
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">👥</div>
+                        <div class="card-title">Annuaire Talents</div>
+                        <p class="card-desc">Trouvez les experts pour votre projet.</p>
+                        <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Chercher</a>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">⚡</div>
+                        <div class="card-title">Missions / Jobs</div>
+                        <p class="card-desc">Recrutez des indépendants locaux.</p>
+                        <a href="/marketplace/jobs" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Publier</a>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">🎥</div>
+                        <div class="card-title">Webinaires Live</div>
+                        <p class="card-desc">Formations et sessions en direct.</p>
+                        <a href="/webinaires" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Accéder</a>
+                    </div>
+                    <div class="dash-card-premium">
+                        <div class="dash-card-icon">📖</div>
+                        <div class="card-title">Blog & Guides</div>
+                        <p class="card-desc">Ressources d'accompagnement.</p>
+                        <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>
+                    </div>
+                </div>
             </div>
         `;
     }
