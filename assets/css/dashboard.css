@@ -359,16 +359,18 @@ body {
     }
 
     .dash-section-header h1 {
-        font-size: 1.15rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        margin-top: 8px;
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        margin-top: 12px;
+        color: #0f172a;
     }
 
     .dash-section-header p {
-        font-size: 0.8rem;
-        opacity: 0.7;
-        margin-top: -4px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        opacity: 0.8;
+        margin: 4px 0 0 0;
     }
 
     .role-badge {
@@ -378,8 +380,8 @@ body {
     }
 
     .cards-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
 
     .dash-card {
@@ -421,10 +423,6 @@ body {
         font-size: 0.65rem;
     }
 
-    .top-nav {
-        display: none !important;
-    }
-
     /* Profile Strength refine */
     #profile-strength-container span {
         font-size: 0.75rem !important;
@@ -436,7 +434,34 @@ body {
         font-size: 1rem !important;
     }
 
-    /* Remove conflicting nav-content/nav-toggle styles from here as they are already better handled in assets/css/style.css */
+    /* Success Engine Hub Mobile */
+    .success-engine-container {
+        padding: 0 !important;
+    }
+
+    .success-engine-container [style*="display:flex; align-items:center; justify-content:space-between"] {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 16px;
+        padding: 24px !important;
+    }
+
+    #success-engine-view-fixed {
+        margin-top: 20px !important;
+    }
+
+    .cockpit-section {
+        padding: 24px !important;
+    }
+
+    .cockpit-section [style*="display:grid; grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .cockpit-section textarea {
+        min-height: 100px !important;
+    }
 }
 
 /* Visibility Preview Styles */
@@ -507,13 +532,18 @@ body {
 .cockpit-stepper {
     display: flex;
     gap: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
     background: rgba(255, 255, 255, 0.5);
     padding: 8px;
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.03);
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cockpit-stepper::-webkit-scrollbar {
+    display: none;
 }
 
 .cockpit-step {
@@ -637,7 +667,7 @@ body {
 
 .hud-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
 }
 
@@ -1044,6 +1074,89 @@ body {
 .back-button:hover {
     color: #10b981;
     transform: translateX(-4px);
+}
+
+/* --- SUCCESS ENGINE RESPONSIVE CLASSES --- */
+.success-engine-header-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    background: white;
+    padding: 32px;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+}
+
+.success-engine-title-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.success-engine-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #10b981;
+    font-size: 1.5rem;
+}
+
+.success-engine-project-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0;
+}
+
+.success-engine-subtitle {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 4px 0 0 0;
+}
+
+.cockpit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.cockpit-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .success-engine-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 16px;
+    }
+    
+    .success-engine-title-group {
+        gap: 16px;
+    }
+    
+    .success-engine-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+
+    .success-engine-project-title {
+        font-size: 1.25rem;
+    }
+
+    .cockpit-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 @media (min-width: 769px) {

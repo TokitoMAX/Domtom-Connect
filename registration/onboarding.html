@@ -173,6 +173,22 @@
             </div>
             <button onclick="finishOnboarding('entreprise')" class="cta-button primary" style="width:100%; padding:16px; font-weight:800;">Valider mon profil Entreprise →</button>
         </div>
+
+        <!-- Formulaire Porteur de Projet (Simplifié) -->
+        <div id="porteur-form" style="display: none; text-align: left;">
+            <div style="margin-bottom:20px; background: rgba(16, 185, 129, 0.05); padding: 24px; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                <span style="font-size: 2rem; display: block; margin-bottom: 12px;">🏆</span>
+                <h3 style="margin: 0 0 8px 0; color: #047857;">Prêt pour votre Épopée ?</h3>
+                <p style="margin: 0; font-size: 0.95rem; color: #065f46; line-height: 1.5;">
+                    En confirmant, vous accédez à votre cockpit stratégique pour structurer votre projet, trouver des financements et recruter vos experts.
+                </p>
+            </div>
+            <div style="margin-bottom:24px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Nom de votre projet (Optionnel)</label>
+                <input type="text" id="porteur-project-name" placeholder="Ex: Mon Application Mobile" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <button onclick="finishOnboarding('porteur')" class="cta-button primary" style="width:100%; padding:16px; font-weight:800; background: #10b981;">Confirmer mon Épopée →</button>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -223,10 +239,17 @@
                 document.getElementById('step-2-title').textContent = "Profil Expert / Indépendant";
                 document.getElementById('expert-form').style.display = 'block';
                 document.getElementById('entreprise-form').style.display = 'none';
+                document.getElementById('porteur-form').style.display = 'none';
             } else if (role === 'entreprise') {
                 document.getElementById('step-2-title').textContent = "Profil Entreprise";
                 document.getElementById('entreprise-form').style.display = 'block';
                 document.getElementById('expert-form').style.display = 'none';
+                document.getElementById('porteur-form').style.display = 'none';
+            } else if (role === 'porteur') {
+                document.getElementById('step-2-title').textContent = "C'est parti !";
+                document.getElementById('porteur-form').style.display = 'block';
+                document.getElementById('expert-form').style.display = 'none';
+                document.getElementById('entreprise-form').style.display = 'none';
             }
         }
 
@@ -280,6 +303,11 @@
                         alert("La description de vos besoins est trop courte ou invalide. Veuillez rédiger un texte clair.");
                         return;
                     }
+                }
+            } else if (finalRole === 'porteur') {
+                const projName = document.getElementById('porteur-project-name').value.trim();
+                if (projName) {
+                    metadata.pending_project_name = projName;
                 }
             }
 

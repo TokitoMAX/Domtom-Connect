@@ -73,9 +73,12 @@ async function loadMyProjects(userId) {
         return;
     }
 
+    const session = await getSession();
+    const pendingProjectName = session?.user?.user_metadata?.pending_project_name;
+
     let firstProj = projects && projects.length > 0 ? projects[0] : {
         id: 'new',
-        title: 'Ma Nouvelle Épopée',
+        title: pendingProjectName || 'Ma Nouvelle Épopée',
         vision: '',
         mission: '',
         enjeu: '',
@@ -85,6 +88,9 @@ async function loadMyProjects(userId) {
         needs: ''
     };
 
+    // If we have a pending name and no project yet, we could auto-create it or just let the user save.
+    // For now, we pre-fill the title.
+
     const totalScore = calculateProjectMaturity(firstProj);
     const headerContainer = document.getElementById('success-engine-header');
     const engineStepContainer = document.getElementById('success-engine-step');
@@ -92,15 +98,15 @@ async function loadMyProjects(userId) {
     if (!headerContainer || !engineStepContainer) return;
 
     headerContainer.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
-            <div style="display:flex; align-items:center; gap:24px;">
-                <div style="width:60px; height:60px; background:rgba(16,185,129,0.1); border-radius:16px; display:flex; align-items:center; justify-content:center; color:#10b981; font-size:1.5rem;">🚀</div>
+        <div class="success-engine-header-card">
+            <div class="success-engine-title-group">
+                <div class="success-engine-icon">🚀</div>
                 <div>
-                    <h2 style="font-size:1.5rem; font-weight:900; color:#0f172a; margin:0;">${firstProj.title || 'Ma Nouvelle Épopée'}</h2>
-                    <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0 0;">Tableau de bord de pilotage</p>
+                    <h2 class="success-engine-project-title">${firstProj.title || 'Ma Nouvelle Épopée'}</h2>
+                    <p class="success-engine-subtitle">Tableau de bord de pilotage</p>
                 </div>
             </div>
-            <a href="/epopee" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; color:white; border-radius:12px; font-weight:800; cursor:pointer; text-decoration:none;">Piloter mon Épopée →</a>
+            <a href="/epopee" class="cta-button primary success-engine-cta">Piloter mon Épopée →</a>
         </div>
     `;
 
@@ -112,24 +118,24 @@ async function loadMyProjects(userId) {
     let phasesHTML = `
         <div id="phase-card-1" class="cockpit-section dash-card active">
             <div class="card-title">01. Stratégie & Vision</div>
-            <p style="color:#64748b; margin-bottom:24px;">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                <div style="display:flex; flex-direction:column; gap:16px;">
+            <p class="card-desc" style="margin-bottom:24px;">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
+            <div class="cockpit-grid">
+                <div class="cockpit-column">
                     <div class="form-group">
                         <label>Votre Vision (Futur)</label>
-                        <textarea id="manifesto-vision" style="width:100%; height:60px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.vision || ''}</textarea>
+                        <textarea id="manifesto-vision" placeholder="Où voyez-vous ce projet dans 5 ans ?">${firstProj.vision || ''}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Votre Mission (Présent)</label>
-                        <textarea id="manifesto-mission" style="width:100%; height:60px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.mission || ''}</textarea>
+                        <textarea id="manifesto-mission" placeholder="Que faites-vous concrètement aujourd'hui ?">${firstProj.mission || ''}</textarea>
                     </div>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:16px;">
+                <div class="cockpit-column">
                     <div class="form-group">
                         <label>L'Enjeu (Pourquoi ?)</label>
-                        <textarea id="manifesto-enjeu" style="width:100%; height:80px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; font-family:inherit;">${firstProj.enjeu || ''}</textarea>
+                        <textarea id="manifesto-enjeu" placeholder="Quel problème majeur résolvez-vous ?">${firstProj.enjeu || ''}</textarea>
                     </div>
-                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="background:#10b981; color:white; border:none; padding:16px; border-radius:12px; font-weight:800; cursor:pointer; width:100%;">Enregistrer ma Stratégie →</button>
+                    <button onclick="updateProjectManifesto('${firstProj.id}')" class="btn-cockpit primary" style="width:100%;">Enregistrer ma Stratégie →</button>
                 </div>
             </div>
         </div>
