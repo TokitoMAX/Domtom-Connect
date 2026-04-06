@@ -62,6 +62,7 @@ async function loadMyProjects(userId) {
         const { data: projects, error } = await _supabase
             .from('projects')
             .select('*')
+            .eq('owner_id', userId)
             .order('created_at', { ascending: false });
 
         if (error) throw error;
@@ -90,11 +91,20 @@ async function loadMyProjects(userId) {
                 <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">Mes Épopées</h3>
                 <div class="ecosystem-grid">
                     ${projects && projects.length > 0 ? projects.map(p => `
-                        <div class="dash-card-premium">
-                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">ESTRAT</div>
-                            <div class="card-title">${p.title || 'Sans titre'}</div>
-                            <p class="card-desc">Tableau de bord de pilotage</p>
-                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto;">Piloter mon Épopée</button>
+                        <div class="dash-card-premium" style="border-left: 4px solid #10b981; background: linear-gradient(135deg, #fff 0%, rgba(16,185,129,0.02) 100%);">
+                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">STRAT</div>
+                            <div class="card-title" style="font-size: 1.3rem;">${p.title || p.name || 'Sans titre'}</div>
+                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:12px; font-weight:700;">📍 ${p.territory || 'Territoire à définir'}</div>
+                            
+                            <div style="margin: 16px 0; background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="width: ${Math.min((p.total_raised || 0) / (p.funding_goal || 1) * 100, 100)}%; background: #10b981; height: 100%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 20px;">
+                                <span style="font-weight: 800; color: #1e293b;">${(p.total_raised || 0).toLocaleString()} €</span>
+                                <span style="color: #64748b;">Objectif: ${(p.funding_goal || 0).toLocaleString()} €</span>
+                            </div>
+
+                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto; font-weight:900;">Piloter mon Épopée</button>
                         </div>
                     `).join('') : '<p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p>'}
                 </div>
@@ -187,6 +197,8 @@ async function updateProjectManifesto(projectId) {
                     owner_id: session.user.id, 
                     vision, mission, enjeu,
                     title: 'Nouvelle Épopée',
+                    name: 'Nouvelle Épopée',
+                    description: '',
                     status: 'draft'
                 }])
                 .select();
@@ -364,8 +376,10 @@ async function saveNewProject() {
 
         const { error } = await _supabase.from('projects').insert([{
             owner_id: session.user.id,
-            title,
-            territory,
+            title: title,
+            name: title,
+            territory: territory,
+            description: "", 
             status: 'draft'
         }]);
         if (error) throw error;
