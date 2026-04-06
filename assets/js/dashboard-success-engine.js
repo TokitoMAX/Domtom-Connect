@@ -197,7 +197,6 @@ async function updateProjectManifesto(projectId) {
                     owner_id: session.user.id, 
                     vision, mission, enjeu,
                     title: 'Nouvelle Épopée',
-                    name: 'Nouvelle Épopée',
                     description: '',
                     status: 'draft'
                 }])
@@ -374,14 +373,17 @@ async function saveNewProject() {
         const session = await getSession();
         if (!session) return;
 
-        const { error } = await _supabase.from('projects').insert([{
+        const payload = {
             owner_id: session.user.id,
             title: title,
-            name: title,
             territory: territory,
             description: "", 
             status: 'draft'
-        }]);
+        };
+        // Sécurité anti-cache: s'assurer qu'aucun champ 'name' résiduel ne pollue l'objet
+        delete payload.name; 
+
+        const { error } = await _supabase.from('projects').insert([payload]);
         if (error) throw error;
         alert("✅ Épopée créée avec succès !");
         window.location.reload();

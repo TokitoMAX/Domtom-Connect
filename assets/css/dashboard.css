@@ -10,14 +10,9 @@ body {
 .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    padding-top: 64px;
-    /* Hauteur de la navbar */
-}
-
-.dashboard-layout {
-    display: flex;
-    min-height: 100vh;
     background-color: #f8fafc;
+    position: relative;
+    overflow-x: hidden;
 }
 
 /* Sidebar Automatisée (Aceternity Style) */
@@ -28,7 +23,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid rgba(0,0,0,0.05);
     padding: 20px 14px;
-    display: flex;
+    display: flex; /* Default but overridden by media query */
     flex-direction: column;
     gap: 12px;
     position: fixed;
@@ -39,6 +34,15 @@ body {
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     box-shadow: 1px 0 10px rgba(0,0,0,0.02);
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        display: flex !important;
+    }
+    .main-content {
+        margin-left: 80px !important;
+    }
 }
 
 .sidebar:hover {
@@ -1152,6 +1156,7 @@ body {
     .success-engine-project-title {
         font-size: 1.25rem;
     }
+}
 
 /* --- NEW PILOTAGE & ECOSYSTEM SECTIONS --- */
 .dash-section-pilotage {
