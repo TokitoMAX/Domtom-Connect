@@ -54,26 +54,6 @@ function updateSuccessStepper(score, projectId) {
 // --- 2. PROJECT LOADING & HUB ---
 
 async function loadMyProjects(userId) {
-    const container = document.getElementById('my-projects-list');
-    if (!container) return;
-
-    const { data: projects, error } = await _supabase
-        .from('projects')
-        .select('id, title, status, description, territory, vision, mission, enjeu, needs, roadmap, total_raised, funding_goal, is_listed, created_at')
-        .eq('owner_id', userId)
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        console.error("Error loading projects:", error);
-        container.innerHTML = `
-            <div style="color:#ef4444; padding:20px; text-align:center;">
-                <p><strong>Erreur de chargement :</strong> ${error.message}</p>
-            </div>
-        `;
-        return;
-    }
-
-async function loadMyProjects(userId) {
     const headerContainer = document.getElementById('success-engine-header');
     const engineStepContainer = document.getElementById('success-engine-step');
     if (!headerContainer || !engineStepContainer) return;
@@ -86,24 +66,24 @@ async function loadMyProjects(userId) {
 
         if (error) throw error;
 
-        // --- 1. HEADER SOBRE ---
+        // --- 1. HEADER (Original) ---
         headerContainer.innerHTML = `
             <div class="dash-section-header" style="margin-bottom: 32px;">
                 <h1 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">MON ÉPOPÉE</h1>
-                <p style="color: #64748b;">Gérez la stratégie et le développement de vos projets.</p>
+                <p style="color: #64748b;">Tableau de bord de pilotage</p>
             </div>
         `;
 
-        // --- 2. LISTE DES PROJETS (PAR DÉFAUT) ---
+        // --- 2. LISTE DES PROJETS ---
         let listHTML = `
             <div id="project-list-view">
                 <div class="dash-section-pilotage" style="background: #0f172a; color: white; border: none; margin-bottom:40px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <h2 style="color: white; margin: 0; font-size: 1.5rem;">Ma Nouvelle Épopée</h2>
-                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet structuré.</p>
+                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet.</p>
                         </div>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background: white; color: #0f172a; border: none;">+ Nouveau Projet</button>
+                        <button onclick="openProjectModal()" class="cta-button primary" style="background: white; color: #0f172a;">+ Nouveau Projet</button>
                     </div>
                 </div>
 
@@ -113,7 +93,7 @@ async function loadMyProjects(userId) {
                         <div class="dash-card-premium">
                             <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">ESTRAT</div>
                             <div class="card-title">${p.title || 'Sans titre'}</div>
-                            <p class="card-desc">Tableau de bord de pilotage stratégique.</p>
+                            <p class="card-desc">Tableau de bord de pilotage</p>
                             <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto;">Piloter mon Épopée</button>
                         </div>
                     `).join('') : '<p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p>'}
@@ -398,3 +378,5 @@ window.openProjectModal = openProjectModal;
 window.saveNewProject = saveNewProject;
 window.loadMyProjects = loadMyProjects;
 window.calculateProjectMaturity = calculateProjectMaturity;
+window.openProjectCockpit = openProjectCockpit;
+window.closeProjectCockpit = closeProjectCockpit;
