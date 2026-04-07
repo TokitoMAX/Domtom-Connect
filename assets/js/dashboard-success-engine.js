@@ -70,36 +70,36 @@ async function loadMyProjects(userId) {
         // --- 2. LISTE DES PROJETS ---
         let listHTML = `
             <div id="project-list-view">
-                <div class="dash-section-pilotage">
+                <div class="dash-card-premium highlight" style="background: #0f172a; color: white;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="flex: 1;">
-                            <h2 style="color: white; margin: 0; font-size: 1.2rem; font-weight: 800;">Nouvelle Épopée</h2>
-                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.85rem;">Lancez une aventure.</p>
+                        <div>
+                            <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouvelle Épopée</h2>
+                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.9rem;">Prêt à changer le monde ?</p>
                         </div>
-                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 10px 16px; font-size: 0.8rem;">+ Nouveau</button>
+                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a;">+ Démarrer</button>
                     </div>
                 </div>
 
-                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">Mes Épopées</h3>
+                <h3 style="font-size: 1.25rem; font-weight: 900; margin: 32px 0 24px 0;">Mes Épopées</h3>
                 <div class="ecosystem-grid">
                     ${projects && projects.length > 0 ? projects.map(p => `
-                        <div class="dash-card-premium" style="border-left: 4px solid #10b981; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position:relative;">
-                            <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.6;" title="Supprimer">×</button>
-                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">PROJET</div>
-                            <div class="card-title" style="font-size: 1.3rem;">${p.title || p.name || 'Sans titre'}</div>
-                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:12px; font-weight:700;">📍 ${p.territory || 'Territoire à définir'}</div>
+                        <div class="cockpit-card-premium" style="border-left: 4px solid #10b981; position:relative;">
+                            <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.4; font-size:1.2rem;" title="Supprimer">×</button>
+                            <div class="dash-badge emerald" style="margin-bottom:12px;">PROJET EN COURS</div>
+                            <div class="card-title" style="font-size: 1.4rem; font-weight:900;">${p.title || p.name || 'Sans titre'}</div>
+                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:700;">📍 ${p.territory || 'Territoire non défini'}</div>
                             
-                            <div style="margin: 16px 0; background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden;">
-                                <div style="width: ${Math.min((p.total_raised || 0) / (p.funding_goal || 1) * 100, 100)}%; background: #10b981; height: 100%;"></div>
+                            <div class="dash-progress-container" style="height:8px; margin-bottom:8px;">
+                                <div class="dash-progress-bar" style="width: ${Math.min((p.total_raised || 0) / (p.funding_goal || 1) * 100, 100)}%;"></div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 20px;">
-                                <span style="font-weight: 800; color: #1e293b;">${(p.total_raised || 0).toLocaleString()} €</span>
-                                <span style="color: #64748b;">Objectif: ${(p.funding_goal || 0).toLocaleString()} €</span>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 24px;">
+                                <span style="font-weight: 800; color: #1e293b;">${(p.total_raised || 0).toLocaleString()} € récoltés</span>
+                                <span style="color: #94a3b8;">But: ${(p.funding_goal || 0).toLocaleString()} €</span>
                             </div>
 
-                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto; font-weight:900;">Piloter mon projet</button>
+                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900;">Piloter mon projet</button>
                         </div>
-                    `).join('') : '<p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p>'}
+                    `).join('') : '<div class="cockpit-card-premium" style="text-align:center; padding:60px;"><p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p></div>'}
                 </div>
             </div>
 
@@ -166,44 +166,40 @@ function renderCockpitWithStep(p, step, score) {
     ];
 
     const current = stepsInfo.find(s => s.num === step);
-
     let stepHTML = `
-        <div class="cockpit-stepper-header" style="margin-bottom: 40px;">
-            <a href="#overview" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; padding: 10px 20px; font-size: 0.8rem; border-radius: 12px; background: rgba(0,0,0,0.05); color:#64748b; font-weight:800;">
-                &larr; Retour au tableau de bord
+        <div class="cockpit-header">
+            <a href="#success-engine" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
+                &larr; Retour à mes Épopées
             </a>
 
-            <div class="cockpit-stepper" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 32px;">
+            <div class="cockpit-stepper">
                 ${stepsInfo.map(s => `
                     <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num})" 
-                         class="cockpit-step ${s.num === step ? 'active' : ''}" 
-                         style="padding:12px; border-radius:12px; border:1px solid ${s.num === step ? '#3b82f6' : '#e2e8f0'}; cursor:pointer; text-align:center; transition: all 0.2s;">
-                        <div style="font-size:0.55rem; font-weight:900; opacity:0.6; text-transform: uppercase; letter-spacing: 0.05em;">ÉTAPE ${s.num}</div>
-                        <div style="font-size:0.7rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title.split('. ')[1]}</div>
+                         class="cockpit-step ${s.num === step ? 'active' : ''}">
+                        <div class="step-number-tag">ÉTAPE ${s.num}</div>
+                        <div class="step-label-text">${s.title.split('. ')[1]}</div>
                     </div>
                 `).join('')}
             </div>
             
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; border-bottom: 1px solid var(--gray-100); padding-bottom: 24px;">
-                <div>
-                    <div style="font-size:0.75rem; font-weight:700; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">ÉPOPÉE : ${p.title || 'SANS TITRE'}</div>
-                    <h2 style="font-size:2rem; font-weight:900; margin:0; letter-spacing: -0.02em;">${current.title}</h2>
-                    <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size: 1.1rem; font-weight: 500;">${current.subtitle}</p>
-                </div>
+            <div style="margin-bottom:32px;">
+                <div class="dash-badge emerald" style="margin-bottom:12px;">PILOTAGE : ${p.title || 'SANS TITRE'}</div>
+                <h2 style="font-size:2.2rem; font-weight:900; margin:0; letter-spacing: -0.05em;">${current.title}</h2>
+                <p style="color:#64748b; font-size: 1.1rem; font-weight: 500; margin-top:8px;">${current.subtitle}</p>
             </div>
         </div>
 
-        <div class="success-engine-card" id="cockpit-step-container">
+        <div class="cockpit-card-premium">
             ${renderStepFields(step, p)}
         </div>
 
-        <div style="margin-top:40px; display:flex; justify-content:space-between; gap:20px; padding-top: 32px; border-top: 1px solid var(--gray-100);">
+        <div style="margin-top:40px; display:flex; justify-content:space-between; gap:20px;">
             <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
-                    class="cta-button secondary" style="flex:1; justify-content:center; border-radius: 16px; font-weight: 800;">${step > 1 ? '← Précédent' : 'Annuler'}</button>
+                    class="cta-button secondary" style="flex:1; justify-content:center;">${step > 1 ? '← Précédent' : 'Fermer'}</button>
             
             <button onclick="saveProjectStep('${p.id}', ${step})" 
-                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; border-radius: 16px; font-weight: 900; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">
-                    ${step === 6 ? 'SOUMETTRE À L\'ADMINISTRATION' : 'Enregistrer & Continuer'}
+                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">
+                    ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE' : 'Enregistrer & Continuer'}
             </button>
         </div>
     `;
@@ -221,24 +217,26 @@ function renderCockpitWithStep(p, step, score) {
 function renderStepFields(step, p) {
     if (step === 1) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field" style="grid-column: 1 / -1; margin-bottom: 24px;">
-                    <label class="success-engine-label">Image de Couverture (Optionnel)</label>
-                    <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="ecosystem-grid">
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Image de Couverture</label>
+                    <div class="cover-upload-container">
                         <input type="file" id="cover-upload" style="display:none;" onchange="handleCoverUpload(this, '${p.id}')">
-                        <div id="cover-preview" style="width:100%; height:${p.cover_url ? '250px' : '150px'}; border-radius:24px; background:${p.cover_url ? `url('${p.cover_url}') center/cover` : '#f1f5f9'}; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                            ${!p.cover_url ? '<p style="color:#64748b; font-size:0.9rem; font-weight:600;">L\'image s\'affichera ici après l\'upload</p>' : ''}
+                        <div id="cover-preview" class="cover-preview ${p.cover_url ? 'has-image' : ''}" 
+                             style="${p.cover_url ? `background-image: url('${p.cover_url}')` : ''}">
+                            ${!p.cover_url ? '<p>Cliquez pour définir une image</p>' : ''}
                         </div>
-                        <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:fit-content; font-size: 0.85rem;">
-                            ${p.cover_url ? 'MODIFIER L\'IMAGE' : 'DÉFINIR L\'IMAGE DE COUVERTURE'}
+                        <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:100%; justify-content:center;">
+                            ${p.cover_url ? 'MODIFIER L\'IMAGE' : 'CHOISIR UNE IMAGE'}
                         </button>
                         <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
                     </div>
                 </div>
 
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Territoire d'Épopée</label>
-                    <select id="territory" class="sre-input">
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Territoire d'Épopée</label>
+                    <select id="territory" class="cockpit-input-premium">
+                        <!-- Options conservées -->
                         <optgroup label="Antilles & Guyane Françaises">
                             <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
                             <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
@@ -305,19 +303,20 @@ function renderStepFields(step, p) {
         `;
     } else if (step === 2) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field" style="grid-column: 1 / -1;">
-                    <label class="success-engine-label">Présentation de l'équipe</label>
-                    <textarea id="equipe" class="success-engine-textarea" style="height:150px;" placeholder="Qui sont les fondateurs et contributeurs clés ?">${p.equipe || ''}</textarea>
+            <div class="ecosystem-grid">
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Présentation de l'équipe (Le Commando)</label>
+                    <textarea id="equipe" class="cockpit-input-premium" style="min-height:180px;" placeholder="Qui sont les fondateurs et contributeurs clés ?">${p.equipe || ''}</textarea>
                 </div>
             </div>
         `;
     } else if (step === 3) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Secteur d'activité</label>
-                    <select id="sector" class="sre-input">
+            <div class="ecosystem-grid">
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Secteur d'activité</label>
+                    <select id="sector" class="cockpit-input-premium">
+                        <!-- Options identiques -->
                         <option value="" disabled ${!p.sector ? 'selected' : ''}>Sélectionnez un secteur...</option>
                         <option value="Agriculture & Alimentation" ${p.sector==='Agriculture & Alimentation'?'selected':''}>Agriculture & Alimentation</option>
                         <option value="Tourisme & Patrimoine" ${p.sector==='Tourisme & Patrimoine'?'selected':''}>Tourisme & Patrimoine</option>
@@ -329,18 +328,18 @@ function renderStepFields(step, p) {
                     </select>
                 </div>
 
-                <div class="success-engine-field" style="grid-column: 1 / -1;">
-                    <label class="success-engine-label">Opportunité & Marché</label>
-                    <textarea id="marche" class="success-engine-textarea" style="height:150px;" placeholder="À qui s'adresse votre projet ? Quel est le potentiel local ?">${p.marche || ''}</textarea>
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Opportunité & Marché local</label>
+                    <textarea id="marche" class="cockpit-input-premium" style="min-height:150px;" placeholder="À qui s'adresse votre projet ? Quel est le potentiel local ?">${p.marche || ''}</textarea>
                 </div>
             </div>
         `;
     } else if (step === 4) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field" style="grid-column: 1 / -1; margin-bottom: 16px;">
-                    <label class="success-engine-label">Innovation Tier</label>
-                    <select id="innovation_tier" class="sre-input">
+            <div class="ecosystem-grid">
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Niveau d'Innovation</label>
+                    <select id="innovation_tier" class="cockpit-input-premium">
                         <option value="Incremental" ${p.innovation_tier==='Incremental'?'selected':''}>Incrémentale (Amélioration simple)</option>
                         <option value="Radical" ${p.innovation_tier==='Radical'?'selected':''}>Radicale (Changement profond)</option>
                         <option value="Disruptive" ${p.innovation_tier==='Disruptive'?'selected':''}>Disruptive (Rupture du marché)</option>
@@ -348,74 +347,67 @@ function renderStepFields(step, p) {
                     </select>
                 </div>
 
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Impact Local</label>
-                    <textarea id="impact_local" class="success-engine-textarea" placeholder="Qu'apportez-vous au territoire ?">${p.impact_local || ''}</textarea>
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Impact Territorial</label>
+                    <textarea id="impact_local" class="cockpit-input-premium" placeholder="Qu'apportez-vous concrètement au territoire ?">${p.impact_local || ''}</textarea>
                 </div>
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Innovation / Différenciation</label>
-                    <textarea id="innovation" class="success-engine-textarea" placeholder="Pourquoi votre projet est-il unique ?">${p.innovation || ''}</textarea>
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Innovation / Différenciation</label>
+                    <textarea id="innovation" class="cockpit-input-premium" placeholder="Pourquoi votre projet est-il unique ?">${p.innovation || ''}</textarea>
                 </div>
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Emplois Visés (Chiffre)</label>
-                    <input type="text" id="emplois" class="sre-input" value="${p.emplois || ''}" placeholder="Ex: 5 emplois créés">
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Emplois Visés (Chiffre)</label>
+                    <input type="text" id="emplois" class="cockpit-input-premium" value="${p.emplois || ''}" placeholder="Ex: 5 emplois créés">
                 </div>
             </div>
         `;
     } else if (step === 5) {
         return `
-            <div class="success-engine-grid" style="grid-template-columns: 1fr;">
-                <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:40px;">
-                    <!-- Colonne Gauche : Objectif & Paliers -->
-                    <div style="display:flex; flex-direction:column; gap:32px;">
-                        <div class="success-engine-field">
-                            <label class="success-engine-label">Montant Global Recherché (€)</label>
-                            <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}" placeholder="Ex: 50000">
-                        </div>
+            <div class="ecosystem-grid">
+                <!-- Colonne Gauche : Objectif & Paliers -->
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Montant Global Recherché (€)</label>
+                    <input type="number" id="funding_goal" class="cockpit-input-premium" value="${p.funding_goal || 0}" placeholder="Ex: 50000">
+                </div>
 
-                        <div class="success-engine-field">
-                            <label class="success-engine-label">À quoi servira cette somme ?</label>
-                            <textarea id="budget" class="success-engine-textarea" style="height:100px;" placeholder="Expliquez brièvement l'usage des fonds (ex: Recrutement, R&D, Stock...)">${p.budget || ''}</textarea>
-                        </div>
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Usage des fonds</label>
+                    <textarea id="budget" class="cockpit-input-premium" style="min-height:100px;" placeholder="Recrutement, R&D, Stock...">${p.budget || ''}</textarea>
+                </div>
 
-                        <div class="success-engine-field">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                                <label class="success-engine-label" style="margin:0;">Paliers d'Impact</label>
-                                <button onclick="openMilestoneModal('${p.id}')" class="cta-button secondary" style="padding:6px 12px; font-size:0.75rem;">+ AJOUTER UN PALIER</button>
-                            </div>
-                            <div id="dash-milestones-list" class="crowdfunding-list-container">
-                                <!-- Paliers chargés en JS -->
-                                <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
-                            </div>
-                        </div>
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <label class="cockpit-field-label" style="margin:0;">Paliers d'Impact</label>
+                        <button onclick="openMilestoneModal('${p.id}')" class="cta-button secondary" style="padding:4px 12px; font-size:0.7rem;">+ AJOUTER</button>
                     </div>
+                    <div id="dash-milestones-list" class="crowdfunding-list-container">
+                        <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
+                    </div>
+                </div>
 
-                    <!-- Colonne Droite : Récompenses -->
-                    <div class="success-engine-field">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <label class="success-engine-label" style="margin:0;">Offres & Récompenses (Contreparties)</label>
-                            <button onclick="openRewardModal('${p.id}')" class="cta-button primary" style="padding:6px 16px; font-size:0.75rem; background:#7c3aed; border:none;">+ CRÉER UNE RÉCOMPENSE</button>
-                        </div>
-                        <div id="dash-rewards-list" class="crowdfunding-list-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px;">
-                            <!-- Récompenses chargées en JS -->
-                            <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des récompenses...</p>
-                        </div>
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <label class="cockpit-field-label" style="margin:0;">Offres & Récompenses</label>
+                        <button onclick="openRewardModal('${p.id}')" class="cta-button primary" style="padding:4px 12px; font-size:0.7rem; background:#7c3aed; border:none;">+ CRÉER</button>
+                    </div>
+                    <div id="dash-rewards-list" class="crowdfunding-list-container">
+                        <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des récompenses...</p>
                     </div>
                 </div>
             </div>
         `;
     } else if (step === 6) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field" style="grid-column: 1 / -1;">
-                    <label class="success-engine-label">Texte du Pitch Final (Le Grand Récit)</label>
-                    <textarea id="pitch_texte" class="success-engine-textarea" style="height:200px;" placeholder="Votre argumentaire de vente en 300 mots max pour convaincre les institutionnels.">${p.pitch_texte || ''}</textarea>
+            <div class="ecosystem-grid">
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Votre Pitch Final (Le Grand Récit)</label>
+                    <textarea id="pitch_texte" class="cockpit-input-premium" style="min-height:200px;" placeholder="Votre argumentaire pour convaincre.">${p.pitch_texte || ''}</textarea>
                 </div>
 
-                <div style="background:#f0fdf4; border:1px solid #10b981; padding:40px; border-radius:32px; grid-column: 1 / -1; margin-top: 24px; text-align:center;">
-                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">C'est l'heure de la Propulsion</h4>
-                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">
-                        Votre dossier est désormais complet. Un administrateur Domtom Connect va examiner vos données pour <strong>valider (ou non)</strong> la mise en ligne officielle de votre Épopée sur la plateforme.
+                <div class="cockpit-card-premium" style="grid-column: 1 / -1; background: #f0fdf4; border-color: #10b981; text-align:center;">
+                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">Prêt pour le décollage ?</h4>
+                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto; line-height: 1.6; max-width:600px;">
+                        Votre dossier sera examiné par l'équipe Domtom Connect. Vous recevrez une notification dès sa validation officielle.
                     </p>
                 </div>
             </div>
@@ -597,20 +589,22 @@ function renderMatchCard(expert) {
     const name = expert.full_name || 'Expert';
     const initials = name.slice(0, 2).toUpperCase();
     const avatar = expert.avatar_url 
-        ? `<img src="${expert.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
-        : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>`;
+        ? `<img src="${expert.avatar_url}" alt="${name}">`
+        : `<span>${initials}</span>`;
 
     return `
-        <div class="dash-card-premium" style="padding: 20px; border: 1px solid #e2e8f0; border-radius: 20px; background: white;">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                ${avatar}
-                <div style="overflow:hidden;">
-                    <div style="font-size:0.95rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
-                    <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+        <div class="match-card">
+            <div class="match-header">
+                <div class="match-avatar">${avatar}</div>
+                <div class="match-info">
+                    <h4>${name}</h4>
+                    <span>${expert.title || 'Expert Stratégique'}</span>
                 </div>
             </div>
-            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px; line-height:1.4;">Match basé sur vos besoins en ${expert.sector || 'Expertise'}.</p>
-            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="background:#0f172a; padding:8px 16px; font-size:0.8rem; height:auto; width:100%; justify-content:center;">Contacter cet expert</a>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px; line-height:1.4;">
+                Expert en ${expert.sector || 'Expertise'}.
+            </p>
+            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; padding:10px; font-size:0.8rem;">Contacter</a>
         </div>
     `;
 }
@@ -837,9 +831,9 @@ async function loadDashboardRewards(projectId) {
 
         list.innerHTML = rewards.map(r => `
             <div class="reward-mini-card">
-                <div style="font-weight:900; font-size:1rem; color:#7c3aed;">${r.amount_threshold} €</div>
-                <div style="font-weight:800; font-size:0.85rem; margin:4px 0;">${r.title}</div>
-                <button onclick="deleteReward('${r.id}', '${projectId}')" style="position:absolute; top:8px; right:8px; background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.75rem;">×</button>
+                <div class="amount">${r.amount_threshold} €</div>
+                <div style="font-weight:800; font-size:0.8rem; margin:4px 0;">${r.title}</div>
+                <button onclick="deleteReward('${r.id}', '${projectId}')" class="delete-btn" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#ef4444; opacity:0.3; cursor:pointer;">×</button>
             </div>
         `).join('');
     } catch (err) { console.error(err); }
@@ -868,12 +862,12 @@ async function loadDashboardMilestones(projectId) {
         }
 
         list.innerHTML = milestones.map(m => `
-            <div style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div class="milestone-mini-card">
                 <div>
-                    <div style="font-weight:900; font-size:0.85rem; color:#10b981;">${m.funding_goal.toLocaleString()} €</div>
+                    <div class="amount">${m.funding_goal.toLocaleString()} €</div>
                     <div style="font-weight:700; font-size:0.75rem;">${m.title}</div>
                 </div>
-                <button onclick="deleteMilestone('${m.id}', '${projectId}')" style="background:#fee2e2; color:#ef4444; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:0.65rem;">Suppr.</button>
+                <button onclick="deleteMilestone('${m.id}', '${projectId}')" class="cta-button secondary" style="padding:4px 8px; font-size:0.6rem;">Suppr.</button>
             </div>
         `).join('');
     } catch (err) { console.error(err); }
@@ -895,20 +889,20 @@ async function openProjectModal() {
     let modal = document.getElementById('project-modal');
     if (!modal) {
         const modalHTML = `
-            <div class="modal-overlay" id="project-modal" style="display:none; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
-                <div class="hero-modal" style="max-width:600px; background:white; padding:40px; border-radius:32px; color:#0f172a; border:none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                        <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Nouvelle Épopée</h2>
-                        <button onclick="document.getElementById('project-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+            <div class="modal-overlay" id="project-modal" style="display:none;">
+                <div class="hero-modal" style="max-width:550px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                        <h2 style="margin:0; font-size:1.6rem; font-weight:900;">Nouvelle Épopée</h2>
+                        <button onclick="document.getElementById('project-modal').style.display='none'" class="modal-close">×</button>
                     </div>
-                    <div style="display:grid; gap:20px;">
-                        <div class="form-group">
-                            <label style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Nom de votre projet</label>
-                            <input type="text" id="new-project-title" placeholder="Ex: Mon Application Mobile" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                    <div style="display:grid; gap:24px;">
+                        <div class="cockpit-field">
+                            <label class="cockpit-field-label">Nom de votre aventure</label>
+                            <input type="text" id="new-project-title" class="cockpit-input-premium" placeholder="Ex: Mon Projet Impact">
                         </div>
-                        <div class="form-group">
-                            <label style="display:block; font-size:0.75rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Territoire d'Impact</label>
-                            <select id="new-project-territory" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                        <div class="cockpit-field">
+                            <label class="cockpit-field-label">Territoire d'Impact</label>
+                            <select id="new-project-territory" class="cockpit-input-premium">
                                 <option value="Guadeloupe">Guadeloupe</option>
                                 <option value="Martinique">Martinique</option>
                                 <option value="Guyane">Guyane</option>
@@ -917,7 +911,7 @@ async function openProjectModal() {
                                 <option value="Hexagone">Hexagone / Diaspora</option>
                             </select>
                         </div>
-                        <button onclick="saveNewProject()" class="btn-cockpit primary" style="width:100%; padding:16px; background:#10b981; border:none; color:white; font-weight:900; border-radius:12px; cursor:pointer;">CRÉER MON PROJET →</button>
+                        <button onclick="saveNewProject()" class="cta-button primary" style="width:100%; justify-content:center; padding:18px; font-weight:900;">CRÉER MON PROJET →</button>
                     </div>
                 </div>
             </div>`;

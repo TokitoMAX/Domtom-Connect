@@ -529,7 +529,7 @@ body {
     object-fit: cover;
 }
 
-/* --- COCKPIT DE LEVÉE DE FONDS (Institutional UI) --- */
+/* --- COCKPIT DE LEVÉE DE FONDS (Linear/Premium UI) --- */
 .cockpit-stepper {
     display: flex;
     gap: 12px;
@@ -539,17 +539,17 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.03);
     overflow-x: auto;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Firefox */
     -webkit-overflow-scrolling: touch;
 }
 
 .cockpit-stepper::-webkit-scrollbar {
-    display: none;
+    display: none; /* Safari/Chrome */
 }
 
 .cockpit-step {
     flex: 1;
-    min-width: 100px; /* Plus compact sur mobile */
+    min-width: 140px; /* Force scroll on small screens */
     padding: 16px;
     border-radius: 16px;
     background: white;
@@ -560,6 +560,7 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
+    text-align: center;
 }
 
 .cockpit-step.active {
@@ -573,31 +574,199 @@ body {
     border-color: rgba(16, 185, 129, 0.2);
 }
 
-.cockpit-step.locked {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: #f1f5f9;
-}
-
-.step-number {
-    font-size: 0.65rem;
+.step-number-tag {
+    font-size: 0.6rem;
     font-weight: 900;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    white-space: nowrap;
+    opacity: 0.6;
 }
 
-.cockpit-step.active .step-number { color: #3b82f6; }
-.cockpit-step.completed .step-number { color: #10b981; }
+.cockpit-step.active .step-number-tag { color: #3b82f6; opacity: 1; }
+.cockpit-step.completed .step-number-tag { color: #10b981; opacity: 1; }
 
-.step-label {
-    font-size: 0.85rem;
+.step-label-text {
+    font-size: 0.8rem;
     font-weight: 800;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Cockpit Cards & Inputs */
+.cockpit-card-premium {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.cockpit-field-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cockpit-input-premium {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid #f1f5f9;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    background: #f8fafc;
+}
+
+.cockpit-input-premium:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+}
+
+/* Grid for Ecosystem */
+.ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* Cover Upload */
+.cover-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cover-preview {
+    width: 100%;
+    height: 180px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cover-preview:hover {
+    border-color: #3b82f6;
+    background-color: #f8fafc;
+}
+
+.cover-preview p {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cover-preview.has-image {
+    border: none;
+    height: 280px;
+}
+
+/* Matchmaking (Pépites) */
+.match-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.match-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.match-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.match-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #475569;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.match-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.match-info span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #7c3aed;
+}
+
+/* Crowdfunding Items */
+.crowdfunding-list-container {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.reward-mini-card {
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.reward-mini-card .amount {
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: #7c3aed;
+    margin-bottom: 4px;
+}
+
+.milestone-mini-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.milestone-mini-card .amount {
+    font-weight: 900;
+    font-size: 0.9rem;
+    color: #10b981;
 }
 
 .step-status-icon {
