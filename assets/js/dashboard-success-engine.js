@@ -210,6 +210,12 @@ function renderCockpitWithStep(p, step, score) {
 
     content.innerHTML = stepHTML;
     window.scrollTo(0, 0);
+
+    // Initialisation dynamique des données de crowdfunding à l'étape 5
+    if (step === 5) {
+        loadDashboardRewards(p.id);
+        loadDashboardMilestones(p.id);
+    }
 }
 
 function renderStepFields(step, p) {
@@ -315,19 +321,46 @@ function renderStepFields(step, p) {
         `;
     } else if (step === 5) {
         return `
-            <div class="success-engine-grid">
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Objectif de Financement (€)</label>
-                    <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}">
-                </div>
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Type de financement cherché</label>
-                    <select id="budget" class="sre-input">
-                        <option value="bootstrap" ${p.budget==='bootstrap'?'selected':''}>Fonds Propres / 0€</option>
-                        <option value="seed" ${p.budget==='seed'?'selected':''}>Amorçage (1k - 10k€)</option>
-                        <option value="growth" ${p.budget==='growth'?'selected':''}>Croissance (10k - 50k€)</option>
-                        <option value="scale" ${p.budget==='scale'?'selected':''}>Scale (50k€+)</option>
-                    </select>
+            <div class="success-engine-grid" style="grid-template-columns: 1fr;">
+                <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:40px;">
+                    <!-- Colonne Gauche : Objectif & Paliers -->
+                    <div style="display:flex; flex-direction:column; gap:32px;">
+                        <div class="success-engine-field">
+                            <label class="success-engine-label">Objectif de Financement (€)</label>
+                            <div style="display:flex; gap:12px;">
+                                <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}" style="flex:1;">
+                                <select id="budget" class="sre-input" style="width:180px;">
+                                    <option value="bootstrap" ${p.budget==='bootstrap'?'selected':''}>Fonds Propres</option>
+                                    <option value="seed" ${p.budget==='seed'?'selected':''}>Amorçage</option>
+                                    <option value="growth" ${p.budget==='growth'?'selected':''}>Croissance</option>
+                                    <option value="scale" ${p.budget==='scale'?'selected':''}>Scale Up</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="success-engine-field">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <label class="success-engine-label" style="margin:0;">Paliers d'Impact</label>
+                                <button onclick="openMilestoneModal('${p.id}')" class="cta-button secondary" style="padding:6px 12px; font-size:0.75rem;">+ AJOUTER UN PALIER</button>
+                            </div>
+                            <div id="dash-milestones-list" class="crowdfunding-list-container">
+                                <!-- Paliers chargés en JS -->
+                                <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colonne Droite : Récompenses -->
+                    <div class="success-engine-field">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <label class="success-engine-label" style="margin:0;">Offres & Récompenses (Contreparties)</label>
+                            <button onclick="openRewardModal('${p.id}')" class="cta-button primary" style="padding:6px 16px; font-size:0.75rem; background:#7c3aed; border:none;">+ CRÉER UNE RÉCOMPENSE</button>
+                        </div>
+                        <div id="dash-rewards-list" class="crowdfunding-list-container" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                            <!-- Récompenses chargées en JS -->
+                            <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des récompenses...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -338,15 +371,11 @@ function renderStepFields(step, p) {
                     <label class="success-engine-label">Texte du Pitch Final (Le Grand Récit)</label>
                     <textarea id="pitch_texte" class="success-engine-textarea" style="height:200px;" placeholder="Votre argumentaire de vente en 300 mots max pour convaincre les institutionnels.">${p.pitch_texte || ''}</textarea>
                 </div>
-                
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Numéro SIRET (Pour validation pro)</label>
-                    <input type="text" id="siret" class="sre-input" value="${p.siret || ''}" placeholder="Ex: 123 456 789 0001">
-                </div>
 
-                <div style="background:#f0fdf4; border:1px solid #10b981; padding:32px; border-radius:24px; grid-column: 1 / -1; margin-top: 24px;">
-                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.25rem;">Dernière étape : Envol</h4>
-                    <p style="font-size:1rem; color:#065f46; margin:0; line-height: 1.6;">Votre dossier est maintenant complet. En cliquant sur le bouton ci-dessous, votre Épopée sera soumise à notre équipe pour une revue finale avant publication sur le marketplace.</p>
+                <div style="background:#f0fdf4; border:1px solid #10b981; padding:40px; border-radius:32px; grid-column: 1 / -1; margin-top: 24px; text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:16px;">🚀</div>
+                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">C'est le moment de l'Envol</h4>
+                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">Votre Épopée est prête à être propulsée. En cliquant ci-dessous, un expert Domtom Connect validera votre contenu pour une mise en ligne immédiate sur le marketplace.</p>
                 </div>
             </div>
         `;
@@ -418,7 +447,6 @@ async function saveProjectStep(projectId, step) {
         payload.budget = document.getElementById('budget').value;
     } else if (step === 6) {
         payload.pitch_texte = document.getElementById('pitch_texte').value;
-        payload.siret = document.getElementById('siret').value;
         payload.verification_status = 'pending';
         payload.status = 'active';
     }
@@ -650,58 +678,84 @@ function closeArsenalModal() {
     document.getElementById('arsenal-modal').classList.remove('open');
 }
 
-async function handleArsenalFileSelect(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        // Preview logic if needed
-    };
-    reader.readAsDataURL(file);
-}
+// --- CROWDFUNDING LOADERS ---
 
-// --- 5. REWARDS & MILESTONES ---
+async function loadDashboardRewards(projectId) {
+    const list = document.getElementById('dash-rewards-list');
+    if (!list) return;
 
-function openRewardModal(projId) {
-    document.getElementById('reward-proj-id').value = projId;
-    document.getElementById('reward-modal').style.display = 'flex';
-}
-
-async function saveReward(projId) {
-    const btn = document.getElementById('btn-save-reward');
-    btn.disabled = true;
     try {
-        const payload = {
-            project_id: projId,
-            title: document.getElementById('reward-title').value,
-            description: document.getElementById('reward-desc').value,
-            amount_threshold: parseFloat(document.getElementById('reward-amount').value),
-            stock: parseInt(document.getElementById('reward-stock').value) || null,
-            image_url: document.getElementById('reward-image-url').value
-        };
-        const { error } = await _supabase.from('project_rewards').insert([payload]);
+        const { data: rewards, error } = await _supabase
+            .from('project_rewards')
+            .select('*')
+            .eq('project_id', projectId)
+            .order('amount_threshold', { ascending: true });
+
         if (error) throw error;
-        alert("🎁 Récompense créée !");
-        document.getElementById('reward-modal').style.display = 'none';
-        loadMyProjects(null); // Refresh
-    } catch (err) { alert(err.message); }
-    finally { btn.disabled = false; }
+
+        if (!rewards || rewards.length === 0) {
+            list.innerHTML = `
+                <div style="grid-column: 1 / -1; background:#f8fafc; border:1px dashed #e2e8f0; border-radius:16px; padding:24px; text-align:center;">
+                    <p style="color:#64748b; font-size:0.85rem; margin:0;">Aucune récompense créée.<br>Offrez des contreparties pour attirer des contributeurs.</p>
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = rewards.map(r => `
+            <div class="reward-mini-card">
+                <div style="font-weight:900; font-size:1rem; color:#7c3aed;">${r.amount_threshold} €</div>
+                <div style="font-weight:800; font-size:0.85rem; margin:4px 0;">${r.title}</div>
+                <button onclick="deleteReward('${r.id}', '${projectId}')" style="position:absolute; top:8px; right:8px; background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.75rem;">×</button>
+            </div>
+        `).join('');
+    } catch (err) { console.error(err); }
 }
 
-async function saveMilestone(projId) {
+async function loadDashboardMilestones(projectId) {
+    const list = document.getElementById('dash-milestones-list');
+    if (!list) return;
+
     try {
-        const payload = {
-            project_id: projId,
-            funding_goal: parseFloat(document.getElementById('milestone-threshold').value),
-            title: document.getElementById('milestone-title').value,
-            description: document.getElementById('milestone-desc').value
-        };
-        const { error } = await _supabase.from('project_milestones').insert([payload]);
+        const { data: milestones, error } = await _supabase
+            .from('project_milestones')
+            .select('*')
+            .eq('project_id', projectId)
+            .order('funding_goal', { ascending: true });
+
         if (error) throw error;
-        alert("🚩 Palier validé !");
-        document.getElementById('milestone-modal').style.display = 'none';
-        loadMyProjects(null);
-    } catch (err) { alert(err.message); }
+
+        if (!milestones || milestones.length === 0) {
+            list.innerHTML = `
+                <div style="background:#f8fafc; border:1px dashed #e2e8f0; border-radius:16px; padding:16px; text-align:center;">
+                    <p style="color:#64748b; font-size:0.8rem; margin:0;">Définissez vos paliers de financement.</p>
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = milestones.map(m => `
+            <div style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:900; font-size:0.85rem; color:#10b981;">${m.funding_goal.toLocaleString()} €</div>
+                    <div style="font-weight:700; font-size:0.75rem;">${m.title}</div>
+                </div>
+                <button onclick="deleteMilestone('${m.id}', '${projectId}')" style="background:#fee2e2; color:#ef4444; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:0.65rem;">Suppr.</button>
+            </div>
+        `).join('');
+    } catch (err) { console.error(err); }
+}
+
+async function deleteReward(rewardId, projectId) {
+    if (!confirm("Supprimer cette récompense ?")) return;
+    const { error } = await _supabase.from('project_rewards').delete().eq('id', rewardId);
+    if (!error) loadDashboardRewards(projectId);
+}
+
+async function deleteMilestone(milestoneId, projectId) {
+    if (!confirm("Supprimer ce palier ?")) return;
+    const { error } = await _supabase.from('project_milestones').delete().eq('id', milestoneId);
+    if (!error) loadDashboardMilestones(projectId);
 }
 
 async function openProjectModal() {

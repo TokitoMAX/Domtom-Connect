@@ -1504,6 +1504,30 @@ body {
     transition: all 0.4s ease;
 }
 
+.crowdfunding-list-container {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 16px;
+    min-height: 120px;
+}
+
+.reward-mini-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.reward-mini-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
 /* --- RECRUITMENT & SEARCH --- */
 .search-filter-bar {
     display: flex;
