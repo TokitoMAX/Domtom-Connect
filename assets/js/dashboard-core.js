@@ -816,35 +816,27 @@ function renderDashboardCards(role, tier, isListed, profile) {
                     </div>
                 </div>
 
-                <!-- ZONE SERVICES & RÉSEAU -->
-                    </div>
-                </div>
-
-                <!-- ZONE FIL D'ACTUALITÉ SAAS (RÉTABLISSEMENT) -->
-                <div style="margin-top: 60px; border-top: 1px solid #f1f5f9; padding-top: 40px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                        <div>
-                            <h3 style="font-size: 1.5rem; font-weight: 900; margin:0; color:#0f172a; letter-spacing:-0.02em;">ACTUALITÉS DU RÉSEAU</h3>
-                            <p style="color:#64748b; font-size:0.95rem; margin-top:4px;">Les dernières pépites et opportunités de l'écosystème.</p>
+                <!-- ZONE SERVICES & RÉSEAU (ÉCOSYSTÈME) -->
+                <div class="dash-section-ecosystem" style="margin-top: 48px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 24px; color:#0f172a;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
+                    <div class="ecosystem-grid" id="ecosystem-grid">
+                        <div class="dash-card-premium">
+                            <div class="dash-card-icon" style="background:rgba(124, 58, 237, 0.1); color:#7c3aed;">MSG</div>
+                            <div class="card-title">Messagerie</div>
+                            <p class="card-desc">Discutez avec vos mentors, experts et partenaires.</p>
+                            <a href="/messages" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
                         </div>
-                        <a href="/blog" target="_blank" class="cta-button secondary" style="font-size:0.8rem; font-weight:800;">VOIR TOUT LE FLUX</a>
-                    </div>
-
-                    <div class="ecosystem-grid">
-                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
-                            <div class="dash-badge emerald" style="margin-bottom:12px;">SUCCÈS STORY</div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">L'épopée d'Antilles Tech : 50k€ récoltés</h4>
-                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Découvrez comment ce projet a mobilisé la diaspora pour financer son expansion.</p>
+                        <div class="dash-card-premium">
+                            <div class="dash-card-icon" style="background:rgba(34, 197, 94, 0.1); color:#22c55e;">BIL</div>
+                            <div class="card-title">Annuaires</div>
+                            <p class="card-desc">Explorez les opportunités de l'écosystème.</p>
+                            <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Explorer</a>
                         </div>
-                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
-                            <div class="dash-badge" style="margin-bottom:12px; background:rgba(59,130,246,0.1); color:#3b82f6;">NOUVEAU TALENT</div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">+12 Experts Stratégiques ont rejoint le réseau</h4>
-                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Des profils en Marketing Digital et Finance sont désormais disponibles pour vos missions.</p>
-                        </div>
-                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
-                            <div class="dash-badge" style="margin-bottom:12px; background:rgba(245,158,11,0.1); color:#f59e0b;">ÉVÉNEMENT VIP</div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Afterwork Networking à Fort-de-France</h4>
-                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Rencontrez les investisseurs et porteurs de projets le 15 Avril prochain.</p>
+                        <div class="dash-card-premium">
+                            <div class="dash-card-icon" style="background:rgba(245, 158, 11, 0.1); color:#f59e0b;">RES</div>
+                            <div class="card-title">Ressources</div>
+                            <p class="card-desc">Guides et outils pour structurer votre Épopée.</p>
+                            <a href="/blog" target="_blank" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Découvrir</a>
                         </div>
                     </div>
                 </div>
@@ -1103,23 +1095,27 @@ async function loadMyTickets() {
 
 async function loadMatchmaking(userId) {
     const container = document.getElementById('matches-container');
+    const section = document.getElementById('matchmaking-section');
     if (!container) return;
 
     try {
         const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
-        
         if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
+            if (section) section.style.display = 'block';
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions.</p>
-                    <a href="/#pricing" class="cta-button primary" style="background:#10b981;">Passer au Pack Business</a>
+                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
+                    <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none; text-decoration:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; display:inline-block;">Passer au Pack Business</a>
                 </div>
             `;
             return;
         }
 
-        const { data: experts } = await _supabase
+        if (section) section.style.display = 'block';
+
+        const { data: experts, error } = await _supabase
             .from('profiles')
             .select('*')
             .eq('role', 'expert')
@@ -1129,10 +1125,10 @@ async function loadMatchmaking(userId) {
         if (experts && experts.length > 0) {
             container.innerHTML = experts.map(renderMatchCard).join('');
         } else {
-            container.innerHTML = '<p style="color:var(--text-muted);">Aucun match trouvé pour le moment.</p>';
+            container.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center; grid-column:1/-1;">Aucun match trouvé pour le moment.</p>';
         }
     } catch (err) {
-        console.error("Matchmaking error:", err);
+        console.error("Matchmaking Error:", err);
     }
 }
 
@@ -1140,16 +1136,16 @@ function renderMatchCard(expert) {
     const name = expert.full_name || 'Expert';
     const initials = name.slice(0, 2).toUpperCase();
     return `
-        <div class="dash-card" style="padding: 20px;">
+        <div class="dash-card" style="padding: 24px; border:1px solid var(--gray-200); border-radius:16px;">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                <div class="mini-avatar">${initials}</div>
+                <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>
                 <div>
                     <div style="font-size:0.95rem; font-weight:800;">${name}</div>
-                    <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+                    <div style="font-size:0.75rem; color:#10b981; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
                 </div>
             </div>
             <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basé sur vos besoins en ${expert.sector || 'Digital'}.</p>
-            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="padding:8px; font-size:0.8rem; justify-content:center;">Contacter</a>
+            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; font-size:0.8rem; background:#0f172a;">Contacter cet expert</a>
         </div>
     `;
 }
@@ -1417,63 +1413,6 @@ window.editEvent = editEvent;
 window.deleteEvent = deleteEvent;
 window.loadMatchmaking = loadMatchmaking;
 
-async function loadMatchmaking(userId) {
-    const container = document.getElementById('matches-container');
-    const section = document.getElementById('matchmaking-section');
-    if (!container) return;
-
-    try {
-        const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
-        if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
-            if (section) section.style.display = 'block';
-            container.innerHTML = `
-                <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
-                    <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none; text-decoration:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; display:inline-block;">Passer au Pack Business</a>
-                </div>
-            `;
-            return;
-        }
-
-        if (section) section.style.display = 'block';
-
-        const { data: experts, error } = await _supabase
-            .from('profiles')
-            .select('*')
-            .eq('role', 'expert')
-            .eq('listed', true)
-            .limit(3);
-
-        if (experts && experts.length > 0) {
-            container.innerHTML = experts.map(renderMatchCard).join('');
-        } else {
-            container.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center; grid-column:1/-1;">Aucun match trouvé pour le moment.</p>';
-        }
-    } catch (err) {
-        console.error("Matchmaking Error:", err);
-    }
-}
-
-function renderMatchCard(expert) {
-    const name = expert.full_name || 'Expert';
-    const initials = name.slice(0, 2).toUpperCase();
-    return `
-        <div class="dash-card" style="padding: 24px; border:1px solid var(--gray-200); border-radius:16px;">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>
-                <div>
-                    <div style="font-size:0.95rem; font-weight:800;">${name}</div>
-                    <div style="font-size:0.75rem; color:#10b981; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
-                </div>
-            </div>
-            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basé sur vos besoins en ${expert.sector || 'Digital'}.</p>
-            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; font-size:0.8rem; background:#0f172a;">Contacter cet expert</a>
-        </div>
-    `;
-}
-
 window.viewAttendees = async (eventId) => {
     let modal = document.getElementById('attendees-modal');
     if (!modal) {
@@ -1556,111 +1495,17 @@ window.viewAttendees = async (eventId) => {
     }
 };
 
-async function loadUserProfileData() {
-    try {
-        const { data: { user } } = await _supabase.auth.getUser();
-        if (!user) return;
-        const { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-        if (profile) {
-            const nameEl = document.getElementById('profile-full-name');
-            const emailEl = document.getElementById('display-email');
-            const phoneEl = document.getElementById('display-phone');
-            const avatarEl = document.getElementById('profile-avatar-img');
-            const roleEl = document.getElementById('profile-role-tag');
-            
-            if (nameEl) nameEl.textContent = profile.full_name || 'Utilisateur';
-            if (emailEl) emailEl.textContent = user.email;
-            if (phoneEl) phoneEl.textContent = profile.phone || 'Non renseigné';
-            if (avatarEl && profile.avatar_url) avatarEl.src = profile.avatar_url;
-            if (roleEl) {
-                const roles = {
-                    'expert': 'Expert Stratégique',
-                    'prestataire': 'Prestataire',
-                    'entreprise': 'Entreprise / Investisseur',
-                    'po': 'Porteur d\'Épopée',
-                    'admin': 'Administrateur'
-                };
-                roleEl.textContent = roles[profile.role] || 'Membre Domtom Connect';
-                
-                // --- SECTION SWITCH DE COMPTE ---
-                renderAccountSwitchUI(profile.role);
-            }
-        }
-    } catch (err) { console.error(err); }
-}
-
-function renderAccountSwitchUI(currentRole) {
-    const profileView = document.getElementById('profile-view');
-    if (!profileView) return;
-    
-    let switchSection = document.getElementById('account-switch-section');
-    if (!switchSection) {
-        switchSection = document.createElement('div');
-        switchSection.id = 'account-switch-section';
-        switchSection.style.marginTop = '24px';
-        profileView.querySelector('div:last-child').appendChild(switchSection);
-    }
-    
-    const isExpert = currentRole === 'expert';
-    switchSection.innerHTML = `
-        <div style="background:#f8fafc; padding:24px; border-radius:12px; border:1px dashed #cbd5e1; text-align:center;">
-            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">Vous souhaitez changer de profil ?</p>
-            <button onclick="switchUserRole('${isExpert ? 'po' : 'expert'}')" class="cta-button secondary" style="width:100%; justify-content:center; background:white; font-size:0.8rem; font-weight:800;">
-                ${isExpert ? 'ACTIVER LE PROFIL PORTEUR DE PROJET' : 'ACTIVER LE PROFIL EXPERT'}
-            </button>
-        </div>
-    `;
-}
-
-async function switchUserRole(newRole) {
-    if (!confirm(`Souhaitez-vous basculer vers le profil ${newRole === 'expert' ? 'Expert' : 'Porteur de Projet'} ?`)) return;
-    try {
-        const { data: { user } } = await _supabase.auth.getUser();
-        const { error } = await _supabase.from('profiles').update({ role: newRole }).eq('id', user.id);
-        if (error) throw error;
-        window.location.reload();
-    } catch (err) { alert(err.message); }
-}
-
-async function loadMyTicketing() {
-    const list = document.getElementById('billetterie-list');
-    if (!list) return;
-    try {
-        const { data: { user } } = await _supabase.auth.getUser();
-        const { data: events, error } = await _supabase.from('events').select('*').eq('organizer_id', user.id).order('date', { ascending: true });
-        if (error) throw error;
-        
-        if (!events || events.length === 0) {
-            list.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#94a3b8;">Aucun événement créé pour le moment.</div>';
-            return;
-        }
-        
-        list.innerHTML = events.map(ev => `
-            <div class="dash-card-premium">
-                <h4 style="margin:0; font-size:1.1rem;">${ev.title}</h4>
-                <p style="font-size:0.8rem; color:#64748b;">📍 ${ev.location} | 📅 ${new Date(ev.date).toLocaleDateString()}</p>
-                <div style="margin-top:16px;">
-                    <button onclick="viewAttendees('${ev.id}')" class="cta-button primary" style="font-size:0.75rem; background:#0f172a;">Gérer les participants</button>
-                </div>
-            </div>
-        `).join('');
-    } catch (err) { console.error(err); }
-}
-
-window.showView = showView;
-window.initRouting = initRouting;
-window.checkSession = checkSession;
-window.signOut = signOut;
-window.loadUserProfileData = loadUserProfileData;
-
 // --- FINAL INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. GESTION MENU BURGER (MOBILE)
-    const navToggle = document.querySelector('.dash-nav-toggle');
+    const navToggle = document.querySelector('.nav-toggle');
     const sidebar = document.querySelector('.sidebar');
     
     if (navToggle && sidebar) {
-        navToggle.addEventListener('click', () => {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+            navToggle.classList.toggle('active');
             const expanded = navToggle.getAttribute('aria-expanded') === 'true';
             navToggle.setAttribute('aria-expanded', !expanded);
             sidebar.classList.toggle('is-mobile-active');
