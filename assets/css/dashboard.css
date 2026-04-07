@@ -1712,15 +1712,16 @@ body {
     }
 }
 
-/* --- NEW PREMIUM COCKPIT STYLES --- */
+/* --- NEW PREMIUM COCKPIT STYLES (CLÉMENCE & PREMIUM LIGHT) --- */
 .dash-section-pilotage {
-    background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
-    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 28px;
     padding: 32px;
     position: relative;
     overflow: hidden;
-    color: white;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    color: #1e293b;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
     margin-bottom: 40px;
 }
 
@@ -1731,7 +1732,7 @@ body {
     right: 0;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -1739,54 +1740,61 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     gap: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 20px;
 }
 
 .epopee-score-modern {
-    background: rgba(16,185,129,0.15);
-    border: 1px solid rgba(16,185,129,0.3);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     color: #10b981;
-    padding: 10px 18px;
-    border-radius: 14px;
-    font-size: 1.4rem;
+    padding: 12px 18px;
+    border-radius: 16px;
+    font-size: 1.5rem;
     font-weight: 900;
-    text-shadow: 0 0 20px rgba(16,185,129,0.2);
-    min-width: 70px;
+    min-width: 80px;
     text-align: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .cockpit-card-premium {
-    background: rgba(255,255,255,1);
-    border-radius: 20px;
+    background: #f8fafc;
+    border-radius: 24px;
     padding: 24px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cockpit-card-premium:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
 }
 
 .pilotage-cta-premium {
-    background: #10b981;
+    background: #0f172a; /* Retour au Noir Apple profond pour les boutons */
     color: white;
-    font-weight: 900;
+    font-weight: 800;
     padding: 16px 24px;
-    border-radius: 16px;
+    border-radius: 18px;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 10px 15px -3px rgba(16,185,129,0.3);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    width: 100%;
 }
 
 .pilotage-cta-premium:active {
     transform: scale(0.98);
-    box-shadow: 0 4px 6px -1px rgba(16,185,129,0.2);
+}
+
+.hidden-force {
+    display: none !important;
 }
 
 @media (max-width: 600px) {

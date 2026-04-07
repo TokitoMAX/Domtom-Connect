@@ -777,36 +777,36 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (REPENNSÉ MOBILE/PREMIUM) ---
+        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (DESIGN CLAIR & PREMIUM) ---
         container.innerHTML = `
             <div class="dash-section-pilotage">
                 <div class="dash-pilotage-header">
                     <div>
-                        <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:8px; line-height:1.1;">PILOTAGE DE MON ÉPOPÉE</h2>
-                        <p style="color:rgba(255,255,255,0.7); font-size:0.9rem;">Cockpit stratégique & financier de votre aventure.</p>
+                        <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:4px; color:#0f172a;">PILOTAGE DE MON ÉPOPÉE</h2>
+                        <p style="color:#64748b; font-size:0.85rem; font-weight:500;">Cockpit stratégique de votre aventure.</p>
                     </div>
                     <div id="epopee-score-badge" class="epopee-score-modern">0%</div>
                 </div>
                 
-                <div class="cockpit-card-premium" style="margin-bottom:24px;">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                        <div style="width:40px; height:40px; background:rgba(16,185,129,0.1); color:#10b981; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:800;">HUB</div>
-                        <h3 style="margin:0; font-size:1.3rem; font-weight:900; color:#1e293b;">Success Engine</h3>
+                <div class="cockpit-card-premium" style="margin-bottom:20px;">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                        <div style="width:36px; height:36px; background:#f1f5f9; color:#0f172a; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:900; font-size:0.75rem;">HUB</div>
+                        <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0f172a;">Success Engine</h3>
                     </div>
-                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:24px; line-height:1.5;">Gérez vos phases de maturité (Stratégie, Arsenal, Boussole...) pour booster votre impact.</p>
-                    <button onclick="showView('success-engine')" class="pilotage-cta-premium" style="width:100%;">Accéder au cockpit</button>
+                    <p style="color:#475569; font-size:0.9rem; margin-bottom:20px; line-height:1.5;">Gérez vos phases de maturité (Stratégie, Arsenal, Boussole...) pour booster votre impact.</p>
+                    <button onclick="showView('success-engine')" class="pilotage-cta-premium">ENTRER DANS LE COCKPIT</button>
                 </div>
 
                 <div class="cockpit-card-premium">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                        <div style="width:40px; height:40px; background:rgba(59,130,246,0.1); color:#3b82f6; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:800;">€€€</div>
-                        <h3 style="margin:0; font-size:1.3rem; font-weight:900; color:#1e293b;">Mes Financements</h3>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                        <div style="width:36px; height:36px; background:#f1f5f9; color:#3b82f6; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:900; font-size:0.75rem;">FND</div>
+                        <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0f172a;">Mes Financements</h3>
                     </div>
-                    <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:8px;">
-                        <span style="font-size:1.75rem; font-weight:900; color:#3b82f6;">0,00 €</span>
-                        <span style="font-size:0.85rem; color:#64748b; font-weight:600;">collectés</span>
+                    <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:16px;">
+                        <span style="font-size:1.5rem; font-weight:900; color:#3b82f6;">0,00 €</span>
+                        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">collectés</span>
                     </div>
-                    <button onclick="showView('success-engine')" class="cta-button secondary" style="width:100%; border-radius:14px; padding:12px; font-weight:700;">Détails des contributions</button>
+                    <button onclick="showView('success-engine')" class="cta-button secondary" style="width:100%; border-radius:16px; padding:12px; font-weight:800; border:1px solid #e2e8f0; font-size:0.8rem;">Détails contributions</button>
                 </div>
             </div>
 
@@ -853,12 +853,12 @@ function updateProfileStrength(profile) {
     if (!container) return;
 
     if (!isExpert) {
+        container.classList.add('hidden-force'); 
         container.style.display = 'none';
-        container.classList.add('hidden'); // Force hiding
         return;
     }
+    container.classList.remove('hidden-force');
     container.style.display = 'block';
-    container.classList.remove('hidden');
 
     let points = 0;
     let nextAction = "";
@@ -898,12 +898,12 @@ function renderVisibilityPreview(profile) {
     const isListed = !!profile.listed;
 
     if (!isExpert) {
+        container.classList.add('hidden-force');
         container.style.display = 'none';
-        container.classList.add('hidden');
         return;
     }
+    container.classList.remove('hidden-force');
     container.style.display = 'block';
-    container.classList.remove('hidden');
 
     // 1. Badge Status
     if (isListed) {
