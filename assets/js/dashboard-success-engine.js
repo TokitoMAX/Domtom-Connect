@@ -7,11 +7,12 @@
 
 function updateSuccessStepper(score, projectId) {
     const steps = [
-        { id: 'cockpit-step-1', threshold: 0, label: '01. Manifeste', hint: 'Toujours accessible' },
-        { id: 'cockpit-step-2', threshold: 25, label: '02. Arsenal', hint: 'Atteignez 25% de maturité' },
-        { id: 'cockpit-step-3', threshold: 50, label: '03. Boussole', hint: 'Atteignez 50% de maturité' },
-        { id: 'cockpit-step-4', threshold: 75, label: '04. Sûreté', hint: 'Atteignez 75% de maturité' },
-        { id: 'cockpit-step-5', threshold: 90, label: '05. Orbite', hint: 'Atteignez 90% de maturité' }
+        { id: 'cockpit-step-1', threshold: 0, label: '01. Identité', hint: 'Vision & Mission' },
+        { id: 'cockpit-step-2', threshold: 16, label: '02. Humain', hint: 'L\'Équipe' },
+        { id: 'cockpit-step-3', threshold: 32, label: '03. Terrain', hint: 'Le Marché' },
+        { id: 'cockpit-step-4', threshold: 49, label: '04. Valeur', hint: 'Impact & Jobs' },
+        { id: 'cockpit-step-5', threshold: 66, label: '05. Objectifs', hint: 'Financement' },
+        { id: 'cockpit-step-6', threshold: 83, label: '06. Envol', hint: 'Pitch & Soumission' }
     ];
 
     let activeIndex = -1;
@@ -84,7 +85,7 @@ async function loadMyProjects(userId) {
                             <h2 style="color: white; margin: 0; font-size: 1.5rem;">Ma Nouvelle Épopée</h2>
                             <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet.</p>
                         </div>
-                        <button onclick="openProjectModal()" class="cta-button primary" style="background: white; color: #0f172a;">+ Nouveau Projet</button>
+                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a;">+ Nouveau Projet</button>
                     </div>
                 </div>
 
@@ -124,7 +125,7 @@ async function loadMyProjects(userId) {
     }
 }
 
-async function openProjectCockpit(projectId) {
+async function openProjectCockpit(projectId, initialStep = 1) {
     const list = document.getElementById('project-list-view');
     const cockpit = document.getElementById('project-cockpit-view');
     const content = document.getElementById('cockpit-content-internal');
@@ -138,41 +139,300 @@ async function openProjectCockpit(projectId) {
         list.style.display = 'none';
         cockpit.style.display = 'block';
 
-        content.innerHTML = `
-            <div class="success-engine-card">
-                 <div class="success-engine-card-header">
-                    <h3 class="success-engine-card-title">01. Stratégie & Vision</h3>
-                    <p class="success-engine-card-subtitle">Le socle de votre projet : expliquez votre vision pour convaincre les financeurs.</p>
-                </div>
-                
-                <div class="success-engine-grid">
-                    <div class="success-engine-field">
-                        <label class="success-engine-label">Votre Vision (Futur)</label>
-                        <textarea id="manifesto-vision" class="success-engine-textarea" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
-                    </div>
-                    <div class="success-engine-field">
-                        <label class="success-engine-label">L'Enjeu (Pourquoi ?)</label>
-                        <textarea id="manifesto-enjeu" class="success-engine-textarea" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
-                    </div>
-                    <div class="success-engine-field">
-                        <label class="success-engine-label">Votre Mission (Présent)</label>
-                        <textarea id="manifesto-mission" class="success-engine-textarea" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
-                    </div>
-                    <div style="display:flex; align-items:flex-end;">
-                        <button onclick="updateProjectManifesto('${p.id}')" class="cta-button primary" style="width:100%; background:#0f172a; height: 50px; justify-content:center;">Enregistrer ma Stratégie</button>
-                    </div>
-                </div>
-            </div>
-        `;
+        // Load matchmaking (Pépites)
+        loadMatchmaking(p.owner_id, projectId);
+
+        // Calcul de la maturité actuelle (depuis core)
+        const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
+
+        renderCockpitWithStep(p, initialStep, score);
 
     } catch (err) {
         alert("Erreur: " + err.message);
     }
 }
 
+function renderCockpitWithStep(p, step, score) {
+    const content = document.getElementById('cockpit-content-internal');
+    if (!content) return;
+
+    const stepsInfo = [
+        { num: 1, title: '01. Identité', subtitle: 'Manifeste, Vision & Mission' },
+        { num: 2, title: '02. Humain', subtitle: 'L\'Équipe & Le Commando' },
+        { num: 3, title: '03. Terrain', subtitle: 'Le Marché & L\'Opportunité' },
+        { num: 4, title: '04. Valeur', subtitle: 'Impact Local, Innovation & Emploi' },
+        { num: 5, title: '05. Objectifs', subtitle: 'Besoins de Financement' },
+        { num: 6, title: '06. Envol', subtitle: 'Pitch Final & Soumission Admin' }
+    ];
+
+    const current = stepsInfo.find(s => s.num === step);
+
+    let stepHTML = `
+        <div class="cockpit-stepper-header" style="margin-bottom: 40px;">
+            <div class="cockpit-stepper" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 32px;">
+                ${stepsInfo.map(s => `
+                    <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num}, ${score})" 
+                         class="cockpit-step ${s.num === step ? 'active' : ''} ${score >= ((s.num-1)*16) ? 'completed' : ''}" 
+                         style="padding:12px; border-radius:12px; border:1px solid ${s.num === step ? '#3b82f6' : '#e2e8f0'}; cursor:pointer; text-align:center;">
+                        <div style="font-size:0.6rem; font-weight:900; opacity:0.6;">ÉTAPE ${s.num}</div>
+                        <div style="font-size:0.75rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title.split('. ')[1]}</div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+                <div>
+                    <h2 style="font-size:1.75rem; font-weight:900; margin:0;">${current.title}</h2>
+                    <p style="color:var(--text-secondary); margin:4px 0 0 0;">${current.subtitle}</p>
+                </div>
+                <div style="font-size:1.25rem; font-weight:900; color:#10b981;">Score: ${score}%</div>
+            </div>
+        </div>
+
+        <div class="success-engine-card" id="cockpit-step-container">
+            ${renderStepFields(step, p)}
+        </div>
+
+        <div style="margin-top:32px; display:flex; justify-content:space-between; gap:16px;">
+            <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1}, ${score})` : 'closeProjectCockpit()'}" 
+                    class="cta-button secondary" style="flex:1; justify-content:center;">${step > 1 ? '← Précédent' : 'Annuler'}</button>
+            
+            <button onclick="saveProjectStep('${p.id}', ${step})" 
+                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981;">
+                    ${step === 6 ? 'SOUMETTRE À L\'ADMINISTRATION 🚀' : 'Enregistrer & Continuer →'}
+            </button>
+        </div>
+    `;
+
+    content.innerHTML = stepHTML;
+    window.scrollTo(0, 0);
+}
+
+function renderStepFields(step, p) {
+    if (step === 1) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Votre Vision (Le Futur)</label>
+                    <textarea id="vision" class="success-engine-textarea" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
+                </div>
+                <div class="success-engine-field">
+                    <label class="success-engine-label">L'Enjeu (Pourquoi ?)</label>
+                    <textarea id="enjeu" class="success-engine-textarea" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
+                </div>
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Votre Mission (Maintenant)</label>
+                    <textarea id="mission" class="success-engine-textarea" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
+                </div>
+            </div>
+        `;
+    } else if (step === 2) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field" style="grid-column: 1 / -1;">
+                    <label class="success-engine-label">Présentation de l'équipe</label>
+                    <textarea id="equipe" class="success-engine-textarea" style="height:150px;" placeholder="Qui sont les fondateurs et contributeurs clés ?">${p.equipe || ''}</textarea>
+                </div>
+            </div>
+        `;
+    } else if (step === 3) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field" style="grid-column: 1 / -1;">
+                    <label class="success-engine-label">Opportunité & Marché</label>
+                    <textarea id="marche" class="success-engine-textarea" style="height:150px;" placeholder="À qui s'adresse votre projet ? Quel est le potentiel local ?">${p.marche || ''}</textarea>
+                </div>
+            </div>
+        `;
+    } else if (step === 4) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Impact Local</label>
+                    <textarea id="impact_local" class="success-engine-textarea" placeholder="Qu'apportez-vous au territoire ?">${p.impact_local || ''}</textarea>
+                </div>
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Innovation / Différenciation</label>
+                    <textarea id="innovation" class="success-engine-textarea" placeholder="Pourquoi votre projet est-il unique ?">${p.innovation || ''}</textarea>
+                </div>
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Emplois Visés (Chiffre)</label>
+                    <input type="text" id="emplois" class="sre-input" value="${p.emplois || ''}" placeholder="Ex: 5 emplois créés">
+                </div>
+            </div>
+        `;
+    } else if (step === 5) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Objectif de Financement (€)</label>
+                    <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}">
+                </div>
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Type de financement cherché</label>
+                    <select id="budget" class="sre-input">
+                        <option value="bootstrap" ${p.budget==='bootstrap'?'selected':''}>Fonds Propres / 0€</option>
+                        <option value="seed" ${p.budget==='seed'?'selected':''}>Amorçage (1k - 10k€)</option>
+                        <option value="growth" ${p.budget==='growth'?'selected':''}>Croissance (10k - 50k€)</option>
+                        <option value="scale" ${p.budget==='scale'?'selected':''}>Scale (50k€+)</option>
+                    </select>
+                </div>
+            </div>
+        `;
+    } else if (step === 6) {
+        return `
+            <div class="success-engine-grid">
+                <div class="success-engine-field" style="grid-column: 1 / -1;">
+                    <label class="success-engine-label">Texte du Pitch Final</label>
+                    <textarea id="pitch_texte" class="success-engine-textarea" style="height:150px;" placeholder="Votre argumentaire de vente en 300 mots max.">${p.pitch_texte || ''}</textarea>
+                </div>
+                <div style="background:#f0fdf4; border:1px solid #10b981; padding:20px; border-radius:12px; grid-column: 1 / -1;">
+                    <h4 style="margin:0 0 8px 0; color:#10b981;">Dernière Validation</h4>
+                    <p style="font-size:0.85rem; color:#065f46; margin:0;">En soumettant votre projet, l'administrateur sera notifié pour valider et publier votre épopée dans le marketplace.</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+async function saveProjectStep(projectId, step) {
+    const payload = {};
+    if (step === 1) {
+        payload.vision = document.getElementById('vision').value;
+        payload.mission = document.getElementById('mission').value;
+        payload.enjeu = document.getElementById('enjeu').value;
+    } else if (step === 2) {
+        payload.equipe = document.getElementById('equipe').value;
+    } else if (step === 3) {
+        payload.marche = document.getElementById('marche').value;
+    } else if (step === 4) {
+        payload.impact_local = document.getElementById('impact_local').value;
+        payload.innovation = document.getElementById('innovation').value;
+        payload.emplois = document.getElementById('emplois').value;
+    } else if (step === 5) {
+        payload.funding_goal = parseFloat(document.getElementById('funding_goal').value);
+        payload.budget = document.getElementById('budget').value;
+    } else if (step === 6) {
+        payload.pitch_texte = document.getElementById('pitch_texte').value;
+        payload.verification_status = 'pending';
+        payload.status = 'active';
+    }
+
+    try {
+        const { error } = await _supabase.from('projects').update(payload).eq('id', projectId);
+        if (error) throw error;
+
+        if (step === 6) {
+            alert("✅ Votre Épopée a été soumise avec succès ! L'administrateur va l'examiner très prochainement.");
+            window.location.reload();
+        } else {
+            // Re-load maturity and go to next step
+            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+            const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
+            renderCockpitWithStep(p, step + 1, score);
+        }
+    } catch (err) {
+        alert("Erreur de sauvegarde: " + err.message);
+    }
+}
+
+async function startNewProjectWizard() {
+    let title = prompt("Nom de votre nouvelle épopée :");
+    if (!title) return;
+    
+    try {
+        const session = await getSession();
+        if (!session) return;
+        
+        const { data: p, error } = await _supabase.from('projects').insert([{
+            owner_id: session.user.id,
+            title: title,
+            status: 'draft'
+        }]).select().single();
+        
+        if (error) throw error;
+        
+        // Open the cockpit directly at step 1
+        openProjectCockpit(p.id, 1);
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+async function loadMatchmaking(userId, projectId) {
+    const container = document.getElementById('matches-container');
+    const section = document.getElementById('matchmaking-section');
+    if (!container || !section) return;
+
+    try {
+        const { data: profile } = await _supabase.from('profiles').select('subscription_tier, role').eq('id', userId).single();
+        if (!profile) return;
+
+        const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
+        
+        // On débloque la vue pour le porteur du projet lui-même
+        const canSeeMatches = true; // User specifically asked to re-enable access for project owners
+
+        section.style.display = 'block';
+
+        if (!canSeeMatches) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez vos Pépites</h3>
+                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts (vos pépites) pour votre projet.</p>
+                    <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Découvrir le Pack Business</a>
+                </div>
+            `;
+            return;
+        }
+
+        // Récupérer les 3 derniers matchs (Experts)
+        const { data: experts, error } = await _supabase
+            .from('profiles')
+            .select('*')
+            .eq('role', 'expert')
+            .eq('listed', true)
+            .limit(3);
+
+        if (error) throw error;
+
+        if (experts && experts.length > 0) {
+            container.innerHTML = experts.map(renderMatchCard).join('');
+        } else {
+            container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">Aucune pépite trouvée pour le moment.</p>';
+        }
+    } catch (err) {
+        console.error("Load Matchmaking Error:", err);
+    }
+}
+
+function renderMatchCard(expert) {
+    const name = expert.full_name || 'Expert';
+    const initials = name.slice(0, 2).toUpperCase();
+    const avatar = expert.avatar_url 
+        ? `<img src="${expert.avatar_url}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">`
+        : `<div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>`;
+
+    return `
+        <div class="dash-card-premium" style="padding: 20px; border: 1px solid #e2e8f0; border-radius: 20px; background: white;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                ${avatar}
+                <div style="overflow:hidden;">
+                    <div style="font-size:0.95rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
+                    <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px; line-height:1.4;">Top match basé sur vos besoins en ${expert.sector || 'Expertise'}.</p>
+            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="background:#0f172a; padding:8px 16px; font-size:0.8rem; height:auto; width:100%; justify-content:center;">Contacter cet expert</a>
+        </div>
+    `;
+}
+
 function closeProjectCockpit() {
     document.getElementById('project-list-view').style.display = 'block';
     document.getElementById('project-cockpit-view').style.display = 'none';
+    document.getElementById('matchmaking-section').style.display = 'none';
 }
 
 function openImpulsionModal(projectId) {
@@ -396,3 +656,6 @@ window.loadMyProjects = loadMyProjects;
 window.calculateProjectMaturity = calculateProjectMaturity;
 window.openProjectCockpit = openProjectCockpit;
 window.closeProjectCockpit = closeProjectCockpit;
+window.startNewProjectWizard = startNewProjectWizard;
+window.renderCockpitWithStep = renderCockpitWithStep;
+window.saveProjectStep = saveProjectStep;

@@ -291,19 +291,26 @@
 
                     <div class="success-engine-container">
                         <div id="success-engine-header"></div>
-                        <div class="success-steps" style="max-width:800px; margin: 0 auto 48px; display: none !important;">
-                            <div class="step-item" id="step-1"><div class="step-circle">1</div><div class="step-label">Manifeste</div></div>
-                            <div class="step-item" id="step-2"><div class="step-circle">2</div><div class="step-label">Boussole</div></div>
-                            <div class="step-item" id="step-3"><div class="step-circle">3</div><div class="step-label">Commando</div></div>
-                            <div class="step-item" id="step-4"><div class="step-circle">4</div><div class="step-label">Impulsion</div></div>
-                        </div>
                         <div id="success-engine-step"></div>
+
+                        <!-- Section Pépites (Matchmaking) -->
+                        <div id="matchmaking-section" style="display:none; margin-top:60px; padding-top:40px; border-top:1px solid var(--gray-200);">
+                            <div style="margin-bottom:24px;">
+                                <h2 style="font-size:1.5rem; font-weight:800; margin:0; display:flex; align-items:center; gap:12px;">
+                                    💎 VOS PÉPITES <span style="font-size:0.75rem; background:#7c3aed; color:white; padding:4px 10px; border-radius:20px;">TALENTS MATCHÉS</span>
+                                </h2>
+                                <p style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Nos recommandations d'experts pour propulser votre Épopée.</p>
+                            </div>
+                            <div id="matches-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
+                                <!-- Match Cards -->
+                            </div>
+                        </div>
                     </div>
 
                     <div id="my-projects-section" style="margin-top:80px; padding-top:40px; border-top:1px solid var(--gray-200);">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                             <h2 style="font-size:1.75rem; font-weight:800; margin:0;">Mes Épopées</h2>
-                            <button onclick="openProjectModal()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
+                            <button onclick="startNewProjectWizard()" class="cta-button secondary" style="font-size:0.85rem;">+ Nouveau Projet</button>
                         </div>
                         <div id="my-projects-list">
                             <p style="text-align:center; color:var(--text-muted); padding:40px;">Chargement de vos aventures...</p>
