@@ -6,44 +6,55 @@ const ExpertsModule = {
     role: 'expert',
 
     /**
-     * Dashboard Rendering Logic - Restauration Marque & Conversion
+     * Dashboard Rendering Logic - Restauration Marque & Conversion Authority
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isPremium = ['expert_pack_paid', 'pro', 'business', 'enterprise'].includes(profile.subscription_tier);
+        const isAuthority = ['expert_pack_paid', 'pro', 'business', 'enterprise'].includes(profile.subscription_tier);
 
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
                 
                 <!-- Welcome Card (Expert Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 24px;">
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 20px;">
                     <div style="position: relative; z-index: 2;">
                         <span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:900; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Expert / Talent</span>
-                        <h1 style="font-size: 3rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
+                        <h1 style="font-size: 2.8rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
                         <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500; line-height:1.6;">Votre expertise est le moteur de l'accélération territoriale. Retrouvez ici vos opportunités de missions et gérez votre visibilité.</p>
                     </div>
                 </div>
 
-                <!-- Main Content: Missions & Profile -->
+                <!-- Main Section: Missions & Authority flow -->
                 <div style="grid-column: span 8; display: grid; gap: 24px;">
                     
-                    <!-- Strategic Conversion / Service Card -->
-                    ${isPremium ? `
-                        <!-- CAS : PAYÉ -> CALENDLY -->
+                    <!-- CAS : PAYÉ -> CALENDLY CURATION -->
+                    ${isAuthority ? `
                         <div class="dash-card highlight" style="background:#f0fdf4; border-color:#bbf7d0;">
                              <div class="dash-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                             <h4 style="margin:0; font-size:1.15rem; font-weight:900;">Optimisation de Profil</h4>
-                             <p style="font-size: 0.85rem; color: #166534; margin-top: 8px; line-height:1.5;">Votre Pack Authority est actif. Réservez votre séance de curation pour maximiser votre impact auprès des entreprises.</p>
-                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="margin-top:16px; background:#10b981; border:none; border-radius:10px; justify-content:center; text-decoration:none;">Réserver mon RDV Curation</a>
+                             <h4 style="margin:0; font-size:1.1rem; font-weight:900;">Curation & Optimisation de Profil</h4>
+                             <p style="font-size: 0.85rem; color: #166534; margin-top: 8px; line-height:1.5;">Votre Pack Authority est actif. Réservez votre séance de curation personnalisée avec notre équipe pour maximiser votre impact.</p>
+                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="margin-top:20px; background:#10b981; border:none; border-radius:10px; justify-content:center; text-decoration:none;">Réserver mon RDV Curation</a>
                         </div>
                     ` : `
-                        <!-- CAS : GRATUIT -> VENTE PACK -->
+                        <!-- CAS : GRATUIT -> TUNNEL PACK AUTHORITY (STYLE HOME) -->
                         <div class="dash-card highlight">
-                             <div class="dash-icon-box black"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg></div>
-                             <h4 style="margin:0; font-size:1.15rem; font-weight:900;">Débloquer le Pack Authority</h4>
-                             <p style="font-size: 0.85rem; color: #64748b; margin-top: 8px; line-height:1.5;">Boostez votre visibilité : Top Annuaire (x5 vues), badge de confiance "Vérifié" et curation personnalisée de votre profil.</p>
-                             <a href="/#pricing" class="cta-button" style="margin-top:16px; border:1px solid #000; border-radius:10px; justify-content:center; text-decoration:none; color:#000;">Découvrir le Pack (290€)</a>
+                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div style="flex:1;">
+                                    <span style="background: #10b981; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.65rem; text-transform:uppercase;">Devenir Expert Premium</span>
+                                    <h3 style="font-size: 1.4rem; font-weight: 950; margin:12px 0 8px;">Pack Authority</h3>
+                                    <div style="font-size: 1.8rem; font-weight: 950; margin-bottom: 16px;">290€ <span style="font-size: 0.9rem; font-weight: 500; color: #6b7280;">/ an</span></div>
+                                    <ul style="list-style: none; padding: 0; margin-bottom: 24px; display:grid; gap:8px;">
+                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Badge "Vérifié" & Top Annuaire (x5 vues)</li>
+                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Curation de profil experte</li>
+                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Accès exclusif aux Missions Qualifiées</li>
+                                    </ul>
+                                </div>
+                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:24px; text-align:center;">
+                                    <div id="paypal-button-container-authority"></div>
+                                    <p style="font-size:0.65rem; color:#64748b; margin-top:12px;">Paiement sécurisé via PayPal</p>
+                                </div>
+                            </div>
                         </div>
                     `}
 
@@ -98,11 +109,20 @@ const ExpertsModule = {
             </div>
         `;
         
+        // Initialiser PayPal si nécessaire
+        if (!isAuthority) {
+            setTimeout(() => {
+                if (typeof renderPayPalButton === 'function') {
+                    renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority', 'paypal-button-container-authority');
+                }
+            }, 500);
+        }
+
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
     },
 
     /**
-     * UI Terminology (Malt-Style) - Restauration Sobriété
+     * UI Terminology (Malt-Style) - Restauration Sobriété Charte
      */
     initUI: () => {
         const labels = {
@@ -118,8 +138,7 @@ const ExpertsModule = {
         });
 
         // Hide/Show correct fields
-        const hideList = ['company-name-group', 'label-written-presentation', 'metrics-row', 'banner-card'];
-        hideList.forEach(id => {
+        ['company-name-group', 'label-written-presentation', 'metrics-row', 'banner-card'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });

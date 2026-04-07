@@ -6,26 +6,26 @@ const CompaniesModule = {
     role: 'entreprise',
 
     /**
-     * Dashboard Rendering Logic - Restauration Marque & Sourcing
+     * Dashboard Rendering Logic - Restauration Marque & Sourcing Business
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isPremium = ['business', 'enterprise'].includes(profile.subscription_tier);
+        const isBusiness = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise';
 
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
                 
                 <!-- Welcome Card (Enterprise Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 24px;">
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 20px;">
                     <div style="position: relative; z-index: 2;">
                         <span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:900; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise / Institution</span>
-                        <h1 style="font-size: 3rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">${profile.full_name || 'Entreprise'}</h1>
+                        <h1 style="font-size: 2.8rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">${profile.full_name || 'Entreprise'}</h1>
                         <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500; line-height:1.6;">Pilotez vos recrutements, gérez vos partenariats et trouvez les meilleurs talents pour vos projets territoriaux.</p>
                     </div>
                 </div>
 
-                <!-- Main Content: Recruitment & Sourcing -->
+                <!-- Main Section: Recruitment & Sourcing -->
                 <div style="grid-column: span 8; display: grid; gap: 24px;">
                     
                     <!-- Sourcing Card -->
@@ -65,12 +65,23 @@ const CompaniesModule = {
                 <!-- Sidebar: Business Pack -->
                 <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
                     
-                    <div class="dash-card highlight" style="background: #f0fdf4; border-color: #bbf7d0;">
-                        <div class="dash-icon-box" style="background:#10b981; color:#fff;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-7v.01M9 14v.01M9 10v.01M12 10v.01"/></svg></div>
-                        <h3 style="font-size: 1.1rem; font-weight: 850; margin-bottom: 8px;">Pack Business</h3>
-                        <p style="font-size: 0.8rem; color: #166534; margin-bottom: 20px; line-height: 1.5;">Gérez vos recrutements en illimité et boostez votre marque employeur territoriale.</p>
-                        <button class="cta-button primary" style="width: 100%; justify-content: center; background: #10b981; border: none; border-radius:10px; font-weight:800;">Activer l'offre</button>
-                    </div>
+                    ${isBusiness ? `
+                        <div class="dash-card highlight" style="background: #f0fdf4; border-color: #bbf7d0;">
+                             <h4 style="margin:0; font-size:1.1rem; font-weight:900; color:#166534;">Pack Business Actif</h4>
+                             <p style="font-size: 0.8rem; color: #166534; margin-top: 8px;">Vous bénéficiez de toutes les fonctionnalités premium pour votre entreprise.</p>
+                        </div>
+                    ` : `
+                        <div class="dash-card highlight" style="background: #ffffff; border-color: #e2e8f0;">
+                            <span style="background: #10b981; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.6rem; text-transform:uppercase;">Pack Business</span>
+                            <h3 style="font-size: 1.2rem; font-weight: 950; margin:12px 0 8px;">Recrutement & Marque</h3>
+                            <div style="font-size: 1.6rem; font-weight: 950; margin-bottom: 16px;">490€ <span style="font-size: 0.8rem; font-weight: 500; color: #6b7280;">/ unique</span></div>
+                            <ul style="list-style: none; padding: 0; margin-bottom: 20px; display:grid; gap:6px;">
+                                <li style="font-size: 0.75rem; color: #374151; display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Accès illimité annuaire</li>
+                                <li style="font-size: 0.75rem; color: #374151; display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Publication d'annonces VIP</li>
+                            </ul>
+                            <div id="paypal-button-container-business-corp"></div>
+                        </div>
+                    `}
 
                     <div class="dash-card">
                         <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 16px; text-transform:uppercase; color:#64748b;">Impact Recrutement</h4>
@@ -86,10 +97,19 @@ const CompaniesModule = {
                 </div>
             </div>
         `;
+        
+        // Initialiser PayPal si nécessaire
+        if (!isBusiness) {
+            setTimeout(() => {
+                if (typeof renderPayPalButton === 'function') {
+                    renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business', 'paypal-button-container-business-corp');
+                }
+            }, 500);
+        }
     },
 
     /**
-     * UI Terminology (Institutional Style) - Restauration Sobriété
+     * UI Terminology (Institutional Style) - Restauration Sobriété Charte
      */
     initUI: () => {
         const labels = {

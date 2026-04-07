@@ -1126,3 +1126,83 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.showView = showView;
     window.handleRouting = handleRouting;
 });
+
+/**
+ * --- BUSINESS LOGIC: PAYPAL & CONVERSION ---
+ * Restoring the Pack -> PayPal -> Success flow
+ */
+window.renderPayPalButton = function(planId, tier, containerId = 'paypal-button-container') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    
+    if (typeof paypal !== 'undefined') {
+        paypal.Buttons({
+            style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
+            createSubscription: function (data, actions) {
+                return actions.subscription.create({ 'plan_id': planId });
+            },
+            onApprove: function (data, actions) {
+                handleSubscriptionSuccess(data.subscriptionID, tier);
+            },
+            onError: function (err) {
+                console.error('PayPal Error:', err);
+                container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Erreur PayPal : ${err.message || 'ID Invalide'}</p>`;
+            }
+        }).render(`#${containerId}`);
+    } else {
+        container.innerHTML = `<p style="color:#64748b; font-size:0.75rem; text-align:center;">Chargement PayPal...</p>`;
+    }
+};
+
+async function handleSubscriptionSuccess(subscriptionId, tier) {
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (!user) throw new Error("Session expirée.");
+
+        const { error } = await _supabase
+            .from('profiles')
+            .update({
+                subscription_tier: tier,
+                subscription_id: subscriptionId,
+                last_payment_date: new Date().toISOString(),
+                listed: true
+            })
+            .eq('id', user.id);
+
+        if (error) throw error;
+        alert('Félicitations ! Votre Pack est maintenant activé. ✅');
+        window.location.reload();
+    } catch (err) {
+        alert('Erreur lors de l\'activation : ' + err.message);
+    }
+}
+
+/**
+ * --- GLOBAL HANDLERS ---
+ */
+window.createNewSREProject = async function() {
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (!user) { alert("Session expirée."); return; }
+
+        const title = prompt("Nom de votre nouveau projet 'Épopée' :");
+        if (!title) return;
+
+        const { data, error } = await _supabase
+            .from('projects')
+            .insert([{ 
+                user_id: user.id, 
+                title: title,
+                verification_status: 'pending'
+            }])
+            .select()
+            .single();
+
+        if (error) throw error;
+        alert("Projet créé ! Accédez au Success Engine pour le compléter.");
+        showView('success-engine', true);
+    } catch (err) {
+        alert("Erreur création : " + err.message);
+    }
+};
