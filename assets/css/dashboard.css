@@ -313,32 +313,51 @@ body {
 
 .dash-card {
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 24px;
-    padding: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    padding: 28px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.006);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 .dash-card:hover {
-    border-color: rgba(16, 185, 129, 0.2);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
     transform: translateY(-4px);
 }
 
 .dash-card.highlight {
-    background: linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
     border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .dash-card.premium-dark {
-    background: linear-gradient(135.46deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, #000000 0%, #111111 100%);
     color: white;
     border: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Icons & Clarity */
+.dash-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.dash-icon-box.black {
+    background: #000;
+    color: #fff;
 }
 
 .card-title {

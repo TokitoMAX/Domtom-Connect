@@ -6,20 +6,22 @@ const CompaniesModule = {
     role: 'entreprise',
 
     /**
-     * Dashboard Rendering Logic - Refonte Premium & Sourcing
+     * Dashboard Rendering Logic - Restauration Marque & Sourcing
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
+
+        const isPremium = ['business', 'enterprise'].includes(profile.subscription_tier);
 
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
                 
                 <!-- Welcome Card (Enterprise Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 60px; border-radius: 40px; background: linear-gradient(135.46deg, #064e3b 0%, #065f46 100%); position: relative; overflow: hidden;">
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 24px;">
                     <div style="position: relative; z-index: 2;">
-                        <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; margin-bottom:20px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise / Institution</span>
-                        <h1 style="font-size: 3.5rem; font-weight: 950; margin-bottom: 16px; letter-spacing: -0.04em; line-height:1;">${profile.full_name || 'Entreprise'}</h1>
-                        <p style="font-size: 1.25rem; opacity: 0.8; max-width: 650px; font-weight: 500; line-height:1.6;">Pilotez vos recrutements et trouvez les meilleurs talents pour vos projets stratégiques.</p>
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:900; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise / Institution</span>
+                        <h1 style="font-size: 3rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">${profile.full_name || 'Entreprise'}</h1>
+                        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500; line-height:1.6;">Pilotez vos recrutements, gérez vos partenariats et trouvez les meilleurs talents pour vos projets territoriaux.</p>
                     </div>
                 </div>
 
@@ -28,61 +30,57 @@ const CompaniesModule = {
                     
                     <!-- Sourcing Card -->
                     <div class="dash-card">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
                             <div>
-                                <h3 style="font-size: 1.5rem; font-weight: 900; margin:0; letter-spacing:-0.03em;">Sourcing Talents</h3>
-                                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Trouvez des experts et freelances qualifiés dans votre région.</p>
+                                <h3 style="font-size: 1.3rem; font-weight: 950; margin:0; letter-spacing:-0.02em;">Sourcing Talents</h3>
+                                <p style="color:#64748b; font-size:0.85rem; margin-top:4px;">Trouvez des experts et freelances qualifiés dans votre zone d'intervention.</p>
                             </div>
                         </div>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-                            <a href="/marketplace/directory" class="dash-card highlight" style="text-decoration:none; text-align:center; padding:24px;">
-                                <div style="font-size:1.5rem; margin-bottom:8px;">🔍</div>
-                                <div style="font-weight:800; color:#065f46;">Annuaire Experts</div>
-                                <div style="font-size:0.75rem; color:#64748b;">Accès aux profils vérifiés</div>
+                            <a href="/marketplace/directory" class="dash-card highlight" style="text-decoration:none; text-align:center; padding:20px; border-radius:16px;">
+                                <div style="font-size:1.2rem; color:#10b981; margin-bottom:8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+                                <div style="font-weight:800; color:#000; font-size:0.9rem;">Annuaire Experts</div>
+                                <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">Accès aux profils vérifiés</div>
                             </a>
-                            <div class="dash-card highlight" style="text-align:center; padding:24px; opacity:0.8;">
-                                <div style="font-size:1.5rem; margin-bottom:8px;">🤖</div>
-                                <div style="font-weight:800; color:#065f46;">Matchmaking IA</div>
-                                <div style="font-size:0.75rem; color:#64748b;">Bientôt disponible</div>
+                            <div class="dash-card" style="text-align:center; padding:20px; opacity:0.7; background:#f8fafc; border-radius:16px;">
+                                <div style="font-size:1.2rem; color:#64748b; margin-bottom:8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></div>
+                                <div style="font-weight:800; color:#64748b; font-size:0.9rem;">Matchmaking IA</div>
+                                <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">Bientôt disponible</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Job Pilotage -->
                     <div class="dash-card">
-                        <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 20px;">Mes Annonces & Missions</h3>
+                        <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px;">Annonces & Missions</h3>
                         <div id="company-jobs-view">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 20px;">
+                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 16px;">
                                 <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
-                                <button class="cta-button primary" style="background:#065f46; margin-top:16px; border-radius:10px;">+ Publier un poste</button>
+                                <button class="cta-button primary" style="background:#000; margin-top:16px; border-radius:10px; font-weight:800;">Publier un poste</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar: Stats & Business Pack -->
+                <!-- Sidebar: Business Pack -->
                 <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
                     
-                    <!-- Business Pack -->
-                    <div class="dash-card" style="background: #ecfdf5; border-color: #a7f3d0;">
-                        <div style="width: 48px; height: 48px; background: #059669; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-7v.01M9 14v.01M9 10v.01M12 10v.01"/></svg>
-                        </div>
-                        <h3 style="font-size: 1.2rem; font-weight: 850; margin-bottom: 8px;">Pack Business</h3>
-                        <p style="font-size: 0.85rem; color: #064e3b; margin-bottom: 20px; line-height: 1.5;">Gérez vos recrutements en illimité et boostez votre marque employeur.</p>
-                        <button class="cta-button primary" style="width: 100%; justify-content: center; background: #059669; border: none; border-radius:12px;">Activer</button>
+                    <div class="dash-card highlight" style="background: #f0fdf4; border-color: #bbf7d0;">
+                        <div class="dash-icon-box" style="background:#10b981; color:#fff;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-7v.01M9 14v.01M9 10v.01M12 10v.01"/></svg></div>
+                        <h3 style="font-size: 1.1rem; font-weight: 850; margin-bottom: 8px;">Pack Business</h3>
+                        <p style="font-size: 0.8rem; color: #166534; margin-bottom: 20px; line-height: 1.5;">Gérez vos recrutements en illimité et boostez votre marque employeur territoriale.</p>
+                        <button class="cta-button primary" style="width: 100%; justify-content: center; background: #10b981; border: none; border-radius:10px; font-weight:800;">Activer l'offre</button>
                     </div>
 
-                    <!-- Company Stats -->
                     <div class="dash-card">
-                        <h4 style="font-size: 0.9rem; font-weight: 900; margin-bottom: 16px; text-transform:uppercase; color:#64748b;">Impact Recrutement</h4>
+                        <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 16px; text-transform:uppercase; color:#64748b;">Impact Recrutement</h4>
                         <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                            <span style="font-size:0.85rem; color:#64748b;">Postulants vus</span>
-                            <span style="font-size:1.1rem; font-weight:950;">0</span>
+                            <span style="font-size:0.8rem; color:#64748b;">Postulants vus</span>
+                            <span style="font-size:0.9rem; font-weight:950;">0</span>
                         </div>
                         <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:0.85rem; color:#64748b;">Vues sur vos annonces</span>
-                            <span style="font-size:1.1rem; font-weight:950;">0</span>
+                            <span style="font-size:0.8rem; color:#64748b;">Vues annonces</span>
+                            <span style="font-size:0.9rem; font-weight:950;">0</span>
                         </div>
                     </div>
                 </div>
@@ -91,7 +89,7 @@ const CompaniesModule = {
     },
 
     /**
-     * UI Terminology (Institutional Style) - Clarification Pédagogique
+     * UI Terminology (Institutional Style) - Restauration Sobriété
      */
     initUI: () => {
         const labels = {
@@ -107,19 +105,17 @@ const CompaniesModule = {
         });
 
         // Hide/Show correct fields
-        const hideList = ['tjm-group', 'label-written-presentation'];
-        hideList.forEach(id => {
+        ['tjm-group', 'label-written-presentation'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
 
-        const showList = ['company-name-group', 'video-presentation-group', 'portfolio-card', 'company-specific-fields', 'metrics-row', 'banner-card'];
-        showList.forEach(id => {
+        ['company-name-group', 'video-presentation-group', 'portfolio-card', 'company-specific-fields', 'metrics-row', 'banner-card'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = id === 'company-specific-fields' ? 'grid' : (id === 'metrics-row' ? 'flex' : 'block');
         });
 
-        console.log("CompaniesModule: UI Initialized (Institutional Style)");
+        console.log("CompaniesModule: UI Aligned (Brand Style)");
     },
 
     getPublicMeta: (p) => {
