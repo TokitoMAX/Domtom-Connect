@@ -248,7 +248,10 @@ function showView(viewId, forceRender = false) {
     const navLinks = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        if (href === `#${baseView}`) {
+        // Handle both full hash links and partial view IDs
+        const isActive = (href === `#${baseView}` || href === baseView || (href === 'javascript:void(0)' && link.onclick?.toString().includes(`'${baseView}'`)));
+        
+        if (isActive) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -340,8 +343,8 @@ async function loadDashboardContent(session) {
         loadMyProjects(user.id);
     }
 
-    // Load Matchmaking for companies and experts
-    if (role === 'entreprise' || role === 'expert' || role === 'prestataire') {
+    // Load Matchmaking if applicable
+    if (role === 'entreprise' || role === 'expert' || role === 'prestataire' || isProjectOwner) {
         if (typeof loadMatchmaking === 'function') {
             loadMatchmaking(user.id);
         }
@@ -817,29 +820,33 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 <div class="dash-section-ecosystem">
                     <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 32px; color:#0f172a; letter-spacing:-0.02em;">ÉCOSYSTÈME & RÉSEAU</h3>
                     <div class="ecosystem-grid">
+                        <!-- SERVICES SAAS - MESSAGERIE -->
                         <div class="dash-card-premium">
-                            <div style="width:40px; height:40px; background:rgba(2, 132, 199, 0.1); color:#0284c7; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
+                            <div style="width:40px; height:40px; background:rgba(124, 58, 237, 0.1); color:#7c3aed; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                             </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Messagerie</h4>
-                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Échangez avec vos futurs experts et mentors du réseau.</p>
-                            <a href="messages.html" class="cta-button secondary" style="width:100%; justify-content:center; text-decoration:none; margin-top:auto;">OUVRIR</a>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Messages</h4>
+                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Échangez avec les experts et partenaires du réseau.</p>
+                            <a href="/messages.html" class="cta-button secondary" style="width:100%; justify-content:center; margin-top:auto; font-size:0.8rem;">OUVRIR</a>
                         </div>
+
+                        <!-- SERVICES SAAS - BILLETTERIE -->
                         <div class="dash-card-premium">
-                            <div style="width:40px; height:40px; background:rgba(16, 185, 129, 0.1); color:#10b981; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
+                            <div style="width:40px; height:40px; background:rgba(34, 197, 94, 0.1); color:#22c55e; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
                             </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Événements</h4>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Mes Billets</h4>
                             <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Accédez à vos billets et découvrez les rendez-vous VIP.</p>
-                            <button onclick="showView('mes-billets')" class="cta-button secondary" style="width:100%; justify-content:center; margin-top:auto;">VOIR MES BILLETS</button>
+                            <button onclick="showView('mes-billets')" class="cta-button secondary" style="width:100%; justify-content:center; margin-top:auto; font-size:0.8rem;">MES BILLETS</button>
                         </div>
-                        <div class="dash-card-premium" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border:none; color:white;">
-                            <div style="width:40px; height:40px; background:rgba(255, 255, 255, 0.1); color:white; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
+
+                        <div class="dash-card-premium">
+                            <div style="width:40px; height:40px; background:rgba(245, 158, 11, 0.1); color:#f59e0b; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800; color:white;">Ressources</h4>
-                            <p style="font-size:0.9rem; color:#94a3b8; margin-bottom:24px; line-height:1.5;">Découvrez nos guides stratégiques et retours d'expériences.</p>
-                            <a href="/blog" target="_blank" class="cta-button primary" style="width:100%; justify-content:center; background:white; color:#0f172a; text-decoration:none; margin-top:auto;">LIRE LE BLOG</a>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Ressources</h4>
+                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Guides stratégiques et retours d'expériences territoriales.</p>
+                            <a href="/blog" target="_blank" class="cta-button primary" style="width:100%; justify-content:center; background:white; color:#0f172a; text-decoration:none; margin-top:auto; font-size:0.8rem;">LIRE LE BLOG</a>
                         </div>
                     </div>
                 </div>
@@ -856,11 +863,6 @@ function updateProfileStrength(profile) {
     const container = document.getElementById('profile-strength-container');
     if (!container) return;
 
-    if (!isExpert) {
-        container.classList.add('hidden-force'); 
-        container.style.display = 'none';
-        return;
-    }
     container.classList.remove('hidden-force');
     container.style.display = 'block';
 
@@ -901,13 +903,12 @@ function renderVisibilityPreview(profile) {
     const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
     const isListed = !!profile.listed;
 
-    if (!isExpert) {
-        container.classList.add('hidden-force');
-        container.style.display = 'none';
-        return;
-    }
     container.classList.remove('hidden-force');
     container.style.display = 'block';
+    
+    // Si c'est un PO, on affiche un message spécifique si listed n'est pas applicable
+    const statusText = isListed ? "Publié (Public)" : "Privé (Invisible)";
+    const statusClass = isListed ? "public" : "private";
 
     // 1. Badge Status
     if (isListed) {
@@ -1608,7 +1609,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
             const viewId = link.getAttribute('href').slice(1);
             if (viewId && viewId !== 'javascript:void(0)') {
-                showView(viewId, true); // forceRender = true
+                console.log("Routing to:", viewId);
+                showView(viewId, true);
             }
         }
     });
