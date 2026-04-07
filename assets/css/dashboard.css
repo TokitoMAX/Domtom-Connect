@@ -1497,8 +1497,14 @@ body {
 
 @media (max-width: 960px) {
     .success-engine-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 24px;
+    }
+    
+    /* Correction spécifique pour la grille interne de l'étape 5 avec style inline display:grid */
+    .success-engine-grid [style*="display:grid"] {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
     }
     
     .success-engine-card {

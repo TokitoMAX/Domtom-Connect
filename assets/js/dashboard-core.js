@@ -172,8 +172,24 @@ async function inspectSREProject(projectId) {
 }
 
 function showView(viewId) {
+    // Si on navigue vers une vue sans hash, on met à jour le hash pour la persistance
+    if (window.location.hash !== `#${viewId}` && !viewId.includes('?')) {
+        window.location.hash = viewId;
+        return; // Le hashchange déclenchera le rendu via initRouting
+    }
+
     console.log("Showing view:", viewId);
     
+    // Support du format 'viewId?id=XYZ'
+    let baseView = viewId;
+    let params = {};
+    if (viewId.includes('?')) {
+        const parts = viewId.split('?');
+        baseView = parts[0];
+        const searchParams = new URLSearchParams(parts[1]);
+        searchParams.forEach((v, k) => params[k] = v);
+    }
+
     const viewMap = {
         'overview': 'main-dashboard-content',
         'success-engine': 'success-engine-view-fixed',
@@ -181,7 +197,7 @@ function showView(viewId) {
         'mes-billets': 'mes-billets-view'
     };
 
-    const targetId = viewMap[viewId] || 'main-dashboard-content';
+    const targetId = viewMap[baseView] || 'main-dashboard-content';
     const target = document.getElementById(targetId);
     
     // Hide all major view containers
@@ -201,21 +217,30 @@ function showView(viewId) {
 
     if (target) {
         target.style.display = 'block';
-        // Show/Hide greeting based on view
-        if (greeting) {
-            greeting.style.display = (viewId === 'overview') ? 'block' : 'none';
-        }
+        
+        // Eléments à masquer/afficher
+        const greeting = document.querySelector('.dash-section-header');
+        const profileStrength = document.getElementById('profile-strength-container');
+        const visibilityPreview = document.getElementById('visibility-preview-container');
+        const topNav = document.querySelector('.top-nav');
+
+        const isOverview = baseView === 'overview';
+        
+        if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
+        if (profileStrength) profileStrength.style.display = isOverview ? 'block' : 'none';
+        if (visibilityPreview) visibilityPreview.style.display = isOverview ? 'block' : 'none';
+        if (topNav) topNav.style.display = isOverview ? 'flex' : 'none';
     }
 
     // Update Sidebar Active State
     const navLinks = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
     navLinks.forEach(link => {
         const onclick = link.getAttribute('onclick');
-        if (onclick && onclick.includes(`'${viewId}'`)) {
+        if (onclick && onclick.includes(`'${baseView}'`)) {
             link.classList.add('active');
         } else {
             const href = link.getAttribute('href');
-            if (viewId === 'overview' && (href === '/mon-espace' || href === 'mon-espace.html')) {
+            if (baseView === 'overview' && (href === '/mon-espace' || href === 'mon-espace.html')) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
@@ -224,10 +249,17 @@ function showView(viewId) {
     });
 
     // Handle initial loading of specific views
-    if (viewId === 'billetterie') {
+    if (baseView === 'billetterie') {
         if (typeof loadMyTicketing === 'function') loadMyTicketing();
-    } else if (viewId === 'mes-billets') {
+    } else if (baseView === 'mes-billets') {
         if (typeof loadMyTickets === 'function') loadMyTickets();
+    } else if (baseView === 'success-engine') {
+        // Restaurer le cockpit si un ID est présent
+        if (params.id && typeof openProjectCockpit === 'function') {
+            openProjectCockpit(params.id);
+        } else if (typeof loadMyProjects === 'function') {
+            loadMyProjects(_supabase.auth.getSession().then(({data}) => data.session?.user.id));
+        }
     }
 
     window.scrollTo(0, 0);
@@ -1519,6 +1551,7 @@ window.closeAttendeesModal = () => {
 };
 
 // Start initialization
-document.addEventListener('DOMContentLoaded', () => {
-    checkSession();
+document.addEventListener('DOMContentLoaded', async () => {
+    await checkSession();
+    initRouting();
 });

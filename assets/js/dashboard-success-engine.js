@@ -137,11 +137,17 @@ async function openProjectCockpit(projectId, initialStep = 1) {
         const { data: p, error } = await _supabase.from('projects').select('*').eq('id', projectId).single();
         if (error) throw error;
 
-        list.style.display = 'none';
-        cockpit.style.display = 'block';
+        // Mise à jour de l'URL pour la persistance au rafraîchissement
+        const newHash = `success-engine?id=${projectId}`;
+        if (window.location.hash !== `#${newHash}`) {
+            window.location.hash = newHash;
+        }
 
+        if (list) list.style.display = 'none';
+        if (cockpit) cockpit.style.display = 'block';
+        
         // Load matchmaking (Pépites)
-        loadMatchmaking(p.owner_id, projectId);
+        if (typeof loadMatchmaking === 'function') loadMatchmaking(p.owner_id);
 
         // Calcul de la maturité actuelle (depuis core)
         const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
@@ -187,6 +193,7 @@ function renderCockpitWithStep(p, step, score) {
             
             <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; border-bottom: 1px solid var(--gray-100); padding-bottom: 24px;">
                 <div>
+                    <div style="font-size:0.75rem; font-weight:700; color:#10b981; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">ÉPOPÉE : ${p.title || 'SANS TITRE'}</div>
                     <h2 style="font-size:2rem; font-weight:900; margin:0; letter-spacing: -0.02em;">${current.title}</h2>
                     <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size: 1.1rem; font-weight: 500;">${current.subtitle}</p>
                 </div>
@@ -326,16 +333,13 @@ function renderStepFields(step, p) {
                     <!-- Colonne Gauche : Objectif & Paliers -->
                     <div style="display:flex; flex-direction:column; gap:32px;">
                         <div class="success-engine-field">
-                            <label class="success-engine-label">Objectif de Financement (€)</label>
-                            <div class="sre-flex-group">
-                                <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}" style="flex:1;">
-                                <select id="budget" class="sre-input" style="width:180px;">
-                                    <option value="bootstrap" ${p.budget==='bootstrap'?'selected':''}>Fonds Propres</option>
-                                    <option value="seed" ${p.budget==='seed'?'selected':''}>Amorçage</option>
-                                    <option value="growth" ${p.budget==='growth'?'selected':''}>Croissance</option>
-                                    <option value="scale" ${p.budget==='scale'?'selected':''}>Scale Up</option>
-                                </select>
-                            </div>
+                            <label class="success-engine-label">Montant Global Recherché (€)</label>
+                            <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}" placeholder="Ex: 50000">
+                        </div>
+
+                        <div class="success-engine-field">
+                            <label class="success-engine-label">À quoi servira cette somme ?</label>
+                            <textarea id="budget" class="success-engine-textarea" style="height:100px;" placeholder="Expliquez brièvement l'usage des fonds (ex: Recrutement, R&D, Stock...)">${p.budget || ''}</textarea>
                         </div>
 
                         <div class="success-engine-field">
@@ -573,9 +577,8 @@ function renderMatchCard(expert) {
 }
 
 function closeProjectCockpit() {
-    document.getElementById('project-list-view').style.display = 'block';
-    document.getElementById('project-cockpit-view').style.display = 'none';
-    document.getElementById('matchmaking-section').style.display = 'none';
+    // Redirection vers la vue liste du success-engine pour nettoyer l'URL
+    window.location.hash = 'success-engine';
 }
 
 function openImpulsionModal(projectId) {
