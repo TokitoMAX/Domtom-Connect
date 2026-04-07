@@ -12,7 +12,7 @@ const CompaniesModule = {
         const isPremium = window.isPremiumUser(profile);
 
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dashboard-grid role-entreprise-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Welcome Card -->
                 <div class="dash-card premium-dark" style="grid-column: span 12; padding: 48px; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
@@ -24,7 +24,7 @@ const CompaniesModule = {
                 </div>
 
                 <!-- Main Content -->
-                <div style="grid-column: span 8; display: grid; gap: 24px;">
+                <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
                     
                     ${isPremium ? `
                         <!-- CAS : PREMIUM -> CALENDLY STRATÉGIE -->
@@ -77,7 +77,7 @@ const CompaniesModule = {
                 </div>
  
                 <!-- Sidebar -->
-                <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
+                <div class="dash-side-col" style="grid-column: span 1; display: flex; flex-direction: column; gap: 24px;">
                     <div class="dash-card" style="border-radius: 16px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Entreprise</h4>
                         <div style="display:flex; flex-direction:column; gap:16px;">

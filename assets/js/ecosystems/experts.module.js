@@ -14,7 +14,7 @@ const ExpertsModule = {
         const isAuthority = window.isPremiumUser(profile);
 
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dashboard-grid role-expert-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Welcome Card (Expert Style) -->
                 <div class="dash-card premium-dark" style="grid-column: span 12; padding: 48px; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
@@ -26,7 +26,7 @@ const ExpertsModule = {
                 </div>
 
                 <!-- Main Section -->
-                <div style="grid-column: span 8; display: grid; gap: 24px;">
+                <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
                     
                     ${isAuthority ? `
                         <!-- CAS : PAYÉ -> CALENDLY CURATION -->
@@ -78,7 +78,7 @@ const ExpertsModule = {
                 </div>
 
                 <!-- Sidebar -->
-                <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
+                <div class="dash-side-col" style="grid-column: span 1; display: flex; flex-direction: column; gap: 24px;">
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Profil</h4>
                         <div style="display:flex; flex-direction:column; gap:16px;">

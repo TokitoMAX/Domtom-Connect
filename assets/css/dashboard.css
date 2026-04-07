@@ -320,6 +320,29 @@ body {
     margin-bottom: 12px;
 }
 
+/* Ecosystem Dashboard Grids (Desktop Overrides) */
+@media (min-width: 1025px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(12, 1fr) !important;
+    }
+    .dash-main-col {
+        grid-column: span 8 !important;
+    }
+    .dash-side-col {
+        grid-column: span 4 !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .dash-main-col, .dash-side-col {
+        grid-column: span 1 !important;
+    }
+}
+
 /* Grilles et Cartes façon Linear */
 .cards-grid {
     display: grid;
