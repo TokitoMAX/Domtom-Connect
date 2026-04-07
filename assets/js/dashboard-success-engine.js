@@ -170,23 +170,26 @@ function renderCockpitWithStep(p, step, score) {
 
     let stepHTML = `
         <div class="cockpit-stepper-header" style="margin-bottom: 40px;">
+            <button onclick="closeProjectCockpit()" class="cta-button secondary" style="margin-bottom: 24px; padding: 10px 20px; font-size: 0.8rem; border-radius: 12px; background: rgba(255,255,255,0.05); color:#64748b;">
+                &larr; Retour au tableau de bord
+            </button>
+
             <div class="cockpit-stepper" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 32px;">
                 ${stepsInfo.map(s => `
-                    <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num}, ${score})" 
-                         class="cockpit-step ${s.num === step ? 'active' : ''} ${score >= ((s.num-1)*16) ? 'completed' : ''}" 
-                         style="padding:12px; border-radius:12px; border:1px solid ${s.num === step ? '#3b82f6' : '#e2e8f0'}; cursor:pointer; text-align:center;">
-                        <div style="font-size:0.6rem; font-weight:900; opacity:0.6;">ÉTAPE ${s.num}</div>
-                        <div style="font-size:0.75rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title.split('. ')[1]}</div>
+                    <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num})" 
+                         class="cockpit-step ${s.num === step ? 'active' : ''}" 
+                         style="padding:12px; border-radius:12px; border:1px solid ${s.num === step ? '#3b82f6' : '#e2e8f0'}; cursor:pointer; text-align:center; transition: all 0.2s;">
+                        <div style="font-size:0.55rem; font-weight:900; opacity:0.6; text-transform: uppercase; letter-spacing: 0.05em;">ÉTAPE ${s.num}</div>
+                        <div style="font-size:0.7rem; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title.split('. ')[1]}</div>
                     </div>
                 `).join('')}
             </div>
             
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; border-bottom: 1px solid var(--gray-100); padding-bottom: 24px;">
                 <div>
-                    <h2 style="font-size:1.75rem; font-weight:900; margin:0;">${current.title}</h2>
-                    <p style="color:var(--text-secondary); margin:4px 0 0 0;">${current.subtitle}</p>
+                    <h2 style="font-size:2rem; font-weight:900; margin:0; letter-spacing: -0.02em;">${current.title}</h2>
+                    <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size: 1.1rem; font-weight: 500;">${current.subtitle}</p>
                 </div>
-                <div style="font-size:1.25rem; font-weight:900; color:#10b981;">Score: ${score}%</div>
             </div>
         </div>
 
@@ -194,12 +197,12 @@ function renderCockpitWithStep(p, step, score) {
             ${renderStepFields(step, p)}
         </div>
 
-        <div style="margin-top:32px; display:flex; justify-content:space-between; gap:16px;">
-            <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1}, ${score})` : 'closeProjectCockpit()'}" 
-                    class="cta-button secondary" style="flex:1; justify-content:center;">${step > 1 ? '← Précédent' : 'Annuler'}</button>
+        <div style="margin-top:40px; display:flex; justify-content:space-between; gap:20px; padding-top: 32px; border-top: 1px solid var(--gray-100);">
+            <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
+                    class="cta-button secondary" style="flex:1; justify-content:center; border-radius: 16px; font-weight: 800;">${step > 1 ? '← Précédent' : 'Annuler'}</button>
             
             <button onclick="saveProjectStep('${p.id}', ${step})" 
-                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981;">
+                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; border-radius: 16px; font-weight: 900; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">
                     ${step === 6 ? 'SOUMETTRE À L\'ADMINISTRATION 🚀' : 'Enregistrer & Continuer →'}
             </button>
         </div>
@@ -213,6 +216,30 @@ function renderStepFields(step, p) {
     if (step === 1) {
         return `
             <div class="success-engine-grid">
+                <div class="success-engine-field" style="grid-column: 1 / -1; margin-bottom: 24px;">
+                    <label class="success-engine-label">Image de Couverture (Optionnel)</label>
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        <input type="file" id="cover-upload" style="display:none;" onchange="handleCoverUpload(this, '${p.id}')">
+                        <div id="cover-preview" style="width:100%; height:${p.cover_url ? '250px' : '150px'}; border-radius:24px; background:${p.cover_url ? `url('${p.cover_url}') center/cover` : '#f1f5f9'}; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                            ${!p.cover_url ? '<p style="color:#64748b; font-size:0.9rem; font-weight:600;">L\'image s\'affichera ici après l\'upload</p>' : ''}
+                        </div>
+                        <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:fit-content; font-size: 0.85rem;">
+                            ${p.cover_url ? 'MODIFIER L\'IMAGE 🖼️' : 'DÉFINIR L\'IMAGE DE COUVERTURE 🖼️'}
+                        </button>
+                        <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
+                    </div>
+                </div>
+
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Nom de l'Épopée</label>
+                    <input type="text" id="title" class="sre-input" value="${p.title || ''}" placeholder="Ex: Projet Domtom Impact">
+                </div>
+
+                <div class="success-engine-field">
+                    <label class="success-engine-label">L'Accroche (Short Description)</label>
+                    <input type="text" id="short_description" class="sre-input" value="${p.short_description || ''}" placeholder="Votre pitch en une phrase percutante.">
+                </div>
+
                 <div class="success-engine-field">
                     <label class="success-engine-label">Votre Vision (Le Futur)</label>
                     <textarea id="vision" class="success-engine-textarea" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
@@ -221,9 +248,9 @@ function renderStepFields(step, p) {
                     <label class="success-engine-label">L'Enjeu (Pourquoi ?)</label>
                     <textarea id="enjeu" class="success-engine-textarea" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
                 </div>
-                <div class="success-engine-field">
+                <div class="success-engine-field" style="grid-column: 1 / -1;">
                     <label class="success-engine-label">Votre Mission (Maintenant)</label>
-                    <textarea id="mission" class="success-engine-textarea" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
+                    <textarea id="mission" class="success-engine-textarea" style="height:120px;" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
                 </div>
             </div>
         `;
@@ -239,6 +266,20 @@ function renderStepFields(step, p) {
     } else if (step === 3) {
         return `
             <div class="success-engine-grid">
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Secteur d'activité</label>
+                    <select id="sector" class="sre-input">
+                        <option value="" disabled ${!p.sector ? 'selected' : ''}>Sélectionnez un secteur...</option>
+                        <option value="Agriculture & Alimentation" ${p.sector==='Agriculture & Alimentation'?'selected':''}>Agriculture & Alimentation</option>
+                        <option value="Tourisme & Patrimoine" ${p.sector==='Tourisme & Patrimoine'?'selected':''}>Tourisme & Patrimoine</option>
+                        <option value="Énergie & Environnement" ${p.sector==='Énergie & Environnement'?'selected':''}>Énergie & Environnement</option>
+                        <option value="Numérique & Tech" ${p.sector==='Numérique & Tech'?'selected':''}>Numérique & Tech</option>
+                        <option value="Social & Éducation" ${p.sector==='Social & Éducation'?'selected':''}>Social & Éducation</option>
+                        <option value="Commerce & Artisanat" ${p.sector==='Commerce & Artisanat'?'selected':''}>Commerce & Artisanat</option>
+                        <option value="Santé & Bien-être" ${p.sector==='Santé & Bien-être'?'selected':''}>Santé & Bien-être</option>
+                    </select>
+                </div>
+
                 <div class="success-engine-field" style="grid-column: 1 / -1;">
                     <label class="success-engine-label">Opportunité & Marché</label>
                     <textarea id="marche" class="success-engine-textarea" style="height:150px;" placeholder="À qui s'adresse votre projet ? Quel est le potentiel local ?">${p.marche || ''}</textarea>
@@ -248,6 +289,16 @@ function renderStepFields(step, p) {
     } else if (step === 4) {
         return `
             <div class="success-engine-grid">
+                <div class="success-engine-field" style="grid-column: 1 / -1; margin-bottom: 16px;">
+                    <label class="success-engine-label">Innovation Tier</label>
+                    <select id="innovation_tier" class="sre-input">
+                        <option value="Incremental" ${p.innovation_tier==='Incremental'?'selected':''}>Incrémentale (Amélioration simple)</option>
+                        <option value="Radical" ${p.innovation_tier==='Radical'?'selected':''}>Radicale (Changement profond)</option>
+                        <option value="Disruptive" ${p.innovation_tier==='Disruptive'?'selected':''}>Disruptive (Rupture du marché)</option>
+                        <option value="Social" ${p.innovation_tier==='Social'?'selected':''}>Sociale (Réponse à un besoin social)</option>
+                    </select>
+                </div>
+
                 <div class="success-engine-field">
                     <label class="success-engine-label">Impact Local</label>
                     <textarea id="impact_local" class="success-engine-textarea" placeholder="Qu'apportez-vous au territoire ?">${p.impact_local || ''}</textarea>
@@ -284,36 +335,25 @@ function renderStepFields(step, p) {
         return `
             <div class="success-engine-grid">
                 <div class="success-engine-field" style="grid-column: 1 / -1;">
-                    <label class="success-engine-label">Texte du Pitch Final</label>
-                    <textarea id="pitch_texte" class="success-engine-textarea" style="height:150px;" placeholder="Votre argumentaire de vente en 300 mots max.">${p.pitch_texte || ''}</textarea>
+                    <label class="success-engine-label">Texte du Pitch Final (Le Grand Récit)</label>
+                    <textarea id="pitch_texte" class="success-engine-textarea" style="height:200px;" placeholder="Votre argumentaire de vente en 300 mots max pour convaincre les institutionnels.">${p.pitch_texte || ''}</textarea>
                 </div>
                 
                 <div class="success-engine-field">
-                    <label class="success-engine-label">Numéro SIRET (Optionnel)</label>
+                    <label class="success-engine-label">Numéro SIRET (Pour validation pro)</label>
                     <input type="text" id="siret" class="sre-input" value="${p.siret || ''}" placeholder="Ex: 123 456 789 0001">
                 </div>
-                
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Document d'identité (PDF/Image)</label>
-                    <div style="display:flex; gap:12px; align-items:center;">
-                        <input type="file" id="id-doc" style="display:none;" onchange="handleIDUpload(this, '${p.id}')">
-                        <button onclick="document.getElementById('id-doc').click()" class="cta-button secondary" style="font-size:0.8rem; padding:8px 16px;">
-                            ${p.id_url ? 'DOCUMENT ENVOYÉ ✓' : 'TÉLÉCHARGER PIÈCE D\'IDENTITÉ'}
-                        </button>
-                        <input type="hidden" id="id-url" value="${p.id_url || ''}">
-                    </div>
-                </div>
 
-                <div style="background:#f0fdf4; border:1px solid #10b981; padding:20px; border-radius:12px; grid-column: 1 / -1;">
-                    <h4 style="margin:0 0 8px 0; color:#10b981; font-weight:900;">Dernière Validation</h4>
-                    <p style="font-size:0.85rem; color:#065f46; margin:0;">En soumettant votre projet, l'administrateur sera notifié pour valider et publier votre épopée dans le marketplace.</p>
+                <div style="background:#f0fdf4; border:1px solid #10b981; padding:32px; border-radius:24px; grid-column: 1 / -1; margin-top: 24px;">
+                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.25rem;">Dernière étape : Envol</h4>
+                    <p style="font-size:1rem; color:#065f46; margin:0; line-height: 1.6;">Votre dossier est maintenant complet. En cliquant sur le bouton ci-dessous, votre Épopée sera soumise à notre équipe pour une revue finale avant publication sur le marketplace.</p>
                 </div>
             </div>
         `;
     }
 }
 
-async function handleIDUpload(input, projectId) {
+async function handleCoverUpload(input, projectId) {
     const file = input.files[0];
     if (!file) return;
     
@@ -321,8 +361,13 @@ async function handleIDUpload(input, projectId) {
         const session = await getSession();
         if (!session) return;
         
+        const preview = document.getElementById('cover-preview');
+        if (preview) {
+            preview.innerHTML = '<p style="color:#64748b; font-size:0.9rem; font-weight:800;">Upload en cours... ⌛</p>';
+        }
+
         const fileExt = file.name.split('.').pop();
-        const fileName = `${session.user.id}/id_${projectId}_${Math.random()}.${fileExt}`;
+        const fileName = `${session.user.id}/cover_${projectId}_${Math.random()}.${fileExt}`;
         const filePath = `${fileName}`;
 
         const { data, error } = await _supabase.storage
@@ -335,26 +380,36 @@ async function handleIDUpload(input, projectId) {
             .from('avatars')
             .getPublicUrl(filePath);
 
-        document.getElementById('id-url').value = publicUrl;
-        const btn = input.nextElementSibling;
-        if (btn) btn.innerText = "DOCUMENT ENVOYÉ ✓";
-        alert("✅ Pièce d'identité téléchargée avec succès !");
+        document.getElementById('cover_url').value = publicUrl;
+        
+        if (preview) {
+            preview.style.background = `url('${publicUrl}') center/cover`;
+            preview.style.height = '250px';
+            preview.innerHTML = '';
+        }
+        
+        alert("✅ Image de couverture mise en ligne !");
     } catch (err) {
-        alert("Erreur lors du téléchargement: " + err.message);
+        alert("Erreur lors de l'upload: " + err.message);
     }
 }
 
 async function saveProjectStep(projectId, step) {
     const payload = {};
     if (step === 1) {
+        payload.title = document.getElementById('title').value;
+        payload.short_description = document.getElementById('short_description').value;
+        payload.cover_url = document.getElementById('cover_url').value;
         payload.vision = document.getElementById('vision').value;
         payload.mission = document.getElementById('mission').value;
         payload.enjeu = document.getElementById('enjeu').value;
     } else if (step === 2) {
         payload.equipe = document.getElementById('equipe').value;
     } else if (step === 3) {
+        payload.sector = document.getElementById('sector').value;
         payload.marche = document.getElementById('marche').value;
     } else if (step === 4) {
+        payload.innovation_tier = document.getElementById('innovation_tier').value;
         payload.impact_local = document.getElementById('impact_local').value;
         payload.innovation = document.getElementById('innovation').value;
         payload.emplois = document.getElementById('emplois').value;
@@ -364,7 +419,6 @@ async function saveProjectStep(projectId, step) {
     } else if (step === 6) {
         payload.pitch_texte = document.getElementById('pitch_texte').value;
         payload.siret = document.getElementById('siret').value;
-        payload.id_url = document.getElementById('id-url').value;
         payload.verification_status = 'pending';
         payload.status = 'active';
     }
@@ -379,8 +433,7 @@ async function saveProjectStep(projectId, step) {
         } else {
             // Re-load maturity and go to next step
             const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
-            const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
-            renderCockpitWithStep(p, step + 1, score);
+            renderCockpitWithStep(p, step + 1);
         }
     } catch (err) {
         alert("Erreur de sauvegarde: " + err.message);
