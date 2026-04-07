@@ -1,5 +1,4 @@
 // --- 1. COORDINATION & STEPPER ---
-window.showView = null; // Sera défini dans dashboard-core.js, mais on réserve le namespace
 
 function updateSuccessStepper(score, projectId) {
     const steps = [

@@ -273,24 +273,7 @@ function initRouting() {
 window.addEventListener('hashchange', handleRouting);
 
 // --- 2. LOGIQUE UI GLOBALE ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Toggle Menu Burger
-    const navToggle = document.querySelector('.nav-toggle');
-    const navContent = document.getElementById('primary-navigation');
-    
-    if (navToggle && navContent) {
-        navToggle.addEventListener('click', () => {
-            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-            navToggle.setAttribute('aria-expanded', !expanded);
-            navContent.classList.toggle('is-active');
-            
-            // Animation des spans du burger
-            navToggle.classList.toggle('active');
-        });
-    }
-
-    initRouting();
-});
+// Logic moved to final initialization at line 1600+
 
 async function checkSession() {
     try {
@@ -1598,20 +1581,39 @@ window.checkSession = checkSession;
 window.signOut = signOut;
 window.loadUserProfileData = loadUserProfileData;
 
-// Start initialization
+// --- FINAL INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', async () => {
+    // 1. GESTION MENU BURGER (MOBILE)
+    const navToggle = document.querySelector('.nav-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (navToggle && sidebar) {
+        navToggle.addEventListener('click', () => {
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !expanded);
+            sidebar.classList.toggle('is-mobile-active');
+            navToggle.classList.toggle('active');
+        });
+    }
+
+    // 2. INITIALISATION SESSION & DATA
     await checkSession();
+    
+    // 3. ROUTAGE INITIAL
     initRouting();
 
-    // Intercepteur de clics global pour la navigation
+    // 4. INTERCEPTEUR DE CLICS GLOBAL (Navigation Hash)
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
         if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
             const viewId = link.getAttribute('href').slice(1);
-            if (viewId) {
-                console.log("Global Nav Interceptor:", viewId);
+            if (viewId && viewId !== 'javascript:void(0)') {
                 showView(viewId, true); // forceRender = true
             }
         }
     });
+
+    // 5. EXPORT GLOBAL (Sécurité supplémentaire)
+    window.showView = showView;
+    window.handleRouting = handleRouting;
 });

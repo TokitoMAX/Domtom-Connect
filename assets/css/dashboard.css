@@ -59,8 +59,8 @@ body {
         box-shadow: 20px 0 60px rgba(0,0,0,0.1);
     }
     
-    .sidebar.is-active {
-        left: 0;
+    .sidebar.is-mobile-active {
+        left: 0 !important;
     }
 
     .main-content {
@@ -70,6 +70,8 @@ body {
     }
     .dashboard-layout {
         display: block !important;
+        position: relative;
+        z-index: 1;
     }
 }
 
