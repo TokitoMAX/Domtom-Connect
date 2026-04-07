@@ -8,11 +8,10 @@ const OwnersModule = {
     /**
      * Dashboard Rendering Logic
      */
-    renderDashboard: (profile) => {
-        const cockpit = document.getElementById('main-dashboard-content');
-        if (!cockpit) return;
+    renderDashboard: (container, additional, profile, session) => {
+        if (!container) return;
 
-        cockpit.innerHTML = `
+        container.innerHTML = `
             <div class="dashboard-grid">
                 <!-- Welcome Card -->
                 <div class="dash-card welcome-card" style="grid-column: span 12; background: linear-gradient(135.46deg, #000000 0%, #1a1a1a 100%); color: white; padding: 48px; border-radius: 32px; position: relative; overflow: hidden;">
