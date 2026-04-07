@@ -50,6 +50,7 @@ function updateSuccessStepper(score, projectId) {
 // --- 2. PROJECT LOADING & HUB ---
 
 async function loadMyProjects(userId, forceRenderList = false, inspectId = null) {
+    if (!userId && !inspectId) return; // Sécurisation contre les sessions non chargées
     try {
         let query = _supabase.from('projects').select('*');
         
@@ -91,12 +92,11 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
             const isListView = currentHash === '#success-engine' && !currentHash.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
-                if (headerContainer) headerContainer.innerHTML = ''; 
-                
-                // Si on inspecte un projet unique sans liste
-                if (inspectId && projects.length === 1) {
-                    openProjectCockpit(projects[0].id);
-                    return;
+                if (headerContainer) headerContainer.innerHTML = '';                if (!currentSREProject) {
+                    const session = _currentSession || (typeof getSession === 'function' ? await getSession() : null); 
+                    if (session && session.user && typeof loadMyProjects === 'function') {
+                        loadMyProjects(session.user.id);
+                    }
                 }
                 
                 let listHTML = `
@@ -1048,9 +1048,56 @@ async function deleteSREProject(id) {
         
         const session = await getSession();
         if (session) await loadMyProjects(session.user.id);
+        
         alert("✅ Épopée supprimée.");
     } catch (err) {
         alert("Erreur suppression: " + err.message);
+    }
+}
+
+async function handleIDUpload(input) {
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    const btn = document.getElementById('id-upload-btn');
+    const progContainer = document.getElementById('id-upload-progress');
+    
+    if (btn) btn.style.display = 'none';
+    if (progContainer) {
+        progContainer.style.display = 'block';
+        progContainer.innerHTML = `<div style="font-size:0.75rem; color:#64748b; font-weight:700;">📤 Upload en cours...</div>`;
+    }
+
+    try {
+        const session = await getSession();
+        if (!session) throw new Error("Session expirée");
+        
+        const path = `${session.user.id}/${Date.now()}_${file.name}`;
+        const { data, error: uploadError } = await _supabase.storage
+            .from('verifications-id')
+            .upload(path, file);
+
+        if (uploadError) throw uploadError;
+
+        // Mise à jour optionnelle du projet courant si on est dans un cockpit
+        const projectId = window.location.hash.includes('id=') ? window.location.hash.split('id=')[1] : null;
+        if (projectId) {
+            await _supabase.from('projects').update({ 
+                kyc_status: 'pending_verification',
+                kyc_document_path: path 
+            }).eq('id', projectId);
+        }
+
+        if (progContainer) {
+            progContainer.innerHTML = `<div style="color:#10b981; font-weight:800; font-size:0.75rem;">✅ Document transmis !</div>`;
+        }
+        
+        alert("Votre pièce d'identité a été transmise avec succès.");
+
+    } catch (err) {
+        console.error("Upload Error:", err);
+        alert("Erreur lors de l'envoi : " + err.message);
+        if (btn) btn.style.display = 'block';
+        if (progContainer) progContainer.style.display = 'none';
     }
 }
 
