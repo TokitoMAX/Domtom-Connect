@@ -106,7 +106,7 @@ async function loadMyProjects(userId) {
                                 <span style="color: #64748b;">Objectif: ${(p.funding_goal || 0).toLocaleString()} €</span>
                             </div>
 
-                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto; font-weight:900;">Piloter mon Épopée</button>
+                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="background:#0f172a; justify-content:center; margin-top:auto; font-weight:900;">Piloter mon projet</button>
                         </div>
                     `).join('') : '<p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p>'}
                 </div>
@@ -203,7 +203,7 @@ function renderCockpitWithStep(p, step, score) {
             
             <button onclick="saveProjectStep('${p.id}', ${step})" 
                     class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; border-radius: 16px; font-weight: 900; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">
-                    ${step === 6 ? 'SOUMETTRE À L\'ADMINISTRATION 🚀' : 'Enregistrer & Continuer →'}
+                    ${step === 6 ? 'SOUMETTRE À L\'ADMINISTRATION' : 'Enregistrer & Continuer'}
             </button>
         </div>
     `;
@@ -230,7 +230,7 @@ function renderStepFields(step, p) {
                             ${!p.cover_url ? '<p style="color:#64748b; font-size:0.9rem; font-weight:600;">L\'image s\'affichera ici après l\'upload</p>' : ''}
                         </div>
                         <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:fit-content; font-size: 0.85rem;">
-                            ${p.cover_url ? 'MODIFIER L\'IMAGE 🖼️' : 'DÉFINIR L\'IMAGE DE COUVERTURE 🖼️'}
+                            ${p.cover_url ? 'MODIFIER L\'IMAGE' : 'DÉFINIR L\'IMAGE DE COUVERTURE'}
                         </button>
                         <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
                     </div>
@@ -356,7 +356,7 @@ function renderStepFields(step, p) {
                             <label class="success-engine-label" style="margin:0;">Offres & Récompenses (Contreparties)</label>
                             <button onclick="openRewardModal('${p.id}')" class="cta-button primary" style="padding:6px 16px; font-size:0.75rem; background:#7c3aed; border:none;">+ CRÉER UNE RÉCOMPENSE</button>
                         </div>
-                        <div id="dash-rewards-list" class="crowdfunding-list-container" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div id="dash-rewards-list" class="crowdfunding-list-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px;">
                             <!-- Récompenses chargées en JS -->
                             <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des récompenses...</p>
                         </div>
@@ -373,9 +373,8 @@ function renderStepFields(step, p) {
                 </div>
 
                 <div style="background:#f0fdf4; border:1px solid #10b981; padding:40px; border-radius:32px; grid-column: 1 / -1; margin-top: 24px; text-align:center;">
-                    <div style="font-size:3rem; margin-bottom:16px;">🚀</div>
                     <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">C'est le moment de l'Envol</h4>
-                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">Votre Épopée est prête à être propulsée. En cliquant ci-dessous, un expert Domtom Connect validera votre contenu pour une mise en ligne immédiate sur le marketplace.</p>
+                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">Votre projet est prêt à être propulsé. En cliquant ci-dessous, un expert Domtom Connect validera votre contenu pour une mise en ligne immédiate sur le marketplace.</p>
                 </div>
             </div>
         `;
@@ -392,7 +391,7 @@ async function handleCoverUpload(input, projectId) {
         
         const preview = document.getElementById('cover-preview');
         if (preview) {
-            preview.innerHTML = '<p style="color:#64748b; font-size:0.9rem; font-weight:800;">Upload en cours... ⌛</p>';
+            preview.innerHTML = '<p style="color:#64748b; font-size:0.9rem; font-weight:800;">Upload en cours...</p>';
         }
 
         const fileExt = file.name.split('.').pop();
@@ -456,7 +455,7 @@ async function saveProjectStep(projectId, step) {
         if (error) throw error;
 
         if (step === 6) {
-            alert("✅ Votre Épopée a été soumise avec succès ! L'administrateur va l'examiner très prochainement.");
+            alert("Votre projet a été soumis avec succès ! L'administrateur va l'examiner très prochainement.");
             window.location.reload();
         } else {
             // Re-load maturity and go to next step
@@ -524,7 +523,7 @@ async function loadMatchmaking(userId, projectId) {
                 <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
                     <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez vos Pépites</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts (vos pépites) pour votre projet.</p>
+                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour votre projet.</p>
                     <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Découvrir le Pack Business</a>
                 </div>
             `;
@@ -567,7 +566,7 @@ function renderMatchCard(expert) {
                     <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
                 </div>
             </div>
-            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px; line-height:1.4;">Top match basé sur vos besoins en ${expert.sector || 'Expertise'}.</p>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px; line-height:1.4;">Match basé sur vos besoins en ${expert.sector || 'Expertise'}.</p>
             <a href="messages.html?to=${expert.id}" class="cta-button primary" style="background:#0f172a; padding:8px 16px; font-size:0.8rem; height:auto; width:100%; justify-content:center;">Contacter cet expert</a>
         </div>
     `;
@@ -580,7 +579,7 @@ function closeProjectCockpit() {
 }
 
 function openImpulsionModal(projectId) {
-    alert("🚀 Phase d'Impulsion : Cette fonctionnalité (Certificat de Maturité) arrive très prochainement dans votre cockpit !");
+    alert("Phase d'Impulsion : Cette fonctionnalité (Certificat de Maturité) arrive très prochainement dans votre cockpit !");
 }
 
 // --- 3. MANIFESTO & STRATEGY ---
@@ -679,6 +678,93 @@ function closeArsenalModal() {
 }
 
 // --- CROWDFUNDING LOADERS ---
+
+function openRewardModal(projectId) {
+    const modal = document.getElementById('reward-modal');
+    if (!modal) return;
+    document.getElementById('reward-proj-id').value = projectId;
+    modal.style.display = 'flex';
+}
+
+function openMilestoneModal(projectId) {
+    const modal = document.getElementById('milestone-modal');
+    if (!modal) return;
+    document.getElementById('milestone-proj-id').value = projectId;
+    modal.style.display = 'flex';
+}
+
+async function saveReward(projectId) {
+    const title = document.getElementById('reward-title').value;
+    const desc = document.getElementById('reward-desc').value;
+    const amount = parseFloat(document.getElementById('reward-amount').value);
+    const stock = document.getElementById('reward-stock').value;
+    const imageUrl = document.getElementById('reward-image-url').value;
+
+    if (!title || !amount) return alert("Veuillez remplir le titre et le montant.");
+
+    try {
+        const { error } = await _supabase.from('project_rewards').insert([{
+            project_id: projectId,
+            title,
+            description: desc,
+            amount_threshold: amount,
+            stock: stock ? parseInt(stock) : null,
+            image_url: imageUrl
+        }]);
+
+        if (error) throw error;
+        document.getElementById('reward-modal').style.display = 'none';
+        loadDashboardRewards(projectId);
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+async function saveMilestone(projectId) {
+    const title = document.getElementById('milestone-title').value;
+    const threshold = parseFloat(document.getElementById('milestone-threshold').value);
+    const desc = document.getElementById('milestone-desc').value;
+
+    if (!title || !threshold) return alert("Veuillez remplir le titre et l'objectif.");
+
+    try {
+        const { error } = await _supabase.from('project_milestones').insert([{
+            project_id: projectId,
+            title,
+            funding_goal: threshold,
+            description: desc
+        }]);
+
+        if (error) throw error;
+        document.getElementById('milestone-modal').style.display = 'none';
+        loadDashboardMilestones(projectId);
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+async function handleRewardImageUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const projectId = document.getElementById('reward-proj-id').value;
+    const preview = document.getElementById('reward-visual-preview');
+    
+    try {
+        const session = await getSession();
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${session.user.id}/reward_${projectId}_${Math.random()}.${fileExt}`;
+        
+        const { error } = await _supabase.storage.from('avatars').upload(fileName, file);
+        if (error) throw error;
+
+        const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(fileName);
+        document.getElementById('reward-image-url').value = publicUrl;
+        if (preview) preview.style.background = `url('${publicUrl}') center/cover`;
+    } catch (err) {
+        alert("Erreur upload: " + err.message);
+    }
+}
 
 async function loadDashboardRewards(projectId) {
     const list = document.getElementById('dash-rewards-list');
