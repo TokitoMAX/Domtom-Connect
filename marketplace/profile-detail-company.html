@@ -27,8 +27,8 @@
         :root { --primary: #10b981; --primary-dark: #059669; --secondary: #0369a1; --slate-900: #0f172a; --slate-800: #1e293b; }
         body { background-color: #f8fafc; color: var(--slate-900); font-family: 'Inter', sans-serif; margin: 0; }
         
-        /* Navbar Refined */
-        .navbar { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 0; position: sticky; top: 0; z-index: 1000; }
+        /* Navbar Standardized */
+        .navbar { z-index: 1100; }
         .nav-logo { height: 38px; }
         
         .profile-hero { 
@@ -104,16 +104,24 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="/" class="nav-brand"><img src="/assets/images/logo-domtomconnect.png" class="nav-logo"></a>
-            <div class="nav-links" style="display:flex; gap:20px; align-items:center;">
-                <a href="/marketplace/directory" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Talents</a>
-                <a href="/marketplace/jobs" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Missions</a>
-                <a href="/marketplace/projects" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Projets</a>
-                <a href="/marketplace/evenements" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Événements</a>
-                <a href="/marketplace/companies" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Entreprises</a>
-                <a href="/mon-espace" id="dashboard-link" style="text-decoration:none; color:var(--secondary); font-weight:800; border-left: 2px solid #e2e8f0; padding-left: 20px; margin-left:10px;">Mon Espace</a>
+    <nav class="navbar transparent">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <!-- Injecté par auth.js -->
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <!-- Injecté par auth.js -->
+                </div>
             </div>
         </div>
     </nav>
@@ -226,6 +234,9 @@
                 if (!sb) throw new Error("Supabase client not initialized.");
 
                 const { data: p, error } = await sb.from('profiles').select('*').eq('id', id).single();
+                
+                if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+                
                 clearTimeout(timeout);
 
                 if (error || !p) {
