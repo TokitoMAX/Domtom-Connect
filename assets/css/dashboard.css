@@ -1426,20 +1426,35 @@ body {
 
 @media (max-width: 768px) {
     .cockpit-stepper {
-        grid-template-columns: repeat(3, 1fr);
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 12px;
         gap: 8px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        grid-template-columns: none; /* Désactiver la grille */
     }
     
     .cockpit-step {
-        padding: 12px 8px;
+        flex: 0 0 100px;
+        scroll-snap-align: start;
+        padding: 12px 6px;
+        min-width: 80px;
     }
     
     .cockpit-step span:first-child {
-        font-size: 1rem !important;
+        font-size: 0.9rem !important;
+        display: block;
+        margin-bottom: 4px;
     }
     
     .cockpit-step span:last-child {
-        display: none;
+        display: block;
+        font-size: 0.65rem;
+        opacity: 0.7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -1487,9 +1502,30 @@ body {
     }
     
     .success-engine-card {
-        padding: 32px 20px;
+        padding: 24px 16px;
         border-radius: 24px;
     }
+
+    .sre-flex-group {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .crowdfunding-list-container p {
+        text-align: center;
+        padding: 20px 0;
+    }
+}
+
+.sre-flex-group {
+    display: flex;
+    gap: 12px;
 }
 
 .success-engine-field {

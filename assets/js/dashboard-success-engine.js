@@ -327,7 +327,7 @@ function renderStepFields(step, p) {
                     <div style="display:flex; flex-direction:column; gap:32px;">
                         <div class="success-engine-field">
                             <label class="success-engine-label">Objectif de Financement (€)</label>
-                            <div style="display:flex; gap:12px;">
+                            <div class="sre-flex-group">
                                 <input type="number" id="funding_goal" class="sre-input" value="${p.funding_goal || 0}" style="flex:1;">
                                 <select id="budget" class="sre-input" style="width:180px;">
                                     <option value="bootstrap" ${p.budget==='bootstrap'?'selected':''}>Fonds Propres</option>
