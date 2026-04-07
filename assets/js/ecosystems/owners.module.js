@@ -10,11 +10,11 @@ const OwnersModule = {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid role-owner-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dashboard-grid role-owner-grid" style="display: grid; gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Welcome Card (Projet Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 48px; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
-                    <div style="position: relative; z-index: 2;">
+                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
+                    <div style="position: relative; z-index: 2; padding: 40px;">
                         <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Porteur de Projet</span>
                         <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Épique'}</h1>
                         <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Transformez votre idée en réussite. Le réseau Domtom Connect est à vos côtés.</p>

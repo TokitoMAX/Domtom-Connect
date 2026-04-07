@@ -2191,3 +2191,61 @@ body {
         display: none;
     }
 }
+
+/* ==========================================================================
+   NUCLEAR MOBILE FIXES (RESCUE PLAN)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* 1. Force full width and kill harmful fixed grids */
+    .dashboard-grid, .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        padding: 0 !important;
+    }
+
+    /* 2. Kill excessive paddings that "crush" content */
+    .dash-card, .premium-dark, .premium-card {
+        padding: 24px !important; /* Réduction drastique de 48px -> 24px */
+        border-radius: 16px !important;
+    }
+
+    /* 3. Typography adjustments for small screens */
+    h1, .dash-section-header h1 {
+        font-size: 1.75rem !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    .dash-card h1, .premium-dark h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* 4. Ensure Main Content has air for the Bottom Nav */
+    .main-content {
+        padding: 16px !important;
+        padding-bottom: 140px !important;
+    }
+
+    /* 5. Matchmaking and lists optimization */
+    #matches-container, .portfolio-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 6. Sidebar Mobile State (Sidebar already hidden by default) */
+    .sidebar.is-mobile-active {
+        width: 280px !important;
+        display: block !important;
+    }
+}
+
+/* Fix specific to very small devices (iPhone SE) */
+@media (max-width: 380px) {
+    .dash-card {
+        padding: 16px !important;
+    }
+    .mobile-nav {
+        min-width: 280px !important;
+        padding: 10px 16px !important;
+    }
+}
