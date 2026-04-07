@@ -813,9 +813,9 @@ function renderDashboardCards(role, tier, isListed, profile) {
                         <p style="color:#475569; font-size:1rem; margin-bottom:32px; line-height:1.6; max-width:500px;">
                             Structurez votre projet étape par étape : Manifesto, Équipe, Marché, et Financement.
                         </p>
-                        <div style="display:flex; gap:12px;">
-                            <a href="#success-engine" class="cta-button primary" style="background:#7c3aed; border:none; padding:12px 24px; font-weight:800; text-decoration:none;">ACCÉDER AU COCKPIT</a>
-                            <button onclick="showView('success-engine')" class="cta-button secondary" style="font-weight:700;">MES PROJETS</button>
+                        <div class="cockpit-button-group">
+                            <a href="#success-engine" class="cta-button primary" style="background:#7c3aed; border:none; font-weight:800; text-decoration:none; justify-content:center;">ACCÉDER AU COCKPIT</a>
+                            <button onclick="showView('success-engine')" class="cta-button secondary" style="font-weight:700; justify-content:center;">MES PROJETS</button>
                         </div>
                     </div>
 

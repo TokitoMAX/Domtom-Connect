@@ -51,10 +51,6 @@ function updateSuccessStepper(score, projectId) {
 // --- 2. PROJECT LOADING & HUB ---
 
 async function loadMyProjects(userId) {
-    const headerContainer = document.getElementById('success-engine-header');
-    const engineStepContainer = document.getElementById('success-engine-step');
-    if (!headerContainer || !engineStepContainer) return;
-
     try {
         const { data: projects, error } = await _supabase
             .from('projects')
@@ -64,55 +60,8 @@ async function loadMyProjects(userId) {
 
         if (error) throw error;
 
-        // --- 1. HEADER (Simple & Direct) ---
-        headerContainer.innerHTML = ''; // Nettoyage
-
-        // --- 2. LISTE DES PROJETS ---
-        let listHTML = `
-            <div id="project-list-view">
-                <div class="dash-card-premium highlight" style="background: #0f172a; color: white;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouvelle Épopée</h2>
-                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.9rem;">Prêt à changer le monde ?</p>
-                        </div>
-                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a;">+ Démarrer</button>
-                    </div>
-                </div>
-
-                <h3 style="font-size: 1.25rem; font-weight: 900; margin: 32px 0 24px 0;">Mes Épopées</h3>
-                <div class="ecosystem-grid">
-                    ${projects && projects.length > 0 ? projects.map(p => `
-                        <div class="cockpit-card-premium" style="border-left: 4px solid #10b981; position:relative;">
-                            <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.4; font-size:1.2rem;" title="Supprimer">×</button>
-                            <div class="dash-badge emerald" style="margin-bottom:12px;">PROJET EN COURS</div>
-                            <div class="card-title" style="font-size: 1.4rem; font-weight:900;">${p.title || p.name || 'Sans titre'}</div>
-                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:700;">📍 ${p.territory || 'Territoire non défini'}</div>
-                            
-                            <div class="dash-progress-container" style="height:8px; margin-bottom:8px;">
-                                <div class="dash-progress-bar" style="width: ${Math.min((p.total_raised || 0) / (p.funding_goal || 1) * 100, 100)}%;"></div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 24px;">
-                                <span style="font-weight: 800; color: #1e293b;">${(p.total_raised || 0).toLocaleString()} € récoltés</span>
-                                <span style="color: #94a3b8;">But: ${(p.funding_goal || 0).toLocaleString()} €</span>
-                            </div>
-
-                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900;">Piloter mon projet</button>
-                        </div>
-                    `).join('') : '<div class="cockpit-card-premium" style="text-align:center; padding:60px;"><p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p></div>'}
-                </div>
-            </div>
-
-            <!-- CONTENEUR COCKPIT (MASQUÉ) -->
-            <div id="project-cockpit-view" style="display: none; padding: 0 10px;">
-                <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; font-weight:800; border-radius: 12px; font-size: 0.85rem; padding: 10px 16px;">&larr; Mes Projets</a>
-                <div id="cockpit-content-internal"></div>
-            </div>
-        `;
-
-        engineStepContainer.innerHTML = listHTML;
-
-        // --- 3. SYNCHRONISATION AVEC L'OVERVIEW (Maturité & Collecte) ---
+        // --- 1. SYNCHRONISATION AVEC L'OVERVIEW (Maturité & Collecte) ---
+        // Cette partie doit TOUJOURS s'exécuter si les éléments existent dans le DOM (même en dehors de la vue Épopée)
         if (projects && projects.length > 0) {
             const latest = projects[0];
             const maturityEl = document.getElementById('maturity-score-dash');
@@ -127,6 +76,56 @@ async function loadMyProjects(userId) {
                 const total = projects.reduce((acc, p) => acc + (parseFloat(p.total_raised) || 0), 0);
                 collectedEl.textContent = `${total.toLocaleString()} €`;
             }
+        }
+
+        // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" (Si les conteneurs existent) ---
+        const headerContainer = document.getElementById('success-engine-header');
+        const engineStepContainer = document.getElementById('success-engine-step');
+        
+        if (headerContainer && engineStepContainer) {
+            headerContainer.innerHTML = ''; // Nettoyage
+
+            let listHTML = `
+                <div id="project-list-view">
+                    <div class="dash-card-premium highlight" style="background: #0f172a; color: white;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouvelle Épopée</h2>
+                                <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.9rem;">Prêt à changer le monde ?</p>
+                            </div>
+                            <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a;">+ Démarrer</button>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 1.25rem; font-weight: 900; margin: 32px 0 24px 0;">Mes Épopées</h3>
+                    <div class="ecosystem-grid">
+                        ${projects && projects.length > 0 ? projects.map(p => `
+                            <div class="cockpit-card-premium" style="border-left: 4px solid #10b981; position:relative;">
+                                <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.4; font-size:1.2rem;" title="Supprimer">×</button>
+                                <div class="dash-badge emerald" style="margin-bottom:12px;">PROJET EN COURS</div>
+                                <div class="card-title" style="font-size: 1.4rem; font-weight:900;">${p.title || p.name || 'Sans titre'}</div>
+                                <div style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:700;">📍 ${p.territory || 'Territoire non défini'}</div>
+                                
+                                <div class="dash-progress-container" style="height:8px; margin-bottom:8px;">
+                                    <div class="dash-progress-bar" style="width: ${Math.min((p.total_raised || 0) / (p.funding_goal || 1) * 100, 100)}%;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 24px;">
+                                    <span style="font-weight: 800; color: #1e293b;">${(p.total_raised || 0).toLocaleString()} € récoltés</span>
+                                    <span style="color: #94a3b8;">But: ${(p.funding_goal || 0).toLocaleString()} €</span>
+                                </div>
+
+                                <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900;">Piloter mon projet</button>
+                            </div>
+                        `).join('') : '<div class="cockpit-card-premium" style="text-align:center; padding:60px;"><p style="color: #94a3b8; font-style: italic;">Aucune épopée en cours.</p></div>'}
+                    </div>
+                </div>
+
+                <div id="project-cockpit-view" style="display: none; padding: 0 10px;">
+                    <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; font-weight:800; border-radius: 12px; font-size: 0.85rem; padding: 10px 16px;">&larr; Mes Projets</a>
+                    <div id="cockpit-content-internal"></div>
+                </div>
+            `;
+            engineStepContainer.innerHTML = listHTML;
         }
 
     } catch (err) {
