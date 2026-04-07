@@ -192,11 +192,12 @@ function showView(viewId, forceRender = false) {
         
         // 3. Gestion des headers et navbar specifiques
         const isOverview = baseView === 'overview';
+        const isCommonView = ['overview', 'success-engine', 'profile', 'billetterie', 'mes-billets'].includes(baseView);
         const greeting = document.querySelector('.dash-section-header');
         const topNav = document.querySelector('.top-nav');
 
         if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
-        if (topNav) topNav.style.display = isOverview ? 'flex' : 'none';
+        if (topNav) topNav.style.display = isCommonView ? 'flex' : 'none';
 
         // 4. Chargements spécifiques
         if (baseView === 'profile') {

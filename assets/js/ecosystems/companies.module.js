@@ -6,188 +6,170 @@ const CompaniesModule = {
     role: 'entreprise',
 
     /**
-     * Dashboard Rendering Logic
+     * Dashboard Rendering Logic - Refonte Premium & Sourcing
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid">
-                <!-- Welcome Card -->
-                <div class="dash-card welcome-card" style="grid-column: span 12; background: linear-gradient(135.46deg, #064e3b 0%, #065f46 100%); color: white; padding: 48px; border-radius: 32px; position: relative; overflow: hidden;">
+            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+                
+                <!-- Welcome Card (Enterprise Style) -->
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 60px; border-radius: 40px; background: linear-gradient(135.46deg, #064e3b 0%, #065f46 100%); position: relative; overflow: hidden;">
                     <div style="position: relative; z-index: 2;">
-                        <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.04em;">Espace Entreprise</h1>
-                        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500;">Pilotez vos recrutements, gérez vos partenariats et boosts de visibilité territoriale.</p>
+                        <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; margin-bottom:20px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise / Institution</span>
+                        <h1 style="font-size: 3.5rem; font-weight: 950; margin-bottom: 16px; letter-spacing: -0.04em; line-height:1;">${profile.full_name || 'Entreprise'}</h1>
+                        <p style="font-size: 1.25rem; opacity: 0.8; max-width: 650px; font-weight: 500; line-height:1.6;">Pilotez vos recrutements et trouvez les meilleurs talents pour vos projets stratégiques.</p>
                     </div>
                 </div>
 
-                <!-- Recruitment Pilotage -->
-                <div class="dash-card" style="grid-column: span 8; padding: 32px; border-radius: 24px;">
-                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 24px;">Pilotage de Recrutement</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 16px; background: #f8fafc;">
-                            <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Missions Actives</div>
-                            <div style="font-size: 2rem; font-weight: 900; color: #0284c7;">0</div>
-                        </div>
-                        <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 16px; background: #f8fafc;">
-                            <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Matchmaking</div>
-                            <div style="font-size: 1.2rem; font-weight: 800;">Accès Premium Requis</div>
-                        </div>
-                    </div>
+                <!-- Main Content: Recruitment & Sourcing -->
+                <div style="grid-column: span 8; display: grid; gap: 24px;">
                     
-                    <div style="margin-top: 32px; text-align: center; border: 2px dashed #e2e8f0; padding: 40px; border-radius: 20px;">
-                        <p style="color: #64748b; font-weight: 600;">Vous n'avez pas encore publié de mission.</p>
-                        <button class="cta-button primary" style="margin: 20px auto 0; background: #000; border: none; border-radius: 12px;">Publier une annonce</button>
+                    <!-- Sourcing Card -->
+                    <div class="dash-card">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+                            <div>
+                                <h3 style="font-size: 1.5rem; font-weight: 900; margin:0; letter-spacing:-0.03em;">Sourcing Talents</h3>
+                                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Trouvez des experts et freelances qualifiés dans votre région.</p>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                            <a href="/marketplace/directory" class="dash-card highlight" style="text-decoration:none; text-align:center; padding:24px;">
+                                <div style="font-size:1.5rem; margin-bottom:8px;">🔍</div>
+                                <div style="font-weight:800; color:#065f46;">Annuaire Experts</div>
+                                <div style="font-size:0.75rem; color:#64748b;">Accès aux profils vérifiés</div>
+                            </a>
+                            <div class="dash-card highlight" style="text-align:center; padding:24px; opacity:0.8;">
+                                <div style="font-size:1.5rem; margin-bottom:8px;">🤖</div>
+                                <div style="font-weight:800; color:#065f46;">Matchmaking IA</div>
+                                <div style="font-size:0.75rem; color:#64748b;">Bientôt disponible</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Pilotage -->
+                    <div class="dash-card">
+                        <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 20px;">Mes Annonces & Missions</h3>
+                        <div id="company-jobs-view">
+                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 20px;">
+                                <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
+                                <button class="cta-button primary" style="background:#065f46; margin-top:16px; border-radius:10px;">+ Publier un poste</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Side Card: Enterprise Pack -->
-                <div class="dash-card" style="grid-column: span 4; padding: 32px; border-radius: 24px; background: #f0f9ff; border: 1px solid #bae6fd;">
-                    <div style="width: 48px; height: 48px; background: #0284c7; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-7v.01M9 14v.01M9 10v.01M12 10v.01"/></svg>
+                <!-- Sidebar: Stats & Business Pack -->
+                <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <!-- Business Pack -->
+                    <div class="dash-card" style="background: #ecfdf5; border-color: #a7f3d0;">
+                        <div style="width: 48px; height: 48px; background: #059669; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-7v.01M9 14v.01M9 10v.01M12 10v.01"/></svg>
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 850; margin-bottom: 8px;">Pack Business</h3>
+                        <p style="font-size: 0.85rem; color: #064e3b; margin-bottom: 20px; line-height: 1.5;">Gérez vos recrutements en illimité et boostez votre marque employeur.</p>
+                        <button class="cta-button primary" style="width: 100%; justify-content: center; background: #059669; border: none; border-radius:12px;">Activer</button>
                     </div>
-                    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px;">Pack Business</h3>
-                    <p style="font-size: 0.95rem; color: #0369a1; margin-bottom: 24px; line-height: 1.6;">L'arsenal complet pour les entreprises en croissance. Missions illimitées et sourcing direct.</p>
-                    <ul style="list-style: none; padding: 0; margin-bottom: 32px; display: grid; gap: 12px;">
-                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                            Sourcing Experts illimité
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                            Boost Visibilité Annuaire
-                        </li>
-                    </ul>
-                    <button class="cta-button primary" style="width: 100%; justify-content: center; background: #0284c7; border: none; border-radius: 12px;">Activer le Pack Business</button>
+
+                    <!-- Company Stats -->
+                    <div class="dash-card">
+                        <h4 style="font-size: 0.9rem; font-weight: 900; margin-bottom: 16px; text-transform:uppercase; color:#64748b;">Impact Recrutement</h4>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                            <span style="font-size:0.85rem; color:#64748b;">Postulants vus</span>
+                            <span style="font-size:1.1rem; font-weight:950;">0</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="font-size:0.85rem; color:#64748b;">Vues sur vos annonces</span>
+                            <span style="font-size:1.1rem; font-weight:950;">0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
     },
 
     /**
-     * UI Terminology & Field Management (Institutional Style)
+     * UI Terminology (Institutional Style) - Clarification Pédagogique
      */
     initUI: () => {
-        // Labels
-        const labelName = document.getElementById('label-name');
-        const labelTitle = document.getElementById('label-title');
-        const labelBio = document.getElementById('label-bio');
-        const labelLogo = document.getElementById('label-logo');
-        const labelWritten = document.getElementById('label-written-presentation');
+        const labels = {
+            'label-name': "Nom de l'Entreprise / Institution",
+            'label-title': "Secteur d'Activité principal",
+            'label-bio': "Présentation Institutionnelle (Vision & Offre)",
+            'label-logo': "Logo de l'entreprise"
+        };
 
-        if (labelName) labelName.textContent = "Nom de l'Entreprise / Institution";
-        if (labelTitle) labelTitle.textContent = "Secteur d'Activité principal";
-        if (labelBio) labelBio.textContent = "Présentation Institutionnelle (Vision & Offre)";
-        if (labelLogo) labelLogo.textContent = "Logo de l'entreprise";
+        Object.entries(labels).forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        });
 
-        // Placeholders
-        const inputTitle = document.getElementById('title');
-        const inputBio = document.getElementById('bio');
-        if (inputTitle) inputTitle.placeholder = "Ex : Conseil Juridique, Agence Marketing...";
-        if (inputBio) inputBio.placeholder = "Un récit unifié : Présentez votre mission, votre engagement et vos services phares en un seul texte structuré.";
+        // Hide/Show correct fields
+        const hideList = ['tjm-group', 'label-written-presentation'];
+        hideList.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
 
-        // UI Controls
-        const companyNameGroup = document.getElementById('company-name-group');
-        const writtenParent = labelWritten ? labelWritten.parentElement : null;
-        if (companyNameGroup) companyNameGroup.style.display = 'block';
-        if (writtenParent) writtenParent.style.display = 'none';
-
-        // Layout blocks
-        const tjmGroup = document.getElementById('tjm-group');
-        const videoGroup = document.getElementById('video-presentation-group');
-        const portfolioCard = document.getElementById('portfolio-card');
-        const companyFields = document.getElementById('company-specific-fields');
-
-        if (tjmGroup) tjmGroup.style.display = 'none';
-        if (videoGroup) videoGroup.style.display = 'block';
-        if (portfolioCard) portfolioCard.style.display = 'block';
-        if (companyFields) companyFields.style.display = 'grid';
-
-        // Metrics & Banners
-        const metricsRow = document.getElementById('metrics-row');
-        const bannerCard = document.getElementById('banner-card');
-        if (metricsRow) metricsRow.style.display = 'flex';
-        if (bannerCard) bannerCard.style.display = 'block';
+        const showList = ['company-name-group', 'video-presentation-group', 'portfolio-card', 'company-specific-fields', 'metrics-row', 'banner-card'];
+        showList.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = id === 'company-specific-fields' ? 'grid' : (id === 'metrics-row' ? 'flex' : 'block');
+        });
 
         console.log("CompaniesModule: UI Initialized (Institutional Style)");
     },
 
-    /**
-     * Public Profile Meta Generation
-     */
-    getPublicMeta: (profileData) => {
-        const nameStr = profileData.full_name || 'Entreprise';
-        const indicatorHtml = `<span class="verified-badge" style="background:#1e40af; color:white; font-size:0.9rem; padding:4px 10px; border-radius:30px; margin-left:10px; display:inline-flex; align-items:center; gap:6px;"><i class="fas fa-check-circle"></i> Entreprise</span>`;
-
+    getPublicMeta: (p) => {
+        const nameStr = p.full_name || 'Entreprise';
+        const badge = `<span class="verified-badge" style="background:#1e40af; color:white; font-size:0.75rem; padding:4px 10px; border-radius:30px; margin-left:10px; display:inline-flex; align-items:center; gap:6px;"><i class="fas fa-check-circle"></i> Entreprise</span>`;
         return {
-            nameHtml: `${nameStr} ${indicatorHtml}`,
-            title: profileData.title || 'Institution / Entreprise',
-            roleLabel: 'Profil Institutionnel',
+            nameHtml: `${nameStr} ${badge}`,
+            title: p.title || 'Institution / Entreprise',
+            roleLabel: 'Profil Entreprise',
             roleClass: 'company',
             type: 'company'
         };
     },
 
-    /**
-     * Public Profile Full HTML Rendering
-     */
     renderFullHTML: (p, companyProjects = []) => {
-        const meta = CompaniesModule.getPublicMeta(p);
         const combinedAbout = [p.bio, p.written_presentation].filter(t => t && t.trim()).join('<br><br>');
-        
         return `
             <div class="profile-card company-card-explicit">
-                <div class="section-title">
-                    <i class="fas fa-building"></i>
-                    Présentation Institutionnelle
-                </div>
-                <div class="bio-text" id="p-unified-about">
-                    ${(combinedAbout || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>')}
-                </div>
+                <div class="section-title"><i class="fas fa-building"></i> Présentation Institutionnelle</div>
+                <div class="bio-text">${(combinedAbout || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>')}</div>
             </div>
-            
-            <div id="company-sections">
-                <div class="profile-card">
-                    <div class="section-title"><i class="fas fa-project-diagram"></i> Projets & Missions Publiés</div>
-                    <div class="portfolio-grid" id="p-company-projects">
-                        ${CompaniesModule.renderProjectItems(companyProjects)}
-                    </div>
-                </div>
+            <div class="profile-card">
+                <div class="section-title"><i class="fas fa-project-diagram"></i> Projets & Missions Publiés</div>
+                <div class="portfolio-grid">${CompaniesModule.renderProjectItems(companyProjects)}</div>
             </div>
         `;
     },
 
     renderProjectItems: (projects) => {
         const items = Array.isArray(projects) ? projects : [];
-        if (items.length === 0) return '<p class="text-muted">Aucun projet publié pour le moment.</p>';
+        if (items.length === 0) return '<p class="text-muted">Aucun projet publié.</p>';
         return items.map(proj => `
             <div class="portfolio-card-premium">
                 <div style="display:flex; justify-content:space-between;">
-                    <div class="portfolio-icon-box" style="background:rgba(30,58,138,0.1);">${proj.title ? proj.title[0] : 'P'}</div>
-                    <a href="project.html?id=${proj.id}" class="social-sq" style="border-radius:50%;"><i class="fas fa-arrow-right"></i></a>
+                    <div class="portfolio-icon-box" style="background:rgba(30,58,138,0.1); color:#1e40af;">${proj.title ? proj.title[0] : 'P'}</div>
+                    <a href="project.html?id=${proj.id}" class="social-sq"><i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div style="margin-top:12px;">
                     <h4 style="margin:0; font-size:1.1rem; font-weight:800;">${proj.title}</h4>
-                    <p style="margin:8px 0 0; font-size:0.9rem; color:#64748b;">${proj.description?.slice(0, 100)}...</p>
+                    <p style="margin:8px 0 0; font-size:0.8rem; color:#64748b;">${proj.description?.slice(0, 80)}...</p>
                 </div>
             </div>
         `).join('');
     },
 
-    /**
-     * Profile Metrics Rendering
-     */
-    renderMetrics: (p) => {
-        let html = `
-            <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-calendar-alt"></i><div><span class="metric-label">Création</span><span class="metric-value">${p.creation_year || 'N/A'}</span></div></div>
-            <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-users"></i><div><span class="metric-label">Équipe</span><span class="metric-value">${p.team_size || 'N/A'}</span></div></div>
-        `;
-        
-        if (p.siret) {
-            html += `<div class="metric-item" style="grid-column: span 2; border-top: 1px solid #f1f5f9; padding-top:15px; margin-top:5px;"><i class="fas fa-balance-scale"></i><div><span class="metric-label">Professionnel</span><span class="metric-value" style="font-size:0.85rem;">${p.forme_juridique || 'Entrepreneur'} • ${p.siret}</span></div></div>`;
-        }
-        return html;
-    }
+    renderMetrics: (p) => `
+        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-calendar-alt"></i><div><span class="metric-label">Création</span><span class="metric-value">${p.creation_year || 'N/A'}</span></div></div>
+        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-users"></i><div><span class="metric-label">Équipe</span><span class="metric-value">${p.team_size || 'N/A'}</span></div></div>
+        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Siège</span><span class="metric-value">${p.zone || p.territory || 'OM'}</span></div></div>
+    `
 };
 
 window.CompaniesModule = CompaniesModule;
