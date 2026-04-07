@@ -199,7 +199,8 @@ function showView(viewId, forceRender = false) {
         'overview': 'main-dashboard-content',
         'success-engine': 'success-engine-view-fixed',
         'billetterie': 'billetterie-view',
-        'mes-billets': 'mes-billets-view'
+        'mes-billets': 'mes-billets-view',
+        'profile': 'profile-view'
     };
 
     const targetId = viewMap[baseView] || 'main-dashboard-content';
@@ -210,7 +211,8 @@ function showView(viewId, forceRender = false) {
         'main-dashboard-content', 
         'success-engine-view-fixed', 
         'billetterie-view', 
-        'mes-billets-view'
+        'mes-billets-view',
+        'profile-view'
     ];
     
     views.forEach(id => {
@@ -224,17 +226,15 @@ function showView(viewId, forceRender = false) {
         target.style.display = 'block';
         
         // Eléments à masquer/afficher
-        const greeting = document.querySelector('.dash-section-header');
-        const profileStrength = document.getElementById('profile-strength-container');
-        const visibilityPreview = document.getElementById('visibility-preview-container');
-        const topNav = document.querySelector('.top-nav');
-
         const isOverview = baseView === 'overview';
         
         if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
-        if (profileStrength) profileStrength.style.display = isOverview ? 'block' : 'none';
-        if (visibilityPreview) visibilityPreview.style.display = isOverview ? 'block' : 'none';
         if (topNav) topNav.style.display = isOverview ? 'flex' : 'none';
+
+        // Chargement spécifique si Profil
+        if (baseView === 'profile') {
+            loadUserProfileData();
+        }
     }
 
     // Update Sidebar Active State
@@ -814,33 +814,27 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 </div>
             </div>
 
-            <!-- ZONE ÉCOSYSTÈME PORTEUR -->
-            <div class="dash-section-ecosystem">
-                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">SERVICES & ÉCOSYSTÈME</h3>
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">TALENT</div>
-                        <div class="card-title">Annuaire Talents</div>
-                        <p class="card-desc">Trouvez les experts pour votre projet.</p>
-                        <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Chercher</a>
+            <!-- ZONE ÉCOSYSTÈME PORTEUR (RESTAURATION UTILITÉ) -->
+            <div class="dash-section-ecosystem" style="margin-top:40px;">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px; color:#0f172a;">SERVICES & ÉCOSYSTÈME</h3>
+                <div class="ecosystem-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
+                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">TALENTS</div>
+                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Annuaire Experts</h4>
+                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Trouvez les partenaires idéaux pour votre projet.</p>
+                        <a href="/marketplace/directory" class="cta-button secondary" style="width:100%; justify-content:center;">Chercher</a>
                     </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">MISSION</div>
-                        <div class="card-title">Missions / Jobs</div>
-                        <p class="card-desc">Recrutez des indépendants locaux.</p>
-                        <a href="/marketplace/jobs" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Publier</a>
+                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
+                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">MISSIONS</div>
+                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Appels d'offres</h4>
+                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Publiez vos besoins et recrutez localement.</p>
+                        <a href="/marketplace/jobs" class="cta-button secondary" style="width:100%; justify-content:center;">Publier</a>
                     </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">LIVE</div>
-                        <div class="card-title">Webinaires Live</div>
-                        <p class="card-desc">Formations et sessions en direct.</p>
-                        <a href="/webinaires" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Accéder</a>
-                    </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="font-weight: 800; font-size: 0.8rem;">BLOG</div>
-                        <div class="card-title">Blog & Guides</div>
-                        <p class="card-desc">Ressources d'accompagnement.</p>
-                        <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>
+                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
+                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">RESSOURCES</div>
+                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Guides & Blog</h4>
+                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Apprenez les meilleures stratégies de croissance.</p>
+                        <a href="/blog" class="cta-button secondary" style="width:100%; justify-content:center;">Lire</a>
                     </div>
                 </div>
             </div>
@@ -1557,11 +1551,29 @@ window.viewAttendees = async (eventId) => {
     }
 };
 
-// Exposition globale pour accès depuis l'HTML (onclick)
+async function loadUserProfileData() {
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (!user) return;
+        const { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+        if (profile) {
+            const nameEl = document.getElementById('profile-full-name');
+            const emailEl = document.getElementById('display-email');
+            const phoneEl = document.getElementById('display-phone');
+            const avatarEl = document.getElementById('profile-avatar-img');
+            if (nameEl) nameEl.textContent = profile.full_name || 'Utilisateur';
+            if (emailEl) emailEl.textContent = user.email;
+            if (phoneEl) phoneEl.textContent = profile.phone || 'Non renseigné';
+            if (avatarEl && profile.avatar_url) avatarEl.src = profile.avatar_url;
+        }
+    } catch (err) { console.error(err); }
+}
+
 window.showView = showView;
 window.initRouting = initRouting;
 window.checkSession = checkSession;
 window.signOut = signOut;
+window.loadUserProfileData = loadUserProfileData;
 
 // Start initialization
 document.addEventListener('DOMContentLoaded', async () => {
