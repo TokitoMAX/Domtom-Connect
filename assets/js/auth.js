@@ -219,43 +219,30 @@ window.getProjectStatus = getProjectStatus;
 let isNavbarProcessed = false;
 async function loadGlobalNavbar() {
     if (isNavbarProcessed) return; // Éviter l'exécution double
+    isNavbarProcessed = true;
     
     const session = await getSession();
     const navLinks = document.getElementById('nav-links-container');
     const navActions = document.getElementById('nav-actions-container');
     
-    if (navLinks) navLinks.innerHTML = '';
-    if (navActions) navActions.innerHTML = '';
-
-    const loginLink = document.getElementById('login-link');
-    const startButton = document.getElementById('start-button');
-    
-    isNavbarProcessed = true;
+    // Détection d'environnement robuste (Local vs Prod/Vercel)
+    const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.hostname.startsWith('192.168.') || 
+                    window.location.port !== '';
+    const ext = isLocal ? '.html' : '';
 
     if (session) {
         const meta = session.user.user_metadata || {};
         const role = meta.role || null;
         const name = meta.full_name || (session.user.email ? session.user.email.split('@')[0] : 'Membre');
 
-        // Masquer login/start si présents (fallback)
-        if (loginLink) loginLink.style.display = 'none';
-        if (startButton) startButton.style.display = 'none';
-
         // Mettre à jour le CTA SoloPrice si présent sur la page
         const solopriceCta = document.getElementById('soloprice-cta');
         if (solopriceCta) {
-            solopriceCta.href = '/mon-espace';
+            solopriceCta.href = '/mon-espace' + ext;
             solopriceCta.textContent = 'Accéder à mon espace';
         }
-
-        // Liens de directory (Strategic regrouping)
-        // Détection d'environnement robuste (Local vs Prod/Vercel)
-        const isLocal = window.location.hostname === 'localhost' || 
-                        window.location.hostname === '127.0.0.1' || 
-                        window.location.hostname.startsWith('192.168.') || 
-                        window.location.port !== '';
-        
-        const ext = isLocal ? '.html' : '';
 
         if (navLinks) {
             navLinks.innerHTML = `
@@ -267,29 +254,43 @@ async function loadGlobalNavbar() {
             `;
         }
 
-        // Actions utilisateur (Profil + Espace + Logout) - Improved for premium feel
+        // Actions utilisateur (Profil + Espace + Logout)
         if (navActions) {
             navActions.innerHTML = `
-                    <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                        <a href="/profile${ext}" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
-                            Bonjour, ${name}
-                        </a>
-                        <a href="/mon-espace${ext}" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
-                            Mon Espace
-                        </a>
-                        <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
-                            Déconnexion
-                        </button>
-                    </div>
-                `;
+                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
+                    <a href="/profile${ext}" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
+                        Bonjour, ${name}
+                    </a>
+                    <a href="/mon-espace${ext}" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
+                        Mon Espace
+                    </a>
+                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
+                        Déconnexion
+                    </button>
+                </div>
+            `;
         }
-
-        // Initialize Mobile Toggle globally (Moved outside session block)
-        initNavToggle();
     } else {
-        // Fallback for non-logged in users (ensure toggle works for guests)
-        initNavToggle();
+        // État GUEST (Non connecté) - S'assurer que le contenu par défaut est là
+        if (navLinks) {
+            navLinks.innerHTML = `
+                <a href="/marketplace/directory${ext}" class="nav-market-link">Talents</a>
+                <a href="/marketplace/jobs${ext}" class="nav-market-link">Missions</a>
+                <a href="/marketplace/projects${ext}" class="nav-market-link">Projets</a>
+                <a href="/marketplace/evenements${ext}" class="nav-market-link">Événements</a>
+                <a href="/marketplace/companies${ext}" class="nav-market-link">Entreprises</a>
+            `;
+        }
+        if (navActions) {
+            navActions.innerHTML = `
+                <a href="/login${ext}" class="cta-button secondary" id="login-link">Connexion</a>
+                <a href="/register-choice${ext}" class="cta-button primary" id="start-button">Démarrer</a>
+            `;
+        }
     }
+
+    // Initialize Mobile Toggle globally
+    initNavToggle();
 }
 
 function initNavToggle() {
