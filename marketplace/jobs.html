@@ -244,6 +244,10 @@
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         @media (max-width: 768px) { .modal { padding: 32px; } .form-row { grid-template-columns: 1fr; } }
+        
+        /* PREMIUM SWAL OVERRIDES */
+        .premium-swal-popup { border-radius: 32px !important; padding: 40px !important; box-shadow: 0 40px 100px rgba(0,0,0,0.1) !important; }
+        .premium-swal-confirm { border-radius: 14px !important; padding: 16px 32px !important; font-weight: 800 !important; font-size: 1rem !important; }
     </style>
 </head>
 <body>
@@ -593,11 +597,32 @@
                 
             if (error || !profile || profile.verification_status !== 'approved') {
                 Swal.fire({
-                    icon: 'lock',
-                    title: 'Accès limité',
-                    text: 'Votre entreprise doit être validée par Domtom Connect avant de pouvoir publier des missions.',
+                    icon: 'warning',
+                    iconColor: '#10b981',
+                    title: '<span style="font-weight:900; letter-spacing:-0.03em;">Validation Requise</span>',
+                    html: `
+                        <div style="text-align:center; padding: 10px 0;">
+                            <p style="color:#64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 24px;">Votre entreprise doit être validée par l'audit <b>Domtom Connect</b> avant de pouvoir publier des offres stratégiques.</p>
+                            <div style="background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.1); border-radius: 16px; padding: 16px; text-align: left; margin-bottom: 24px;">
+                                <small style="display:block; color:#10b981; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Action Requise :</small>
+                                <p style="margin:0; font-size: 0.9rem; font-weight: 600; color: #0f172a;">Chargez votre certificat K-BIS ou pièce d'identité sur votre profil pour déclencher l'audit SRE.</p>
+                            </div>
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Compléter mon profil',
+                    cancelButtonText: 'Plus tard',
                     confirmButtonColor: '#10b981',
-                    footer: '<a href="/mon-espace#profile">Compléter mon profil de validation</a>'
+                    cancelButtonColor: 'rgba(0,0,0,0.05)',
+                    background: '#ffffff',
+                    customClass: {
+                        popup: 'premium-swal-popup',
+                        confirmButton: 'premium-swal-confirm'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/mon-espace#profile';
+                    }
                 });
                 return;
             }
