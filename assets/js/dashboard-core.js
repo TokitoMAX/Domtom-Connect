@@ -1192,7 +1192,7 @@ window.createNewSREProject = async function() {
         const { data, error } = await _supabase
             .from('projects')
             .insert([{ 
-                user_id: user.id, 
+                owner_id: user.id, 
                 title: title,
                 verification_status: 'pending'
             }])

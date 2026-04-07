@@ -11,99 +11,90 @@ const ExpertsModule = {
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isAuthority = ['expert_pack_paid', 'pro', 'business', 'enterprise'].includes(profile.subscription_tier);
+        const isAuthority = profile.subscription_tier === 'expert_pack_paid' || profile.subscription_tier === 'pro' || profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise';
 
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Welcome Card (Expert Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 20px;">
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 48px; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
                     <div style="position: relative; z-index: 2;">
-                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:900; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Expert / Talent</span>
-                        <h1 style="font-size: 2.8rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
-                        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500; line-height:1.6;">Votre expertise est le moteur de l'accélération territoriale. Retrouvez ici vos opportunités de missions et gérez votre visibilité.</p>
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Expert / Talent</span>
+                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
+                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Gérez votre visibilité et accédez aux opportunités de missions sur le territoire.</p>
                     </div>
                 </div>
 
-                <!-- Main Section: Missions & Authority flow -->
+                <!-- Main Section -->
                 <div style="grid-column: span 8; display: grid; gap: 24px;">
                     
-                    <!-- CAS : PAYÉ -> CALENDLY CURATION -->
                     ${isAuthority ? `
-                        <div class="dash-card highlight" style="background:#f0fdf4; border-color:#bbf7d0;">
-                             <div class="dash-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                             <h4 style="margin:0; font-size:1.1rem; font-weight:900;">Curation & Optimisation de Profil</h4>
-                             <p style="font-size: 0.85rem; color: #166534; margin-top: 8px; line-height:1.5;">Votre Pack Authority est actif. Réservez votre séance de curation personnalisée avec notre équipe pour maximiser votre impact.</p>
-                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="margin-top:20px; background:#10b981; border:none; border-radius:10px; justify-content:center; text-decoration:none;">Réserver mon RDV Curation</a>
+                        <!-- CAS : PAYÉ -> CALENDLY CURATION -->
+                        <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px;">
+                             <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+                                <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Pack Authority Actif</h4>
+                             </div>
+                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin-bottom:24px;">Votre profil bénéficie d'une visibilité prioritaire. Réservez votre séance de curation personnalisée pour maximiser votre impact.</p>
+                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; justify-content:center; text-decoration:none; font-weight:800; padding:14px 28px;">Réserver mon RDV Curation</a>
                         </div>
                     ` : `
-                        <!-- CAS : GRATUIT -> TUNNEL PACK AUTHORITY (STYLE HOME) -->
-                        <div class="dash-card highlight">
-                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                                <div style="flex:1;">
-                                    <span style="background: #10b981; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.65rem; text-transform:uppercase;">Devenir Expert Premium</span>
-                                    <h3 style="font-size: 1.4rem; font-weight: 950; margin:12px 0 8px;">Pack Authority</h3>
-                                    <div style="font-size: 1.8rem; font-weight: 950; margin-bottom: 16px;">290€ <span style="font-size: 0.9rem; font-weight: 500; color: #6b7280;">/ an</span></div>
-                                    <ul style="list-style: none; padding: 0; margin-bottom: 24px; display:grid; gap:8px;">
-                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Badge "Vérifié" & Top Annuaire (x5 vues)</li>
-                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Curation de profil experte</li>
-                                        <li style="font-size: 0.85rem; color: #374151; display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Accès exclusif aux Missions Qualifiées</li>
+                        <!-- CAS : GRATUIT -> PACK AUTHORITY (STYLE PREMIUM) -->
+                        <div class="dash-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;">
+                                <div style="flex:1; min-width:300px;">
+                                    <span style="background: rgba(16, 185, 129, 0.1); color: #047857; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform:uppercase;">Pack de Visibilité</span>
+                                    <h3 style="font-size: 1.75rem; font-weight: 800; margin:16px 0 8px; color:#111827;">Pack Authority</h3>
+                                    <div style="font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; color:#111827;">9,99€ <span style="font-size: 1rem; font-weight: 500; color: #6b7280;">/ mois</span></div>
+                                    
+                                    <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display:grid; gap:12px;">
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Profil listé dans l'annuaire</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Badge "Vérifié" permanent</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Visibilité 3-4 posts / mois</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Participation aux podcasts DC</li>
                                     </ul>
                                 </div>
-                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:24px; text-align:center;">
-                                    <div id="paypal-button-container-authority"></div>
-                                    <p style="font-size:0.65rem; color:#64748b; margin-top:12px;">Paiement sécurisé via PayPal</p>
+                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:20px; padding:32px; text-align:center;">
+                                    <div id="paypal-button-container-authority" style="min-height:150px;"></div>
+                                    <p style="font-size:0.75rem; color:#64748b; margin-top:16px; font-weight:600;">Paiement sécurisé via PayPal</p>
                                 </div>
                             </div>
                         </div>
                     `}
 
-                    <!-- Missions Matching -->
-                    <div class="dash-card">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-                            <div>
-                                <h3 style="font-size: 1.3rem; font-weight: 950; margin:0; letter-spacing:-0.02em;">Missions Qualifiées</h3>
-                                <p style="color:#64748b; font-size:0.85rem; margin-top:4px;">Opportunités correspondant à vos compétences et tags.</p>
-                            </div>
-                        </div>
+                    <!-- Missions matching placeholder -->
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px;">
+                        <h3 style="font-size: 1.3rem; font-weight: 800; margin:0 0 20px 0; color:#0f172a;">Missions Qualifiées</h3>
                         <div id="expert-matches-view">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 16px;">
-                                <p style="color: #94a3b8; font-weight: 600;">Recherche de missions en cours...</p>
+                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
+                                <p style="color: #94a3b8; font-weight: 600; font-size: 0.95rem;">Recherche de missions correspondant à votre profil...</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Expert Self Management -->
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                        <div class="dash-card">
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">TJM Actuel</div>
-                            <div style="font-size: 1.8rem; font-weight: 950; color: #10b981;">${profile.tjm || 'Non défini'}€<span style="font-size:1rem; color:#94a3b8;">/j</span></div>
-                            <a href="#profile" style="margin-top:20px; font-size:0.8rem; color:#000; font-weight:800; text-decoration:none;">Modifier mon tarif →</a>
-                        </div>
-                        <div class="dash-card">
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Statut Visibilité</div>
-                            <div style="font-size: 1.1rem; font-weight: 900; display:flex; align-items:center; gap:8px;">
-                                ${profile.listed ? 'Public' : 'Privé'}
-                            </div>
-                            <p style="font-size:0.75rem; color:#64748b; margin-top:8px;">${profile.listed ? 'Visible par les entreprises.' : 'Non visible dans l\'annuaire.'}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar: Stats -->
+                <!-- Sidebar -->
                 <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
-                    
-                    <!-- Visibility Stats -->
-                    <div class="dash-card">
-                        <h4 style="font-size: 0.85rem; font-weight: 900; margin-bottom: 20px; text-transform:uppercase; letter-spacing:0.05em; color:#64748b;">Statistiques (30j)</h4>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <span style="font-size:0.85rem; color:#64748b; font-weight:600;">Vues profil</span>
-                            <span style="font-size:1rem; font-weight:950;">${Math.floor(Math.random() * 50) + 12}</span>
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Profil</h4>
+                        <div style="display:flex; flex-direction:column; gap:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Vues (30j)</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 50) + 12}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Apparitions</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 120) + 45}</span>
+                            </div>
                         </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:0.85rem; color:#64748b; font-weight:600;">Apparitions recherche</span>
-                            <span style="font-size:1rem; font-weight:950;">${Math.floor(Math.random() * 120) + 45}</span>
-                        </div>
+                    </div>
+
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+                        <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
+                        <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${profile.tjm || '—'}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>
+                        <a href="#profile" style="display:inline-block; margin-top:20px; font-size:0.85rem; color:#0f172a; font-weight:800; text-decoration:none;">Modifier mon profil →</a>
                     </div>
                 </div>
             </div>
@@ -113,23 +104,23 @@ const ExpertsModule = {
         if (!isAuthority) {
             setTimeout(() => {
                 if (typeof renderPayPalButton === 'function') {
-                    renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority', 'paypal-button-container-authority');
+                    renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'expert_pack_paid', 'paypal-button-container-authority');
                 }
-            }, 500);
+            }, 600);
         }
 
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
     },
 
     /**
-     * UI Terminology (Malt-Style) - Restauration Sobriété Charte
+     * UI Terminology - Restauration Sobriété Charte
      */
     initUI: () => {
         const labels = {
-            'label-name': "Nom complet",
-            'label-title': "Titre Professionnel (ex: Développeur, Consultant...)",
-            'label-bio': "Présentation de votre expertise",
-            'label-logo': "Photo de profil (Professionnelle)"
+            'label-name': "Prénom & Nom",
+            'label-title': "Titre Professionnel (ex: Consultant IT)",
+            'label-bio': "Manifeste de votre expertise",
+            'label-logo': "Photo de profil pro"
         };
 
         Object.entries(labels).forEach(([id, text]) => {

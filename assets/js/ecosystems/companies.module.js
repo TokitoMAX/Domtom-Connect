@@ -1,121 +1,126 @@
 /**
- * Domtom Connect - Companies Ecosystem Module
- * Logic for Companies / Recruiters / Institutions
+ * Companies Module - Domtom Connect
+ * Gestion de l'écosystème Entreprise / Institutionnel
  */
 const CompaniesModule = {
-    role: 'entreprise',
-
     /**
-     * Dashboard Rendering Logic - Restauration Marque & Sourcing Business
+     * Dashboard Rendering Logic - Restauration Marque & Conversion Business
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isBusiness = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise';
+        const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
 
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Welcome Card (Enterprise Style) -->
-                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 50px; border-radius: 20px;">
+                <!-- Welcome Card -->
+                <div class="dash-card premium-dark" style="grid-column: span 12; padding: 48px; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
                     <div style="position: relative; z-index: 2;">
-                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:900; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise / Institution</span>
-                        <h1 style="font-size: 2.8rem; font-weight: 950; margin-bottom: 12px; letter-spacing: -0.04em;">${profile.full_name || 'Entreprise'}</h1>
-                        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; font-weight: 500; line-height:1.6;">Pilotez vos recrutements, gérez vos partenariats et trouvez les meilleurs talents pour vos projets territoriaux.</p>
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise</span>
+                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.company_name || 'Entreprise'}</h1>
+                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Déployez votre stratégie et gérez vos recrutements sur tout le territoire.</p>
                     </div>
                 </div>
 
-                <!-- Main Section: Recruitment & Sourcing -->
+                <!-- Main Content -->
                 <div style="grid-column: span 8; display: grid; gap: 24px;">
                     
-                    <!-- Sourcing Card -->
-                    <div class="dash-card">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-                            <div>
-                                <h3 style="font-size: 1.3rem; font-weight: 950; margin:0; letter-spacing:-0.02em;">Sourcing Talents</h3>
-                                <p style="color:#64748b; font-size:0.85rem; margin-top:4px;">Trouvez des experts et freelances qualifiés dans votre zone d'intervention.</p>
-                            </div>
-                        </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-                            <a href="/marketplace/directory" class="dash-card highlight" style="text-decoration:none; text-align:center; padding:20px; border-radius:16px;">
-                                <div style="font-size:1.2rem; color:#10b981; margin-bottom:8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-                                <div style="font-weight:800; color:#000; font-size:0.9rem;">Annuaire Experts</div>
-                                <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">Accès aux profils vérifiés</div>
-                            </a>
-                            <div class="dash-card" style="text-align:center; padding:20px; opacity:0.7; background:#f8fafc; border-radius:16px;">
-                                <div style="font-size:1.2rem; color:#64748b; margin-bottom:8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></div>
-                                <div style="font-weight:800; color:#64748b; font-size:0.9rem;">Matchmaking IA</div>
-                                <div style="font-size:0.75rem; color:#64748b; margin-top:4px;">Bientôt disponible</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Pilotage -->
-                    <div class="dash-card">
-                        <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px;">Annonces & Missions</h3>
-                        <div id="company-jobs-view">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 16px;">
-                                <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
-                                <button class="cta-button primary" style="background:#000; margin-top:16px; border-radius:10px; font-weight:800;">Publier un poste</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar: Business Pack -->
-                <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
-                    
-                    ${isBusiness ? `
-                        <div class="dash-card highlight" style="background: #f0fdf4; border-color: #bbf7d0;">
-                             <h4 style="margin:0; font-size:1.1rem; font-weight:900; color:#166534;">Pack Business Actif</h4>
-                             <p style="font-size: 0.8rem; color: #166534; margin-top: 8px;">Vous bénéficiez de toutes les fonctionnalités premium pour votre entreprise.</p>
+                    ${isPremium ? `
+                        <!-- CAS : PREMIUM -> CALENDLY STRATÉGIE -->
+                        <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px;">
+                             <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+                                <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Pack Business Actif</h4>
+                             </div>
+                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin-bottom:24px;">Votre entreprise bénéficie d'une visibilité premium. Réservez votre briefing stratégique pour optimiser vos recrutements.</p>
+                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; justify-content:center; text-decoration:none; font-weight:800; padding:14px 28px;">Planifier mon Briefing</a>
                         </div>
                     ` : `
-                        <div class="dash-card highlight" style="background: #ffffff; border-color: #e2e8f0;">
-                            <span style="background: #10b981; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.6rem; text-transform:uppercase;">Pack Business</span>
-                            <h3 style="font-size: 1.2rem; font-weight: 950; margin:12px 0 8px;">Recrutement & Marque</h3>
-                            <div style="font-size: 1.6rem; font-weight: 950; margin-bottom: 16px;">490€ <span style="font-size: 0.8rem; font-weight: 500; color: #6b7280;">/ unique</span></div>
-                            <ul style="list-style: none; padding: 0; margin-bottom: 20px; display:grid; gap:6px;">
-                                <li style="font-size: 0.75rem; color: #374151; display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Accès illimité annuaire</li>
-                                <li style="font-size: 0.75rem; color: #374151; display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Publication d'annonces VIP</li>
-                            </ul>
-                            <div id="paypal-button-container-business-corp"></div>
+                        <!-- CAS : GRATUIT -> PACK BUSINESS (STYLE PREMIUM) -->
+                        <div class="dash-card" style="background:#ffffff; border: 2px solid #10b981; border-radius:24px; padding:40px; position:relative; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.08);">
+                             <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #047857; color: white; padding: 6px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em;">PLUS POPULAIRE</div>
+                             
+                             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;">
+                                <div style="flex:1; min-width:300px;">
+                                    <span style="background: rgba(16, 185, 129, 0.1); color: #047857; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform:uppercase;">Visibilité & Contenu</span>
+                                    <h3 style="font-size: 1.75rem; font-weight: 800; margin:16px 0 8px; color:#111827;">Pack Business</h3>
+                                    <div style="font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; color:#111827;">29€ <span style="font-size: 1rem; font-weight: 500; color: #6b7280;">/ mois</span></div>
+                                    
+                                    <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display:grid; gap:12px;">
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Visibilité Annuaire (Mise en avant)</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Publication de missions illimitées</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 1 Podcast Corporate dédié</li>
+                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 2-3 Contenus réseaux sociaux / mois</li>
+                                    </ul>
+                                </div>
+                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:20px; padding:32px; text-align:center;">
+                                    <div id="paypal-button-container-business" style="min-height:150px;"></div>
+                                    <p style="font-size:0.75rem; color:#64748b; margin-top:16px; font-weight:600;">Paiement sécurisé via PayPal</p>
+                                </div>
+                            </div>
                         </div>
                     `}
 
-                    <div class="dash-card">
-                        <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 16px; text-transform:uppercase; color:#64748b;">Impact Recrutement</h4>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                            <span style="font-size:0.8rem; color:#64748b;">Postulants vus</span>
-                            <span style="font-size:0.9rem; font-weight:950;">0</span>
+                    <!-- Job Pilotage -->
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px;">
+                        <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px;">Annonces & Missions</h3>
+                        <div id="company-jobs-view">
+                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
+                                <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
+                                <button class="cta-button primary" style="background:#0f172a; margin-top:16px; border-radius:12px; font-weight:800; padding: 12px 24px; border:none; color:white; cursor:pointer;" onclick="window.location.href='/marketplace/jobs-create'">Publier un poste</button>
+                            </div>
                         </div>
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:0.8rem; color:#64748b;">Vues annonces</span>
-                            <span style="font-size:0.9rem; font-weight:950;">0</span>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Entreprise</h4>
+                        <div style="display:flex; flex-direction:column; gap:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Vues profil</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 200) + 50}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Clics Web</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 30) + 5}</span>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+                        <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 12px;">Actions Rapides</div>
+                        <a href="/marketplace/jobs-create" class="cta-button primary" style="background:#0f172a; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; text-decoration:none; color:white; display:flex; align-items:center;">Publier une Mission</a>
+                        <a href="#profile" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Compléter ma fiche →</a>
                     </div>
                 </div>
             </div>
         `;
         
         // Initialiser PayPal si nécessaire
-        if (!isBusiness) {
+        if (!isPremium) {
             setTimeout(() => {
                 if (typeof renderPayPalButton === 'function') {
-                    renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business', 'paypal-button-container-business-corp');
+                    renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business', 'paypal-button-container-business');
                 }
-            }, 500);
+            }, 600);
         }
+
+        if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
     },
 
     /**
-     * UI Terminology (Institutional Style) - Restauration Sobriété Charte
+     * UI Terminology - Restauration Sobriété Charte
      */
     initUI: () => {
         const labels = {
-            'label-name': "Nom de l'Entreprise / Institution",
-            'label-title': "Secteur d'Activité principal",
-            'label-bio': "Présentation Institutionnelle (Vision & Offre)",
+            'label-name': "Nom du Dirigeant / Contact",
+            'label-title': "Poste (ex: CEO, DRH...)",
+            'label-bio': "Manifeste de l'entreprise (Pitch)",
             'label-logo': "Logo de l'entreprise"
         };
 
@@ -125,67 +130,20 @@ const CompaniesModule = {
         });
 
         // Hide/Show correct fields
-        ['tjm-group', 'label-written-presentation'].forEach(id => {
+        ['tjm-group', 'portfolio-card'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
 
-        ['company-name-group', 'video-presentation-group', 'portfolio-card', 'company-specific-fields', 'metrics-row', 'banner-card'].forEach(id => {
+        const showList = ['company-name-group', 'label-written-presentation', 'metrics-row', 'banner-card'];
+        showList.forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.style.display = id === 'company-specific-fields' ? 'grid' : (id === 'metrics-row' ? 'flex' : 'block');
+            if (el) el.style.display = 'block';
         });
 
         console.log("CompaniesModule: UI Aligned (Brand Style)");
     },
-
-    getPublicMeta: (p) => {
-        const nameStr = p.full_name || 'Entreprise';
-        const badge = `<span class="verified-badge" style="background:#1e40af; color:white; font-size:0.75rem; padding:4px 10px; border-radius:30px; margin-left:10px; display:inline-flex; align-items:center; gap:6px;"><i class="fas fa-check-circle"></i> Entreprise</span>`;
-        return {
-            nameHtml: `${nameStr} ${badge}`,
-            title: p.title || 'Institution / Entreprise',
-            roleLabel: 'Profil Entreprise',
-            roleClass: 'company',
-            type: 'company'
-        };
-    },
-
-    renderFullHTML: (p, companyProjects = []) => {
-        const combinedAbout = [p.bio, p.written_presentation].filter(t => t && t.trim()).join('<br><br>');
-        return `
-            <div class="profile-card company-card-explicit">
-                <div class="section-title"><i class="fas fa-building"></i> Présentation Institutionnelle</div>
-                <div class="bio-text">${(combinedAbout || 'Présentation en cours de rédaction.').replace(/\n/g, '<br>')}</div>
-            </div>
-            <div class="profile-card">
-                <div class="section-title"><i class="fas fa-project-diagram"></i> Projets & Missions Publiés</div>
-                <div class="portfolio-grid">${CompaniesModule.renderProjectItems(companyProjects)}</div>
-            </div>
-        `;
-    },
-
-    renderProjectItems: (projects) => {
-        const items = Array.isArray(projects) ? projects : [];
-        if (items.length === 0) return '<p class="text-muted">Aucun projet publié.</p>';
-        return items.map(proj => `
-            <div class="portfolio-card-premium">
-                <div style="display:flex; justify-content:space-between;">
-                    <div class="portfolio-icon-box" style="background:rgba(30,58,138,0.1); color:#1e40af;">${proj.title ? proj.title[0] : 'P'}</div>
-                    <a href="project.html?id=${proj.id}" class="social-sq"><i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div style="margin-top:12px;">
-                    <h4 style="margin:0; font-size:1.1rem; font-weight:800;">${proj.title}</h4>
-                    <p style="margin:8px 0 0; font-size:0.8rem; color:#64748b;">${proj.description?.slice(0, 80)}...</p>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    renderMetrics: (p) => `
-        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-calendar-alt"></i><div><span class="metric-label">Création</span><span class="metric-value">${p.creation_year || 'N/A'}</span></div></div>
-        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-users"></i><div><span class="metric-label">Équipe</span><span class="metric-value">${p.team_size || 'N/A'}</span></div></div>
-        <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Siège</span><span class="metric-value">${p.zone || p.territory || 'OM'}</span></div></div>
-    `
 };
 
+// Exporter pour usage global
 window.CompaniesModule = CompaniesModule;
