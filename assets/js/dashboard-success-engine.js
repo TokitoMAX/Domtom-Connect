@@ -244,8 +244,15 @@ function renderStepFields(step, p) {
                 </div>
 
                 <div class="success-engine-field">
-                    <label class="success-engine-label">Nom de l'Épopée</label>
-                    <input type="text" id="title" class="sre-input" value="${p.title || ''}" placeholder="Ex: Projet Domtom Impact">
+                    <label class="success-engine-label">Territoire d'Épopée</label>
+                    <select id="territory" class="sre-input">
+                        <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
+                        <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
+                        <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
+                        <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
+                        <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
+                        <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire</option>
+                    </select>
                 </div>
 
                 <div class="success-engine-field">
@@ -430,6 +437,7 @@ async function saveProjectStep(projectId, step) {
     const payload = {};
     if (step === 1) {
         payload.title = document.getElementById('title').value;
+        payload.territory = document.getElementById('territory').value;
         payload.short_description = document.getElementById('short_description').value;
         payload.cover_url = document.getElementById('cover_url').value;
         payload.vision = document.getElementById('vision').value;
@@ -492,7 +500,7 @@ async function startNewProjectWizard() {
             innovation: "",
             pitch_texte: "",
             funding_goal: 0,
-            territory: 'Martinique',
+            territory: 'À définir',
             status: 'draft',
             verification_status: 'none'
         }]).select().single();
