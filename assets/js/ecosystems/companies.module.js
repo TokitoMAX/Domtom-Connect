@@ -9,7 +9,7 @@ const CompaniesModule = {
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
+        const isPremium = window.isPremiumUser(profile);
 
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -65,36 +65,37 @@ const CompaniesModule = {
                     `}
 
                     <!-- Job Pilotage -->
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px;">
-                        <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px;">Annonces & Missions</h3>
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
+                        <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px; color: #0f172a;">Annonces & Missions</h3>
                         <div id="company-jobs-view">
                             <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
                                 <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
-                                <button class="cta-button primary" style="background:#0f172a; margin-top:16px; border-radius:12px; font-weight:800; padding: 12px 24px; border:none; color:white; cursor:pointer;" onclick="window.location.href='/marketplace/jobs-create'">Publier un poste</button>
+                                <button class="cta-button primary" style="background:#10b981; margin-top:16px; border-radius:12px; font-weight:800; padding: 12px 24px; border:none; color:white; cursor:pointer;" onclick="window.location.href='/marketplace/jobs'">Publier un poste</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+ 
                 <!-- Sidebar -->
                 <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
-                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Entreprise</h4>
                         <div style="display:flex; flex-direction:column; gap:16px;">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Vues profil</span>
-                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 200) + 50}</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">—</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Clics Web</span>
-                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 30) + 5}</span>
+                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">—</span>
                             </div>
+                            <p style="font-size:0.7rem; color:#94a3b8; margin:0; font-style:italic;">Suivi en cours d'activation</p>
                         </div>
                     </div>
-
-                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
+ 
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 12px;">Actions Rapides</div>
-                        <a href="/marketplace/jobs-create" class="cta-button primary" style="background:#0f172a; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; text-decoration:none; color:white; display:flex; align-items:center;">Publier une Mission</a>
+                        <a href="/marketplace/jobs" class="cta-button primary" style="background:#0f172a; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; text-decoration:none; color:white; display:flex; align-items:center;">Publier une Mission</a>
                         <a href="#profile" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Compléter ma fiche →</a>
                     </div>
                 </div>

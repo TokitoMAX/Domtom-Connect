@@ -10,6 +10,17 @@
  */
 let isAdminInspection = false;
 let currentSREProject = null;
+window.isEditing = false;
+let originalProfileData = null;
+
+window.isPremiumUser = function(p) {
+    if (!p) return false;
+    // Admins sont toujours premium
+    if (p.role === 'admin') return true;
+    // Tiers payants
+    const premiumTiers = ['expert_pack_paid', 'pro', 'business', 'enterprise', 'authority'];
+    return premiumTiers.includes(p.subscription_tier);
+};
 
 window.showView = showView;
 
@@ -304,6 +315,10 @@ async function loadDashboardContent(session) {
     }
 
     // Render Cards via Ecosystem Modules (DELEGATION)
+    window.userProfile = profile;
+    window.originalProfileData = { ...profile };
+    fillProfileForm(profile);
+
     renderDashboardCards(role, tier, isListed, profile, session);
 
     // Profile Strength & Visibility
@@ -1104,7 +1119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 2. INITIALISATION SESSION & DATA
     await checkSession();
     
     // 3. ROUTAGE INITIAL
@@ -1204,5 +1218,149 @@ window.createNewSREProject = async function() {
         showView('success-engine', true);
     } catch (err) {
         alert("Erreur création : " + err.message);
+    }
+};
+
+/**
+ * --- PROFILE MANAGEMENT FUNCTIONS ---
+ */
+window.toggleEditMode = function() {
+    window.isEditing = !window.isEditing;
+    const form = document.getElementById('profile-form');
+    if (!form) return;
+
+    const fields = form.querySelectorAll('input, textarea, select');
+    fields.forEach(f => f.disabled = !window.isEditing);
+    
+    const actions = document.getElementById('form-actions');
+    if (actions) actions.style.display = window.isEditing ? 'flex' : 'none';
+    
+    const btn = document.getElementById('edit-toggle-btn');
+    if (btn) {
+        btn.innerHTML = window.isEditing ? '<i class="fas fa-times"></i> Annuler l\'édition' : '<i class="fas fa-edit"></i> Modifier mon profil';
+        if (window.isEditing) btn.classList.add('outline'); else btn.classList.remove('outline');
+    }
+};
+
+window.cancelEdit = function() {
+    if (window.originalProfileData) fillProfileForm(window.originalProfileData);
+    toggleEditMode();
+};
+
+window.saveProfile = async function(e) {
+    if (e) e.preventDefault();
+    const btn = document.getElementById('btn-save-profile');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "ENREGISTREMENT...";
+    }
+
+    try {
+        const updates = {
+            full_name: document.getElementById('full_name').value,
+            title: document.getElementById('title').value,
+            territory: document.getElementById('territory').value,
+            website_url: document.getElementById('website_url').value,
+            bio: document.getElementById('bio').value,
+            linkedin_url: document.getElementById('linkedin_url').value,
+            facebook_url: document.getElementById('facebook_url').value,
+            avatar_url: document.getElementById('avatar_url').value,
+            updated_at: new Date().toISOString()
+        };
+
+        const { error } = await _supabase
+            .from('profiles')
+            .update(updates)
+            .eq('id', window.userProfile.id);
+
+        if (error) throw error;
+
+        window.userProfile = { ...window.userProfile, ...updates };
+        window.originalProfileData = { ...window.userProfile };
+        
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({ icon: 'success', title: 'Profil mis à jour !', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+        } else {
+            alert("Profil mis à jour !");
+        }
+
+        fillProfileForm(window.userProfile);
+        toggleEditMode();
+
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "ENREGISTRER LES MODIFICATIONS";
+        }
+    }
+};
+
+function fillProfileForm(p) {
+    if (!p) return;
+    
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+    set('full_name', p.full_name);
+    set('title', p.title);
+    set('territory', p.territory);
+    set('website_url', p.website_url);
+    set('bio', p.bio);
+    set('linkedin_url', p.linkedin_url);
+    set('facebook_url', p.facebook_url);
+    set('avatar_url', p.avatar_url);
+
+    // Displays
+    const nameDisp = document.getElementById('profile-full-name-display');
+    if (nameDisp) nameDisp.textContent = p.full_name || 'Sans nom';
+    
+    const roleDisp = document.getElementById('profile-role-tag-display');
+    if (roleDisp) {
+        const roles = { 'expert': 'EXPERT / FREELANCE', 'entreprise': 'ENTREPRISE / BUSINESS', 'user': 'PORTEUR D\'ÉPOPÉE', 'admin': 'ADMINISTRATEUR' };
+        roleDisp.textContent = roles[p.role] || 'MEMBRE';
+    }
+
+    const img = document.getElementById('profile-avatar-img');
+    if (img) img.src = p.avatar_url || 'assets/images/default-avatar.png';
+}
+
+window.handleFileSelect = async function(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const preview = document.getElementById('profile-avatar-img');
+    if (preview) preview.src = URL.createObjectURL(file);
+
+    try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${window.userProfile.id}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `avatars/${fileName}`;
+
+        const { error: uploadError } = await _supabase.storage
+            .from('profiles-media')
+            .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = _supabase.storage
+            .from('profiles-media')
+            .getPublicUrl(filePath);
+
+        document.getElementById('avatar_url').value = publicUrl;
+        
+    } catch (err) {
+        alert("Erreur upload: " + err.message);
+    }
+};
+
+window.handleDeleteAccount = async function() {
+    if (!confirm("ATTENTION : La suppression de votre compte est irréversible. Voulez-vous continuer ?")) return;
+    
+    try {
+        const { error } = await _supabase.rpc('delete_user_own_account');
+        if (error) throw error;
+        signOut();
+    } catch (err) {
+        alert("Impossible de supprimer le compte automatiquement. Contactez le support.");
     }
 };

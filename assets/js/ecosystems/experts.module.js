@@ -11,7 +11,7 @@ const ExpertsModule = {
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
-        const isAuthority = profile.subscription_tier === 'expert_pack_paid' || profile.subscription_tier === 'pro' || profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise';
+        const isAuthority = window.isPremiumUser(profile);
 
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -80,14 +80,15 @@ const ExpertsModule = {
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Performance Profil</h4>
                         <div style="display:flex; flex-direction:column; gap:16px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Vues (30j)</span>
-                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 50) + 12}</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Apparitions</span>
-                                <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">${Math.floor(Math.random() * 120) + 45}</span>
-                            </div>
+                             <div style="display:flex; justify-content:space-between; align-items:center;">
+                                 <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Vues (30j)</span>
+                                 <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">—</span>
+                             </div>
+                             <div style="display:flex; justify-content:space-between; align-items:center;">
+                                 <span style="font-size:0.9rem; color:#64748b; font-weight:600;">Apparitions</span>
+                                 <span style="font-size:1.1rem; font-weight:800; color:#0f172a;">—</span>
+                             </div>
+                             <p style="font-size:0.7rem; color:#94a3b8; margin:0; font-style:italic;">Suivi en cours d'activation</p>
                         </div>
                     </div>
 
