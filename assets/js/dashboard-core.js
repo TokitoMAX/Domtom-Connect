@@ -773,72 +773,47 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (RESTAURATION DESIGN RICHE) ---
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (STRUCTURAL OVERHAUL) ---
+        // --- RESTAURATION DU TABLEAU DE BORD D'ORIGINE ---
         container.innerHTML = `
-            <div class="dash-section-pilotage">
-                <div class="dash-pilotage-header" style="margin-bottom: 40px;">
+            <div class="header-section">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
                     <div>
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Pilotage Stratégique</div>
-                        <h2 style="font-size:2.25rem; font-weight:900; margin:0; color:#0f172a; letter-spacing:-0.03em;">VOTRE COCKPIT</h2>
-                        <p style="color:#64748b; font-size:1.05rem; font-weight:500; margin-top: 4px;">Propulsez votre Épopée vers le succès territorial.</p>
+                        <div class="role-badge">Porteur de Projet</div>
+                        <h1 style="margin-top:12px; margin-bottom:0;">MON ESPACE</h1>
+                        <p class="text-muted" style="margin-top:5px;">Retrouvez vos projets et gérez votre écosystème.</p>
                     </div>
                 </div>
-                
-                <div class="ecosystem-grid" style="margin-bottom:48px;">
-                    <!-- Carte Success Engine -->
-                    <div class="dash-card-premium" style="grid-column: span 2; border-left: 4px solid #7c3aed; background: white; padding: 32px;">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
-                            <div style="width:56px; height:56px; background:rgba(124, 58, 237, 0.1); color:#7c3aed; display:flex; align-items:center; justify-content:center; border-radius:16px; font-weight:900; font-size:1rem;">01</div>
-                            <div style="text-align:right;">
-                                <div style="font-size:0.75rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Progression Épopée</div>
-                                <div style="font-size:1.5rem; font-weight:900; color:#0f172a;" id="maturity-score-dash">-- %</div>
-                            </div>
-                        </div>
-                        <h3 style="margin:0 0 12px 0; font-size:1.5rem; font-weight:800; color:#0f172a;">Success Engine</h3>
-                        <p style="color:#475569; font-size:1rem; margin-bottom:32px; line-height:1.6; max-width:500px;">
-                            Structurez votre projet étape par étape : Manifesto, Équipe, Marché, et Financement.
-                        </p>
-                        <div class="cockpit-button-group">
-                            <a href="#success-engine" class="cta-button primary" style="background:#7c3aed; border:none; font-weight:800; text-decoration:none; justify-content:center;">ACCÉDER AU COCKPIT</a>
-                            <button onclick="showView('success-engine')" class="cta-button secondary" style="font-weight:700; justify-content:center;">MES PROJETS</button>
-                        </div>
-                    </div>
+            </div>
 
-                    <!-- Carte Financements Flash -->
-                    <div class="dash-card-premium" style="background: #0f172a; color:white; border:none; padding:32px; display:flex; flex-direction:column;">
-                        <div style="font-size:0.7rem; font-weight:800; color:#3b82f6; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:20px;">Financement Participatif</div>
-                        <div style="margin-bottom:auto;">
-                            <div style="font-size:2.5rem; font-weight:900; color:white; letter-spacing:-0.04em;" id="collected-amount-dash">0 €</div>
-                            <p style="font-size:0.9rem; color:#94a3b8; margin-top:4px;">récoltés sur vos Épopées actives.</p>
-                        </div>
-                        <button onclick="showView('success-engine')" class="cta-button secondary" style="background:rgba(255,255,255,0.1); border:none; color:white; width:100%; justify-content:center; margin-top:24px;">GÉRER MES RÉCOMPENSES</button>
+            <div class="ecosystem-grid">
+                <!-- Messagerie -->
+                <div class="dash-card">
+                    <div class="card-title">
+                        <span>Messagerie</span>
+                        <i class="fas fa-comments text-primary"></i>
                     </div>
+                    <p class="card-desc">Échangez avec vos partenaires et experts.</p>
+                    <a href="/messages" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
                 </div>
 
-                <!-- ZONE SERVICES & RÉSEAU (ÉCOSYSTÈME) -->
-                <div class="dash-section-ecosystem" style="margin-top: 48px;">
-                    <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 24px; color:#0f172a;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
-                    <div class="ecosystem-grid" id="ecosystem-grid">
-                        <div class="dash-card-premium">
-                            <div class="dash-card-icon" style="background:rgba(124, 58, 237, 0.1); color:#7c3aed;">MSG</div>
-                            <div class="card-title">Messagerie</div>
-                            <p class="card-desc">Discutez avec vos mentors, experts et partenaires.</p>
-                            <a href="/messages" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
-                        </div>
-                        <div class="dash-card-premium">
-                            <div class="dash-card-icon" style="background:rgba(34, 197, 94, 0.1); color:#22c55e;">BIL</div>
-                            <div class="card-title">Annuaires</div>
-                            <p class="card-desc">Explorez les opportunités de l'écosystème.</p>
-                            <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Explorer</a>
-                        </div>
-                        <div class="dash-card-premium">
-                            <div class="dash-card-icon" style="background:rgba(245, 158, 11, 0.1); color:#f59e0b;">RES</div>
-                            <div class="card-title">Ressources</div>
-                            <p class="card-desc">Guides et outils pour structurer votre Épopée.</p>
-                            <a href="/blog" target="_blank" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Découvrir</a>
-                        </div>
+                <!-- Cockpit Épopée -->
+                <div class="dash-card highlight">
+                    <div class="card-title">
+                        <span>Success Engine</span>
+                        <i class="fas fa-rocket" style="color:var(--emerald-color);"></i>
                     </div>
+                    <p class="card-desc">Gérez vos Épopées et suivez votre progression.</p>
+                    <a href="/epopee" class="cta-button primary" style="margin-top:auto; justify-content:center;">Accéder au Cockpit</a>
+                </div>
+
+                <!-- Annuaires -->
+                <div class="dash-card">
+                    <div class="card-title">
+                        <span>L'Écosystème</span>
+                        <i class="fas fa-search text-muted"></i>
+                    </div>
+                    <p class="card-desc">Explorez les talents et opportunités du réseau.</p>
+                    <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Explorer</a>
                 </div>
             </div>
         `;
