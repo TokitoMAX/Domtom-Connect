@@ -782,7 +782,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (DESIGN CLAIR & PREMIUM) ---
+        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (DESIGN ÉPURÉ) ---
         container.innerHTML = `
             <div class="dash-section-pilotage">
                 <div class="dash-pilotage-header">
@@ -790,7 +790,6 @@ function renderDashboardCards(role, tier, isListed, profile) {
                         <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:4px; color:#0f172a;">PILOTAGE DE MON ÉPOPÉE</h2>
                         <p style="color:#64748b; font-size:0.85rem; font-weight:500;">Cockpit stratégique de votre aventure.</p>
                     </div>
-                    <div id="epopee-score-badge" class="epopee-score-modern">0%</div>
                 </div>
                 
                 <div class="cockpit-card-premium" style="margin-bottom:20px;">
