@@ -295,7 +295,7 @@ async function loadDashboardContent(session) {
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
     // Mettre à jour le greeting avec le nom complet sans point final si possible (pour coller au screen)
-    if (greetingEl) greetingEl.textContent = `Bonjour, ${name}.`; // On garde le point car il est dans epopee.html
+    if (greetingEl) greetingEl.textContent = `Bonjour, ${name}`; 
 
     const roleBadge = document.getElementById('user-role-badge');
     if (roleBadge) {

@@ -12,7 +12,7 @@
     })(window,document,'script','dataLayer','GTM-TBM8LXJV');</script>
     <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Espace – Domtom Connect</title>
+    <title>Cockpit Épopée – Domtom Connect</title>
     <link rel="stylesheet" href="assets/css/style.css?v=3.6">
     <!-- PayPal SDK -->
     <script
@@ -1799,10 +1799,14 @@
                 if (!profile) return;
 
                 const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
+                
+                // On débloque la vue pour le porteur du projet lui-même
+                const isProjectOwner = currentSREProject && currentSREProject.owner_id === userId;
+                const canSeeMatches = isPremium || isProjectOwner;
 
                 if (section) section.style.display = 'block';
 
-                if (!isPremium) {
+                if (!canSeeMatches) {
                     container.innerHTML = `
                         <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
                             <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
@@ -1993,9 +1997,11 @@
                 </div>
             `).join('');
 
-            // Select first project by default if none selected
+            // Select the most relevant project by default
             if (!currentSREProject && projects.length > 0) {
-                await selectProject(projects[0].id);
+                // Si le premier est "Fr" (test), on cherche le suivant s'il existe
+                const projectToShow = (projects[0].title === 'Fr' && projects.length > 1) ? projects[1] : projects[0];
+                await selectProject(projectToShow.id);
             }
         }
 
@@ -2061,7 +2067,7 @@
                 ${adminHeader}
                 <div class="sre-header">
                     <div style="flex:1;">
-                        <input type="text" class="sre-project-title" value="${p.title || ''}" 
+                        <input type="text" class="sre-project-title" value="${(p.title === 'Fr' ? 'Ma Nouvelle Épopée' : p.title) || ''}" 
                                onblur="saveProjectField('title', this.value)" placeholder="Nom de votre projet...">
                     </div>
                     <div style="display:flex; align-items:center; gap:16px;">
@@ -3013,7 +3019,6 @@
 
             console.log("Dashboard Debug - Role:", role, "Tier:", tier, "isListed:", isListed);
 
-            document.getElementById('user-greeting').textContent = `Bonjour, ${name}.`;
 
             if (!profile || !role) {
                 // Si pas de profil en base OU pas de rôle, on force l'onboarding
@@ -4398,7 +4403,10 @@
             }
         }
 
+        // Initialize and mark sidebar active
         checkSession();
+        const navEpopee = document.getElementById('nav-success-engine');
+        if (navEpopee) navEpopee.classList.add('active');
     </script>
 
     <!-- Reward Modal -->
