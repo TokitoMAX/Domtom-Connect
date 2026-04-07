@@ -171,13 +171,14 @@ async function inspectSREProject(projectId) {
     }
 }
 
-function showView(viewId) {
-    // Si on navigue vers une vue sans hash, on met à jour le hash pour la persistance
-    if (window.location.hash !== `#${viewId}` && !viewId.includes('?')) {
+function showView(viewId, forceRender = false) {
+    // Si on navigue vers une vue différente, on laisse le hashchange piloter (via initRouting)
+    if (window.location.hash !== `#${viewId}` && !viewId.includes('?') && !forceRender) {
         window.location.hash = viewId;
-        return; // Le hashchange déclenchera le rendu via initRouting
+        return;
     }
 
+    // Si on force le rendu ou si le hash est déjà le bon, on exécute la logique visuelle
     console.log("Showing view:", viewId);
     
     // Support du format 'viewId?id=XYZ'

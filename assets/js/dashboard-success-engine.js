@@ -259,12 +259,15 @@ function renderStepFields(step, p) {
                 <div class="success-engine-field">
                     <label class="success-engine-label">Territoire d'Épopée</label>
                     <select id="territory" class="sre-input">
-                        <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
-                        <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
-                        <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
-                        <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
-                        <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
-                        <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire</option>
+                        <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
+                        <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
+                        <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane 🇬🇫</option>
+                        <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
+                        <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
+                        <option value="Diaspora (Antilles-Guyane)" ${p.territory === 'Diaspora (Antilles-Guyane)' ? 'selected' : ''}>Diaspora (Antilles-Guyane) 🇫🇷</option>
+                        <option value="USA" ${p.territory === 'USA' ? 'selected' : ''}>USA 🇺🇸</option>
+                        <option value="Canada" ${p.territory === 'Canada' ? 'selected' : ''}>Canada 🇨🇦</option>
+                        <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire 🌍</option>
                     </select>
                 </div>
 
@@ -598,8 +601,13 @@ function renderMatchCard(expert) {
 }
 
 function closeProjectCockpit() {
-    // Redirection vers la vue liste du success-engine pour nettoyer l'URL
-    window.location.hash = 'success-engine';
+    // On force le rendu de la vue liste pour vider le cockpit en cas de blocage d'URL
+    if (typeof showView === 'function') {
+        showView('success-engine', true);
+        window.location.hash = 'success-engine';
+    } else {
+        window.location.hash = 'success-engine';
+    }
 }
 
 function openImpulsionModal(projectId) {
