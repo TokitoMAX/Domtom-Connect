@@ -11,6 +11,8 @@
 let isAdminInspection = false;
 let currentSREProject = null;
 
+window.showView = showView;
+
 function calculateProjectMaturity(p) {
     if (!p) return 0;
     let score = 0;
@@ -797,7 +799,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
                         <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0f172a;">Success Engine</h3>
                     </div>
                     <p style="color:#475569; font-size:0.9rem; margin-bottom:20px; line-height:1.5;">Gérez vos phases de maturité (Stratégie, Arsenal, Boussole...) pour booster votre impact.</p>
-                    <button onclick="showView('success-engine')" class="pilotage-cta-premium">ENTRER DANS LE COCKPIT</button>
+                    <a href="#success-engine" class="pilotage-cta-premium" style="display:block; text-align:center; text-decoration:none;">ENTRER DANS LE COCKPIT</a>
                 </div>
 
                 <div class="cockpit-card-premium">
@@ -809,7 +811,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
                         <span style="font-size:1.5rem; font-weight:900; color:#3b82f6;">0,00 €</span>
                         <span style="font-size:0.8rem; color:#64748b; font-weight:700;">collectés</span>
                     </div>
-                    <button onclick="showView('success-engine')" class="cta-button secondary" style="width:100%; border-radius:16px; padding:12px; font-weight:800; border:1px solid #e2e8f0; font-size:0.8rem;">Détails contributions</button>
+                    <a href="#success-engine" class="cta-button secondary" style="width:100%; border-radius:16px; padding:12px; font-weight:800; border:1px solid #e2e8f0; font-size:0.8rem; display:flex; justify-content:center; text-decoration:none;">Détails contributions</a>
                 </div>
             </div>
 
