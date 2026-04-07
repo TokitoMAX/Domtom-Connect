@@ -1,9 +1,5 @@
-/**
- * Success Engine (Mon Épopée) Logic for Domtom Connect Dashboard
- * Handles project creation, roadmap, arsenal, and certification.
- */
-
 // --- 1. COORDINATION & STEPPER ---
+window.showView = null; // Sera défini dans dashboard-core.js, mais on réserve le namespace
 
 function updateSuccessStepper(score, projectId) {
     const steps = [
@@ -114,7 +110,7 @@ async function loadMyProjects(userId) {
 
             <!-- CONTENEUR COCKPIT (MASQUÉ) -->
             <div id="project-cockpit-view" style="display: none;">
-                <button onclick="closeProjectCockpit()" class="cta-button secondary" style="margin-bottom: 32px;">&larr; Retour à mes projets</button>
+                <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 32px; font-weight:800;">&larr; Retour à mes projets</a>
                 <div id="cockpit-content-internal"></div>
             </div>
         `;
@@ -189,9 +185,9 @@ function renderCockpitWithStep(p, step, score) {
 
     let stepHTML = `
         <div class="cockpit-stepper-header" style="margin-bottom: 40px;">
-            <button onclick="closeProjectCockpit()" class="cta-button secondary" style="margin-bottom: 24px; padding: 10px 20px; font-size: 0.8rem; border-radius: 12px; background: rgba(255,255,255,0.05); color:#64748b;">
+            <a href="#overview" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; padding: 10px 20px; font-size: 0.8rem; border-radius: 12px; background: rgba(0,0,0,0.05); color:#64748b; font-weight:800;">
                 &larr; Retour au tableau de bord
-            </button>
+            </a>
 
             <div class="cockpit-stepper" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 32px;">
                 ${stepsInfo.map(s => `

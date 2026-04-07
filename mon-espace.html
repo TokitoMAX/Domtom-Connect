@@ -23,6 +23,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <link rel="stylesheet" href="assets/css/dashboard.css?v=5.0">
+    <!-- Navigation Safe Interceptor (Infaillible) -->
+    <script>
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a');
+            if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+                var viewId = link.getAttribute('href').slice(1);
+                if (window.showView) {
+                    window.showView(viewId, true);
+                } else {
+                    window.location.hash = viewId;
+                    window.location.reload(); // Hard fallback if core JS is dead
+                }
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -282,12 +297,12 @@
 
                 <!-- Zone Success Engine (Séparée pour éviter les conflits d'ID) -->
                 <div id="success-engine-view-fixed" style="display: none; margin-top: 40px;">
-                    <button onclick="showView('overview', true)" class="back-button hide-mobile">
+                    <a href="#overview" class="back-button hide-mobile" style="text-decoration:none; display:inline-flex; align-items:center;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M12 19l-7-7 7-7"/>
                         </svg>
                         Retour au menu
-                    </button>
+                    </a>
 
                     <div class="success-engine-container">
                         <div id="success-engine-header"></div>

@@ -171,6 +171,8 @@ async function inspectSREProject(projectId) {
     }
 }
 
+window.showView = showView; // Exposition précoce
+
 function showView(viewId, forceRender = false) {
     // Si on navigue vers une vue différente, on laisse le hashchange piloter (via initRouting)
     if (window.location.hash !== `#${viewId}` && !viewId.includes('?') && !forceRender) {
@@ -1564,4 +1566,16 @@ window.signOut = signOut;
 document.addEventListener('DOMContentLoaded', async () => {
     await checkSession();
     initRouting();
+
+    // Intercepteur de clics global pour la navigation
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+            const viewId = link.getAttribute('href').slice(1);
+            if (viewId) {
+                console.log("Global Nav Interceptor:", viewId);
+                showView(viewId, true); // forceRender = true
+            }
+        }
+    });
 });
