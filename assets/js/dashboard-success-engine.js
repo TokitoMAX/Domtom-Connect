@@ -49,15 +49,20 @@ function updateSuccessStepper(score, projectId) {
 
 // --- 2. PROJECT LOADING & HUB ---
 
-async function loadMyProjects(userId, forceRenderList = false) {
+async function loadMyProjects(userId, forceRenderList = false, inspectId = null) {
     try {
-        const { data: projects, error } = await _supabase
-            .from('projects')
-            .select('*')
-            .eq('owner_id', userId)
-            .order('created_at', { ascending: false });
+        let query = _supabase.from('projects').select('*');
+        
+        if (inspectId) {
+            query = query.eq('id', inspectId).single();
+        } else {
+            query = query.eq('owner_id', userId).order('created_at', { ascending: false });
+        }
 
+        const { data, error } = await query;
         if (error) throw error;
+
+        const projects = inspectId ? [data] : (data || []);
 
         // --- 1. SYNCHRONISATION AVEC L'OVERVIEW (Maturité & Collecte) ---
         if (projects && projects.length > 0) {
@@ -85,8 +90,14 @@ async function loadMyProjects(userId, forceRenderList = false) {
             const currentHash = window.location.hash;
             const isListView = currentHash === '#success-engine' && !currentHash.includes('id=');
             
-            if (isListView || forceRenderList) {
+            if (isListView || forceRenderList || inspectId) {
                 if (headerContainer) headerContainer.innerHTML = ''; 
+                
+                // Si on inspecte un projet unique sans liste
+                if (inspectId && projects.length === 1) {
+                    openProjectCockpit(projects[0].id);
+                    return;
+                }
                 
                 let listHTML = `
                     <div id="project-list-view">
@@ -144,6 +155,38 @@ async function loadMyProjects(userId, forceRenderList = false) {
                 engineStepContainer.innerHTML = listHTML;
             }
         }
+
+        // --- 3. RENDU DE LA BARRE LATÉRALE (OwnersModule) ---
+        const sidebarContainer = document.getElementById('owners-projects-view');
+        if (sidebarContainer) {
+            if (!projects || projects.length === 0) {
+                sidebarContainer.innerHTML = `
+                    <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 24px; border-radius: 20px;">
+                        <p style="color: #94a3b8; font-weight: 600; font-size: 0.85rem;">Aucune épopée active.</p>
+                    </div>
+                `;
+            } else {
+                sidebarContainer.innerHTML = `
+                    <div style="display: grid; gap: 12px;">
+                        ${projects.map(p => {
+                            const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
+                            return `
+                                <div onclick="openProjectCockpit('${p.id}')" style="cursor:pointer; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; transition:0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#e2e8f0'">
+                                    <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:4px;">${p.title || 'Sans titre'}</div>
+                                    <div class="dash-progress-container" style="height:4px; background:#e2e8f0; margin-bottom:4px;">
+                                        <div class="dash-progress-bar" style="width:${score}%; background:#10b981;"></div>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; font-size:0.65rem; font-weight:700; color:#64748b;">
+                                        <span>${score}%</span>
+                                        <span>${(p.total_raised || 0).toLocaleString()} €</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+        }
     } catch (err) {
         console.error("Error loading projects:", err);
     }
@@ -198,8 +241,8 @@ function renderCockpitWithStep(p, step, score) {
     const current = stepsInfo.find(s => s.num === step);
     let stepHTML = `
         <div class="cockpit-header">
-            <a href="#success-engine" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
-                &larr; Retour à mes Épopées
+            <a href="${window.isAdminInspection ? '/mon-espace#overview' : '#success-engine'}" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
+                &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Épopées'}
             </a>
 
             <div class="cockpit-stepper">
@@ -227,10 +270,14 @@ function renderCockpitWithStep(p, step, score) {
             <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
                     class="cta-button secondary" style="flex:1; justify-content:center;">${step > 1 ? '← Précédent' : 'Fermer'}</button>
             
-            <button onclick="saveProjectStep('${p.id}', ${step})" 
-                    class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">
-                    ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE' : 'Enregistrer & Continuer'}
-            </button>
+            ${window.isAdminInspection ? `
+                <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">APPROUVER LE PROJET</button>
+            ` : `
+                <button onclick="saveProjectStep('${p.id}', ${step})" 
+                        class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">
+                        ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE' : 'Enregistrer & Continuer'}
+                </button>
+            `}
         </div>
     `;
 
@@ -1007,6 +1054,25 @@ async function deleteSREProject(id) {
     }
 }
 
+async function approveProjectFromInspection(projectId) {
+    if (!confirm("Voulez-vous APPROUVER cette Épopée ? Elle deviendra visible sur la marketplace.")) return;
+    
+    try {
+        const { error } = await _supabase
+            .from('projects')
+            .update({ status: 'approved', is_listed: true })
+            .eq('id', projectId);
+            
+        if (error) throw error;
+        
+        alert("✅ Épopée Approuvée !");
+        window.location.reload();
+        
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
 window.viewProjectContributions = async (projectId) => {
     let modal = document.getElementById('contributions-modal');
     if (!modal) {
@@ -1120,6 +1186,7 @@ window.startNewProjectWizard = startNewProjectWizard;
 window.renderCockpitWithStep = renderCockpitWithStep;
 window.saveProjectStep = saveProjectStep;
 window.deleteSREProject = deleteSREProject;
+window.approveProjectFromInspection = approveProjectFromInspection;
 window.handleIDUpload = handleIDUpload;
 window.openProjectCockpit = openProjectCockpit;
 window.loadMyProjects = loadMyProjects;

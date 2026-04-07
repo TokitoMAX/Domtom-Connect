@@ -397,6 +397,28 @@
                 }
                 const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
                 if (apps) userApplications = apps.map(a => a.job_id);
+
+                // --- GESTION DE LA MODIFICATION ---
+                const urlParams = new URLSearchParams(window.location.search);
+                const editId = urlParams.get('edit');
+                if (editId) {
+                    const { data: job, error } = await _supabase.from('job_offers').select('*').eq('id', editId).single();
+                    if (job && job.company_id === currentUserId) {
+                        currentEditJobId = editId;
+                        document.getElementById('j-title').value = job.title;
+                        document.getElementById('j-territory').value = job.territory;
+                        document.getElementById('j-type').value = job.mission_type;
+                        
+                        // Split description back to missions and profil
+                        const parts = job.description.split('### PROFIL');
+                        document.getElementById('j-missions').value = parts[0].replace('### MISSIONS\n', '').trim();
+                        if (parts[1]) document.getElementById('j-profil').value = parts[1].trim();
+                        
+                        document.getElementById('job-modal-title').textContent = "Modifier la mission";
+                        document.getElementById('btn-save-job').textContent = "Mettre à jour la mission";
+                        openJobModal();
+                    }
+                }
             }
             await loadGlobalNavbar();
             await loadJobs();
@@ -485,16 +507,64 @@
 
         async function saveJob(e) {
             e.preventDefault();
-            const data = {
-                company_id: currentUserId,
-                title: document.getElementById('j-title').value,
-                description: `### MISSIONS\n${document.getElementById('j-missions').value}\n\n### PROFIL\n${document.getElementById('j-profil').value}`,
-                mission_type: document.getElementById('j-type').value,
-                territory: document.getElementById('j-territory').value,
-                is_active: true
-            };
-            const { error } = await _supabase.from('job_offers').insert([data]);
-            if (error) alert(error.message); else location.reload();
+            
+            try {
+                // 1. Vérification du statut d'approbation
+                const { data: profile, error: profileError } = await _supabase
+                    .from('profiles')
+                    .select('verification_status')
+                    .eq('id', currentUserId)
+                    .single();
+
+                if (profileError) throw profileError;
+                
+                if (profile.verification_status !== 'approved') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Compte en attente de validation',
+                        text: 'Votre entreprise doit être validée par Domtom Connect avant de pouvoir publier des missions.',
+                        confirmButtonColor: '#10b981'
+                    });
+                    return;
+                }
+
+                const data = {
+                    company_id: currentUserId,
+                    title: document.getElementById('j-title').value,
+                    description: `### MISSIONS\n${document.getElementById('j-missions').value}\n\n### PROFIL\n${document.getElementById('j-profil').value}`,
+                    mission_type: document.getElementById('j-type').value,
+                    territory: document.getElementById('j-territory').value,
+                    is_active: true
+                };
+                
+                let resultError;
+                if (currentEditJobId) {
+                    const { error } = await _supabase.from('job_offers').update(data).eq('id', currentEditJobId);
+                    resultError = error;
+                } else {
+                    const { error } = await _supabase.from('job_offers').insert([data]);
+                    resultError = error;
+                }
+                
+                if (resultError) throw resultError;
+
+                Swal.fire({
+                    icon: 'success',
+                    title: currentEditJobId ? 'Mission mise à jour !' : 'Mission publiée !',
+                    text: currentEditJobId ? 'Les modifications ont été enregistrées.' : 'Votre offre est désormais accessible aux experts.',
+                    confirmButtonColor: '#10b981'
+                }).then(() => {
+                    if (currentEditJobId) {
+                        window.location.href = '/mon-espace#overview'; // Retour au dashboard
+                    } else {
+                        location.reload();
+                    }
+                });
+
+            } catch (err) {
+                console.error("Save Job Error:", err);
+                alert("Erreur: " + err.message);
+            }
         }
 
         function openJobModal() { document.getElementById('job-modal').classList.add('open'); }

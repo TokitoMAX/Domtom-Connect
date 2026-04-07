@@ -112,6 +112,55 @@ const CompaniesModule = {
         }
 
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
+        
+        // Charger les missions de l'entreprise
+        CompaniesModule.loadMyJobs(session.user.id);
+    },
+
+    loadMyJobs: async (companyId) => {
+        const container = document.getElementById('company-jobs-view');
+        if (!container) return;
+
+        try {
+            const { data: jobs, error } = await _supabase
+                .from('job_offers')
+                .select('*')
+                .eq('company_id', companyId)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!jobs || jobs.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
+                        <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
+                        <button class="cta-button primary" style="background:#10b981; margin-top:16px; border-radius:12px; font-weight:800; padding: 12px 24px; border:none; color:white; cursor:pointer;" onclick="window.location.href='/marketplace/jobs'">Publier un poste</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div style="display: grid; gap: 16px;">
+                    ${jobs.map(job => `
+                        <div class="dash-card-premium" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid #f1f5f9; border-radius: 16px;">
+                            <div>
+                                <h4 style="margin: 0; font-size: 1rem; font-weight: 800; color: #0f172a;">${job.title}</h4>
+                                <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b; font-weight: 600;">📍 ${job.territory} • ${job.mission_type}</p>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button onclick="editJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 8px;">Modifier</button>
+                                <button onclick="deleteJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 8px; color: #ef4444; border-color: #fee2e2;">Supprimer</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+        } catch (err) {
+            console.error("Error loading jobs:", err);
+            container.innerHTML = `<p style="color:#ef4444; font-size:0.8rem;">Erreur lors du chargement des missions.</p>`;
+        }
     },
 
     /**
@@ -148,3 +197,30 @@ const CompaniesModule = {
 
 // Exporter pour usage global
 window.CompaniesModule = CompaniesModule;
+
+// Global Actions for Jobs
+window.deleteJobOffer = async (jobId) => {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer définitivement cette mission ? Cette action est irréversible.")) return;
+
+    try {
+        const { error } = await _supabase.from('job_offers').delete().eq('id', jobId);
+        if (error) throw error;
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Mission supprimée',
+            text: 'L\'offre a été retirée définitivement du marketplace.',
+            confirmButtonColor: '#10b981'
+        });
+
+        const session = await getSession();
+        if (session) CompaniesModule.loadMyJobs(session.user.id);
+
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+};
+
+window.editJobOffer = (jobId) => {
+    window.location.href = `/marketplace/jobs?edit=${jobId}`;
+};

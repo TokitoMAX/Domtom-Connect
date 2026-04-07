@@ -18,6 +18,10 @@
     <script
         src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"
         data-sdk-integration-source="button-factory"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dashboard-core.js"></script>
+    <script src="assets/js/dashboard-success-engine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -4466,9 +4470,33 @@
         }
 
         // Initialize and mark sidebar active
-        checkSession();
-        const navEpopee = document.getElementById('nav-success-engine');
-        if (navEpopee) navEpopee.classList.add('active');
+        async function initCockpit() {
+            await checkSession();
+            
+            // Gestion de l'inspection SRE
+            const urlParams = new URLSearchParams(window.location.search);
+            const inspectId = urlParams.get('inspect');
+            
+            if (inspectId) {
+                console.log("Mode Inspection SRE activé pour le projet:", inspectId);
+                window.isAdminInspection = true;
+                if (typeof loadMyProjects === 'function') {
+                    // On force le chargement du projet spécifique
+                    loadMyProjects(null, false, inspectId);
+                }
+                
+                // UI: Ajouter un bandeau d'inspection
+                const banner = document.createElement('div');
+                banner.style = "position:fixed; top:0; left:0; right:0; background:#f59e0b; color:white; text-align:center; padding:8px; font-weight:900; z-index:10003; font-size:0.7rem; text-transform:uppercase;";
+                banner.innerHTML = "⚠️ MODE INSPECTION SRE - LECTURE SEULE";
+                document.body.appendChild(banner);
+            }
+
+            const navEpopee = document.getElementById('nav-success-engine');
+            if (navEpopee) navEpopee.classList.add('active');
+        }
+
+        initCockpit();
     </script>
 
     <!-- Reward Modal -->
