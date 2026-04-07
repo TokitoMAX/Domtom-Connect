@@ -121,6 +121,19 @@ async function loadMyProjects(userId) {
 
         engineStepContainer.innerHTML = listHTML;
 
+        // --- 3. SYNCHRONISATION OVERVIEW (NEW) ---
+        if (projects && projects.length > 0) {
+            const latest = projects[0];
+            const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
+            const scoreBadge = document.getElementById('epopee-score-badge');
+            if (scoreBadge) scoreBadge.textContent = `${score}%`;
+
+            const financeAmount = document.querySelector('.dash-section-pilotage span[style*="font-size:1.75rem"]');
+            if (financeAmount) {
+                financeAmount.textContent = `${(latest.total_raised || 0).toLocaleString()} €`;
+            }
+        }
+
     } catch (err) {
         console.error("Error loading projects:", err);
     }

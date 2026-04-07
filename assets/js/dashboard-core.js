@@ -777,32 +777,36 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET ---
+        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (REPENNSÉ MOBILE/PREMIUM) ---
         container.innerHTML = `
             <div class="dash-section-pilotage">
                 <div class="dash-pilotage-header">
                     <div>
-                        <h2 class="success-engine-project-title">PILOTAGE DE MON ÉPOPÉE</h2>
-                        <p class="success-engine-subtitle">Le cockpit de contrôle de votre stratégie et financement.</p>
+                        <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:8px; line-height:1.1;">PILOTAGE DE MON ÉPOPÉE</h2>
+                        <p style="color:rgba(255,255,255,0.7); font-size:0.9rem;">Cockpit stratégique & financier de votre aventure.</p>
                     </div>
-                    <div id="epopee-score-badge" style="font-size:1.25rem; font-weight:900; color:#10b981; background:rgba(16,185,129,0.1); padding:8px 16px; border-radius:12px; border:1px solid rgba(16,185,129,0.2);">0%</div>
+                    <div id="epopee-score-badge" class="epopee-score-modern">0%</div>
                 </div>
                 
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium" style="grid-column: span 2; border-left: 4px solid #10b981;">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">PROJET</div>
-                        <div class="card-title" style="font-size: 1.5rem;">Succès Engine</div>
-                        <p class="card-desc" style="font-size: 1rem;">Accédez au cockpit pour gérer vos phases de maturité (Stratégie, Arsenal, Boussole...).</p>
-                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:12px 8px; font-weight:900; font-size:0.95rem; height:auto; min-height:54px; white-space:normal; line-height:1.2; width:100%;">PILOTER MON PROJET DIRECTEMENT</button>
+                <div class="cockpit-card-premium" style="margin-bottom:24px;">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                        <div style="width:40px; height:40px; background:rgba(16,185,129,0.1); color:#10b981; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:800;">HUB</div>
+                        <h3 style="margin:0; font-size:1.3rem; font-weight:900; color:#1e293b;">Success Engine</h3>
                     </div>
+                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:24px; line-height:1.5;">Gérez vos phases de maturité (Stratégie, Arsenal, Boussole...) pour booster votre impact.</p>
+                    <button onclick="showView('success-engine')" class="pilotage-cta-premium" style="width:100%;">Accéder au cockpit</button>
+                </div>
 
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">€€€</div>
-                        <div class="card-title">Mes Financements</div>
-                        <p class="card-desc">Suivez les contributions reçues pour votre projet.</p>
-                        <div style="margin: 12px 0; font-size: 1.1rem; font-weight:800; color:#3b82f6;">0,00 €</div>
-                        <button onclick="showView('success-engine')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Détails</button>
+                <div class="cockpit-card-premium">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                        <div style="width:40px; height:40px; background:rgba(59,130,246,0.1); color:#3b82f6; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:800;">€€€</div>
+                        <h3 style="margin:0; font-size:1.3rem; font-weight:900; color:#1e293b;">Mes Financements</h3>
                     </div>
+                    <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:8px;">
+                        <span style="font-size:1.75rem; font-weight:900; color:#3b82f6;">0,00 €</span>
+                        <span style="font-size:0.85rem; color:#64748b; font-weight:600;">collectés</span>
+                    </div>
+                    <button onclick="showView('success-engine')" class="cta-button secondary" style="width:100%; border-radius:14px; padding:12px; font-weight:700;">Détails des contributions</button>
                 </div>
             </div>
 
@@ -850,9 +854,11 @@ function updateProfileStrength(profile) {
 
     if (!isExpert) {
         container.style.display = 'none';
+        container.classList.add('hidden'); // Force hiding
         return;
     }
     container.style.display = 'block';
+    container.classList.remove('hidden');
 
     let points = 0;
     let nextAction = "";
@@ -891,8 +897,13 @@ function renderVisibilityPreview(profile) {
     const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
     const isListed = !!profile.listed;
 
-    container.style.display = isExpert ? 'block' : 'none';
-    if (!isExpert) return;
+    if (!isExpert) {
+        container.style.display = 'none';
+        container.classList.add('hidden');
+        return;
+    }
+    container.style.display = 'block';
+    container.classList.remove('hidden');
 
     // 1. Badge Status
     if (isListed) {
