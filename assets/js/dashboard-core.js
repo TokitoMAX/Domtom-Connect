@@ -272,7 +272,25 @@ function initRouting() {
 
 window.addEventListener('hashchange', handleRouting);
 
-// --- 2. SESSION & CONTENT LOADING ---
+// --- 2. LOGIQUE UI GLOBALE ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Toggle Menu Burger
+    const navToggle = document.querySelector('.nav-toggle');
+    const navContent = document.getElementById('primary-navigation');
+    
+    if (navToggle && navContent) {
+        navToggle.addEventListener('click', () => {
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !expanded);
+            navContent.classList.toggle('is-active');
+            
+            // Animation des spans du burger
+            navToggle.classList.toggle('active');
+        });
+    }
+
+    initRouting();
+});
 
 async function checkSession() {
     try {
@@ -769,59 +787,67 @@ function renderDashboardCards(role, tier, isListed, profile) {
         }
 
     } else {
-        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (DESIGN ÉPURÉ) ---
+        // --- ZONE DE PILOTAGE PORTEUR DE PROJET (RESTAURATION DESIGN RICHE) ---
         container.innerHTML = `
             <div class="dash-section-pilotage">
-                <div class="dash-pilotage-header">
+                <div class="dash-pilotage-header" style="margin-bottom: 32px;">
                     <div>
-                        <h2 style="font-size:1.5rem; font-weight:900; margin-bottom:4px; color:#0f172a;">PILOTAGE DE MON ÉPOPÉE</h2>
-                        <p style="color:#64748b; font-size:0.85rem; font-weight:500;">Cockpit stratégique de votre aventure.</p>
+                        <h2 style="font-size:1.75rem; font-weight:900; margin-bottom:4px; color:#0f172a; letter-spacing:-0.02em;">TABLEAU DE BORD STRATÉGIQUE</h2>
+                        <p style="color:#64748b; font-size:0.9rem; font-weight:500;">Centralisez le pilotage de votre croissance et de votre impact.</p>
                     </div>
                 </div>
                 
-                <div class="cockpit-card-premium" style="margin-bottom:20px;">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                        <div style="width:36px; height:36px; background:#f1f5f9; color:#0f172a; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:900; font-size:0.75rem;">HUB</div>
-                        <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0f172a;">Success Engine</h3>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:40px;">
+                    <!-- Carte Pilotage Cockpit -->
+                    <div class="cockpit-card-premium" style="background:#fff; border:1px solid #f1f5f9; padding:32px; border-radius:28px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); position:relative; overflow:hidden;">
+                        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:#7c3aed;"></div>
+                        <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                            <div style="width:48px; height:48px; background:rgba(124, 58, 237, 0.1); color:#7c3aed; display:flex; align-items:center; justify-content:center; border-radius:14px; font-weight:900; font-size:0.9rem;">HUB</div>
+                            <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Success Engine</h3>
+                        </div>
+                        <p style="color:#475569; font-size:0.95rem; margin-bottom:24px; line-height:1.6;">Accédez à votre cockpit pour gérer vos étapes stratégiques (Arsenal, Équipe, Financements).</p>
+                        <a href="#success-engine" class="cta-button primary" style="width:100%; justify-content:center; background:#7c3aed; border:none; border-radius:16px; padding:16px; font-weight:800; text-decoration:none; display:flex;">PILOTER MON ÉPOPÉE</a>
                     </div>
-                    <p style="color:#475569; font-size:0.9rem; margin-bottom:20px; line-height:1.5;">Gérez vos phases de maturité (Stratégie, Arsenal, Boussole...) pour booster votre impact.</p>
-                    <a href="#success-engine" class="pilotage-cta-premium" style="display:block; text-align:center; text-decoration:none;">ENTRER DANS LE COCKPIT</a>
+
+                    <!-- Carte Financements / Contributions -->
+                    <div class="cockpit-card-premium" style="background:#fff; border:1px solid #f1f5f9; padding:32px; border-radius:28px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); position:relative; overflow:hidden;">
+                        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:#3b82f6;"></div>
+                        <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                            <div style="width:48px; height:48px; background:rgba(59, 130, 246, 0.1); color:#3b82f6; display:flex; align-items:center; justify-content:center; border-radius:14px; font-weight:900; font-size:0.9rem;">FND</div>
+                            <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Mes Soutiens</h3>
+                        </div>
+                        <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:24px;">
+                            <span id="collected-amount-dash" style="font-size:2.25rem; font-weight:900; color:#0f172a; letter-spacing:-0.03em;">0,00 €</span>
+                            <span style="font-size:0.9rem; color:#64748b; font-weight:700;">collectés</span>
+                        </div>
+                        <button onclick="showView('success-engine')" class="cta-button secondary" style="width:100%; border-radius:16px; padding:14px; font-weight:800; border:1px solid #e2e8f0; font-size:0.85rem; display:flex; justify-content:center; text-decoration:none;">VOIR LES CONTRIBUTIONS</button>
+                    </div>
                 </div>
 
-                <div class="cockpit-card-premium">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                        <div style="width:36px; height:36px; background:#f1f5f9; color:#3b82f6; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:900; font-size:0.75rem;">FND</div>
-                        <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:#0f172a;">Mes Financements</h3>
-                    </div>
-                    <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:16px;">
-                        <span style="font-size:1.5rem; font-weight:900; color:#3b82f6;">0,00 €</span>
-                        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">collectés</span>
-                    </div>
-                    <a href="#success-engine" class="cta-button secondary" style="width:100%; border-radius:16px; padding:12px; font-weight:800; border:1px solid #e2e8f0; font-size:0.8rem; display:flex; justify-content:center; text-decoration:none;">Détails contributions</a>
-                </div>
-            </div>
-
-            <!-- ZONE ÉCOSYSTÈME PORTEUR (RESTAURATION UTILITÉ) -->
-            <div class="dash-section-ecosystem" style="margin-top:40px;">
-                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px; color:#0f172a;">SERVICES & ÉCOSYSTÈME</h3>
-                <div class="ecosystem-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
-                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
-                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">TALENTS</div>
-                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Annuaire Experts</h4>
-                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Trouvez les partenaires idéaux pour votre projet.</p>
-                        <a href="/marketplace/directory" class="cta-button secondary" style="width:100%; justify-content:center;">Chercher</a>
-                    </div>
-                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
-                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">MISSIONS</div>
-                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Appels d'offres</h4>
-                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Publiez vos besoins et recrutez localement.</p>
-                        <a href="/marketplace/jobs" class="cta-button secondary" style="width:100%; justify-content:center;">Publier</a>
-                    </div>
-                    <div class="dash-card-premium" style="background:white; padding:24px; border-radius:24px; border:1px solid #f1f5f9;">
-                        <div style="font-weight: 800; font-size: 0.7rem; color:#64748b; margin-bottom:12px;">RESSOURCES</div>
-                        <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Guides & Blog</h4>
-                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px;">Apprenez les meilleures stratégies de croissance.</p>
-                        <a href="/blog" class="cta-button secondary" style="width:100%; justify-content:center;">Lire</a>
+                <!-- ZONE SERVICES & RÉSEAU -->
+                <div class="dash-section-ecosystem">
+                    <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 24px; color:#0f172a; display:flex; align-items:center; gap:12px;">
+                        SERVICES & RÉSEAU
+                    </h3>
+                    <div class="ecosystem-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px;">
+                        <div class="dash-card-premium" style="background:#fff; border:1px solid #f1f5f9; padding:24px; border-radius:24px;">
+                            <div style="font-weight: 800; font-size: 0.75rem; color:#7c3aed; margin-bottom:12px; text-transform:uppercase;">Échanges</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Messagerie Privée</h4>
+                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px;">Discutez avec vos experts et mentors.</p>
+                            <a href="messages.html" class="cta-button secondary" style="width:100%; justify-content:center; text-decoration:none; display:flex;">OUVRIR</a>
+                        </div>
+                        <div class="dash-card-premium" style="background:#fff; border:1px solid #f1f5f9; padding:24px; border-radius:24px;">
+                            <div style="font-weight: 800; font-size: 0.75rem; color:#0284c7; margin-bottom:12px; text-transform:uppercase;">Réseau</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Événements</h4>
+                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px;">Vos accès aux événements locaux.</p>
+                            <button onclick="showView('mes-billets')" class="cta-button secondary" style="width:100%; justify-content:center; text-decoration:none; display:flex;">VOIR</button>
+                        </div>
+                        <div class="dash-card-premium" style="background:#0f172a; padding:24px; border-radius:24px; color:white;">
+                            <div style="font-weight: 800; font-size: 0.75rem; color:#3b82f6; margin-bottom:12px; text-transform:uppercase;">Apprendre</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800; color:white;">Guides & Blog</h4>
+                            <p style="font-size:0.9rem; color:#94a3b8; margin-bottom:24px;">Dominez votre marché avec nos ressources.</p>
+                            <a href="/blog" target="_blank" class="cta-button primary" style="width:100%; justify-content:center; background:white; color:#0f172a; text-decoration:none; display:flex;">LIRE LE BLOG</a>
+                        </div>
                     </div>
                 </div>
             </div>
