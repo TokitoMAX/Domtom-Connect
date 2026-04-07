@@ -59,6 +59,7 @@ async function loadPendingProjects() {
             .eq('verification_status', 'pending')
             .order('created_at', { ascending: false });
 
+
         if (error) {
             console.error("Supabase Query Error:", error);
             container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">⚠️ Erreur Supabase: ${error.message}</p>`;
@@ -760,7 +761,7 @@ function renderDashboardCards(role, tier, isListed, profile) {
                         <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">PROJET</div>
                         <div class="card-title" style="font-size: 1.5rem;">Succès Engine</div>
                         <p class="card-desc" style="font-size: 1rem;">Accédez au cockpit pour gérer vos phases de maturité (Stratégie, Arsenal, Boussole...).</p>
-                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:16px; font-weight:900; font-size:1.1rem; margin-top:20px;">PILOTER MON PROJET DIRECTEMENT</button>
+                        <button onclick="showView('success-engine')" class="cta-button primary" style="background:#10b981; justify-content:center; padding:12px 8px; font-weight:900; font-size:0.95rem; height:auto; min-height:54px; white-space:normal; line-height:1.2; width:100%;">PILOTER MON PROJET DIRECTEMENT</button>
                     </div>
 
                     <div class="dash-card-premium">
