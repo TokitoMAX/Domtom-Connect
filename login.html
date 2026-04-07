@@ -207,7 +207,7 @@
         </div>
 
         <footer class="auth-footer">
-            <p>Pas encore inscrit ? <a href="register-choice.html">Créer un compte</a></p>
+            <p>Pas encore inscrit ? <a href="/register-choice">Créer un compte</a></p>
         </footer>
     </main>
 
@@ -231,7 +231,7 @@
                 // Si pas encore de rôle défini → onboarding, sinon mon-projet
                 const role = data?.user?.user_metadata?.role || null;
                 if (!role) {
-                    window.location.href = 'registration/onboarding.html';
+                    window.location.href = '/registration/onboarding';
                 } else {
                     window.location.href = '/mon-espace';
                 }

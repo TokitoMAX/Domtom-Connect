@@ -46,7 +46,11 @@ async function signInWithEmail(email, password) {
 async function signOut() {
     const { error } = await _supabase.auth.signOut();
     if (error) console.error('Erreur Déconnexion:', error.message);
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.hostname.startsWith('192.168.') || 
+                    window.location.port !== '';
+    const ext = isLocal ? '.html' : '';
     window.location.href = isLocal ? '/login.html' : '/login';
 }
 

@@ -20,6 +20,26 @@
     ],
     "redirects": [
         {
+            "source": "/connexion",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/connexion.html",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/login.html",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/register-choice.html",
+            "destination": "/register-choice",
+            "permanent": true
+        },
+        {
             "source": "/dashboard",
             "destination": "/mon-espace",
             "permanent": true
