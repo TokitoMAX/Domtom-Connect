@@ -64,13 +64,8 @@ async function loadMyProjects(userId) {
 
         if (error) throw error;
 
-        // --- 1. HEADER (Original) ---
-        headerContainer.innerHTML = `
-            <div class="dash-section-header" style="margin-bottom: 32px;">
-                <h1 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">MON ÉPOPÉE</h1>
-                <p style="color: #64748b;">Tableau de bord de pilotage</p>
-            </div>
-        `;
+        // --- 1. HEADER (Simple & Direct) ---
+        headerContainer.innerHTML = ''; // Nettoyage
 
         // --- 2. LISTE DES PROJETS ---
         let listHTML = `
@@ -117,18 +112,7 @@ async function loadMyProjects(userId) {
 
         engineStepContainer.innerHTML = listHTML;
 
-        // --- 3. SYNCHRONISATION OVERVIEW (NEW) ---
-        if (projects && projects.length > 0) {
-            const latest = projects[0];
-            const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
-            const scoreBadge = document.getElementById('epopee-score-badge');
-            if (scoreBadge) scoreBadge.textContent = `${score}%`;
-
-            const financeAmount = document.querySelector('.dash-section-pilotage span[style*="font-size:1.75rem"]');
-            if (financeAmount) {
-                financeAmount.textContent = `${(latest.total_raised || 0).toLocaleString()} €`;
-            }
-        }
+        // --- 3. SYNCHRONISATION (Désactivée pour éviter les doublons) ---
 
     } catch (err) {
         console.error("Error loading projects:", err);
@@ -178,7 +162,7 @@ function renderCockpitWithStep(p, step, score) {
         { num: 3, title: '03. Terrain', subtitle: 'Le Marché & L\'Opportunité' },
         { num: 4, title: '04. Valeur', subtitle: 'Impact Local, Innovation & Emploi' },
         { num: 5, title: '05. Objectifs', subtitle: 'Besoins de Financement' },
-        { num: 6, title: '06. Envol', subtitle: 'Pitch Final & Soumission Admin' }
+        { num: 6, title: '06. Propulsion Finale', subtitle: 'Pitch Final & Validation Admin' }
     ];
 
     const current = stepsInfo.find(s => s.num === step);
@@ -429,8 +413,10 @@ function renderStepFields(step, p) {
                 </div>
 
                 <div style="background:#f0fdf4; border:1px solid #10b981; padding:40px; border-radius:32px; grid-column: 1 / -1; margin-top: 24px; text-align:center;">
-                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">C'est le moment de l'Envol</h4>
-                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">Votre projet est prêt à être propulsé. En cliquant ci-dessous, un expert Domtom Connect validera votre contenu pour une mise en ligne immédiate sur le marketplace.</p>
+                    <h4 style="margin:0 0 12px 0; color:#10b981; font-weight:900; font-size: 1.5rem;">C'est l'heure de la Propulsion</h4>
+                    <p style="font-size:1.1rem; color:#065f46; margin:0 auto 24px; line-height: 1.6; max-width:600px;">
+                        Votre dossier est désormais complet. Un administrateur Domtom Connect va examiner vos données pour <strong>valider (ou non)</strong> la mise en ligne officielle de votre Épopée sur la plateforme.
+                    </p>
                 </div>
             </div>
         `;

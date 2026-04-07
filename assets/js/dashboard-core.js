@@ -196,7 +196,7 @@ function showView(viewId, forceRender = false) {
     }
 
     const viewMap = {
-        'overview': 'main-dashboard-content',
+        'overview': 'overview-view',
         'success-engine': 'success-engine-view-fixed',
         'billetterie': 'billetterie-view',
         'mes-billets': 'mes-billets-view',
@@ -208,7 +208,7 @@ function showView(viewId, forceRender = false) {
     
     // Hide all major view containers
     const views = [
-        'main-dashboard-content', 
+        'overview-view', 
         'success-engine-view-fixed', 
         'billetterie-view', 
         'mes-billets-view',

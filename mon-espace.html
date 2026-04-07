@@ -105,19 +105,17 @@
     </style>
 
     <!-- Mobile Bottom Navigation (Glassmorphism) -->
-    <nav class="mobile-nav">
-        <a href="/" class="mobile-nav-link">
+        <a href="#overview" class="mobile-nav-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
             </svg>
             Accueil
         </a>
-        <a href="#overview" class="mobile-nav-link active">
+        <a href="#success-engine" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M2 12h20"/>
             </svg>
-            Espace
+            Épopée
         </a>
         <a href="#profile" class="mobile-nav-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -156,7 +154,7 @@
                 <span class="sidebar-label">Mon Espace</span>
             </a>
 
-            <a href="#success-engine" class="sidebar-link" id="nav-success-engine" title="Cockpit Projet">
+            <a href="#success-engine" class="sidebar-link" id="nav-success-engine" title="Gestion Projets">
                 <div class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/>
@@ -249,24 +247,20 @@
                     <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
                 </div>
             </nav>
-            <div id="dashboard-content" class="dashboard-view-container">
-                <div class="dash-section-header">
-                    <span class="dash-badge emerald" id="user-role-badge">Chargement...</span>
-                    <h1 id="user-greeting">Bonjour.</h1>
-                    <p>Bienvenue dans votre espace Domtom Connect.</p>
-                </div>
+                <!-- VUE : TABLEAU DE BORD (DASHBOARD GENERAL) -->
+                <div id="overview-view" style="display: block;">
+                    <div class="dash-section-header">
+                        <span class="dash-badge emerald" id="user-role-badge">Chargement...</span>
+                        <h1 id="user-greeting">Bonjour.</h1>
+                        <p>Bienvenue dans votre espace Domtom Connect.</p>
+                    </div>
 
-                <!-- ZONE SERVICES & ECOSYSTEME (Restauration Utilité) -->
-                <div id="main-dashboard-content">
-                    <div id="ecosystem-view" style="display: block;">
+                    <div id="ecosystem-view" style="margin-top: 32px;">
                         <!-- Contenu injecté dynamiquement et épuré -->
                     </div>
-                </div>
-
-                <!-- Zone de contenu principale (Cards etc) -->
-                <div id="main-dashboard-content">
-                    <div class="cards-grid" id="dashboard-cards">
-                        <!-- Rempli par le JS -->
+                    
+                    <div class="cards-grid" id="dashboard-cards" style="margin-top: 32px;">
+                        <!-- Rempli par le JS (News, Statistiques, etc.) -->
                     </div>
     
                     <div id="additional-content"></div>
@@ -274,11 +268,11 @@
 
                 <!-- Zone Success Engine (Séparée pour éviter les conflits d'ID) -->
                 <div id="success-engine-view-fixed" style="display: none; margin-top: 40px;">
-                    <a href="#overview" class="back-button hide-mobile" style="text-decoration:none; display:inline-flex; align-items:center;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <a href="#overview" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 32px; font-weight:800; border-radius:12px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;">
                             <path d="M19 12H5M12 19l-7-7 7-7"/>
                         </svg>
-                        Retour au menu
+                        Retour au Tableau de Bord
                     </a>
 
                     <div class="success-engine-container">
