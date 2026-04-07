@@ -127,7 +127,8 @@ async function loadMyProjects(userId, forceRenderList = false) {
                                             <span style="color: #94a3b8;">${(p.total_raised || 0).toLocaleString()} € récoltés</span>
                                         </div>
 
-                                        <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900; background:#0f172a;">Piloter mon projet</button>
+                                        <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900; background:#0f172a; margin-bottom:12px;">Piloter mon projet</button>
+                                        <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="width:100%; justify-content:center; font-weight:800; border-radius:12px; font-size:0.75rem;">Suivi des Financements</button>
                                     </div>
                                 </div>
                                 `;
@@ -1006,6 +1007,110 @@ async function deleteSREProject(id) {
     }
 }
 
+window.viewProjectContributions = async (projectId) => {
+    let modal = document.getElementById('contributions-modal');
+    if (!modal) {
+        const modalHTML = `
+            <div class="modal-overlay" id="contributions-modal">
+                <div class="hero-modal" style="max-width: 750px; background: white; color: var(--text-primary); padding: 32px; border-radius: 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px;">
+                        <div>
+                            <h2 style="color:var(--text-primary); margin:0; font-size:1.8rem; font-weight:900;">Suivi des Financements</h2>
+                            <p style="color:var(--text-secondary); font-size:0.9rem; margin-top:4px;">Historique des contributions et soutiens reçus.</p>
+                        </div>
+                        <button class="modal-close" onclick="document.getElementById('contributions-modal').style.display='none'" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                    </div>
+
+                    <div id="contributions-stats-row" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:32px;">
+                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
+                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Total Récolté</div>
+                            <div id="contrib-total-amount" style="font-size:1.5rem; font-weight:900; color:#10b981;">0 €</div>
+                        </div>
+                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
+                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Contributeurs</div>
+                            <div id="contrib-total-count" style="font-size:1.5rem; font-weight:900; color:#0f172a;">0</div>
+                        </div>
+                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
+                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Moyenne / Don</div>
+                            <div id="contrib-avg-amount" style="font-size:1.5rem; font-weight:900; color:#3b82f6;">0 €</div>
+                        </div>
+                    </div>
+
+                    <div style="max-height: 400px; overflow-y: auto; background:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                            <thead style="background:#f8fafc; position:sticky; top:0; z-index:1;">
+                                <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
+                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Donateur</th>
+                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Montant</th>
+                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Contrepartie</th>
+                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contributions-tbody">
+                                <!-- Rempli dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        modal = document.getElementById('contributions-modal');
+    }
+
+    const tbody = document.getElementById('contributions-tbody');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#64748b;">Analyse des données en cours...</td></tr>';
+    modal.style.display = 'flex';
+
+    try {
+        const { data: contribs, error } = await _supabase
+            .from('contributions')
+            .select('*, profiles(full_name), project_rewards(title)')
+            .eq('project_id', projectId)
+            .eq('status', 'completed')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!contribs || contribs.length === 0) {
+            if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#94a3b8; font-weight:500;">Aucune contribution enregistrée pour le moment.</td></tr>';
+            document.getElementById('contrib-total-amount').innerText = "0 €";
+            document.getElementById('contrib-total-count').innerText = "0";
+            document.getElementById('contrib-avg-amount').innerText = "0 €";
+            return;
+        }
+
+        // Stats
+        const total = contribs.reduce((sum, c) => sum + (parseFloat(c.amount) || 0), 0);
+        const count = contribs.length;
+        const avg = total / count;
+
+        document.getElementById('contrib-total-amount').innerText = `${total.toLocaleString()} €`;
+        document.getElementById('contrib-total-count').innerText = count;
+        document.getElementById('contrib-avg-amount').innerText = `${Math.round(avg).toLocaleString()} €`;
+
+        if (tbody) {
+            tbody.innerHTML = contribs.map(c => {
+                const name = c.donor_name || c.profiles?.full_name || 'Contributeur Anonyme';
+                const date = new Date(c.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                return `
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 16px; font-weight: 700; color:#0f172a;">${name}</td>
+                        <td style="padding: 16px; font-weight: 800; color:#10b981;">${c.amount.toLocaleString()} €</td>
+                        <td style="padding: 16px; font-size:0.8rem; color:#64748b;">${c.project_rewards?.title || 'Don libre'}</td>
+                        <td style="padding: 16px; font-size:0.8rem; color:#94a3b8;">${date}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+    } catch (err) {
+        console.error("Error fetching contributions:", err);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:32px; color:#ef4444;">Erreur : ${err.message}</td></tr>`;
+    }
+};
+
+window.viewProjectContributions = viewProjectContributions;
 window.openProjectModal = openProjectModal;
 window.saveNewProject = saveNewProject;
 window.loadMyProjects = loadMyProjects;

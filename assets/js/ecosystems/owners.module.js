@@ -21,40 +21,49 @@ const OwnersModule = {
                     </div>
                 </div>
 
-                <!-- Main Content -->
+                <!-- Main Content (Arsenal Commando) -->
                 <div style="grid-column: span 8; display: grid; gap: 24px;">
-                    
-                    <!-- Mes Épopées Section -->
-                    <div class="dash-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <div>
-                                <h3 style="font-size: 1.5rem; font-weight: 800; margin:0; color:#0f172a; letter-spacing:-0.02em;">Mes Épopées actives</h3>
-                                <p style="font-size:0.85rem; color:#64748b; margin-top:4px;">Gérez vos projets et suivez votre progression stratégique.</p>
+                    <div class="dash-card premium-dark" style="background:#0f172a; border:1px solid #1e293b; border-radius:32px; padding:48px; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div style="max-width:500px;">
+                                <h3 style="font-size: 2rem; font-weight: 900; margin:0; color:white; letter-spacing:-0.03em;">L'Arsenal Commando</h3>
+                                <p style="font-size:1.1rem; color:#94a3b8; margin-top:12px; line-height:1.6; font-weight:500;">
+                                    Vote Cockpit de réussite. Le **Success Engine** vous guide étape par étape pour certifier votre projet, lever des fonds et impacter votre territoire.
+                                </p>
+                                <a href="#success-engine" class="cta-button primary" style="background:#10b981; border:none; padding:18px 32px; border-radius:14px; font-weight:900; text-decoration:none; color:white; display:inline-flex; margin-top:32px; font-size:1.05rem;">
+                                    Démarrer le Pilotage →
+                                </a>
                             </div>
-                            <button onclick="createNewSREProject()" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; border-radius:12px; font-weight:800; font-size:0.85rem;">
-                                <i class="fas fa-plus" style="margin-right:8px;"></i> NOUVEAU PROJET
-                            </button>
-                        </div>
-                        <div id="owners-projects-view">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
-                                <p style="color: #94a3b8; font-weight: 600; font-size: 0.95rem;">Chargement de vos aventures en cours...</p>
+                            <div style="width:140px; height:140px; background:rgba(16,185,129,0.1); border-radius:24px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.2);">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar -->
+                <!-- Sidebar (Suivi des Épopées) -->
                 <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
-                    <div class="dash-card" style="border-radius: 16px; padding: 24px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">L'Arsenal Commando</h4>
-                        <p style="font-size: 0.85rem; color:#64748b; line-height:1.5; margin-bottom:20px;">Le Success Engine vous guide étape par étape pour certifier votre projet et lever des fonds.</p>
-                        <a href="#success-engine" class="cta-button primary" style="background:#10b981; border:none; width:100%; justify-content:center; border-radius:10px; font-weight:800; text-decoration:none; color:white; display:flex;">Accéder au Cockpit</a>
+                    <div class="dash-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:32px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size: 1.2rem; font-weight: 800; margin:0; color:#0f172a;">Mes Épopées actives</h3>
+                            <p style="font-size:0.8rem; color:#64748b; margin-top:4px;">Suivez vos financements & étapes.</p>
+                        </div>
+                        
+                        <div id="owners-projects-view">
+                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 24px; border-radius: 20px;">
+                                <p style="color: #94a3b8; font-weight: 600; font-size: 0.85rem;">Chargement...</p>
+                            </div>
+                        </div>
+
+                        <button onclick="openProjectModal()" class="cta-button secondary" style="width:100%; border-radius:12px; margin-top:24px; font-weight:800; justify-content:center;">
+                            + NOUVEAU PROJET
+                        </button>
                     </div>
                 </div>
             </div>
         `;
 
-        if (typeof loadOwnersProjects === 'function') loadOwnersProjects(session.user.id);
+        if (typeof loadMyProjects === 'function') loadMyProjects(session.user.id);
     },
 
     /**

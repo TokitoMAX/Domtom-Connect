@@ -198,12 +198,19 @@ function showView(viewId, forceRender = false) {
 
     // 2. Afficher la section cible
     const target = document.getElementById(targetId);
+    
+    // Cas spécial : Redirection Profil Standalone
+    if (baseView === 'profile') {
+        window.location.href = '/profile';
+        return;
+    }
+
     if (target) {
         target.style.display = 'block';
         
         // 3. Gestion des headers et navbar specifiques
         const isOverview = baseView === 'overview';
-        const isCommonView = ['overview', 'success-engine', 'profile', 'billetterie', 'mes-billets'].includes(baseView);
+        const isCommonView = ['overview', 'success-engine', 'billetterie', 'mes-billets'].includes(baseView);
         const greeting = document.querySelector('.dash-section-header');
         const topNav = document.querySelector('.top-nav');
 
@@ -211,9 +218,7 @@ function showView(viewId, forceRender = false) {
         if (topNav) topNav.style.display = isCommonView ? 'flex' : 'none';
 
         // 4. Chargements spécifiques
-        if (baseView === 'profile') {
-            if (typeof loadUserProfileData === 'function') loadUserProfileData();
-        } else if (baseView === 'billetterie') {
+        if (baseView === 'billetterie') {
             if (typeof loadMyTicketing === 'function') loadMyTicketing();
         } else if (baseView === 'mes-billets') {
             if (typeof loadMyTickets === 'function') loadMyTickets();
