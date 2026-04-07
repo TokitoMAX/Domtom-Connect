@@ -72,11 +72,11 @@ async function loadMyProjects(userId) {
             <div id="project-list-view">
                 <div class="dash-section-pilotage">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h2 style="color: white; margin: 0; font-size: 1.5rem;">Ma Nouvelle Épopée</h2>
-                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet.</p>
+                        <div style="flex: 1;">
+                            <h2 style="color: white; margin: 0; font-size: 1.2rem; font-weight: 800;">Nouvelle Épopée</h2>
+                            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.85rem;">Lancez une aventure.</p>
                         </div>
-                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">+ Nouveau Projet</button>
+                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 10px 16px; font-size: 0.8rem;">+ Nouveau</button>
                     </div>
                 </div>
 
@@ -104,8 +104,8 @@ async function loadMyProjects(userId) {
             </div>
 
             <!-- CONTENEUR COCKPIT (MASQUÉ) -->
-            <div id="project-cockpit-view" style="display: none;">
-                <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 32px; font-weight:800;">&larr; Retour à mes projets</a>
+            <div id="project-cockpit-view" style="display: none; padding: 0 10px;">
+                <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; font-weight:800; border-radius: 12px; font-size: 0.85rem; padding: 10px 16px;">&larr; Mes Projets</a>
                 <div id="cockpit-content-internal"></div>
             </div>
         `;
