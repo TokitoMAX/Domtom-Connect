@@ -2083,31 +2083,31 @@
                     </div>
                 </div>
 
-                <div class="sre-stepper" style="display:grid; grid-template-columns:repeat(6, 1fr); gap:8px;">
-                    <div class="sre-step ${currentSREStep === 1 ? 'active' : ''}" onclick="switchSREStep(1)">
+                <div class="sre-stepper">
+                    <button type="button" class="sre-step ${currentSREStep === 1 ? 'active' : ''}" onclick="switchSREStep(1)">
                         <span class="sre-step-num">01</span>
                         <span class="sre-step-label">Identité</span>
-                    </div>
-                    <div class="sre-step ${currentSREStep === 2 ? 'active' : ''}" onclick="switchSREStep(2)">
+                    </button>
+                    <button type="button" class="sre-step ${currentSREStep === 2 ? 'active' : ''}" onclick="switchSREStep(2)">
                         <span class="sre-step-num">02</span>
                         <span class="sre-step-label">Équipe</span>
-                    </div>
-                    <div class="sre-step ${currentSREStep === 3 ? 'active' : ''}" onclick="switchSREStep(3)">
+                    </button>
+                    <button type="button" class="sre-step ${currentSREStep === 3 ? 'active' : ''}" onclick="switchSREStep(3)">
                         <span class="sre-step-num">03</span>
                         <span class="sre-step-label">Terrain</span>
-                    </div>
-                    <div class="sre-step ${currentSREStep === 4 ? 'active' : ''}" onclick="switchSREStep(4)">
+                    </button>
+                    <button type="button" class="sre-step ${currentSREStep === 4 ? 'active' : ''}" onclick="switchSREStep(4)">
                         <span class="sre-step-num">04</span>
                         <span class="sre-step-label">Valeur</span>
-                    </div>
-                    <div class="sre-step ${currentSREStep === 5 ? 'active' : ''}" onclick="switchSREStep(5)">
+                    </button>
+                    <button type="button" class="sre-step ${currentSREStep === 5 ? 'active' : ''}" onclick="switchSREStep(5)">
                         <span class="sre-step-num">05</span>
                         <span class="sre-step-label">Objectifs</span>
-                    </div>
-                    <div class="sre-step ${currentSREStep === 6 ? 'active' : ''}" onclick="switchSREStep(6)">
+                    </button>
+                    <button type="button" class="sre-step ${currentSREStep === 6 ? 'active' : ''}" onclick="switchSREStep(6)">
                         <span class="sre-step-num">06</span>
                         <span class="sre-step-label">Envol</span>
-                    </div>
+                    </button>
                 </div>
 
                 <div class="sre-content-area" id="sre-step-content">

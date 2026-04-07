@@ -960,18 +960,18 @@ p {
 @media (max-width: 960px) {
     .nav-content {
         position: absolute;
-        top: 100%; /* Ancrage précis sous la navbar */
-        right: 20px;
-        left: auto; /* Aligner à droite comme une bulle */
-        width: 250px; /* Taille réduite */
+        top: calc(100% + 25px); /* Décalage pour éviter de couvrir le logo */
+        right: 15px;
+        left: auto;
+        width: 260px;
         flex-direction: column;
         align-items: stretch;
         gap: 0;
         padding: 8px;
-        background: rgba(255, 255, 255, 0.98);
+        background: #ffffff;
         border: 1px solid var(--gray-100);
         border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         opacity: 0;
         pointer-events: none;
         transform: translateY(-8px);
@@ -982,7 +982,7 @@ p {
     .nav-content.is-open {
         opacity: 1;
         pointer-events: auto;
-        transform: translateY(8px); /* Flottement léger */
+        transform: translateY(0);
     }
 
     .nav-links {
