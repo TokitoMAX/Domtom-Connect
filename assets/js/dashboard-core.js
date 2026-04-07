@@ -817,36 +817,34 @@ function renderDashboardCards(role, tier, isListed, profile) {
                 </div>
 
                 <!-- ZONE SERVICES & RÉSEAU -->
-                <div class="dash-section-ecosystem">
-                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 32px; color:#0f172a; letter-spacing:-0.02em;">ÉCOSYSTÈME & RÉSEAU</h3>
+                    </div>
+                </div>
+
+                <!-- ZONE FIL D'ACTUALITÉ SAAS (RÉTABLISSEMENT) -->
+                <div style="margin-top: 60px; border-top: 1px solid #f1f5f9; padding-top: 40px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+                        <div>
+                            <h3 style="font-size: 1.5rem; font-weight: 900; margin:0; color:#0f172a; letter-spacing:-0.02em;">ACTUALITÉS DU RÉSEAU</h3>
+                            <p style="color:#64748b; font-size:0.95rem; margin-top:4px;">Les dernières pépites et opportunités de l'écosystème.</p>
+                        </div>
+                        <a href="/blog" target="_blank" class="cta-button secondary" style="font-size:0.8rem; font-weight:800;">VOIR TOUT LE FLUX</a>
+                    </div>
+
                     <div class="ecosystem-grid">
-                        <!-- SERVICES SAAS - MESSAGERIE -->
-                        <div class="dash-card-premium">
-                            <div style="width:40px; height:40px; background:rgba(124, 58, 237, 0.1); color:#7c3aed; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                            </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Messages</h4>
-                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Échangez avec les experts et partenaires du réseau.</p>
-                            <a href="/messages.html" class="cta-button secondary" style="width:100%; justify-content:center; margin-top:auto; font-size:0.8rem;">OUVRIR</a>
+                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
+                            <div class="dash-badge emerald" style="margin-bottom:12px;">SUCCÈS STORY</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">L'épopée d'Antilles Tech : 50k€ récoltés</h4>
+                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Découvrez comment ce projet a mobilisé la diaspora pour financer son expansion.</p>
                         </div>
-
-                        <!-- SERVICES SAAS - BILLETTERIE -->
-                        <div class="dash-card-premium">
-                            <div style="width:40px; height:40px; background:rgba(34, 197, 94, 0.1); color:#22c55e; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
-                            </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Mes Billets</h4>
-                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Accédez à vos billets et découvrez les rendez-vous VIP.</p>
-                            <button onclick="showView('mes-billets')" class="cta-button secondary" style="width:100%; justify-content:center; margin-top:auto; font-size:0.8rem;">MES BILLETS</button>
+                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
+                            <div class="dash-badge" style="margin-bottom:12px; background:rgba(59,130,246,0.1); color:#3b82f6;">NOUVEAU TALENT</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">+12 Experts Stratégiques ont rejoint le réseau</h4>
+                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Des profils en Marketing Digital et Finance sont désormais disponibles pour vos missions.</p>
                         </div>
-
-                        <div class="dash-card-premium">
-                            <div style="width:40px; height:40px; background:rgba(245, 158, 11, 0.1); color:#f59e0b; display:flex; align-items:center; justify-content:center; border-radius:10px; margin-bottom:20px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                            </div>
-                            <h4 style="margin:0 0 8px 0; font-size:1.2rem; font-weight:800;">Ressources</h4>
-                            <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Guides stratégiques et retours d'expériences territoriales.</p>
-                            <a href="/blog" target="_blank" class="cta-button primary" style="width:100%; justify-content:center; background:white; color:#0f172a; text-decoration:none; margin-top:auto; font-size:0.8rem;">LIRE LE BLOG</a>
+                        <div class="dash-card-premium" style="padding:24px; background:#f8fafc; border:none;">
+                            <div class="dash-badge" style="margin-bottom:12px; background:rgba(245,158,11,0.1); color:#f59e0b;">ÉVÉNEMENT VIP</div>
+                            <h4 style="margin:0 0 8px 0; font-size:1.1rem; font-weight:800;">Afterwork Networking à Fort-de-France</h4>
+                            <p style="font-size:0.85rem; color:#64748b; line-height:1.5;">Rencontrez les investisseurs et porteurs de projets le 15 Avril prochain.</p>
                         </div>
                     </div>
                 </div>
@@ -1568,11 +1566,84 @@ async function loadUserProfileData() {
             const emailEl = document.getElementById('display-email');
             const phoneEl = document.getElementById('display-phone');
             const avatarEl = document.getElementById('profile-avatar-img');
+            const roleEl = document.getElementById('profile-role-tag');
+            
             if (nameEl) nameEl.textContent = profile.full_name || 'Utilisateur';
             if (emailEl) emailEl.textContent = user.email;
             if (phoneEl) phoneEl.textContent = profile.phone || 'Non renseigné';
             if (avatarEl && profile.avatar_url) avatarEl.src = profile.avatar_url;
+            if (roleEl) {
+                const roles = {
+                    'expert': 'Expert Stratégique',
+                    'prestataire': 'Prestataire',
+                    'entreprise': 'Entreprise / Investisseur',
+                    'po': 'Porteur d\'Épopée',
+                    'admin': 'Administrateur'
+                };
+                roleEl.textContent = roles[profile.role] || 'Membre Domtom Connect';
+                
+                // --- SECTION SWITCH DE COMPTE ---
+                renderAccountSwitchUI(profile.role);
+            }
         }
+    } catch (err) { console.error(err); }
+}
+
+function renderAccountSwitchUI(currentRole) {
+    const profileView = document.getElementById('profile-view');
+    if (!profileView) return;
+    
+    let switchSection = document.getElementById('account-switch-section');
+    if (!switchSection) {
+        switchSection = document.createElement('div');
+        switchSection.id = 'account-switch-section';
+        switchSection.style.marginTop = '24px';
+        profileView.querySelector('div:last-child').appendChild(switchSection);
+    }
+    
+    const isExpert = currentRole === 'expert';
+    switchSection.innerHTML = `
+        <div style="background:#f8fafc; padding:24px; border-radius:12px; border:1px dashed #cbd5e1; text-align:center;">
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">Vous souhaitez changer de profil ?</p>
+            <button onclick="switchUserRole('${isExpert ? 'po' : 'expert'}')" class="cta-button secondary" style="width:100%; justify-content:center; background:white; font-size:0.8rem; font-weight:800;">
+                ${isExpert ? 'ACTIVER LE PROFIL PORTEUR DE PROJET' : 'ACTIVER LE PROFIL EXPERT'}
+            </button>
+        </div>
+    `;
+}
+
+async function switchUserRole(newRole) {
+    if (!confirm(`Souhaitez-vous basculer vers le profil ${newRole === 'expert' ? 'Expert' : 'Porteur de Projet'} ?`)) return;
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+        const { error } = await _supabase.from('profiles').update({ role: newRole }).eq('id', user.id);
+        if (error) throw error;
+        window.location.reload();
+    } catch (err) { alert(err.message); }
+}
+
+async function loadMyTicketing() {
+    const list = document.getElementById('billetterie-list');
+    if (!list) return;
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+        const { data: events, error } = await _supabase.from('events').select('*').eq('organizer_id', user.id).order('date', { ascending: true });
+        if (error) throw error;
+        
+        if (!events || events.length === 0) {
+            list.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#94a3b8;">Aucun événement créé pour le moment.</div>';
+            return;
+        }
+        
+        list.innerHTML = events.map(ev => `
+            <div class="dash-card-premium">
+                <h4 style="margin:0; font-size:1.1rem;">${ev.title}</h4>
+                <p style="font-size:0.8rem; color:#64748b;">📍 ${ev.location} | 📅 ${new Date(ev.date).toLocaleDateString()}</p>
+                <div style="margin-top:16px;">
+                    <button onclick="viewAttendees('${ev.id}')" class="cta-button primary" style="font-size:0.75rem; background:#0f172a;">Gérer les participants</button>
+                </div>
+            </div>
+        `).join('');
     } catch (err) { console.error(err); }
 }
 
@@ -1585,7 +1656,7 @@ window.loadUserProfileData = loadUserProfileData;
 // --- FINAL INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. GESTION MENU BURGER (MOBILE)
-    const navToggle = document.querySelector('.nav-toggle');
+    const navToggle = document.querySelector('.dash-nav-toggle');
     const sidebar = document.querySelector('.sidebar');
     
     if (navToggle && sidebar) {
