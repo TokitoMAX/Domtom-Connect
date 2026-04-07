@@ -79,21 +79,22 @@ async function loadMyProjects(userId) {
         // --- 2. LISTE DES PROJETS ---
         let listHTML = `
             <div id="project-list-view">
-                <div class="dash-section-pilotage" style="background: #0f172a; color: white; border: none; margin-bottom:40px;">
+                <div class="dash-section-pilotage">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <h2 style="color: white; margin: 0; font-size: 1.5rem;">Ma Nouvelle Épopée</h2>
                             <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0;">Initiez un nouveau projet.</p>
                         </div>
-                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a;">+ Nouveau Projet</button>
+                        <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">+ Nouveau Projet</button>
                     </div>
                 </div>
 
                 <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">Mes Épopées</h3>
                 <div class="ecosystem-grid">
                     ${projects && projects.length > 0 ? projects.map(p => `
-                        <div class="dash-card-premium" style="border-left: 4px solid #10b981; background: linear-gradient(135deg, #fff 0%, rgba(16,185,129,0.02) 100%);">
-                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">STRAT</div>
+                        <div class="dash-card-premium" style="border-left: 4px solid #10b981; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position:relative;">
+                            <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.6;" title="Supprimer">×</button>
+                            <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight:800; font-size:0.7rem;">PROJET</div>
                             <div class="card-title" style="font-size: 1.3rem;">${p.title || p.name || 'Sans titre'}</div>
                             <div style="font-size:0.85rem; color:#64748b; margin-bottom:12px; font-weight:700;">📍 ${p.territory || 'Territoire à définir'}</div>
                             
@@ -286,12 +287,60 @@ function renderStepFields(step, p) {
                     <label class="success-engine-label">Texte du Pitch Final</label>
                     <textarea id="pitch_texte" class="success-engine-textarea" style="height:150px;" placeholder="Votre argumentaire de vente en 300 mots max.">${p.pitch_texte || ''}</textarea>
                 </div>
+                
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Numéro SIRET (Optionnel)</label>
+                    <input type="text" id="siret" class="sre-input" value="${p.siret || ''}" placeholder="Ex: 123 456 789 0001">
+                </div>
+                
+                <div class="success-engine-field">
+                    <label class="success-engine-label">Document d'identité (PDF/Image)</label>
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <input type="file" id="id-doc" style="display:none;" onchange="handleIDUpload(this, '${p.id}')">
+                        <button onclick="document.getElementById('id-doc').click()" class="cta-button secondary" style="font-size:0.8rem; padding:8px 16px;">
+                            ${p.id_url ? 'DOCUMENT ENVOYÉ ✓' : 'TÉLÉCHARGER PIÈCE D\'IDENTITÉ'}
+                        </button>
+                        <input type="hidden" id="id-url" value="${p.id_url || ''}">
+                    </div>
+                </div>
+
                 <div style="background:#f0fdf4; border:1px solid #10b981; padding:20px; border-radius:12px; grid-column: 1 / -1;">
-                    <h4 style="margin:0 0 8px 0; color:#10b981;">Dernière Validation</h4>
+                    <h4 style="margin:0 0 8px 0; color:#10b981; font-weight:900;">Dernière Validation</h4>
                     <p style="font-size:0.85rem; color:#065f46; margin:0;">En soumettant votre projet, l'administrateur sera notifié pour valider et publier votre épopée dans le marketplace.</p>
                 </div>
             </div>
         `;
+    }
+}
+
+async function handleIDUpload(input, projectId) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    try {
+        const session = await getSession();
+        if (!session) return;
+        
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${session.user.id}/id_${projectId}_${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { data, error } = await _supabase.storage
+            .from('avatars')
+            .upload(filePath, file);
+
+        if (error) throw error;
+
+        const { data: { publicUrl } } = _supabase.storage
+            .from('avatars')
+            .getPublicUrl(filePath);
+
+        document.getElementById('id-url').value = publicUrl;
+        const btn = input.nextElementSibling;
+        if (btn) btn.innerText = "DOCUMENT ENVOYÉ ✓";
+        alert("✅ Pièce d'identité téléchargée avec succès !");
+    } catch (err) {
+        alert("Erreur lors du téléchargement: " + err.message);
     }
 }
 
@@ -314,6 +363,8 @@ async function saveProjectStep(projectId, step) {
         payload.budget = document.getElementById('budget').value;
     } else if (step === 6) {
         payload.pitch_texte = document.getElementById('pitch_texte').value;
+        payload.siret = document.getElementById('siret').value;
+        payload.id_url = document.getElementById('id-url').value;
         payload.verification_status = 'pending';
         payload.status = 'active';
     }
@@ -347,6 +398,7 @@ async function startNewProjectWizard() {
         const { data: p, error } = await _supabase.from('projects').insert([{
             owner_id: session.user.id,
             title: title,
+            description: "",
             status: 'draft'
         }]).select().single();
         
@@ -650,6 +702,30 @@ async function saveNewProject() {
     } catch (err) { alert(err.message); }
 }
 
+async function deleteSREProject(id) {
+    if (!confirm("⚠️ Cette action est irréversible.\n\nSouhaitez-vous vraiment supprimer cette Épopée ?")) return;
+    
+    try {
+        // Step 1: Delete associated rewards
+        const { error: errRewards } = await _supabase.from('project_rewards').delete().eq('project_id', id);
+        if (errRewards) throw errRewards;
+
+        // Step 2: Delete associated milestones
+        const { error: errMilestones } = await _supabase.from('project_milestones').delete().eq('project_id', id);
+        if (errMilestones) throw errMilestones;
+
+        // Step 3: Delete the project itself
+        const { error: errProject } = await _supabase.from('projects').delete().eq('id', id);
+        if (errProject) throw errProject;
+        
+        const session = await getSession();
+        if (session) await loadMyProjects(session.user.id);
+        alert("✅ Épopée supprimée.");
+    } catch (err) {
+        alert("Erreur suppression: " + err.message);
+    }
+}
+
 window.openProjectModal = openProjectModal;
 window.saveNewProject = saveNewProject;
 window.loadMyProjects = loadMyProjects;
@@ -659,3 +735,5 @@ window.closeProjectCockpit = closeProjectCockpit;
 window.startNewProjectWizard = startNewProjectWizard;
 window.renderCockpitWithStep = renderCockpitWithStep;
 window.saveProjectStep = saveProjectStep;
+window.deleteSREProject = deleteSREProject;
+window.handleIDUpload = handleIDUpload;
