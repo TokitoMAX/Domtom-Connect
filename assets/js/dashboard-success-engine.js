@@ -259,14 +259,47 @@ function renderStepFields(step, p) {
                 <div class="success-engine-field">
                     <label class="success-engine-label">Territoire d'Épopée</label>
                     <select id="territory" class="sre-input">
-                        <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
-                        <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
-                        <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane 🇬🇫</option>
-                        <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
-                        <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
-                        <option value="Diaspora (Antilles-Guyane)" ${p.territory === 'Diaspora (Antilles-Guyane)' ? 'selected' : ''}>Diaspora (Antilles-Guyane) 🇫🇷</option>
-                        <option value="USA" ${p.territory === 'USA' ? 'selected' : ''}>USA 🇺🇸</option>
-                        <option value="Canada" ${p.territory === 'Canada' ? 'selected' : ''}>Canada 🇨🇦</option>
+                        <optgroup label="Antilles & Guyane Françaises">
+                            <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
+                            <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
+                            <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane Française 🇬🇫</option>
+                            <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin 🇸🇽</option>
+                            <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy 🇧🇱</option>
+                        </optgroup>
+                        <optgroup label="Océan Indien">
+                            <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
+                            <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
+                        </optgroup>
+                        <optgroup label="Antilles & Caraïbes (International)">
+                            <option value="Anguilla" ${p.territory === 'Anguilla' ? 'selected' : ''}>Anguilla 🇦🇮</option>
+                            <option value="Antigua & Barbuda" ${p.territory === 'Antigua & Barbuda' ? 'selected' : ''}>Antigua & Barbuda 🇦🇬</option>
+                            <option value="Bahamas" ${p.territory === 'Bahamas' ? 'selected' : ''}>Bahamas 🇧🇸</option>
+                            <option value="Barbados" ${p.territory === 'Barbados' ? 'selected' : ''}>Barbados 🇧🇧</option>
+                            <option value="Cuba" ${p.territory === 'Cuba' ? 'selected' : ''}>Cuba 🇨🇺</option>
+                            <option value="Dominican Republic" ${p.territory === 'Dominican Republic' ? 'selected' : ''}>Dominican Republic 🇩🇴</option>
+                            <option value="Dominica" ${p.territory === 'Dominica' ? 'selected' : ''}>Dominica 🇩🇲</option>
+                            <option value="Grenada" ${p.territory === 'Grenada' ? 'selected' : ''}>Grenada 🇬🇩</option>
+                            <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haiti 🇭🇹</option>
+                            <option value="Jamaica" ${p.territory === 'Jamaica' ? 'selected' : ''}>Jamaica 🇯🇲</option>
+                            <option value="Puerto Rico" ${p.territory === 'Puerto Rico' ? 'selected' : ''}>Puerto Rico 🇵🇷</option>
+                            <option value="St. Kitts & Nevis" ${p.territory === 'St. Kitts & Nevis' ? 'selected' : ''}>St. Kitts & Nevis 🇰🇳</option>
+                            <option value="St. Lucia" ${p.territory === 'St. Lucia' ? 'selected' : ''}>St. Lucia 🇱🇨</option>
+                            <option value="St. Vincent & Grenadines" ${p.territory === 'St. Vincent & Grenadines' ? 'selected' : ''}>St. Vincent & Grenadines 🇻🇨</option>
+                            <option value="Trinidad & Tobago" ${p.territory === 'Trinidad & Tobago' ? 'selected' : ''}>Trinidad & Tobago 🇹🇹</option>
+                            <option value="Turks & Caicos" ${p.territory === 'Turks & Caicos' ? 'selected' : ''}>Turks & Caicos 🇹🇨</option>
+                        </optgroup>
+                        <optgroup label="Amérique du Nord">
+                            <option value="Canada - Montréal" ${p.territory === 'Canada - Montréal' ? 'selected' : ''}>Montréal, Canada 🇨🇦</option>
+                            <option value="Canada - Québec" ${p.territory === 'Canada - Québec' ? 'selected' : ''}>Québec, Canada 🇨🇦</option>
+                            <option value="Canada - Toronto" ${p.territory === 'Canada - Toronto' ? 'selected' : ''}>Toronto, Canada 🇨🇦</option>
+                            <option value="USA - Miami" ${p.territory === 'USA - Miami' ? 'selected' : ''}>Miami, USA 🇺🇸</option>
+                            <option value="USA - New York" ${p.territory === 'USA - New York' ? 'selected' : ''}>New York, USA 🇺🇸</option>
+                            <option value="USA - Diaspora" ${p.territory === 'USA - Diaspora' ? 'selected' : ''}>USA (Autre), Diaspora 🇺🇸</option>
+                        </optgroup>
+                        <optgroup label="Europe & Diaspora">
+                            <option value="France Hexagonale" ${p.territory === 'France Hexagonale' ? 'selected' : ''}>France Hexagonale 🇫🇷</option>
+                            <option value="Europe - Diaspora" ${p.territory === 'Europe - Diaspora' ? 'selected' : ''}>Europe (Autre), Diaspora 🇪🇺</option>
+                        </optgroup>
                         <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire 🌍</option>
                     </select>
                 </div>
@@ -966,10 +999,12 @@ window.openProjectModal = openProjectModal;
 window.saveNewProject = saveNewProject;
 window.loadMyProjects = loadMyProjects;
 window.calculateProjectMaturity = calculateProjectMaturity;
-window.openProjectCockpit = openProjectCockpit;
 window.closeProjectCockpit = closeProjectCockpit;
 window.startNewProjectWizard = startNewProjectWizard;
 window.renderCockpitWithStep = renderCockpitWithStep;
 window.saveProjectStep = saveProjectStep;
 window.deleteSREProject = deleteSREProject;
 window.handleIDUpload = handleIDUpload;
+window.openProjectCockpit = openProjectCockpit;
+window.loadMyProjects = loadMyProjects;
+window.calculateProjectMaturity = calculateProjectMaturity;

@@ -1554,13 +1554,11 @@ window.viewAttendees = async (eventId) => {
     }
 };
 
-window.closeAttendeesModal = () => {
-    const modal = document.getElementById('attendees-modal');
-    if (modal) {
-        modal.classList.remove('open');
-        modal.style.display = 'none';
-    }
-};
+// Exposition globale pour accès depuis l'HTML (onclick)
+window.showView = showView;
+window.initRouting = initRouting;
+window.checkSession = checkSession;
+window.signOut = signOut;
 
 // Start initialization
 document.addEventListener('DOMContentLoaded', async () => {
