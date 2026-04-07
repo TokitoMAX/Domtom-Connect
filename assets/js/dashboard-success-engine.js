@@ -399,7 +399,18 @@ async function startNewProjectWizard() {
             owner_id: session.user.id,
             title: title,
             description: "",
-            status: 'draft'
+            vision: "",
+            mission: "",
+            enjeu: "",
+            equipe: "",
+            marche: "",
+            impact_local: "",
+            innovation: "",
+            pitch_texte: "",
+            funding_goal: 0,
+            territory: 'Martinique',
+            status: 'draft',
+            verification_status: 'none'
         }]).select().single();
         
         if (error) throw error;
