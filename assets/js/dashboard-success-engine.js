@@ -112,7 +112,22 @@ async function loadMyProjects(userId) {
 
         engineStepContainer.innerHTML = listHTML;
 
-        // --- 3. SYNCHRONISATION (Désactivée pour éviter les doublons) ---
+        // --- 3. SYNCHRONISATION AVEC L'OVERVIEW (Maturité & Collecte) ---
+        if (projects && projects.length > 0) {
+            const latest = projects[0];
+            const maturityEl = document.getElementById('maturity-score-dash');
+            const collectedEl = document.getElementById('collected-amount-dash');
+            
+            if (maturityEl) {
+                const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
+                maturityEl.textContent = `${score} %`;
+            }
+            
+            if (collectedEl) {
+                const total = projects.reduce((acc, p) => acc + (parseFloat(p.total_raised) || 0), 0);
+                collectedEl.textContent = `${total.toLocaleString()} €`;
+            }
+        }
 
     } catch (err) {
         console.error("Error loading projects:", err);
@@ -233,6 +248,11 @@ function renderStepFields(step, p) {
                     </div>
                 </div>
 
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Nom de l'Épopée (Titre) *</label>
+                    <input type="text" id="title" class="cockpit-input-premium" value="${p.title || ''}" placeholder="Le nom de votre projet.">
+                </div>
+
                 <div class="cockpit-field">
                     <label class="cockpit-field-label">Territoire d'Épopée</label>
                     <select id="territory" class="cockpit-input-premium">
@@ -282,24 +302,25 @@ function renderStepFields(step, p) {
                     </select>
                 </div>
 
-                <div class="success-engine-field">
-                    <label class="success-engine-label">L'Accroche (Short Description)</label>
-                    <input type="text" id="short_description" class="sre-input" value="${p.short_description || ''}" placeholder="Votre pitch en une phrase percutante.">
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">L'Accroche (Short Description)</label>
+                    <input type="text" id="short_description" class="cockpit-input-premium" value="${p.short_description || ''}" placeholder="Votre pitch en une phrase percutante.">
                 </div>
 
-                <div class="success-engine-field">
-                    <label class="success-engine-label">Votre Vision (Le Futur)</label>
-                    <textarea id="vision" class="success-engine-textarea" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">Votre Vision (Le Futur)</label>
+                    <textarea id="vision" class="cockpit-input-premium" style="height:100px;" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
                 </div>
-                <div class="success-engine-field">
-                    <label class="success-engine-label">L'Enjeu (Pourquoi ?)</label>
-                    <textarea id="enjeu" class="success-engine-textarea" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
+                <div class="cockpit-field">
+                    <label class="cockpit-field-label">L'Enjeu (Pourquoi ?)</label>
+                    <textarea id="enjeu" class="cockpit-input-premium" style="height:100px;" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
                 </div>
-                <div class="success-engine-field" style="grid-column: 1 / -1;">
-                    <label class="success-engine-label">Votre Mission (Maintenant)</label>
-                    <textarea id="mission" class="success-engine-textarea" style="height:120px;" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
+                <div class="cockpit-field" style="grid-column: 1 / -1;">
+                    <label class="cockpit-field-label">Votre Mission (Maintenant)</label>
+                    <textarea id="mission" class="cockpit-input-premium" style="height:120px;" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
                 </div>
             </div>
+
         `;
     } else if (step === 2) {
         return `
