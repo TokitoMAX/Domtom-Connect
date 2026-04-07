@@ -639,9 +639,55 @@
         }
 
         @media (max-width: 768px) {
-            .sre-stepper { overflow-x: auto; padding-bottom: 8px; }
-            .sre-step { min-width: 140px; }
-            .sre-action-grid { grid-template-columns: 1fr; }
+            .sre-stepper { 
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                overflow-x: visible;
+                padding-bottom: 0;
+            }
+            .sre-step { 
+                min-width: 0; 
+                padding: 12px 4px;
+                border-radius: 12px;
+            }
+            .sre-step-label {
+                font-size: 0.7rem;
+            }
+            .sre-action-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .sre-container {
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+            .sre-project-title {
+                font-size: 1.5rem;
+            }
+            .sre-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            #matchmaking-section {
+                margin-top: 40px !important;
+                padding-top: 30px !important;
+            }
+            #matchmaking-section h2 {
+                font-size: 1.2rem !important;
+            }
+            #matchmaking-section .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+            /* Style pour le bloc PRIVÉ injecté par JS */
+            #matches-container > div[style*="padding: 40px"] {
+                padding: 30px 20px !important;
+            }
+            #matches-container > div[style*="font-size: 2rem"] {
+                font-size: 1.5rem !important;
+            }
         }
 
         .form-label {
