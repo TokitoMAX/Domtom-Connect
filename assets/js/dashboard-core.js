@@ -173,19 +173,20 @@ async function inspectSREProject(projectId) {
     }
 }
 
-window.showView = showView; // Exposition précoce
+window.showView = showView;
+window.handleRouting = handleRouting;
+
+function handleRouting() {
+    const hash = window.location.hash.replace('#', '') || 'overview';
+    showView(hash, true); // On force le rendu graphique
+}
 
 function showView(viewId, forceRender = false) {
-    // Si on navigue vers une vue différente, on laisse le hashchange piloter (via initRouting)
     if (window.location.hash !== `#${viewId}` && !viewId.includes('?') && !forceRender) {
         window.location.hash = viewId;
         return;
     }
 
-    // Si on force le rendu ou si le hash est déjà le bon, on exécute la logique visuelle
-    console.log("Showing view:", viewId);
-    
-    // Support du format 'viewId?id=XYZ'
     let baseView = viewId;
     let params = {};
     if (viewId.includes('?')) {
@@ -203,69 +204,56 @@ function showView(viewId, forceRender = false) {
         'profile': 'profile-view'
     };
 
-    const targetId = viewMap[baseView] || 'main-dashboard-content';
-    const target = document.getElementById(targetId);
+    const targetId = viewMap[baseView];
+    const views = Object.values(viewMap);
     
-    // Hide all major view containers
-    const views = [
-        'overview-view', 
-        'success-engine-view-fixed', 
-        'billetterie-view', 
-        'mes-billets-view',
-        'profile-view'
-    ];
-    
+    // 1. Masquer TOUTES les sections de vue proprement
     views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
     });
 
-    const greeting = document.querySelector('.dash-section-header');
-
+    // 2. Afficher la section cible
+    const target = document.getElementById(targetId);
     if (target) {
         target.style.display = 'block';
         
-        // Eléments à masquer/afficher
+        // 3. Gestion des headers et navbar specifiques
         const isOverview = baseView === 'overview';
-        
+        const greeting = document.querySelector('.dash-section-header');
+        const topNav = document.querySelector('.top-nav');
+
         if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
         if (topNav) topNav.style.display = isOverview ? 'flex' : 'none';
 
-        // Chargement spécifique si Profil
+        // 4. Chargements spécifiques
         if (baseView === 'profile') {
-            loadUserProfileData();
-        }
-    }
-
-    // Update Sidebar Active State
-    const navLinks = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
-    navLinks.forEach(link => {
-        const onclick = link.getAttribute('onclick');
-        if (onclick && onclick.includes(`'${baseView}'`)) {
-            link.classList.add('active');
-        } else {
-            const href = link.getAttribute('href');
-            if (baseView === 'overview' && (href === '/mon-espace' || href === 'mon-espace.html')) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
+            if (typeof loadUserProfileData === 'function') loadUserProfileData();
+        } else if (baseView === 'billetterie') {
+            if (typeof loadMyTicketing === 'function') loadMyTicketing();
+        } else if (baseView === 'mes-billets') {
+            if (typeof loadMyTickets === 'function') loadMyTickets();
+        } else if (baseView === 'success-engine') {
+            if (params.id && typeof openProjectCockpit === 'function') {
+                openProjectCockpit(params.id);
+            } else if (typeof loadMyProjects === 'function') {
+                _supabase.auth.getSession().then(({data}) => {
+                    if (data.session) loadMyProjects(data.session.user.id);
+                });
             }
         }
-    });
-
-    // Handle initial loading of specific views
-    if (baseView === 'billetterie') {
-        if (typeof loadMyTicketing === 'function') loadMyTicketing();
-    } else if (baseView === 'mes-billets') {
-        if (typeof loadMyTickets === 'function') loadMyTickets();
-    } else if (baseView === 'success-engine') {
-        // Restaurer le cockpit si un ID est présent
-        if (params.id && typeof openProjectCockpit === 'function') {
-            openProjectCockpit(params.id);
-        } else if (typeof loadMyProjects === 'function') {
-            loadMyProjects(_supabase.auth.getSession().then(({data}) => data.session?.user.id));
-        }
     }
+
+    // 5. Mettre à jour l'état actif des liens (Sidebar & Mobile Nav)
+    const navLinks = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === `#${baseView}`) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
 
     window.scrollTo(0, 0);
 }
@@ -279,11 +267,10 @@ function scrollToPacks() {
 
 
 function initRouting() {
-    const hash = window.location.hash.replace('#', '') || 'overview';
-    showView(hash);
+    handleRouting();
 }
 
-window.addEventListener('hashchange', initRouting);
+window.addEventListener('hashchange', handleRouting);
 
 // --- 2. SESSION & CONTENT LOADING ---
 

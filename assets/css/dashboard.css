@@ -36,12 +36,26 @@ body {
     box-shadow: 1px 0 10px rgba(0,0,0,0.02);
 }
 
-@media (min-width: 769px) {
+@media (min-width: 961px) {
     .sidebar {
         display: flex !important;
     }
     .main-content {
         margin-left: 80px !important;
+    }
+}
+
+@media (max-width: 960px) {
+    .sidebar {
+        display: none !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+        padding-top: 20px !important;
+        padding-bottom: 100px !important; /* Espace pour la Pill en bas */
+    }
+    .dashboard-layout {
+        display: block !important;
     }
 }
 
@@ -763,10 +777,18 @@ body {
     align-items: center;
 }
 
-.milestone-mini-card .amount {
-    font-weight: 900;
-    font-size: 0.9rem;
-    color: #10b981;
+/* Transitions de Vues Premium (SPA Effect) */
+#overview-view, 
+#success-engine-view-fixed, 
+#billetterie-view, 
+#mes-billets-view, 
+#profile-view {
+    animation: dashFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dashFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .step-status-icon {

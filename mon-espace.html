@@ -24,21 +24,11 @@
 
     <link rel="stylesheet" href="assets/css/dashboard.css?v=5.0">
     <!-- Navigation Airceptor (Priorité Tactile Mobile - ZÉRO BLOCAGE) -->
+    <!-- Navigation Centralisée via HashChange (Infaillible) -->
     <script>
-        // NAVIGATION INFAILLIBLE : Simple et robuste
-        function forceNav(viewId) {
-            if (window.showView) {
-                window.showView(viewId, true);
-            }
-            window.location.hash = viewId;
-        }
-
-        // On intercepte uniquement les clics pour éviter les conflits tactiles
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
-                const viewId = link.getAttribute('href').slice(1);
-                // On laisse le hashchange naturel agir, sauf si on force
+        window.addEventListener('hashchange', function() {
+            if (typeof handleRouting === 'function') {
+                handleRouting();
             }
         });
     </script>
@@ -50,31 +40,14 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="#overview" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+            <a href="#overview" class="nav-brand" title="Accueil Domtom Connect">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name">Domtom Connect</span>
             </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links" id="nav-links-container">
-                    <a href="marketplace/directory">Talents</a>
-                    <a href="marketplace/jobs">Missions</a>
-                    <a href="marketplace/projects">Projets</a>
-                    <a href="marketplace/evenements">Événements</a>
-                    <a href="marketplace/companies">Entreprises</a>
-                </div>
-                <div class="nav-actions" id="nav-actions-container">
-                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="register-choice" class="cta-button primary" id="start-button">Démarrer</a>
-                </div>
-            </div>
+            <!-- Note: Menu burger supprimé sur mobile pour privilégier la Pill Navigation -->
         </div>
     </nav>
 
@@ -243,14 +216,9 @@
                     <div id="additional-content"></div>
                 </div>
 
-                <!-- Zone Success Engine (Séparée pour éviter les conflits d'ID) -->
-                <div id="success-engine-view-fixed" style="display: none; margin-top: 40px;">
-                    <a href="#overview" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 32px; font-weight:800; border-radius:12px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;">
-                            <path d="M19 12H5M12 19l-7-7 7-7"/>
-                        </svg>
-                        Retour au Tableau de Bord
-                    </a>
+                <!-- Zone Success Engine -->
+                <div id="success-engine-view-fixed" style="display: none; padding-top: 20px;">
+                    <!-- Note: Bouton retour supprimé car géré par la Pill Navigation -->
 
                     <div class="success-engine-container">
                         <div id="success-engine-header"></div>
