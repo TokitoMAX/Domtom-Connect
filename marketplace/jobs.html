@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" href="/assets/css/style.css?v=3.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.7);
@@ -381,7 +382,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/auth.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let currentUserId = null, currentUserRole = null, cachedProfiles = {}, currentSubscriptionTier = 'free', userApplications = [], allJobs = [], currentEditJobId = null;
 
@@ -393,7 +395,19 @@
                 if (profile) {
                     currentUserRole = profile.role;
                     currentSubscriptionTier = profile.subscription_tier || 'free';
-                    if (currentUserRole === 'entreprise') document.getElementById('company-banner').style.display = 'flex';
+                    if (currentUserRole === 'entreprise' || currentUserRole === 'company') {
+                        document.getElementById('company-banner').style.display = 'flex';
+                        const { data: profile } = await _supabase.from('profiles').select('verification_status').eq('id', currentUserId).single();
+                        if (profile && profile.verification_status !== 'approved') {
+                            const btn = document.querySelector('#company-banner button');
+                            if (btn) {
+                                btn.style.background = '#e2e8f0';
+                                btn.style.color = '#94a3b8';
+                                btn.style.cursor = 'not-allowed';
+                                btn.innerHTML = '<i class="fas fa-lock" style="margin-right:8px;"></i> Publication verrouillée';
+                            }
+                        }
+                    }
                 }
                 const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
                 if (apps) userApplications = apps.map(a => a.job_id);
@@ -567,7 +581,29 @@
             }
         }
 
-        function openJobModal() { document.getElementById('job-modal').classList.add('open'); }
+        async function openJobModal() { 
+            if (currentUserRole !== 'company') return;
+            
+            // 1. Vérification proactive du statut
+            const { data: profile, error } = await _supabase
+                .from('profiles')
+                .select('verification_status')
+                .eq('id', currentUserId)
+                .single();
+                
+            if (error || !profile || profile.verification_status !== 'approved') {
+                Swal.fire({
+                    icon: 'lock',
+                    title: 'Accès limité',
+                    text: 'Votre entreprise doit être validée par Domtom Connect avant de pouvoir publier des missions.',
+                    confirmButtonColor: '#10b981',
+                    footer: '<a href="/mon-espace#profile">Compléter mon profil de validation</a>'
+                });
+                return;
+            }
+            
+            document.getElementById('job-modal').classList.add('open'); 
+        }
         function closeJobModal() { document.getElementById('job-modal').classList.remove('open'); }
         let currentApplyJobId = null;
 
