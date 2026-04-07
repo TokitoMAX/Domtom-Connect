@@ -14,38 +14,10 @@ let currentSREProject = null;
 window.showView = showView;
 
 function calculateProjectMaturity(p) {
-    if (!p) return 0;
-    let score = 0;
-    
-    // Step 1: Identité (16%)
-    const hasVision = p.vision && p.vision.trim() !== '' && !p.vision.includes('[[VISION]]');
-    const hasMission = p.mission && p.mission.trim() !== '' && !p.mission.includes('[[MISSION]]');
-    const hasEnjeu = p.enjeu && p.enjeu.trim() !== '' && !p.enjeu.includes('[[PROBLEM]]');
-    if (hasVision && hasMission && hasEnjeu) score += 16;
-
-    // Step 2: Humain (16%)
-    if (p.equipe && p.equipe.trim().length > 10) score += 16;
-
-    // Step 3: Terrain (17%)
-    if (p.marche && p.marche.trim().length > 10) score += 17;
-
-    // Step 4: Valeur (17%)
-    const hasImpact = p.impact_local && p.impact_local.trim().length > 10;
-    const hasInnovation = p.innovation && p.innovation.trim().length > 10;
-    const hasJobs = p.emplois && p.emplois.trim().length > 2;
-    if (hasImpact || hasInnovation || hasJobs) score += 17;
-
-    // Step 5: Objectifs (17%)
-    if (p.funding_goal && parseFloat(p.funding_goal) > 0) score += 17;
-
-    // Step 6: Envol (17%)
-    const isVerified = p.verification_status === 'verified';
-    const hasPitch = p.pitch_texte && p.pitch_texte.trim().length > 20;
-    
-    if (isVerified && hasPitch) score += 17;
-    else if (isVerified || hasPitch) score += 8;
-
-    return Math.min(score, 100);
+    if (typeof OwnersModule !== 'undefined' && typeof OwnersModule.calculateMaturity === 'function') {
+        return OwnersModule.calculateMaturity(p);
+    }
+    return 0; // Fallback
 }
 
 async function loadPendingProjects() {
@@ -330,8 +302,8 @@ async function loadDashboardContent(session) {
         renderRoleBadge(roleBadge, role);
     }
 
-    // Render Cards
-    renderDashboardCards(role, tier, isListed, profile);
+    // Render Cards via Ecosystem Modules (DELEGATION)
+    renderDashboardCards(role, tier, isListed, profile, session);
 
     // Profile Strength & Visibility
     updateProfileStrength(profile);
@@ -394,12 +366,12 @@ function renderRoleBadge(el, role) {
     el.style.letterSpacing = '0.05em';
 }
 
-function renderDashboardCards(role, tier, isListed, profile) {
+function renderDashboardCards(role, tier, isListed, profile, session) {
     const container = document.getElementById('dashboard-cards');
     const additional = document.getElementById('additional-content');
     if (!container) return;
 
-    // --- BLOC ADMIN PRIORITAIRE (NUCLEAR FIX) ---
+    // 1. ADMIN SYSTEM (Always Priority)
     if (role === 'admin') {
         const adminDashboardHTML = `
             <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02); grid-column: 1 / -1; padding: 40px;">
@@ -436,387 +408,30 @@ function renderDashboardCards(role, tier, isListed, profile) {
             </div>
         `;
         container.innerHTML = adminDashboardHTML;
-        
-        // Charger immédiatement les projets
         loadPendingProjects();
-    } else if (role === 'expert' || role === 'prestataire') {
-        container.innerHTML = `
-            <!-- ZONE DE PILOTAGE EXPERT -->
-            <div class="dash-section-pilotage">
-                <div class="dash-pilotage-header">
-                    <div>
-                        <h2 class="success-engine-project-title">MON ACTIVITÉ EXPERT</h2>
-                        <p class="success-engine-subtitle">Gérez vos missions, contrats et revenus.</p>
-                    </div>
-                </div>
-                
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight: 800; font-size: 0.8rem;">TJM</div>
-                        <div class="card-title">Cadrage Financier</div>
-                        <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie.</p>
-                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM</a>
-                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center;">Gérer ma facturation</a>
-                        </div>
-                    </div>
+        return;
+    }
 
-                    <div class="dash-card-premium" style="border-left: 4px solid #10b981;">
-                        <div class="dash-card-icon" style="background: rgba(16,185,129,0.1); color: #10b981; font-weight: 800; font-size: 0.8rem;">EUR</div>
-                        <div class="card-title">Contrats & Commissions</div>
-                        <p class="card-desc">Déclarez vos contrats signés et suivez vos gains.</p>
-                        <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
-                            <div style="display:flex; justify-content:space-between;"><span>Cumul HT :</span> <strong id="total-signed">0 €</strong></div>
-                        </div>
-                        <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; margin-top:auto;">Déclarer Signature</button>
-                    </div>
-
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b; font-weight: 800; font-size: 0.8rem;">EVT</div>
-                        <div class="card-title">Ma Billetterie</div>
-                        <p class="card-desc">Gérez vos propres événements et suivez vos ventes.</p>
-                        <button onclick="showView('billetterie')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Gérer mes ventes</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ZONE ÉCOSYSTÈME & SERVICES -->
-            <div class="dash-section-ecosystem">
-                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">NAV</div>
-                        <div class="card-title">Messagerie</div>
-                        <p class="card-desc">Échangez avec les porteurs et entreprises.</p>
-                        <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
-                    </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">TIC</div>
-                        <div class="card-title">Mes Billets</div>
-                        <p class="card-desc">Vos accès aux événements du réseau.</p>
-                        <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
-                    </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">ART</div>
-                        <div class="card-title">Ressources</div>
-                        <p class="card-desc">Blog, guides et astuces pour réussir.</p>
-                        <a href="/blog" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Lire</a>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Update Profile Strength
-        updateProfileStrength(profile);
-        renderVisibilityPreview(profile);
-
-        // === PACKS HYBRIDES (Restauré depuis epopee.html) ===
-        const packsHTML = `
-            <div style="margin-top:40px;">
-                <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Développez votre clientèle</p>
-                <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre présence sur Domtom Connect</h2>
-                <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Nous construisons votre visibilité pendant que vous vous concentrez sur vos missions.</p>
-
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
-
-                    <!-- PACK 1 : PRÉSENCE -->
-                    <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
-                        <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Présence</div>
-                        <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
-                        <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Accès restreint</p>
-                        <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                            <li>— Accès au fil du réseau</li>
-                            <li>— Mise en relation basique</li>
-                            <li>— Candidatures aux missions</li>
-                            <li style="color:var(--gray-300);">— Invisible dans l'annuaire</li>
-                            <li style="color:var(--gray-300);">— Pas de badge "Vérifié"</li>
-                        </ul>
-                        <div id="current-plan-free" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:${tier === 'free' ? 'block' : 'none'};">Votre plan actuel</div>
-                    </div>
-
-                    <!-- PACK 2 : PACK EXPERT -->
-                    <div style="background:white;border:2px solid #10b981;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(16,185,129,0.12);">
-                        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#10b981;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Visibilité & Contenu</div>
-                        <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;margin-bottom:12px;">Pack Expert</div>
-                        <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">9,99€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                        <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">S'abonner — Sans engagement</p>
-                        <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                            <li style="font-weight:600;color:var(--text-primary);">— <strong>Inscrit dans l'Annuaire</strong></li>
-                            <li style="font-weight:600;color:var(--text-primary);">— Badge <strong>Expert Vérifié</strong></li>
-                            <li style="font-weight:600;color:var(--text-primary);">— <strong>Podcast & Contenu</strong> co-créés</li>
-                            <li>— Accès illimité aux missions</li>
-                            <li>— Mise en avant prioritaire</li>
-                        </ul>
-                        <div id="paypal-authority-expert" style="margin-top:4px; display:${tier === 'authority' ? 'none' : 'block'};"></div>
-                        <div id="current-plan-authority" style="background:rgba(16,185,129,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#10b981; display:${tier === 'authority' ? 'block' : 'none'};">Votre plan actuel</div>
-                        
-                        <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#10b981'}; color:${isListed ? '#ef4444' : '#10b981'}; font-size:0.8rem; height:36px; justify-content:center;">
-                            ${isListed ? 'Supprimer mon annonce expert' : 'Republier mon annonce expert'}
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        `;
-        if (additional) {
-            additional.innerHTML = packsHTML;
-            
-            // Add Premium Services for Expert if tier matches
-            if (tier === 'authority') {
-                const expertServicesHTML = `
-                    <div style="margin-top: 24px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.02); padding: 24px; border-radius:16px;">
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #10b981; margin-bottom: 20px;">Vos Services Premium (Pack Expert)</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                <div style="font-weight: 800; color: #10b981; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">PODCAST</div>
-                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Réservez votre séance d'interview.</p>
-                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="font-size: 0.75rem; background: #10b981; border: none; padding: 8px 12px;">Prendre RDV</a>
-                            </div>
-                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                <div style="font-weight: 800; color: #10b981; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">COMMUNAUTÉ</div>
-                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Rejoignez le groupe WhatsApp Privé.</p>
-                                <a href="https://chat.whatsapp.com/Fe8LuB5IUa1K8JbP00qOdt" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #10b981; color: #10b981; padding: 8px 12px;">Accéder au groupe</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                additional.insertAdjacentHTML('beforeend', expertServicesHTML);
-            }
-            
-            // Re-render PayPal for Expert
-            setTimeout(() => {
-                if (typeof paypal !== 'undefined' && document.getElementById('paypal-authority-expert') && tier !== 'authority') {
-                    paypal.Buttons({
-                        style: { layout: 'horizontal', color: 'black', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
-                        createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-3DX69524C1114072WNG2AOZQ' });
-                        },
-                        onApprove: function (data, actions) {
-                            handleSubscriptionSuccess(data.subscriptionID, 'authority');
-                        }
-                    }).render('#paypal-authority-expert');
-                }
-            }, 100);
+    // 2. DELEGATE TO ECOSYSTEM MODULES
+    if (role === 'expert' || role === 'prestataire') {
+        if (typeof ExpertsModule !== 'undefined') {
+            ExpertsModule.renderDashboard(container, additional, profile, session);
+        } else {
+            container.innerHTML = '<p>Chargement du module Expert...</p>';
         }
     } else if (role === 'entreprise') {
-         container.innerHTML = `
-            <!-- ZONE DE PILOTAGE ENTREPRISE -->
-            <div class="dash-section-pilotage">
-                <div class="dash-pilotage-header">
-                    <div>
-                        <h2 class="success-engine-project-title">PILOTAGE RECRUTEMENT</h2>
-                        <p class="success-engine-subtitle">Gérez vos offres et trouvez vos futurs talents.</p>
-                    </div>
-                </div>
-                
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium" style="border-left: 4px solid #0284c7;">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">CAND</div>
-                        <div class="card-title">Candidatures Reçues</div>
-                        <p class="card-desc">Suivez les dossiers des talents qui ont postulé.</p>
-                        <a href="/candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
-                    </div>
-
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">DIR</div>
-                        <div class="card-title">Sourcing Talents</div>
-                        <p class="card-desc">Parcourez l'annuaire des meilleurs experts locaux.</p>
-                        <a href="marketplace/directory" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Trouver un expert</a>
-                    </div>
-
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon" style="background: rgba(2,132,199,0.1); color: #0284c7;">MATCH</div>
-                        <div class="card-title">Matchmaking</div>
-                        <p class="card-desc">Mise en relation automatique avec les profils compatibles.</p>
-                        <button onclick="document.getElementById('matchmaking-section').scrollIntoView({behavior:'smooth'})" class="cta-button secondary" style="margin-top: auto; justify-content: center;">Voir mes matchs</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ZONE ÉCOSYSTÈME -->
-            <div class="dash-section-ecosystem">
-                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 24px;">ÉCOSYSTÈME DOMTOM CONNECT</h3>
-                <div class="ecosystem-grid">
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">MSG</div>
-                        <div class="card-title">Messagerie</div>
-                        <p class="card-desc">Discutez avec vos candidats et partenaires.</p>
-                        <a href="messages.html" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
-                    </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">TIC</div>
-                        <div class="card-title">Mes Billets</div>
-                        <p class="card-desc">Vos accès aux événements VIP & Réseautage.</p>
-                        <button onclick="showView('mes-billets')" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Voir</button>
-                    </div>
-                    <div class="dash-card-premium">
-                        <div class="dash-card-icon">POD</div>
-                        <div class="card-title">Podcast Corporate</div>
-                        <p class="card-desc">Préparation de votre interview visibilité.</p>
-                        <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Réserver</a>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        if (additional) {
-            const enterprisePacksHTML = `
-                <div style="margin-top:40px; border-top: 1px solid var(--gray-200); padding-top: 40px;">
-                    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--text-primary);">Votre Pack Entreprise</h2>
-                    <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:32px;">Propulsez vos offres auprès de l'élite locale.</p>
-
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start;">
-
-                        <!-- STARTER -->
-                        <div style="background:white;border:1.5px solid var(--gray-200);border-radius:16px;padding:28px;">
-                            <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Starter</div>
-                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">0€</div>
-                            <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Gratuit — Testez le réseau</p>
-                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                <li>— 1 publication de mission</li>
-                                <li>— Candidatures libres</li>
-                                <li>— Accès à la messagerie</li>
-                                <li style="color:var(--gray-300);">— Invisible dans l'annuaire</li>
-                            </ul>
-                            <div id="current-plan-starter" style="background:var(--bg-light);border-radius:8px;padding:10px;text-align:center;font-weight:600;font-size:0.875rem;color:var(--text-muted); display:${tier === 'free' ? 'block' : 'none'};">Votre plan actuel</div>
-                        </div>
-
-                        <!-- BUSINESS -->
-                        <div style="background:white;border:2px solid #0284c7;border-radius:16px;padding:28px;position:relative;box-shadow:0 8px 24px rgba(2,132,199,0.12);">
-                            <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#0284c7;color:white;font-size:0.7rem;font-weight:800;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">Populaire : Missions & Visibilité</div>
-                            <div style="font-size:0.75rem;font-weight:700;color:#0284c7;text-transform:uppercase;margin-bottom:12px;">Pack Business</div>
-                            <div style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">29€<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/mois</span></div>
-                            <p style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:16px;">Sourcing & Contenu — Rentable dès le 1er contrat</p>
-                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary);">
-                                <li style="font-weight:600;color:var(--text-primary);">— <strong>Missions Illimitées</strong></li>
-                                <li style="font-weight:600;color:var(--text-primary);">— <strong>Visibilité Annuaire</strong> (Prioritaire)</li>
-                                <li style="font-weight:600;color:var(--text-primary);">— 1 <strong>Podcast Corporate</strong> dédié</li>
-                                <li>— 2-3 Contenus réseaux sociaux / mois</li>
-                                <li>— Sourcing Expert (Accès direct)</li>
-                            </ul>
-                            <div id="paypal-business-enterprise" style="margin-top:4px; display:${tier === 'business' ? 'none' : 'block'};"></div>
-                            <div id="current-plan-business" style="background:rgba(2,132,199,0.1);border-radius:8px;padding:10px;text-align:center;font-weight:700;font-size:0.875rem;color:#0284c7; display:${tier === 'business' ? 'block' : 'none'};">Votre plan actuel</div>
-
-                            <button onclick="toggleListing(${isListed})" class="cta-button secondary" style="width:100%; margin-top:16px; border-color:${isListed ? '#ef4444' : '#0284c7'}; color:${isListed ? '#ef4444' : '#0284c7'}; font-size:0.8rem; height:36px; justify-content:center;">
-                                ${isListed ? 'Supprimer mon annonce entreprise' : 'Republier mon annonce entreprise'}
-                            </button>
-                        </div>
-
-                        <!-- ENTERPRISE -->
-                        <div style="background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%);border:1.5px solid var(--gray-700);border-radius:16px;padding:28px;">
-                            <div style="font-size:0.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px;">Enterprise</div>
-                            <div style="font-size:1.8rem;font-weight:800;color:white;margin-bottom:4px;">Sur Devis</div>
-                            <p style="font-size:0.8rem;font-weight:600;color:var(--gray-400);margin-bottom:16px;">Solutions Sur Mesure</p>
-                            <ul style="list-style:none;padding:0;margin:0 0 24px;display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--gray-300);">
-                                <li style="font-weight:600;color:white;">— Accompagnement Sur Mesure</li>
-                                <li>— Sourcing International (Diaspora)</li>
-                                <li>— Étude de besoin spécifique</li>
-                                <li>— Toute autre demande <strong>sur devis</strong></li>
-                            </ul>
-                            <a href="mailto:domtomconnect@gmail.com?subject=Demande Pack Enterprise" class="cta-button primary" style="justify-content:center; background:white; color:var(--text-primary);border:1px solid white;">Nous contacter</a>
-                        </div>
-                    </div>
-                </div>
-            `;
-            additional.innerHTML = enterprisePacksHTML;
-
-            // Premiums for Company
-            if (tier === 'business') {
-                const companyPremiumsHTML = `
-                    <div style="margin-top: 24px; border: 1px solid #0284c7; background: rgba(2, 132, 199, 0.02); padding: 24px; border-radius:16px;">
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0284c7; margin-bottom: 20px;">Vos Services Premium (Pack Business)</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                <div style="font-weight: 800; color: #0284c7; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">PODCAST CORP</div>
-                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Prenez rendez-vous pour préparer votre interview entreprise.</p>
-                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #0284c7; color: #0284c7; padding: 8px 12px;">Prendre RDV Briefing</a>
-                            </div>
-                            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                <div style="font-weight: 800; color: #0284c7; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px;">RÉSEAUX SOCIAUX</div>
-                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;">Briefez Loïc sur vos posts mensuels et vos besoins contenu.</p>
-                                <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; border-color: #0284c7; color: #0284c7; padding: 8px 12px;">RDV Briefing Contenu</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                additional.insertAdjacentHTML('beforeend', companyPremiumsHTML);
-            }
-
-            // Re-render PayPal for Company
-            setTimeout(() => {
-                if (typeof paypal !== 'undefined' && document.getElementById('paypal-business-enterprise') && tier !== 'business') {
-                    paypal.Buttons({
-                        style: { layout: 'horizontal', color: 'blue', shape: 'rect', label: 'subscribe', height: 40, tagline: false },
-                        createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': 'P-6JG84131PK915684CNG3VDSQ' });
-                        },
-                        onApprove: function (data, actions) {
-                            handleSubscriptionSuccess(data.subscriptionID, 'business');
-                        }
-                    }).render('#paypal-business-enterprise');
-                }
-            }, 100);
-
-            // Matchmaking Section
-            const matchmakingSectionHTML = `
-                <div id="matchmaking-section" style="display:none; margin-top:80px; border-top: 1px solid var(--gray-200); padding-top: 60px;">
-                    <div style="text-align:center; margin-bottom:40px;">
-                        <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:8px; color:var(--text-primary);">MATCHMAKING EXPERTS</h2>
-                        <p style="color:var(--text-secondary);">Mise en relation directe avec les meilleurs profils pour vos besoins locaux.</p>
-                    </div>
-                    <div id="matches-container" class="cards-grid">
-                        <!-- Rempli par le JS -->
-                    </div>
-                </div>
-            `;
-            additional.insertAdjacentHTML('beforeend', matchmakingSectionHTML);
+        if (typeof CompaniesModule !== 'undefined') {
+            CompaniesModule.renderDashboard(container, additional, profile, session);
+        } else {
+            container.innerHTML = '<p>Chargement du module Entreprise...</p>';
         }
-
     } else {
-        // --- RESTAURATION DU TABLEAU DE BORD D'ORIGINE ---
-        container.innerHTML = `
-            <div class="header-section">
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div>
-                        <div class="role-badge">Porteur de Projet</div>
-                        <h1 style="margin-top:12px; margin-bottom:0;">MON ESPACE</h1>
-                        <p class="text-muted" style="margin-top:5px;">Retrouvez vos projets et gérez votre écosystème.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ecosystem-grid">
-                <!-- Messagerie -->
-                <div class="dash-card">
-                    <div class="card-title">
-                        <span>Messagerie</span>
-                        <i class="fas fa-comments text-primary"></i>
-                    </div>
-                    <p class="card-desc">Échangez avec vos partenaires et experts.</p>
-                    <a href="/messages" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Ouvrir</a>
-                </div>
-
-                <!-- Cockpit Épopée -->
-                <div class="dash-card highlight">
-                    <div class="card-title">
-                        <span>Success Engine</span>
-                        <i class="fas fa-rocket" style="color:var(--emerald-color);"></i>
-                    </div>
-                    <p class="card-desc">Gérez vos Épopées et suivez votre progression.</p>
-                    <a href="/epopee" class="cta-button primary" style="margin-top:auto; justify-content:center;">Accéder au Cockpit</a>
-                </div>
-
-                <!-- Annuaires -->
-                <div class="dash-card">
-                    <div class="card-title">
-                        <span>L'Écosystème</span>
-                        <i class="fas fa-search text-muted"></i>
-                    </div>
-                    <p class="card-desc">Explorez les talents et opportunités du réseau.</p>
-                    <a href="/marketplace/directory" class="cta-button secondary" style="margin-top:auto; justify-content:center;">Explorer</a>
-                </div>
-            </div>
-        `;
+        // Porteurs de Projet (Default)
+        if (typeof OwnersModule !== 'undefined') {
+            OwnersModule.renderDashboard(container, additional, profile, session);
+        } else {
+            container.innerHTML = '<p>Chargement du module Projet...</p>';
+        }
     }
 }
 

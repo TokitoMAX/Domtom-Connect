@@ -1355,10 +1355,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js"></script>
-    <!-- Nouveaux Modules de Rôles pour le Dashboard -->
-    <script src="assets/js/roles/expert.js"></script>
-    <script src="assets/js/roles/company.js"></script>
-    <script src="assets/js/roles/basic.js"></script>
+    <!-- Ecosystem Modules (Three Systems Architecture) -->
+    <script src="assets/js/ecosystems/owners.module.js?v=1.0"></script>
+    <script src="assets/js/ecosystems/experts.module.js?v=1.0"></script>
+    <script src="assets/js/ecosystems/companies.module.js?v=1.0"></script>
     <script>
         let currentUserId = null;
         let isEditing = false;
@@ -1781,11 +1781,11 @@
             
             // 1. DISPATCH TO EXPLICIT ROLE MODULES
             if (isCompany) {
-                CompanyModule.initUI();
+                CompaniesModule.initUI();
             } else if (role === 'basique' || role === 'user') {
-                BasicModule.initUI();
+                OwnersModule.initUI();
             } else {
-                ExpertModule.initUI();
+                ExpertsModule.initUI();
             }
 
             // 2. COMMON DASHBOARD LOGIC (GUIDANCE)
