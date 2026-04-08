@@ -69,7 +69,7 @@ const CompaniesModule = {
                     <!-- Job Pilotage -->
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
                         <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px; color: #0f172a;">Annonces & Missions</h3>
-                        <div id="company-jobs-view">
+                        <div id="jobs-container-${container.id || 'main'}" class="company-jobs-view-container">
                             <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
                                 <p style="color: #94a3b8; font-weight: 600;">Vous n'avez aucune annonce active.</p>
                                 <button class="cta-button primary" style="background:#10b981; margin-top:16px; border-radius:12px; font-weight:800; padding: 12px 24px; border:none; color:white; cursor:pointer;" onclick="window.location.href='/marketplace/jobs'">Publier un poste</button>
@@ -118,14 +118,17 @@ const CompaniesModule = {
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
         
         // Charger les missions de l'entreprise
-        CompaniesModule.loadMyJobs(session.user.id);
+        const jobsTarget = document.getElementById(`jobs-container-${container.id || 'main'}`);
+        CompaniesModule.loadMyJobs(session.user.id, jobsTarget);
     },
 
-    loadMyJobs: async (companyId) => {
-        const container = document.getElementById('company-jobs-view');
+    loadMyJobs: async (companyId, customContainer = null) => {
+        const container = customContainer || document.getElementById('company-jobs-view');
         if (!container) return;
 
         try {
+            container.innerHTML = '<p style="text-align:center; color:#64748b;">Chargement de vos missions...</p>';
+            
             const { data: jobs, error } = await _supabase
                 .from('job_offers')
                 .select('*')
@@ -144,17 +147,18 @@ const CompaniesModule = {
                 return;
             }
 
+            // Unicité des résultats : Certains bugs Supabase ou doubles appels peuvent dupliquer l'affichage visuel
             container.innerHTML = `
                 <div style="display: grid; gap: 16px;">
                     ${jobs.map(job => `
-                        <div class="dash-card-premium" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid #f1f5f9; border-radius: 16px;">
-                            <div>
+                        <div class="dash-card-premium" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid #f1f5f9; border-radius: 16px; background:white;">
+                            <div style="flex:1;">
                                 <h4 style="margin: 0; font-size: 1rem; font-weight: 800; color: #0f172a;">${job.title}</h4>
                                 <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b; font-weight: 600;">📍 ${job.territory} • ${job.mission_type}</p>
                             </div>
-                            <div style="display: flex; gap: 8px;">
-                                <button onclick="editJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 8px;">Modifier</button>
-                                <button onclick="deleteJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 8px; color: #ef4444; border-color: #fee2e2;">Supprimer</button>
+                            <div style="display: flex; gap: 8px; flex-shrink:0;">
+                                <button onclick="editJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 10px; border: 1px solid #e2e8f0; background:white; cursor:pointer;">Modifier</button>
+                                <button onclick="deleteJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 10px; color: #ef4444; border: 1px solid #fee2e2; background:white; cursor:pointer;">Supprimer</button>
                             </div>
                         </div>
                     `).join('')}
