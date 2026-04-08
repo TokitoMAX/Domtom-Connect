@@ -399,7 +399,8 @@
                 if (profile) {
                     currentUserRole = profile.role;
                     const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
-                    if (canManageJobs && profile.company_name) {
+                    const isAdmin = currentUserRole === 'admin';
+                    if (canManageJobs && (profile.company_name || isAdmin)) {
                         document.getElementById('company-banner').style.display = 'flex';
                     }
                 }
@@ -439,7 +440,20 @@
         }
 
         async function loadJobs() {
-            const { data: jobs } = await _supabase.from('job_offers').select('*').eq('is_active', true).order('created_at', { ascending: false });
+            const isAdmin = currentUserRole === 'admin';
+            let query = _supabase.from('job_offers').select('*');
+            
+            // Si on n'est pas admin, on ne voit que les jobs actifs
+            if (!isAdmin) {
+                query = query.eq('is_active', true);
+            }
+            
+            const { data: jobs, error } = await query.order('created_at', { ascending: false });
+            if (error) {
+                console.error("Load Jobs Error:", error);
+                return;
+            }
+            
             allJobs = jobs || [];
             if (allJobs.length > 0) {
                 const companyIds = [...new Set(allJobs.map(j => j.company_id))];
