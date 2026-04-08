@@ -398,20 +398,9 @@
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUserId).single();
                 if (profile) {
                     currentUserRole = profile.role;
-                    currentSubscriptionTier = profile.subscription_tier || 'free';
                     const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
                     if (canManageJobs && profile.company_name) {
                         document.getElementById('company-banner').style.display = 'flex';
-                        const { data: profile } = await _supabase.from('profiles').select('verification_status').eq('id', currentUserId).single();
-                        if (profile && profile.verification_status !== 'approved') {
-                            const btn = document.querySelector('#company-banner button');
-                            if (btn) {
-                                btn.style.background = '#e2e8f0';
-                                btn.style.color = '#94a3b8';
-                                btn.style.cursor = 'not-allowed';
-                                btn.innerHTML = '<i class="fas fa-lock" style="margin-right:8px;"></i> Publication verrouillée';
-                            }
-                        }
                     }
                 }
                 const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
@@ -535,17 +524,12 @@
             
             try {
                 // 1. Vérification du statut d'approbation
-                const { data: profile, error: profileError } = await _supabase
-                    .from('profiles')
-                    .select('verification_status')
-                    .eq('id', currentUserId)
-                    .single();
-
-                if (profileError) throw profileError;
-                
                 // Admins bypass the approved check if they are domtomconnect@gmail.com
                 const isSuperAdmin = currentUserId && (currentUserRole === 'admin');
-                if (profile.verification_status !== 'approved' && !isSuperAdmin) {
+                if (!isSuperAdmin) {
+                    // Si on veut rajouter une vérification plus tard, on pourra, 
+                    // mais pour l'instant la colonne n'existe pas en base.
+                }
                     Swal.fire({
                         icon: 'warning',
                         title: 'Compte en attente de validation',
@@ -598,44 +582,10 @@
             const canManage = ['entreprise', 'company', 'admin'].includes(currentUserRole);
             if (!canManage) return;
             
-            // 1. Vérification proactive du statut
-            const { data: profile, error } = await _supabase
-                .from('profiles')
-                .select('verification_status')
-                .eq('id', currentUserId)
-                .single();
-                
             const isAdmin = currentUserRole === 'admin';
-            if (!isAdmin && (error || !profile || profile.verification_status !== 'approved')) {
-                Swal.fire({
-                    icon: 'warning',
-                    iconColor: '#10b981',
-                    title: '<span style="font-weight:900; letter-spacing:-0.03em;">Validation Requise</span>',
-                    html: `
-                        <div style="text-align:center; padding: 10px 0;">
-                            <p style="color:#64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 24px;">Votre entreprise doit être validée par l'audit <b>Domtom Connect</b> avant de pouvoir publier des offres stratégiques.</p>
-                            <div style="background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.1); border-radius: 16px; padding: 16px; text-align: left; margin-bottom: 24px;">
-                                <small style="display:block; color:#10b981; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Action Requise :</small>
-                                <p style="margin:0; font-size: 0.9rem; font-weight: 600; color: #0f172a;">Chargez votre certificat K-BIS ou pièce d'identité sur votre profil pour déclencher l'audit SRE.</p>
-                            </div>
-                        </div>
-                    `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Compléter mon profil',
-                    cancelButtonText: 'Plus tard',
-                    confirmButtonColor: '#10b981',
-                    cancelButtonColor: 'rgba(0,0,0,0.05)',
-                    background: '#ffffff',
-                    customClass: {
-                        popup: 'premium-swal-popup',
-                        confirmButton: 'premium-swal-confirm'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/mon-espace#profile';
-                    }
-                });
-                return;
+            if (!isAdmin) {
+                // Pour les entreprises classiques, on pourrait vérifier un statut ici.
+                // Mais la colonne verification_status n'existe pas encore dans 'profiles'.
             }
             
             document.getElementById('job-modal').classList.add('open'); 
