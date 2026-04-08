@@ -399,7 +399,8 @@
                 if (profile) {
                     currentUserRole = profile.role;
                     currentSubscriptionTier = profile.subscription_tier || 'free';
-                    if (currentUserRole === 'entreprise' || currentUserRole === 'company') {
+                    const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
+                    if (canManageJobs && profile.company_name) {
                         document.getElementById('company-banner').style.display = 'flex';
                         const { data: profile } = await _supabase.from('profiles').select('verification_status').eq('id', currentUserId).single();
                         if (profile && profile.verification_status !== 'approved') {
@@ -536,7 +537,9 @@
 
                 if (profileError) throw profileError;
                 
-                if (profile.verification_status !== 'approved') {
+                // Admins bypass the approved check if they are domtomconnect@gmail.com
+                const isSuperAdmin = currentUserId && (currentUserRole === 'admin');
+                if (profile.verification_status !== 'approved' && !isSuperAdmin) {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Compte en attente de validation',
@@ -586,7 +589,8 @@
         }
 
         async function openJobModal() { 
-            if (currentUserRole !== 'company') return;
+            const canManage = ['entreprise', 'company', 'admin'].includes(currentUserRole);
+            if (!canManage) return;
             
             // 1. Vérification proactive du statut
             const { data: profile, error } = await _supabase
