@@ -605,7 +605,8 @@
                 .eq('id', currentUserId)
                 .single();
                 
-            if (error || !profile || profile.verification_status !== 'approved') {
+            const isAdmin = currentUserRole === 'admin';
+            if (!isAdmin && (error || !profile || profile.verification_status !== 'approved')) {
                 Swal.fire({
                     icon: 'warning',
                     iconColor: '#10b981',
