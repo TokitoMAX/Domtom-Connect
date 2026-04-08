@@ -477,7 +477,7 @@ body {
 /* Mobile dashboard adjustments */
 @media (max-width: 768px) {
     .sidebar {
-        display: none;
+        display: none !important;
     }
 
     .mobile-nav {
@@ -485,9 +485,11 @@ body {
     }
 
     .main-content {
-        margin-left: 0;
-        padding: 20px;
-        padding-bottom: 140px; /* Plus d'espace pour la mobile-nav */
+        margin-left: 0 !important;
+        padding: 16px !important;
+        padding-top: 80px !important;
+        padding-bottom: 120px !important;
+        width: 100% !important;
     }
 
     .dashboard-view-container {
