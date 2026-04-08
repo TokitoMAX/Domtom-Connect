@@ -38,9 +38,7 @@ const ExpertsModule = {
                                 <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Pack Authority Actif</h4>
                              </div>
                              <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin-bottom:24px;">Votre profil bénéficie d'une visibilité prioritaire. Réservez votre séance de curation personnalisée pour maximiser votre impact.</p>
-                             <a href="/profile" class="cta-button primary" style="background:#0f172a; border:none; padding:12px 24px; border-radius:12px; font-weight:800; font-size:0.85rem; text-decoration:none; color:white;">
-                                                <i class="fas fa-edit" style="margin-right:8px;"></i> MODIFIER MON PROFIL
-                                            </a>
+                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; justify-content:center; text-decoration:none; font-weight:800; padding:14px 28px; width:100%; display:flex;">Planifier ma Séance de Curation</a>
                         </div>
                     ` : `
                         <!-- CAS : GRATUIT -> PACK AUTHORITY (STYLE PREMIUM) -->
@@ -108,8 +106,10 @@ const ExpertsModule = {
             setTimeout(() => {
                 if (typeof renderPayPalButton === 'function') {
                     renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'expert_pack_paid', 'paypal-button-container-authority');
+                } else {
+                    console.error("renderPayPalButton not found");
                 }
-            }, 600);
+            }, 800);
         }
 
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);

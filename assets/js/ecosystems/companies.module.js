@@ -107,8 +107,10 @@ const CompaniesModule = {
             setTimeout(() => {
                 if (typeof renderPayPalButton === 'function') {
                     renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business', 'paypal-button-container-business');
+                } else {
+                    console.error("renderPayPalButton not found");
                 }
-            }, 600);
+            }, 800);
         }
 
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
