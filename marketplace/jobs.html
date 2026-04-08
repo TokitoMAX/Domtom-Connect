@@ -422,20 +422,26 @@
                 const editId = urlParams.get('edit');
                 if (editId) {
                     const { data: job, error } = await _supabase.from('job_offers').select('*').eq('id', editId).single();
-                    if (job && job.company_id === currentUserId) {
+                    const isAdmin = currentUserRole === 'admin';
+                    if (job && (job.company_id === currentUserId || isAdmin)) {
                         currentEditJobId = editId;
                         document.getElementById('j-title').value = job.title;
                         document.getElementById('j-territory').value = job.territory;
                         document.getElementById('j-type').value = job.mission_type;
                         
                         // Split description back to missions and profil
-                        const parts = job.description.split('### PROFIL');
-                        document.getElementById('j-missions').value = parts[0].replace('### MISSIONS\n', '').trim();
-                        if (parts[1]) document.getElementById('j-profil').value = parts[1].trim();
+                        if (job.description) {
+                            const parts = job.description.split('### PROFIL');
+                            document.getElementById('j-missions').value = parts[0].replace('### MISSIONS\n', '').trim();
+                            if (parts[1]) document.getElementById('j-profil').value = parts[1].trim();
+                        }
                         
                         document.getElementById('job-modal-title').textContent = "Modifier la mission";
-                        document.getElementById('btn-save-job').textContent = "Mettre à jour la mission";
+                        const saveBtn = document.getElementById('modal-save-btn');
+                        if (saveBtn) saveBtn.textContent = "Mettre à jour la mission";
                         openJobModal();
+                    } else if (error) {
+                        console.error("Edit Job Error:", error);
                     }
                 }
             }
