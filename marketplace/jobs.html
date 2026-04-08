@@ -396,13 +396,19 @@
             if (session) {
                 currentUserId = session.user.id;
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUserId).single();
-                if (profile) {
-                    currentUserRole = profile.role;
-                    const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
-                    const isAdmin = currentUserRole === 'admin';
-                    if (canManageJobs && (profile.company_name || isAdmin)) {
-                        document.getElementById('company-banner').style.display = 'flex';
-                    }
+                
+                // --- DÉTECTION DU RÔLE (Profil ou Métadonnées) ---
+                const meta = session.user.user_metadata || {};
+                const fromProfile = (profile && profile.role) || null;
+                currentUserRole = fromProfile || meta.role || null;
+                
+                const isAdmin = currentUserRole === 'admin';
+                const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
+                
+                // Forcer la bannière pour l'admin ou si le profil entreprise est valide
+                if (canManageJobs && ((profile && profile.company_name) || isAdmin)) {
+                    const banner = document.getElementById('company-banner');
+                    if (banner) banner.style.display = 'flex';
                 }
                 const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
                 if (apps) userApplications = apps.map(a => a.job_id);
@@ -537,20 +543,10 @@
             e.preventDefault();
             
             try {
-                // 1. Vérification du statut d'approbation
-                // Admins bypass the approved check if they are domtomconnect@gmail.com
+                // 1. Vérification du statut d'approbation (Admin Bypass)
                 const isSuperAdmin = currentUserId && (currentUserRole === 'admin');
                 if (!isSuperAdmin) {
-                    // Si on veut rajouter une vérification plus tard, on pourra, 
-                    // mais pour l'instant la colonne n'existe pas en base.
-                }
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Compte en attente de validation',
-                        text: 'Votre entreprise doit être validée par Domtom Connect avant de pouvoir publier des missions.',
-                        confirmButtonColor: '#10b981'
-                    });
-                    return;
+                    // Note: Le contrôle de validation entreprise est désactivé le temps que la colonne soit créée.
                 }
 
                 const data = {
