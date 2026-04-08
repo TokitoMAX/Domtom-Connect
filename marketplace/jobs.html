@@ -397,6 +397,10 @@
                 currentUserId = session.user.id;
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUserId).single();
                 
+                if (profile) {
+                    currentSubscriptionTier = profile.subscription_tier || 'free';
+                }
+                
                 // --- DÉTECTION DU RÔLE (Profil ou Métadonnées) ---
                 const meta = session.user.user_metadata || {};
                 const fromProfile = (profile && profile.role) || null;
@@ -485,9 +489,10 @@
         function renderJobCard(job) {
             const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise' };
             const logo = company.avatar_url ? `<img src="${company.avatar_url}">` : company.full_name.slice(0, 2).toUpperCase();
+            const isAdmin = currentUserRole === 'admin';
             const isPremium = ['authority', 'influence', 'business', 'enterprise'].includes(currentSubscriptionTier);
             const isOwner = currentUserId === job.company_id;
-            const canSee = isPremium || isOwner || currentUserRole === 'basique';
+            const canSee = isPremium || isOwner || isAdmin || currentUserRole === 'basique';
             
             // Refined snippet logic: Get the first part (Missions), remove technical tags, and keep it clean
             let snippet = (job.description || "").split('### PROFIL')[0]
