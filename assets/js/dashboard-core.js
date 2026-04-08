@@ -434,6 +434,23 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         `;
         container.innerHTML = adminDashboardHTML;
         loadPendingProjects();
+
+        // 1.1 ADDON : EXPÉRIENCE HYBRIDE (Si l'admin a aussi des fonctions entreprise)
+        if (session.user.email === 'domtomconnect@gmail.com' || profile.company_name) {
+            console.log("Dashboard Core: Activating Hybrid Admin/Company View");
+            const addonContainer = document.createElement('div');
+            addonContainer.id = 'admin-company-addon';
+            addonContainer.style.marginTop = '40px';
+            addonContainer.style.gridColumn = '1 / -1';
+            addonContainer.innerHTML = `<h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px; color: #0f172a; border-top: 1px solid #e2e8f0; padding-top: 40px;">Vos Outils Entreprise</h3><div id="company-addon-cards"></div>`;
+            container.appendChild(addonContainer);
+            
+            const cardsTarget = document.getElementById('company-addon-cards');
+            if (typeof CompaniesModule !== 'undefined' && cardsTarget) {
+                // On délègue au module entreprise en ciblant le conteneur addon
+                CompaniesModule.renderDashboard(cardsTarget, additional, profile, session);
+            }
+        }
         return;
     }
 
