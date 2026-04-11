@@ -189,10 +189,6 @@
 </head>
 
 <body>
-    <!-- BANDEAU DE TEST VISIBILITÉ -->
-    <div style="background: red; color: white; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 99999;">
-        [ MISE À JOUR ACTIVE ] - Si vous voyez ce bandeau, les changements sont bien sur votre écran.
-    </div>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBM8LXJV" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -229,18 +225,45 @@
     <!-- Hero Section -->
     <header class="hero-section bg-light light-section">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">L'infrastructure qui sécurise vos investissements et propulse vos projets territoriaux</h1>
-                <p class="hero-subtitle">
-                    Le pont stratégique entre les territoires et l'expertise mondiale. Connectez porteurs de projets, experts locaux et alliés internationaux dans un espace de pilotage unique.
-                </p>
-                <div class="hero-actions">
-                    <a href="/register-choice" class="cta-button primary">Démarrer mon Épopée</a>
-                    <a href="/marketplace/directory" class="cta-button secondary">Trouver un expert</a>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center;">
+                <div class="hero-content text-left">
+                    <h1 class="hero-title" style="font-size: 2.8rem; line-height: 1.1; margin-bottom: 2rem; text-align: left;">L'infrastructure qui sécurise vos investissements et propulse vos projets territoriaux</h1>
+                    <p class="hero-subtitle" style="font-size: 1.25rem; opacity: 0.9; margin-bottom: 2.5rem; text-align: left;">
+                        Le pont stratégique entre les territoires et l'expertise mondiale. Connectez porteurs de projets, experts locaux et alliés internationaux dans un espace de pilotage unique.
+                    </p>
+                    <div class="hero-actions" style="display: flex; gap: 16px; justify-content: flex-start;">
+                        <a href="/register-choice" class="cta-button primary" style="padding: 1.25rem 2.5rem; font-size: 1.1rem; border-radius: 12px;">Démarrer mon Épopée</a>
+                        <a href="/marketplace/directory" class="cta-button secondary" style="padding: 1.25rem 2.5rem; font-size: 1.1rem; border-radius: 12px;">Explorer les talents</a>
+                    </div>
+                </div>
+                <div class="hero-visual" style="position: relative; overflow: hidden; border-radius: 32px; box-shadow: 0 40px 80px rgba(0,0,0,0.15);">
+                    <img src="domtom_connect_bridge_mockup_1775915341000.png" alt="Pont Domtom Connect" style="width: 100%; display: block;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 40px; color: white;">
+                        <div style="font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; color: #10b981; margin-bottom: 0.5rem;">Alliance Mondiale</div>
+                        <div style="font-size: 1.2rem; font-weight: 700;">+250 Experts Alliés & Locaux Certifiés</div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- SECTION KEY METRICS - Crédibilité -->
+    <section style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 40px 0;">
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 40px; text-align: center;">
+            <div style="flex: 1; min-width: 140px;">
+                <div style="font-size: 2.5rem; font-weight: 900; color: #111827; letter-spacing: -1px;">+1.2M€</div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Projets Monitorés</div>
+            </div>
+            <div style="flex: 1; min-width: 140px;">
+                <div style="font-size: 2.5rem; font-weight: 900; color: #111827; letter-spacing: -1px;">450+</div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Experts en Alliance</div>
+            </div>
+            <div style="flex: 1; min-width: 140px;">
+                <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; letter-spacing: -1px;">98%</div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Sécurité Opérationnelle</div>
+            </div>
+        </div>
+    </section>
 
     <!-- SECTION ARSENAL - Les 4 Piliers du Succès -->
     <section class="section-padding bg-white" id="arsenal" style="padding: 100px 0;">
@@ -388,33 +411,26 @@
                 <div class="pricing-card"
                     style="background: #ffffff; padding: 3rem; border-radius: 24px; border: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                     <span class="badge"
-                        style="background: rgba(16, 185, 129, 0.1); color: #047857; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">EXPERTS
-                        & TALENTS</span>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">Pack
-                        Authority</h3>
+                        style="background: rgba(16, 185, 129, 0.1); color: #047857; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">EXPERTS & ALLIÉS</span>
+                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">Pack Authority</h3>
                     <div style="font-size: 3rem; font-weight: 900; margin-bottom: 2rem; color: #111827;">9,99€ <span
                             style="font-size: 1.25rem; font-weight: 500; color: #6b7280;">/m</span></div>
                     <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Profil listé dans l'annuaire
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 600;">
+                            <span style="color: #10b981;">✓</span> **SoloPrice Pro inclus** (Valeur 49€)
                         </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Badge "Vérifié" permanent
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
+                            <span style="color: #10b981;">✓</span> Visibilité prioritaire Annuaire d'Élite
                         </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Visibilité 3-4 posts / mois
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
+                            <span style="color: #10b981;">✓</span> Accès aux missions stratégiques premium
                         </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Participation aux podcasts DC
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
+                            <span style="color: #10b981;">✓</span> Sourcing direct via Push Notifications
                         </li>
                     </ul>
                     <a href="/register-choice?role=expert&plan=authority" class="cta-button secondary"
-                        style="width: 100%; border-radius: var(--border-radius-lg);">Devenir
-                        Expert</a>
+                        style="width: 100%; border-radius: var(--border-radius-lg); justify-content: center;">Commencer mon expertise</a>
                 </div>
 
                 <!-- Pack Business -->
@@ -492,13 +508,20 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
+                        <h3>Puis-je rejoindre la plateforme si je n'habite pas aux Antilles ?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolument. Domtom Connect est un pont numérique. Nous accueillons les **Alliés Internationaux** (experts, investisseurs, groupes) qui souhaitent apporter une valeur ajoutée stratégique au développement des territoires, quel que soit leur lieu de résidence.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
                         <h3>Comment fonctionne la plateforme ?</h3>
                         <span class="faq-icon">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Domtom Connect connecte les porteurs de projets aux meilleurs freelances et experts pour
-                            accélérer leurs opérations Outre-mer, de la qualification à l'aide sur le closing via
-                            SoloPrice Pro.</p>
+                        <p>Domtom Connect regroupe un annuaire d'experts certifiés, un cockpit de pilotage pour vos projets (L'Épopée) et des outils business (SoloPrice Pro) pour sécuriser vos échanges et vos closing financiers.</p>
                     </div>
                 </div>
                 <div class="faq-item">
