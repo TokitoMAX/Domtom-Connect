@@ -585,7 +585,7 @@
                     <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Une nouvelle vision en cours de déploiement sur le territoire.'}</p>
                     
                     <div class="project-tags">
-                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(2, 132, 199,0.1); color:#0369a1; border-color: #bae6fd;">🚀 ${p.total_raised}€ récoltés</span>` : ''}
+                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(2, 132, 199,0.1); color:#0369a1; border-color: #bae6fd;">${p.total_raised}€ récoltés</span>` : ''}
                         <span class="tag-need" style="background:rgba(255,255,255,0.05); color:#64748b;">${p.category || 'Innovation'}</span>
                     </div>
 
