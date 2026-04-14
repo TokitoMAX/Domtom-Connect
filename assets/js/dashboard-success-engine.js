@@ -2,12 +2,12 @@
 
 function updateSuccessStepper(score, projectId) {
     const steps = [
-        { id: 'cockpit-step-1', threshold: 0, label: '01. Identité', hint: 'Vision & Mission' },
-        { id: 'cockpit-step-2', threshold: 16, label: '02. Humain', hint: 'L\'Équipe' },
-        { id: 'cockpit-step-3', threshold: 32, label: '03. Terrain', hint: 'Le Marché' },
-        { id: 'cockpit-step-4', threshold: 49, label: '04. Valeur', hint: 'Impact & Jobs' },
-        { id: 'cockpit-step-5', threshold: 66, label: '05. Objectifs', hint: 'Financement' },
-        { id: 'cockpit-step-6', threshold: 83, label: '06. Envol', hint: 'Pitch & Soumission' }
+        { id: 'cockpit-step-1', threshold: 0, label: '01. Vision', hint: 'Concept & Vision' },
+        { id: 'cockpit-step-2', threshold: 16, label: '02. Équipe', hint: 'Le Commando' },
+        { id: 'cockpit-step-3', threshold: 32, label: '03. Marché', hint: 'Le Terrain' },
+        { id: 'cockpit-step-4', threshold: 49, label: '04. Impact', hint: 'Valeur & Jobs' },
+        { id: 'cockpit-step-5', threshold: 66, label: '05. Budget', hint: 'Financement' },
+        { id: 'cockpit-step-6', threshold: 83, label: '06. Lancement', hint: 'Pitch & Soumission' }
     ];
 
     let activeIndex = -1;
@@ -103,7 +103,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                     <div id="project-list-view">
                         <div class="dash-pilotage-header" style="margin-bottom:32px;">
                             <div>
-                                <h2 class="success-engine-project-title">MES ÉPOPÉES</h2>
+                                <h2 class="success-engine-project-title">MES PROJETS</h2>
                                 <p class="success-engine-subtitle">Gérez vos aventures territoriales étape par étape.</p>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                             <div class="dash-card-premium highlight" style="background: #0f172a; color: white; display:flex; flex-direction:column; justify-content:center; padding:32px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <div>
-                                        <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouvelle Épopée</h2>
+                                        <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouveau Projet</h2>
                                         <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.9rem;">Prêt à changer le monde ?</p>
                                     </div>
                                     <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; font-weight:800; border:none; padding:12px 20px;">+ Démarrer</button>
@@ -230,19 +230,19 @@ function renderCockpitWithStep(p, step, score) {
     if (!content) return;
 
     const stepsInfo = [
-        { num: 1, title: '01. Identité', subtitle: 'Manifeste, Vision & Mission' },
-        { num: 2, title: '02. Humain', subtitle: 'L\'Équipe & Le Commando' },
-        { num: 3, title: '03. Terrain', subtitle: 'Le Marché & L\'Opportunité' },
-        { num: 4, title: '04. Valeur', subtitle: 'Impact Local, Innovation & Emploi' },
-        { num: 5, title: '05. Objectifs', subtitle: 'Besoins de Financement' },
-        { num: 6, title: '06. Propulsion Finale', subtitle: 'Pitch Final & Validation Admin' }
+        { num: 1, title: '01. Vision', subtitle: 'Concept, Vision & Mission' },
+        { num: 2, title: '02. Équipe', subtitle: 'Les fondateurs & Le Commando' },
+        { num: 3, title: '03. Marché', subtitle: 'Le Terrain & L\'Opportunité' },
+        { num: 4, title: '04. Impact', subtitle: 'Valeur Locale, Innovation & Emploi' },
+        { num: 5, title: '05. Budget', subtitle: 'Besoins de Financement' },
+        { num: 6, title: '06. Lancement', subtitle: 'Pitch Final & Validation Admin' }
     ];
 
     const current = stepsInfo.find(s => s.num === step);
     let stepHTML = `
         <div class="cockpit-header">
             <a href="${window.isAdminInspection ? '/mon-espace#overview' : '#success-engine'}" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
-                &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Épopées'}
+                &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Projets'}
             </a>
 
             <div class="cockpit-stepper">
@@ -275,7 +275,7 @@ function renderCockpitWithStep(p, step, score) {
             ` : `
                 <button onclick="saveProjectStep('${p.id}', ${step})" 
                         class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">
-                        ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE' : 'Enregistrer & Continuer'}
+                        ${step === 6 ? 'SOUMETTRE MON PROJET' : 'Enregistrer & Continuer'}
                 </button>
             `}
         </div>

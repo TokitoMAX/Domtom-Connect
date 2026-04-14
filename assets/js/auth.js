@@ -207,12 +207,12 @@ function calculateProjectMaturity(p) {
  * Adapté au Fundraising Cockpit (5 phases)
  */
 function getProjectStatus(score) {
-    if (score < 20) return { label: "Stratégie", step: 1, next: "Arsenal" };
-    if (score < 40) return { label: "Arsenal", step: 2, next: "Boussole" };
-    if (score < 60) return { label: "Boussole", step: 3, next: "Sûreté" };
-    if (score < 80) return { label: "Sûreté", step: 4, next: "Orbite" };
-    if (score < 100) return { label: "Prêt pour Orbite", step: 5, next: "Lancement" };
-    return { label: "Épopée Certifiée", step: 5, next: "Déployé" };
+    if (score < 20) return { label: "Vision", step: 1, next: "Ressources" };
+    if (score < 40) return { label: "Ressources", step: 2, next: "Budget" };
+    if (score < 60) return { label: "Budget", step: 3, next: "Juridique" };
+    if (score < 80) return { label: "Juridique", step: 4, next: "Lancement" };
+    if (score < 100) return { label: "Prêt pour Lancement", step: 5, next: "Déploiement" };
+    return { label: "Projet Certifié", step: 5, next: "Déployé" };
 }
 
 // Exposition globale
@@ -225,9 +225,16 @@ async function loadGlobalNavbar() {
     if (isNavbarProcessed) return; // Éviter l'exécution double
     isNavbarProcessed = true;
     
-    const session = await getSession();
     const navLinks = document.getElementById('nav-links-container');
     const navActions = document.getElementById('nav-actions-container');
+    
+    if (!navLinks && !navActions) {
+        // Si les conteneurs sont absents, on initialise juste le toggle si présent
+        initNavToggle();
+        return;
+    }
+
+    const session = await getSession();
     
     // Détection d'environnement robuste (Local vs Prod/Vercel)
     const isLocal = window.location.hostname === 'localhost' || 
@@ -301,15 +308,25 @@ function initNavToggle() {
     const navToggle = document.querySelector('.nav-toggle');
     const navContent = document.querySelector('.nav-content');
     if (navToggle && navContent) {
-        // Remove existing listener if any to avoid double triggers
+        // Retirer les anciens écouteurs via clone pour éviter les doublons ou conflits
         const newToggle = navToggle.cloneNode(true);
         navToggle.parentNode.replaceChild(newToggle, navToggle);
 
-        newToggle.addEventListener('click', () => {
+        newToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             const isOpen = navContent.classList.toggle('is-open');
             newToggle.classList.toggle('is-open', isOpen);
             newToggle.setAttribute('aria-expanded', isOpen);
         });
+
+        // Fermer le menu si on clique ailleurs sur la page
+        document.addEventListener('click', (e) => {
+            if (navContent.classList.contains('is-open') && !navContent.contains(e.target) && !newToggle.contains(e.target)) {
+                navContent.classList.remove('is-open');
+                newToggle.classList.remove('is-open');
+                newToggle.setAttribute('aria-expanded', 'false');
+            }
+        }, { once: false });
     }
 }
 
