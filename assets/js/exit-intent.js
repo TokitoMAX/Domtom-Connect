@@ -47,9 +47,9 @@
             };
         } else {
             return {
-                title: 'Rejoignez les pionniers gratuitement',
-                description: 'Inscrivez-vous maintenant et bénéficiez d\'un accompagnement personnalisé pour faire avancer votre projet. Inscription gratuite pour les premiers membres.',
-                buttonText: 'Rejoindre maintenant (gratuit)'
+                title: 'Sécurisez votre épopée territoriale dès aujourd\'hui !',
+                description: 'Ne partez pas sans vos accès ! Rejoignez l\'écosystème avec le **Pack Épopée (0€)** et connectez-vous aux meilleurs talents du réseau.',
+                buttonText: 'Démarrer mon Épopée (Gratuit)'
             };
         }
     }

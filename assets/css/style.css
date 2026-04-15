@@ -3440,3 +3440,53 @@ p {
         font-size: 0.95rem;
     }
 }
+
+
+/* =========================================
+   HOME SCOPE BAR (Simplified)
+   ========================================= */
+.home-scope-bar {
+    padding: 15px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.scope-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px 25px;
+    flex-wrap: wrap;
+    opacity: 0.9;
+}
+
+.scope-item {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.scope-item b {
+    color: var(--emerald-color);
+}
+
+.scope-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray-300);
+}
+
+@media (max-width: 768px) {
+    .home-scope-bar {
+        padding: 12px 0;
+    }
+    .scope-item {
+        font-size: 0.7rem;
+    }
+}
