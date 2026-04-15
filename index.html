@@ -183,6 +183,14 @@
       }
     }
     </script>
+    <style>
+        @media (max-width: 768px) {
+            .desktop-only { display: none; }
+            .territories-banner div { font-size: 0.75rem !important; gap: 10px 15px !important; }
+        }
+        #parcours h3 { color: var(--text-primary); }
+        #parcours p { font-size: 0.95rem; }
+    </style>
 </head>
 
 <body>
@@ -236,44 +244,52 @@
     </header>
 
     <!-- SECTION TERRITOIRES - SEO & Identification -->
-    <section class="territories-banner bg-white" style="padding: 20px 0; border-bottom: 1px solid var(--gray-100);">
+    <section class="territories-banner bg-white" style="padding: 15px 0; border-bottom: 1px solid var(--gray-100);">
         <div class="container">
-            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: center; opacity: 0.7; font-weight: 700; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            <div style="display: flex; justify-content: center; gap: 15px 30px; flex-wrap: wrap; align-items: center; opacity: 0.8; font-weight: 700; color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase;">
                 <span>Antilles (Fr, Es, En)</span>
-                <span>•</span>
+                <span class="desktop-only">•</span>
                 <span>Guyane</span>
-                <span>•</span>
+                <span class="desktop-only">•</span>
                 <span>USA & Canada</span>
-                <span>•</span>
+                <span class="desktop-only">•</span>
                 <span>Afrique</span>
-                <span>•</span>
+                <span class="desktop-only">•</span>
                 <span>Diaspora</span>
             </div>
         </div>
     </section>
 
-    <!-- SECTION HOW IT WORKS - Simplicité SaaS -->
-    <section class="section-padding bg-light" id="how-it-works" style="padding: 60px 0;">
+    <!-- SECTION PARCOURS - 3 Ecosystèmes (Compact) -->
+    <section class="section-padding bg-light" id="parcours" style="padding: 40px 0;">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary);">Comment ça marche ?</h2>
-                <p style="color: var(--text-secondary);">3 étapes simples pour transformer votre idée en succès territorial.</p>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;">
-                    <div style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.2rem;">1</div>
-                    <h3 style="margin-bottom: 15px;">Structurez</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-secondary);">Définissez votre feuille de route stratégique avec nos outils de pilotage SaaS.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <!-- Porteur -->
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200); position: relative;">
+                    <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; margin-bottom: 12px; display: inline-block;">Porteurs de Projet</span>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">De l'idée à la réussite</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px;">
+                        Passez à l'action. Trouvez vos financements (Crowdfunding) et l'aide nécessaire pour faire réussir votre projet.
+                    </p>
+                    <a href="register-choice?role=porteur" style="color: #3b82f6; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Démarrer mon projet →</a>
                 </div>
-                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;">
-                    <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.2rem;">2</div>
-                    <h3 style="margin-bottom: 15px;">Connectez</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-secondary);">Accédez aux experts certifiés (Antilles, USA, Afrique) adaptés à vos besoins.</p>
+                <!-- Entreprise -->
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200);">
+                    <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; margin-bottom: 12px; display: inline-block;">Entreprises</span>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Collaborez & Progressez</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px;">
+                        Trouvez les bons partenaires et les compétences pour faire grandir votre activité aux Antilles et ailleurs.
+                    </p>
+                    <a href="register-choice?role=entreprise" style="color: #10b981; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Accéder au réseau →</a>
                 </div>
-                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;">
-                    <div style="width: 50px; height: 50px; background: rgba(17, 24, 39, 0.1); color: #111827; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.2rem;">3</div>
-                    <h3 style="margin-bottom: 15px;">Gérez</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-secondary);">Pilotez vos opérations et paiements en toute sécurité sur une plateforme unique.</p>
+                <!-- Expert -->
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200);">
+                    <span class="badge" style="background: rgba(17, 24, 39, 0.1); color: #111827; margin-bottom: 12px; display: inline-block;">Experts & Talents</span>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Valorisez votre expertise</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px;">
+                        Accédez à des missions sérieuses et utilisez nos outils stratégiques pour simplifier votre business au quotidien.
+                    </p>
+                    <a href="register-choice?role=expert" style="color: #111827; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Proposer mes services →</a>
                 </div>
             </div>
         </div>

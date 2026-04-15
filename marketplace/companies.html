@@ -625,29 +625,41 @@
         }
 
         function renderCompanyCard(company) {
+            const isLoggedIn = !!currentUserId;
             const name = company.company || company.full_name || 'Entreprise';
             const initials = name.slice(0, 2).toUpperCase();
-            const avatar = company.avatar_url ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">` : `<div class="company-logo">${initials}</div>`;
+            
+            // Stratégie d'anonymisation
+            const displayName = isLoggedIn ? name : `Entreprise certifiée - ${company.sector || 'Expertise'}`;
+            const avatar = isLoggedIn && company.avatar_url ? `<img src="${company.avatar_url}" class="company-logo" alt="${name}">` : `<div class="company-logo" style="${!isLoggedIn ? 'filter: blur(2px); opacity: 0.7;' : ''}">${initials}</div>`;
             const isFeatured = company.is_featured === true;
 
-            const profileUrl = `/marketplace/profile-detail-company.html?id=${company.id}`;
+            const profileUrl = isLoggedIn ? `/marketplace/profile-detail-company.html?id=${company.id}` : '/register-choice';
 
             return `
-                <div class="company-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='${profileUrl}'" style="cursor:pointer;">
+                <div class="company-card ${isFeatured ? 'featured' : ''}" 
+                     onclick="window.location.href='${profileUrl}'" 
+                     style="cursor:pointer; ${!isLoggedIn ? 'position: relative;' : ''}">
+                    
+                    ${!isLoggedIn ? `
+                    <div style="position: absolute; top: 12px; right: 12px; z-index: 10;">
+                        <span style="background: rgba(15, 23, 42, 0.9); color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">🔒 Privé</span>
+                    </div>` : ''}
+
                     ${isFeatured ? '<div class="featured-badge">Partenaire Authority</div>' : ''}
                     <div class="company-header">
                         ${avatar}
                         <div class="company-info">
                             <h3>
-                                ${name}
-                                ${company.siret ? `
+                                <span style="${!isLoggedIn ? 'font-style: italic; color: #64748b; font-size: 1.1rem;' : ''}">${displayName}</span>
+                                ${isLoggedIn && company.siret ? `
                                 <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                                     </svg>
                                 </span>` : ''}
                             </h3>
-                            <div class="company-sector">${company.forme_juridique ? company.forme_juridique + ' • ' : ''}${company.sector || 'Expertise'}</div>
+                            <div class="company-sector">${isLoggedIn && company.forme_juridique ? company.forme_juridique + ' • ' : ''}${company.sector || 'Expertise'}</div>
                             <div class="company-territory" style="color: #64748b; font-weight: 700;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
@@ -656,20 +668,13 @@
                             </div>
                         </div>
                     </div>
-                    <p class="company-desc">${company.bio || 'Aucune description disponible.'}</p>
+                    <p class="company-desc" style="${!isLoggedIn ? 'opacity: 0.6;' : ''}">
+                        ${!isLoggedIn ? "Inscrivez-vous pour découvrir les détails de cette entreprise et ses opportunités." : (company.bio || 'Aucune description disponible.')}
+                    </p>
                     
-                    <div class="social-links-row">
-                        ${company.linkedin_url ? `<a href="${company.linkedin_url}" class="social-icon-btn linkedin" title="LinkedIn" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>` : ''}
-                        ${company.facebook_url ? `<a href="${company.facebook_url}" class="social-icon-btn facebook" title="Facebook" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-8.74h-2.94v-3.403h2.94v-2.511c0-2.91 1.777-4.496 4.375-4.496 1.243 0 2.313.093 2.623.134v3.042l-1.799.001c-1.412 0-1.686.671-1.686 1.656v2.174h3.368l-.438 3.403h-2.93v8.741h6.1c.732 0 1.325-.593 1.325-1.325v-21.351c0-.731-.593-1.325-1.325-1.325z"/></svg></a>` : ''}
-                        ${company.instagram_url ? `<a href="${company.instagram_url}" class="social-icon-btn instagram" title="Instagram" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>` : ''}
-                        ${company.youtube_url ? `<a href="${company.youtube_url}" class="social-icon-btn youtube" title="YouTube" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg></a>` : ''}
-                        ${company.tiktok_url ? `<a href="${company.tiktok_url}" class="social-icon-btn tiktok" title="TikTok" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.33-.85.51-1.44 1.43-1.58 2.41-.05 1.01.35 2.05 1.05 2.73.57.55 1.4.92 2.21.93.85.05 1.73-.25 2.33-.86.74-.7 1.03-1.74 1.01-2.73-.01-4.14-.01-8.28-.02-12.41z"/></svg></a>` : ''}
-                        ${company.spotify_url ? `<a href="${company.spotify_url}" class="social-icon-btn spotify" title="Spotify" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.591 17.307c-.233.385-.732.507-1.116.273-3.111-1.901-7.027-2.331-11.641-1.275-.436.101-.869-.176-.97-.611-.1-.437.176-.87.611-.971 5.051-1.155 9.382-.662 12.843 1.458.384.233.506.733.273 1.126zm1.484-3.259c-.296.48-.916.634-1.397.338-3.559-2.188-8.983-2.83-13.19-1.554-.539.163-1.116-.135-1.279-.675-.163-.539.135-1.116.675-1.279 4.802-1.456 10.796-.733 14.853 1.761.48.297.634.918.338 1.409zm.135-3.384c-4.269-2.536-11.317-2.768-15.424-1.523-.655.198-1.341-.176-1.539-.83-.198-.654.177-1.341.831-1.539 4.708-1.428 12.512-1.147 17.411 1.761.589.349.787 1.11.439 1.699-.349.589-1.109.788-1.698.432z"/></svg></a>` : ''}
-                    </div>
-
                     <div class="company-actions">
-                        <a href="${profileUrl}" class="btn-web" onclick="event.stopPropagation()">Détails Complets</a>
-                        <a href="/messages?to=${company.id}" class="btn-contact" onclick="event.stopPropagation()">Contacter</a>
+                        <a href="${profileUrl}" class="btn-web" onclick="event.stopPropagation()">${isLoggedIn ? 'Détails Complets' : 'S\'inscrire pour voir'}</a>
+                        <a href="${isLoggedIn ? `/messages?to=${company.id}` : '/register-choice'}" class="btn-contact" onclick="event.stopPropagation()">${isLoggedIn ? 'Contacter' : 'Débloquer'}</a>
                     </div>
                 </div>
             `;
