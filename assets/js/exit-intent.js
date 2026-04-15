@@ -47,9 +47,9 @@
             };
         } else {
             return {
-                title: 'Sécurisez votre épopée territoriale dès aujourd\'hui !',
-                description: 'Ne partez pas sans vos accès ! Rejoignez l\'écosystème avec le **Pack Épopée (0€)** et connectez-vous aux meilleurs talents du réseau.',
-                buttonText: 'Démarrer mon Épopée (Gratuit)'
+                title: 'Prêt à rejoindre le Pont (Bridge) des Antilles ?',
+                description: 'Sécurisez vos projets, recrutez des talents ou trouvez vos futures missions. Rejoignez l\'écosystème stratégique Domtom Connect dès maintenant.',
+                buttonText: 'Rejoindre l\'écosystème (Gratuit)'
             };
         }
     }
