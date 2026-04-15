@@ -228,61 +228,73 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-section bg-light light-section">
+    <header class="hero-section bg-light light-section" style="padding: 100px 0 60px;">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Propulsez votre réussite stratégique aux Antilles et en Guyane</h1>
-                <p class="hero-subtitle">
-                    La plateforme SaaS qui connecte vos ambitions territoriales aux meilleurs talents du réseau mondial : Caraïbes, USA, Canada, Afrique.
+            <div class="hero-content" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <h1 class="hero-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 2rem; letter-spacing: -0.02em;">Le Pont Stratégique entre vos Projets et l'Élite.</h1>
+                <p class="hero-subtitle" style="font-size: 1.4rem; color: var(--text-secondary); margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.4;">
+                    Sécurisez vos opérations territoriales. Recrutez des talents certifiés. Pilotez votre réussite en Outre-mer et à l'International.
                 </p>
-                <div class="hero-actions">
-                    <a href="register-choice" class="cta-button primary" style="padding: 18px 40px; font-size: 1.1rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">Démarrer mon projet</a>
-                    <a href="/marketplace/directory" class="cta-button secondary">Explorer les talents</a>
+                <div class="hero-actions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <a href="register-choice" class="cta-button primary" style="padding: 20px 48px; font-size: 1.25rem; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: scale(1.05); transition: 0.3s;">Démarrer (Gratuit)</a>
+                    <a href="#pricing" class="cta-button secondary" style="padding: 20px 40px; font-size: 1.1rem; border-radius: 12px; border: 2px solid var(--gray-200);">Voir les solutions</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- SECTION RÉSEAU - Rayonnement de l'Écosystème -->
-    <div class="home-scope-bar">
+    <div class="home-scope-bar" style="border-top: none; background: transparent; padding: 20px 0;">
         <div class="container">
-            <div class="scope-container">
-                <div class="scope-item"><b>Cœur de Réseau :</b> Antilles Françaises & Guyane</div>
+            <div class="scope-container" style="justify-content: center; opacity: 0.6; filter: grayscale(1);">
+                <div class="scope-item">Antilles Françaises</div>
                 <div class="scope-dot"></div>
-                <div class="scope-item"><b>Ouverture Régionale :</b> Antilles Anglophones & Hispanophones</div>
+                <div class="scope-item">Anguilla • Antigua • Barbados</div>
                 <div class="scope-dot"></div>
-                <div class="scope-item"><b>Impact Mondial :</b> Diaspora & International</div>
+                <div class="scope-item">Guyane • USA • Canada • Afrique</div>
             </div>
         </div>
     </div>
 
-    <!-- SECTION PARCOURS - 3 Ecosystèmes (Compact) -->
-    <section class="section-padding bg-light" id="parcours" style="padding: 40px 0;">
+    <!-- SECTION PARCOURS - Choisir son Épopée -->
+    <section class="section-padding" id="parcours" style="padding: 80px 0; background: #fff;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200); position: relative; display: flex; flex-direction: column;">
-                    <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; margin-bottom: 12px; display: inline-block; align-self: flex-start;">Porteurs de Projet</span>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Sécurisez votre épopée</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px; flex-grow: 1;">
-                        Transformez votre idée en réussite. Trouvez vos financements et les meilleurs outils pour piloter votre projet en Outre-mer.
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem;">Trois Chemins. Une seule Réussite.</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Sélectionnez votre profil pour accéder à vos outils stratégiques.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+                <!-- Porteur -->
+                <div style="background: var(--gray-50); padding: 40px; border-radius: 24px; border: 1px solid var(--gray-100); transition: 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='var(--emerald-color)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='var(--gray-100)'; this.style.transform='translateY(0)'">
+                    <div style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                        <svg width="24" height="24" fill="#3b82f6" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 12px; font-weight: 700;">Porteurs de Projet</h3>
+                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px;">
+                        Financez votre épopée et profitez d'un pilotage stratégique complet. De l'idée à la levée de fonds.
                     </p>
-                    <a href="registration/basic?role=porteur" style="color: #3b82f6; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Démarrer (Gratuit) →</a>
+                    <a href="registration/basic?role=porteur" style="display: inline-block; font-weight: 700; color: #3b82f6; text-decoration: none;">Propulser mon projet →</a>
                 </div>
-                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200); display: flex; flex-direction: column;">
-                    <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; margin-bottom: 12px; display: inline-block; align-self: flex-start;">Entreprises</span>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Recrutez vos experts</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px; flex-grow: 1;">
-                        Accédez à un réseau qualifié pour accélérer votre croissance et sécuriser vos opérations stratégiques aux Antilles.
+                <!-- Entreprise -->
+                <div style="background: var(--gray-50); padding: 40px; border-radius: 24px; border: 1px solid var(--gray-100); transition: 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='var(--emerald-color)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='var(--gray-100)'; this.style.transform='translateY(0)'">
+                    <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                        <svg width="24" height="24" fill="#10b981" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 12px; font-weight: 700;">Entreprises</h3>
+                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px;">
+                        Recrutez l'élite et sécurisez vos opérations territoriales. Accédez au réseau premium en 48h.
                     </p>
-                    <a href="registration/basic?role=entreprise" style="color: #10b981; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Explorer les talents →</a>
+                    <a href="registration/basic?role=entreprise" style="display: inline-block; font-weight: 700; color: #10b981; text-decoration: none;">Recruter un expert →</a>
                 </div>
-                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid var(--gray-200); display: flex; flex-direction: column;">
-                    <span class="badge" style="background: rgba(17, 24, 39, 0.1); color: #111827; margin-bottom: 12px; display: inline-block; align-self: flex-start;">Experts & Talents</span>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Propulsez votre business</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 20px; flex-grow: 1;">
-                        Valorisez votre expertise auprès des meilleurs projets territoriaux et utilisez nos outils pour piloter votre activité.
+                <!-- Expert -->
+                <div style="background: var(--gray-50); padding: 40px; border-radius: 24px; border: 1px solid var(--gray-100); transition: 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='var(--emerald-color)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='var(--gray-100)'; this.style.transform='translateY(0)'">
+                    <div style="width: 50px; height: 50px; background: rgba(17, 24, 39, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                        <svg width="24" height="24" fill="#111827" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 12px; font-weight: 700;">Experts & Talents</h3>
+                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px;">
+                        Développez votre business sans prospecter. Recevez des missions premium adaptées à votre expertise.
                     </p>
-                    <a href="registration/basic?role=expert" style="color: #111827; font-weight: 700; text-decoration: none; font-size: 0.9rem;">Voir les missions →</a>
+                    <a href="registration/basic?role=expert" style="display: inline-block; font-weight: 700; color: #111827; text-decoration: none;">Voir les missions →</a>
                 </div>
             </div>
         </div>
@@ -394,195 +406,137 @@
                     style="padding: 1.25rem 3rem; font-size: 1.1rem;">Explorer les talents</a>
             </div>
         </div>
-    </section>
-
-
-
-
-
-
-    <!-- SECTION NOS OFFRES - SaaS Pricing -->
-    <section class="section-padding bg-white" id="pricing">
-        <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 5rem;">
-                <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: #111827; margin-bottom: 1rem;">
-                    Solutions de Connexion & d'Expertise</h2>
-                <p style="color: #4b5563; max-width: 700px; margin: 1rem auto; font-size: 1.2rem;">L'écosystème qui
-                    sécurise vos projets et valorise les meilleurs talents.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-
-                <!-- Pack Épopée (Starter) -->
-                <div class="pricing-card"
-                    style="background: #ffffff; padding: 3rem; border-radius: 24px; border: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                    <span class="badge"
-                        style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">PORTEURS
-                        DE PROJET</span>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">Pack
-                        Épopée</h3>
-                    <div style="font-size: 3rem; font-weight: 900; margin-bottom: 2rem; color: #111827;">0€ <span
-                            style="font-size: 1.25rem; font-weight: 500; color: #6b7280;">/ Gratuit</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #3b82f6;">✓</span> Accès au Pilotage (Tableau de Bord)
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #3b82f6;">✓</span> Profil Projet dans l'annuaire
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #3b82f6;">✓</span> Mise en relation avec le réseau
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #3b82f6;">✓</span> Messagerie instantanée sécurisée
-                        </li>
-                    </ul>
-                    <a href="/register-choice?role=porteur&plan=gratuit" class="cta-button secondary"
-                        style="width: 100%; border-radius: var(--border-radius-lg);">Démarrer
-                        mon Projet</a>
-                </div>
-
-                <!-- Pack Authority -->
-                <div class="pricing-card"
-                    style="background: #ffffff; padding: 3rem; border-radius: 24px; border: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                    <span class="badge"
-                        style="background: rgba(16, 185, 129, 0.1); color: #047857; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">EXPERTS
-                        & TALENTS</span>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">Pack
-                        Authority</h3>
-                    <div style="font-size: 3rem; font-weight: 900; margin-bottom: 2rem; color: #111827;">9,99€ <span
-                            style="font-size: 1.25rem; font-weight: 500; color: #6b7280;">/m</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Profil listé dans l'annuaire
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Badge "Vérifié" permanent
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Visibilité 3-4 posts / mois
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Participation aux podcasts DC
-                        </li>
-                    </ul>
-                    <a href="register-choice?role=expert&plan=authority" class="cta-button secondary"
-                        style="width: 100%; border-radius: var(--border-radius-lg);">Devenir
-                        Expert</a>
-                </div>
-
-                <!-- Pack Business -->
-                <div class="pricing-card"
-                    style="background: #ffffff; padding: 3rem; border-radius: 24px; border: 2px solid #10b981; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1); transform: scale(1.05); z-index: 10;">
-                    <div
-                        style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #047857; color: white; padding: 6px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em;">
-                        PLUS POPULAIRE</div>
-                    <span class="badge"
-                        style="background: rgba(16, 185, 129, 0.1); color: #047857; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">ENTREPRISES
-                        &nbsp;</span>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.25rem; color: #111827;">Pack
-                        Business</h3>
-                    <p style="font-size: 0.95rem; color: #047857; font-weight: 800; margin-bottom: 1rem;">Visibilité & Contenu — Boostez votre présence</p>
-                    <div style="font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; color: #111827;">29€ <span
-                            style="font-size: 1.25rem; font-weight: 500; color: #4b5563;">/m</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; flex-grow: 1;">
-                        <li
-                            style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 600; font-size: 0.95rem;">
-                            <span style="color: #10b981;">✓</span> Visibilité Annuaire (Mise en avant)
-                        </li>
-                        <li
-                            style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 600; font-size: 0.95rem;">
-                            <span style="color: #10b981;">✓</span> Publication de missions illimitées
-                        </li>
-                        <li
-                            style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 600; font-size: 0.95rem;">
-                            <span style="color: #10b981;">✓</span> 1 Podcast Corporate dédié
-                        </li>
-                        <li
-                            style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.75rem; color: #374151; font-weight: 600; font-size: 0.95rem;">
-                            <span style="color: #10b981;">✓</span> 2-3 Contenus réseaux sociaux / mois
-                        </li>
-                    </ul>
-                    <a href="register-choice?role=entreprise&plan=business" class="cta-button primary"
-                        style="width: 100%; border-radius: var(--border-radius-lg); background: #111827;">Rejoindre le Réseau</a>
-                </div>
-
-                <!-- Enterprise -->
-                <div class="pricing-card"
-                    style="background: #111827; padding: 3rem; border-radius: 24px; color: white; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-                    <span class="badge"
-                        style="background: rgba(255, 255, 255, 0.1); color: #ffffff; align-self: flex-start; margin-bottom: 1.5rem; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">GRANDS
-                        PROJETS</span>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: white;">Enterprise
-                    </h3>
-                    <div style="font-size: 3rem; font-weight: 900; margin-bottom: 2rem; color: white;">Sur Devis</div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: rgba(255,255,255,0.9); font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Accompagnement Humain Stratégique
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: rgba(255,255,255,0.9); font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Étude de Besoin & Sourcing Dédié
-                        </li>
-                        <li
-                            style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; color: rgba(255,255,255,0.9); font-weight: 500;">
-                            <span style="color: #10b981;">✓</span> Pilotage de A à Z (Clés en main)
-                        </li>
-                    </ul>
-                    <a href="/landing/entreprises/index" class="cta-button ghost"
-                        style="width: 100%; text-align: center; padding: 1rem; font-weight: 700; border-color: rgba(255,255,255,0.3); color: white;">Contacter
-                        l'Équipe</a>
-                </div>
+    </section>    <!-- FINAL CTA SECTION -->
+    <section style="padding: 100px 0; background: #111827; text-align: center; color: white;">
+        <div class="container" style="max-width: 800px;">
+            <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem;">C'est le moment d'agir.</h2>
+            <p style="font-size: 1.25rem; color: rgba(255,255,255,0.7); margin-bottom: 3rem;">Rejoignez le Pont Stratégique et sécurisez vos ambitions territoriales dès aujourd'hui.</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="register-choice" class="cta-button primary" style="padding: 20px 48px; font-size: 1.25rem; border-radius: 12px; background: var(--emerald-color); border: none;">Démarrer Gratuitement</a>
+                <a href="#parcours" style="padding: 20px 40px; font-size: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); color: white; text-decoration: none;">Voir les profils</a>
             </div>
         </div>
     </section>
 
     <!-- SECTION FAQ -->
-    <section class="faq-section bg-light light-section">
+    <section class="faq-section" style="padding: 100px 0; background: #fff;">
         <div class="container">
-            <div class="section-header">
-                <h2 style="color: var(--text-primary) !important;">Questions fréquentes</h2>
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 2.2rem; font-weight: 800;">Questions Fréquentes</h2>
             </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Comment fonctionne la plateforme ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Domtom Connect connecte les porteurs de projets aux meilleurs freelances et experts pour
-                            accélérer leurs opérations Outre-mer, de la qualification à l'aide sur le closing via
-                            SoloPrice Pro.</p>
+            <div class="faq-list" style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item" style="border-bottom: 1px solid var(--gray-100); padding: 30px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700;">Pourquoi rejoindre Domtom Connect ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Quel est le modèle d'intégration ?</h3>
-                        <span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>L'accès aux ressources et au réseau public est libre. Pour les experts, l'accès aux missions
-                            premium et à la suite SoloPrice nécessite une validation de nos équipes et la sélection d'un
-                            plan adapté.</p>
+                <div class="faq-item" style="border-bottom: 1px solid var(--gray-100); padding: 30px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700;">Le Pack Épopée est-il vraiment gratuit ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Garantissez-vous les paiements ?</h3>
-                        <span class="faq-icon">+</span>
+                <div class="faq-item" style="padding: 30px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700;">Comment sont qualifiés les experts ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
                     </div>
-                    <div class="faq-answer">
-                        <p>Via SoloPrice Pro, les experts peuvent structurer, chiffrer et sécuriser leurs contrats avec
-                            des acomptes clairs. Notre objectif : zéro retard de paiement dans le réseau.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- SECTION TARIFS - Le Choix de la Réussite -->
+    <section class="section-padding bg-light" id="pricing" style="padding: 100px 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">Investissez dans votre Croissance.</h2>
+                <p style="color: var(--text-secondary); font-size: 1.25rem;">Des solutions adaptées à chaque étape de votre épopée.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: stretch;">
+                
+                <!-- Pack Épopée -->
+                <div style="background: white; padding: 40px; border-radius: 24px; border: 1px solid var(--gray-200); display: flex; flex-direction: column; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.05)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #3b82f6; text-transform: uppercase; margin-bottom: 20px;">Démarrage</span>
+                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 10px;">Pack Épopée</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 30px;">0€ <span style="font-size: 1rem; color: var(--text-secondary); font-weight: 500;">/à vie</span></div>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 40px; flex-grow: 1;">
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Profil Porteur de Projet</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès Annuaire Talents</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Messagerie Sécurisée</li>
+                    </ul>
+                    <a href="register-choice?role=porteur&plan=gratuit" class="cta-button secondary" style="width: 100%; padding: 15px; border-radius: 12px; font-weight: 700;">Démarrer Gratuitement</a>
+                </div>
+
+                <!-- Pack Business - LE COEUR DU FUNNEL -->
+                <div style="background: white; padding: 40px; border-radius: 24px; border: 2px solid var(--emerald-color); display: flex; flex-direction: column; position: relative; transform: scale(1.05); z-index: 2; box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--emerald-color); color: white; padding: 6px 20px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em;">Recommandé</div>
+                    <span style="font-size: 0.8rem; font-weight: 800; color: var(--emerald-color); text-transform: uppercase; margin-bottom: 20px;">Accélération</span>
+                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 10px;">Pack Business</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; margin-bottom: 30px;">29€ <span style="font-size: 1rem; color: var(--text-secondary); font-weight: 500;">/mois</span></div>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 40px; flex-grow: 1;">
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Visibilité Annuaire Premium</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Missions Illimitées</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> 1 Podcast Corporate Dédié</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> 2-3 Contenus Réseaux Sociaux</li>
+                    </ul>
+                    <a href="register-choice?role=entreprise&plan=business" class="cta-button primary" style="width: 100%; padding: 18px; border-radius: 12px; font-weight: 700; background: #111827;">Choisir Business</a>
+                </div>
+
+                <!-- Pack Enterprise -->
+                <div style="background: #111827; padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; color: white; transition: 0.3s;" onmouseover="this.style.boxShadow='0 20px 40px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='none'">
+                    <span style="font-size: 0.8rem; font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 20px;">Grands Projets</span>
+                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 10px;">Enterprise</h3>
+                    <div style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">Sur Devis</div>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 40px; flex-grow: 1;">
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500; color: rgba(255,255,255,0.8);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Sourcing Talents Dédié</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500; color: rgba(255,255,255,0.8);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Pilotage Stratégique</li>
+                        <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 500; color: rgba(255,255,255,0.8);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Accompagnement Premium</li>
+                    </ul>
+                    <a href="/landing/entreprises/index" class="cta-button ghost" style="width: 100%; padding: 15px; border-radius: 12px; font-weight: 700; border-color: rgba(255,255,255,0.2); color: white;">Contacter l'Équipe</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section style="padding: 100px 0; background: #111827; text-align: center; color: white;">
+        <div class="container" style="max-width: 800px;">
+            <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem;">C'est le moment d'agir.</h2>
+            <p style="font-size: 1.25rem; color: rgba(255,255,255,0.7); margin-bottom: 3rem;">Rejoignez le Pont Stratégique et sécurisez vos ambitions territoriales dès aujourd'hui.</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="register-choice" class="cta-button primary" style="padding: 20px 48px; font-size: 1.25rem; border-radius: 12px; background: var(--emerald-color); border: none;">Démarrer Gratuitement</a>
+                <a href="#parcours" style="padding: 20px 40px; font-size: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); color: white; text-decoration: none;">Voir les profils</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION FAQ -->
+    <section class="faq-section" style="padding: 80px 0; background: #fff;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 2rem; font-weight: 800;">Questions Fréquentes</h2>
+            </div>
+            <div class="faq-list" style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item" style="border-bottom: 1px solid var(--gray-100); padding: 24px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700;">Pourquoi rejoindre Domtom Connect ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
+                    </div>
+                </div>
+                <div class="faq-item" style="border-bottom: 1px solid var(--gray-100); padding: 24px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700;">Le Pack Épopée est-il vraiment gratuit ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
+                    </div>
+                </div>
+                <div class="faq-item" style="padding: 24px 0;">
+                    <div class="faq-question" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700;">Comment sont qualifiés les experts ?</h3>
+                        <span style="font-size: 1.5rem; font-weight: 300;">+</span>
                     </div>
                 </div>
             </div>
