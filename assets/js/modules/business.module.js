@@ -36,17 +36,27 @@ const BusinessModule = {
         await BusinessModule.loadHistory();
     },
 
+    // Helper pour attendre l'initialisation de Supabase
+    waitForSupabase: () => {
+        return new Promise((resolve) => {
+            const check = () => {
+                if (typeof _supabase !== 'undefined' && _supabase.auth) {
+                    resolve(_supabase);
+                } else {
+                    setTimeout(check, 100);
+                }
+            };
+            check();
+        });
+    },
+
     loadHistory: async () => {
         const content = document.getElementById('business-main-content');
         if (!content) return;
 
         try {
-            // Utilisation du client global _supabase et vérification de l'existence du module auth
-            if (typeof _supabase === 'undefined' || !_supabase.auth) {
-                throw new Error("Client Supabase non initialisé");
-            }
-
-            const { data: { user } } = await _supabase.auth.getUser();
+            const supabase = await BusinessModule.waitForSupabase();
+            const { data: { user } } = await supabase.auth.getUser();
             if (!user) throw new Error("Non connecté");
 
             const { data, error } = await _supabase

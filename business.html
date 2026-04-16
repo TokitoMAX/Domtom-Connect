@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://t.contentsquare.net/uxa/86bd8964d6ff4.js"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TBM8LXJV');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finances & Facturation – Domtom Connect</title>
+    <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
+    <link rel="stylesheet" href="assets/css/style.css?v=4.5">
+    <link rel="stylesheet" href="assets/css/dashboard.css?v=5.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="dashboard-sidebar">
+            <a href="/" class="sidebar-brand">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" class="sidebar-logo-img">
+                <span class="sidebar-brand-text">Domtom Connect</span>
+            </a>
+
+            <a href="/mon-espace" class="sidebar-link" title="Tableau de Bord">
+                <div class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                </div>
+                <span class="sidebar-label">Mon Espace</span>
+            </a>
+
+            <a href="/business.html" class="sidebar-link active" title="Gestion Business">
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </span>
+                <span class="sidebar-label">Finances / Devis</span>
+            </a>
+
+            <!-- GESTION COMPTE -->
+            <div style="margin-top:24px; padding:0 24px; font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Administration</div>
+
+            <a href="/profile" class="sidebar-link" title="Mon Profil">
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </span>
+                <span class="sidebar-label">Mon Profil</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="signOut()" class="sidebar-link" title="Déconnexion">
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </span>
+                <span class="sidebar-label">Quitter</span>
+            </a>
+        </aside>
+
+        <main class="main-content">
+            <div id="business-standalone-view" class="view-section" style="display:block;">
+                <!-- BusinessModule will inject here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/territory_config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=5.0"></script>
+    <script src="assets/js/modules/business.module.js?v=2.0"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('business-standalone-view');
+            if (typeof BusinessModule !== 'undefined') {
+                await BusinessModule.renderView(container);
+            }
+            
+            // Masquer les liens réservés si pas expert
+            const session = await getSession();
+            if (session) {
+                const role = session.user?.user_metadata?.role;
+                if (role !== 'expert') {
+                    window.location.href = '/mon-espace';
+                }
+            } else {
+                // Optionnel: On attend un peu ou on redirige direct
+                setTimeout(() => {
+                    if (!window._supabase) window.location.href = '/login';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

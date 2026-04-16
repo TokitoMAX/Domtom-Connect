@@ -200,9 +200,13 @@ function showView(viewId, forceRender = false) {
     // 2. Afficher la section cible
     const target = document.getElementById(targetId);
     
-    // Cas spécial : Redirection Profil Standalone
+    // Cas spécial : Redirection Profil & Business Standalone
     if (baseView === 'profile') {
         window.location.href = '/profile';
+        return;
+    }
+    if (baseView === 'business') {
+        window.location.href = '/business.html';
         return;
     }
 
@@ -236,10 +240,6 @@ function showView(viewId, forceRender = false) {
                 _supabase.auth.getSession().then(({data}) => {
                     if (data.session) CompaniesModule.renderDashboard(target, null, window.userProfile, data.session);
                 });
-            }
-        } else if (baseView === 'business') {
-            if (typeof BusinessModule !== 'undefined') {
-                BusinessModule.renderView(target);
             }
         }
     }
