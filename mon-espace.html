@@ -300,6 +300,34 @@
                         <!-- Ecosystem Grid (Messaging, Events, Resources) -->
                         <div id="ecosystem-grid-container"></div>
                     </div>
+
+                    <!-- SYNC MARKETPLACE : Ma Visibilité -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;">
+                        <!-- Force de Profil -->
+                        <div id="profile-strength-container" class="dash-card hidden-force" style="display: none; padding: 24px; border: 1px solid #e2e8f0; border-radius: 20px; background: white;">
+                            <h3 style="font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 16px; letter-spacing: 0.05em;">Force de votre Profil</h3>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="font-size: 1.5rem; font-weight: 900; color: #0f172a;" id="strength-percentage">0%</span>
+                                <span style="font-size: 0.75rem; font-weight: 700; color: #10b981; background: #ecfdf5; padding: 4px 10px; border-radius: 6px;">NIVEAU STRATÉGIQUE</span>
+                            </div>
+                            <div style="width: 100%; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; margin-bottom: 16px;">
+                                <div id="strength-bar" style="width: 0%; height: 100%; background: #10b981; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                            </div>
+                            <p id="strength-tip" style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin: 0;"></p>
+                        </div>
+
+                        <!-- Aperçu Visibilité -->
+                        <div id="visibility-preview-container" class="dash-card hidden-force" style="display: none; padding: 24px; border: 1px solid #e2e8f0; border-radius: 20px; background: white;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 style="font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em;">Ma Présence Marketplace</h3>
+                                <div id="visibility-status-badge"></div>
+                            </div>
+                            <div id="preview-card-slot" style="margin-bottom: 20px;"></div>
+                            <div id="visibility-upgrade-prompt">
+                                <a href="/marketplace/directory" class="cta-button primary" style="width: 100%; text-align: center; background: #10b981; border: none; font-size: 0.85rem;">Gérer mon annonce publique</a>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="cards-grid" id="dashboard-cards" style="margin-top: 32px;">
                         <!-- Rempli par le JS (News, Statistiques, etc.) -->
@@ -325,7 +353,7 @@
                         <div id="matchmaking-section" style="display:none; margin-top:60px; padding-top:40px; border-top:1px solid var(--gray-200);">
                             <div style="margin-bottom:24px;">
                                 <h2 style="font-size:1.5rem; font-weight:800; margin:0; display:flex; align-items:center; gap:12px;">
-                                    EXPERTS RECOMMANDÉS <span style="font-size:0.75rem; background:#7c3aed; color:white; padding:4px 10px; border-radius:20px;">MATCHS IA</span>
+                                    EXPERTS RECOMMANDÉS <span style="font-size:0.75rem; background:#10b981; color:white; padding:4px 10px; border-radius:20px;">MATCHS IA</span>
                                 </h2>
                                 <p style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Nos recommandations d'experts pour propulser votre Projet.</p>
                             </div>

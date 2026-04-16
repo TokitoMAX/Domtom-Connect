@@ -114,7 +114,7 @@ const BusinessModule = {
                             Le module Business n'est pas encore activé sur votre base de données. 
                             Veuillez exécuter le script <strong>setup_business_persistence.sql</strong> dans votre console Supabase.
                         </p>
-                        <button onclick="BusinessModule.createNewDoc('quote')" class="cta-button primary" style="background:#fb923c; border:none;">Tester l'Éditeur</button>
+                        <button onclick="BusinessModule.createNewDoc('quote')" class="cta-button primary" style="background:#10b981; border:none;">Tester l'Éditeur</button>
                     </div>
                 `;
             } else {
@@ -170,8 +170,8 @@ const BusinessModule = {
                         <span style="font-size: 0.75rem; background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-weight: 800; margin-top: 8px; display:inline-block;">BROWSER SYNC ON</span>
                     </div>
                     <div style="display:flex; gap:12px;">
-                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="background:#6366f1;">Sauvegarder</button>
-                        ${!isInvoice ? `<button onclick="BusinessModule.convertToInvoice()" class="cta-button ghost" style="color:#6366f1; border-color:#6366f1;">Convertir en Facture</button>` : ''}
+                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="background:#10b981; border:none;">Sauvegarder</button>
+                        ${!isInvoice ? `<button onclick="BusinessModule.convertToInvoice()" class="cta-button ghost" style="color:#0f172a; border-color:#0f172a;">Convertir en Facture</button>` : ''}
                         <button onclick="BusinessModule.renderView(document.getElementById('business-view'))" class="cta-button ghost" style="color: #ef4444;">Fermer</button>
                     </div>
                 </div>
@@ -324,7 +324,7 @@ const BusinessModule = {
                 <span>Total HT</span>
                 <span style="font-weight: 700;">${subtotal.toFixed(2)}€</span>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; color: #7c3aed;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; color: #10b981;">
                 <span>Commission DC (12%)</span>
                 <span style="font-weight: 700;">- ${commission.toFixed(2)}€</span>
             </div>
@@ -354,7 +354,7 @@ const BusinessModule = {
                     <p style="margin: 4px 0 0 0; color: #64748b; font-size: 13px;">Expertise Territoriale & Diaspora</p>
                 </div>
                 <div style="text-align: right;">
-                    <h2 style="margin:0; font-size: 22px; color: ${isInvoice ? '#111827' : '#3b82f6'};">${isInvoice ? 'FACTURE' : 'DEVIS'}</h2>
+                    <h2 style="margin:0; font-size: 22px; color: #10b981;">${isInvoice ? 'FACTURE' : 'DEVIS'}</h2>
                     <p style="margin: 4px 0 0 0; font-size: 11px; color:#64748b;">N° ${isInvoice ? 'F' : 'D'}-${Date.now().toString().slice(-6)}</p>
                     <p style="margin: 2px 0 0 0; font-size: 11px; color:#64748b;">Date: ${new Date().toLocaleDateString('fr-FR')}</p>
                 </div>

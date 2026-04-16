@@ -328,6 +328,8 @@ async function loadDashboardContent(session) {
 
     const roleBadge = document.getElementById('user-role-badge');
     if (roleBadge) {
+        roleBadge.style.background = 'rgba(16, 185, 129, 0.1)';
+        roleBadge.style.color = '#10b981';
         renderRoleBadge(roleBadge, role);
     }
 
@@ -581,10 +583,10 @@ function renderVisibilityPreview(profile) {
 
     // 1. Badge Status
     if (isListed) {
-        badge.innerHTML = `<span class="visibility-badge public">● Publié (Actif)</span>`;
+        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publié (Actif)</span>`;
         if (prompt) prompt.style.display = 'none';
     } else {
-        badge.innerHTML = `<span class="visibility-badge private">● Privé (Invisible)</span>`;
+        badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Privé (Invisible)</span>`;
         if (prompt) prompt.style.display = 'block';
     }
 
