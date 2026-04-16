@@ -131,17 +131,19 @@
                     <label style="display:block; font-weight:700; margin-bottom:8px;">TJM souhaité (€) *</label>
                     <input type="number" id="expert-tjm" placeholder="Ex: 400" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
                 </div>
-                <div>
-                    <label style="display:block; font-weight:700; margin-bottom:8px;">Origine / Rayonnement *</label>
-                    <select id="expert-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
-                        <option value="Martinique">Local : Martinique</option>
-                        <option value="Guadeloupe">Local : Guadeloupe</option>
-                        <option value="Guyane">Local : Guyane</option>
-                        <option value="Réunion">Local : La Réunion</option>
-                        <option value="Mayotte">Local : Mayotte</option>
-                        <option value="Diaspora">Membre Diaspora</option>
-                        <option value="International">Expert Allié (International/Hexagone)</option>
-                    </select>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                    <div>
+                        <label style="display:block; font-weight:700; margin-bottom:8px;">Zone d'Origine / Ecosystem *</label>
+                        <select id="expert-zone" onchange="updateTerritoryList('expert')" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                            <option value="">Sélectionnez une zone...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block; font-weight:700; margin-bottom:8px;">Territoire spécifique / Island *</label>
+                        <select id="expert-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;" disabled>
+                            <option value="">Choisissez d'abord une zone</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div style="margin-bottom:32px;">
@@ -157,15 +159,19 @@
                 <label style="display:block; font-weight:700; margin-bottom:8px;">Nom de l'entreprise *</label>
                 <input type="text" id="entreprise-name" placeholder="Ex: Agrotech Martinique" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
             </div>
-            <div style="margin-bottom:20px;">
-                <label style="display:block; font-weight:700; margin-bottom:8px;">Zone d'Origine / Siège *</label>
-                <select id="entreprise-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
-                    <option value="Martinique">Antilles : Martinique</option>
-                    <option value="Guadeloupe">Antilles : Guadeloupe</option>
-                    <option value="Guyane">Guyane Française</option>
-                    <option value="Hexagone">France Hexagonale</option>
-                    <option value="International">International / Canada / US</option>
-                </select>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Zone du Siège / Headquarters Zone *</label>
+                    <select id="entreprise-zone" onchange="updateTerritoryList('entreprise')" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                        <option value="">Sélectionnez une zone...</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Territoire / Location *</label>
+                    <select id="entreprise-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;" disabled>
+                        <option value="">Choisissez d'abord une zone</option>
+                    </select>
+                </div>
             </div>
             <div style="margin-bottom:32px;">
                 <label style="display:block; font-weight:700; margin-bottom:8px;">Vos besoins actuels *</label>
@@ -193,6 +199,7 @@
         </div>
     </main>
 
+    <script src="../assets/js/territory_config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/form-security.js"></script>
@@ -200,6 +207,22 @@
         let selectedRole = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Initialiser les listes de zones
+            if (window.TerritoryConfig) {
+                const zones = window.TerritoryConfig.getZones();
+                ['expert-zone', 'entreprise-zone'].forEach(id => {
+                    const select = document.getElementById(id);
+                    if (select) {
+                        zones.forEach(zone => {
+                            const opt = document.createElement('option');
+                            opt.value = zone.id;
+                            opt.textContent = zone.label;
+                            select.appendChild(opt);
+                        });
+                    }
+                });
+            }
+
             try {
                 const session = await getSession();
                 if (!session) {
@@ -224,7 +247,7 @@
                     .single();
 
                 if ((role || profile?.role) && (subTier !== 'free' || (profile?.role && profile.role !== 'porteur'))) {
-                    // Rôle déjà défini ET validé (pas un simple porteur/basique sans abonnement)
+                    // Rôle déjà défini ET validé
                     window.location.href = '../mon-espace';
                 }
             } catch (err) {
@@ -232,18 +255,42 @@
             }
         });
 
+        function updateTerritoryList(type) {
+            const zoneId = document.getElementById(`${type}-zone`).value;
+            const territorySelect = document.getElementById(`${type}-territory`);
+            
+            if (!territorySelect) return;
+            
+            territorySelect.innerHTML = '<option value="">Sélectionnez...</option>';
+            
+            if (!zoneId) {
+                territorySelect.disabled = true;
+                return;
+            }
+
+            const islands = window.TerritoryConfig.getIslands(zoneId);
+            islands.forEach(island => {
+                const opt = document.createElement('option');
+                opt.value = island;
+                opt.textContent = island;
+                territorySelect.appendChild(opt);
+            });
+            
+            territorySelect.disabled = false;
+        }
+
         function goToStep2(role) {
             selectedRole = role;
             document.getElementById('step-1').style.display = 'none';
             document.getElementById('step-2').style.display = 'block';
 
             if (role === 'expert') {
-                document.getElementById('step-2-title').textContent = "Profil Expert / Indépendant";
+                document.getElementById('step-2-title').innerHTML = "Profil Expert / Talents <br><span style='font-size:0.9rem; font-weight:400; color:#64748b;'>(Talents & Freelancers)</span>";
                 document.getElementById('expert-form').style.display = 'block';
                 document.getElementById('entreprise-form').style.display = 'none';
                 document.getElementById('porteur-form').style.display = 'none';
             } else if (role === 'entreprise') {
-                document.getElementById('step-2-title').textContent = "Profil Entreprise";
+                document.getElementById('step-2-title').innerHTML = "Profil Entreprise / Partenaire <br><span style='font-size:0.9rem; font-weight:400; color:#64748b;'>(Businesses & Partners)</span>";
                 document.getElementById('entreprise-form').style.display = 'block';
                 document.getElementById('expert-form').style.display = 'none';
                 document.getElementById('porteur-form').style.display = 'none';
@@ -263,47 +310,48 @@
 
         async function finishOnboarding(role) {
             const finalRole = role || selectedRole;
-            let metadata = { role: finalRole === 'basique' ? 'porteur' : finalRole, onboarding_done: true };
+            let metadata = { 
+                role: finalRole === 'basique' ? 'porteur' : finalRole, 
+                onboarding_done: true 
+            };
 
             if (finalRole === 'expert') {
                 metadata.skills = document.getElementById('expert-skills').value.trim();
                 metadata.tjm = document.getElementById('expert-tjm').value.trim();
+                metadata.major_zone = document.getElementById('expert-zone').value;
                 metadata.territory = document.getElementById('expert-territory').value;
                 metadata.bio = document.getElementById('expert-bio').value.trim();
 
-                if (!metadata.skills || !metadata.tjm || !metadata.bio) {
-                    alert("Veuillez remplir tous les champs obligatoires."); return;
+                if (!metadata.skills || !metadata.tjm || !metadata.bio || !metadata.major_zone || !metadata.territory) {
+                    alert("Veuillez remplir tous les champs obligatoires (All fields are required)."); 
+                    return;
                 }
 
-                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
                 if (window.formSecurity) {
                     if (metadata.skills && !window.formSecurity.isValidText(metadata.skills, 3)) {
-                        alert("Vos compétences semblent invalides. Veuillez saisir de vraies compétences.");
-                        return;
+                        alert("Vos compétences semblent invalides."); return;
                     }
                     if (metadata.bio && !window.formSecurity.isValidText(metadata.bio, 20)) {
-                        alert("Votre biographie est trop courte ou invalide. Veuillez rédiger une vraie description (min. 20 caractères).");
-                        return;
+                        alert("Votre biographie est trop courte (min. 20 caractères)."); return;
                     }
                 }
             } else if (finalRole === 'entreprise') {
                 metadata.company_name = document.getElementById('entreprise-name').value.trim();
                 metadata.needs = document.getElementById('entreprise-needs').value.trim();
+                metadata.major_zone = document.getElementById('entreprise-zone').value;
                 metadata.territory = document.getElementById('entreprise-territory').value;
 
-                if (!metadata.company_name || !metadata.needs) {
-                    alert("Veuillez remplir tous les champs obligatoires."); return;
+                if (!metadata.company_name || !metadata.needs || !metadata.major_zone || !metadata.territory) {
+                    alert("Veuillez remplir tous les champs obligatoires (All fields are required)."); 
+                    return;
                 }
 
-                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
                 if (window.formSecurity) {
                     if (!window.formSecurity.isValidName(metadata.company_name)) {
-                        alert("Le nom de votre entreprise semble invalide.");
-                        return;
+                        alert("Le nom de votre entreprise semble invalide."); return;
                     }
                     if (metadata.needs && !window.formSecurity.isValidText(metadata.needs, 20)) {
-                        alert("La description de vos besoins est trop courte ou invalide. Veuillez rédiger un texte clair.");
-                        return;
+                        alert("La description de vos besoins est trop courte."); return;
                     }
                 }
             } else if (finalRole === 'porteur') {
@@ -321,7 +369,6 @@
                 }
 
                 await updateUserProfile(metadata);
-                // Redirection directe vers l'espace personnel
                 window.location.href = '../mon-espace';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);

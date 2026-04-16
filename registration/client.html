@@ -252,18 +252,18 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Territoire *</label>
-                                <select class="form-select" name="territory" id="j-territory" required>
-                                    <option value="Martinique">Martinique</option>
-                                    <option value="Guadeloupe">Guadeloupe</option>
-                                    <option value="Guyane">Guyane</option>
-                                    <option value="Diaspora">Diaspora (France hexa / International)</option>
-                                    <option value="Réunion">La Réunion</option>
-                                    <option value="Mayotte">Mayotte</option>
-                                    <option value="International">International / Autre</option>
-                                    <option value="Télétravail">100% Télétravail</option>
+                                <label class="form-label">Écosystème / Zone *</label>
+                                <select class="form-select" name="major_zone" id="j-zone" onchange="updateJobTerritories()" required>
+                                    <option value="">Sélectionnez...</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">Territoire Spécifique / Location *</label>
+                                <select class="form-select" name="territory" id="j-territory" required disabled>
+                                    <option value="">Choisissez une zone</option>
+                                </select>
+                            </div>
+                        </div>
                             <div class="form-group">
                                 <label class="form-label">Secteur d'activité *</label>
                                 <select class="form-select" name="sector" id="j-sector" required>
@@ -333,12 +333,48 @@
     </div>
 
     <!-- Supabase & Auth -->
+    <script src="../assets/js/territory_config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/form-security.js"></script>
 
     <script>
         let currentStep = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.TerritoryConfig) {
+                const zones = window.TerritoryConfig.getZones();
+                const zoneSelect = document.getElementById('j-zone');
+                zones.forEach(zone => {
+                    const opt = document.createElement('option');
+                    opt.value = zone.id;
+                    opt.textContent = zone.label;
+                    zoneSelect.appendChild(opt);
+                });
+            }
+        });
+
+        function updateJobTerritories() {
+            const zoneId = document.getElementById('j-zone').value;
+            const territorySelect = document.getElementById('j-territory');
+            
+            territorySelect.innerHTML = '<option value="">Sélectionnez...</option>';
+            
+            if (!zoneId) {
+                territorySelect.disabled = true;
+                return;
+            }
+
+            const islands = window.TerritoryConfig.getIslands(zoneId);
+            islands.forEach(island => {
+                const opt = document.createElement('option');
+                opt.value = island;
+                opt.textContent = island;
+                territorySelect.appendChild(opt);
+            });
+            
+            territorySelect.disabled = false;
+        }
 
         function changeStep(n) {
             // Validation avant de passer à l'étape suivante
@@ -407,6 +443,7 @@
                         title: formData.get('project_title'),
                         description: fullDescription,
                         mission_type: formData.get('contract_type'),
+                        major_zone: formData.get('major_zone'),
                         territory: formData.get('territory'),
                         budget: formData.get('budget') || null,
                         is_active: true

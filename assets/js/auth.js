@@ -86,6 +86,7 @@ async function upsertProfile(userId, data) {
         role: data.role,
         skills: data.skills || null,
         tjm: data.tjm ? parseInt(data.tjm) : null,
+        major_zone: data.major_zone || null,
         territory: data.territory || null,
         bio: data.bio || null,
         company_name: data.company_name || null,
@@ -120,13 +121,17 @@ async function getProfile(userId) {
 }
 
 // Retourne la liste des experts validés pour l'annuaire
-async function getExperts({ territory } = {}) {
+async function getExperts({ territory, majorZone } = {}) {
     let query = _supabase
         .from('profiles')
         .select('*')
         .eq('role', 'expert')
-        .neq('full_name', 'Domtom Connect'); // Exclure le profil système/test de l'annuaire
+        .neq('full_name', 'Domtom Connect'); 
 
+    if (majorZone) {
+        query = query.eq('major_zone', majorZone);
+    }
+    
     if (territory) {
         query = query.eq('territory', territory);
     }

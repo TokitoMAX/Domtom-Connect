@@ -196,23 +196,26 @@
                         <label class="form-label">Votre TJM Actuel (€)</label>
                         <input type="number" class="form-input" name="tjm" placeholder="Ex: 550">
                     </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
                     <div class="form-group">
-                        <label class="form-label">Zone d'intervention privilégiée *</label>
-                        <select class="form-select" name="territory" required>
+                        <label class="form-label">Écosystème / Zone *</label>
+                        <select class="form-select" id="provider-zone" name="major_zone" onchange="updateProviderTerritories()" required>
                             <option value="">Sélectionnez...</option>
-                            <option value="MQ">Martinique</option>
-                            <option value="GP">Guadeloupe / St-Martin</option>
-                            <option value="GF">Guyane</option>
-                            <option value="DIASPORA">Diaspora & Full Remote</option>
-                            <option value="RE">La Réunion</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Territoire d'Intervention *</label>
+                        <select class="form-select" id="provider-territory" name="territory" required disabled>
+                            <option value="">Choisissez une zone</option>
+                        </select>
+                    </div>
+                </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">SIRET / SIREN *</label>
-                        <input type="text" class="form-input" name="siret" placeholder="123 456 789 00012" required>
+                        <label class="form-label" id="tax-id-label">SIRET / Tax ID *</label>
+                        <input type="text" class="form-input" name="siret" id="tax-id-input" placeholder="123 456 789 00012" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Justificatif Pro (Optionnel)</label>
@@ -240,8 +243,50 @@
         </main>
     </div>
 
+    <script src="../assets/js/territory_config.js"></script>
     <script src="../assets/js/form-security.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.TerritoryConfig) {
+                const zones = window.TerritoryConfig.getZones();
+                const zoneSelect = document.getElementById('provider-zone');
+                zones.forEach(zone => {
+                    const opt = document.createElement('option');
+                    opt.value = zone.id;
+                    opt.textContent = zone.label;
+                    zoneSelect.appendChild(opt);
+                });
+            }
+        });
+
+        function updateProviderTerritories() {
+            const zoneId = document.getElementById('provider-zone').value;
+            const territorySelect = document.getElementById('provider-territory');
+            const taxLabel = document.getElementById('tax-id-label');
+            const taxInput = document.getElementById('tax-id-input');
+
+            territorySelect.innerHTML = '<option value="">Sélectionnez...</option>';
+            
+            if (!zoneId) {
+                territorySelect.disabled = true;
+                return;
+            }
+
+            // Update Islands
+            const islands = window.TerritoryConfig.getIslands(zoneId);
+            islands.forEach(island => {
+                const opt = document.createElement('option');
+                opt.value = island;
+                opt.textContent = island;
+                territorySelect.appendChild(opt);
+            });
+            territorySelect.disabled = false;
+
+            // Update Tax ID Label based on Ecosystem
+            taxLabel.textContent = window.TerritoryConfig.getTaxIdLabel(zoneId) + ' *';
+            taxInput.placeholder = zoneId === 'CAR_FR' ? '123 456 789 00012' : 'Enter ID / Registration #';
+        }
+
         function handleProviderSubmit(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
