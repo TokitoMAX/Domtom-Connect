@@ -323,8 +323,14 @@ async function loadDashboardContent(session) {
     // UI Updates
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
-    // Mettre à jour le greeting avec le nom complet sans point final si possible (pour coller au screen)
-    if (greetingEl) greetingEl.textContent = `Bonjour, ${name}`; 
+    const standardHeader = document.querySelector('.dash-section-header');
+    
+    // On cache le header standard si on est expert pour éviter le doublon avec le banner du module Expert
+    if (standardHeader && (role === 'expert' || role === 'prestataire' || role === 'entreprise')) {
+        standardHeader.style.display = 'none';
+    } else if (greetingEl) {
+        greetingEl.textContent = `Bonjour, ${name}`; 
+    }
 
     const roleBadge = document.getElementById('user-role-badge');
     if (roleBadge) {
@@ -571,16 +577,19 @@ function renderVisibilityPreview(profile) {
     const prompt = document.getElementById('visibility-upgrade-prompt');
     if (!container || !badge || !slot) return;
 
-    const isExpert = (profile.role === 'expert' || profile.role === 'prestataire');
+    const isTalent = (profile.role === 'expert' || profile.role === 'prestataire' || profile.role === 'entreprise');
+    
+    if (!isTalent) {
+        container.style.display = 'none';
+        container.classList.add('hidden-force');
+        return;
+    }
+
     const isListed = !!profile.listed;
 
     container.classList.remove('hidden-force');
     container.style.display = 'block';
     
-    // Si c'est un PO, on affiche un message spécifique si listed n'est pas applicable
-    const statusText = isListed ? "Publié (Public)" : "Privé (Invisible)";
-    const statusClass = isListed ? "public" : "private";
-
     // 1. Badge Status
     if (isListed) {
         badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publié (Actif)</span>`;

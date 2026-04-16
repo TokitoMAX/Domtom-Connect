@@ -16,12 +16,12 @@ const ExpertsModule = {
         container.innerHTML = `
             <div class="dashboard-grid role-expert-grid" style="display: grid; gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Welcome Card (Expert Style) -->
-                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
-                    <div style="position: relative; z-index: 2; padding: 40px;">
-                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Expert / Talent</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Gérez votre visibilité et accédez aux opportunités de missions sur le territoire.</p>
+                <!-- Unified Welcome Card (Expert Style) -->
+                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b; padding: 40px; position: relative;">
+                    <div style="z-index: 2; position: relative;">
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.04em;">ESPACE EXPERT / TALENT</span>
+                        <h1 style="font-size: 2.25rem; font-weight: 800; color: white; margin: 0 0 12px 0; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
+                        <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Gérez votre visibilité stratégique et accédez aux opportunités du Marketplace.</p>
                     </div>
                 </div>
 
@@ -73,8 +73,8 @@ const ExpertsModule = {
 
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
-                        <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${profile.tjm || '—'}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>
-                        <a href="#profile" style="display:inline-block; margin-top:20px; font-size:0.85rem; color:#0f172a; font-weight:800; text-decoration:none;">Modifier mon profil →</a>
+                        <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${(profile.tjm || window.userProfile?.tjm || '—')}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>
+                        <a href="profile.html" style="display:inline-block; margin-top:20px; font-size:0.85rem; color:#0f172a; font-weight:800; text-decoration:none;">Modifier mon profil →</a>
                     </div>
                 </div>
             </div>
