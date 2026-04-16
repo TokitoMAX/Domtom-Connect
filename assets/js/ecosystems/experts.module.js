@@ -28,41 +28,14 @@ const ExpertsModule = {
                 <!-- Main Section -->
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
                     
-                    ${isAuthority ? `
-                        <!-- CAS : PAYÉ -> CALENDLY CURATION -->
-                        <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px;">
-                             <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
-                                <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                </div>
-                                <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Pack Authority Actif</h4>
-                             </div>
-                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin-bottom:24px;">Votre profil bénéficie d'une visibilité prioritaire. Réservez votre séance de curation personnalisée pour maximiser votre impact.</p>
-                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; justify-content:center; text-decoration:none; font-weight:800; padding:14px 28px; width:100%; display:flex;">Planifier ma Séance de Curation</a>
-                        </div>
-                    ` : `
-                        <!-- CAS : GRATUIT -> PACK AUTHORITY (STYLE PREMIUM) -->
-                        <div class="dash-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;">
-                                <div style="flex:1; min-width:300px;">
-                                    <span style="background: rgba(16, 185, 129, 0.1); color: #047857; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform:uppercase;">Pack de Visibilité</span>
-                                    <h3 style="font-size: 1.75rem; font-weight: 800; margin:16px 0 8px; color:#111827;">Pack Authority</h3>
-                                    <div style="font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; color:#111827;">9,99€ <span style="font-size: 1rem; font-weight: 500; color: #6b7280;">/ mois</span></div>
-                                    
-                                    <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display:grid; gap:12px;">
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Profil listé dans l'annuaire</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Badge "Vérifié" permanent</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Visibilité 3-4 posts / mois</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Participation aux podcasts DC</li>
-                                    </ul>
-                                </div>
-                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:20px; padding:32px; text-align:center;">
-                                    <div id="paypal-button-container-authority" style="min-height:150px;"></div>
-                                    <p style="font-size:0.75rem; color:#64748b; margin-top:16px; font-weight:600;">Paiement sécurisé via PayPal</p>
-                                </div>
-                            </div>
-                        </div>
-                    `}
+                    <!-- Finance Quick Access -->
+                    <div class="dash-card highlight" style="background:#f8fafc; border: 1px solid #e2e8f0; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+                         <div>
+                            <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Module Business Actif</h4>
+                            <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Utilisez notre suite native pour émettre vos devis et facturer vos missions en toute sécurité.</p>
+                         </div>
+                         <button onclick="showView('business')" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module →</button>
+                    </div>
 
                     <!-- Missions matching placeholder -->
                     <div class="dash-card" style="border-radius: 20px; padding: 32px;">
@@ -92,6 +65,12 @@ const ExpertsModule = {
                         </div>
                     </div>
 
+                    <div class="dash-card" style="border-radius: 16px; padding: 24px; background: #f8fafc; border: 1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 12px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Finance & Devis</h4>
+                        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 16px; line-height:1.4;">Émettez vos devis et factures directement via la plateforme.</p>
+                        <button onclick="showView('business')" class="cta-button primary" style="width:100%; font-size:0.8rem; background:#0f172a; border:none; justify-content:center;">Gérer mes devis</button>
+                    </div>
+
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
                         <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${profile.tjm || '—'}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>
@@ -101,17 +80,6 @@ const ExpertsModule = {
             </div>
         `;
         
-        // Initialiser PayPal si nécessaire
-        if (!isAuthority) {
-            setTimeout(() => {
-                if (typeof renderPayPalButton === 'function') {
-                    renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'expert_pack_paid', 'paypal-button-container-authority');
-                } else {
-                    console.error("renderPayPalButton not found");
-                }
-            }, 800);
-        }
-
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
     },
 

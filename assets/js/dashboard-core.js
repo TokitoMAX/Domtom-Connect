@@ -15,11 +15,9 @@ let originalProfileData = null;
 
 window.isPremiumUser = function(p) {
     if (!p) return false;
-    // Admins sont toujours premium
-    if (p.role === 'admin') return true;
-    // Tiers payants
-    const premiumTiers = ['expert_pack_paid', 'pro', 'business', 'enterprise', 'authority'];
-    return premiumTiers.includes(p.subscription_tier);
+    // Tous les experts et admins sont considérés comme des profils premium/actifs
+    // dans le nouveau modèle à la commission.
+    return (p.role === 'admin' || p.role === 'expert' || p.role === 'prestataire' || p.role === 'entreprise');
 };
 
 window.showView = showView;
@@ -185,6 +183,7 @@ function showView(viewId, forceRender = false) {
         'success-engine': 'success-engine-view-fixed',
         'billetterie': 'billetterie-view',
         'missions': 'missions-view',
+        'business': 'business-view',
         'mes-billets': 'mes-billets-view',
         'profile': 'profile-view'
     };
@@ -237,6 +236,10 @@ function showView(viewId, forceRender = false) {
                 _supabase.auth.getSession().then(({data}) => {
                     if (data.session) CompaniesModule.renderDashboard(target, null, window.userProfile, data.session);
                 });
+            }
+        } else if (baseView === 'business') {
+            if (typeof BusinessModule !== 'undefined') {
+                BusinessModule.renderView(target);
             }
         }
     }
@@ -374,6 +377,16 @@ async function loadDashboardContent(session) {
         }
     }
 
+    // --- BUSINESS NAVIGATION : Show link only for experts/admins ---
+    const businessLink = document.getElementById('nav-business');
+    if (businessLink) {
+        if (role === 'admin' || role === 'expert' || role === 'prestataire') {
+            businessLink.style.display = 'flex';
+        } else {
+            businessLink.style.display = 'none';
+        }
+    }
+
     initRouting();
 }
 
@@ -418,18 +431,14 @@ function applyGeographicalLocalization(zoneId) {
         }
     });
 
-    // Handle SoloPrice Pro visibility/localization if needed
-    const soloPriceBtn = document.getElementById('soloprice-cta');
-    if (soloPriceBtn) {
-        if (zoneId === 'CAR_FR') {
-            soloPriceBtn.textContent = 'Accéder à SoloPrice Pro';
-        } else {
-            soloPriceBtn.textContent = 'Access Business Cockpit';
-        }
+    // Handle Business Suite visibility/localization
+    const businessSuiteLink = document.getElementById('nav-business');
+    if (businessSuiteLink) {
+        businessSuiteLink.querySelector('span').textContent = zoneId === 'CAR_FR' ? 'Gestion Business' : 'Business Management';
     }
 }
 
-function renderDashboardCards(role, tier, isListed, profile, session) {
+function renderDashboardCards(role, isListed, profile, session) {
     const container = document.getElementById('dashboard-cards');
     const additional = document.getElementById('additional-content');
     if (!container) return;
@@ -769,15 +778,21 @@ async function loadMatchmaking(userId) {
     if (!container) return;
 
     try {
-        const { data: profile } = await _supabase.from('profiles').select('subscription_tier').eq('id', userId).single();
-        if (!profile || (profile.subscription_tier !== 'business' && profile.subscription_tier !== 'enterprise')) {
+        // Le Matchmaking est désormais ouvert à tous les profils qualifiés
+        // sous réserve d'avoir un profil complet à plus de 80%
+        const { data: profile } = await _supabase.from('profiles').select('*').eq('id', userId).single();
+        
+        // Calcul simple de force de profil (on peut réutiliser updateProfileStrength logic sans le DOM)
+        const profileStrength = (profile.full_name ? 20 : 0) + (profile.title ? 20 : 0) + (profile.avatar_url ? 20 : 0) + (profile.bio ? 20 : 0) + (profile.skills ? 20 : 0);
+
+        if (profileStrength < 80) {
             if (section) section.style.display = 'block';
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez le Matchmaking</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour vos missions en temps réel.</p>
-                    <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none; text-decoration:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; display:inline-block;">Passer au Pack Business</a>
+                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">INCOUPLET</div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Complétez votre Profil</h3>
+                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Atteignez 80% de complétion de profil pour débloquer le matchmaking et être mis en relation avec les meilleures opportunités.</p>
+                    <a href="#profile" class="cta-button primary" style="background:#0f172a; border:none; text-decoration:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; display:inline-block;">Finaliser mon Profil</a>
                 </div>
             `;
             return;

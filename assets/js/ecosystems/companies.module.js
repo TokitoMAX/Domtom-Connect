@@ -27,44 +27,14 @@ const CompaniesModule = {
 
                 <!-- Main Content -->
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
-                    
-                    ${isPremium ? `
-                        <!-- CAS : PREMIUM -> CALENDLY STRATÉGIE -->
-                        <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px;">
-                             <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
-                                <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                </div>
-                                <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Pack Business Actif</h4>
-                             </div>
-                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin-bottom:24px;">Votre entreprise bénéficie d'une visibilité premium. Réservez votre briefing stratégique pour optimiser vos recrutements.</p>
-                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; justify-content:center; text-decoration:none; font-weight:800; padding:14px 28px;">Planifier mon Briefing</a>
-                        </div>
-                    ` : `
-                        <!-- CAS : GRATUIT -> PACK BUSINESS (STYLE PREMIUM) -->
-                        <div class="dash-card" style="background:#ffffff; border: 2px solid #10b981; border-radius:24px; padding:40px; position:relative; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.08);">
-                             <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #047857; color: white; padding: 6px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em;">PLUS POPULAIRE</div>
-                             
-                             <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;">
-                                <div style="flex:1; min-width:300px;">
-                                    <span style="background: rgba(16, 185, 129, 0.1); color: #047857; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-transform:uppercase;">Visibilité & Contenu</span>
-                                    <h3 style="font-size: 1.75rem; font-weight: 800; margin:16px 0 8px; color:#111827;">Pack Business</h3>
-                                    <div style="font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; color:#111827;">29€ <span style="font-size: 1rem; font-weight: 500; color: #6b7280;">/ mois</span></div>
-                                    
-                                    <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display:grid; gap:12px;">
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Visibilité Annuaire (Mise en avant)</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Publication de missions illimitées</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 1 Podcast Corporate dédié</li>
-                                        <li style="font-size: 0.9rem; color: #4b5563; display:flex; align-items:center; gap:12px; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 2-3 Contenus réseaux sociaux / mois</li>
-                                    </ul>
-                                </div>
-                                <div style="width:280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:20px; padding:32px; text-align:center;">
-                                    <div id="paypal-button-container-business" style="min-height:150px;"></div>
-                                    <p style="font-size:0.75rem; color:#64748b; margin-top:16px; font-weight:600;">Paiement sécurisé via PayPal</p>
-                                </div>
-                            </div>
-                        </div>
-                    `}
+                    <!-- Mission Management Quick Access -->
+                    <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+                         <div>
+                            <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Gestion des Missions Activée</h4>
+                            <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Publiez vos annonces et trouvez les meilleurs talents de la diaspora et des territoires.</p>
+                         </div>
+                         <button onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Publier une Mission →</button>
+                    </div>
 
                     <!-- Job Pilotage -->
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
@@ -104,17 +74,6 @@ const CompaniesModule = {
             </div>
         `;
         
-        // Initialiser PayPal si nécessaire
-        if (!isPremium) {
-            setTimeout(() => {
-                if (typeof renderPayPalButton === 'function') {
-                    renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business', 'paypal-button-container-business');
-                } else {
-                    console.error("renderPayPalButton not found");
-                }
-            }, 800);
-        }
-
         if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
         
         // Charger les missions de l'entreprise
