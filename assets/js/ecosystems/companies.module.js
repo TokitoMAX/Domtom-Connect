@@ -14,16 +14,14 @@ const CompaniesModule = {
         container.innerHTML = `
             <div class="dashboard-grid role-entreprise-grid" style="display: grid; gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Welcome Card (Hidden in Admin Addon) -->
-                ${container.id === 'company-addon-cards' ? '' : `
-                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
-                    <div style="position: relative; z-index: 2; padding: 40px;">
-                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Entreprise</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.company_name || 'Entreprise'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Déployez votre stratégie et gérez vos recrutements sur tout le territoire.</p>
+                <!-- Unified Welcome Card (Company Style) -->
+                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b; padding: 40px; position: relative;">
+                    <div style="z-index: 2; position: relative;">
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.04em; text-transform:uppercase;">Espace Entreprise / Institutionnel</span>
+                        <h1 style="font-size: 2.25rem; font-weight: 800; color: white; margin: 0 0 12px 0; letter-spacing: -0.04em;">Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
+                        <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Déployez votre stratégie territoriale et gérez vos recrutements avec nos outils experts.</p>
                     </div>
                 </div>
-                `}
 
                 <!-- Main Content -->
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">

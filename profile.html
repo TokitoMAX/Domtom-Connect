@@ -932,23 +932,15 @@
                         sauvegardées sur votre compte.</p>
                 </div>
 
-            <!-- Statut annonce (visible uniquement pour les experts) -->
-            <div class="status-bar" id="listing-status-bar">
-                <div style="display:flex;align-items:center;">
-                    <span class="status-dot" id="listing-dot"></span>
-                    <span id="listing-status-text"
-                        style="font-size:0.875rem;font-weight:600;color:var(--text-secondary);">Annonce non publiée dans
-                        l'annuaire</span>
+            <!-- Barres d'action & Statut (Unifiées) -->
+            <div class="status-bar" id="profile-status-bar" style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid #e2e8f0; border-radius:16px; padding:16px 24px; margin-bottom:32px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
+                <div id="status-info-container" style="display:flex; align-items:center; gap:12px;">
+                    <span class="status-dot" id="listing-dot" style="width:10px; height:10px; border-radius:50%; background:#cbd5e1;"></span>
+                    <span id="listing-status-text" style="font-size:0.9rem; font-weight:700; color:#64748b;">Chargement du statut...</span>
                 </div>
-                <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.8rem;padding:8px 16px;"
+                <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.85rem; padding:10px 20px; border-radius:12px; font-weight:800; border:1.5px solid #e2e8f0; background:white; color:#0f172a; transition:all 0.2s;"
                     onclick="toggleEditMode()">
-                    Modifier mon profil
-                </button>
-            </div>
-            <!-- Bouton edition pour les non-experts -->
-            <div id="non-expert-edit-bar" style="margin-bottom:24px;">
-                <button id="edit-toggle-btn-basic" class="cta-button secondary"
-                    style="font-size:0.8rem;padding:8px 16px;" onclick="toggleEditMode()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                     Modifier mon profil
                 </button>
             </div>
@@ -956,8 +948,8 @@
             <!-- Formulaire -->
             <form id="profile-form" onsubmit="saveProfile(event)">
 
-                <div class="profile-form-card" style="border: 2px solid var(--primary-color);">
-                    <h2 style="color: var(--primary-color);">Type de compte</h2>
+                <div class="profile-form-card" style="border: 1px solid #e2e8f0; border-top: 5px solid #0f172a; border-radius: 20px;">
+                    <h2 style="color: #0f172a; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em;">Type de compte</h2>
                     <div class="form-group" style="margin-bottom:0;">
                         <label>Comment utilisez-vous Domtom Connect ?</label>
                         <select id="user_role" name="user_role" disabled
@@ -981,8 +973,8 @@
                     </div>
                 </div>
 
-                <div class="profile-form-card">
-                    <h2>Informations principales</h2>
+                <div class="profile-form-card" style="border-radius: 20px; border: 1px solid #e2e8f0;">
+                    <h2 style="color: #0f172a; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em;">Informations principales</h2>
 
                     <!-- Upload de Logo / Photo (File based) -->
                     <div class="avatar-upload-container">
@@ -1178,8 +1170,8 @@
                     </div>
                 </div>
 
-                <div class="profile-form-card">
-                    <h2>Informations complémentaires</h2>
+                <div class="profile-form-card" style="border-radius: 20px; border: 1px solid #e2e8f0;">
+                    <h2 style="color: #0f172a; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em;">Informations complémentaires</h2>
 
                     <div class="form-row">
                         <div class="form-group">
@@ -1329,17 +1321,18 @@
 
             </form>
 
-            <div class="danger-zone">
-                <div class="danger-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <div class="danger-zone" style="margin-top: 80px; padding: 40px; background: #fff; border: 1px solid #fee2e2; border-radius: 24px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #ef4444;"></div>
+                <div class="danger-title" style="color: #991b1b; font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                         <line x1="12" y1="9" x2="12" y2="13"></line>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
                     Zone de Danger
                 </div>
-                <p class="danger-desc">La suppression de votre compte est irréversible. Cela effacera toutes vos données métier (projets, profil) et réinitialisera vos accès.</p>
-                <button type="button" class="btn-danger" onclick="handleDeleteAccount()">
+                <p class="danger-desc" style="color: #7f1d1d; opacity: 0.9; margin-bottom: 24px; font-weight: 500;">La suppression de votre compte est irréversible. Toutes vos données (projets, profil, messages) seront définitivement effacées.</p>
+                <button type="button" class="btn-danger" style="background: #ef4444; color: white; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: all 0.2s;" onclick="handleDeleteAccount()">
                     Supprimer mon compte définitivement
                 </button>
             </div>
@@ -1428,10 +1421,11 @@
         }
 
         function updateEditBar(checkRole) {
-            const isExp = (checkRole === 'expert' || checkRole === 'prestataire');
-            const isPorteur = (checkRole === 'porteur' || checkRole === 'porteur_projet');
-            const listingBar = document.getElementById('listing-status-bar');
-            const nonExpertBar = document.getElementById('non-expert-edit-bar');
+            const isTalent = (checkRole === 'expert' || checkRole === 'prestataire' || checkRole === 'entreprise');
+            const isPorteur = (checkRole === 'user' || checkRole === 'porteur' || checkRole === 'porteur_projet');
+            
+            const statusBar = document.getElementById('profile-status-bar');
+            const statusInfo = document.getElementById('status-info-container');
             const availabilityGroup = document.getElementById('availability-group');
             const saveBtn = document.getElementById('save-btn');
             const portfolioCard = document.getElementById('portfolio-card');
@@ -1440,27 +1434,27 @@
             const realizationsCard = document.getElementById('realizations-card');
             const roleGuidance = document.getElementById('role-guidance');
 
-            if (isExp) {
-                if (listingBar) listingBar.style.display = 'flex';
-                if (nonExpertBar) nonExpertBar.style.display = 'none';
-                if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier dans l\'annuaire';
+            // Toujours afficher la barre de statut unifiée
+            if (statusBar) statusBar.style.display = 'flex';
+            
+            if (isTalent) {
+                if (statusInfo) statusInfo.style.opacity = '1';
+                if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier';
                 if (availabilityGroup) availabilityGroup.style.display = 'block';
                 if (portfolioCard) portfolioCard.style.display = 'block';
-                if (tjmGroup) tjmGroup.style.display = 'block';
+                if (tjmGroup) tjmGroup.style.display = (checkRole === 'entreprise') ? 'none' : 'block';
                 if (skillsGroup) skillsGroup.style.display = 'block';
                 if (realizationsCard) realizationsCard.style.display = 'none';
                 if (roleGuidance) roleGuidance.style.display = 'block';
             } else {
-                if (listingBar) listingBar.style.display = 'none';
-                if (nonExpertBar) nonExpertBar.style.display = 'block';
+                // Pour les POs/Users, on cache les infos de listing mais on garde le bouton modifier
+                if (statusInfo) statusInfo.style.opacity = '0'; 
                 if (saveBtn) saveBtn.textContent = 'Enregistrer mon profil';
                 if (availabilityGroup) availabilityGroup.style.display = 'none';
                 if (portfolioCard) portfolioCard.style.display = 'none';
                 if (tjmGroup) tjmGroup.style.display = 'none';
                 if (skillsGroup) skillsGroup.style.display = 'none';
                 if (roleGuidance) roleGuidance.style.display = 'none';
-                
-                // Show "Épopée" only for porteurs
                 if (realizationsCard) realizationsCard.style.display = isPorteur ? 'block' : 'none';
             }
         }
@@ -1767,24 +1761,30 @@
             const subtitle = document.getElementById('page-subtitle');
             const roleSelect = document.getElementById('user_role');
             const role = displayRole || (roleSelect ? roleSelect.value : '');
-            const isExpert = (role === 'expert' || role === 'prestataire');
-            const isUser = (role === 'user');
+            const isTalent = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
 
-            if (listed) {
-                if (dot) dot.classList.add('published');
+            if (listed && isTalent) {
+                if (dot) {
+                    dot.style.background = '#10b981';
+                    dot.style.boxShadow = '0 0 10px rgba(16,185,129,0.4)';
+                }
                 if (text) {
-                    text.textContent = isExpert ? 'Annonce publiée dans l\'annuaire experts' : 'Entreprise publiée dans l\'annuaire entreprises';
+                    text.textContent = (role === 'entreprise') ? 'Entreprise publiée dans le Marketplace' : 'Profil Expert publié dans le Marketplace';
                     text.style.color = '#10b981';
                 }
-                if (subtitle) subtitle.textContent = 'Vos informations sont visibles par le réseau. Modifiez-les à tout moment.';
+                if (subtitle) subtitle.textContent = 'Vos informations sont visibles stratégiquement. Modifiez-les à tout moment.';
             } else {
-                if (dot) dot.classList.remove('published');
+                if (dot) {
+                    dot.style.background = '#cbd5e1';
+                    dot.style.boxShadow = 'none';
+                }
                 if (text) {
-                    text.textContent = 'Profil privé (Hors annuaire)';
-                    text.style.color = 'var(--text-secondary)';
-                    if (currentSubscriptionTier === 'free' && !isUser) {
-                        text.innerHTML = 'Profil en attente d\'activation <span style="font-size:0.75rem; color:#ef4444; font-weight:700;">(Invisible)</span>';
+                    if (currentSubscriptionTier === 'free' && isTalent) {
+                        text.innerHTML = 'Visibilité en attente d\'activation <span style="color:#ef4444; font-weight:800;">(Profil Privé)</span>';
+                    } else {
+                        text.textContent = 'Profil Privé (Hors Marketplace)';
                     }
+                    text.style.color = '#64748b';
                 }
             }
         }
@@ -1860,10 +1860,11 @@
                 });
                 const formActions = document.getElementById('form-actions');
                 if (formActions) formActions.style.display = 'flex';
+                
+                // Hide the Unified Edit Button, not the whole bar
                 const editBtn = document.getElementById('edit-toggle-btn');
-                const editBtnBasic = document.getElementById('edit-toggle-btn-basic');
                 if (editBtn) editBtn.style.display = 'none';
-                if (editBtnBasic) editBtnBasic.style.display = 'none';
+                
                 if (userRoleEl) {
                     updateEditBar(userRoleEl.value);
                     adaptTerminology(userRoleEl.value);
@@ -1887,10 +1888,8 @@
             const formActions = document.getElementById('form-actions');
             if (formActions) formActions.style.display = 'none';
             // Show edit buttons
-            const expertBar = document.getElementById('edit-toggle-btn');
-            const basicBar = document.getElementById('edit-toggle-btn-basic');
-            if (expertBar) expertBar.style.display = 'inline-flex';
-            if (basicBar) basicBar.style.display = 'inline-flex';
+            const editBtn = document.getElementById('edit-toggle-btn');
+            if (editBtn) editBtn.style.display = 'inline-flex';
             // Restore data from cache
             if (currentProfile) fillForm(currentProfile);
         }
