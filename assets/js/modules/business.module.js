@@ -89,7 +89,22 @@ const BusinessModule = {
             `;
         } catch (err) {
             console.error("Erreur historique:", err);
-            content.innerHTML = `<p style="color:red; text-align:center;">Erreur lors du chargement de l'historique.</p>`;
+            
+            // Gestion spécifique si la table n'existe pas encore (Supabase Code 42P01)
+            if (err.code === '42P01') {
+                content.innerHTML = `
+                    <div style="text-align:center; padding: 40px; background: #fff7ed; border: 1px dashed #fb923c; border-radius: 20px;">
+                        <h3 style="color: #9a3412; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;">Configuration Requise</h3>
+                        <p style="color: #c2410c; font-size: 0.9rem; max-width: 500px; margin: 0 auto 20px;">
+                            Le module Business n'est pas encore activé sur votre base de données. 
+                            Veuillez exécuter le script <strong>setup_business_persistence.sql</strong> dans votre console Supabase.
+                        </p>
+                        <button onclick="BusinessModule.createNewDoc('quote')" class="cta-button primary" style="background:#fb923c; border:none;">Tester l'Éditeur</button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `<p style="color:red; text-align:center;">Erreur lors du chargement de l'historique : ${err.message}</p>`;
+            }
         }
     },
 
