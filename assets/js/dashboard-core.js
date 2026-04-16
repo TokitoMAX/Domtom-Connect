@@ -311,11 +311,12 @@ async function loadDashboardContent(session) {
     const dbRole = (profile && profile.role) ? profile.role : (user.user_metadata?.role || 'user');
     const isAdmin = (dbRole === 'admin' || user.email === 'domtomconnect@gmail.com');
     const role = isAdmin ? 'admin' : dbRole;
+    const majorZone = profile.major_zone || user.user_metadata?.major_zone || 'CAR_FR';
     
     const tier = profile.subscription_tier || 'free';
     const isListed = !!profile.listed;
 
-    console.log("Dashboard Core Debug - Role:", role, "IsAdmin:", isAdmin, "Tier:", tier);
+    console.log("Dashboard Core Debug - Role:", role, "Zone:", majorZone, "Tier:", tier);
     // UI Updates
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
@@ -340,6 +341,9 @@ async function loadDashboardContent(session) {
     // Profile Strength & Visibility
     updateProfileStrength(profile);
     renderVisibilityPreview(profile);
+
+    // Apply Zone-specific labels
+    applyGeographicalLocalization(majorZone);
 
     // Load Success Engine data if applicable (only for project owners)
     const isProjectOwner = role !== 'expert' && role !== 'prestataire' && role !== 'entreprise' && role !== 'admin';
@@ -396,6 +400,33 @@ function renderRoleBadge(el, role) {
     el.style.fontWeight = '800';
     el.style.fontSize = '0.7rem';
     el.style.letterSpacing = '0.05em';
+}
+
+/**
+ * Localizes UI labels based on the user's major zone (Ecosystem)
+ */
+function applyGeographicalLocalization(zoneId) {
+    if (!window.TerritoryConfig) return;
+    
+    const taxLabel = window.TerritoryConfig.getTaxIdLabel(zoneId);
+    
+    // Find all SIRET mentions in dashboard and update them
+    const siretLabels = document.querySelectorAll('label, span, p, h4');
+    siretLabels.forEach(el => {
+        if (el.textContent.includes('SIRET') || el.textContent.includes('SIREN')) {
+            el.textContent = el.textContent.replace('SIRET / SIREN', taxLabel).replace('SIRET', taxLabel);
+        }
+    });
+
+    // Handle SoloPrice Pro visibility/localization if needed
+    const soloPriceBtn = document.getElementById('soloprice-cta');
+    if (soloPriceBtn) {
+        if (zoneId === 'CAR_FR') {
+            soloPriceBtn.textContent = 'Accéder à SoloPrice Pro';
+        } else {
+            soloPriceBtn.textContent = 'Access Business Cockpit';
+        }
+    }
 }
 
 function renderDashboardCards(role, tier, isListed, profile, session) {
@@ -1179,27 +1210,34 @@ document.addEventListener('DOMContentLoaded', async () => {
  * --- BUSINESS LOGIC: PAYPAL & CONVERSION ---
  * Restoring the Pack -> PayPal -> Success flow
  */
-window.renderPayPalButton = function(planId, tier, containerId = 'paypal-button-container') {
+window.renderPayPalButton = async function(planId, tier, containerId = 'paypal-button-container') {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.innerHTML = '';
+    container.innerHTML = '<p style="color:#64748b; font-size:0.75rem; text-align:center;">Initialisation du paiement sécurisé...</p>';
     
-    if (typeof paypal !== 'undefined') {
-        paypal.Buttons({
-            style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
-            createSubscription: function (data, actions) {
-                return actions.subscription.create({ 'plan_id': planId });
-            },
-            onApprove: function (data, actions) {
-                handleSubscriptionSuccess(data.subscriptionID, tier);
-            },
-            onError: function (err) {
-                console.error('PayPal Error:', err);
-                container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Erreur PayPal : ${err.message || 'ID Invalide'}</p>`;
-            }
-        }).render(`#${containerId}`);
-    } else {
-        container.innerHTML = `<p style="color:#64748b; font-size:0.75rem; text-align:center;">Chargement PayPal...</p>`;
+    try {
+        // We use the last known zone from current user profile
+        const zoneId = window.userProfile ? window.userProfile.major_zone : 'CAR_FR';
+        await loadPayPalSDK(zoneId, 'subscription');
+
+        if (typeof paypal !== 'undefined') {
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({ 'plan_id': planId });
+                },
+                onApprove: function (data, actions) {
+                    handleSubscriptionSuccess(data.subscriptionID, tier);
+                },
+                onError: function (err) {
+                    console.error('PayPal Error:', err);
+                    container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Erreur PayPal : ${err.message || 'ID Invalide'}</p>`;
+                }
+            }).render(`#${containerId}`);
+        }
+    } catch (err) {
+        console.error("PayPal Loader Error:", err);
+        container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Échec du chargement PayPal : ${err}</p>`;
     }
 };
 
@@ -1274,6 +1312,42 @@ window.toggleEditMode = function() {
         btn.innerHTML = window.isEditing ? '<i class="fas fa-times"></i> Annuler l\'édition' : '<i class="fas fa-edit"></i> Modifier mon profil';
         if (window.isEditing) btn.classList.add('outline'); else btn.classList.remove('outline');
     }
+};
+
+/**
+ * --- DYNAMIC PAYPAL SDK LOADER ---
+ * Injects the PayPal SDK with zone-specific currency and locale.
+ */
+window.loadPayPalSDK = function(zoneId, type = 'subscription') {
+    return new Promise((resolve, reject) => {
+        if (window.paypal) {
+            resolve(window.paypal);
+            return;
+        }
+
+        if (!window.TerritoryConfig) {
+            console.error("TerritoryConfig missing");
+            reject("Config missing");
+            return;
+        }
+
+        const config = window.TerritoryConfig.getEcosystem(zoneId);
+        const currency = config ? config.currency : 'EUR';
+        const locale = config ? config.locale : 'fr_FR';
+        
+        const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
+        let sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currency}&locale=${locale}`;
+        
+        if (type === 'subscription') {
+            sdkUrl += "&vault=true&intent=subscription";
+        }
+
+        const script = document.createElement('script');
+        script.src = sdkUrl;
+        script.onload = () => resolve(window.paypal);
+        script.onerror = () => reject("PayPal SDK load failed");
+        document.head.appendChild(script);
+    });
 };
 
 window.cancelEdit = function() {

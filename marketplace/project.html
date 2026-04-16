@@ -14,10 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Épopée – Domtom Connect</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=3.6">
-    <!-- PayPal SDK (Mode Capture pour dons ponctuels) -->
-    <script
-        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&currency=EUR&intent=capture"
-        data-sdk-integration-source="button-factory"></script>
+    <script src="/assets/js/territory_config.js"></script>
+    <!-- PayPal is loaded dynamically based on user/project zone -->
     <style>
         :root {
             --primary: #10b981;
@@ -1040,35 +1038,62 @@
         }
 
         let paypalRetryCount = 0;
-        function renderPaypalButtons() {
+        async function renderPaypalButtons() {
             const container = document.getElementById('paypal-button-container');
             if (!container) return;
-            container.innerHTML = '';
             
-            if (typeof paypal === 'undefined') {
-                paypalRetryCount++;
-                if (paypalRetryCount < 20) {
-                    console.warn(`PayPal SDK non prêt (essai ${paypalRetryCount}/20), nouvel essai dans 500ms...`);
-                    setTimeout(renderPaypalButtons, 500);
-                } else {
-                    console.error("Échec du chargement du SDK PayPal après 10 secondes. Veuillez rafraîchir la page.");
-                    container.innerHTML = '<p style="color: #64748b; font-size: 0.85rem; text-align: center;">Impossible de charger les boutons de paiement. Vérifiez votre connexion.</p>';
-                }
+            if (selectedContributionAmount <= 0) {
+                container.innerHTML = '';
                 return;
             }
 
-            if (selectedContributionAmount <= 0) return;
+            container.innerHTML = '<p style="color: #64748b; font-size: 0.75rem; text-align: center;">Initialisation du paiement sécurisé...</p>';
+            
+            try {
+                // For direct project pages, we use default or user zone
+                let zoneId = 'CAR_FR';
+                const session = await getSession();
+                if (session && session.user.user_metadata && session.user.user_metadata.major_zone) {
+                    zoneId = session.user.user_metadata.major_zone;
+                }
 
-            paypal.Buttons({
-                createOrder: (data, actions) => actions.order.create({
-                    purchase_units: [{
-                        description: `Soutien : ${currentProject.title}`,
-                        amount: { value: selectedContributionAmount.toFixed(2) }
-                    }]
-                }),
-                onApprove: (data, actions) => actions.order.capture().then(details => confirmContribution(details.id, selectedContributionAmount)),
-                style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' }
-            }).render('#paypal-button-container');
+                await loadPayPalSDK(zoneId, 'checkout');
+
+                container.innerHTML = '';
+                paypal.Buttons({
+                    createOrder: (data, actions) => actions.order.create({
+                        purchase_units: [{
+                            description: `Soutien : ${currentProject.title}`,
+                            amount: { value: selectedContributionAmount.toFixed(2) }
+                        }]
+                    }),
+                    onApprove: (data, actions) => actions.order.capture().then(details => confirmContribution(details.id, selectedContributionAmount)),
+                    style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' }
+                }).render('#paypal-button-container');
+            } catch (err) {
+                console.error("PayPal Loader Error:", err);
+                container.innerHTML = `<p style="color: #ef4444; font-size: 0.8rem;">Erreur de chargement: ${err}</p>`;
+            }
+        }
+
+        /**
+         * Dynamic PayPal SDK Loader (Localized)
+         */
+        function loadPayPalSDK(zoneId, type = 'checkout') {
+            return new Promise((resolve, reject) => {
+                if (window.paypal) { resolve(window.paypal); return; }
+                if (!window.TerritoryConfig) { reject("Config missing"); return; }
+                const config = window.TerritoryConfig.getEcosystem(zoneId);
+                const currency = config ? config.currency : 'EUR';
+                const locale = config ? config.locale : 'fr_FR';
+                const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
+                let sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currency}&locale=${locale}`;
+                const script = document.createElement('script');
+                script.src = sdkUrl;
+                script.onload = () => resolve(window.paypal);
+                script.onerror = () => reject("SDK Fail");
+                document.head.appendChild(script);
+            });
         }
 
         async function confirmContribution(paymentId, amount) {

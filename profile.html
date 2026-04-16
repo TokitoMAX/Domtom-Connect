@@ -7,10 +7,9 @@
     <title>Mon Profil – Domtom Connect</title>
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
     <link rel="stylesheet" href="assets/css/style.css?v=3.6">
-    <!-- PayPal SDK pour Abonnements -->
-    <script
-        src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"
-        data-sdk-integration-source="button-factory"></script>
+    <script src="assets/js/territory_config.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <!-- PayPal is loaded dynamically via renderPayPalButton -->
     <style>
         body {
             background-color: var(--bg-light);
@@ -1397,7 +1396,6 @@
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/auth.js"></script>
     <!-- Ecosystem Modules (Three Systems Architecture) -->
     <script src="assets/js/ecosystems/owners.module.js?v=1.0"></script>
     <script src="assets/js/ecosystems/experts.module.js?v=1.0"></script>
@@ -1946,25 +1944,66 @@
             }
         }
 
-        function renderPayPalButton(planId, tier) {
+        async function renderPayPalButton(planId, tier) {
             const container = document.getElementById('paypal-button-container');
             if (!container) return;
-            container.innerHTML = '';
-            if (typeof paypal !== 'undefined') {
-                paypal.Buttons({
-                    style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
-                    createSubscription: function (data, actions) {
-                        return actions.subscription.create({ 'plan_id': planId });
-                    },
-                    onApprove: function (data, actions) {
-                        handleSubscriptionSuccess(data.subscriptionID, tier);
-                    },
-                    onError: function (err) {
-                        console.error('PayPal Error:', err);
-                        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide.'}</p>`;
+            container.innerHTML = '<p style="color:#64748b; font-size:0.75rem; text-align:center;">Initialisation du paiement...</p>';
+            
+            try {
+                // Detect zone from profile or session
+                let zoneId = 'CAR_FR';
+                if (window.currentProfile && window.currentProfile.major_zone) {
+                    zoneId = window.currentProfile.major_zone;
+                } else {
+                    const session = await getSession();
+                    if (session && session.user.user_metadata && session.user.user_metadata.major_zone) {
+                        zoneId = session.user.user_metadata.major_zone;
                     }
-                }).render('#paypal-button-container');
+                }
+
+                await loadPayPalSDK(zoneId, 'subscription');
+
+                container.innerHTML = '';
+                if (typeof paypal !== 'undefined') {
+                    paypal.Buttons({
+                        style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({ 'plan_id': planId });
+                        },
+                        onApprove: function (data, actions) {
+                            handleSubscriptionSuccess(data.subscriptionID, tier);
+                        },
+                        onError: function (err) {
+                            console.error('PayPal Error:', err);
+                            container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide.'}</p>`;
+                        }
+                    }).render('#paypal-button-container');
+                }
+            } catch (err) {
+                console.error("PayPal Loader Error:", err);
+                container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Échec du chargement PayPal : ${err}</p>`;
             }
+        }
+
+        /**
+         * Dynamic PayPal SDK Loader (Localized)
+         */
+        function loadPayPalSDK(zoneId, type = 'subscription') {
+            return new Promise((resolve, reject) => {
+                if (window.paypal) { resolve(window.paypal); return; }
+                if (!window.TerritoryConfig) { reject("Config missing"); return; }
+                const config = window.TerritoryConfig.getEcosystem(zoneId);
+                const currency = config ? config.currency : 'EUR';
+                const locale = config ? config.locale : 'fr_FR';
+                const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
+                let sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currency}&locale=${locale}`;
+                if (type === 'subscription') { sdkUrl += "&vault=true&intent=subscription"; }
+                const script = document.createElement('script');
+                script.src = sdkUrl;
+                script.onload = () => resolve(window.paypal);
+                script.onerror = () => reject("SDK Fail");
+                document.head.appendChild(script);
+            });
         }
 
         async function handleSubscriptionSuccess(subscriptionId, tier) {

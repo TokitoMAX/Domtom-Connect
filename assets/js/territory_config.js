@@ -9,6 +9,7 @@ const TerritoryConfig = {
             label: 'Antilles Françaises (Francophone)',
             taxIdLabel: 'SIRET / SIREN',
             currency: 'EUR',
+            locale: 'fr-FR',
             islands: [
                 'Martinique',
                 'Guadeloupe',
@@ -22,7 +23,8 @@ const TerritoryConfig = {
         'CAR_EN': {
             label: 'Anglophone Caribbean',
             taxIdLabel: 'Company Tax ID / Registration #',
-            currency: 'USD/BBD/Local',
+            currency: 'USD',
+            locale: 'en-US',
             islands: [
                 'Barbados',
                 'Jamaica',
@@ -37,7 +39,8 @@ const TerritoryConfig = {
         'CAR_ES': {
             label: 'Ecosistema Hispánico (Caribbean)',
             taxIdLabel: 'RNC / ID Fiscal / Registro',
-            currency: 'USD/DOP/Local',
+            currency: 'USD',
+            locale: 'es-ES',
             islands: [
                 'República Dominicana',
                 'Cuba',
@@ -49,7 +52,8 @@ const TerritoryConfig = {
         'INT_DIASPORA': {
             label: 'International & Diaspora',
             taxIdLabel: 'Tax ID / Business ID',
-            currency: 'Local Currency',
+            currency: 'USD',
+            locale: 'en-US',
             islands: [
                 'United States',
                 'Canada',
@@ -74,6 +78,14 @@ const TerritoryConfig = {
 
     getTaxIdLabel(zoneId) {
         return this.ecosystems[zoneId] ? this.ecosystems[zoneId].taxIdLabel : 'Tax ID';
+    },
+
+    getLocale(zoneId) {
+        return this.ecosystems[zoneId] ? this.ecosystems[zoneId].locale : 'fr-FR';
+    },
+
+    getCurrency(zoneId) {
+        return this.ecosystems[zoneId] ? this.ecosystems[zoneId].currency : 'EUR';
     }
 };
 
