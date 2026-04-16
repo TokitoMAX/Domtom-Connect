@@ -74,11 +74,15 @@ const CompaniesModule = {
             </div>
         `;
         
-        if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
+        if (session && session.user && typeof loadMatchmaking === 'function') {
+            loadMatchmaking(session.user.id);
+        }
         
         // Charger les missions de l'entreprise
         const jobsTarget = document.getElementById(`jobs-container-${container.id || 'main'}`);
-        CompaniesModule.loadMyJobs(session.user.id, jobsTarget);
+        if (session && session.user && jobsTarget) {
+            CompaniesModule.loadMyJobs(session.user.id, jobsTarget);
+        }
     },
 
     loadMyJobs: async (companyId, customContainer = null) => {
@@ -181,7 +185,9 @@ window.deleteJobOffer = async (jobId) => {
         });
 
         const session = await getSession();
-        if (session) CompaniesModule.loadMyJobs(session.user.id);
+        if (session && session.user && typeof loadMyProjects === 'function') {
+            loadMyProjects(session.user.id);
+        }
 
     } catch (err) {
         alert("Erreur: " + err.message);

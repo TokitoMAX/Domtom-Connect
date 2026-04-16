@@ -63,7 +63,9 @@ const OwnersModule = {
             </div>
         `;
 
-        if (typeof loadMyProjects === 'function') loadMyProjects(session.user.id);
+        if (session && session.user && typeof loadMyProjects === 'function') {
+            loadMyProjects(session.user.id);
+        }
     },
 
     /**

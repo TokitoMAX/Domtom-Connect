@@ -41,10 +41,15 @@ const BusinessModule = {
         if (!content) return;
 
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            // Utilisation du client global _supabase et vérification de l'existence du module auth
+            if (typeof _supabase === 'undefined' || !_supabase.auth) {
+                throw new Error("Client Supabase non initialisé");
+            }
+
+            const { data: { user } } = await _supabase.auth.getUser();
             if (!user) throw new Error("Non connecté");
 
-            const { data, error } = await supabase
+            const { data, error } = await _supabase
                 .from('business_docs')
                 .select('*')
                 .eq('expert_id', user.id)

@@ -80,7 +80,9 @@ const ExpertsModule = {
             </div>
         `;
         
-        if (typeof loadMatchmaking === 'function') loadMatchmaking(session.user.id);
+        if (session && session.user && typeof loadMatchmaking === 'function') {
+            loadMatchmaking(session.user.id);
+        }
     },
 
     /**
