@@ -325,9 +325,11 @@ async function loadDashboardContent(session) {
     const greetingEl = document.getElementById('user-greeting');
     const standardHeader = document.querySelector('.dash-section-header');
     
-    // On cache le header standard si on est expert pour éviter le doublon avec le banner du module Expert
-    if (standardHeader && (role === 'expert' || role === 'prestataire' || role === 'entreprise')) {
+    // On cache le header standard si on est dans un écosystème pro pour éviter le doublon
+    const isProfessional = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
+    if (standardHeader && isProfessional) {
         standardHeader.style.display = 'none';
+        standardHeader.classList.add('hidden-force');
     } else if (greetingEl) {
         greetingEl.textContent = `Bonjour, ${name}`; 
     }
@@ -611,7 +613,7 @@ function renderVisibilityPreview(profile) {
             ${avatar}
             <div style="overflow:hidden;">
                 <h4 style="margin:0 0 4px 0; font-size:0.95rem;">${name}</h4>
-                <p style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.title || profile.sector || 'Expert Domtom Connect'}</p>
+                <p style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.title || (profile.role === 'entreprise' ? 'Partenaire Entreprise' : profile.sector || 'Expert Domtom Connect')}</p>
                 <div style="display:flex; gap:6px; margin-top:8px;">
                     <span style="font-size:0.65rem; background:#f8fafc; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.territory || 'OM'}</span>
                     ${profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}€/j</span>` : ''}

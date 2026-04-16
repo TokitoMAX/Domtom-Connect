@@ -1625,7 +1625,13 @@
                     fillForm(profile);
                     hasExistingListing = !!profile.listed;
                     currentSubscriptionTier = profile.subscription_tier || 'free';
-                    updateListingStatus(profile.listed, displayRole);
+                    
+                    // Delay update to ensure DOM is fully ready and terminology is sets
+                    setTimeout(() => {
+                        const finalRole = profile.role || role; 
+                        updateListingStatus(!!profile.listed, finalRole);
+                    }, 150);
+                    
                     checkMonetizationBanner();
                     
                     // EXPERT PORTFOLIO LOADING

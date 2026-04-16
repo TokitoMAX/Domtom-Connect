@@ -22,10 +22,22 @@ const CompaniesModule = {
                         <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Déployez votre stratégie territoriale et gérez vos recrutements avec nos outils experts.</p>
                     </div>
                 </div>
-
-                <!-- Main Content -->
+ 
+                 <!-- Main Content -->
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
-                    <!-- Mission Management Quick Access -->
+                    <!-- Mission Management Quick Access (GATED BY LISTING) -->
+                    ${!profile.listed ? `
+                    <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+                         <div style="flex:1;">
+                            <h4 style="margin:0; font-size:1.1rem; font-weight:800; color:#9a3412; display:flex; align-items:center; gap:8px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                Visibilité Marketplace requise
+                            </h4>
+                            <p style="font-size: 0.9rem; color: #c2410c; line-height:1.5; margin: 8px 0 0 0;">Pour publier une mission et être contacté, votre compte Entreprise doit être listé dans l'annuaire.</p>
+                         </div>
+                         <a href="/profile" class="cta-button primary" style="background:#ea580c; border:none; border-radius:12px; font-weight:800; padding:12px 24px; text-decoration:none; color:white;">Activer ma visibilité</a>
+                    </div>
+                    ` : `
                     <div class="dash-card highlight" style="background:#f0fdf4; border: 1px solid #bbf7d0; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
                          <div>
                             <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Gestion des Missions Activée</h4>
@@ -33,9 +45,10 @@ const CompaniesModule = {
                          </div>
                          <button onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Publier une Mission →</button>
                     </div>
+                    `}
 
                     <!-- Job Pilotage -->
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0; ${!profile.listed ? 'opacity:0.6; pointer-events:none; filter:grayscale(0.5);' : ''}">
                         <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px; color: #0f172a;">Annonces & Missions</h3>
                         <div id="jobs-container-${container.id || 'main'}" class="company-jobs-view-container">
                             <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
@@ -45,6 +58,7 @@ const CompaniesModule = {
                         </div>
                     </div>
                 </div>
+ </div>
  
                 <!-- Sidebar -->
                 <div class="dash-side-col" style="grid-column: span 1; display: flex; flex-direction: column; gap: 24px;">
