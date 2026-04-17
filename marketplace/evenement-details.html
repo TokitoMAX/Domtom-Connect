@@ -754,7 +754,7 @@
             
             try {
                 // For marketplace, we detect zone from event or user session
-                let zoneId = 'CAR_FR';
+                let zoneId = 'OM_FR';
                 const session = await getSession();
                 if (session && session.user.user_metadata && session.user.user_metadata.major_zone) {
                     zoneId = session.user.user_metadata.major_zone;

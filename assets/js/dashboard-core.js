@@ -15,8 +15,8 @@ let originalProfileData = null;
 
 window.isPremiumUser = function(p) {
     if (!p) return false;
-    // Tous les experts et admins sont considérés comme des profils premium/actifs
-    // dans le nouveau modèle à la commission.
+    // Premium Status is now based on Professional Role + Profile Completion (Verified)
+    // We no longer gate basic directory visibility behind a subscription.
     return (p.role === 'admin' || p.role === 'expert' || p.role === 'prestataire' || p.role === 'entreprise');
 };
 
@@ -314,7 +314,7 @@ async function loadDashboardContent(session) {
     const dbRole = (profile && profile.role) ? profile.role : (user.user_metadata?.role || 'user');
     const isAdmin = (dbRole === 'admin' || user.email === 'domtomconnect@gmail.com');
     const role = isAdmin ? 'admin' : dbRole;
-    const majorZone = profile.major_zone || user.user_metadata?.major_zone || 'CAR_FR';
+    const majorZone = profile.major_zone || user.user_metadata?.major_zone || 'OM_FR';
     
     const tier = profile.subscription_tier || 'free';
     const isListed = !!profile.listed;

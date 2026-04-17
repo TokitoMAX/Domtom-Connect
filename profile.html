@@ -1606,11 +1606,8 @@
                     }
 
                     const planIntent = localStorage.getItem('onboarding_plan');
-                    if (planIntent && currentSubscriptionTier === 'free') {
-                        setTimeout(() => {
-                            openSubModal(displayRole);
-                            localStorage.removeItem('onboarding_plan');
-                        }, 1500);
+                    if (planIntent) {
+                        localStorage.removeItem('onboarding_plan');
                     }
                 } else {
                     const urlParams = new URLSearchParams(window.location.search);
@@ -1750,41 +1747,17 @@
                     dot.style.boxShadow = 'none';
                 }
                 if (text) {
-                    if (currentSubscriptionTier === 'free' && isTalent) {
-                        text.innerHTML = 'Visibilité en attente d\'activation <span style="color:#ef4444; font-weight:800;">(Profil Privé)</span>';
-                    } else {
-                        text.textContent = 'Profil Privé (Hors Marketplace)';
-                    }
+                    text.textContent = 'Profil Privé (Hors Marketplace)';
                     text.style.color = '#64748b';
                 }
             }
         }
 
         function checkMonetizationBanner() {
-            const roleSelect = document.getElementById('user_role');
-            const role = roleSelect ? roleSelect.value : '';
-            const isExpert = (role === 'expert' || role === 'prestataire');
+            // Deprecated: Domtom Connect now operates on a performance-based model.
+            // Banners and subscription prompts are silenced.
             const oldBanner = document.getElementById('monetization-banner');
             if (oldBanner) oldBanner.remove();
-
-            if ((isExpert || role === 'entreprise') && currentSubscriptionTier === 'free' && !hasExistingListing) {
-                const priceText = (role === 'entreprise') ? '29€/mois' : '9,99€/mois';
-                const bannerHtml = `
-                    <div id="monetization-banner" style="background:linear-gradient(135deg, #0f172a, #1e293b); color:#ffffff; padding:24px; border-radius:16px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.1); position:relative; overflow:hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-                        <div style="position:relative; z-index:2;">
-                            <h3 style="margin:0 0 12px 0; font-size:1.25rem; display:flex; align-items:center; gap:10px; color:#ffffff !important; font-weight:800;">Optimisez votre visibilité</h3>
-                            <p style="margin:0 0 20px 0; font-size:1rem; color:#f8fafc !important; opacity:1; line-height:1.6; font-weight:500;">
-                                Votre profil est actuellement <strong style="color:#ffffff;">privé</strong>. <br>
-                                Devenez membre pour apparaître dans l'annuaire, bénéficier de co-création de contenu et de podcasts.
-                            </p>
-                            <button type="button" onclick="openSubModal('${role}')" class="cta-button primary" style="background:#10b981; border:none; padding:10px 24px; font-size:0.9rem; font-weight:700; display:inline-block; border-radius:8px; cursor:pointer;">Activer ma visibilité (${priceText})</button>
-                        </div>
-                        <div style="position:absolute; right:-15px; top:-15px; font-size:6rem; opacity:0.1; transform:rotate(15deg); pointer-events:none;">💎</div>
-                    </div>
-                `;
-                const form = document.getElementById('profile-form');
-                if (form) form.insertAdjacentHTML('beforebegin', bannerHtml);
-            }
         }
 
         function applyRoleStrategy(role) {
@@ -1890,100 +1863,21 @@
             const formActions = document.getElementById('form-actions');
             if (formActions) formActions.style.display = 'none';
             // Show edit buttons
-            const editBtn = document.getElementById('edit-toggle-btn');
             if (editBtn) editBtn.style.display = 'inline-flex';
             // Restore data from cache
             if (currentProfile) fillForm(currentProfile);
         }
 
         function openSubModal(role) {
-            const modal = document.getElementById('subscription-modal');
-            const title = document.getElementById('sub-modal-title');
-            const benefits = document.getElementById('sub-modal-benefits');
-            const price = document.getElementById('sub-modal-price');
-            const checkIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-
-            if (role === 'entreprise') {
-                if (title) title.textContent = 'Pack Business Entreprise';
-                if (price) price.innerHTML = `<span class="price-amount">29</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
-                if (benefits) benefits.innerHTML = `
-                    <li>${checkIcon} <span><strong>Publication de missions</strong> illimitées</span></li>
-                    <li>${checkIcon} <span>Visibilité Prioritaire</span></li>
-                    <li>${checkIcon} <span><strong>Podcast Corporate</strong> dédié</span></li>
-                    <li>${checkIcon} <span>2-3 Contenus réseaux / mois</span></li>
-                    <li>${checkIcon} <span>Sourcing Expert (Accès direct)</span></li>
-                `;
-                renderPayPalButton('P-6JG84131PK915684CNG3VDSQ', 'business');
-            } else {
-                if (title) title.textContent = 'Pack Authority Expert';
-                if (price) price.innerHTML = `<span class="price-amount">9,99</span><span class="price-currency">€</span><span class="price-period">/mois</span>`;
-                if (benefits) benefits.innerHTML = `
-                    <li>${checkIcon} <span>Profil listé dans l'annuaire</span></li>
-                    <li>${checkIcon} <span>Badge "Vérifié" permanent</span></li>
-                    <li>${checkIcon} <span><strong>Visibilité</strong> : 3-4 posts / mois</span></li>
-                    <li>${checkIcon} <span>Participation aux podcasts DC</span></li>
-                `;
-                renderPayPalButton('P-3DX69524C1114072WNG2AOZQ', 'authority');
-            }
-            if (modal) {
-                modal.classList.add('active');
-                setTimeout(() => { modal.style.opacity = '1'; }, 10);
-            }
-            document.body.style.overflow = 'hidden';
+            console.log("Subscription modal disabled for No-Subscription pivot.");
         }
 
         function closeSubModal() {
-            const modal = document.getElementById('subscription-modal');
-            if (modal) {
-                modal.style.opacity = '0';
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = '';
-                    const container = document.getElementById('paypal-button-container');
-                    if (container) container.innerHTML = '';
-                }, 400);
-            }
+            // Modal disabled
         }
 
         async function renderPayPalButton(planId, tier) {
-            const container = document.getElementById('paypal-button-container');
-            if (!container) return;
-            container.innerHTML = '<p style="color:#64748b; font-size:0.75rem; text-align:center;">Initialisation du paiement...</p>';
-            
-            try {
-                // Detect zone from profile or session
-                let zoneId = 'CAR_FR';
-                if (window.currentProfile && window.currentProfile.major_zone) {
-                    zoneId = window.currentProfile.major_zone;
-                } else {
-                    const session = await getSession();
-                    if (session && session.user.user_metadata && session.user.user_metadata.major_zone) {
-                        zoneId = session.user.user_metadata.major_zone;
-                    }
-                }
-
-                await loadPayPalSDK(zoneId, 'subscription');
-
-                container.innerHTML = '';
-                if (typeof paypal !== 'undefined') {
-                    paypal.Buttons({
-                        style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' },
-                        createSubscription: function (data, actions) {
-                            return actions.subscription.create({ 'plan_id': planId });
-                        },
-                        onApprove: function (data, actions) {
-                            handleSubscriptionSuccess(data.subscriptionID, tier);
-                        },
-                        onError: function (err) {
-                            console.error('PayPal Error:', err);
-                            container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide.'}</p>`;
-                        }
-                    }).render('#paypal-button-container');
-                }
-            } catch (err) {
-                console.error("PayPal Loader Error:", err);
-                container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Échec du chargement PayPal : ${err}</p>`;
-            }
+            // Payments disabled for core listing
         }
 
         /**

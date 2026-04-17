@@ -5,8 +5,8 @@
 
 const TerritoryConfig = {
     ecosystems: {
-        'CAR_FR': {
-            label: 'Antilles Françaises (Francophone)',
+        'OM_FR': {
+            label: 'Outre-Mer Français (Antilles, Guyane, Océan Indien)',
             taxIdLabel: 'SIRET / SIREN',
             currency: 'EUR',
             locale: 'fr-FR',
@@ -14,10 +14,21 @@ const TerritoryConfig = {
                 'Martinique',
                 'Guadeloupe',
                 'Guyane',
-                'Saint-Martin',
-                'Saint-Barthélemy',
                 'Réunion',
-                'Mayotte'
+                'Mayotte',
+                'Saint-Martin',
+                'Saint-Barthélemy'
+            ]
+        },
+        'PACIFIC_FR': {
+            label: 'Espace Pacifique Français',
+            taxIdLabel: 'RIDET / SIRET',
+            currency: 'XPF',
+            locale: 'fr-FR',
+            islands: [
+                'Nouvelle-Calédonie',
+                'Polynésie Française',
+                'Wallis-et-Futuna'
             ]
         },
         'CAR_EN': {
