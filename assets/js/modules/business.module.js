@@ -120,7 +120,8 @@ const BusinessModule = {
             let attempts = 0;
             const check = () => {
                 attempts++;
-                const s = window.supabase;
+                // Check for both _supabase (project standard) and supabase
+                const s = window._supabase || window.supabase;
                 if (s && s.auth) resolve(s);
                 else if (attempts > 100) { // 10 seconds timeout
                     console.warn("DTC Business: Supabase timeout, using Mock/Limited mode.");
