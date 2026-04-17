@@ -84,19 +84,7 @@ const OwnersModule = {
             if (el) el.textContent = text;
         });
 
-        // Hide/Show correct fields
-        ['tjm-group', 'company-name-group', 'label-written-presentation', 'metrics-row', 'banner-card'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
-        });
-
-        const showList = ['video-presentation-group', 'portfolio-card', 'company-specific-fields'];
-        showList.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = id === 'company-specific-fields' ? 'grid' : 'block';
-        });
-
-        console.log("OwnersModule: UI Aligned (Brand Style)");
+        console.log("OwnersModule: Terminology Refined (Epopée Style)");
     },
 };
 

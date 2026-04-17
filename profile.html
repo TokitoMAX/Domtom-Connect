@@ -1592,14 +1592,14 @@
                 }
 
                 if (roleSelect) {
-                    // Application IMMEDIATE de la terminologie basée sur la session
+                    // Application IMMEDIATE de la stratégie basée sur la session
                     updateEditBar(roleSelect.value);
-                    adaptTerminology(roleSelect.value);
-                    updateListingStatus(false, roleSelect.value); // Temporaire
+                    applyRoleStrategy(roleSelect.value);
+                    updateListingStatus(false, roleSelect.value); 
 
                     roleSelect.addEventListener('change', function () {
                         updateEditBar(this.value);
-                        adaptTerminology(this.value);
+                        applyRoleStrategy(this.value);
                     });
                 }
 
@@ -1636,8 +1636,8 @@
                         const finalRole = (sessionRole === 'entreprise' || role === 'entreprise') ? 'entreprise' : (dbRole || role || 'user'); 
                         
                         updateListingStatus(!!profile.listed, finalRole);
-                        adaptTerminology(finalRole);
-                    }, 50); // Délai réduit pour plus de réactivité
+                        applyRoleStrategy(finalRole);
+                    }, 50); 
                     
                     checkMonetizationBanner();
                     
@@ -1829,30 +1829,55 @@
             }
         }
 
-        function adaptTerminology(role) {
+        /**
+         * STRATÉGIE D'ISOLATION DES RÔLES (Zéro Leakage)
+         * Assure que chaque écosystème n'affiche que ses propres champs.
+         */
+        function applyRoleStrategy(role) {
             const isExpert = (role === 'expert' || role === 'prestataire');
             const isCompany = (role === 'entreprise');
+            const isOwner = (role === 'user');
             
-            // 1. DISPATCH TO EXPLICIT ROLE MODULES
+            // 1. DISPATCH TO EXPLICIT ROLE MODULES (Label & Module Logic)
             if (isCompany) {
                 CompaniesModule.initUI();
-            } else if (role === 'basique' || role === 'user') {
+            } else if (isOwner) {
                 OwnersModule.initUI();
             } else {
                 ExpertsModule.initUI();
             }
 
-            // 2. COMMON DASHBOARD LOGIC (GUIDANCE)
+            // 2. STRICT VISIBILITY MAPPING (Prevent Leakage)
+            const visibilityMap = {
+                'tjm-group': isExpert,
+                'availability-group': isExpert,
+                'portfolio-card': isExpert || isCompany,
+                'realizations-card': isOwner,
+                'company-name-group': isCompany,
+                'company-specific-fields': isCompany,
+                'metrics-row': isCompany,
+                'video-presentation-group': isExpert || isOwner,
+                'written-presentation-group': true, // All roles need a pitch
+                'banner-card': isCompany || isExpert // Premium roles
+            };
+
+            Object.entries(visibilityMap).forEach(([id, visible]) => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = visible ? 'block' : 'none';
+            });
+
+            // Speficic case for Grid layouts
+            const gridFields = document.getElementById('company-specific-fields');
+            if (gridFields && isCompany) gridFields.style.display = 'grid';
+
+            // 3. COMMON DASHBOARD LOGIC (GUIDANCE)
             const guidance = document.getElementById('role-guidance');
             const gTitle = document.getElementById('role-guide-title');
             const gText = document.getElementById('role-guide-text');
+            
             if (guidance) {
-                guidance.style.display = (role === 'user') ? 'none' : 'block';
+                guidance.style.display = 'block';
                 if (isCompany) {
-                    guidance.style.background = 'rgba(16, 185, 129, 0.05)';
-                    guidance.style.borderColor = 'rgba(16, 185, 129, 0.1)';
-                    if (gTitle) { gTitle.textContent = 'Mode Entreprise / Institution'; gTitle.parentElement.style.color = '#059669'; }
-                    if (gText) gText.textContent = 'Active la vitrine institutionnelle : bannières, chiffres clés (équipe, création) et terminologie corporate.';
                 } else {
                     guidance.style.background = 'rgba(3, 105, 161, 0.05)';
                     guidance.style.borderColor = 'rgba(3, 105, 161, 0.1)';

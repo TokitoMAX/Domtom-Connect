@@ -166,19 +166,7 @@ const CompaniesModule = {
             if (el) el.textContent = text;
         });
 
-        // Hide Expert fields for Companies
-        ['tjm-group', 'availability-group', 'portfolio-card'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
-        });
-
-        const showList = ['company-name-group', 'label-written-presentation', 'metrics-row', 'banner-card'];
-        showList.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'block';
-        });
-
-        console.log("CompaniesModule: UI Aligned (Brand Style)");
+        console.log("CompaniesModule: Terminology Refined (Brand Style)");
     },
 };
 

@@ -180,19 +180,7 @@ const ExpertsModule = {
             if (el) el.textContent = text;
         });
 
-        // Afficher les champs spécifiques aux experts
-        ['tjm-group', 'availability-group', 'portfolio-card'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'block';
-        });
-
-        // Masquer les champs purement entreprises si nécessaire
-        ['company-name-group', 'metrics-row', 'banner-card'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
-        });
-
-        console.log("ExpertsModule: UI Aligned (Talent Style)");
+        console.log("ExpertsModule: Terminology Refined (Talent Style)");
     }
 };
 
