@@ -95,6 +95,10 @@ const TerritoryConfig = {
         return this.ecosystems[zoneId] ? this.ecosystems[zoneId].locale : 'fr-FR';
     },
 
+    getEcosystem(zoneId) {
+        return this.ecosystems[zoneId] || null;
+    },
+
     getCurrency(zoneId) {
         return this.ecosystems[zoneId] ? this.ecosystems[zoneId].currency : 'EUR';
     }
