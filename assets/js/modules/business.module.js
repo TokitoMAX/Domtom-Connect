@@ -98,17 +98,19 @@ const BusinessModule = {
     refreshExpertProfile: async () => {
         try {
             const supabase = await BusinessModule.waitForSupabase();
-            const { data: { user } } = await supabase.auth.getUser();
+            const { data } = await supabase.auth.getUser();
+            const user = data?.user;
             if (!user) return;
-            const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (data) BusinessModule.expertProfile = data;
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+            if (profile) BusinessModule.expertProfile = profile;
         } catch (err) { console.error("Expert profile load failed:", err); }
     },
 
     waitForSupabase: async () => {
         return new Promise((resolve) => {
             const check = () => {
-                if (window.supabase) resolve(window.supabase);
+                const s = window.supabase;
+                if (s && s.auth) resolve(s);
                 else setTimeout(check, 100);
             };
             check();
@@ -117,12 +119,14 @@ const BusinessModule = {
 
     fetchDocs: async (type = null) => {
         const supabase = await BusinessModule.waitForSupabase();
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData?.user;
+        if (!user) return [];
         let query = supabase.from('business_docs').select('*').eq('expert_id', user.id).order('created_at', { ascending: false });
         if (type) query = query.eq('doc_type', type);
-        const { data, error } = await query;
+        const { data: docs, error } = await query;
         if (error) throw error;
-        return data || [];
+        return docs || [];
     },
 
     renderQuotesList: (container, data) => {
@@ -378,8 +382,13 @@ const BusinessModule = {
         const subtotal = BusinessModule.currentItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
         const commission = subtotal * BusinessModule.commissionRate;
         const totalTax = subtotal * (taxConfig.rate / 100);
+        const supabase = await BusinessModule.waitForSupabase();
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData?.user;
+        if (!user) return Swal.fire('Session expirée', 'Veuillez vous reconnecter.', 'error');
+
         const docData = {
-            expert_id: (await (await BusinessModule.waitForSupabase()).auth.getUser()).data.user.id,
+            expert_id: user.id,
             client_name: clientName, project_title: document.getElementById('quote-project-title').value,
             doc_type: BusinessModule.currentType, items: BusinessModule.currentItems, subtotal, commission_amount: commission,
             total_amount: subtotal, total_tax: totalTax, total_ttc: subtotal + totalTax,
@@ -387,7 +396,6 @@ const BusinessModule = {
             client_details: { name: clientName, address: document.getElementById('quote-client-address').value },
             tax_config: taxConfig, status: BusinessModule.currentType === 'quote' ? 'draft' : 'sent'
         };
-        const supabase = await BusinessModule.waitForSupabase();
         if (BusinessModule.editingId) await supabase.from('business_docs').update(docData).eq('id', BusinessModule.editingId);
         else await supabase.from('business_docs').insert([docData]);
         Swal.fire({ title: 'Génial !', text: 'Document sauvegardé.', icon: 'success', timer: 1500, showConfirmButton: false });
