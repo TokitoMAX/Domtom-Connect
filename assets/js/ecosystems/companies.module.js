@@ -79,7 +79,11 @@ const CompaniesModule = {
  
                     <div class="dash-card" style="border-radius: 16px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 12px;">Actions Rapides</div>
+                        ${profile.listed ? `
                         <a href="/marketplace/jobs" class="cta-button primary" style="background:#0f172a; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; text-decoration:none; color:white; display:flex; align-items:center;">Publier une Mission</a>
+                        ` : `
+                        <button disabled class="cta-button primary" style="background:#94a3b8; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; cursor:not-allowed; opacity:0.7;">Publier une Mission (Inactif)</button>
+                        `}
                         <a href="/profile" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Compléter ma fiche →</a>
                     </div>
                 </div>

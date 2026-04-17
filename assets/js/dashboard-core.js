@@ -323,7 +323,8 @@ async function loadDashboardContent(session) {
     // UI Updates
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
-    const standardHeader = document.querySelector('.dash-section-header');
+    // On cible spécifiquement le header de l'overview pour éviter les erreurs de sélection multiple
+    const standardHeader = document.querySelector('#overview-view .dash-section-header');
     
     // On cache le header standard si on est dans un écosystème pro pour éviter le doublon
     const isProfessional = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
