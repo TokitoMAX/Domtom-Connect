@@ -179,7 +179,7 @@
                 <button class="cta-button primary" style="padding: 12px 24px;" onclick="loadEvents()">Rechercher</button>
             </div>
             <div style="text-align:center; margin-top:20px;">
-                <a href="/mon-espace#overview" class="cta-button secondary" style="background:white; display:inline-flex; border-color:var(--gray-300);">Publier un événement</a>
+                <a href="/mon-espace#billetterie?action=create" class="cta-button secondary" style="background:white; display:inline-flex; border-color:var(--gray-300);">Publier un événement</a>
             </div>
         </div>
     </header>
@@ -191,7 +191,7 @@
             <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun événement à venir pour le moment.</p>
             <p style="color: var(--text-muted);">
                 Soyez le premier à
-                <a href="/mon-espace#overview" style="color: #10b981; font-weight: 600;">publier un événement</a>.
+                <a href="/mon-espace#billetterie?action=create" style="color: #10b981; font-weight: 600;">publier un événement</a>.
             </p>
         </div>
     </main>
@@ -199,7 +199,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="/assets/js/auth.js"></script>
     <script>

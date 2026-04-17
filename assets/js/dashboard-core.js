@@ -445,7 +445,7 @@ function applyGeographicalLocalization(zoneId) {
     // Handle Business Suite visibility/localization
     const businessSuiteLink = document.getElementById('nav-business');
     if (businessSuiteLink) {
-        businessSuiteLink.querySelector('span').textContent = zoneId === 'CAR_FR' ? 'Gestion Business' : 'Business Management';
+        businessSuiteLink.querySelector('span').textContent = (zoneId === 'OM_FR' || zoneId === 'CAR_FR') ? 'Gestion Business' : 'Business Management';
     }
 }
 
@@ -1218,6 +1218,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. ROUTAGE INITIAL
     initRouting();
 
+    // 4. DEEP LINKING ACTIONS (Events, etc.)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') === 'create' && window.location.hash.includes('billetterie')) {
+        setTimeout(() => openEventModal(), 500);
+    }
+
     // 4. INTERCEPTEUR DE CLICS GLOBAL (Navigation Hash)
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
@@ -1246,7 +1252,7 @@ window.renderPayPalButton = async function(planId, tier, containerId = 'paypal-b
     
     try {
         // We use the last known zone from current user profile
-        const zoneId = window.userProfile ? window.userProfile.major_zone : 'CAR_FR';
+        const zoneId = window.userProfile ? window.userProfile.major_zone : 'OM_FR';
         await loadPayPalSDK(zoneId, 'subscription');
 
         if (typeof paypal !== 'undefined') {
