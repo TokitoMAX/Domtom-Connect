@@ -166,8 +166,8 @@ const CompaniesModule = {
             if (el) el.textContent = text;
         });
 
-        // Hide/Show correct fields
-        ['tjm-group', 'portfolio-card'].forEach(id => {
+        // Hide Expert fields for Companies
+        ['tjm-group', 'availability-group', 'portfolio-card'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
