@@ -1658,10 +1658,12 @@
             }
 
             setVal('full_name', profile.full_name);
-            if (profile.role === 'entreprise' && !profile.company && profile.full_name) {
+            // Handle both 'company' and 'company_name' for robustness
+            const compName = profile.company || profile.company_name;
+            if (profile.role === 'entreprise' && !compName && profile.full_name) {
                 setVal('company', profile.full_name);
             } else {
-                setVal('company', profile.company);
+                setVal('company', compName);
             }
             
             setVal('title', profile.title);
@@ -2119,7 +2121,8 @@
                 const profileData = {
                     id: currentUserId,
                     full_name: getVal('full_name'),
-                    company: getVal('company'), // CORRECTION CRITIQUE : Ajout du nom de l'entreprise
+                    company: getVal('company'), 
+                    company_name: getVal('company'), // Double synchronization for dashboard modules
                     title: getVal('title'),
                     bio: getVal('bio'),
                     sector: getVal('sector'),

@@ -1048,7 +1048,7 @@
                 listed: true
             };
 
-            const { error } = await _supabase.from('profiles').upsert(data);
+            const { error } = await _supabase.from('profiles').update(data).eq('id', currentUserId);
             if (!error) {
                 closeListingModal();
                 loadProfiles();
