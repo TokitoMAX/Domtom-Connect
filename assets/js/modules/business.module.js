@@ -106,6 +106,7 @@ const BusinessModule = {
     refreshExpertProfile: async () => {
         try {
             const supabase = await BusinessModule.waitForSupabase();
+            if (!supabase) return;
             const { data } = await supabase.auth.getUser();
             const user = data?.user;
             if (!user) return;
@@ -132,6 +133,7 @@ const BusinessModule = {
 
     fetchDocs: async (type = null) => {
         const supabase = await BusinessModule.waitForSupabase();
+        if (!supabase) return [];
         const { data: authData } = await supabase.auth.getUser();
         const user = authData?.user;
         if (!user) return [];
@@ -266,6 +268,7 @@ const BusinessModule = {
 
     editDoc: async (id) => {
         const supabase = await BusinessModule.waitForSupabase();
+        if (!supabase) return;
         const { data } = await supabase.from('business_docs').select('*').eq('id', id).single();
         if (!data) return;
         BusinessModule.editingId = data.id;
@@ -282,6 +285,7 @@ const BusinessModule = {
 
     togglePaymentStatus: async (id, type) => {
         const supabase = await BusinessModule.waitForSupabase();
+        if (!supabase) return;
         const { data } = await supabase.from('business_docs').select('*').eq('id', id).single();
         const field = type === 'expert' ? 'expert_paid_at' : 'platform_paid_at';
         await supabase.from('business_docs').update({ [field]: data[field] ? null : new Date().toISOString() }).eq('id', id);
@@ -396,6 +400,7 @@ const BusinessModule = {
         const commission = subtotal * BusinessModule.commissionRate;
         const totalTax = subtotal * (taxConfig.rate / 100);
         const supabase = await BusinessModule.waitForSupabase();
+        if (!supabase) return Swal.fire('Erreur System', 'Moteur de base de données non initialisé.', 'error');
         const { data: authData } = await supabase.auth.getUser();
         const user = authData?.user;
         if (!user) return Swal.fire('Session expirée', 'Veuillez vous reconnecter.', 'error');
@@ -429,6 +434,7 @@ const BusinessModule = {
 
     directExportPDF: async (id) => {
         const supabase = await BusinessModule.waitForSupabase();
+        if (!supabase) return;
         const { data } = await supabase.from('business_docs').select('*').eq('id', id).single();
         BusinessModule.PDF.generate({ ...data, id: data.id, doc_type: data.doc_type });
     },
