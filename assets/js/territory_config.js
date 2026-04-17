@@ -99,15 +99,22 @@ const TerritoryConfig = {
     },
 
     getLocale(zoneId) {
-        return this.ecosystems[zoneId] ? this.ecosystems[zoneId].locale : 'fr-FR';
+        const zone = this.ecosystems[zoneId] || this.ecosystems['OM_FR'];
+        return zone.locale.replace('_', '-');
     },
 
     getEcosystem(zoneId) {
-        return this.ecosystems[zoneId] || null;
+        return this.ecosystems[zoneId] || this.ecosystems['OM_FR'];
     },
 
     getCurrency(zoneId) {
         return this.ecosystems[zoneId] ? this.ecosystems[zoneId].currency : 'EUR';
+    },
+
+    getCurrencySymbol(zoneId) {
+        const currency = this.getCurrency(zoneId);
+        const symbols = { 'EUR': '€', 'USD': '$', 'XPF': 'CFP' };
+        return symbols[currency] || '€';
     }
 };
 
