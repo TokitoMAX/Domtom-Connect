@@ -162,6 +162,37 @@ const ExpertsModule = {
             <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-clock" style="color:${availColor};"></i><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${p.available ? 'Disponible' : 'Occupé'}</span></div></div>
             <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Zone</span><span class="metric-value">${p.zone || p.territory || 'OM/International'}</span></div></div>
         `;
+    },
+
+    /**
+     * UI Terminology - Restauration pour Experts
+     */
+    initUI: () => {
+        const labels = {
+            'label-name': "Nom Complet (Identité Expert)",
+            'label-title': "Titre Professionnel (ex: Consultant Fullstack...)",
+            'label-bio': "Biographie & Expertise (Résumé)",
+            'label-logo': "Photo de Profil (Professionnelle)"
+        };
+
+        Object.entries(labels).forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        });
+
+        // Afficher les champs spécifiques aux experts
+        ['tjm-group', 'availability-group', 'portfolio-card'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        });
+
+        // Masquer les champs purement entreprises si nécessaire
+        ['company-name-group', 'metrics-row', 'banner-card'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+
+        console.log("ExpertsModule: UI Aligned (Talent Style)");
     }
 };
 

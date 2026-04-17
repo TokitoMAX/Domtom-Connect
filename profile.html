@@ -1592,8 +1592,10 @@
                 }
 
                 if (roleSelect) {
+                    // Application IMMEDIATE de la terminologie basée sur la session
                     updateEditBar(roleSelect.value);
                     adaptTerminology(roleSelect.value);
+                    updateListingStatus(false, roleSelect.value); // Temporaire
 
                     roleSelect.addEventListener('change', function () {
                         updateEditBar(this.value);
@@ -1627,13 +1629,15 @@
                     hasExistingListing = !!profile.listed;
                     currentSubscriptionTier = profile.subscription_tier || 'free';
                     
-                    // Delay update to ensure DOM is fully ready and terminology is sets
+                    // Mise à jour finale avec les données DB (si différentes)
                     setTimeout(() => {
-                        // On récupère le rôle le plus à jour (metadata session ou profile DB)
-                        const finalRole = profile.role || session.user.user_metadata?.role || 'user'; 
+                        const sessionRole = session.user.user_metadata?.role;
+                        const dbRole = profile.role === 'prestataire' ? 'expert' : profile.role;
+                        const finalRole = (sessionRole === 'entreprise' || role === 'entreprise') ? 'entreprise' : (dbRole || role || 'user'); 
+                        
                         updateListingStatus(!!profile.listed, finalRole);
                         adaptTerminology(finalRole);
-                    }, 150);
+                    }, 50); // Délai réduit pour plus de réactivité
                     
                     checkMonetizationBanner();
                     
