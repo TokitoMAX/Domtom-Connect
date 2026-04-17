@@ -1051,7 +1051,7 @@
                                 disabled>
                         </div>
                         <div class="form-group" id="company-name-group" style="display:none;">
-                            <label>Nom de l'entreprise</label>
+                            <label id="label-company">Nom de l'entreprise</label>
                             <input type="text" id="company" name="company" placeholder="Ex : Domtom Connect" disabled>
                         </div>
                         <div class="form-group">
@@ -1421,45 +1421,6 @@
             if (skillsEl) skillsEl.value = skillTags.join(', ');
         }
 
-        function updateEditBar(checkRole) {
-            const isTalent = (checkRole === 'expert' || checkRole === 'prestataire' || checkRole === 'entreprise');
-            const isPorteur = (checkRole === 'user' || checkRole === 'porteur' || checkRole === 'porteur_projet');
-            
-            const statusBar = document.getElementById('profile-status-bar');
-            const statusInfo = document.getElementById('status-info-container');
-            const availabilityGroup = document.getElementById('availability-group');
-            const saveBtn = document.getElementById('save-btn');
-            const portfolioCard = document.getElementById('portfolio-card');
-            const tjmGroup = document.getElementById('tjm-group');
-            const skillsGroup = document.getElementById('skills-container')?.parentElement;
-            const realizationsCard = document.getElementById('realizations-card');
-            const roleGuidance = document.getElementById('role-guidance');
-
-            // Toujours afficher la barre de statut unifiée
-            if (statusBar) statusBar.style.display = 'flex';
-            
-            if (isTalent) {
-                if (statusInfo) statusInfo.style.opacity = '1';
-                if (saveBtn) saveBtn.textContent = 'Enregistrer & Publier';
-                if (availabilityGroup) availabilityGroup.style.display = 'block';
-                if (portfolioCard) portfolioCard.style.display = 'block';
-                if (tjmGroup) tjmGroup.style.display = (checkRole === 'entreprise') ? 'none' : 'block';
-                if (skillsGroup) skillsGroup.style.display = 'block';
-                if (realizationsCard) realizationsCard.style.display = 'none';
-                if (roleGuidance) roleGuidance.style.display = 'block';
-            } else {
-                // Pour les POs/Users, on cache les infos de listing mais on garde le bouton modifier
-                if (statusInfo) statusInfo.style.opacity = '0'; 
-                if (saveBtn) saveBtn.textContent = 'Enregistrer mon profil';
-                if (availabilityGroup) availabilityGroup.style.display = 'none';
-                if (portfolioCard) portfolioCard.style.display = 'none';
-                if (tjmGroup) tjmGroup.style.display = 'none';
-                if (skillsGroup) skillsGroup.style.display = 'none';
-                if (roleGuidance) roleGuidance.style.display = 'none';
-                if (realizationsCard) realizationsCard.style.display = isPorteur ? 'block' : 'none';
-            }
-        }
-
         function addTag(tag) {
             tag = tag.trim();
             if (tag && !skillTags.includes(tag)) {
@@ -1593,12 +1554,10 @@
 
                 if (roleSelect) {
                     // Application IMMEDIATE de la stratégie basée sur la session
-                    updateEditBar(roleSelect.value);
                     applyRoleStrategy(roleSelect.value);
                     updateListingStatus(false, roleSelect.value); 
 
                     roleSelect.addEventListener('change', function () {
-                        updateEditBar(this.value);
                         applyRoleStrategy(this.value);
                     });
                 }
@@ -1621,8 +1580,7 @@
                     const displayRole = profile.role || role; 
                     if (roleSelect) {
                         roleSelect.value = displayRole === 'prestataire' ? 'expert' : displayRole;
-                        updateEditBar(roleSelect.value);
-                        adaptTerminology(roleSelect.value);
+                        applyRoleStrategy(roleSelect.value);
                     }
 
                     fillForm(profile);
@@ -1664,8 +1622,7 @@
                         localStorage.removeItem('onboarding_plan');
                     }
                     if (roleSelect) {
-                        updateEditBar(roleSelect.value);
-                        adaptTerminology(roleSelect.value);
+                        applyRoleStrategy(roleSelect.value);
                     }
                 }
 
@@ -1829,15 +1786,15 @@
             }
         }
 
-        /**
-         * STRATÉGIE D'ISOLATION DES RÔLES (Zéro Leakage)
-         * Assure que chaque écosystème n'affiche que ses propres champs.
-         */
         function applyRoleStrategy(role) {
             const isExpert = (role === 'expert' || role === 'prestataire');
             const isCompany = (role === 'entreprise');
-            const isOwner = (role === 'user');
+            const isOwner = (role === 'user' || role === 'porteur' || role === 'porteur_projet');
             
+            const saveBtn = document.getElementById('save-btn');
+            const statusInfo = document.getElementById('status-info-container');
+            const statusBar = document.getElementById('profile-status-bar');
+
             // 1. DISPATCH TO EXPLICIT ROLE MODULES (Label & Module Logic)
             if (isCompany) {
                 CompaniesModule.initUI();
@@ -1870,14 +1827,21 @@
             const gridFields = document.getElementById('company-specific-fields');
             if (gridFields && isCompany) gridFields.style.display = 'grid';
 
-            // 3. COMMON DASHBOARD LOGIC (GUIDANCE)
+            // 3. UI BAR LOGIC (DASHBOARD-LIKE)
+            if (statusBar) statusBar.style.display = 'flex';
+            if (statusInfo) statusInfo.style.opacity = (isExpert || isCompany) ? '1' : '0';
+            if (saveBtn) saveBtn.textContent = (isExpert || isCompany) ? 'Enregistrer & Publier' : 'Enregistrer mon profil';
+
+            // 4. COMMON DASHBOARD LOGIC (GUIDANCE)
             const guidance = document.getElementById('role-guidance');
             const gTitle = document.getElementById('role-guide-title');
             const gText = document.getElementById('role-guide-text');
             
             if (guidance) {
-                guidance.style.display = 'block';
+                guidance.style.display = (isOwner) ? 'none' : 'block';
                 if (isCompany) {
+                    if (gTitle) { gTitle.textContent = 'Mode Entreprise / Institution'; gTitle.parentElement.style.color = '#0284c7'; }
+                    if (gText) gText.textContent = 'Active la vitrine institutionnelle : bannières, chiffres clés et terminologie corporate.';
                 } else {
                     guidance.style.background = 'rgba(3, 105, 161, 0.05)';
                     guidance.style.borderColor = 'rgba(3, 105, 161, 0.1)';
@@ -1904,8 +1868,7 @@
                 if (editBtn) editBtn.style.display = 'none';
                 
                 if (userRoleEl) {
-                    updateEditBar(userRoleEl.value);
-                    adaptTerminology(userRoleEl.value);
+                    applyRoleStrategy(userRoleEl.value);
                 }
                 const feedback = document.getElementById('save-feedback');
                 if (feedback) feedback.style.display = 'none';
@@ -2156,6 +2119,7 @@
                 const profileData = {
                     id: currentUserId,
                     full_name: getVal('full_name'),
+                    company: getVal('company'), // CORRECTION CRITIQUE : Ajout du nom de l'entreprise
                     title: getVal('title'),
                     bio: getVal('bio'),
                     sector: getVal('sector'),
@@ -2179,8 +2143,8 @@
                     forme_juridique: getVal('forme_juridique'),
                     creation_year: getVal('creation_year'),
                     team_size: getVal('team_size'),
-                    role: user_role_val,
-                    listed: isListed, // Persistence de la validation de tier
+                    role: selectedRole, // Synchronisation avec le rôle sélectionné
+                    listed: isListed,
                     updated_at: new Date().toISOString()
                 };
 

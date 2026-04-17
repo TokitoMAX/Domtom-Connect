@@ -155,10 +155,11 @@ const CompaniesModule = {
      */
     initUI: () => {
         const labels = {
-            'label-name': "Nom du Dirigeant / Contact",
-            'label-title': "Poste (ex: CEO, DRH...)",
+            'label-name': "Nom du Gérant / Contact",
+            'label-company': "Raison Sociale / Nom Commercial",
+            'label-title': "Poste (ex: CEO, DRH, Fondateur...)",
             'label-bio': "Manifeste de l'entreprise (Pitch)",
-            'label-logo': "Logo de l'entreprise"
+            'label-logo': "Logo de l'entreprise (Vectoriel ou HD)"
         };
 
         Object.entries(labels).forEach(([id, text]) => {

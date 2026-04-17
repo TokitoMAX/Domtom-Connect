@@ -170,7 +170,8 @@ const ExpertsModule = {
     initUI: () => {
         const labels = {
             'label-name': "Nom Complet (Identité Expert)",
-            'label-title': "Titre Professionnel (ex: Consultant Fullstack...)",
+            'label-company': "Raison Sociale (Optionnel)",
+            'label-title': "Titre Professionnel (ex: Consultant Fullstack, Designer...)",
             'label-bio': "Biographie & Expertise (Résumé)",
             'label-logo': "Photo de Profil (Professionnelle)"
         };

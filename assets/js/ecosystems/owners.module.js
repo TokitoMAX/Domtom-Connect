@@ -73,10 +73,11 @@ const OwnersModule = {
      */
     initUI: () => {
         const labels = {
-            'label-name': "Fondateur / Porteur de Projet",
-            'label-title': "Votre rôle principal (ex: Fondateur, Architecte...)",
-            'label-bio': "Manifeste de votre projet (Pitch court)",
-            'label-logo': "Photo de profil (Inspirante)"
+            'label-name': "Nom du Porteur de Projet",
+            'label-company': "Nom de l'Épopée / Projet",
+            'label-title': "Rôle dans le projet (ex: Fondateur, Coordinateur...)",
+            'label-bio': "Pitch court du projet (Accroche)",
+            'label-logo': "Photo ou Univers Visuel"
         };
 
         Object.entries(labels).forEach(([id, text]) => {
