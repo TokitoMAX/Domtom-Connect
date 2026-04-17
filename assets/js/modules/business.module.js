@@ -12,12 +12,20 @@ const BusinessModule = {
 
     // --- Core Initialization ---
     renderView: async (container) => {
-        if (!container) return;
+        if (!container) {
+            console.error("DTC Business Error: Container 'business-module-container' not found.");
+            return;
+        }
+        
+        // Initial Loading State
+        container.innerHTML = `<div style="text-align:center; padding: 100px; font-family: sans-serif;"><span class="loader"></span><p style="margin-top:20px; color:#64748b; font-weight:800;">Initialisation de DTC Business...</p></div>`;
+
         BusinessModule.activeTab = localStorage.getItem('dtc_business_tab') || 'quotes';
         
-        if (!BusinessModule.expertProfile) {
-            await BusinessModule.refreshExpertProfile();
-        }
+        // Lazy load profile without blocking initial UI
+        BusinessModule.refreshExpertProfile().then(() => {
+            console.log("DTC Business: Expert data ready.");
+        });
 
         container.innerHTML = `
             <div class="business-container" style="padding: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -107,11 +115,16 @@ const BusinessModule = {
     },
 
     waitForSupabase: async () => {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
+            let attempts = 0;
             const check = () => {
+                attempts++;
                 const s = window.supabase;
                 if (s && s.auth) resolve(s);
-                else setTimeout(check, 100);
+                else if (attempts > 100) { // 10 seconds timeout
+                    console.warn("DTC Business: Supabase timeout, using Mock/Limited mode.");
+                    resolve(null);
+                } else setTimeout(check, 100);
             };
             check();
         });
@@ -448,4 +461,14 @@ const BusinessModule = {
     }
 };
 window.BusinessModule = BusinessModule;
-window.BusinessModule.renderView(document.getElementById('business-module-container'));
+
+// Robust Initialization
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('business-module-container');
+        if (container) window.BusinessModule.renderView(container);
+    });
+} else {
+    const container = document.getElementById('business-module-container');
+    if (container) window.BusinessModule.renderView(container);
+}
