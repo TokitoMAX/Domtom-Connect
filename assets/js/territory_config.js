@@ -9,7 +9,7 @@ const TerritoryConfig = {
             label: 'Outre-Mer Français (Antilles, Guyane, Océan Indien)',
             taxIdLabel: 'SIRET / SIREN',
             currency: 'EUR',
-            locale: 'fr-FR',
+            locale: 'fr_FR',
             islands: [
                 'Martinique',
                 'Guadeloupe',
@@ -20,11 +20,18 @@ const TerritoryConfig = {
                 'Saint-Barthélemy'
             ]
         },
+        'CAR_FR': {
+            label: 'Outre-Mer Français (Antilles, Guyane)',
+            taxIdLabel: 'SIRET / SIREN',
+            currency: 'EUR',
+            locale: 'fr_FR',
+            islands: ['Martinique', 'Guadeloupe', 'Guyane']
+        },
         'PACIFIC_FR': {
             label: 'Espace Pacifique Français',
             taxIdLabel: 'RIDET / SIRET',
             currency: 'XPF',
-            locale: 'fr-FR',
+            locale: 'fr_FR',
             islands: [
                 'Nouvelle-Calédonie',
                 'Polynésie Française',
@@ -35,7 +42,7 @@ const TerritoryConfig = {
             label: 'Anglophone Caribbean',
             taxIdLabel: 'Company Tax ID / Registration #',
             currency: 'USD',
-            locale: 'en-US',
+            locale: 'en_US',
             islands: [
                 'Barbados',
                 'Jamaica',
@@ -64,7 +71,7 @@ const TerritoryConfig = {
             label: 'International & Diaspora',
             taxIdLabel: 'Tax ID / Business ID',
             currency: 'USD',
-            locale: 'en-US',
+            locale: 'en_US',
             islands: [
                 'United States',
                 'Canada',
