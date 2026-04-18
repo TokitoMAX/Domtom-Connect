@@ -7,11 +7,15 @@ const CompaniesModule = {
     /**
      * Rendu principal du Dashboard Entreprise
      */
-    renderDashboard: (container, additional, profile, session) => {
+    renderDashboard: async (container, additional, profile, session) => {
         if (!container) return;
 
         const isPremium = window.isPremiumUser(profile);
         const isListed = !!profile.listed;
+        const activeId = window.activeBusinessId || session.user.id;
+
+        // Fetch Real-time Stats
+        const stats = await window.fetchBusinessStats(activeId);
 
         container.innerHTML = `
             <div class="dashboard-grid role-entreprise-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -28,16 +32,24 @@ const CompaniesModule = {
                  <!-- Main Content Column -->
                 <div class="dash-main-col" style="grid-column: span 8; display: grid; gap: 32px;">
                     
-                    <!-- Visibility Banner (Sync Logic) -->
+                    <!-- Phase Transition: Visibility (1) or Collaboration (2) -->
                     ${!isListed ? `
                      <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center;">
                          <div style="flex:1;">
-                            <h4 style="margin:0; font-size:1.1rem; font-weight:850; color:#9a3412;">Visibilité Marketplace requise</h4>
-                            <p style="font-size: 0.95rem; color: #c2410c; line-height:1.5; margin: 8px 0 0 0;">Publiez votre profil pour pouvoir diffuser vos missions sur le réseau Domtom Connect.</p>
+                            <h4 style="margin:0; font-size:1.1rem; font-weight:850; color:#9a3412;">Étape 1 : Visibilité Marketplace requise</h4>
+                            <p style="font-size: 0.95rem; color: #c2410c; line-height:1.5; margin: 12px 0 0 0;">Publiez votre profil pour pouvoir diffuser vos missions sur le réseau Domtom Connect.</p>
                          </div>
                          <a href="/profile" class="cta-button primary" style="background:#ea580c; border:none; border-radius:12px; font-weight:800; padding:14px 28px; text-decoration:none; color:white;">Activer ma visibilité</a>
                     </div>
-                    ` : ''}
+                    ` : `
+                    <div class="dash-card highlight" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; padding: 32px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.25);">
+                         <div style="flex:1;">
+                            <h4 style="margin:0; font-size:1.25rem; font-weight:950; color: white;">Étape 2 : Collaboration Stratégique</h4>
+                            <p style="font-size: 0.95rem; color: rgba(255,255,255,0.9); line-height:1.5; margin: 8px 0 0 0;">Bravo, votre profil est certifié et visible ! Activez votre partenariat stratégique pour débloquer toute la puissance du réseau.</p>
+                         </div>
+                         <button onclick="openSubModal()" class="cta-button" style="background:white; color:#059669; border:none; border-radius:14px; font-weight:900; padding:16px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor:pointer;">Lancer la Collaboration</button>
+                    </div>
+                    `}
 
                     <!-- Section Pilotage des Missions -->
                     <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; ${!isListed ? 'opacity:0.6; pointer-events:none; filter:grayscale(0.5);' : ''}">
@@ -79,31 +91,31 @@ const CompaniesModule = {
                 <!-- Sidebar Column -->
                 <div class="dash-side-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 32px;">
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.04em;">Statistiques Profile</h4>
+                        <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.04em;">Performance Profile</h4>
                         <div style="display:grid; gap:20px;">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.95rem; color:#64748b; font-weight:600;">Vues Totales</span>
-                                <span style="font-size:1.2rem; font-weight:900; color:#0f172a;">—</span>
+                                <span style="font-size:1.25rem; font-weight:900; color:#0f172a;">${stats.views || 0}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.95rem; color:#64748b; font-weight:600;">Candidatures</span>
-                                <span style="font-size:1.2rem; font-weight:900; color:#0f172a;">0</span>
+                                <span style="font-size:1.25rem; font-weight:900; color:#0f172a;">${stats.applications || 0}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 20px;">Raccourcis</div>
-                        <a href="/profile" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; width:100%; justify-content:center; padding:16px; font-size:0.95rem; margin-bottom:12px; text-decoration:none; color:white; display:flex;">Modifier ma fiche</a>
-                        <a href="/messages" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Centre de messagerie</a>
+                        <div style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 24px;">Raccourcis</div>
+                        <div style="display:grid; gap:12px;">
+                            <a href="/profile" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; width:100%; justify-content:center; padding:16px; font-size:0.95rem; text-decoration:none; color:white; display:flex;">Modifier ma fiche</a>
+                            <a href="/messages" style="display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none; padding:12px; border:1px solid #e2e8f0; border-radius:12px; background:white;">Centre de messagerie</a>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
         
         // --- DATA LOADING ---
-        const activeId = window.activeBusinessId || session.user.id;
-        
         // Missions
         const jobsTarget = document.getElementById(`jobs-container-${container.id || 'main'}`);
         if (jobsTarget) {

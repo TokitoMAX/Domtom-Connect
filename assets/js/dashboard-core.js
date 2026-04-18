@@ -1757,6 +1757,43 @@ window.switchContext = function(ownerId, name) {
     showView('overview', true);
 };
 
+window.fetchBusinessStats = async function(userId) {
+    if (!userId) return { views: 0, applications: 0 };
+    try {
+        // 1. Get Views from Profile
+        const { data: profile, error: pError } = await _supabase
+            .from('profiles')
+            .select('views_count')
+            .eq('id', userId)
+            .single();
+
+        // 2. Count Applications for all jobs of this company
+        // We first get job IDs for this company, then count applications
+        const { data: jobs, error: jError } = await _supabase
+            .from('job_offers')
+            .select('id')
+            .eq('company_id', userId);
+
+        let appCount = 0;
+        if (jobs && jobs.length > 0) {
+            const jobIds = jobs.map(j => j.id);
+            const { count, error: aError } = await _supabase
+                .from('job_applications')
+                .select('*', { count: 'exact', head: true })
+                .in('job_offer_id', jobIds);
+            appCount = count || 0;
+        }
+
+        return {
+            views: profile ? profile.views_count : 0,
+            applications: appCount
+        };
+    } catch (err) {
+        console.error("Stats Fetch Error:", err);
+        return { views: 0, applications: 0 };
+    }
+};
+
 window.handleDeleteAccount = async function() {
     if (!confirm("ATTENTION : La suppression de votre compte est irréversible. Voulez-vous continuer ?")) return;
     
