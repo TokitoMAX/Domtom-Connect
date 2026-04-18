@@ -304,13 +304,85 @@
         .badge-listed { background: #eff6ff; color: #1d4ed8; }
         .badge-active { background: #ecfdf5; color: #059669; border: 1px solid #10b981; }
 
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: inline-block;
+        }
+
+        .hub-step.active .status-dot {
+            background: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+        }
+
+        .hub-step.active .step-status {
+            color: #10b981;
+        }
+
+        .step-divider {
+            width: 50px;
+            height: 2px;
+            background: #f1f5f9;
+            margin-top: 15px;
+        }
+
+        .hub-step.active + .step-divider {
+            background: linear-gradient(90deg, #10b981, #f1f5f9);
+        }
+
+        .hub-cta-container {
+            z-index: 2;
+        }
+
+        #activate-collab-btn {
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+        }
+
+        #activate-collab-btn:hover {
+            transform: translateY(-2px);
+            background: #10b981;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+        }
+
         .pulse-active {
             width: 8px;
             height: 8px;
+            background: white;
             border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
-            animation: pulse-green 2s infinite;
+            display: inline-block;
+            margin-right: 6px;
+            animation: pulse-white 2s infinite;
+        }
+
+        @keyframes pulse-white {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .collaboration-hub { flex-direction: column; align-items: flex-start; }
+            .step-divider { display: none; }
+            .hub-steps { flex-direction: column; gap: 20px; align-items: flex-start; }
+            #activate-collab-btn { width: 100%; justify-content: center; }
         }
 
         @keyframes pulse-green {
@@ -1014,35 +1086,31 @@
                 </div>
 
             <!-- COLLABORATION HUB (First Strategic Action) -->
-            <div class="collaboration-hub" id="profile-status-bar">
-                <div class="status-stages">
-                    <!-- Étape 1 : Référencement -->
-                    <div class="status-stage">
-                        <span class="stage-label">Phase 1 : Référencement</span>
-                        <div class="stage-value" id="listing-stage-value">
-                            <span class="badge-status badge-passive" id="listing-badge">Privé</span>
+            <div class="collaboration-hub" id="profile-status-bar" style="display: none;">
+                <div class="hub-steps">
+                    <div class="hub-step" id="step-1">
+                        <span class="step-label" id="label-step-1">Phase 1 : Référencement</span>
+                        <div class="step-status">
+                            <span class="status-dot"></span>
+                            <span id="text-step-1">Attente Publication</span>
                         </div>
                     </div>
                     
-                    <div style="width:1px; height:30px; background:#e2e8f0;"></div>
+                    <div class="step-divider"></div>
 
-                    <!-- Étape 2 : Collaboration -->
-                    <div class="status-stage">
-                        <span class="stage-label">Phase 2 : Collaboration Active</span>
-                        <div class="stage-value" id="collab-stage-value">
-                            <span class="badge-status badge-passive" id="collab-badge">Non activée</span>
+                    <div class="hub-step" id="step-2">
+                        <span class="step-label" id="label-step-2">Phase 2 : Collaboration Active</span>
+                        <div class="step-status">
+                            <span class="status-dot"></span>
+                            <span id="text-step-2">Désactivée</span>
                         </div>
                     </div>
                 </div>
 
-                <div style="display:flex; gap:12px; align-items:center;">
-                    <button id="activate-collab-btn" class="cta-button primary" style="display:none; font-size:0.85rem; padding:10px 20px; border-radius:12px; background:#10b981; border:none; font-weight:900;" onclick="openSubModal('authority')">
+                <div class="hub-cta-container">
+                    <button id="activate-collab-btn" onclick="openSubModal()">
                         🚀 Lancer la Collaboration
                     </button>
-                    <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.85rem; padding:10px 20px; border-radius:12px; font-weight:800; border:1.5px solid #e2e8f0; background:white; color:#0f172a; transition:all 0.2s;"
-                        onclick="toggleEditMode()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                        Modifier le profil
                     </button>
                 </div>
             </div>
@@ -1848,47 +1916,61 @@
             }
         }
 
+        function updateListingStatus(listed, displayRole = null) {
+            const hub = document.getElementById('profile-status-bar');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const text1 = document.getElementById('text-step-1');
+            const text2 = document.getElementById('text-step-2');
+            const label1 = document.getElementById('label-step-1');
+            const label2 = document.getElementById('label-step-2');
+            const activateBtn = document.getElementById('activate-collab-btn');
+            const activeBadge = document.getElementById('active-badge');
+            
             const tier = currentSubscriptionTier || 'free';
             const isActive = (tier !== 'free');
             const isExpert = (displayRole === 'expert' || displayRole === 'prestataire');
+            const isCompany = (displayRole === 'entreprise');
 
-            // 0. VISIBILITY: Only Experts see the Collaboration Hub for now
-            if (hub) hub.style.display = isExpert ? 'flex' : 'none';
-            if (!isExpert) return;
+            // 0. VISIBILITY & ADAPTATION
+            if (hub) hub.style.display = (isExpert || isCompany) ? 'flex' : 'none';
+            if (!isExpert && !isCompany) return;
 
-            // Mise à jour de la Phase 1 (Référencement)
-            if (listed) {
-                if (listBadge) {
-                    listBadge.textContent = "Référencement Actif";
-                    listBadge.className = "badge-status badge-listed";
-                }
-                if (hub) hub.classList.add('listed');
+            // Customize labels for Enterprise
+            if (isCompany) {
+                if (label1) label1.textContent = "Étape 1 : Visibilité Pro";
+                if (label2) label2.textContent = "Étape 2 : Partenariat Certifié";
             } else {
-                if (listBadge) {
-                    listBadge.textContent = "Privé";
-                    listBadge.className = "badge-status badge-passive";
-                }
-                if (hub) hub.classList.remove('listed');
+                if (label1) label1.textContent = "Phase 1 : Référencement";
+                if (label2) label2.textContent = "Phase 2 : Collaboration Active";
             }
 
-            // Mise à jour de la Phase 2 (Collaboration)
-            if (isActive) {
-                if (collabBadge) {
-                    collabBadge.innerHTML = `<span class="pulse-active"></span> Partenaire Stratégique`;
-                    collabBadge.className = "badge-status badge-active";
-                }
-                if (activateBtn) activateBtn.style.display = 'none';
-                if (hub) hub.classList.add('active-collab');
-                if (subtitle) subtitle.textContent = 'Votre collaboration est active. Domtom Connect propulse votre profil.';
+            // Update Step 1 (Listing)
+            if (listed) {
+                if (step1) step1.classList.add('active');
+                if (text1) text1.textContent = isCompany ? "Vitrine Active" : "Profil Référencé";
             } else {
-                if (collabBadge) {
-                    collabBadge.textContent = "Collaboration en attente";
-                    collabBadge.className = "badge-status badge-passive";
+                if (step1) step1.classList.remove('active');
+                if (text1) text1.textContent = "Attente Publication";
+            }
+
+            // Update Step 2 (Collaboration / Partnership)
+            if (isActive) {
+                if (step2) step2.classList.add('active');
+                if (text2) text2.textContent = isCompany ? "Partenaire Officiel" : "Collaboration Active";
+                if (activateBtn) activateBtn.style.display = 'none';
+                if (activeBadge) {
+                    activeBadge.style.display = 'flex';
+                    activeBadge.querySelector('span:last-child').textContent = isCompany ? "Partenaire Certifié" : "Partenaire Stratégique";
                 }
-                if (activateBtn) activateBtn.style.display = listed ? 'inline-flex' : 'none';
-                if (hub) hub.classList.remove('active-collab');
-                if (subtitle && !listed) subtitle.textContent = 'Publiez vos informations pour commencer à être référencé.';
-                if (subtitle && listed) subtitle.textContent = 'Informations publiées. Prochaine étape : Activez votre collaboration.';
+            } else {
+                if (step2) step2.classList.remove('active');
+                if (text2) text2.textContent = isCompany ? "Certif. disponible" : "Collaboration off";
+                if (activateBtn) {
+                    activateBtn.style.display = listed ? 'flex' : 'none';
+                    activateBtn.innerHTML = isCompany ? `🚀 Certifier mon Entreprise` : `🚀 Lancer la Collaboration`;
+                }
+                if (activeBadge) activeBadge.style.display = 'none';
             }
         }
 
