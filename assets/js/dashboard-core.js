@@ -660,17 +660,20 @@ function openSubModal() {
                     <ul style="list-style:none; padding:0; display:grid; gap:12px; margin-bottom:24px;">
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
                             <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            Badge de Certification sur l'annuaire
+                            Certification & Visibilité Prioritaire
                         </li>
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
                             <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            Priorité d'affichage dans les recommandations
+                            Outils DTC Business Inclus
                         </li>
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
                             <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            Accès complet aux outils DTC Business
+                            <span style="color:#10b981;">Abonnement : ${activeProfile.role === 'entreprise' ? '29,00€' : '9,99€'} / mois</span>
                         </li>
                     </ul>
+                    <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:20px; font-size:0.75rem; color:#64748b; text-align:center;">
+                        Paiement sécurisé par PayPal • Sans engagement
+                    </div>
                     <div id="paypal-button-container-dash" style="margin-top:20px;"></div>
                 </div>
             `,
@@ -681,7 +684,7 @@ function openSubModal() {
             didOpen: () => {
                 if (window.renderPayPalButton) {
                     const role = activeProfile.role || 'expert';
-                    const planId = (role === 'entreprise') ? 'P-15S697157N2947137M4LP3SY' : 'P-8Y731422H2710134PM4L4BOA';
+                    const planId = (role === 'entreprise') ? 'P-6JG84131PK915684CNG3VDSQ' : 'P-3DX69524C1114072WNG2AOZQ';
                     const targetTier = (role === 'entreprise') ? 'business' : 'authority';
                     window.renderPayPalButton(planId, targetTier, 'paypal-button-container-dash');
                 }
