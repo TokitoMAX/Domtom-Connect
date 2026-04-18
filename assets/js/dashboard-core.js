@@ -657,21 +657,40 @@ function openSubModal() {
             html: `
                 <div style="text-align:left; padding:10px;">
                     <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px; line-height: 1.6;">Activez votre statut de <strong>Partenaire Stratégique</strong> pour débloquer toute la puissance de Domtom Connect.</p>
-                    <ul style="list-style:none; padding:0; display:grid; gap:12px; margin-bottom:24px;">
-                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            Certification & Visibilité Prioritaire
+                    <ul style="list-style:none; padding:0; display:grid; gap:10px; margin-bottom:24px;">
+                        ${activeProfile.role === 'entreprise' ? `
+                            <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                                <span>Missions Illimitées & Sourcing Expert</span>
+                            </li>
+                            <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                                <span>1 Podcast Corporate Dédié</span>
+                            </li>
+                            <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                                <span>2-3 Contenus Réseaux Sociaux / mois</span>
+                            </li>
+                        ` : `
+                            <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                                <span>Badges "Vérifié" & "Authority"</span>
+                            </li>
+                            <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                                <span>Accès Groupe WhatsApp Premium</span>
+                            </li>
+                        `}
+                        <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                            <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                            <span>Outils DTC Business Included (Devis/Factures)</span>
                         </li>
-                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            Outils DTC Business Inclus
-                        </li>
-                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
-                            <span style="color:#10b981;">Abonnement : ${activeProfile.role === 'entreprise' ? '29,00€' : '9,99€'} / mois</span>
+                        <li style="display:flex; align-items:center; gap:10px; font-size:0.9rem; font-weight:800; color:#10b981; margin-top:10px; background:#ecfdf5; padding:8px 12px; border-radius:8px;">
+                            <span style="flex:1;">Abonnement ${activeProfile.role === 'entreprise' ? 'Business' : 'Authority'}</span>
+                            <span>${activeProfile.role === 'entreprise' ? '29,00€' : '9,99€'} / mois</span>
                         </li>
                     </ul>
-                    <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:20px; font-size:0.75rem; color:#64748b; text-align:center;">
+                    <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:20px; font-size:0.75rem; color:#64748b; text-align:center; font-weight:600;">
                         Paiement sécurisé par PayPal • Sans engagement
                     </div>
                     <div id="paypal-button-container-dash" style="margin-top:20px;"></div>
