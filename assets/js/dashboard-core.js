@@ -677,7 +677,10 @@ function openSubModal() {
             borderRadius: '24px',
             didOpen: () => {
                 if (window.renderPayPalButton) {
-                    window.renderPayPalButton('P-AUTHORITY_PLAN_ID', 'authority', 'paypal-button-container-dash');
+                    const role = profile.role || 'expert';
+                    const planId = (role === 'entreprise') ? 'P-15S697157N2947137M4LP3SY' : 'P-8Y731422H2710134PM4L4BOA';
+                    const targetTier = (role === 'entreprise') ? 'business' : 'authority';
+                    window.renderPayPalButton(planId, targetTier, 'paypal-button-container-dash');
                 }
             }
         });
