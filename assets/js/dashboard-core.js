@@ -18,6 +18,13 @@ window.activeBusinessId = null; // To handle Multi-Account / Collaborations
 document.addEventListener('DOMContentLoaded', async () => {
     const session = await getSession();
     if (session && session.user) {
+        // Handle incoming invitation link
+        const urlParams = new URLSearchParams(window.location.search);
+        const inviteId = urlParams.get('invite');
+        if (inviteId) {
+            await window.handleInviteToken(inviteId, session.user);
+        }
+
         // Detect Collaborations
         const collabs = await window.checkCollaborations(session.user.email);
         if (collabs && collabs.length > 0) {
@@ -26,6 +33,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+
+window.handleInviteToken = async function(inviteId, user) {
+    try {
+        // 1. Fetch the invitation
+        const { data: invite, error } = await _supabase
+            .from('collaborators')
+            .select('*')
+            .eq('id', inviteId)
+            .single();
+
+        if (error || !invite) return;
+
+        // 2. Validate email match (Security)
+        if (invite.collaborator_email.toLowerCase() !== user.email.toLowerCase()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invitation invalide',
+                text: `Cette invitation est destinée à ${invite.collaborator_email}. Veuillez vous connecter avec le bon compte.`
+            });
+            return;
+        }
+
+        // 3. Accept if pending
+        if (invite.status === 'pending') {
+            await _supabase
+                .from('collaborators')
+                .update({ status: 'accepted' })
+                .eq('id', inviteId);
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Équipe rejointe !',
+                text: `Vous avez rejoint l'écosystème avec succès.`,
+                confirmButtonColor: '#10b981'
+            }).then(() => {
+                // Clear URL param
+                window.history.replaceState({}, document.title, window.location.pathname);
+                location.reload();
+            });
+        }
+    } catch (err) {
+        console.error("Invite Handler Error:", err);
+    }
+};
 
 window.isPremiumUser = function(p) {
     if (!p) return false;
@@ -1714,11 +1765,12 @@ window.handleFileSelect = async function(input) {
 window.checkCollaborations = async function(email) {
     if (!email) return [];
     try {
-        // Step 1: Get pure collaboration links
+        // Step 1: Get accepted collaboration links only for the switcher
         const { data: collabs, error: collError } = await _supabase
             .from('collaborators')
             .select('*')
-            .eq('collaborator_email', email);
+            .eq('collaborator_email', email)
+            .eq('status', 'accepted'); 
 
         if (collError) throw collError;
         if (!collabs || collabs.length === 0) return [];

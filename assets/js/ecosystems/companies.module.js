@@ -229,24 +229,51 @@ const CompaniesModule = {
 
             container.innerHTML = `
                 <div style="display:grid; gap:12px;">
-                    ${collab.map(c => `
+                    ${collab.map(c => {
+                        const isPending = c.status === 'pending';
+                        const inviteLink = `${window.location.origin}/mon-espace?invite=${c.id}`;
+                        
+                        return `
                         <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #f1f5f9;">
                             <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:36px; height:36px; background:#0f172a; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem;">
+                                <div style="width:36px; height:36px; background:${isPending ? '#f59e0b' : '#0f172a'}; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem;">
                                     ${c.collaborator_email.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
                                     <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">${c.collaborator_email}</p>
-                                    <p style="margin:2px 0 0 0; font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">${c.role || 'Éditeur'}</p>
+                                    <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
+                                        <p style="margin:0; font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">${c.role || 'Éditeur'}</p>
+                                        ${isPending ? `<span style="font-size:0.6rem; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:800;">EN ATTENTE</span>` : ''}
+                                    </div>
                                 </div>
                             </div>
-                            <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; font-weight:800; cursor:pointer;">Retirer</button>
+                            <div style="display:flex; gap:8px;">
+                                ${isPending ? `
+                                    <button onclick="CompaniesModule.shareInvite('${inviteLink}', '${c.collaborator_email}')" style="background:#0f172a; border:none; color:white; padding:6px 12px; border-radius:6px; font-size:0.7rem; font-weight:800; cursor:pointer;">Partager</button>
+                                ` : ''}
+                                <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; font-weight:800; cursor:pointer;">Retirer</button>
+                            </div>
                         </div>
-                    `).join('')}
+                    `}).join('')}
                 </div>
             `;
         } catch (err) {
             container.innerHTML = '<p style="color:#ef4444;">Erreur équipe.</p>';
+        }
+    },
+
+    shareInvite: (link, email) => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Invitation Domtom Connect',
+                text: `Rejoignez l'équipe Soloprice sur Domtom Connect pour piloter nos missions.`,
+                url: link
+            }).catch(console.error);
+        } else {
+            // Fallback: Copy to clipboard
+            navigator.clipboard.writeText(link).then(() => {
+                Swal.fire({ icon: 'success', title: 'Lien copié !', text: `Envoyez-le à ${email} par WhatsApp ou Mail.` });
+            });
         }
     },
 
@@ -257,15 +284,32 @@ const CompaniesModule = {
 
         try {
             const session = await getSession();
-            await _supabase.from('collaborators').insert([{ owner_id: session.user.id, collaborator_email: email }]);
+            const { data, error } = await _supabase
+                .from('collaborators')
+                .insert([{ 
+                    owner_id: session.user.id, 
+                    collaborator_email: email,
+                    status: 'pending'
+                }])
+                .select();
+
+            if (error) throw error;
+
+            const inviteLink = `${window.location.origin}/mon-espace?invite=${data[0].id}`;
+
             Swal.fire({ 
                 icon: 'success', 
-                title: 'Accès configuré', 
-                text: `L'accès pour ${email} est activé. Il lui suffit de se connecter à son compte DTC pour piloter votre espace.`, 
-                confirmButtonColor: '#10b981' 
+                title: 'Invitation prête', 
+                text: `L'accès pour ${email} est configuré. Partagez-lui le lien d'invitation !`, 
+                confirmButtonColor: '#10b981',
+                showCancelButton: true,
+                confirmButtonText: 'Partager le lien',
+                cancelButtonText: 'Plus tard'
+            }).then((res) => {
+                if (res.isConfirmed) CompaniesModule.shareInvite(inviteLink, email);
+                location.reload(); 
             });
             input.value = '';
-            location.reload(); 
         } catch (err) { alert("Erreur lors de l'ajout."); }
     },
 
