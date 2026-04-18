@@ -685,6 +685,32 @@ function openSubModal() {
         window.location.href = '/profile.html';
     }
 }
+function renderVisibilityPreview(profile) {
+    if (!profile) return;
+    const container = document.getElementById('visibility-preview-container');
+    const badge = document.getElementById('visibility-status-badge');
+    const slot = document.getElementById('preview-card-slot');
+    const prompt = document.getElementById('visibility-upgrade-prompt');
+    if (!container || !badge || !slot) return;
+
+    const isTalent = (profile.role === 'expert' || profile.role === 'prestataire' || profile.role === 'entreprise');
+    
+    if (!isTalent) {
+        container.style.display = 'none';
+        container.classList.add('hidden-force');
+        return;
+    }
+
+    const isListed = !!profile.listed;
+
+    container.classList.remove('hidden-force');
+    container.style.display = 'block';
+    
+    // 1. Badge Status
+    if (isListed) {
+        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publié (Actif)</span>`;
+        if (prompt) prompt.style.display = 'none';
+    } else {
         badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Privé (Invisible)</span>`;
         if (prompt) prompt.style.display = 'block';
     }
