@@ -1442,8 +1442,8 @@ async function handleSubscriptionSuccess(subscriptionId, tier) {
         // Specific Alert for Strategic Partner
         const isPartner = (tier === 'authority');
         const message = isPartner 
-            ? "Félicitations ! Vous êtes désormais Partenaire Stratégique. Votre Collaboration Active est lancée ! 🚀"
-            : "Félicitations ! Votre Pack est maintenant activé. ✅";
+            ? "Félicitations ! Vous êtes désormais Partenaire Stratégique. Votre Collaboration Active est lancée !"
+            : "Félicitations ! Votre Pack est maintenant activé.";
 
         if (typeof Swal !== 'undefined') {
             await Swal.fire({
@@ -1529,8 +1529,8 @@ window.loadPayPalSDK = function(zoneId, type = 'subscription') {
             return;
         }
 
-        const config = window.TerritoryConfig.getEcosystem(zoneId);
-        const currency = config ? config.currency : 'EUR';
+        // Force EUR for Domtom Connect Production (OM_FR / International accounts)
+        const currency = 'EUR';
         const locale = config ? config.locale : 'fr_FR';
         
         const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";

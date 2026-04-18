@@ -26,7 +26,7 @@ const CompaniesModule = {
                  <!-- Main Content -->
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
                     <!-- Mission Management Quick Access (GATED BY LISTING) -->
-                    ${!profile.listed ? `
+                    ${!(!!profile.listed) ? `
                      <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
                          <div style="flex:1;">
                             <h4 style="margin:0; font-size:1.1rem; font-weight:800; color:#9a3412; display:flex; align-items:center; gap:8px;">
@@ -47,7 +47,7 @@ const CompaniesModule = {
                     `}
 
                     <!-- Job Pilotage -->
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0; ${!profile.listed ? 'opacity:0.6; pointer-events:none; filter:grayscale(0.5);' : ''}">
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0; ${!(!!profile.listed) ? 'opacity:0.6; pointer-events:none; filter:grayscale(0.5);' : ''}">
                         <h3 style="font-size: 1.25rem; font-weight: 950; margin-bottom: 20px; color: #0f172a;">Annonces & Missions</h3>
                         <div id="jobs-container-${container.id || 'main'}" class="company-jobs-view-container">
                             <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 48px; border-radius: 20px;">
