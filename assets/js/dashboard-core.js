@@ -1709,22 +1709,34 @@ window.handleFileSelect = async function(input) {
  * --- MULTI-ACCOUNT DETECTION (COLLABORATIONS) ---
  */
 window.checkCollaborations = async function(email) {
+    if (!email) return [];
     try {
-        // We use the dedicated SQL view which already handles the join and RLS filtering
-        const { data: collabs, error } = await _supabase
-            .from('my_collaborations')
-            .select('*');
+        // Step 1: Get pure collaboration links
+        const { data: collabs, error: collError } = await _supabase
+            .from('collaborators')
+            .select('*')
+            .eq('collaborator_email', email);
 
-        if (error) throw error;
-        
-        // Map view columns to match the expected format in renderCollaborationSwitch
-        return (collabs || []).map(c => ({
-            ...c,
-            profiles: {
-                company_name: c.company_name,
-                full_name: c.owner_name
-            }
-        }));
+        if (collError) throw collError;
+        if (!collabs || collabs.length === 0) return [];
+
+        // Step 2: Get Profile data for these owners
+        const ownerIds = collabs.map(c => c.owner_id);
+        const { data: owners, error: profError } = await _supabase
+            .from('profiles')
+            .select('id, company_name, full_name')
+            .in('id', ownerIds);
+
+        if (profError) throw profError;
+
+        // Merge data manually for the UI
+        return collabs.map(c => {
+            const profile = owners.find(p => p.id === c.owner_id);
+            return {
+                ...c,
+                profiles: profile || { company_name: "Entreprise Inconnue", full_name: "Collaborateur" }
+            };
+        });
     } catch (err) {
         console.error("Collab Detection Error:", err);
         return [];
