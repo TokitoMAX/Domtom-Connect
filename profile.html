@@ -1848,15 +1848,13 @@
             }
         }
 
-        function updateListingStatus(listed, displayRole = null) {
-            const hub = document.getElementById('profile-status-bar');
-            const listBadge = document.getElementById('listing-badge');
-            const collabBadge = document.getElementById('collab-badge');
-            const activateBtn = document.getElementById('activate-collab-btn');
-            const subtitle = document.getElementById('page-subtitle');
-            
             const tier = currentSubscriptionTier || 'free';
             const isActive = (tier !== 'free');
+            const isExpert = (displayRole === 'expert' || displayRole === 'prestataire');
+
+            // 0. VISIBILITY: Only Experts see the Collaboration Hub for now
+            if (hub) hub.style.display = isExpert ? 'flex' : 'none';
+            if (!isExpert) return;
 
             // Mise à jour de la Phase 1 (Référencement)
             if (listed) {
@@ -1943,7 +1941,7 @@
             if (gridFields && isCompany) gridFields.style.display = 'grid';
 
             // 3. UI BAR LOGIC (DASHBOARD-LIKE)
-            if (statusBar) statusBar.style.display = 'flex';
+            if (statusBar) statusBar.style.display = isExpert ? 'flex' : 'none';
             if (statusInfo) statusInfo.style.opacity = (isExpert || isCompany) ? '1' : '0';
             if (saveBtn) saveBtn.textContent = (isExpert || isCompany) ? 'Enregistrer & Publier' : 'Enregistrer mon profil';
 

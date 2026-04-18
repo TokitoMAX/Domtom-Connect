@@ -630,7 +630,9 @@ async function loadMatchmaking(userId, projectId) {
         if (!profile) return;
 
         const tier = profile.subscription_tier || 'free';
-        const isPartner = (tier !== 'free');
+        const role = profile.role || 'user';
+        const isExpert = (role === 'expert' || role === 'prestataire');
+        const isPartner = (tier !== 'free') || !isExpert; // Pour les non-experts, on considère qu'ils ont accès
         
         section.style.display = 'block';
 
