@@ -34,7 +34,7 @@ const ExpertsModule = {
                             <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Module Business Actif</h4>
                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Utilisez notre suite native pour émettre vos devis et facturer vos missions en toute sécurité.</p>
                          </div>
-                         <button onclick="showView('business')" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module →</button>
+                         <button onclick="showView('business')" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module</button>
                     </div>
 
                     <!-- Missions matching placeholder -->
@@ -74,7 +74,7 @@ const ExpertsModule = {
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
                         <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${(profile.tjm || window.userProfile?.tjm || '—')}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>
-                        <a href="profile.html" style="display:inline-block; margin-top:20px; font-size:0.85rem; color:#0f172a; font-weight:800; text-decoration:none;">Modifier mon profil →</a>
+                        <a href="profile.html" style="display:inline-block; margin-top:20px; font-size:0.85rem; color:#0f172a; font-weight:800; text-decoration:none;">Modifier mon profil</a>
                     </div>
                 </div>
             </div>
@@ -158,9 +158,9 @@ const ExpertsModule = {
     renderMetrics: (p) => {
         const availColor = p.available ? '#10b981' : '#ef4444';
         return `
-            <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-tag"></i><div><span class="metric-label">Tarif (TJM)</span><span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span></div></div>
-            <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-clock" style="color:${availColor};"></i><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${p.available ? 'Disponible' : 'Occupé'}</span></div></div>
-            <div class="metric-item" style="grid-column: span 2;"><i class="fas fa-map-marker-alt"></i><div><span class="metric-label">Zone</span><span class="metric-value">${p.zone || p.territory || 'OM/International'}</span></div></div>
+            <div class="metric-item" style="grid-column: span 2;"><div><span class="metric-label">Tarif (TJM)</span><span class="metric-value">${p.tjm ? `${p.tjm}€/j` : 'Sur devis'}</span></div></div>
+            <div class="metric-item" style="grid-column: span 2;"><div><span class="metric-label">Statut</span><span class="metric-value" style="color:${availColor};">${p.available ? 'Disponible' : 'Occupé'}</span></div></div>
+            <div class="metric-item" style="grid-column: span 2;"><div><span class="metric-label">Zone</span><span class="metric-value">${p.zone || p.territory || 'OM/International'}</span></div></div>
         `;
     },
 

@@ -31,7 +31,7 @@ const OwnersModule = {
                                     Vote Cockpit de réussite. Le **Success Engine** vous guide étape par étape pour certifier votre projet, lever des fonds et impacter votre territoire.
                                 </p>
                                 <a href="#success-engine" class="cta-button primary" style="background:#10b981; border:none; padding:18px 32px; border-radius:14px; font-weight:900; text-decoration:none; color:white; display:inline-flex; margin-top:32px; font-size:1.05rem;">
-                                    Démarrer le Pilotage →
+                                    Démarrer le Pilotage
                                 </a>
                             </div>
                             <div style="width:140px; height:140px; background:rgba(16,185,129,0.1); border-radius:24px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.2);">

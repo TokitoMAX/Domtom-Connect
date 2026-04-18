@@ -27,10 +27,9 @@ const CompaniesModule = {
                 <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
                     <!-- Mission Management Quick Access (GATED BY LISTING) -->
                     ${!profile.listed ? `
-                    <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+                     <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
                          <div style="flex:1;">
                             <h4 style="margin:0; font-size:1.1rem; font-weight:800; color:#9a3412; display:flex; align-items:center; gap:8px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                                 Visibilité Marketplace requise
                             </h4>
                             <p style="font-size: 0.9rem; color: #c2410c; line-height:1.5; margin: 8px 0 0 0;">Pour publier une mission et être contacté, votre compte Entreprise doit être listé dans l'annuaire.</p>
@@ -43,7 +42,7 @@ const CompaniesModule = {
                             <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Gestion des Missions Activée</h4>
                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Publiez vos annonces et trouvez les meilleurs talents de la diaspora et des territoires.</p>
                          </div>
-                         <button onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Publier une Mission →</button>
+                         <button onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Publier une Mission</button>
                     </div>
                     `}
 
@@ -84,7 +83,7 @@ const CompaniesModule = {
                         ` : `
                         <button disabled class="cta-button primary" style="background:#94a3b8; border:none; border-radius:10px; width:100%; justify-content:center; padding:12px; font-size:0.85rem; margin-bottom:12px; cursor:not-allowed; opacity:0.7;">Publier une Mission (Inactif)</button>
                         `}
-                        <a href="/profile" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Compléter ma fiche →</a>
+                        <a href="/profile" style="display:inline-block; font-size:0.85rem; color:#64748b; font-weight:800; text-decoration:none;">Compléter ma fiche</a>
                     </div>
                 </div>
             </div>
@@ -133,7 +132,7 @@ const CompaniesModule = {
                         <div class="dash-card-premium" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid #f1f5f9; border-radius: 16px; background:white;">
                             <div style="flex:1;">
                                 <h4 style="margin: 0; font-size: 1rem; font-weight: 800; color: #0f172a;">${job.title}</h4>
-                                <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b; font-weight: 600;">📍 ${job.territory} • ${job.mission_type}</p>
+                                <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b; font-weight: 600;">${job.territory} • ${job.mission_type}</p>
                             </div>
                             <div style="display: flex; gap: 8px; flex-shrink:0;">
                                 <button onclick="editJobOffer('${job.id}')" class="cta-button secondary" style="padding: 8px 12px; font-size: 0.75rem; border-radius: 10px; border: 1px solid #e2e8f0; background:white; cursor:pointer;">Modifier</button>
