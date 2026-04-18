@@ -462,6 +462,18 @@ function applyGeographicalLocalization(zoneId) {
     if (businessSuiteLink) {
         businessSuiteLink.querySelector('span').textContent = (zoneId === 'OM_FR' || zoneId === 'CAR_FR') ? 'Gestion Business' : 'Business Management';
     }
+
+    // --- ISOLATION : Hide redundant overview cards for Strategic Roles ---
+    const isStrategic = (window.activeRole === 'entreprise' || window.activeRole === 'expert' || window.activeRole === 'prestataire');
+    const hub = document.getElementById('collaboration-hub-container');
+    const strength = document.getElementById('profile-strength-container');
+    const visibility = document.getElementById('visibility-preview-container');
+    
+    if (isStrategic) {
+        if (hub) hub.style.display = 'none';
+        if (strength) { strength.style.display = 'none'; strength.classList.add('hidden-force'); }
+        if (visibility) { visibility.style.display = 'none'; visibility.classList.add('hidden-force'); }
+    }
 }
 
 function renderDashboardCards(role, isListed, profile, session) {
