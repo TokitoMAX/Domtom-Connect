@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Profil – Domtom Connect</title>
-    <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=3.6">
-    <!-- Scripts moved to bottom for reliable initialization -->
-    <!-- PayPal is loaded dynamically via renderPayPalButton -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
             background-color: var(--bg-light);
@@ -235,6 +234,89 @@
 
         .status-dot.published {
             background: #10b981;
+        }
+
+        /* --- COLLABORATION HUB STYLES --- */
+        .collaboration-hub {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 20px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collaboration-hub::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #cbd5e1;
+        }
+
+        .collaboration-hub.listed::before { background: #3b82f6; } /* Blue for listed */
+        .collaboration-hub.active-collab::before { background: #10b981; } /* Emerald for active */
+
+        .status-stages {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .status-stage {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stage-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .stage-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-status {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .badge-passive { background: #f1f5f9; color: #64748b; }
+        .badge-listed { background: #eff6ff; color: #1d4ed8; }
+        .badge-active { background: #ecfdf5; color: #059669; border: 1px solid #10b981; }
+
+        .pulse-active {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         /* Formulaire profil */
@@ -931,17 +1013,38 @@
                         sauvegardées sur votre compte.</p>
                 </div>
 
-            <!-- Barres d'action & Statut (Unifiées) -->
-            <div class="status-bar" id="profile-status-bar" style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid #e2e8f0; border-radius:16px; padding:16px 24px; margin-bottom:32px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
-                <div id="status-info-container" style="display:flex; align-items:center; gap:12px;">
-                    <span class="status-dot" id="listing-dot" style="width:10px; height:10px; border-radius:50%; background:#cbd5e1;"></span>
-                    <span id="listing-status-text" style="font-size:0.9rem; font-weight:700; color:#64748b;">Chargement du statut...</span>
+            <!-- COLLABORATION HUB (First Strategic Action) -->
+            <div class="collaboration-hub" id="profile-status-bar">
+                <div class="status-stages">
+                    <!-- Étape 1 : Référencement -->
+                    <div class="status-stage">
+                        <span class="stage-label">Phase 1 : Référencement</span>
+                        <div class="stage-value" id="listing-stage-value">
+                            <span class="badge-status badge-passive" id="listing-badge">Privé</span>
+                        </div>
+                    </div>
+                    
+                    <div style="width:1px; height:30px; background:#e2e8f0;"></div>
+
+                    <!-- Étape 2 : Collaboration -->
+                    <div class="status-stage">
+                        <span class="stage-label">Phase 2 : Collaboration Active</span>
+                        <div class="stage-value" id="collab-stage-value">
+                            <span class="badge-status badge-passive" id="collab-badge">Non activée</span>
+                        </div>
+                    </div>
                 </div>
-                <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.85rem; padding:10px 20px; border-radius:12px; font-weight:800; border:1.5px solid #e2e8f0; background:white; color:#0f172a; transition:all 0.2s;"
-                    onclick="toggleEditMode()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    Modifier mon profil
-                </button>
+
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <button id="activate-collab-btn" class="cta-button primary" style="display:none; font-size:0.85rem; padding:10px 20px; border-radius:12px; background:#10b981; border:none; font-weight:900;" onclick="openSubModal('authority')">
+                        🚀 Lancer la Collaboration
+                    </button>
+                    <button id="edit-toggle-btn" class="cta-button secondary" style="font-size:0.85rem; padding:10px 20px; border-radius:12px; font-weight:800; border:1.5px solid #e2e8f0; background:white; color:#0f172a; transition:all 0.2s;"
+                        onclick="toggleEditMode()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        Modifier le profil
+                    </button>
+                </div>
             </div>
 
             <!-- Formulaire -->
@@ -1372,6 +1475,28 @@
         </div>
     </div>
 
+    <!-- SUBSCRIPTION MODAL (STRATEGIC PARTNER) -->
+    <div class="modal-overlay" id="subscription-modal" style="display:none; align-items:center; justify-content:center; z-index:2000;">
+        <div class="hero-modal" style="max-width: 500px; background: white; border-radius: 28px; padding: 40px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); text-align: center; overflow: hidden; position: relative;">
+            <button class="modal-close" onclick="closeSubModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; color:#94a3b8; cursor:pointer;">×</button>
+            
+            <div style="background: #ecfdf5; color: #10b981; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 1.5rem;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15l-3-3m0 0l3-3m-3 3h8M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path></svg>
+            </div>
+
+            <h2 id="sub-modal-title" style="font-size: 1.5rem; font-weight: 950; margin-bottom: 12px; color: #0f172a;">Lancer la Collaboration Active</h2>
+            <p id="sub-modal-desc" style="font-size: 0.95rem; color: #64748b; line-height: 1.6; margin-bottom: 32px;">
+                Devenez **Partenaire Stratégique** certifié. Bénéficiez d'un accompagnement sur-mesure, de la mise en relation prioritaire et débloquez vos outils DTC Business.
+            </p>
+
+            <div id="paypal-button-container" style="min-height: 150px;"></div>
+            
+            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 24px;">
+                Paiement sécurisé via PayPal. Sans engagement, annulez à tout moment.
+            </p>
+        </div>
+    </div>
+
     <!-- Mobile Bottom Navigation (PREMIUM PILL) -->
     <nav class="mobile-nav">
         <a href="/mon-espace" class="mobile-nav-link">
@@ -1724,32 +1849,48 @@
         }
 
         function updateListingStatus(listed, displayRole = null) {
-            const dot = document.getElementById('listing-dot');
-            const text = document.getElementById('listing-status-text');
+            const hub = document.getElementById('profile-status-bar');
+            const listBadge = document.getElementById('listing-badge');
+            const collabBadge = document.getElementById('collab-badge');
+            const activateBtn = document.getElementById('activate-collab-btn');
             const subtitle = document.getElementById('page-subtitle');
-            const roleSelect = document.getElementById('user_role');
-            const role = displayRole || (roleSelect ? roleSelect.value : '');
-            const isTalent = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
+            
+            const tier = currentSubscriptionTier || 'free';
+            const isActive = (tier !== 'free');
 
-            if (listed && isTalent) {
-                if (dot) {
-                    dot.style.background = '#10b981';
-                    dot.style.boxShadow = '0 0 10px rgba(16,185,129,0.4)';
+            // Mise à jour de la Phase 1 (Référencement)
+            if (listed) {
+                if (listBadge) {
+                    listBadge.textContent = "Référencement Actif";
+                    listBadge.className = "badge-status badge-listed";
                 }
-                if (text) {
-                    text.textContent = (role === 'entreprise') ? 'Entreprise publiée dans le Marketplace' : 'Profil Expert publié dans le Marketplace';
-                    text.style.color = '#10b981';
-                }
-                if (subtitle) subtitle.textContent = 'Vos informations sont visibles stratégiquement. Modifiez-les à tout moment.';
+                if (hub) hub.classList.add('listed');
             } else {
-                if (dot) {
-                    dot.style.background = '#cbd5e1';
-                    dot.style.boxShadow = 'none';
+                if (listBadge) {
+                    listBadge.textContent = "Privé";
+                    listBadge.className = "badge-status badge-passive";
                 }
-                if (text) {
-                    text.textContent = 'Profil Privé (Hors Marketplace)';
-                    text.style.color = '#64748b';
+                if (hub) hub.classList.remove('listed');
+            }
+
+            // Mise à jour de la Phase 2 (Collaboration)
+            if (isActive) {
+                if (collabBadge) {
+                    collabBadge.innerHTML = `<span class="pulse-active"></span> Partenaire Stratégique`;
+                    collabBadge.className = "badge-status badge-active";
                 }
+                if (activateBtn) activateBtn.style.display = 'none';
+                if (hub) hub.classList.add('active-collab');
+                if (subtitle) subtitle.textContent = 'Votre collaboration est active. Domtom Connect propulse votre profil.';
+            } else {
+                if (collabBadge) {
+                    collabBadge.textContent = "Collaboration en attente";
+                    collabBadge.className = "badge-status badge-passive";
+                }
+                if (activateBtn) activateBtn.style.display = listed ? 'inline-flex' : 'none';
+                if (hub) hub.classList.remove('active-collab');
+                if (subtitle && !listed) subtitle.textContent = 'Publiez vos informations pour commencer à être référencé.';
+                if (subtitle && listed) subtitle.textContent = 'Informations publiées. Prochaine étape : Activez votre collaboration.';
             }
         }
 
@@ -1868,16 +2009,33 @@
             if (currentProfile) fillForm(currentProfile);
         }
 
-        function openSubModal(role) {
-            console.log("Subscription modal disabled for No-Subscription pivot.");
+        function openSubModal(tier) {
+            const modal = document.getElementById('subscription-modal');
+            if (!modal) return;
+
+            modal.style.display = 'flex';
+            
+            // On configure le bouton PayPal pour le tier 'authority' (Strategic Partner)
+            // Note: Le plan ID 'P-123' est un exemple, il doit être remplacé par le vrai ID PayPal Authority
+            const authorityPlanId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825"; // Fallback to ClientID for dev or replace with real Plan ID
+            
+            // On utilise la fonction globale du core
+            if (window.renderPayPalButton) {
+                // Pour Domtom Connect, on utilise 'authority' comme tier de collaboration active
+                window.renderPayPalButton('P-AUTHORITY_PLAN_ID', 'authority', 'paypal-button-container');
+            }
         }
 
         function closeSubModal() {
-            // Modal disabled
+            const modal = document.getElementById('subscription-modal');
+            if (modal) modal.style.display = 'none';
         }
 
         async function renderPayPalButton(planId, tier) {
-            // Payments disabled for core listing
+            // This is handled by dashboard-core.js mainly, but kept for compatibility
+            if (window.renderPayPalButton) {
+                window.renderPayPalButton(planId, tier, 'paypal-button-container');
+            }
         }
 
         /**

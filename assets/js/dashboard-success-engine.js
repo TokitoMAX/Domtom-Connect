@@ -629,24 +629,10 @@ async function loadMatchmaking(userId, projectId) {
         const { data: profile } = await _supabase.from('profiles').select('subscription_tier, role').eq('id', userId).single();
         if (!profile) return;
 
-        const isPremium = profile.subscription_tier === 'business' || profile.subscription_tier === 'enterprise' || profile.role === 'admin';
+        const tier = profile.subscription_tier || 'free';
+        const isPartner = (tier !== 'free');
         
-        // On débloque la vue pour le porteur du projet lui-même
-        const canSeeMatches = true; // User specifically asked to re-enable access for project owners
-
         section.style.display = 'block';
-
-        if (!canSeeMatches) {
-            container.innerHTML = `
-                <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                    <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez vos Pépites</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts pour votre projet.</p>
-                    <a href="/#pricing" class="cta-button primary" style="background:#10b981; border:none;">Découvrir le Pack Business</a>
-                </div>
-            `;
-            return;
-        }
 
         // Récupérer les 3 derniers matchs (Experts)
         const { data: experts, error } = await _supabase
@@ -659,7 +645,25 @@ async function loadMatchmaking(userId, projectId) {
         if (error) throw error;
 
         if (experts && experts.length > 0) {
-            container.innerHTML = experts.map(renderMatchCard).join('');
+            container.innerHTML = experts.map(expert => renderMatchCard(expert, !isPartner)).join('');
+            
+            // Add teaser overlay if not partner
+            if (!isPartner) {
+                const teaserHTML = `
+                    <div class="gateway-teaser-overlay" style="border-radius:12px; height:auto; padding:20px; background:rgba(255,255,255,0.4); backdrop-filter:blur(1px);">
+                        <div class="teaser-card" style="padding:24px; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+                            <h4 style="font-weight:900; margin:0 0 10px 0;">Pépites Détectées 💎</h4>
+                            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
+                                Notre algorithme a identifié ${experts.length} experts pour votre projet. 
+                                **Activez votre collaboration** pour débloquer ces recommandations.
+                            </p>
+                            <button onclick="openSubModal('authority')" class="cta-button primary" style="font-size:0.8rem; padding:10px 20px; border:none; background:#10b981;">🚀 Voir mes Pépites</button>
+                        </div>
+                    </div>
+                `;
+                container.style.position = 'relative';
+                container.insertAdjacentHTML('beforeend', teaserHTML);
+            }
         } else {
             container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">Aucune pépite trouvée pour le moment.</p>';
         }
@@ -668,7 +672,7 @@ async function loadMatchmaking(userId, projectId) {
     }
 }
 
-function renderMatchCard(expert) {
+function renderMatchCard(expert, isTeaser = false) {
     const name = expert.full_name || 'Expert';
     const initials = name.slice(0, 2).toUpperCase();
     const avatar = expert.avatar_url 
@@ -676,18 +680,18 @@ function renderMatchCard(expert) {
         : `<span>${initials}</span>`;
 
     return `
-        <div class="match-card">
+        <div class="match-card ${isTeaser ? 'teaser' : ''}">
             <div class="match-header">
                 <div class="match-avatar">${avatar}</div>
                 <div class="match-info">
-                    <h4>${name}</h4>
+                    <h4>${isTeaser ? 'Expert Certifié' : name}</h4>
                     <span>${expert.title || 'Expert Stratégique'}</span>
                 </div>
             </div>
             <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px; line-height:1.4;">
-                Expert en ${expert.sector || 'Expertise'}.
+                ${isTeaser ? 'Expertise territoriale de haut niveau en attente de déblocage.' : `Expert en ${expert.sector || 'Expertise'}.`}
             </p>
-            <a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; padding:10px; font-size:0.8rem;">Contacter</a>
+            ${isTeaser ? '' : `<a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; padding:10px; font-size:0.8rem;">Contacter</a>`}
         </div>
     `;
 }

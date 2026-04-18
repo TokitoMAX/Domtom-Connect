@@ -20,13 +20,19 @@ const BusinessModule = {
         // Initial Loading State
         container.innerHTML = `<div style="text-align:center; padding: 100px; font-family: sans-serif;"><span class="loader"></span><p style="margin-top:20px; color:#64748b; font-weight:800;">Initialisation de DTC Business...</p></div>`;
 
+        // Load profile first to check tier
+        await BusinessModule.refreshExpertProfile();
+        
+        const tier = (BusinessModule.expertProfile && BusinessModule.expertProfile.subscription_tier) || window.currentSubscriptionTier || 'free';
+        const isPartner = (tier !== 'free');
+
+        if (!isPartner) {
+            BusinessModule.renderLockedView(container);
+            return;
+        }
+
         BusinessModule.activeTab = localStorage.getItem('dtc_business_tab') || 'quotes';
         
-        // Lazy load profile without blocking initial UI
-        BusinessModule.refreshExpertProfile().then(() => {
-            console.log("DTC Business: Expert data ready.");
-        });
-
         container.innerHTML = `
             <div class="business-container" style="padding: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 <div class="dash-section-header" style="margin-bottom: 32px; display:flex; justify-content:space-between; align-items:flex-end;">
@@ -76,6 +82,45 @@ const BusinessModule = {
         `;
 
         await BusinessModule.switchTab(BusinessModule.activeTab);
+    },
+
+    renderLockedView: (container) => {
+        container.innerHTML = `
+            <div class="locked-overlay-container" style="padding: 24px;">
+                <!-- Mockup Background (Visible but blurred) -->
+                <div class="locked-content-blur">
+                    <div class="dash-section-header" style="margin-bottom: 32px; display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div style="flex:1;">
+                            <h2 class="dash-title" style="margin: 0;">Centre de Pilotage Business</h2>
+                            <p class="dash-subtitle" style="margin: 8px 0 0 0;">Gérez vos devis, factures et encaissements.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; margin-top: 32px;">
+                        <div style="flex:1; height: 120px; background:#f1f5f9; border-radius:20px;"></div>
+                        <div style="flex:1; height: 120px; background:#f1f5f9; border-radius:20px;"></div>
+                        <div style="flex:1; height: 120px; background:#f1f5f9; border-radius:20px;"></div>
+                    </div>
+                    <div style="margin-top: 40px; height: 300px; background:#f8fafc; border-radius:24px; border:2px dashed #e2e8f0;"></div>
+                </div>
+
+                <!-- Teaser Overlay -->
+                <div class="gateway-teaser-overlay">
+                    <div class="teaser-card">
+                        <div class="teaser-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15l-3-3m0 0l3-3m-3 3h8M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path></svg>
+                        </div>
+                        <h3 class="teaser-title">Élevez votre activité.</h3>
+                        <p class="teaser-desc">
+                            Le Centre de Pilotage Business est réservé aux **Partenaires Stratégiques** certifiés. 
+                            Activez votre collaboration active pour générer vos devis, factures et sécuriser vos reversements.
+                        </p>
+                        <button onclick="openSubModal('authority')" class="cta-button primary" style="padding:16px 32px; font-weight:900; background:#10b981; border:none; border-radius:16px; font-size:1rem; width:100%;">
+                            🚀 Activer ma Collaboration Active
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
     },
 
     switchTab: async (tabId) => {

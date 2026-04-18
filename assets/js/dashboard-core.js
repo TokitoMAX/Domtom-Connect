@@ -1292,7 +1292,51 @@ async function handleSubscriptionSuccess(subscriptionId, tier) {
             .eq('id', user.id);
 
         if (error) throw error;
-        alert('Félicitations ! Votre Pack est maintenant activé. ✅');
+
+        // Celebration Logic
+        if (typeof confetti !== 'undefined') {
+            const end = Date.now() + (3 * 1000);
+            const colors = ['#10b981', '#3b82f6', '#ffffff'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // Specific Alert for Strategic Partner
+        const isPartner = (tier === 'authority');
+        const message = isPartner 
+            ? "Félicitations ! Vous êtes désormais Partenaire Stratégique. Votre Collaboration Active est lancée ! 🚀"
+            : "Félicitations ! Votre Pack est maintenant activé. ✅";
+
+        if (typeof Swal !== 'undefined') {
+            await Swal.fire({
+                icon: 'success',
+                title: 'Certification Validée',
+                text: message,
+                confirmButtonColor: '#10b981'
+            });
+        } else {
+            alert(message);
+        }
+
         window.location.reload();
     } catch (err) {
         alert('Erreur lors de l\'activation : ' + err.message);
