@@ -2209,7 +2209,15 @@
 
                 const currentRoleDB = currentProfile?.role || 'expert';
                 const currentTier = currentProfile?.subscription_tier || 'free';
+                
+                // --- STRATÉGIE : Référencement gratuit pour tous ---
                 let isListed = currentProfile?.listed || false;
+                const isExpertOrCompany = (selectedRole === 'expert' || selectedRole === 'prestataire' || selectedRole === 'entreprise');
+                
+                // Si l'utilisateur clique sur enregistrer, on considère qu'il veut être publié (s'il l'était déjà ou s'il est expert/entreprise)
+                if (isExpertOrCompany) {
+                    isListed = true; 
+                }
 
                 // Validate Company Name for Entreprise Role
                 if (selectedRole === 'entreprise' && !getVal('company')) {
@@ -2219,21 +2227,10 @@
                     return;
                 }
 
-                // 2. Role-Switch Loyalty & Tier Check
+                // 2. Role Check (Only for DB Integrity, no more blocking publication)
                 if (selectedRole !== currentRoleDB) {
-                    console.log(`Changement de rôle détecté : ${currentRoleDB} -> ${selectedRole}`);
-                    
-                    let tierValid = false;
-                    if (selectedRole === 'expert' && currentTier === 'authority') tierValid = true;
-                    if (selectedRole === 'entreprise' && (currentTier === 'business' || currentTier === 'enterprise')) tierValid = true;
-                    if (selectedRole === 'user' || selectedRole === 'admin') tierValid = true; 
-
-                    if (!tierValid && isListed) {
-                        console.warn("Tier insuffisant pour le nouveau rôle. Retrait automatique de l'annuaire.");
-                        isListed = false;
-                        // Use a more prominent alert
-                        alert("⚠️ ATTENTION : Votre visibilité a été suspendue.\n\nVotre abonnement actuel (" + currentTier + ") ne couvre pas le rôle '" + selectedRole + "'.\n\nVous avez été automatiquement retiré de l'annuaire pour éviter toute non-conformité. Veuillez souscrire au Pack approprié pour être à nouveau visible.");
-                    }
+                    console.log(`Changement de rôle vers : ${selectedRole}`);
+                    // On laisse isListed tel quel, car le référencement est gratuit.
                 }
 
                 // Update Auth Metadata
