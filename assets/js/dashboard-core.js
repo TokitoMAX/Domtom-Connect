@@ -62,13 +62,16 @@ window.handleInviteToken = async function(inviteId, user) {
                 .update({ status: 'accepted' })
                 .eq('id', inviteId);
             
+            // AUTO-SWITCH: Store the owner_id as the active business
+            localStorage.setItem('activeBusinessId', invite.owner_id);
+
             Swal.fire({
                 icon: 'success',
                 title: 'Équipe rejointe !',
-                text: `Vous avez rejoint l'écosystème avec succès.`,
+                text: `Bienvenue ! Vous accédez maintenant au pilotage de l'entreprise.`,
                 confirmButtonColor: '#10b981'
             }).then(() => {
-                // Clear URL param
+                // Clear URL param and reload into the new context
                 window.history.replaceState({}, document.title, window.location.pathname);
                 location.reload();
             });
@@ -604,12 +607,20 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         } else {
             container.innerHTML = '<p>Chargement du module Entreprise...</p>';
         }
-    } else {
-        // Porteurs de Projet (Default)
+    } else if (role === 'porteur' || role === 'owner') {
+        // --- ÉCOSYSTÈME : PORTEUR DE PROJET ---
         if (typeof OwnersModule !== 'undefined') {
             OwnersModule.renderDashboard(container, additional, profile, session);
         } else {
             container.innerHTML = '<p>Chargement du module Projet...</p>';
+        }
+    } else {
+        // --- ÉCOSYSTÈME : EXPLORATEUR (Standard) ---
+        if (typeof StandardModule !== 'undefined') {
+            StandardModule.renderDashboard(container, additional, profile, session);
+        } else {
+            // Fallback ultime
+            container.innerHTML = '<p>Bienvenue sur Domtom Connect ! Complétez votre profil pour activer votre cockpit dédié.</p>';
         }
     }
 }
