@@ -474,7 +474,7 @@ function applyGeographicalLocalization(zoneId) {
     }
 }
 
-function renderDashboardCards(role, isListed, profile, session) {
+function renderDashboardCards(role, tier, isListed, profile, session) {
     const container = document.getElementById('dashboard-cards');
     const additional = document.getElementById('additional-content');
     if (!container) return;
@@ -1709,15 +1709,22 @@ window.handleFileSelect = async function(input) {
  * --- MULTI-ACCOUNT DETECTION (COLLABORATIONS) ---
  */
 window.checkCollaborations = async function(email) {
-    if (!email) return [];
     try {
+        // We use the dedicated SQL view which already handles the join and RLS filtering
         const { data: collabs, error } = await _supabase
-            .from('collaborators')
-            .select('*, profiles!owner_id(company_name, full_name)')
-            .eq('collaborator_email', email);
+            .from('my_collaborations')
+            .select('*');
 
         if (error) throw error;
-        return collabs || [];
+        
+        // Map view columns to match the expected format in renderCollaborationSwitch
+        return (collabs || []).map(c => ({
+            ...c,
+            profiles: {
+                company_name: c.company_name,
+                full_name: c.owner_name
+            }
+        }));
     } catch (err) {
         console.error("Collab Detection Error:", err);
         return [];
