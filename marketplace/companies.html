@@ -592,7 +592,7 @@
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)
-                    .in('subscription_tier', ['business', 'enterprise']);
+                    .in('role', ['entreprise', 'institution']);
 
                 if (territory) query = query.eq('territory', territory);
                 if (zone) query = query.eq('zone', zone);
@@ -601,7 +601,20 @@
                 const { data: companies, error } = await query;
                 if (error) throw error;
 
+                // Priority Sorting: Enterprise > Business > Free
+                const getTierRank = (t) => {
+                    if (t === 'enterprise') return 3;
+                    if (t === 'business') return 2;
+                    return 0;
+                };
+
                 let filtered = companies || [];
+                filtered.sort((a, b) => {
+                    const rankA = getTierRank(a.subscription_tier);
+                    const rankB = getTierRank(b.subscription_tier);
+                    if (rankA !== rankB) return rankB - rankA;
+                    return (a.company || "").localeCompare(b.company || "");
+                });
                 if (currentLetter) {
                     filtered = filtered.filter(c => (c.company || c.full_name || "").toUpperCase().startsWith(currentLetter));
                 }
