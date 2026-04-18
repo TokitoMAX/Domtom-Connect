@@ -9,6 +9,11 @@ const CompaniesModule = {
      */
     renderDashboard: async (container, additional, profile, session) => {
         if (!container) return;
+        if (!session || !session.user) {
+            console.warn("CompaniesModule: No session found, waiting...");
+            container.innerHTML = '<p style="padding:40px; color:#64748b;">Initialisation de votre cockpit...</p>';
+            return;
+        }
 
         const isPremium = window.isPremiumUser(profile);
         const isListed = !!profile.listed;

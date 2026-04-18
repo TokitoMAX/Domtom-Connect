@@ -387,30 +387,28 @@ async function loadDashboardContent(session) {
         }
     }
 
-    // --- NAVIGATION SECURITY : Hide Cockpit for non-project owners ---
+    // --- NAVIGATION SECURITY : Role-based Sidebar Content ---
     const epopeeLink = document.getElementById('nav-success-engine');
+    const missionsLink = document.getElementById('nav-mes-missions');
+    const businessLink = document.getElementById('nav-business');
+    
+    const isPro = (role === 'admin' || role === 'expert' || role === 'prestataire' || role === 'entreprise');
+
     if (epopeeLink) {
         // "L'Épopée" est RÉSERVÉ aux porteurs de projet OU aux Admins
-        if (role === 'admin') {
-            epopeeLink.style.display = 'flex';
-            // Ajout d'une pastille de notif si admin
-            const dot = document.getElementById('admin-notif-dot');
-            if (dot) dot.style.display = 'block'; 
-        } else if (role === 'expert' || role === 'prestataire' || role === 'entreprise') {
-            epopeeLink.style.display = 'none';
-        } else {
-            epopeeLink.style.display = 'flex';
-        }
+        epopeeLink.style.display = (role === 'admin' || !isPro) ? 'flex' : 'none';
+        const dot = document.getElementById('admin-notif-dot');
+        if (dot) dot.style.display = (role === 'admin') ? 'block' : 'none';
     }
 
-    // --- BUSINESS NAVIGATION : Show link only for experts/admins ---
-    const businessLink = document.getElementById('nav-business');
+    if (missionsLink) {
+        // "Mes Missions" est RÉSERVÉ aux entreprises et experts
+        missionsLink.style.display = (role === 'admin' || role === 'expert' || role === 'entreprise') ? 'flex' : 'none';
+    }
+
     if (businessLink) {
-        if (role === 'admin' || role === 'expert' || role === 'prestataire') {
-            businessLink.style.display = 'flex';
-        } else {
-            businessLink.style.display = 'none';
-        }
+        // Finances seulement pour experts/admins
+        businessLink.style.display = (role === 'admin' || role === 'expert' || role === 'prestataire') ? 'flex' : 'none';
     }
 
     initRouting();
@@ -1715,7 +1713,7 @@ window.checkCollaborations = async function(email) {
     try {
         const { data: collabs, error } = await _supabase
             .from('collaborators')
-            .select('*, profiles:owner_id(company_name, full_name)')
+            .select('*, profiles!owner_id(company_name, full_name)')
             .eq('collaborator_email', email);
 
         if (error) throw error;
