@@ -302,6 +302,15 @@
                 <span class="sidebar-label">Mon Espace</span>
             </a>
 
+            <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration-hub" title="Espace Équipe" style="display:none;">
+                <div class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4"/>
+                    </svg>
+                </div>
+                <span class="sidebar-label">Mon Hub Équipe</span>
+            </a>
+
             <!-- SECTION : GESTION (Privé) -->
             <div style="margin-top:24px; padding:0 24px; font-size:0.75rem; font-weight:850; color:#475569; text-transform:uppercase; letter-spacing:0.04em;">Mon Pilotage</div>
 
@@ -447,6 +456,11 @@
                 <!-- Content will be injected by BusinessModule -->
             </div>
 
+            <!-- SECTION : COLLABORATION HUB (V2) -->
+            <div id="collaboration-view" class="view-section" style="display:none;">
+                <!-- Content will be injected by CollaborationModule -->
+            </div>
+
             <!-- SECTION : MES BILLETS -->
                 <!-- VUE : TABLEAU DE BORD (DASHBOARD GENERAL) -->
                 <div id="overview-view" style="display: block;">
@@ -521,6 +535,7 @@
     <script src="assets/js/auth.js?v=5.0"></script>
     <!-- Ecosystem Modules (Four Systems Architecture: Basic, Owner, Expert, Company) -->
     <script src="assets/js/ecosystems/standard.module.js?v=1.1"></script>
+    <script src="assets/js/ecosystems/collaboration.module.js?v=1.0"></script>
     <script src="assets/js/ecosystems/owners.module.js?v=1.0"></script>
     <script src="assets/js/ecosystems/experts.module.js?v=1.0"></script>
     <script src="assets/js/ecosystems/companies.module.js?v=2.1"></script>

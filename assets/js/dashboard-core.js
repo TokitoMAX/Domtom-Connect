@@ -311,6 +311,12 @@ function showView(viewId, forceRender = false) {
                     if (data.session) CompaniesModule.renderDashboard(target, null, window.userProfile, data.session);
                 });
             }
+        } else if (baseView === 'collaboration') {
+            if (typeof CollaborationModule !== 'undefined') {
+                _supabase.auth.getSession().then(({data}) => {
+                    if (data.session) CollaborationModule.renderDashboard(target, null, window.userProfile, data.session);
+                });
+            }
         }
     }
 
@@ -447,6 +453,7 @@ async function loadDashboardContent(session) {
     const epopeeLink = document.getElementById('nav-success-engine');
     const missionsLink = document.getElementById('nav-mes-missions');
     const businessLink = document.getElementById('nav-business');
+    const hubLink = document.getElementById('nav-collaboration-hub');
     
     const isPro = (role === 'admin' || role === 'expert' || role === 'prestataire' || role === 'entreprise');
 
@@ -460,6 +467,12 @@ async function loadDashboardContent(session) {
     if (missionsLink) {
         // "Mes Missions" est RÉSERVÉ aux entreprises et experts
         missionsLink.style.display = (role === 'admin' || role === 'expert' || role === 'entreprise') ? 'flex' : 'none';
+    }
+
+    if (hubLink) {
+        // Visible si c'est un collaborateur (activeBusinessId) ou s'il en a dans son compte
+        const hasCollabs = (window.userCollaborations && window.userCollaborations.length > 0);
+        hubLink.style.display = (window.activeBusinessId || hasCollabs) ? 'flex' : 'none';
     }
 
     if (businessLink) {
