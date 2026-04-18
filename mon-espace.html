@@ -165,6 +165,107 @@
         .match-card.teaser .match-avatar {
             filter: grayscale(1) blur(2px);
         }
+
+        /* --- DASHBOARD COLLABORATION HUB --- */
+        .collaboration-hub-dash {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 24px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hub-dash-steps {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .hub-dash-step {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hub-dash-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05e;
+            color: #94a3b8;
+        }
+
+        .hub-dash-status {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hub-dash-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+        }
+
+        .hub-dash-step.active .hub-dash-dot {
+            background: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        .hub-dash-divider {
+            width: 40px;
+            height: 2px;
+            background: #f1f5f9;
+        }
+
+        .hub-dash-cta-btn {
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hub-dash-cta-btn:hover {
+            background: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
+        }
+
+        .hub-dash-badge {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #10b981;
+        }
+
+        @media (max-width: 768px) {
+            .collaboration-hub-dash { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .hub-dash-divider { display: none; }
+        }
     </style>
 
     <!-- Mobile Bottom Navigation (PREMIUM PILL) -->
@@ -378,6 +479,35 @@
                         <span class="dash-badge emerald" id="user-role-badge">Porteur de Projet</span>
                         <h1 id="user-greeting">Bonjour.</h1>
                         <p>Bienvenue dans votre cockpit Domtom Connect.</p>
+                    </div>
+
+                    <!-- COLLABORATION HUB (DASHBOARD) -->
+                    <div id="collaboration-hub-container" style="display: none;">
+                        <div class="collaboration-hub-dash">
+                            <div class="hub-dash-steps">
+                                <div class="hub-dash-step" id="hub-dash-step-1">
+                                    <span class="hub-dash-label" id="hub-dash-label-1">Phase 1 : Référencement</span>
+                                    <div class="hub-dash-status">
+                                        <span class="hub-dash-dot"></span>
+                                        <span id="hub-dash-text-1">Certifié</span>
+                                    </div>
+                                </div>
+                                <div class="hub-dash-divider"></div>
+                                <div class="hub-dash-step" id="hub-dash-step-2">
+                                    <span class="hub-dash-label" id="hub-dash-label-2">Phase 2 : Collaboration Active</span>
+                                    <div class="hub-dash-status">
+                                        <span class="hub-dash-dot"></span>
+                                        <span id="hub-dash-text-2">Désactivée</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="hub-dash-action">
+                                <button class="hub-dash-cta-btn" onclick="openSubModal()">
+                                    🚀 Lancer la Collaboration
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="ecosystem-view" style="margin-top: 32px;">

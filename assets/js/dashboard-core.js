@@ -355,6 +355,7 @@ async function loadDashboardContent(session) {
     // Profile Strength & Visibility
     updateProfileStrength(profile);
     renderVisibilityPreview(profile);
+    renderCollaborationHub(profile);
 
     // Apply Zone-specific labels
     applyGeographicalLocalization(majorZone);
@@ -572,32 +573,118 @@ function updateProfileStrength(profile) {
     }
 }
 
-function renderVisibilityPreview(profile) {
+function renderCollaborationHub(profile) {
     if (!profile) return;
-    const container = document.getElementById('visibility-preview-container');
-    const badge = document.getElementById('visibility-status-badge');
-    const slot = document.getElementById('preview-card-slot');
-    const prompt = document.getElementById('visibility-upgrade-prompt');
-    if (!container || !badge || !slot) return;
+    const container = document.getElementById('collaboration-hub-container');
+    if (!container) return;
 
-    const isTalent = (profile.role === 'expert' || profile.role === 'prestataire' || profile.role === 'entreprise');
+    const role = profile.role || 'expert';
+    const isExpert = (role === 'expert' || role === 'prestataire');
+    const isCompany = (role === 'entreprise');
     
-    if (!isTalent) {
+    // Uniquement pour Experts et Entreprises
+    if (!isExpert && !isCompany) {
         container.style.display = 'none';
-        container.classList.add('hidden-force');
         return;
     }
 
-    const isListed = !!profile.listed;
-
-    container.classList.remove('hidden-force');
     container.style.display = 'block';
-    
-    // 1. Badge Status
+
+    const isListed = !!profile.listed;
+    const tier = profile.subscription_tier || 'free';
+    const isActive = (tier !== 'free');
+
+    // Labels adaptatifs
+    const label1 = document.getElementById('hub-dash-label-1');
+    const label2 = document.getElementById('hub-dash-label-2');
+    if (isCompany) {
+        if (label1) label1.textContent = "Étape 1 : Visibilité Pro";
+        if (label2) label2.textContent = "Étape 2 : Partenariat Certifié";
+    }
+
+    // Phase 1 : Référencement
+    const step1 = document.getElementById('hub-dash-step-1');
+    const text1 = document.getElementById('hub-dash-text-1');
     if (isListed) {
-        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publié (Actif)</span>`;
-        if (prompt) prompt.style.display = 'none';
+        if (step1) step1.classList.add('active');
+        if (text1) text1.textContent = isCompany ? "Visible (Actif)" : "Référencé";
     } else {
+        if (step1) step1.classList.remove('active');
+        if (text1) text1.textContent = "Privé (En attente)";
+    }
+
+    // Phase 2 : Collaboration Active
+    const step2 = document.getElementById('hub-dash-step-2');
+    const text2 = document.getElementById('hub-dash-text-2');
+    const actionArea = document.getElementById('hub-dash-action');
+
+    if (isActive) {
+        if (step2) step2.classList.add('active');
+        if (text2) text2.textContent = "Activée (Partenaire)";
+        if (actionArea) {
+            actionArea.innerHTML = `
+                <div class="hub-dash-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>${isCompany ? 'Entreprise Certifiée' : 'Partenaire Stratégique'}</span>
+                </div>
+            `;
+        }
+    } else {
+        if (step2) step2.classList.remove('active');
+        if (text2) text2.textContent = "🔒 En attente";
+    }
+}
+
+/**
+ * Global Subscription Modal Trigger
+ */
+function openSubModal() {
+    // Si on est sur la page profile, on utilise le modal local
+    const profileModal = document.getElementById('subscription-modal');
+    if (profileModal) {
+        profileModal.style.display = 'flex';
+        return;
+    }
+
+    // Sinon, on utilise SweetAlert2 pour un rendu premium sur le Dashboard
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: '<span style="font-weight:900; letter-spacing:-0.03em;">DÉBLOQUER VOTRE CERTIFICATION</span>',
+            html: `
+                <div style="text-align:left; padding:10px;">
+                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Activez votre statut de <strong>Partenaire Stratégique</strong> pour débloquer toute la puissance de Domtom Connect.</p>
+                    <ul style="list-style:none; padding:0; display:grid; gap:12px; margin-bottom:24px;">
+                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
+                            Badge "Partenaire Certifié" sur l'annuaire
+                        </li>
+                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
+                            Priorité d'affichage dans le Success Engine
+                        </li>
+                        <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
+                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
+                            Outils DTC Business Débloqués
+                        </li>
+                    </ul>
+                    <div id="paypal-button-container-dash" style="margin-top:20px;"></div>
+                </div>
+            `,
+            showConfirmButton: false,
+            showCloseButton: true,
+            width: '460px',
+            padding: '24px',
+            borderRadius: '24px',
+            didOpen: () => {
+                if (window.renderPayPalButton) {
+                    window.renderPayPalButton('P-AUTHORITY_PLAN_ID', 'authority', 'paypal-button-container-dash');
+                }
+            }
+        });
+    } else {
+        window.location.href = '/profile.html';
+    }
+}
         badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Privé (Invisible)</span>`;
         if (prompt) prompt.style.display = 'block';
     }
