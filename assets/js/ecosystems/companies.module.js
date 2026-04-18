@@ -56,6 +56,28 @@ const CompaniesModule = {
                             </div>
                         </div>
                     </div>
+
+                    <!-- Team Management Section -->
+                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0; margin-top:24px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h3 style="font-size: 1.25rem; font-weight: 950; margin:0; color: #0f172a;">Gestion de l'équipe</h3>
+                            <span style="font-size:0.75rem; background:#f1f5f9; padding:4px 10px; border-radius:20px; color:#64748b; font-weight:700;">BETA</span>
+                        </div>
+                        <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px;">Autorisez d'autres comptes Domtom Connect à gérer vos offres et événements.</p>
+                        
+                        <div id="collaborators-list-${container.id || 'main'}" style="margin-bottom:24px;">
+                            <!-- Dynamically loaded -->
+                            <p style="font-size:0.85rem; color:#94a3b8; font-style:italic;">Chargement de l'équipe...</p>
+                        </div>
+
+                        <div style="background:#f8fafc; border-radius:16px; padding:20px; border: 1px dashed #e2e8f0;">
+                            <p style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:12px;">Ajouter un collaborateur</p>
+                            <div style="display:flex; gap:10px;">
+                                <input type="email" id="collab-email-input" placeholder="email@exemple.com" style="flex:1; padding:12px; border-radius:10px; border:1px solid #e2e8f0; font-size:0.9rem;">
+                                <button onclick="CompaniesModule.addCollaborator()" class="cta-button primary" style="background:#0f172a; border:none; border-radius:10px; padding:0 20px; color:white; font-weight:700;">Inviter</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
  </div>
  
@@ -93,11 +115,103 @@ const CompaniesModule = {
             loadMatchmaking(session.user.id);
         }
         
-        // Charger les missions de l'entreprise
+        // Charger les missions de l'entreprise (ou de l'entreprise gérée)
         const jobsTarget = document.getElementById(`jobs-container-${container.id || 'main'}`);
         if (session && session.user && jobsTarget) {
-            CompaniesModule.loadMyJobs(session.user.id, jobsTarget);
+            CompaniesModule.loadMyJobs(window.activeBusinessId || session.user.id, jobsTarget);
         }
+
+        // Charger l'équipe (Seulement pour le propriétaire réel)
+        const teamTarget = document.getElementById(`collaborators-list-${container.id || 'main'}`);
+        const teamCard = teamTarget ? teamTarget.closest('.dash-card') : null;
+        
+        if (session && session.user && teamTarget) {
+            if (window.activeBusinessId && window.activeBusinessId !== session.user.id) {
+                // On est en mode collaborateur : on cache la gestion d'équipe
+                if (teamCard) teamCard.style.display = 'none';
+            } else {
+                CompaniesModule.loadCollaborators(session.user.id, teamTarget);
+            }
+        }
+    },
+
+    loadCollaborators: async (ownerId, container) => {
+        if (!container) return;
+        try {
+            const { data: collab, error } = await _supabase
+                .from('collaborators')
+                .select('*')
+                .eq('owner_id', ownerId);
+
+            if (error) throw error;
+
+            if (!collab || collab.length === 0) {
+                container.innerHTML = '<p style="font-size:0.85rem; color:#94a3b8; font-style:italic;">Aucun collaborateur ajouté pour le moment.</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div style="display:grid; gap:10px;">
+                    ${collab.map(c => `
+                        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:10px; border:1px solid #f1f5f9;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:32px; height:32px; background:#e2e8f0; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#64748b; font-weight:800; font-size:0.8rem;">
+                                    ${c.collaborator_email.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <p style="margin:0; font-size:0.85rem; font-weight:800; color:#0f172a;">${c.collaborator_email}</p>
+                                    <p style="margin:0; font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">${c.role || 'Éditeur'}</p>
+                                </div>
+                            </div>
+                            <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; font-weight:800; cursor:pointer; padding:4px;">Retirer</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } catch (err) {
+            console.error("Team Load Error:", err);
+            container.innerHTML = '<p style="font-size:0.8rem; color:#ef4444;">Erreur chargement équipe.</p>';
+        }
+    },
+
+    addCollaborator: async () => {
+        const input = document.getElementById('collab-email-input');
+        const email = input ? input.value.trim() : '';
+        if (!email || !email.includes('@')) return alert("Veuillez saisir un email valide.");
+
+        try {
+            const session = await getSession();
+            if (!session) return;
+
+            const { error } = await _supabase.from('collaborators').insert([
+                { owner_id: session.user.id, collaborator_email: email }
+            ]);
+
+            if (error) throw error;
+
+            Swal.fire({ icon: 'success', title: 'Collaborateur ajouté', text: `L'accès a été partagé avec ${email}`, confirmButtonColor: '#10b981' });
+            input.value = '';
+            
+            // Reload list
+            const dashContainer = document.querySelector('.role-entreprise-grid').parentElement;
+            const teamTarget = document.querySelector('[id^="collaborators-list-"]');
+            if (teamTarget) CompaniesModule.loadCollaborators(session.user.id, teamTarget);
+
+        } catch (err) {
+            alert("Erreur lors de l'ajout: " + (err.message || "Permissions insuffisantes"));
+        }
+    },
+
+    removeCollaborator: async (collabId) => {
+        if (!confirm("Retirer cet accès ?")) return;
+        try {
+            const { error } = await _supabase.from('collaborators').delete().eq('id', collabId);
+            if (error) throw error;
+            
+            const session = await getSession();
+            const teamTarget = document.querySelector('[id^="collaborators-list-"]');
+            if (teamTarget && session) CompaniesModule.loadCollaborators(session.user.id, teamTarget);
+        } catch (err) { alert("Erreur suppression: " + err.message); }
     },
 
     loadMyJobs: async (companyId, customContainer = null) => {

@@ -12,6 +12,20 @@ let isAdminInspection = false;
 let currentSREProject = null;
 window.isEditing = false;
 let originalProfileData = null;
+window.activeBusinessId = null; // To handle Multi-Account / Collaborations
+
+// --- 2. INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', async () => {
+    const session = await getSession();
+    if (session && session.user) {
+        // Detect Collaborations
+        const collabs = await window.checkCollaborations(session.user.email);
+        if (collabs && collabs.length > 0) {
+            // Wait for grid to be ready to render the switch
+            setTimeout(() => window.renderCollaborationSwitch(collabs), 1000);
+        }
+    }
+});
 
 window.isPremiumUser = function(p) {
     if (!p) return false;
@@ -1679,6 +1693,68 @@ window.handleFileSelect = async function(input) {
     } catch (err) {
         alert("Erreur upload: " + err.message);
     }
+};
+
+/**
+ * --- MULTI-ACCOUNT DETECTION (COLLABORATIONS) ---
+ */
+window.checkCollaborations = async function(email) {
+    if (!email) return [];
+    try {
+        const { data: collabs, error } = await _supabase
+            .from('collaborators')
+            .select('*, profiles:owner_id(company_name, full_name)')
+            .eq('collaborator_email', email);
+
+        if (error) throw error;
+        return collabs || [];
+    } catch (err) {
+        console.error("Collab Detection Error:", err);
+        return [];
+    }
+};
+
+window.renderCollaborationSwitch = function(collabs) {
+    const container = document.getElementById('ecosystem-grid-container');
+    if (!container || !collabs || collabs.length === 0) return;
+
+    const switchHTML = `
+        <div class="dash-card collab-notification" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border-radius: 20px; padding: 32px; margin-bottom: 24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3 style="margin:0; font-size:1.1rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+                        <span style="background:rgba(16, 185, 129, 0.2); color:#10b981; padding:4px 10px; border-radius:100px; font-size:0.65rem; text-transform:uppercase;">Accès Collaborateur</span>
+                        Comptes gérés
+                    </h3>
+                    <p style="margin:8px 0 0 0; font-size:0.85rem; color:#94a3b8;">Vous avez été invité à gérer les annonces de ces entreprises :</p>
+                </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:12px; margin-top:20px;">
+                ${collabs.map(c => `
+                    <button onclick="switchContext('${c.owner_id}', '${c.profiles.company_name || c.profiles.full_name}')" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:white; text-align:left; cursor:pointer; transition:0.2s;">
+                        <p style="margin:0; font-size:0.85rem; font-weight:800; overflow:hidden; text-overflow:ellipsis;">${c.profiles.company_name || c.profiles.full_name}</p>
+                        <p style="margin:4px 0 0 0; font-size:0.65rem; color:#64748b; text-transform:uppercase;">Gérer les offres →</p>
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+
+    container.insertAdjacentHTML('afterbegin', switchHTML);
+};
+
+window.switchContext = function(ownerId, name) {
+    window.activeBusinessId = ownerId;
+    Swal.fire({
+        title: 'Changement de compte',
+        text: `Vous gérez maintenant l'espace de : ${name}`,
+        icon: 'info',
+        confirmButtonColor: '#10b981'
+    });
+    
+    // Refresh main view if on enterprise module
+    showView('overview', true);
 };
 
 window.handleDeleteAccount = async function() {
