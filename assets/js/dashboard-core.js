@@ -565,7 +565,7 @@ function updateProfileStrength(profile) {
     if (perc) perc.textContent = points + '%';
     if (tip) {
         if (points === 100) {
-            tip.innerHTML = "✅ Profil complet ! Vous remontez en priorité dans l'annuaire.";
+            tip.innerHTML = "Profil complet. Vous remontez en priorité dans l'annuaire.";
             tip.style.color = "#10b981";
         } else {
             tip.innerHTML = `<strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile.html" style="color:#10b981; text-decoration:underline;">Modifier le profil</a>`;
@@ -631,7 +631,7 @@ function renderCollaborationHub(profile) {
         }
     } else {
         if (step2) step2.classList.remove('active');
-        if (text2) text2.textContent = "🔒 En attente";
+        if (text2) text2.textContent = "Verrouillé (En attente)";
     }
 }
 
@@ -639,6 +639,10 @@ function renderCollaborationHub(profile) {
  * Global Subscription Modal Trigger
  */
 function openSubModal() {
+    // On utilise les données globales si profile n'est pas passé
+    const activeProfile = window.userProfile;
+    if (!activeProfile) return;
+
     // Si on est sur la page profile, on utilise le modal local
     const profileModal = document.getElementById('subscription-modal');
     if (profileModal) {
@@ -649,22 +653,22 @@ function openSubModal() {
     // Sinon, on utilise SweetAlert2 pour un rendu premium sur le Dashboard
     if (typeof Swal !== 'undefined') {
         Swal.fire({
-            title: '<span style="font-weight:900; letter-spacing:-0.03em;">DÉBLOQUER VOTRE CERTIFICATION</span>',
+            title: '<span style="font-weight:900; letter-spacing:-0.03em; text-transform: uppercase; font-size: 1.2rem;">ACTIVER VOTRE PARTENARIAT</span>',
             html: `
                 <div style="text-align:left; padding:10px;">
-                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">Activez votre statut de <strong>Partenaire Stratégique</strong> pour débloquer toute la puissance de Domtom Connect.</p>
+                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px; line-height: 1.6;">Activez votre statut de <strong>Partenaire Stratégique</strong> pour débloquer toute la puissance de Domtom Connect.</p>
                     <ul style="list-style:none; padding:0; display:grid; gap:12px; margin-bottom:24px;">
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
-                            Badge "Partenaire Certifié" sur l'annuaire
+                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
+                            Badge de Certification sur l'annuaire
                         </li>
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
-                            Priorité d'affichage dans le Success Engine
+                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
+                            Priorité d'affichage dans les recommandations
                         </li>
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:20px; height:20px; background:#ecfdf5; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✔</div>
-                            Outils DTC Business Débloqués
+                            <div style="width:20px; height:20px; background:#f1f5f9; color:#0f172a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>
+                            Accès complet aux outils DTC Business
                         </li>
                     </ul>
                     <div id="paypal-button-container-dash" style="margin-top:20px;"></div>
@@ -674,10 +678,9 @@ function openSubModal() {
             showCloseButton: true,
             width: '460px',
             padding: '24px',
-            borderRadius: '24px',
             didOpen: () => {
                 if (window.renderPayPalButton) {
-                    const role = profile.role || 'expert';
+                    const role = activeProfile.role || 'expert';
                     const planId = (role === 'entreprise') ? 'P-15S697157N2947137M4LP3SY' : 'P-8Y731422H2710134PM4L4BOA';
                     const targetTier = (role === 'entreprise') ? 'business' : 'authority';
                     window.renderPayPalButton(planId, targetTier, 'paypal-button-container-dash');
