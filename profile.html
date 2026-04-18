@@ -293,13 +293,6 @@
             gap: 8px;
         }
 
-        .badge-status {
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-        }
-
         .badge-passive { background: #f1f5f9; color: #64748b; }
         .badge-listed { background: #eff6ff; color: #1d4ed8; }
         .badge-active { background: #ecfdf5; color: #059669; border: 1px solid #10b981; }
@@ -1604,7 +1597,13 @@
         let currentSubscriptionTier = 'free';
         let currentProfile = null; // Global cache for current user profile
 
-        const FIELDS = ['full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 'tjm', 'linkedin_url', 'facebook_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'spotify_url', 'video_url', 'written_presentation', 'available', 'siret', 'forme_juridique', 'zone', 'website_url', 'company', 'btn-upload-trigger'];
+        const FIELDS = [
+            'full_name', 'title', 'bio', 'sector', 'territory', 'skills-input', 
+            'tjm', 'linkedin_url', 'facebook_url', 'instagram_url', 'youtube_url', 
+            'tiktok_url', 'spotify_url', 'video_url', 'written_presentation', 
+            'available', 'siret', 'forme_juridique', 'zone', 'website_url', 
+            'company', 'creation_year', 'team_size', 'btn-upload-trigger', 'user_role'
+        ];
         let skillTags = [];
 
         function renderTags() {
