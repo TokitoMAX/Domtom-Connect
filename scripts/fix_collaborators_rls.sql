@@ -20,9 +20,7 @@ FOR SELECT
 USING (collaborator_email = (auth.jwt() ->> 'email'));
 
 -- 4. Attribution des droits au rôle authentifié
+-- 4. Attribution des droits au rôle authentifié
 GRANT ALL ON collaborators TO authenticated;
-
--- 5. Mise à jour de la vue (si elle existe)
-GRANT SELECT ON my_collaborations TO authenticated;
 
 -- MESSAGE DE SUCCÈS : RLS mise à jour avec succès.
