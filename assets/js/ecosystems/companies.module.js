@@ -258,10 +258,15 @@ const CompaniesModule = {
         try {
             const session = await getSession();
             await _supabase.from('collaborators').insert([{ owner_id: session.user.id, collaborator_email: email }]);
-            Swal.fire({ icon: 'success', title: 'Invité envoyé', text: `${email} a maintenant accès.`, confirmButtonColor: '#10b981' });
+            Swal.fire({ 
+                icon: 'success', 
+                title: 'Accès configuré', 
+                text: `L'accès pour ${email} est activé. Il lui suffit de se connecter à son compte DTC pour piloter votre espace.`, 
+                confirmButtonColor: '#10b981' 
+            });
             input.value = '';
             location.reload(); 
-        } catch (err) { alert("Erreur."); }
+        } catch (err) { alert("Erreur lors de l'ajout."); }
     },
 
     removeCollaborator: async (id) => {

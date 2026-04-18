@@ -29,9 +29,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 window.isPremiumUser = function(p) {
     if (!p) return false;
-    // Premium Status is now based on Professional Role + Profile Completion (Verified)
-    // We no longer gate basic directory visibility behind a subscription.
-    return (p.role === 'admin' || p.role === 'expert' || p.role === 'prestataire' || p.role === 'entreprise');
+    if (p.role === 'admin') return true;
+    
+    // For Experts and Companies, premium status depends on the paid subscription tier
+    const isProfessional = (p.role === 'expert' || p.role === 'prestataire' || p.role === 'entreprise');
+    return isProfessional && p.subscription_tier !== 'free';
 };
 
 window.showView = showView;
@@ -407,8 +409,9 @@ async function loadDashboardContent(session) {
     }
 
     if (businessLink) {
-        // Finances seulement pour experts/admins
-        businessLink.style.display = (role === 'admin' || role === 'expert' || role === 'prestataire') ? 'flex' : 'none';
+        // Finances pour experts/admins OU entreprises payantes
+        const hasBusinessAccess = (role === 'admin' || role === 'expert' || role === 'prestataire' || (role === 'entreprise' && tier !== 'free'));
+        businessLink.style.display = hasBusinessAccess ? 'flex' : 'none';
     }
 
     initRouting();
