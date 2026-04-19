@@ -31,16 +31,14 @@
             }
         });
 
-        // Mobile Sidebar Toggle Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('sidebar-toggle');
+        // Global toggle function for mobile navigation
+        function toggleMobileSidebar() {
             const sidebar = document.querySelector('.sidebar');
-            if (toggle && sidebar) {
-                toggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('is-open');
-                });
+            if (sidebar) {
+                sidebar.classList.toggle('is-open');
+                console.log('Mobile navigation toggled. State is-open:', sidebar.classList.contains('is-open'));
             }
-        });
+        }
     </script>
 </head>
 
@@ -52,7 +50,7 @@
     <!-- Navigation -->
     <!-- Navigation -->
     <!-- Mobile Toggle Button -->
-    <button class="mobile-sidebar-toggle" id="sidebar-toggle" aria-label="Menu">
+    <button class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()" aria-label="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -403,8 +401,6 @@
                 <!-- SECTION : BUSINESS -->
                 <div id="business-view" class="view-section" style="display:none;"></div>
 
-                <!-- SECTION : COLLABORATION -->
-                <div id="collaboration-view" class="view-section" style="display:none;"></div>
                 <!-- SECTION : COLLABORATION -->
                 <div id="collaboration-view" class="view-section" style="display:none;"></div>
             </div>
