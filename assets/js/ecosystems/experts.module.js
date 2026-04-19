@@ -65,12 +65,6 @@ const ExpertsModule = {
                         </div>
                     </div>
 
-                    <div class="dash-card" style="border-radius: 16px; padding: 24px; background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 12px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Finance & Devis</h4>
-                        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 16px; line-height:1.4;">Émettez vos devis et factures directement via la plateforme.</p>
-                        <button onclick="window.location.href='/business.html'" class="cta-button primary" style="width:100%; font-size:0.8rem; background:#0f172a; border:none; justify-content:center;">Gérer mes devis</button>
-                    </div>
-
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
                         <div style="font-size: 1.6rem; font-weight: 800; color: #10b981;">${(profile.tjm || window.userProfile?.tjm || '—')}€<span style="font-size:0.9rem; color:#94a3b8;">/j</span></div>

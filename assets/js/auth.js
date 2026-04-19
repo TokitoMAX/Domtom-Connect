@@ -3,7 +3,24 @@ const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
 
 // Initialisation
-const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let _supabase = null;
+
+// Initialize Supabase correctly with safe patterns
+function initSupabase() {
+    if (typeof supabase === 'undefined') {
+        console.error("Supabase SDK not loaded!");
+        return null;
+    }
+    if (!_supabase) {
+        _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return _supabase;
+}
+
+// Global variable initialization
+if (typeof supabase !== 'undefined') {
+    _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
 window._supabase = _supabase; // Expose for console debugging
 
 async function signInWithGoogle() {
@@ -55,12 +72,19 @@ async function signOut() {
 }
 
 async function getSession() {
-    const { data: { session }, error } = await _supabase.auth.getSession();
-    if (error) {
-        console.error("Erreur session:", error.message);
+    try {
+        if (!_supabase) {
+            _supabase = initSupabase();
+        }
+        if (!_supabase) return null;
+        
+        const { data, error } = await _supabase.auth.getSession();
+        if (error) throw error;
+        return data.session;
+    } catch (err) {
+        console.error("getSession Error:", err.message);
         return null;
     }
-    return session;
 }
 
 async function updateUserProfile(data) {

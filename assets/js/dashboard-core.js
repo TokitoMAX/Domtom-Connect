@@ -8,7 +8,7 @@
  * --- ADMIN VALIDATION UTILITIES ---
  * Moved to core for global access from Dashboard & Epopee pages.
  */
-let isAdminInspection = false;
+window.isAdminInspection = window.isAdminInspection || false;
 let currentSREProject = null;
 window.isEditing = false;
 let originalProfileData = null;
@@ -170,8 +170,8 @@ async function approveSREProject(projectId) {
             .eq('id', projectId);
         if (error) throw error;
         alert("Projet approuvé et publié ! ✅");
-        if (isAdminInspection) {
-            isAdminInspection = false;
+        if (window.isAdminInspection) {
+            window.isAdminInspection = false;
             showView('overview');
         }
         loadPendingProjects();
@@ -195,8 +195,8 @@ async function rejectSREProject(projectId) {
             .eq('id', projectId);
         if (error) throw error;
         alert("Projet refusé. Le porteur en sera informé. ❌");
-        if (isAdminInspection) {
-            isAdminInspection = false;
+        if (window.isAdminInspection) {
+            window.isAdminInspection = false;
             showView('overview');
         }
         loadPendingProjects();
@@ -216,7 +216,7 @@ async function inspectSREProject(projectId) {
         if (error) throw error;
         if (!project) throw new Error("Projet non trouvé.");
 
-        isAdminInspection = true;
+        window.isAdminInspection = true;
         
         // Redirection vers epopee.html avec l'ID du projet et le flag d'inspection
         window.location.href = `epopee.html?inspect=${projectId}`;
