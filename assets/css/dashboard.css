@@ -105,24 +105,27 @@ body {
 /* --- CONTENU PRINCIPAL --- */
 .main-content {
     flex: 1;
-    margin-left: 250px; /* Aligné sur la sidebar */
+    margin-left: 250px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: #f8fafc;
     transition: margin-left 0.3s ease;
+    padding-top: 0 !important; /* Force le début au top */
 }
 
-/* Top Nav Fix (Pill en haut) */
+/* Top Nav (Collée en haut, pas de vide) */
 .top-nav {
     position: sticky;
-    top: 10px;
-    height: 60px;
+    top: 0; /* Au plus haut */
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     width: 100%;
+    background: transparent;
+    pointer-events: none;
 }
 
 .nav-market-links {
