@@ -25,9 +25,11 @@
     <script>
         function checkHubVisibility() {
             const hub = document.getElementById('nav-collaboration');
-            if (hub) {
-                hub.style.display = (window.activeRole === 'expert' || window.activeRole === 'entreprise') ? 'flex' : 'none';
-            }
+            const mobileHub = document.getElementById('m-nav-collaboration');
+            const isProfessional = (window.activeRole === 'expert' || window.activeRole === 'entreprise');
+            
+            if (hub) hub.style.display = isProfessional ? 'flex' : 'none';
+            if (mobileHub) mobileHub.style.display = isProfessional ? 'flex' : 'none';
         }
 
         window.addEventListener('hashchange', function() {
@@ -270,17 +272,25 @@
 
     <!-- Mobile Bottom Navigation (PREMIUM PILL) -->
     <nav class="mobile-nav">
-        <a href="/mon-espace" class="mobile-nav-link active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:22px; height:22px; stroke-width:2.5;"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            <span class="mobile-nav-label">Mon Espace</span>
+        <a href="javascript:void(0)" onclick="showView('overview')" class="mobile-nav-link active" id="m-nav-overview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:20px; height:20px; stroke-width:2.5;"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="mobile-nav-label">ESPACE</span>
         </a>
-        <a href="/epopee" class="mobile-nav-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:22px; height:22px; stroke-width:2.5;"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-            <span class="mobile-nav-label">Mon Projet</span>
+        <a href="javascript:void(0)" onclick="showView('collaboration')" class="mobile-nav-link" id="m-nav-collaboration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:20px; height:20px; stroke-width:2.5;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4"/></svg>
+            <span class="mobile-nav-label">HUB</span>
         </a>
-        <a href="/profile" class="mobile-nav-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:22px; height:22px; stroke-width:2.5;"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-            <span class="mobile-nav-label">Profil</span>
+        <a href="javascript:void(0)" onclick="showView('missions')" class="mobile-nav-link" id="m-nav-missions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:20px; height:20px; stroke-width:2.5;"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            <span class="mobile-nav-label">BOARD</span>
+        </a>
+        <a href="/messages" class="mobile-nav-link" id="m-nav-messages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:20px; height:20px; stroke-width:2.5;"><path d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span class="mobile-nav-label">MESSAGES</span>
+        </a>
+        <a href="/profile" class="mobile-nav-link" id="m-nav-profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:20px; height:20px; stroke-width:2.5;"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            <span class="mobile-nav-label">PROFIL</span>
         </a>
     </nav>
 
@@ -292,13 +302,13 @@
                 <span class="sidebar-brand-text">Domtom Connect</span>
             </a>
 
-            <a href="#overview" class="sidebar-link active" title="Tableau de Bord">
+            <a href="/mon-espace" class="sidebar-link active" id="nav-overview" title="Tableau de Bord">
                 <div class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                 </div>
-                <span class="sidebar-label">Mon Espace</span>
+                <span class="sidebar-label">ESPACE</span>
             </a>
 
             <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration" style="display:flex;">

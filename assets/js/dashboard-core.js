@@ -348,6 +348,9 @@ function scrollToPacks() {
 
 function initRouting() {
     handleRouting();
+    if (typeof checkHubVisibility === 'function') {
+        checkHubVisibility();
+    }
 }
 
 window.addEventListener('hashchange', handleRouting);
