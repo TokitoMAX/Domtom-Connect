@@ -50,7 +50,7 @@ window.handleInviteToken = async function(inviteId, user) {
             Swal.fire({
                 icon: 'error',
                 title: 'Invitation invalide',
-                text: `Cette invitation est destinée à ${invite.collaborator_email}. Veuillez vous connecter avec le bon compte.`
+                text: `Cette invitation est destinÃ©e Ã  ${invite.collaborator_email}. Veuillez vous connecter avec le bon compte.`
             });
             return;
         }
@@ -67,8 +67,8 @@ window.handleInviteToken = async function(inviteId, user) {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Équipe rejointe !',
-                text: `Bienvenue ! Vous accédez maintenant au pilotage de l'entreprise.`,
+                title: 'Ã‰quipe rejointe !',
+                text: `Bienvenue ! Vous accÃ©dez maintenant au pilotage de l'entreprise.`,
                 confirmButtonColor: '#10b981'
             }).then(() => {
                 // Clear URL param and reload into the new context
@@ -106,7 +106,7 @@ async function loadPendingProjects() {
     const menuDot = document.getElementById('admin-notif-dot');
     
     try {
-        // On récupère TOUS les projets qui ne sont pas explicitement approuvés (false ou null)
+        // On rÃ©cupÃ¨re TOUS les projets qui ne sont pas explicitement approuvÃ©s (false ou null)
         const { data: projects, error } = await _supabase
             .from('projects')
             .select('*')
@@ -116,12 +116,12 @@ async function loadPendingProjects() {
 
         if (error) {
             console.error("Supabase Query Error:", error);
-            container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">⚠️ Erreur Supabase: ${error.message}</p>`;
+            container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">âš ï¸ Erreur Supabase: ${error.message}</p>`;
             return;
         }
 
         if (!projects || projects.length === 0) {
-            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem;">✅ Aucun dossier en attente.</p>';
+            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem;">âœ… Aucun dossier en attente.</p>';
             if (badge) badge.style.display = 'none';
             if (menuDot) menuDot.style.display = 'none';
             return;
@@ -140,7 +140,7 @@ async function loadPendingProjects() {
                         <div style="background: white; border: 1px solid var(--gray-200); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <div style="font-weight: 800; color: #111827; font-size: 0.95rem;">${p.title}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Maturité : <strong>${calculateProjectMaturity(p)}%</strong> • Réf: ${p.id.substring(0,8)}...</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">MaturitÃ© : <strong>${calculateProjectMaturity(p)}%</strong> â€¢ RÃ©f: ${p.id.substring(0,8)}...</div>
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button onclick="inspectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #7c3aed; color: #7c3aed;">Inspecter</button>
@@ -169,7 +169,7 @@ async function approveSREProject(projectId) {
             })
             .eq('id', projectId);
         if (error) throw error;
-        alert("Projet approuvé et publié ! ✅");
+        alert("Projet approuvÃ© et publiÃ© ! âœ…");
         if (window.isAdminInspection) {
             window.isAdminInspection = false;
             showView('overview');
@@ -182,7 +182,7 @@ async function approveSREProject(projectId) {
 
 async function rejectSREProject(projectId) {
     const reason = prompt("Indiquez la raison du refus (optionnel) :");
-    if (reason === null) return; // Annulé
+    if (reason === null) return; // AnnulÃ©
     try {
         const { error } = await _supabase
             .from('projects')
@@ -194,7 +194,7 @@ async function rejectSREProject(projectId) {
             })
             .eq('id', projectId);
         if (error) throw error;
-        alert("Projet refusé. Le porteur en sera informé. ❌");
+        alert("Projet refusÃ©. Le porteur en sera informÃ©. âŒ");
         if (window.isAdminInspection) {
             window.isAdminInspection = false;
             showView('overview');
@@ -214,7 +214,7 @@ async function inspectSREProject(projectId) {
             .single();
 
         if (error) throw error;
-        if (!project) throw new Error("Projet non trouvé.");
+        if (!project) throw new Error("Projet non trouvÃ©.");
 
         window.isAdminInspection = true;
         
@@ -271,7 +271,7 @@ function showView(viewId, forceRender = false) {
     // 2. Afficher la section cible
     const target = document.getElementById(targetId);
     
-    // Cas spécial : Redirection Profil (Maintenu en externe pour le moment)
+    // Cas spÃ©cial : Redirection Profil (Maintenu en externe pour le moment)
     if (baseView === 'profile') {
         window.location.href = '/profile';
         return;
@@ -289,7 +289,7 @@ function showView(viewId, forceRender = false) {
         if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
         if (topNav) topNav.style.display = isCommonView ? 'flex' : 'none';
 
-        // 4. Chargements spécifiques
+        // 4. Chargements spÃ©cifiques
         if (baseView === 'billetterie') {
             if (typeof loadMyTicketing === 'function') loadMyTicketing();
         } else if (baseView === 'mes-billets') {
@@ -303,7 +303,7 @@ function showView(viewId, forceRender = false) {
                 });
             }
         } else if (baseView === 'missions') {
-            // Re-routé vers le Marketplace pour éviter le bug de vue
+            // Re-routÃ© vers le Marketplace pour Ã©viter le bug de vue
             window.location.href = '/marketplace/jobs.html';
             return;
         } else if (baseView === 'business') {
@@ -319,7 +319,7 @@ function showView(viewId, forceRender = false) {
         }
     }
 
-    // 5. Mettre à jour l'état actif des liens (Sidebar & Mobile Nav)
+    // 5. Mettre Ã  jour l'Ã©tat actif des liens (Sidebar & Mobile Nav)
     const navLinks = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -345,7 +345,10 @@ function scrollToPacks() {
 
 
 function initRouting() {
-    handleRouting();
+    // Only trigger automatic routing if on a dashboard page
+    if (window.location.pathname.includes('/mon-espace')) {
+        handleRouting();
+    }
     if (typeof checkHubVisibility === 'function') {
         checkHubVisibility();
     }
@@ -387,8 +390,8 @@ async function loadDashboardContent(session) {
     }
 
     // Role & Tier
-    // Priorité absolue à la base de données (profile.role) pour permettre la promotion admin
-    // Fallback sur metadata pour le rôle initial
+    // PrioritÃ© absolue Ã  la base de donnÃ©es (profile.role) pour permettre la promotion admin
+    // Fallback sur metadata pour le rÃ´le initial
     const dbRole = (profile && profile.role) ? profile.role : (user.user_metadata?.role || 'user');
     const isAdmin = (dbRole === 'admin' || user.email === 'domtomconnect@gmail.com');
     const role = isAdmin ? 'admin' : dbRole;
@@ -401,10 +404,10 @@ async function loadDashboardContent(session) {
     // UI Updates
     // UI Updates
     const greetingEl = document.getElementById('user-greeting');
-    // On cible spécifiquement le header de l'overview pour éviter les erreurs de sélection multiple
+    // On cible spÃ©cifiquement le header de l'overview pour Ã©viter les erreurs de sÃ©lection multiple
     const standardHeader = document.querySelector('#overview-view .dash-section-header');
     
-    // On cache le header standard si on est dans un écosystème pro pour éviter le doublon
+    // On cache le header standard si on est dans un Ã©cosystÃ¨me pro pour Ã©viter le doublon
     const isProfessional = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
     if (standardHeader && isProfessional) {
         standardHeader.style.display = 'none';
@@ -461,14 +464,14 @@ async function loadDashboardContent(session) {
     const isPro = (role === 'admin' || role === 'expert' || role === 'prestataire' || role === 'entreprise');
 
     if (epopeeLink) {
-        // "L'Épopée" est RÉSERVÉ aux porteurs de projet OU aux Admins
+        // "L'Ã‰popÃ©e" est RÃ‰SERVÃ‰ aux porteurs de projet OU aux Admins
         epopeeLink.style.display = (role === 'admin' || !isPro) ? 'flex' : 'none';
         const dot = document.getElementById('admin-notif-dot');
         if (dot) dot.style.display = (role === 'admin') ? 'block' : 'none';
     }
 
     if (missionsLink) {
-        // "Mes Missions" est RÉSERVÉ aux entreprises et experts
+        // "Mes Missions" est RÃ‰SERVÃ‰ aux entreprises et experts
         missionsLink.style.display = (role === 'admin' || role === 'expert' || role === 'entreprise') ? 'flex' : 'none';
     }
 
@@ -497,7 +500,7 @@ function renderRoleBadge(el, role) {
         el.style.background = "rgba(2, 132, 199, 0.1)";
         el.style.color = "#0284c7";
     } else if (role === 'admin') {
-        el.textContent = "ADMINISTRATEUR SYSTÈME";
+        el.textContent = "ADMINISTRATEUR SYSTÃˆME";
         el.style.background = "#0f172a";
         el.style.color = "white";
     } else {
@@ -565,10 +568,10 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                     <div>
                         <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #7c3aed; font-weight: 800; margin-bottom: 8px;">Pilotage Central</div>
-                        <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #1e1b4b;">VALIDATION DES ÉPOPÉES</h2>
-                        <p style="color: var(--text-secondary); margin-top: 4px;">Examinez les nouveaux projets soumis par la communauté.</p>
+                        <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #1e1b4b;">VALIDATION DES Ã‰POPÃ‰ES</h2>
+                        <p style="color: var(--text-secondary); margin-top: 4px;">Examinez les nouveaux projets soumis par la communautÃ©.</p>
                     </div>
-                    <button onclick="showView('success-engine')" class="cta-button primary" style="background: #7c3aed; border: none; padding: 12px 24px; font-weight: 800;">Ouvrir le Cockpit Admin →</button>
+                    <button onclick="showView('success-engine')" class="cta-button primary" style="background: #7c3aed; border: none; padding: 12px 24px; font-weight: 800;">Ouvrir le Cockpit Admin â†’</button>
                 </div>
                 
                 <div id="admin-pending-summary" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px;">
@@ -580,7 +583,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
 
             <div class="dash-card">
                 <div class="card-title">Audit Interne</div>
-                <p class="card-desc">Accédez aux statistiques réelles d'onboarding et de paiement.</p>
+                <p class="card-desc">AccÃ©dez aux statistiques rÃ©elles d'onboarding et de paiement.</p>
                 <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
                     <a href="/admin/audit-onboarding.html" class="cta-button secondary" style="justify-content:center; font-size:0.8rem;">Ouvrir l'Audit</a>
                 </div>
@@ -588,7 +591,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
 
             <div class="dash-card">
                 <div class="card-title">Gestion Experts</div>
-                <p class="card-desc">Contrôlez l'annuaire et validez les badges Authority.</p>
+                <p class="card-desc">ContrÃ´lez l'annuaire et validez les badges Authority.</p>
                 <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
                     <a href="marketplace/directory" class="cta-button secondary" style="justify-content:center; font-size:0.8rem;">Voir l'Annuaire</a>
                 </div>
@@ -597,7 +600,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         container.innerHTML = adminDashboardHTML;
         loadPendingProjects();
 
-        // 1.1 ADDON : EXPÉRIENCE HYBRIDE (Si l'admin a aussi des fonctions entreprise)
+        // 1.1 ADDON : EXPÃ‰RIENCE HYBRIDE (Si l'admin a aussi des fonctions entreprise)
         if (session.user.email === 'domtomconnect@gmail.com' || profile.company_name) {
             console.log("Dashboard Core: Activating Hybrid Admin/Company View");
             const addonContainer = document.createElement('div');
@@ -609,7 +612,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
             
             const cardsTarget = document.getElementById('company-addon-cards');
             if (typeof CompaniesModule !== 'undefined' && cardsTarget) {
-                // On délègue au module entreprise en ciblant le conteneur addon
+                // On dÃ©lÃ¨gue au module entreprise en ciblant le conteneur addon
                 CompaniesModule.renderDashboard(cardsTarget, additional, profile, session);
             }
         }
@@ -630,19 +633,19 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
             container.innerHTML = '<p>Chargement du module Entreprise...</p>';
         }
     } else if (role === 'porteur' || role === 'owner') {
-        // --- ÉCOSYSTÈME : PORTEUR DE PROJET ---
+        // --- Ã‰COSYSTÃˆME : PORTEUR DE PROJET ---
         if (typeof OwnersModule !== 'undefined') {
             OwnersModule.renderDashboard(container, additional, profile, session);
         } else {
             container.innerHTML = '<p>Chargement du module Projet...</p>';
         }
     } else {
-        // --- ÉCOSYSTÈME : EXPLORATEUR (Standard) ---
+        // --- Ã‰COSYSTÃˆME : EXPLORATEUR (Standard) ---
         if (typeof StandardModule !== 'undefined') {
             StandardModule.renderDashboard(container, additional, profile, session);
         } else {
             // Fallback ultime
-            container.innerHTML = '<p>Bienvenue sur Domtom Connect ! Complétez votre profil pour activer votre cockpit dédié.</p>';
+            container.innerHTML = '<p>Bienvenue sur Domtom Connect ! ComplÃ©tez votre profil pour activer votre cockpit dÃ©diÃ©.</p>';
         }
     }
 }
@@ -662,11 +665,11 @@ function updateProfileStrength(profile) {
     let nextAction = "";
 
     if (profile.full_name) points += 20; else nextAction = "Ajoutez votre nom complet";
-    if (profile.title) points += 15; else if (!nextAction) nextAction = "Précisez votre titre d'expertise";
-    if (profile.bio) points += 15; else if (!nextAction) nextAction = "Rédigez une bio courte";
+    if (profile.title) points += 15; else if (!nextAction) nextAction = "PrÃ©cisez votre titre d'expertise";
+    if (profile.bio) points += 15; else if (!nextAction) nextAction = "RÃ©digez une bio courte";
     if (profile.avatar_url) points += 20; else if (!nextAction) nextAction = "Uploadez votre logo ou photo de profil";
-    if (profile.skills) points += 15; else if (!nextAction) nextAction = "Ajoutez vos compétences clés";
-    if (profile.video_url) points += 15; else if (!nextAction) nextAction = "Ajoutez une vidéo de présentation pour atteindre 100%";
+    if (profile.skills) points += 15; else if (!nextAction) nextAction = "Ajoutez vos compÃ©tences clÃ©s";
+    if (profile.video_url) points += 15; else if (!nextAction) nextAction = "Ajoutez une vidÃ©o de prÃ©sentation pour atteindre 100%";
 
     const bar = document.getElementById('strength-bar');
     const perc = document.getElementById('strength-percentage');
@@ -676,10 +679,10 @@ function updateProfileStrength(profile) {
     if (perc) perc.textContent = points + '%';
     if (tip) {
         if (points === 100) {
-            tip.innerHTML = "Profil complet. Vous remontez en priorité dans l'annuaire.";
+            tip.innerHTML = "Profil complet. Vous remontez en prioritÃ© dans l'annuaire.";
             tip.style.color = "#10b981";
         } else {
-            tip.innerHTML = `<strong>Conseil :</strong> ${nextAction} pour booster votre visibilité. <a href="profile.html" style="color:#10b981; text-decoration:underline;">Modifier le profil</a>`;
+            tip.innerHTML = `<strong>Conseil :</strong> ${nextAction} pour booster votre visibilitÃ©. <a href="profile.html" style="color:#10b981; text-decoration:underline;">Modifier le profil</a>`;
         }
     }
 }
@@ -709,19 +712,19 @@ function renderCollaborationHub(profile) {
     const label1 = document.getElementById('hub-dash-label-1');
     const label2 = document.getElementById('hub-dash-label-2');
     if (isCompany) {
-        if (label1) label1.textContent = "Étape 1 : Visibilité Pro";
-        if (label2) label2.textContent = "Étape 2 : Partenariat Certifié";
+        if (label1) label1.textContent = "Ã‰tape 1 : VisibilitÃ© Pro";
+        if (label2) label2.textContent = "Ã‰tape 2 : Partenariat CertifiÃ©";
     }
 
-    // Phase 1 : Référencement
+    // Phase 1 : RÃ©fÃ©rencement
     const step1 = document.getElementById('hub-dash-step-1');
     const text1 = document.getElementById('hub-dash-text-1');
     if (isListed) {
         if (step1) step1.classList.add('active');
-        if (text1) text1.textContent = isCompany ? "Visible (Actif)" : "Référencé";
+        if (text1) text1.textContent = isCompany ? "Visible (Actif)" : "RÃ©fÃ©rencÃ©";
     } else {
         if (step1) step1.classList.remove('active');
-        if (text1) text1.textContent = "Privé (En attente)";
+        if (text1) text1.textContent = "PrivÃ© (En attente)";
     }
 
     // Phase 2 : Collaboration Active
@@ -731,18 +734,18 @@ function renderCollaborationHub(profile) {
 
     if (isActive) {
         if (step2) step2.classList.add('active');
-        if (text2) text2.textContent = "Activée (Partenaire)";
+        if (text2) text2.textContent = "ActivÃ©e (Partenaire)";
         if (actionArea) {
             actionArea.innerHTML = `
                 <div class="hub-dash-badge">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>${isCompany ? 'Entreprise Certifiée' : 'Partenaire Stratégique'}</span>
+                    <span>${isCompany ? 'Entreprise CertifiÃ©e' : 'Partenaire StratÃ©gique'}</span>
                 </div>
             `;
         }
     } else {
         if (step2) step2.classList.remove('active');
-        if (text2) text2.textContent = "Verrouillé (En attente)";
+        if (text2) text2.textContent = "VerrouillÃ© (En attente)";
     }
 }
 
@@ -750,7 +753,7 @@ function renderCollaborationHub(profile) {
  * Global Subscription Modal Trigger
  */
 function openSubModal() {
-    // On utilise les données globales si profile n'est pas passé
+    // On utilise les donnÃ©es globales si profile n'est pas passÃ©
     const activeProfile = window.userProfile;
     if (!activeProfile) return;
 
@@ -767,42 +770,42 @@ function openSubModal() {
             title: '<span style="font-weight:900; letter-spacing:-0.03em; text-transform: uppercase; font-size: 1.2rem;">ACTIVER VOTRE PARTENARIAT</span>',
             html: `
                 <div style="text-align:left; padding:10px;">
-                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px; line-height: 1.6;">Activez votre statut de <strong>Partenaire Stratégique</strong> pour débloquer toute la puissance de Domtom Connect.</p>
+                    <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px; line-height: 1.6;">Activez votre statut de <strong>Partenaire StratÃ©gique</strong> pour dÃ©bloquer toute la puissance de Domtom Connect.</p>
                     <ul style="list-style:none; padding:0; display:grid; gap:10px; margin-bottom:24px;">
                         ${activeProfile.role === 'entreprise' ? `
                             <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-                                <span>Missions Illimitées & Sourcing Expert</span>
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
+                                <span>Missions IllimitÃ©es & Sourcing Expert</span>
                             </li>
                             <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-                                <span>1 Podcast Corporate Dédié</span>
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
+                                <span>1 Podcast Corporate DÃ©diÃ©</span>
                             </li>
                             <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-                                <span>2-3 Contenus Réseaux Sociaux / mois</span>
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
+                                <span>2-3 Contenus RÃ©seaux Sociaux / mois</span>
                             </li>
                         ` : `
                             <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-                                <span>Badges "Vérifié" & "Authority"</span>
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
+                                <span>Badges "VÃ©rifiÃ©" & "Authority"</span>
                             </li>
                             <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-                                <span>Accès Groupe WhatsApp Premium</span>
+                                <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
+                                <span>AccÃ¨s Groupe WhatsApp Premium</span>
                             </li>
                         `}
                         <li style="display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:700; color:#0f172a;">
-                            <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
+                            <div style="width:18px; height:18px; background:#dcfce7; color:#10b981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">âœ“</div>
                             <span>Outils DTC Business Included (Devis/Factures)</span>
                         </li>
                         <li style="display:flex; align-items:center; gap:10px; font-size:0.9rem; font-weight:800; color:#10b981; margin-top:10px; background:#ecfdf5; padding:8px 12px; border-radius:8px;">
                             <span style="flex:1;">Abonnement ${activeProfile.role === 'entreprise' ? 'Business' : 'Authority'}</span>
-                            <span>${activeProfile.role === 'entreprise' ? '29,00€' : '9,99€'} / mois</span>
+                            <span>${activeProfile.role === 'entreprise' ? '29,00â‚¬' : '9,99â‚¬'} / mois</span>
                         </li>
                     </ul>
                     <div style="background:#f8fafc; border-radius:12px; padding:12px; margin-bottom:20px; font-size:0.75rem; color:#64748b; text-align:center; font-weight:600;">
-                        Paiement sécurisé par PayPal • Sans engagement
+                        Paiement sÃ©curisÃ© par PayPal â€¢ Sans engagement
                     </div>
                     <div id="paypal-button-container-dash" style="margin-top:20px;"></div>
                 </div>
@@ -847,10 +850,10 @@ function renderVisibilityPreview(profile) {
     
     // 1. Badge Status
     if (isListed) {
-        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publié (Actif)</span>`;
+        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">â— PubliÃ© (Actif)</span>`;
         if (prompt) prompt.style.display = 'none';
     } else {
-        badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Privé (Invisible)</span>`;
+        badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">â— PrivÃ© (Invisible)</span>`;
         if (prompt) prompt.style.display = 'block';
     }
 
@@ -869,7 +872,7 @@ function renderVisibilityPreview(profile) {
                 <p style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.title || (profile.role === 'entreprise' ? 'Partenaire Entreprise' : profile.sector || 'Expert Domtom Connect')}</p>
                 <div style="display:flex; gap:6px; margin-top:8px;">
                     <span style="font-size:0.65rem; background:#f8fafc; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.territory || 'OM'}</span>
-                    ${profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}€/j</span>` : ''}
+                    ${profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}â‚¬/j</span>` : ''}
                 </div>
             </div>
         </div>
@@ -911,10 +914,10 @@ async function loadMyTicketing() {
         if (!myEvents || myEvents.length === 0) {
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 60px; background: white; border-radius: 20px; border: 1px solid var(--gray-200);">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">🎫</div>
+                    <div style="font-size: 3rem; margin-bottom: 20px;">ðŸŽ«</div>
                     <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucune billetterie</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Vous n'avez pas encore publié d'événement avec billetterie Domtom Connect.</p>
-                    <button onclick="openEventModal()" class="cta-button primary" style="background:#10b981;">Créer mon premier événement</button>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Vous n'avez pas encore publiÃ© d'Ã©vÃ©nement avec billetterie Domtom Connect.</p>
+                    <button onclick="openEventModal()" class="cta-button primary" style="background:#10b981;">CrÃ©er mon premier Ã©vÃ©nement</button>
                 </div>
             `;
             return;
@@ -922,7 +925,7 @@ async function loadMyTicketing() {
 
         container.innerHTML = myEvents.map(ev => {
             const ticketCount = ev.tickets ? ev.tickets.length : 0;
-            const totalSpots = ev.total_tickets || '∞';
+            const totalSpots = ev.total_tickets || 'âˆž';
             const totalPaid = ev.tickets ? ev.tickets.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0) : 0;
             const netRevenue = totalPaid / 1.1; 
             const isInternal = ev.ticket_url === null;
@@ -943,7 +946,7 @@ async function loadMyTicketing() {
                             </div>
                             <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; text-align: center;">
                                 <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase;">CA Total</div>
-                                <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${totalPaid.toFixed(2)}€</div>
+                                <div style="font-size: 1.1rem; font-weight: 900; color: #166534;">${totalPaid.toFixed(2)}â‚¬</div>
                             </div>
                         </div>
 
@@ -987,16 +990,16 @@ async function loadMyTickets() {
         if (!tickets || tickets.length === 0) {
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 60px; background: white; border-radius: 20px; border: 1px solid var(--gray-200);">
-                    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucun billet acheté</h3>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucun billet achetÃ©</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 24px;">Vos futurs billets s'afficheront ici.</p>
-                    <a href="marketplace/evenements.html" class="cta-button primary" style="background:#10b981; text-decoration:none;">Explorer les événements</a>
+                    <a href="marketplace/evenements.html" class="cta-button primary" style="background:#10b981; text-decoration:none;">Explorer les Ã©vÃ©nements</a>
                 </div>
             `;
             return;
         }
 
         container.innerHTML = tickets.map(t => {
-            const event = t.events || { title: 'Événement inconnu', event_date: '--' };
+            const event = t.events || { title: 'Ã‰vÃ©nement inconnu', event_date: '--' };
             return `
                 <div class="dash-card" style="padding: 0; overflow: hidden; border-radius: 20px;">
                     <div style="height: 100px; background: url('${event.image_url}') center/cover no-repeat; position: relative;">
@@ -1011,11 +1014,11 @@ async function loadMyTickets() {
                         </div>
                         <div style="background: #f8fafc; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; border: 1px solid #f1f5f9;">
                             <div id="qr-attendee-${t.id}" style="width: 140px; height: 140px;"></div>
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-top:8px;">Réf: ${t.id.substring(0,8).toUpperCase()}</div>
+                            <div style="font-size: 0.7rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-top:8px;">RÃ©f: ${t.id.substring(0,8).toUpperCase()}</div>
                         </div>
                         <div style="margin-top: 15px; display: flex; gap: 8px;">
                             <button onclick="downloadTicketFromDash('${t.id}')" class="cta-button primary" style="flex:1; background:#0f172a; font-size:0.75rem;">Billet</button>
-                            <a href="marketplace/evenement-details.html?id=${t.event_id}" class="cta-button secondary" style="flex:1; text-decoration:none; font-size:0.75rem; text-align:center;">Détails</a>
+                            <a href="marketplace/evenement-details.html?id=${t.event_id}" class="cta-button secondary" style="flex:1; text-decoration:none; font-size:0.75rem; text-align:center;">DÃ©tails</a>
                         </div>
                     </div>
                 </div>
@@ -1044,11 +1047,11 @@ async function loadMatchmaking(userId) {
     if (!container) return;
 
     try {
-        // Le Matchmaking est désormais ouvert à tous les profils qualifiés
-        // sous réserve d'avoir un profil complet à plus de 80%
+        // Le Matchmaking est dÃ©sormais ouvert Ã  tous les profils qualifiÃ©s
+        // sous rÃ©serve d'avoir un profil complet Ã  plus de 80%
         const { data: profile } = await _supabase.from('profiles').select('*').eq('id', userId).single();
         
-        // Calcul simple de force de profil (on peut réutiliser updateProfileStrength logic sans le DOM)
+        // Calcul simple de force de profil (on peut rÃ©utiliser updateProfileStrength logic sans le DOM)
         const profileStrength = (profile.full_name ? 20 : 0) + (profile.title ? 20 : 0) + (profile.avatar_url ? 20 : 0) + (profile.bio ? 20 : 0) + (profile.skills ? 20 : 0);
 
         if (profileStrength < 80) {
@@ -1056,8 +1059,8 @@ async function loadMatchmaking(userId) {
             container.innerHTML = `
                 <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
                     <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">INCOUPLET</div>
-                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Complétez votre Profil</h3>
-                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Atteignez 80% de complétion de profil pour débloquer le matchmaking et être mis en relation avec les meilleures opportunités.</p>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">ComplÃ©tez votre Profil</h3>
+                    <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Atteignez 80% de complÃ©tion de profil pour dÃ©bloquer le matchmaking et Ãªtre mis en relation avec les meilleures opportunitÃ©s.</p>
                     <a href="#profile" class="cta-button primary" style="background:#0f172a; border:none; text-decoration:none; padding:12px 24px; color:white; border-radius:10px; font-weight:700; display:inline-block;">Finaliser mon Profil</a>
                 </div>
             `;
@@ -1076,7 +1079,7 @@ async function loadMatchmaking(userId) {
         if (experts && experts.length > 0) {
             container.innerHTML = experts.map(renderMatchCard).join('');
         } else {
-            container.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center; grid-column:1/-1;">Aucun match trouvé pour le moment.</p>';
+            container.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center; grid-column:1/-1;">Aucun match trouvÃ© pour le moment.</p>';
         }
     } catch (err) {
         console.error("Matchmaking Error:", err);
@@ -1092,10 +1095,10 @@ function renderMatchCard(expert) {
                 <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>
                 <div>
                     <div style="font-size:0.95rem; font-weight:800;">${name}</div>
-                    <div style="font-size:0.75rem; color:#10b981; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+                    <div style="font-size:0.75rem; color:#10b981; font-weight:700;">${expert.title || 'Expert StratÃ©gique'}</div>
                 </div>
             </div>
-            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basé sur vos besoins en ${expert.sector || 'Digital'}.</p>
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basÃ© sur vos besoins en ${expert.sector || 'Digital'}.</p>
             <a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; font-size:0.8rem; background:#0f172a;">Contacter cet expert</a>
         </div>
     `;
@@ -1111,21 +1114,21 @@ async function openEventModal(editData = null) {
                 <div class="hero-modal" style="max-width: 500px; background: white; color: var(--text-primary); padding: 32px; border-radius: 16px;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
                         <div>
-                            <h2 style="color:var(--text-primary); margin:0;">Publier un Événement</h2>
-                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Partagez votre affiche avec la communauté.</p>
+                            <h2 style="color:var(--text-primary); margin:0;">Publier un Ã‰vÃ©nement</h2>
+                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Partagez votre affiche avec la communautÃ©.</p>
                         </div>
-                        <button class="modal-close" onclick="closeEventModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                        <button class="modal-close" onclick="closeEventModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">Ã—</button>
                     </div>
                     <form onsubmit="saveEvent(event)">
                         <input type="hidden" id="ev-edit-id">
                         <div class="form-group" style="margin-bottom:16px;">
-                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'événement *</label>
+                            <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Titre de l'Ã©vÃ©nement *</label>
                             <input type="text" id="ev-title" required placeholder="Ex: Dimanche Konpa Gouyad" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                         </div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                             <div class="form-group">
                                 <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Date et Heure *</label>
-                                <input type="text" id="ev-date" required placeholder="Ex: 22 Mars 2026 à 18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                                <input type="text" id="ev-date" required placeholder="Ex: 22 Mars 2026 Ã  18h00" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                             </div>
                             <div class="form-group">
                                 <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Lieu *</label>
@@ -1144,9 +1147,9 @@ async function openEventModal(editData = null) {
                         </div>
                         <div class="form-group" style="margin-bottom:24px;">
                             <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Description (Optionnel)</label>
-                            <textarea id="ev-desc" placeholder="Détails de l'événement..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; height:80px;"></textarea>
+                            <textarea id="ev-desc" placeholder="DÃ©tails de l'Ã©vÃ©nement..." style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; height:80px;"></textarea>
                         </div>
-                        <button type="submit" id="btn-save-event" class="cta-button primary" style="width:100%; background:#10b981; border:none; padding:12px; font-weight:700; border-radius:8px; color:white; cursor:pointer;">Publier l'événement</button>
+                        <button type="submit" id="btn-save-event" class="cta-button primary" style="width:100%; background:#10b981; border:none; padding:12px; font-weight:700; border-radius:8px; color:white; cursor:pointer;">Publier l'Ã©vÃ©nement</button>
                     </form>
                 </div>
             </div>
@@ -1169,8 +1172,8 @@ async function openEventModal(editData = null) {
     if (tiersContainer) tiersContainer.innerHTML = '';
 
     if (editData) {
-        if (head) head.textContent = "Modifier l'Événement";
-        if (btn) btn.textContent = "Mettre à jour";
+        if (head) head.textContent = "Modifier l'Ã‰vÃ©nement";
+        if (btn) btn.textContent = "Mettre Ã  jour";
         if (titleEl) titleEl.value = editData.title || '';
         if (dateEl) dateEl.value = editData.event_date || '';
         if (locEl) locEl.value = editData.location || '';
@@ -1185,8 +1188,8 @@ async function openEventModal(editData = null) {
             addTierRow();
         }
     } else {
-        if (head) head.textContent = "Publier un Événement";
-        if (btn) btn.textContent = "Publier l'événement";
+        if (head) head.textContent = "Publier un Ã‰vÃ©nement";
+        if (btn) btn.textContent = "Publier l'Ã©vÃ©nement";
         if (titleEl) titleEl.value = '';
         if (dateEl) dateEl.value = '';
         if (locEl) locEl.value = '';
@@ -1210,7 +1213,7 @@ function addTierRow(data = null) {
         <input type="text" class="t-name" required placeholder="Nom" value="${data ? data.name : ''}" style="padding:8px; border:1px solid #e2e8f0; border-radius:6px;">
         <input type="number" class="t-price" required step="0.01" placeholder="Prix" value="${data ? data.price : ''}" style="padding:8px; border:1px solid #e2e8f0; border-radius:6px;">
         <input type="number" class="t-cap" required placeholder="Places" value="${data ? data.capacity : ''}" style="padding:8px; border:1px solid #e2e8f0; border-radius:6px;">
-        <button type="button" onclick="this.parentElement.remove()" style="background:#fee2e2; color:#ef4444; border:none; border-radius:6px; cursor:pointer;">×</button>
+        <button type="button" onclick="this.parentElement.remove()" style="background:#fee2e2; color:#ef4444; border:none; border-radius:6px; cursor:pointer;">Ã—</button>
     `;
     container.appendChild(row);
 }
@@ -1227,12 +1230,12 @@ async function saveEvent(event) {
     event.preventDefault();
     const btn = document.getElementById('btn-save-event');
     const originalText = btn.textContent;
-    btn.textContent = "Opération en cours...";
+    btn.textContent = "OpÃ©ration en cours...";
     btn.disabled = true;
 
     try {
         const session = await getSession();
-        if (!session) throw new Error("Vous devez être connecté.");
+        if (!session) throw new Error("Vous devez Ãªtre connectÃ©.");
 
         const editId = document.getElementById('ev-edit-id').value;
         const title = document.getElementById('ev-title').value;
@@ -1295,7 +1298,7 @@ async function saveEvent(event) {
 
         if (resultError) throw resultError;
 
-        alert(editId ? "✅ Événement mis à jour !" : "🎉 Événement publié avec succès !");
+        alert(editId ? "âœ… Ã‰vÃ©nement mis Ã  jour !" : "ðŸŽ‰ Ã‰vÃ©nement publiÃ© avec succÃ¨s !");
         closeEventModal();
         loadMyTicketing();
         event.target.reset();
@@ -1320,11 +1323,11 @@ async function editEvent(eventId) {
 }
 
 async function deleteEvent(eventId) {
-    if (!confirm("⚠️ SUPPRESSION ÉVÉNEMENT\n\nÊtes-vous sûr ?")) return;
+    if (!confirm("âš ï¸ SUPPRESSION Ã‰VÃ‰NEMENT\n\nÃŠtes-vous sÃ»r ?")) return;
     try {
         const { error } = await _supabase.from('events').delete().eq('id', eventId);
         if (error) throw error;
-        alert("Supprimé.");
+        alert("SupprimÃ©.");
         loadMyTicketing();
     } catch (err) {
         alert("Erreur: " + err.message);
@@ -1373,9 +1376,9 @@ window.viewAttendees = async (eventId) => {
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
                         <div>
                             <h2 style="color:var(--text-primary); margin:0;">Liste des Participants</h2>
-                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Suivi des entrées et validations en temps réel.</p>
+                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:4px;">Suivi des entrÃ©es et validations en temps rÃ©el.</p>
                         </div>
-                        <button class="modal-close" onclick="closeAttendeesModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                        <button class="modal-close" onclick="closeAttendeesModal()" style="color:var(--text-muted); background:none; border:none; font-size:1.5rem; cursor:pointer;">Ã—</button>
                     </div>
                     <div id="attendees-list-container" style="max-height: 400px; overflow-y: auto;">
                         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
@@ -1384,7 +1387,7 @@ window.viewAttendees = async (eventId) => {
                                     <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Email / Client</th>
                                     <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Type</th>
                                     <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Statut</th>
-                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">Validé le</th>
+                                    <th style="padding: 12px 8px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 0.7rem;">ValidÃ© le</th>
                                 </tr>
                             </thead>
                             <tbody id="attendees-tbody">
@@ -1422,7 +1425,7 @@ window.viewAttendees = async (eventId) => {
 
         if (tbody) {
             tbody.innerHTML = tickets.map(t => {
-                const isValidated = t.status === 'utilisé';
+                const isValidated = t.status === 'utilisÃ©';
                 const rawDate = t.validated_at || (isValidated ? t.updated_at : null);
                 const dateVal = rawDate ? new Date(rawDate).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-';
                 return `
@@ -1432,7 +1435,7 @@ window.viewAttendees = async (eventId) => {
                         <td style="padding: 12px 8px;">
                             <span style="display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:800; 
                                 ${isValidated ? 'background:#dcfce7; color:#166534;' : 'background:#f1f5f9; color:#475569;'}">
-                                ${isValidated ? '✓ VALIDÉ' : 'ATTENTE'}
+                                ${isValidated ? 'âœ“ VALIDÃ‰' : 'ATTENTE'}
                             </span>
                         </td>
                         <td style="padding: 12px 8px; font-size: 0.8rem; color: var(--text-secondary);">${dateVal}</td>
@@ -1465,7 +1468,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const session = await checkSession();
-    // Ne pas appeler renderMobileNav ici car userProfile n'est pas forcément prêt
+    // Ne pas appeler renderMobileNav ici car userProfile n'est pas forcÃ©ment prÃªt
     
     // 3. ROUTAGE INITIAL
     initRouting();
@@ -1488,7 +1491,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 5. EXPORT GLOBAL (Sécurité supplémentaire)
+    // 5. EXPORT GLOBAL (SÃ©curitÃ© supplÃ©mentaire)
     window.showView = showView;
     window.handleRouting = handleRouting;
 });
@@ -1500,7 +1503,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 window.renderPayPalButton = async function(planId, tier, containerId = 'paypal-button-container') {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.innerHTML = '<p style="color:#64748b; font-size:0.75rem; text-align:center;">Initialisation du paiement sécurisé...</p>';
+    container.innerHTML = '<p style="color:#64748b; font-size:0.75rem; text-align:center;">Initialisation du paiement sÃ©curisÃ©...</p>';
     
     try {
         // We use the last known zone from current user profile
@@ -1524,14 +1527,14 @@ window.renderPayPalButton = async function(planId, tier, containerId = 'paypal-b
         }
     } catch (err) {
         console.error("PayPal Loader Error:", err);
-        container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Échec du chargement PayPal : ${err}</p>`;
+        container.innerHTML = `<p style="color:#ef4444; font-size:0.75rem; text-align:center;">Ã‰chec du chargement PayPal : ${err}</p>`;
     }
 };
 
 async function handleSubscriptionSuccess(subscriptionId, tier) {
     try {
         const { data: { user } } = await _supabase.auth.getUser();
-        if (!user) throw new Error("Session expirée.");
+        if (!user) throw new Error("Session expirÃ©e.");
 
         const { error } = await _supabase
             .from('profiles')
@@ -1575,13 +1578,13 @@ async function handleSubscriptionSuccess(subscriptionId, tier) {
         // Specific Alert for Strategic Partner
         const isPartner = (tier === 'authority');
         const message = isPartner 
-            ? "Félicitations ! Vous êtes désormais Partenaire Stratégique. Votre Collaboration Active est lancée !"
-            : "Félicitations ! Votre Pack est maintenant activé.";
+            ? "FÃ©licitations ! Vous Ãªtes dÃ©sormais Partenaire StratÃ©gique. Votre Collaboration Active est lancÃ©e !"
+            : "FÃ©licitations ! Votre Pack est maintenant activÃ©.";
 
         if (typeof Swal !== 'undefined') {
             await Swal.fire({
                 icon: 'success',
-                title: 'Certification Validée',
+                title: 'Certification ValidÃ©e',
                 text: message,
                 confirmButtonColor: '#10b981'
             });
@@ -1601,9 +1604,9 @@ async function handleSubscriptionSuccess(subscriptionId, tier) {
 window.createNewSREProject = async function() {
     try {
         const { data: { user } } = await _supabase.auth.getUser();
-        if (!user) { alert("Session expirée."); return; }
+        if (!user) { alert("Session expirÃ©e."); return; }
 
-        const title = prompt("Nom de votre nouveau projet 'Épopée' :");
+        const title = prompt("Nom de votre nouveau projet 'Ã‰popÃ©e' :");
         if (!title) return;
 
         const { data, error } = await _supabase
@@ -1617,10 +1620,10 @@ window.createNewSREProject = async function() {
             .single();
 
         if (error) throw error;
-        alert("Projet créé ! Accédez au Success Engine pour le compléter.");
+        alert("Projet crÃ©Ã© ! AccÃ©dez au Success Engine pour le complÃ©ter.");
         showView('success-engine', true);
     } catch (err) {
-        alert("Erreur création : " + err.message);
+        alert("Erreur crÃ©ation : " + err.message);
     }
 };
 
@@ -1640,7 +1643,7 @@ window.toggleEditMode = function() {
     
     const btn = document.getElementById('edit-toggle-btn');
     if (btn) {
-        btn.innerHTML = window.isEditing ? '<i class="fas fa-times"></i> Annuler l\'édition' : '<i class="fas fa-edit"></i> Modifier mon profil';
+        btn.innerHTML = window.isEditing ? '<i class="fas fa-times"></i> Annuler l\'Ã©dition' : '<i class="fas fa-edit"></i> Modifier mon profil';
         if (window.isEditing) btn.classList.add('outline'); else btn.classList.remove('outline');
     }
 };
@@ -1718,9 +1721,9 @@ window.saveProfile = async function(e) {
         window.originalProfileData = { ...window.userProfile };
         
         if (typeof Swal !== 'undefined') {
-            Swal.fire({ icon: 'success', title: 'Profil mis à jour !', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+            Swal.fire({ icon: 'success', title: 'Profil mis Ã  jour !', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
         } else {
-            alert("Profil mis à jour !");
+            alert("Profil mis Ã  jour !");
         }
 
         fillProfileForm(window.userProfile);
@@ -1755,7 +1758,7 @@ function fillProfileForm(p) {
     
     const roleDisp = document.getElementById('profile-role-tag-display');
     if (roleDisp) {
-        const roles = { 'expert': 'EXPERT / FREELANCE', 'entreprise': 'ENTREPRISE / BUSINESS', 'user': 'PORTEUR D\'ÉPOPÉE', 'admin': 'ADMINISTRATEUR' };
+        const roles = { 'expert': 'EXPERT / FREELANCE', 'entreprise': 'ENTREPRISE / BUSINESS', 'user': 'PORTEUR D\'Ã‰POPÃ‰E', 'admin': 'ADMINISTRATEUR' };
         roleDisp.textContent = roles[p.role] || 'MEMBRE';
     }
 
@@ -1840,10 +1843,10 @@ window.renderCollaborationSwitch = function(collabs) {
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <h3 style="margin:0; font-size:1.1rem; font-weight:800; display:flex; align-items:center; gap:8px;">
-                        <span style="background:rgba(16, 185, 129, 0.2); color:#10b981; padding:4px 10px; border-radius:100px; font-size:0.65rem; text-transform:uppercase;">Accès Collaborateur</span>
-                        Comptes gérés
+                        <span style="background:rgba(16, 185, 129, 0.2); color:#10b981; padding:4px 10px; border-radius:100px; font-size:0.65rem; text-transform:uppercase;">AccÃ¨s Collaborateur</span>
+                        Comptes gÃ©rÃ©s
                     </h3>
-                    <p style="margin:8px 0 0 0; font-size:0.85rem; color:#94a3b8;">Vous avez été invité à gérer les annonces de ces entreprises :</p>
+                    <p style="margin:8px 0 0 0; font-size:0.85rem; color:#94a3b8;">Vous avez Ã©tÃ© invitÃ© Ã  gÃ©rer les annonces de ces entreprises :</p>
                 </div>
             </div>
             
@@ -1851,7 +1854,7 @@ window.renderCollaborationSwitch = function(collabs) {
                 ${collabs.map(c => `
                     <button onclick="switchContext('${c.owner_id}', '${c.profiles.company_name || c.profiles.full_name}')" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:16px; border-radius:12px; color:white; text-align:left; cursor:pointer; transition:0.2s;">
                         <p style="margin:0; font-size:0.85rem; font-weight:800; overflow:hidden; text-overflow:ellipsis;">${c.profiles.company_name || c.profiles.full_name}</p>
-                        <p style="margin:4px 0 0 0; font-size:0.65rem; color:#64748b; text-transform:uppercase;">Gérer les offres →</p>
+                        <p style="margin:4px 0 0 0; font-size:0.65rem; color:#64748b; text-transform:uppercase;">GÃ©rer les offres â†’</p>
                     </button>
                 `).join('')}
             </div>
@@ -1865,7 +1868,7 @@ window.switchContext = function(ownerId, name) {
     window.activeBusinessId = ownerId;
     Swal.fire({
         title: 'Changement de compte',
-        text: `Vous gérez maintenant l'espace de : ${name}`,
+        text: `Vous gÃ©rez maintenant l'espace de : ${name}`,
         icon: 'info',
         confirmButtonColor: '#10b981'
     });
@@ -1912,7 +1915,7 @@ window.fetchBusinessStats = async function(userId) {
 };
 
 window.handleDeleteAccount = async function() {
-    if (!confirm("ATTENTION : La suppression de votre compte est irréversible. Voulez-vous continuer ?")) return;
+    if (!confirm("ATTENTION : La suppression de votre compte est irrÃ©versible. Voulez-vous continuer ?")) return;
     
     try {
         const { error } = await _supabase.rpc('delete_user_own_account');
@@ -1947,16 +1950,17 @@ function renderMobileNav(role) {
     const homeLink = { id: 'espace', label: 'Espace', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/mon-espace' };
     const hubLink = { id: 'collaboration', label: 'HUB', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', href: '/mon-espace#collaboration' };
     const boardLink = { id: 'missions', label: 'Missions', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', href: '/marketplace/jobs.html' };
-    const epopeeLink = { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' };
+    const epopeeLink = { id: 'epopee', label: 'Ã‰popÃ©e', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' };
     const msgLink = { id: 'messages', label: 'Messages', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', href: '/messages' };
     const businessLink = { id: 'business', label: 'Factures', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', href: '/business.html' };
     const profileLink = { id: 'profile', label: 'Profil', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', href: '/profile' };
 
     if (normalizedRole === 'entreprise' || normalizedRole === 'expert') {
-        links = [homeLink, hubLink, businessLink, msgLink, profileLink];
+        links = [homeLink, hubLink, boardLink, msgLink, profileLink];
     } else {
         // Project Owners / Default
-        links = [homeLink, epopeeLink, boardLink, msgLink, profileLink];
+        const epopeeLinkFixed = { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' };
+        links = [homeLink, epopeeLinkFixed, boardLink, msgLink, profileLink];
     }
 
     nav.innerHTML = links.map(link => {

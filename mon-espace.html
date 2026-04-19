@@ -60,8 +60,8 @@
         function toggleDashboardMenu() {
             const sidebar = document.querySelector('.sidebar');
             if (sidebar) {
-                sidebar.classList.toggle('sidebar-mobile-active');
-                console.log('Mobile menu toggled. Active:', sidebar.classList.contains('sidebar-mobile-active'));
+                sidebar.classList.toggle('is-mobile-active');
+                console.log('Mobile menu toggled. Active:', sidebar.classList.contains('is-mobile-active'));
             } else {
                 alert('Erreur: Menu introuvable');
             }
