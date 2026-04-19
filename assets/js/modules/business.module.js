@@ -217,80 +217,83 @@ const BusinessModule = {
 
     renderInvoicesList: (container, data) => {
         if (data.length === 0) { container.innerHTML = BusinessModule.renderEmptyState('invoice'); return; }
+        const currency = (typeof window.TerritoryConfig !== 'undefined') ? window.TerritoryConfig.getCurrencySymbol() : '€';
+        
         container.innerHTML = `
-            <div class="table-container" style="background:white; border-radius:16px; border:1px solid #f1f5f9; overflow:hidden;">
-                <table class="dtc-table">
-                    <thead>
-                        <tr>
-                            <th>Référence</th>
-                            <th>Date</th>
-                            <th>Client</th>
-                            <th>Montant HT</th>
-                            <th>TTC</th>
-                            <th>Statut</th>
-                            <th style="text-align:right;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map(doc => `
-                            <tr>
-                                <td><strong>FAC-${doc.id.slice(0,4).toUpperCase()}</strong></td>
-                                <td>${new Date(doc.created_at).toLocaleDateString()}</td>
-                                <td>${doc.client_name}</td>
-                                <td style="font-weight:700;">${doc.subtotal.toFixed(2)}€</td>
-                                <td style="font-weight:800; color:#10b981;">${(doc.total_ttc || doc.subtotal).toFixed(2)}€</td>
-                                <td><span class="status-badge status-${doc.status}">${doc.status}</span></td>
-                                <td style="text-align:right;">
-                                    <div style="display:flex; gap:8px; justify-content:flex-end;">
-                                        <button onclick="BusinessModule.editDoc('${doc.id}')" class="cta-button ghost" style="padding:4px 8px;"><i class="fas fa-edit"></i></button>
-                                        <button onclick="BusinessModule.directExportPDF('${doc.id}')" class="cta-button ghost" style="padding:4px 8px; color:#10b981;"><i class="fas fa-file-pdf"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+            <div class="cards-list-modern" style="display: grid; gap: 16px;">
+                ${data.map(doc => `
+                    <div class="doc-card premium" style="background:white; border-radius:18px; border:1px solid #f1f5f9; padding:20px; display:flex; justify-content:space-between; align-items:center; transition:0.3s;" onclick="BusinessModule.editDoc('${doc.id}')">
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <div style="width:48px; height:48px; background:#f8fafc; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#10b981;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight:900; color:#0f172a; margin-bottom:2px;">FAC-${doc.id.slice(0,4).toUpperCase()}</div>
+                                <div style="font-size:0.75rem; color:#64748b; font-weight:700;">${doc.client_name} • ${new Date(doc.created_at).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right; display:flex; align-items:center; gap:20px;">
+                            <div style="display:none; @media (min-width: 640px) { display:block; }">
+                                <span class="status-badge status-${doc.status}" style="padding:6px 12px; border-radius:100px;">${doc.status}</span>
+                            </div>
+                            <div style="font-weight:950; font-size:1.1rem; color:#0f172a;">${(doc.total_ttc || doc.subtotal).toFixed(2)}${currency}</div>
+                            <button onclick="event.stopPropagation(); BusinessModule.directExportPDF('${doc.id}')" class="cta-button ghost" style="padding:10px; color:#10b981; background:#f0fdf4; border:none; border-radius:10px;">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
             </div>
+            <style>
+                @media (max-width: 640px) {
+                    .doc-card.premium { flex-direction: column; align-items: flex-start !important; gap: 16px; }
+                    .doc-card.premium div[style*="text-align:right"] { width: 100%; justify-content: space-between; border-top: 1px solid #f8fafc; padding-top: 12px; }
+                }
+            </style>
         `;
     },
 
     renderPaymentsList: (container, data) => {
         const trackedDocs = data.filter(d => d.status === 'sent' || d.status === 'paid' || d.status === 'accepted');
         container.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="font-weight:800; margin:0;">Encaissements & Commissions</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h3 style="font-weight:900; margin:0; font-size:1.1rem; color:#0f172a;">Suivi des Encaissements</h3>
             </div>
-            ${trackedDocs.length === 0 ? `<div style="text-align:center; padding:40px; color:#64748b;">Aucun paiement en attente.</div>` : `
-                <div class="table-container" style="background:white; border-radius:16px; border:1px solid #f1f5f9; overflow:hidden;">
-                    <table class="dtc-table">
-                        <thead>
-                            <tr>
-                                <th>Document</th>
-                                <th>Client</th>
-                                <th>Net Expert (ROI)</th>
-                                <th>Commission DC</th>
-                                <th>Statut Expert</th>
-                                <th>Statut Commission</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${trackedDocs.map(doc => {
-                                const commission = doc.commission_amount || (doc.subtotal * BusinessModule.commissionRate);
-                                const isExpertPaid = doc.expert_paid_at != null;
-                                const isPlatformPaid = doc.platform_paid_at != null;
-                                return `
-                                    <tr>
-                                        <td><strong>${doc.doc_type.toUpperCase().slice(0,3)}-${doc.id.slice(0,4)}</strong></td>
-                                        <td>${doc.client_name}</td>
-                                        <td style="font-weight:700;">${(doc.subtotal - commission).toFixed(2)}€</td>
-                                        <td style="color:#64748b;">${commission.toFixed(2)}€</td>
-                                        <td><button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'expert')" class="status-badge" style="border:none; cursor:pointer; background:${isExpertPaid ? '#dcfce7' : '#f1f5f9'}; color:${isExpertPaid ? '#166534' : '#64748b'};">${isExpertPaid ? 'Encaissé' : 'En attente'}</button></td>
-                                        <td><button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'platform')" class="status-badge" style="border:none; cursor:pointer; background:${isPlatformPaid ? '#dcfce7' : '#fef3c7'}; color:${isPlatformPaid ? '#166534' : '#92400e'};">${isPlatformPaid ? 'Payée' : 'À régler'}</button></td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                    </table>
+            ${trackedDocs.length === 0 ? `<div style="text-align:center; padding:60px; color:#94a3b8; background:white; border-radius:24px; border:1px dashed #e2e8f0;">Aucun flux financier en attente.</div>` : `
+                <div class="payments-tracking-list" style="display: grid; gap: 16px;">
+                    ${trackedDocs.map(doc => {
+                        const commission = doc.commission_amount || (doc.subtotal * BusinessModule.commissionRate);
+                        const isExpertPaid = doc.expert_paid_at != null;
+                        const isPlatformPaid = doc.platform_paid_at != null;
+                        const currency = (typeof window.TerritoryConfig !== 'undefined') ? window.TerritoryConfig.getCurrencySymbol() : '€';
+                        return `
+                            <div class="payment-card" style="background:white; border-radius:18px; border:1px solid #f1f5f9; padding:24px;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                                    <div>
+                                        <div style="font-weight:900; color:#0f172a; font-size:0.95rem;">Réf: ${doc.id.slice(0,6).toUpperCase()}</div>
+                                        <div style="font-size:0.75rem; color:#64748b; font-weight:700; margin-top:2px;">Client: ${doc.client_name}</div>
+                                    </div>
+                                    <div style="text-align:right;">
+                                        <div style="font-weight:950; font-size:1.2rem; color:#10b981;">+ ${(doc.subtotal - commission).toFixed(2)}${currency} <small style="font-weight:700; color:#94a3b8; font-size:0.65rem;">(Net)</small></div>
+                                    </div>
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; border-top:1px solid #f8fafc; padding-top:20px;">
+                                    <div>
+                                        <div style="font-size:0.65rem; font-weight:850; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Virement Expert</div>
+                                        <button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'expert')" class="status-badge" style="width:100%; border:none; cursor:pointer; padding:10px; border-radius:10px; background:${isExpertPaid ? '#dcfce7' : '#f1f5f9'}; color:${isExpertPaid ? '#166534' : '#64748b'}; font-weight:800; font-size:0.75rem;">
+                                            ${isExpertPaid ? '✅ Encaissé' : '⏳ En attente'}
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:0.65rem; font-weight:850; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Com plateforme</div>
+                                        <button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'platform')" class="status-badge" style="width:100%; border:none; cursor:pointer; padding:10px; border-radius:10px; background:${isPlatformPaid ? '#dcfce7' : '#fef3c7'}; color:${isPlatformPaid ? '#166534' : '#92400e'}; font-weight:800; font-size:0.75rem;">
+                                            ${isPlatformPaid ? '✅ Payée' : '⚠️ À régler'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             `}
         `;
@@ -354,43 +357,42 @@ const BusinessModule = {
                     <div style="display:flex; gap:12px;">
                         <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="padding:12px 24px; font-weight:800;">Sauvegarder</button>
                         <button onclick="BusinessModule.switchTab(BusinessModule.activeTab)" class="cta-button ghost" style="padding:12px 24px; color: #ef4444;">Fermer</button>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #f1f5f9;">
+                  <div class="editor-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #f1f5f9;">
                     <div style="background: #f8fafc; padding: 24px; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Vos Informations (Prestataire)</h4>
-                        <input type="text" id="expert-name" value="${p.full_name || ''}" placeholder="Votre Nom / Raison Sociale" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; margin-bottom:12px; border-radius:8px; border:1px solid #e2e8f0;">
-                        <input type="text" id="expert-siret" value="${p.company_siret || ''}" placeholder="Votre SIRET" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; margin-bottom:12px; border-radius:8px; border:1px solid #e2e8f0;">
-                        <textarea id="expert-address" placeholder="Votre Adresse Professionnelle" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; height: 60px; border-radius:8px; border:1px solid #e2e8f0;">${p.company_address || ''}</textarea>
+                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Vos Informations</h4>
+                        <input type="text" id="expert-name" value="${p.full_name || ''}" placeholder="Votre Nom / Raison Sociale" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">
+                        <input type="text" id="expert-siret" value="${p.company_siret || ''}" placeholder="Votre SIRET" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0;">
+                        <textarea id="expert-address" placeholder="Votre Adresse Professionnelle" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; height: 70px; border-radius:10px; border:1px solid #e2e8f0;">${p.company_address || ''}</textarea>
                     </div>
                     <div style="background: white; padding: 24px; border: 1px solid #f1f5f9; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 16px;">Informations Client</h4>
-                        <input type="text" id="quote-client-name" placeholder="Nom du Client" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; margin-bottom:12px; border-radius:8px; border:1px solid #e2e8f0;">
-                        <textarea id="quote-client-address" placeholder="Adresse Client" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; height: 60px; margin-bottom:12px; border-radius:8px; border:1px solid #e2e8f0;"></textarea>
-                        <input type="text" id="quote-project-title" placeholder="Objet de la Mission" class="input-modern" style="width:100%; padding:10px; font-size: 0.85rem; border-radius:8px; border:1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Informations Client</h4>
+                        <input type="text" id="quote-client-name" placeholder="Nom du Client" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">
+                        <textarea id="quote-client-address" placeholder="Adresse complète du Client" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; height: 70px; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0;"></textarea>
+                        <input type="text" id="quote-project-title" placeholder="Objet de la mission (ex: Conseil Stratégique)" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; border-radius:10px; border:1px solid #e2e8f0; font-weight:600;">
                     </div>
+                </div>
+                   </div>
                 </div>
 
                 <div id="quote-items-container" style="margin-bottom: 32px;">
                     <div id="quote-items-list">${BusinessModule.renderItemsList()}</div>
-                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 16px; font-size: 0.85rem; border-style: dashed; padding:12px;">+ Détails une nouvelle prestation</button>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 16px; font-size: 0.85rem; border-style: dashed; padding:12px;">+ Détails une nou                <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: start;">
                     <div style="background: #f8fafc; padding: 24px; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 16px;">Fiscalité (TVA)</h4>
-                        <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Fiscalité (TVA)</h4>
+                        <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700; color:#0f172a; background:white;">
                             <option value="0|TVA non applicable|Exonération de TVA selon l'article 293 B du CGI">Micro-Entreprise (Exonéré TVA)</option>
                             <option value="20|TVA Standard (20%)|TVA comprise">TVA Standard (20%)</option>
                             <option value="8.5|TVA DOM (8.5%)|TVA territoriale">TVA DOM (8.5%)</option>
                         </select>
                     </div>
-                    <div style="background: #111827; border-radius: 24px; padding: 32px; color: white;">
+                    <div style="background: #0f172a; border-radius: 24px; padding: 32px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
                         <div id="quote-summary">${BusinessModule.renderSummary()}</div>
-                        <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; margin-top: 24px; padding:20px; font-weight:900; background: #10b981; border: none; font-size: 1.1rem;">
+                        <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; margin-top: 24px; padding:18px; font-weight:950; background: #10b981; border: none; font-size: 1.1rem; border-radius:14px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
                             <i class="fas fa-file-invoice"></i> Finaliser & Générer le PDF
                         </button>
+                    </div>
+                </div>
+tton>
                     </div>
                 </div>
             </div>
@@ -401,12 +403,20 @@ const BusinessModule = {
     removeItem: (id) => { BusinessModule.currentItems = BusinessModule.currentItems.filter(item => item.id !== id); BusinessModule.updateUI(); },
     updateItem: (id, field, value) => { const item = BusinessModule.currentItems.find(i => i.id === id); if (item) { item[field] = field === 'description' ? value : parseFloat(value) || 0; BusinessModule.updateSummary(); } },
     renderItemsList: () => BusinessModule.currentItems.map(item => `
-        <div style="display: grid; grid-template-columns: 3fr 1fr 1.5fr 40px; gap: 16px; margin-bottom: 12px; align-items: center;">
-            <input type="text" value="${item.description}" oninput="BusinessModule.updateItem(${item.id}, 'description', this.value)" placeholder="Description..." style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem;" class="input-modern">
-            <input type="number" value="${item.quantity}" oninput="BusinessModule.updateItem(${item.id}, 'quantity', this.value)" style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem;" class="input-modern">
-            <input type="number" value="${item.price}" oninput="BusinessModule.updateItem(${item.id}, 'price', this.value)" style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; font-weight: 700;" class="input-modern">
-            <button onclick="BusinessModule.removeItem(${item.id})" style="background:none; border:none; color:#ef4444; font-size: 1.2rem;">&times;</button>
+        <div class="item-row" style="display: grid; grid-template-columns: 3fr 1fr 1.5fr 40px; gap: 16px; margin-bottom: 12px; align-items: center;">
+            <input type="text" value="${item.description}" oninput="BusinessModule.updateItem(${item.id}, 'description', this.value)" placeholder="Description..." style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; font-weight:600;" class="input-modern">
+            <input type="number" value="${item.quantity}" oninput="BusinessModule.updateItem(${item.id}, 'quantity', this.value)" style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; text-align:center;" class="input-modern">
+            <div style="position:relative;">
+                <input type="number" value="${item.price}" oninput="BusinessModule.updateItem(${item.id}, 'price', this.value)" style="padding: 12px; padding-right:25px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; font-weight: 800; width:100%;" class="input-modern">
+            </div>
+            <button onclick="BusinessModule.removeItem(${item.id})" style="background:#fff1f2; border:1px solid #fecaca; color:#ef4444; width:36px; height:36px; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
         </div>
+        <style>
+            @media (max-width: 640px) {
+                .item-row { grid-template-columns: 1fr 1fr 40px !important; }
+                .item-row input[placeholder="Description..."] { grid-column: span 3; }
+            }
+        </style>
     `).join(''),
 
     updateUI: () => { const list = document.getElementById('quote-items-list'); if (list) list.innerHTML = BusinessModule.renderItemsList(); BusinessModule.updateSummary(); },
