@@ -234,24 +234,27 @@ const CompaniesModule = {
                         const inviteLink = `${window.location.origin}/mon-espace?invite=${c.id}`;
                         
                         return `
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #f1f5f9;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #f1f5f9; position:relative;">
                             <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:36px; height:36px; background:${isPending ? '#f59e0b' : '#0f172a'}; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem;">
-                                    ${c.collaborator_email.charAt(0).toUpperCase()}
+                                <div style="position:relative;">
+                                    <div style="width:40px; height:40px; background:${isPending ? '#f59e0b' : '#0f172a'}; color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                        ${c.collaborator_email.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span style="position:absolute; bottom:-2px; right:-2px; width:12px; height:12px; background:${isPending ? '#f59e0b' : '#10b981'}; border:2px solid white; border-radius:50%;" title="${isPending ? 'En attente' : 'Actif'}"></span>
                                 </div>
                                 <div>
                                     <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">${c.collaborator_email}</p>
                                     <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
                                         <p style="margin:0; font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">${c.role || 'Éditeur'}</p>
-                                        ${isPending ? `<span style="font-size:0.6rem; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:800;">EN ATTENTE</span>` : ''}
+                                        ${isPending ? `<span style="font-size:0.6rem; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:800;">INVITATION ENVOYÉE</span>` : ''}
                                     </div>
                                 </div>
                             </div>
                             <div style="display:flex; gap:8px;">
                                 ${isPending ? `
-                                    <button onclick="CompaniesModule.shareInvite('${inviteLink}', '${c.collaborator_email}')" style="background:#0f172a; border:none; color:white; padding:6px 12px; border-radius:6px; font-size:0.7rem; font-weight:800; cursor:pointer;">Partager</button>
+                                    <button onclick="CompaniesModule.shareInvite('${inviteLink}', '${c.collaborator_email}')" style="background:#0f172a; border:none; color:white; padding:8px 14px; border-radius:8px; font-size:0.7rem; font-weight:800; cursor:pointer;">Relancer</button>
                                 ` : ''}
-                                <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:none; border:none; color:#ef4444; font-size:0.75rem; font-weight:800; cursor:pointer;">Retirer</button>
+                                <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:rgba(239, 68, 68, 0.05); border:none; color:#ef4444; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Retirer de l'équipe">×</button>
                             </div>
                         </div>
                     `}).join('')}

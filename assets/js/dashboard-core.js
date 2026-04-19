@@ -254,6 +254,7 @@ function showView(viewId, forceRender = false) {
         'billetterie': 'billetterie-view',
         'missions': 'missions-view',
         'business': 'business-view',
+        'collaboration': 'collaboration-view',
         'mes-billets': 'mes-billets-view',
         'profile': 'profile-view'
     };
@@ -270,13 +271,9 @@ function showView(viewId, forceRender = false) {
     // 2. Afficher la section cible
     const target = document.getElementById(targetId);
     
-    // Cas spécial : Redirection Profil & Business Standalone
+    // Cas spécial : Redirection Profil (Maintenu en externe pour le moment)
     if (baseView === 'profile') {
         window.location.href = '/profile';
-        return;
-    }
-    if (baseView === 'business') {
-        window.location.href = '/business.html';
         return;
     }
 
@@ -309,6 +306,12 @@ function showView(viewId, forceRender = false) {
             if (typeof CompaniesModule !== 'undefined') {
                 _supabase.auth.getSession().then(({data}) => {
                     if (data.session) CompaniesModule.renderDashboard(target, null, window.userProfile, data.session);
+                });
+            }
+        } else if (baseView === 'business') {
+            if (typeof BusinessModule !== 'undefined') {
+                _supabase.auth.getSession().then(({data}) => {
+                    if (data.session) BusinessModule.renderDashboard(target, null, window.userProfile, data.session);
                 });
             }
         } else if (baseView === 'collaboration') {

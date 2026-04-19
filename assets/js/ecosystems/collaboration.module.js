@@ -33,10 +33,10 @@ const CollaborationModule = {
                     <div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; background:rgba(16, 185, 129, 0.05); border-radius:50%; filter:blur(40px);"></div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px;">
+                <div class="collaboration-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
                     
-                    <!-- Left: Shared Missions & Tasks (Trello Style) -->
-                    <div style="grid-column: span 8; display: grid; gap: 32px;">
+                    <!-- Left: Shared Missions & Tasks -->
+                    <div style="grid-column: span 1; display: grid; gap: 32px;">
                         
                         <!-- BOARD : MISSIONS PARTAGÉES -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; min-height: 400px;">
@@ -73,7 +73,7 @@ const CollaborationModule = {
                     </div>
 
                     <!-- Right: Members & Shortcuts -->
-                    <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 32px;">
+                    <div style="grid-column: span 1; display: flex; flex-direction: column; gap: 32px;">
                         
                         <!-- ONLINE MEMBERS -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">

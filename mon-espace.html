@@ -14,14 +14,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Espace – Domtom Connect</title>
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=7.0">
+    <link rel="stylesheet" href="assets/css/style.css?v=7.5">
     <!-- PayPal SDK (Strategic Partnership) -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <link rel="stylesheet" href="assets/css/dashboard.css?v=7.0">
+    <link rel="stylesheet" href="assets/css/dashboard.css?v=7.5">
     <!-- Navigation Airceptor (Priorité Tactile Mobile - ZÉRO BLOCAGE) -->
     <script>
         window.addEventListener('hashchange', function() {
@@ -293,7 +293,7 @@
                 <span class="sidebar-label">Mon Espace</span>
             </a>
 
-            <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration-hub" title="Espace Équipe" style="display:none;">
+            <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration-hub" title="Espace Équipe">
                 <div class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4"/>
@@ -305,7 +305,7 @@
             <!-- SECTION : GESTION -->
             <div class="sidebar-section-title">Mon Pilotage</div>
 
-            <a href="/epopee" class="sidebar-link" id="nav-success-engine" title="Mon Espace Pilotage">
+            <a href="javascript:void(0)" onclick="showView('success-engine')" class="sidebar-link" id="nav-success-engine" title="Mon Espace Pilotage">
                 <div class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -326,7 +326,7 @@
             <!-- SECTION : SERVICES -->
             <div class="sidebar-section-title">Services Pro</div>
 
-            <a href="/business.html" class="sidebar-link" id="nav-business" title="Gestion Business" style="display:none;">
+            <a href="javascript:void(0)" onclick="showView('business')" class="sidebar-link" id="nav-business" title="Gestion Business">
                 <span class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -335,7 +335,7 @@
                 <span class="sidebar-label">Facturation & Devis</span>
             </a>
 
-            <a href="/messages.html" class="sidebar-link" title="Messagerie">
+            <a href="/messages" class="sidebar-link" title="Messagerie">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
@@ -408,18 +408,18 @@
         </main>
     </div>
 
-    <script src="assets/js/territory_config.js"></script>
+    <script src="assets/js/territory_config.js?v=7.5"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/auth.js?v=6.0"></script>
+    <script src="assets/js/auth.js?v=7.5"></script>
     <!-- Ecosystem Modules (Four Systems Architecture: Basic, Owner, Expert, Company) -->
-    <script src="assets/js/ecosystems/standard.module.js?v=6.0"></script>
-    <script src="assets/js/ecosystems/collaboration.module.js?v=6.0"></script>
-    <script src="assets/js/ecosystems/owners.module.js?v=6.0"></script>
-    <script src="assets/js/ecosystems/experts.module.js?v=6.0"></script>
-    <script src="assets/js/ecosystems/companies.module.js?v=6.0"></script>
-    <script src="assets/js/dashboard-core.js?v=6.0"></script>
-    <script src="assets/js/modules/business.module.js?v=6.0"></script>
-    <script src="assets/js/dashboard-success-engine.js?v=6.0"></script>
+    <script src="assets/js/ecosystems/standard.module.js?v=7.5"></script>
+    <script src="assets/js/ecosystems/collaboration.module.js?v=7.5"></script>
+    <script src="assets/js/ecosystems/owners.module.js?v=7.5"></script>
+    <script src="assets/js/ecosystems/experts.module.js?v=7.5"></script>
+    <script src="assets/js/ecosystems/companies.module.js?v=7.5"></script>
+    <script src="assets/js/dashboard-core.js?v=7.5"></script>
+    <script src="assets/js/modules/business.module.js?v=7.5"></script>
+    <script src="assets/js/dashboard-success-engine.js?v=7.5"></script>
 
     <!-- Reward Modal -->
     <div class="modal-overlay" id="reward-modal" style="display:none !important; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">

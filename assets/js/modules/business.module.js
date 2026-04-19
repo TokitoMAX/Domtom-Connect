@@ -376,7 +376,8 @@ const BusinessModule = {
 
                 <div id="quote-items-container" style="margin-bottom: 32px;">
                     <div id="quote-items-list">${BusinessModule.renderItemsList()}</div>
-                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 16px; font-size: 0.85rem; border-style: dashed; padding:12px;">+ Détails une nou                <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: start;">
+                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 16px; font-size: 0.85rem; border-style: dashed; padding:12px;">+ Détails une nouvelle prestation</button>
+                <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: start;">
                     <div style="background: #f8fafc; padding: 24px; border-radius: 16px;">
                         <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Fiscalité (TVA)</h4>
                         <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700; color:#0f172a; background:white;">
@@ -390,9 +391,6 @@ const BusinessModule = {
                         <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; margin-top: 24px; padding:18px; font-weight:950; background: #10b981; border: none; font-size: 1.1rem; border-radius:14px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
                             <i class="fas fa-file-invoice"></i> Finaliser & Générer le PDF
                         </button>
-                    </div>
-                </div>
-tton>
                     </div>
                 </div>
             </div>
