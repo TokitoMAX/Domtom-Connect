@@ -24,21 +24,11 @@
     <link rel="stylesheet" href="assets/css/dashboard.css?v=6.0">
     <!-- Navigation Airceptor (Priorité Tactile Mobile - ZÉRO BLOCAGE) -->
     <!-- Navigation Centralisée via HashChange (Infaillible) -->
-    <script>
         window.addEventListener('hashchange', function() {
             if (typeof handleRouting === 'function') {
                 handleRouting();
             }
         });
-
-        // Global toggle function for mobile navigation
-        function toggleMobileSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('is-open');
-                console.log('Mobile navigation toggled. State is-open:', sidebar.classList.contains('is-open'));
-            }
-        }
     </script>
 </head>
 
@@ -50,11 +40,23 @@
     <!-- Navigation -->
     <!-- Navigation -->
     <!-- Mobile Toggle Button -->
-    <button class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <button class="mobile-sidebar-toggle" onclick="toggleDashboardMenu()" aria-label="Menu" style="pointer-events: auto !important; z-index: 99999 !important;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="pointer-events: none;">
             <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
+
+    <script>
+        function toggleDashboardMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('sidebar-mobile-active');
+                console.log('Mobile menu toggled. Active:', sidebar.classList.contains('sidebar-mobile-active'));
+            } else {
+                alert('Erreur: Menu introuvable');
+            }
+        }
+    </script>
 
     <!-- Navigation Dashboard Only -->
 
@@ -65,8 +67,7 @@
             .dashboard-layout { padding-top: 0; }
         }
         @media (max-width: 960px) {
-            .top-nav { display: none !important; }
-            .nav-content:not(.is-open) { display: none !important; }
+            .nav-content:not(.sidebar-mobile-active) { display: none !important; }
             .dashboard-layout { padding-top: 10px; }
             .dash-section-header { margin-top: 0; }
             .nav-brand-name { font-size: 1.1rem; }

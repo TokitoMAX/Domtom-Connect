@@ -2260,18 +2260,18 @@ body {
     position: fixed;
     top: 15px;
     right: 15px;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     align-items: center;
     justify-content: center;
-    z-index: 10005;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100005 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     cursor: pointer;
     color: #0f172a;
-    pointer-events: auto;
+    pointer-events: auto !important;
 }
 
 .mobile-sidebar-toggle svg {
@@ -2281,27 +2281,31 @@ body {
 
 @media (max-width: 1024px) {
     .mobile-sidebar-toggle {
-        display: flex;
+        display: flex !important;
     }
     
     .sidebar {
-        position: fixed;
-        left: -280px;
-        top: 0;
-        bottom: 0;
-        z-index: 10004;
-        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: fixed !important;
+        left: -280px !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        z-index: 100004 !important;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         width: 280px !important;
         background: white !important;
-        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.2) !important;
+        display: flex !important;
+        visibility: visible !important;
     }
     
-    .sidebar.is-open {
-        left: 0;
+    .sidebar.sidebar-mobile-active {
+        left: 0 !important;
+        visibility: visible !important;
+        display: flex !important;
     }
     
     .main-content {
         margin-left: 0 !important;
-        width: 100%;
+        width: 100% !important;
     }
 }
