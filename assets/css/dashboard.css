@@ -2253,3 +2253,55 @@ body {
         right: 0;
     }
 }
+
+/* --- MOBILE DASHBOARD OVERRIDES --- */
+.mobile-sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 42px;
+    height: 42px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    z-index: 10005;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    color: #0f172a;
+    pointer-events: auto;
+}
+
+.mobile-sidebar-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 1024px) {
+    .mobile-sidebar-toggle {
+        display: flex;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 10004;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 280px !important;
+        background: white !important;
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar.is-open {
+        left: 0;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+    }
+}
