@@ -309,11 +309,9 @@ function showView(viewId, forceRender = false) {
                 });
             }
         } else if (baseView === 'business') {
-            if (typeof BusinessModule !== 'undefined') {
-                _supabase.auth.getSession().then(({data}) => {
-                    if (data.session) BusinessModule.renderDashboard(target, null, window.userProfile, data.session);
-                });
-            }
+            // Redirect to standalone page as requested
+            window.location.href = '/business.html';
+            return;
         } else if (baseView === 'collaboration') {
             if (typeof CollaborationModule !== 'undefined') {
                 _supabase.auth.getSession().then(({data}) => {
@@ -544,8 +542,10 @@ function applyGeographicalLocalization(zoneId) {
     const visibility = document.getElementById('visibility-preview-container');
     
     if (isStrategic) {
-        // Only hide hub if it's the old container and the user is NOT entreprise (Enterprise needs focus on team)
-        if (hub && window.activeRole !== 'entreprise') hub.style.display = 'none';
+        // Show hub for both experts and enterprise
+        if (hub) {
+            hub.style.display = (window.activeRole === 'expert' || window.activeRole === 'entreprise') ? 'flex' : 'none';
+        }
         if (strength) { strength.style.display = 'none'; strength.classList.add('hidden-force'); }
         if (visibility) { visibility.style.display = 'none'; visibility.classList.add('hidden-force'); }
     }

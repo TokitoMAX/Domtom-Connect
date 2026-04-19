@@ -21,15 +21,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <link rel="stylesheet" href="assets/css/dashboard.css?v=7.5">
     <!-- Navigation Airceptor (Priorité Tactile Mobile - ZÉRO BLOCAGE) -->
     <script>
+        function checkHubVisibility() {
+            const hub = document.getElementById('nav-collaboration');
+            if (hub) {
+                hub.style.display = (window.activeRole === 'expert' || window.activeRole === 'entreprise') ? 'flex' : 'none';
+            }
+        }
+
         window.addEventListener('hashchange', function() {
             if (typeof handleRouting === 'function') {
                 handleRouting();
             }
         });
     </script>
+
+    <link rel="stylesheet" href="assets/css/dashboard.css?v=7.5">
 </head>
 
 <body>
@@ -293,7 +301,7 @@
                 <span class="sidebar-label">Mon Espace</span>
             </a>
 
-            <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration-hub" title="Espace Équipe">
+            <a href="javascript:void(0)" onclick="showView('collaboration')" class="sidebar-link" id="nav-collaboration" style="display:flex;">
                 <div class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4"/>
@@ -326,7 +334,7 @@
             <!-- SECTION : SERVICES -->
             <div class="sidebar-section-title">Services Pro</div>
 
-            <a href="javascript:void(0)" onclick="showView('business')" class="sidebar-link" id="nav-business" title="Facturation">
+            <a href="/business.html" class="sidebar-link" id="nav-business" title="Facturation & Devis">
                 <span class="sidebar-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

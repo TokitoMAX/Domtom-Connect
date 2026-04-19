@@ -34,7 +34,7 @@ const ExpertsModule = {
                             <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Module Business Actif</h4>
                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Utilisez notre suite native pour émettre vos devis et facturer vos missions en toute sécurité.</p>
                          </div>
-                         <button onclick="showView('business')" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module</button>
+                         <button onclick="window.location.href='/business.html'" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module</button>
                     </div>
 
                     <!-- Missions matching placeholder -->
@@ -68,7 +68,7 @@ const ExpertsModule = {
                     <div class="dash-card" style="border-radius: 16px; padding: 24px; background: #f8fafc; border: 1px solid #e2e8f0;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 12px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Finance & Devis</h4>
                         <p style="font-size: 0.85rem; color: #475569; margin-bottom: 16px; line-height:1.4;">Émettez vos devis et factures directement via la plateforme.</p>
-                        <button onclick="showView('business')" class="cta-button primary" style="width:100%; font-size:0.8rem; background:#0f172a; border:none; justify-content:center;">Gérer mes devis</button>
+                        <button onclick="window.location.href='/business.html'" class="cta-button primary" style="width:100%; font-size:0.8rem; background:#0f172a; border:none; justify-content:center;">Gérer mes devis</button>
                     </div>
 
                     <div class="dash-card" style="border-radius: 16px; padding: 24px;">
