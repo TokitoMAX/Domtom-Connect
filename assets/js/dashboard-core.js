@@ -430,6 +430,7 @@ async function loadDashboardContent(session) {
     renderDashboardCards(role, tier, isListed, profile, session);
     
     // Update Dynamic Mobile Navigation AFTER role is certain
+    window.activeRole = role; // Standardize for other functions
     renderMobileNav(role);
 
     // Profile Strength & Visibility
@@ -1928,42 +1929,51 @@ window.handleDeleteAccount = async function() {
  * --- DYNAMIC MOBILE NAVIGATION ---
  * Renders bottom navigation links based on user role.
  */
+/**
+ * --- DYNAMIC MOBILE NAVIGATION ---
+ * Renders bottom navigation links based on user role.
+ * Standardizes the UI across Dashboard, Profile, and Messages.
+ */
 function renderMobileNav(role) {
     const nav = document.querySelector('.mobile-nav');
     if (!nav) return;
 
-    let links = [];
-    const normalizedRole = role === 'company' ? 'entreprise' : (role === 'owner' ? 'porteur' : role);
+    // Determine current active section based on URL or Hash
+    const path = window.location.pathname;
+    const hash = window.location.hash;
 
-    if (normalizedRole === 'entreprise') {
-        links = [
-            { id: 'espace', label: 'Espace', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/mon-espace' },
-            { id: 'missions', label: 'Missions', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', href: '#missions' },
-            { id: 'messages', label: 'Messages', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', href: '/messages' },
-            { id: 'profile', label: 'Profil', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', href: '/profile' }
-        ];
-    } else if (normalizedRole === 'expert') {
-        links = [
-            { id: 'espace', label: 'Espace', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/mon-espace' },
-            { id: 'board', label: 'Board', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01', href: '/marketplace/jobs' },
-            { id: 'messages', label: 'Messages', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', href: '/messages' },
-            { id: 'profile', label: 'Profil', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', href: '/profile' }
-        ];
+    let links = [];
+    const normalizedRole = role === 'company' || role === 'entreprise' ? 'entreprise' : (role === 'owner' || role === 'porteur' ? 'porteur' : role);
+
+    // Common Links
+    const homeLink = { id: 'espace', label: 'Espace', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/mon-espace' };
+    const hubLink = { id: 'collaboration', label: 'HUB', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', href: '/mon-espace#collaboration' };
+    const boardLink = { id: 'missions', label: 'Missions', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', href: '/marketplace/jobs' };
+    const epopeeLink = { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' };
+    const msgLink = { id: 'messages', label: 'Messages', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', href: '/messages' };
+    const businessLink = { id: 'business', label: 'Factures', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', href: '/business.html' };
+    const profileLink = { id: 'profile', label: 'Profil', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', href: '/profile' };
+
+    if (normalizedRole === 'entreprise' || normalizedRole === 'expert') {
+        links = [homeLink, hubLink, businessLink, msgLink, profileLink];
     } else {
-        links = [
-            { id: 'espace', label: 'Espace', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/mon-espace' },
-            { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' },
-            { id: 'messages', label: 'Messages', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', href: '/messages' },
-            { id: 'profile', label: 'Profil', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', href: '/profile' }
-        ];
+        // Project Owners / Default
+        links = [homeLink, epopeeLink, boardLink, msgLink, profileLink];
     }
 
-    nav.innerHTML = links.map(link => `
-        <a href="${link.href}" class="mobile-nav-link ${window.location.hash.includes(link.id) || (window.location.pathname.includes(link.href) && !window.location.hash) ? 'active' : ''}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:22px; height:22px; stroke-width:2.5;">
-                <path d="${link.icon}" />
-            </svg>
-            <span class="mobile-nav-label">${link.label}</span>
-        </a>
-    `).join('');
+    nav.innerHTML = links.map(link => {
+        // Smart activation check
+        const isActive = (hash.includes(link.id)) || 
+                         (path.includes(link.href) && !hash) ||
+                         (link.id === 'espace' && path === '/mon-espace' && !hash);
+                         
+        return `
+            <a href="${link.href}" class="mobile-nav-link ${isActive ? 'active' : ''}" id="m-nav-${link.id}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:22px; height:22px; stroke-width:2.5;">
+                    <path d="${link.icon}" />
+                </svg>
+                <span class="mobile-nav-label">${link.label}</span>
+            </a>
+        `;
+    }).join('');
 }

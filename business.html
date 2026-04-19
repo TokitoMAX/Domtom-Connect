@@ -20,7 +20,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
+<body style="background: white;">
+    <nav class="mobile-nav"></nav>
     <div class="dashboard-layout">
         <!-- Sidebar SaaS 2.0 -->
         <aside class="sidebar">
@@ -103,27 +104,33 @@
     <script src="assets/js/territory_config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js?v=7.5"></script>
+    <script src="assets/js/dashboard-core.js?v=7.5"></script>
     <script src="assets/js/modules/business.module.js?v=7.5"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            const session = await getSession();
+            
+            // --- INITIALIZE MOBILE NAV ---
+            if (session && typeof renderMobileNav === 'function') {
+                const role = session.user.user_metadata?.role || 'user';
+                renderMobileNav(role);
+            }
+
             const container = document.getElementById('business-standalone-view');
             if (typeof BusinessModule !== 'undefined') {
                 await BusinessModule.renderView(container);
             }
             
             // Masquer les liens réservés si pas expert
-            const session = await getSession();
             if (session) {
                 const role = session.user?.user_metadata?.role;
-                if (role !== 'expert') {
+                // Allow both expert and entreprise for now as enterprise needs billing too
+                if (role !== 'expert' && role !== 'entreprise' && role !== 'admin') {
                     window.location.href = '/mon-espace';
                 }
             } else {
-                // Optionnel: On attend un peu ou on redirige direct
-                setTimeout(() => {
-                    if (!window._supabase) window.location.href = '/login';
-                }, 2000);
+                window.location.href = '/login';
             }
         });
     </script>

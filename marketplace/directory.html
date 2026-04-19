@@ -487,7 +487,8 @@
     </style>
 </head>
 
-<body>
+<body style="background: white;">
+    <nav class="mobile-nav"></nav>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBM8LXJV"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -747,8 +748,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/dashboard-core.js"></script>
     <script>
         let currentUserId = null;
         let currentUserRole = null;
@@ -759,6 +760,13 @@
 
         async function init() {
             const session = await getSession();
+            
+            // --- INITIALIZE MOBILE NAV ---
+            if (session && typeof renderMobileNav === 'function') {
+                const role = session.user.user_metadata?.role || 'user';
+                renderMobileNav(role);
+            }
+
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
