@@ -153,41 +153,11 @@ body {
 
 @media (max-width: 960px) {
     .top-nav {
-        top: 0;
-        padding: 0 60px 0 10px; /* Dégage 60px à droite pour le bouton menu */
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        height: 60px;
-        display: flex;
-        align-items: center;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        z-index: 9999; /* Juste en dessous du toggle */
-    }
-
-    .nav-market-links {
-        display: flex;
-        gap: 12px;
-        background: transparent;
-        backdrop-filter: none;
-        box-shadow: none;
-        border: none;
-        padding: 0 15px;
-        width: max-content;
-    }
-
-    .nav-market-link {
-        white-space: nowrap;
-        font-size: 0.85rem;
-        font-weight: 800;
-        padding: 8px 16px;
-        background: #f1f5f9;
-        border-radius: 100px;
-        color: #475569;
+        display: none !important;
     }
     .main-content {
         margin-left: 0 !important;
+        padding-top: 20px !important;
     }
 }
 
@@ -2526,5 +2496,17 @@ body {
         width: 100% !important;
     }
 }
-@ m e d i a   ( m a x - w i d t h :   7 6 8 p x )   {   . n a v - l i n k s   {   d i s p l a y :   f l e x   ! i m p o r t a n t ;   o v e r f l o w - x :   a u t o   ! i m p o r t a n t ;   w h i t e - s p a c e :   n o w r a p   ! i m p o r t a n t ;   g a p :   1 5 p x   ! i m p o r t a n t ;   p a d d i n g - b o t t o m :   5 p x   ! i m p o r t a n t ;   - w e b k i t - o v e r f l o w - s c r o l l i n g :   t o u c h   ! i m p o r t a n t ;   }   . n a v - l i n k s : : - w e b k i t - s c r o l l b a r   {   d i s p l a y :   n o n e ;   }   }  
- 
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: flex !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        gap: 15px !important;
+        padding-bottom: 5px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .nav-links::-webkit-scrollbar {
+        display: none;
+    }
+}
