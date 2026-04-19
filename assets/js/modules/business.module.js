@@ -201,16 +201,24 @@ const BusinessModule = {
                 ${data.map(doc => `
                     <div class="doc-card" style="background:white; border-radius:20px; border:1px solid #f1f5f9; padding:24px; transition:0.3s; cursor:pointer;" onclick="BusinessModule.editDoc('${doc.id}')">
                         <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
-                            <span class="status-badge status-${doc.status || 'draft'}">${doc.status || 'Brouillon'}</span>
+                            <div style="display:flex; gap:8px;">
+                                <span class="status-badge status-${doc.status || 'draft'}">${doc.status || 'Brouillon'}</span>
+                                ${doc.signature_status && doc.signature_status !== 'none' ? `
+                                    <span style="font-size:0.6rem; background:#f0fdf4; color:#10b981; padding:2px 8px; border-radius:100px; font-weight:800; border:1px solid #dcfce7; display:flex; align-items:center; gap:4px;">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" /></svg>
+                                        ${doc.signature_status === 'signed' ? 'Signe' : 'A signer'}
+                                    </span>
+                                ` : ''}
+                            </div>
                             <span style="font-weight:800; color:#cbd5e1; font-size:0.8rem;">#${doc.id.slice(0,6).toUpperCase()}</span>
                         </div>
                         <h4 style="font-weight:800; margin:0 0 4px 0;">${doc.client_name}</h4>
                         <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">${doc.project_title}</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f8fafc; pt:16px;">
-                            <span style="font-weight:900; font-size:1.1rem; color:#10b981;">${doc.total_amount.toFixed(2)}€</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f8fafc; padding-top:16px;">
+                            <span style="font-weight:900; font-size:1.1rem; color:#10b981;">${doc.total_ttc ? doc.total_ttc.toFixed(2) : doc.total_amount.toFixed(2)}€</span>
                             <div style="display:flex; gap:8px;">
-                                <button class="cta-button ghost" style="padding:8px;"><i class="fas fa-edit"></i></button>
-                                <button onclick="event.stopPropagation(); BusinessModule.directExportPDF('${doc.id}')" class="cta-button ghost" style="padding:8px; color:#10b981;"><i class="fas fa-file-pdf"></i></button>
+                                <button class="cta-button ghost" style="padding:8px; border:none; background:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></button>
+                                <button onclick="event.stopPropagation(); BusinessModule.directExportPDF('${doc.id}')" class="cta-button ghost" style="padding:8px; color:#10b981; border:none; background:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></button>
                             </div>
                         </div>
                     </div>
@@ -239,6 +247,12 @@ const BusinessModule = {
                         <div style="text-align:right; display:flex; align-items:center; gap:20px;">
                             <div style="display:none; @media (min-width: 640px) { display:block; }">
                                 <span class="status-badge status-${doc.status}" style="padding:6px 12px; border-radius:100px;">${doc.status}</span>
+                                ${doc.signature_status && doc.signature_status !== 'none' ? `
+                                    <div style="font-size:0.6rem; color:#10b981; font-weight:800; margin-top:4px; display:flex; align-items:center; gap:4px; justify-content:flex-end;">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" /></svg>
+                                        ${doc.signature_status === 'signed' ? 'SIGNE' : 'A SIGNER'}
+                                    </div>
+                                ` : ''}
                             </div>
                             <div style="font-weight:950; font-size:1.1rem; color:#0f172a;">${(doc.total_ttc || doc.subtotal).toFixed(2)}${currency}</div>
                             <button onclick="event.stopPropagation(); BusinessModule.directExportPDF('${doc.id}')" class="cta-button ghost" style="padding:10px; color:#10b981; background:#f0fdf4; border:none; border-radius:10px;">
@@ -364,7 +378,7 @@ const BusinessModule = {
                     <div>
                         <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                            <h2 style="font-size: 1.75rem; font-weight: 900; margin: 0; color: #0f172a;">${isInvoice ? 'Édition Facture' : 'Édition Devis'}</h2>
+                            <h2 style="font-size: 1.75rem; font-weight: 900; margin: 0; color: #0f172a;">${isInvoice ? 'Edition Facture' : 'Edition Devis'}</h2>
                         </div>
                         <span style="font-size: 0.65rem; background: #0f172a; color: white; padding: 4px 12px; border-radius: 100px; font-weight: 850; letter-spacing:0.04em; text-transform:uppercase;">DTC Business Pro v4.0</span>
                     </div>
@@ -376,7 +390,7 @@ const BusinessModule = {
 
                 <div class="editor-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 40px;">
                     <div style="background: #f8fafc; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.06em;">Émetteur (Vous)</h4>
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.06em;">Emetteur (Vous)</h4>
                         <input type="text" id="expert-name" value="${p.full_name || ''}" placeholder="Raison Sociale" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:700;">
                         <input type="text" id="expert-siret" value="${p.company_siret || ''}" placeholder="N° SIRET" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:600;">
                         <textarea id="expert-address" placeholder="Adresse Professionnelle" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; height: 80px; border-radius:12px; border:1px solid #e2e8f0; color: #475569;">${p.company_address || ''}</textarea>
@@ -385,7 +399,7 @@ const BusinessModule = {
                         <h4 style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.06em;">Destinataire (Client)</h4>
                         <input type="text" id="quote-client-name" placeholder="Nom du Client" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:700;">
                         <textarea id="quote-client-address" placeholder="Adresse facturation client" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; height: 80px; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0;"></textarea>
-                        <input type="text" id="quote-project-title" placeholder="Objet (ex: Mission Audit Stratégique)" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; border-radius:12px; border:1px solid #e2e8f0; font-weight:700; background:#f0fdf4; border-color:#dcfce7;">
+                        <input type="text" id="quote-project-title" placeholder="Objet (ex: Mission Audit Strategique)" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; border-radius:12px; border:1px solid #e2e8f0; font-weight:700; background:#f0fdf4; border-color:#dcfce7;">
                     </div>
                 </div>
 
@@ -396,12 +410,12 @@ const BusinessModule = {
 
                 <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: start;">
                     <div style="background: #f8fafc; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 20px; letter-spacing:0.06em;">Paramètres Financiers</h4>
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 20px; letter-spacing:0.06em;">Parametres Financiers</h4>
                         
                         <div style="margin-bottom:20px;">
                             <label style="display:block; font-size:0.75rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Taxe de zone (TVA)</label>
                             <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-weight:800; color:#0f172a; background:white;">
-                                <option value="0|TVA non applicable|Exonération de TVA selon l'article 293 B du CGI">Micro-Entreprise (0%)</option>
+                                <option value="0|TVA non applicable|Exoneration de TVA selon l'article 293 B du CGI">Micro-Entreprise (0%)</option>
                                 <option value="20|TVA (20%)|TVA comprise">TVA Standard (20%)</option>
                                 <option value="8.5|TVA DOM (8.5%)|TVA territoriale">TVA DOM (8.5%)</option>
                             </select>
@@ -420,11 +434,11 @@ const BusinessModule = {
                         <div style="display:grid; gap:12px; margin-top:32px;">
                             <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; padding:20px; font-weight:950; background: #10b981; border: none; font-size: 1.15rem; border-radius:16px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-right:8px;"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                                Générer le Devis PDF
+                                Generer le PDF
                             </button>
-                            <button onclick="Swal.fire('Signature Active', 'L\\'invitation à signer numériquement sera envoyée au client avec le devis.', 'info')" class="cta-button secondary" style="width: 100%; padding:16px; font-weight:900; background: rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:16px; font-size:0.95rem;">
+                            <button id="signature-btn" onclick="BusinessModule.activateSignature()" class="cta-button secondary" style="width: 100%; padding:16px; font-weight:900; background: rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:16px; font-size:0.95rem;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="margin-right:8px;"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                                Activer la Signature Électronique
+                                Activer la Signature Electronique
                             </button>
                         </div>
                     </div>
@@ -487,29 +501,77 @@ const BusinessModule = {
         const taxEl = document.getElementById('tax-config');
         if (!clientName) return Swal.fire('Oups', 'Nom client obligatoire.', 'warning');
         const taxConfig = taxEl ? { rate: parseFloat(taxEl.value.split('|')[0]), name: taxEl.value.split('|')[1], legal_mention: taxEl.value.split('|')[2] } : { rate: 0, name: 'Micro', legal_mention: '' };
+        
         const subtotal = BusinessModule.currentItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
         const commission = subtotal * BusinessModule.commissionRate;
         const totalTax = subtotal * (taxConfig.rate / 100);
+        
         const supabase = await BusinessModule.waitForSupabase();
         if (!supabase) return Swal.fire('Erreur System', 'Moteur de base de données non initialisé.', 'error');
+        
         const { data: authData } = await supabase.auth.getUser();
         const user = authData?.user;
         if (!user) return Swal.fire('Session expirée', 'Veuillez vous reconnecter.', 'error');
 
         const docData = {
             expert_id: user.id,
-            client_name: clientName, project_title: document.getElementById('quote-project-title').value,
-            doc_type: BusinessModule.currentType, items: BusinessModule.currentItems, subtotal, commission_amount: commission,
-            total_amount: subtotal, total_tax: totalTax, total_ttc: subtotal + totalTax,
+            client_name: clientName, 
+            project_title: document.getElementById('quote-project-title').value,
+            doc_type: BusinessModule.currentType, 
+            items: BusinessModule.currentItems, 
+            subtotal: subtotal, 
+            commission_amount: commission,
+            total_amount: subtotal, 
+            total_tax: totalTax, 
+            total_ttc: subtotal + totalTax,
             deposit_perc: document.getElementById('deposit-perc') ? parseFloat(document.getElementById('deposit-perc').value) : 0,
-            expert_details: { name: document.getElementById('expert-name').value, siret: document.getElementById('expert-siret').value, address: document.getElementById('expert-address').value },
-            client_details: { name: clientName, address: document.getElementById('quote-client-address').value },
-            tax_config: taxConfig, status: BusinessModule.currentType === 'quote' ? 'draft' : 'sent'
+            expert_details: { 
+                name: document.getElementById('expert-name').value, 
+                siret: document.getElementById('expert-siret').value, 
+                address: document.getElementById('expert-address').value 
+            },
+            client_details: { 
+                name: clientName, 
+                address: document.getElementById('quote-client-address').value 
+            },
+            tax_config: taxConfig, 
+            status: BusinessModule.currentType === 'quote' ? 'draft' : 'sent',
+            signature_status: BusinessModule.isSignatureActive ? 'pending' : 'none'
         };
-        if (BusinessModule.editingId) await supabase.from('business_docs').update(docData).eq('id', BusinessModule.editingId);
-        else await supabase.from('business_docs').insert([docData]);
-        Swal.fire({ title: 'Génial !', text: 'Document sauvegardé.', icon: 'success', timer: 1500, showConfirmButton: false });
-        BusinessModule.switchTab(BusinessModule.activeTab);
+
+        try {
+            if (BusinessModule.editingId) {
+                await supabase.from('business_docs').update(docData).eq('id', BusinessModule.editingId);
+            } else {
+                await supabase.from('business_docs').insert([docData]);
+            }
+            Swal.fire({ title: 'Génial !', text: 'Document sauvegardé avec succès.', icon: 'success', timer: 1500, showConfirmButton: false });
+            BusinessModule.switchTab(BusinessModule.activeTab);
+        } catch (err) {
+            console.error("Save Error:", err);
+            Swal.fire('Erreur', 'Impossible de sauvegarder. Vérifiez votre connexion.', 'error');
+        }
+    },
+
+    isSignatureActive: false,
+    activateSignature: () => {
+        BusinessModule.isSignatureActive = true;
+        const btn = document.getElementById('signature-btn');
+        if (btn) {
+            btn.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" style="margin-right:8px;"><path d="M20 6L9 17l-5-5" /></svg>
+                Signature Activee
+            `;
+            btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            btn.style.borderColor = '#10b981';
+            btn.style.color = '#10b981';
+        }
+        Swal.fire({
+            title: 'Signature Activee',
+            text: 'Le client sera invite a signer numériquement ce document lors de la réception.',
+            icon: 'success',
+            confirmButtonColor: '#10b981'
+        });
     },
 
     handlePDFGeneration: async () => {

@@ -50,7 +50,7 @@ window.handleInviteToken = async function(inviteId, user) {
             Swal.fire({
                 icon: 'error',
                 title: 'Invitation invalide',
-                text: `Cette invitation est destinÃ©e Ã  ${invite.collaborator_email}. Veuillez vous connecter avec le bon compte.`
+                text: `Cette invitation est destinée à ${invite.collaborator_email}. Veuillez vous connecter avec le bon compte.`
             });
             return;
         }
@@ -67,8 +67,8 @@ window.handleInviteToken = async function(inviteId, user) {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Ã‰quipe rejointe !',
-                text: `Bienvenue ! Vous accÃ©dez maintenant au pilotage de l'entreprise.`,
+                title: 'Equipe rejointe !',
+                text: `Bienvenue ! Vous accédez maintenant au pilotage de l'entreprise.`,
                 confirmButtonColor: '#10b981'
             }).then(() => {
                 // Clear URL param and reload into the new context

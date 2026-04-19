@@ -57,7 +57,7 @@ const CollaborationModule = {
                         <div class="dash-card" style="background: #f8fafc; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">
                             <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Activité de l'équipe</h3>
+                                <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Activite de l'equipe</h3>
                             </div>
                             <div id="hub-activity-feed" style="display: grid; gap: 20px;">
                                 <div style="display:flex; gap:16px; align-items:flex-start;">
@@ -74,7 +74,7 @@ const CollaborationModule = {
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="8.5" cy="7" r="4" /></svg>
                                     </div>
                                     <div>
-                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Invitation acceptée par un nouveau collaborateur.</p>
+                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Invitation acceptee par un nouveau collaborateur.</p>
                                         <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; font-weight:600;">Aujourd'hui, 09:42</p>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@ const CollaborationModule = {
                         
                         <!-- ONLINE MEMBERS -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Équipe de pilotage</h4>
+                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Equipe de pilotage</h4>
                             <div id="hub-members-list" style="display: grid; gap: 16px;">
                                 <!-- Will be loaded via loadCollaborators logic -->
                             </div>
@@ -95,7 +95,7 @@ const CollaborationModule = {
 
                         <!-- COLLABORATIVE TOOLS -->
                         <div class="dash-card" style="background: #0f172a; border-radius: 24px; padding: 32px; border: none; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
-                            <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#94a3b8; letter-spacing:0.06em;">Outils Intégrés</h4>
+                            <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#94a3b8; letter-spacing:0.06em;">Outils Integres</h4>
                             <div style="display:grid; gap:16px;">
                                 <a href="/messages" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.07); padding:18px; border-radius:14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>
