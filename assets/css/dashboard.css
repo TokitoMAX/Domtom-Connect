@@ -154,15 +154,169 @@ body {
 @media (max-width: 960px) {
     .top-nav {
         top: 0;
-        padding: 0 10px;
-        background: rgba(255, 255, 255, 0.95);
+        padding: 0 60px 0 10px; /* Dégage 60px à droite pour le bouton menu */
+        background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px);
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        height: 64px;
-        pointer-events: auto;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 9999; /* Juste en dessous du toggle */
+    }
+
+    .nav-market-links {
+        display: flex;
+        gap: 12px;
+        background: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
+        border: none;
+        padding: 0 15px;
+        width: max-content;
+    }
+
+    .nav-market-link {
+        white-space: nowrap;
+        font-size: 0.85rem;
+        font-weight: 800;
+        padding: 8px 16px;
+        background: #f1f5f9;
+        border-radius: 100px;
+        color: #475569;
     }
     .main-content {
         margin-left: 0 !important;
+    }
+}
+
+.nav-market-link.active {
+    background: #0f172a !important;
+    color: white !important;
+}
+
+/* --- SRE SUCCESS ENGINE (Imported \u0026 Optimized) --- */
+.cockpit-view-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cockpit-header {
+    margin-bottom: 40px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.cockpit-stepper {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cockpit-stepper::-webkit-scrollbar { display: none; }
+
+.cockpit-step {
+    flex: 1;
+    min-width: 120px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cockpit-step.active {
+    background: white;
+    border-color: #10b981;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
+}
+
+.cockpit-card-premium {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 32px;
+}
+
+.cockpit-field {
+    margin-bottom: 24px;
+}
+
+.cockpit-field-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #10b981;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+}
+
+.cockpit-input-premium {
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.cockpit-input-premium:focus {
+    outline: none;
+    border-color: #10b981;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+/* Mobile Specific for Cockpit */
+@media (max-width: 768px) {
+    .cockpit-view-container {
+        padding: 16px;
+    }
+
+    .cockpit-stepper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 24px;
+    }
+    
+    .cockpit-step {
+        padding: 12px 8px;
+        min-width: 0;
+    }
+
+    .cockpit-step .step-label-text {
+        font-size: 0.75rem;
+    }
+
+    .cockpit-card-premium {
+        padding: 24px 16px;
+        border-radius: 20px;
+    }
+
+    .cockpit-header h2 {
+        font-size: 1.5rem !important;
+    }
+
+    .action-button-group {
+        flex-direction: column;
+    }
+
+    .btn-cockpit {
+        width: 100%;
+        justify-content: center;
     }
 }
 
