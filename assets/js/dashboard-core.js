@@ -194,7 +194,7 @@ async function rejectSREProject(projectId) {
             })
             .eq('id', projectId);
         if (error) throw error;
-        alert("Projet refusÃ©. Le porteur en sera informÃ©. âŒ");
+        alert("Projet refusÃ©. Le porteur en sera informÃ©. â Œ");
         if (window.isAdminInspection) {
             window.isAdminInspection = false;
             showView('overview');
@@ -619,6 +619,17 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         return;
     }
 
+    if (!container) return;
+    
+    // NETTOYAGE & ISOLATION ABSOLUE : On neutralise tout le contenu standard pour laisser le module maitre de l'affichage
+    const staticHeader = document.querySelector('.dash-section-header');
+    const standardCards = document.getElementById('dashboard-cards');
+    
+    if (staticHeader) staticHeader.style.display = 'none';
+    if (standardCards) standardCards.style.display = 'none';
+    
+    container.innerHTML = "";
+    
     // 2. DELEGATE TO ECOSYSTEM MODULES
     switch (role) {
         case 'expert':

@@ -41,17 +41,21 @@ const SpectatorsModule = {
 
                     <!-- Discovery Feed -->
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <h3 style="font-size: 1.3rem; font-weight: 800; margin:0 0 24px 0; color:#0f172a;">A la rencontre du reseau</h3>
+                        <h3 style="font-size: 1.15rem; font-weight: 800; margin:0 0 24px 0; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em;">Exploration du Reseau</h3>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-                            <div onclick="window.location.href='/marketplace/directory'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.2s;">
-                                <div style="font-size:1.5rem; margin-bottom:12px;">💎</div>
-                                <h4 style="margin:0; font-weight:800; font-size:1rem;">Talents & Experts</h4>
-                                <p style="margin:4px 0 0; font-size:0.8rem; color:#64748b;">Parcourez l'annuaire des competences territoriales.</p>
+                            <div onclick="window.location.href='/marketplace/directory'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.3s; position:relative; overflow:hidden;" class="spectator-discovery-card">
+                                <div style="width:40px; height:40px; border-radius:10px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-10a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                                </div>
+                                <h4 style="margin:0; font-weight:800; font-size:0.95rem; color:#1e293b;">Annuaire des Talents</h4>
+                                <p style="margin:6px 0 0; font-size:0.75rem; color:#64748b; line-height:1.4;">Accedez aux experts et prestataires certifies.</p>
                             </div>
-                            <div onclick="window.location.href='/marketplace/companies'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.2s;">
-                                <div style="font-size:1.5rem; margin-bottom:12px;">🏢</div>
-                                <h4 style="margin:0; font-weight:800; font-size:1rem;">Entreprises</h4>
-                                <p style="margin:4px 0 0; font-size:0.8rem; color:#64748b;">Decouvrez les groupes qui recrutent et investissent.</p>
+                            <div onclick="window.location.href='/marketplace/companies'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.3s; position:relative; overflow:hidden;" class="spectator-discovery-card">
+                                <div style="width:40px; height:40px; border-radius:10px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" /></svg>
+                                </div>
+                                <h4 style="margin:0; font-weight:800; font-size:0.95rem; color:#1e293b;">Ecosysteme Entreprises</h4>
+                                <p style="margin:6px 0 0; font-size:0.75rem; color:#64748b; line-height:1.4;">Decouvrez les entreprises et partenaires du territoire.</p>
                             </div>
                         </div>
                     </div>

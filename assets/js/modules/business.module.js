@@ -541,13 +541,26 @@ const BusinessModule = {
         };
 
         try {
-            if (BusinessModule.editingId) {
-                await supabase.from('business_docs').update(docData).eq('id', BusinessModule.editingId);
-            } else {
-                await supabase.from('business_docs').insert([docData]);
-            }
-            Swal.fire({ title: 'Génial !', text: 'Document sauvegardé avec succès.', icon: 'success', timer: 1500, showConfirmButton: false });
-            BusinessModule.switchTab(BusinessModule.activeTab);
+            const { error } = await supabase
+                .from('business_docs')
+                .upsert({ ...docData, id: BusinessModule.editingId || undefined }, { onConflict: 'id' });
+
+            if (error) throw error;
+            
+            Swal.fire({
+                title: 'Genial !',
+                text: 'Votre document est enregistre et pret a etre signe.',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Copier le lien client',
+                cancelButtonText: 'Fermer',
+                confirmButtonColor: '#10b981'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    BusinessModule.shareDoc(BusinessModule.editingId || 'new');
+                }
+            });
+            BusinessModule.loadDocs();
         } catch (err) {
             console.error("Save Error:", err);
             Swal.fire('Erreur', 'Impossible de sauvegarder. Vérifiez votre connexion.', 'error');
@@ -645,6 +658,21 @@ const BusinessModule = {
             pdfMake.createPdf(docDefinition).download(`${isInvoice ? 'Facture' : 'Devis'}_${number}.pdf`);
             Swal.close();
         }
+    },
+
+    shareDoc: (id) => {
+        const url = `${window.location.origin}/view-document?id=${id}`;
+        navigator.clipboard.writeText(url).then(() => {
+            Swal.fire({
+                title: 'Lien Copié !',
+                text: 'Envoyez ce lien a votre client pour consultation et signature.',
+                icon: 'info',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000
+            });
+        });
     }
 };
 window.BusinessModule = BusinessModule;
