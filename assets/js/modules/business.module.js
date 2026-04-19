@@ -536,7 +536,8 @@ const BusinessModule = {
             },
             tax_config: taxConfig, 
             status: BusinessModule.currentType === 'quote' ? 'draft' : 'sent',
-            signature_status: BusinessModule.isSignatureActive ? 'pending' : 'none'
+            signature_status: BusinessModule.isSignatureActive ? 'pending' : 'none',
+            signature_data: BusinessModule.signatureProof || {}
         };
 
         try {
@@ -554,8 +555,24 @@ const BusinessModule = {
     },
 
     isSignatureActive: false,
-    activateSignature: () => {
+    signatureProof: null,
+
+    activateSignature: async () => {
         BusinessModule.isSignatureActive = true;
+        
+        // Capture simple proof of intent (Client-side fingerprinting)
+        try {
+            const ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => ({ ip: 'Unknown' }));
+            BusinessModule.signatureProof = {
+                activated_at: new Date().toISOString(),
+                activated_ip: ipData.ip,
+                user_agent: navigator.userAgent,
+                status: 'pending'
+            };
+        } catch (e) {
+            BusinessModule.signatureProof = { activated_at: new Date().toISOString(), status: 'pending' };
+        }
+
         const btn = document.getElementById('signature-btn');
         if (btn) {
             btn.innerHTML = `
@@ -567,8 +584,8 @@ const BusinessModule = {
             btn.style.color = '#10b981';
         }
         Swal.fire({
-            title: 'Signature Activee',
-            text: 'Le client sera invite a signer numériquement ce document lors de la réception.',
+            title: 'Protocole Active',
+            text: 'La preuve numérique (IP/Date) sera jointe au document pour certifier la transaction.',
             icon: 'success',
             confirmButtonColor: '#10b981'
         });

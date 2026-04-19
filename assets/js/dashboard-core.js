@@ -600,7 +600,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         container.innerHTML = adminDashboardHTML;
         loadPendingProjects();
 
-        // 1.1 ADDON : EXPÃ‰RIENCE HYBRIDE (Si l'admin a aussi des fonctions entreprise)
+        // 1.1 ADDON : EXPERIENCE HYBRIDE (Si l'admin a aussi des fonctions entreprise)
         if (session.user.email === 'domtomconnect@gmail.com' || profile.company_name) {
             console.log("Dashboard Core: Activating Hybrid Admin/Company View");
             const addonContainer = document.createElement('div');
@@ -612,7 +612,7 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
             
             const cardsTarget = document.getElementById('company-addon-cards');
             if (typeof CompaniesModule !== 'undefined' && cardsTarget) {
-                // On dÃ©lÃ¨gue au module entreprise en ciblant le conteneur addon
+                // On delegue au module entreprise en ciblant le conteneur addon
                 CompaniesModule.renderDashboard(cardsTarget, additional, profile, session);
             }
         }
@@ -620,33 +620,47 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
     }
 
     // 2. DELEGATE TO ECOSYSTEM MODULES
-    if (role === 'expert' || role === 'prestataire') {
-        if (typeof ExpertsModule !== 'undefined') {
-            ExpertsModule.renderDashboard(container, additional, profile, session);
-        } else {
-            container.innerHTML = '<p>Chargement du module Expert...</p>';
-        }
-    } else if (role === 'entreprise') {
-        if (typeof CompaniesModule !== 'undefined') {
-            CompaniesModule.renderDashboard(container, additional, profile, session);
-        } else {
-            container.innerHTML = '<p>Chargement du module Entreprise...</p>';
-        }
-    } else if (role === 'porteur' || role === 'owner') {
-        // --- Ã‰COSYSTÃˆME : PORTEUR DE PROJET ---
-        if (typeof OwnersModule !== 'undefined') {
-            OwnersModule.renderDashboard(container, additional, profile, session);
-        } else {
-            container.innerHTML = '<p>Chargement du module Projet...</p>';
-        }
-    } else {
-        // --- Ã‰COSYSTÃˆME : EXPLORATEUR (Standard) ---
-        if (typeof StandardModule !== 'undefined') {
-            StandardModule.renderDashboard(container, additional, profile, session);
-        } else {
-            // Fallback ultime
-            container.innerHTML = '<p>Bienvenue sur Domtom Connect ! ComplÃ©tez votre profil pour activer votre cockpit dÃ©diÃ©.</p>';
-        }
+    switch (role) {
+        case 'expert':
+        case 'prestataire':
+            if (typeof ExpertsModule !== 'undefined') {
+                ExpertsModule.renderDashboard(container, additional, profile, session);
+            } else {
+                container.innerHTML = '<p>Chargement du module Expert...</p>';
+            }
+            break;
+        case 'entreprise':
+            if (typeof CompaniesModule !== 'undefined') {
+                CompaniesModule.renderDashboard(container, additional, profile, session);
+            } else {
+                container.innerHTML = '<p>Chargement du module Entreprise...</p>';
+            }
+            break;
+        case 'spectator':
+            if (typeof SpectatorsModule !== 'undefined') {
+                SpectatorsModule.renderDashboard(container, additional, profile, session);
+            } else {
+                container.innerHTML = '<p style="padding:40px;">Initialisation de votre espace spectateur...</p>';
+            }
+            break;
+        case 'porteur':
+        case 'owner':
+            // --- ECOSYSTEME : PORTEUR DE PROJET ---
+            if (typeof OwnersModule !== 'undefined') {
+                OwnersModule.renderDashboard(container, additional, profile, session);
+            } else {
+                container.innerHTML = '<p>Chargement du module Projet...</p>';
+            }
+            break;
+        default:
+            // --- ECOSYSTEME : EXPLORATEUR (Standard) ---
+            if (typeof StandardModule !== 'undefined') {
+                StandardModule.renderDashboard(container, additional, profile, session);
+            } else {
+                // Fallback ultime
+                container.innerHTML = '<p>Bienvenue sur Domtom Connect ! Completez votre profil pour activer votre cockpit dedie.</p>';
+            }
+            break;
     }
 }
 
@@ -850,10 +864,10 @@ function renderVisibilityPreview(profile) {
     
     // 1. Badge Status
     if (isListed) {
-        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">â— PubliÃ© (Actif)</span>`;
+        badge.innerHTML = `<span class="visibility-badge public" style="background:#ecfdf5; color:#10b981; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Publie (Actif)</span>`;
         if (prompt) prompt.style.display = 'none';
     } else {
-        badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">â— PrivÃ© (Invisible)</span>`;
+        badge.innerHTML = `<span class="visibility-badge private" style="background:#fef2f2; color:#ef4444; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">● Prive (Invisible)</span>`;
         if (prompt) prompt.style.display = 'block';
     }
 
@@ -868,11 +882,15 @@ function renderVisibilityPreview(profile) {
         <div class="mini-card" style="${!isListed ? 'opacity:0.7; filter:grayscale(0.5);' : ''}">
             ${avatar}
             <div style="overflow:hidden;">
-                <h4 style="margin:0 0 4px 0; font-size:0.95rem;">${name}</h4>
+                <p style="font-size: 1rem; font-weight: 850; color: #010816; margin: 0;">${name}</p>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size: 0.65rem; color: #10b981; font-weight: 850; text-transform: uppercase; letter-spacing: 0.04em;">${profile.role === 'spectator' ? 'Observateur' : 'Membre Actif'}</span>
+                    <span style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></span>
+                </div>
                 <p style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.title || (profile.role === 'entreprise' ? 'Partenaire Entreprise' : profile.sector || 'Expert Domtom Connect')}</p>
                 <div style="display:flex; gap:6px; margin-top:8px;">
                     <span style="font-size:0.65rem; background:#f8fafc; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.territory || 'OM'}</span>
-                    ${profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}â‚¬/j</span>` : ''}
+                    ${profile.tjm ? `<span style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:600;">${profile.tjm}€/j</span>` : ''}
                 </div>
             </div>
         </div>
