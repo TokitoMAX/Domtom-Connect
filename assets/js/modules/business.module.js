@@ -11,6 +11,10 @@ const BusinessModule = {
     expertProfile: null,
 
     // --- Core Initialization ---
+    renderDashboard: async (container) => {
+        await BusinessModule.renderView(container);
+    },
+
     renderView: async (container) => {
         if (!container) {
             console.error("DTC Business Error: Container 'business-module-container' not found.");
