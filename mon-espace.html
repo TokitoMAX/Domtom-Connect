@@ -50,23 +50,13 @@
     <!-- Navigation -->
     <!-- Navigation -->
     <!-- Mobile Toggle Button -->
-    <button class="mobile-sidebar-toggle" onclick="toggleDashboardMenu()" aria-label="Menu" style="pointer-events: auto !important; z-index: 99999 !important;">
+    <button class="mobile-sidebar-toggle nav-toggle" aria-label="Menu" style="pointer-events: auto !important; z-index: 99999 !important;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="pointer-events: none;">
             <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
 
-    <script>
-        function toggleDashboardMenu() {
-            const sidebar = document.querySelector('.sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('is-mobile-active');
-                console.log('Mobile menu toggled. Active:', sidebar.classList.contains('is-mobile-active'));
-            } else {
-                alert('Erreur: Menu introuvable');
-            }
-        }
-    </script>
+    <!-- Centralized Toggle via dashboard-core.js -->
 
     <!-- Navigation Dashboard Only -->
 

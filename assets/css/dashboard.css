@@ -2485,7 +2485,7 @@ body {
         visibility: visible !important;
     }
     
-    .sidebar.sidebar-mobile-active {
+    .sidebar.is-mobile-active {
         left: 0 !important;
         visibility: visible !important;
         display: flex !important;
