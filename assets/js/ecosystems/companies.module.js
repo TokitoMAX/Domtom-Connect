@@ -52,7 +52,7 @@ const CompaniesModule = {
                             <h4 style="margin:0; font-size:1.25rem; font-weight:950; color: white;">Étape 2 : Collaboration Stratégique</h4>
                             <p style="font-size: 0.95rem; color: rgba(255,255,255,0.9); line-height:1.5; margin: 8px 0 0 0;">Bravo, votre profil est certifié et visible ! Activez votre partenariat stratégique pour débloquer toute la puissance du réseau.</p>
                          </div>
-                         <button onclick="openSubModal()" class="cta-button" style="background:white; color:#059669; border:none; border-radius:14px; font-weight:900; padding:16px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor:pointer;">Lancer la Collaboration</button>
+                         <button onclick="showView('collaboration')" class="cta-button" style="background:white; color:#059669; border:none; border-radius:14px; font-weight:900; padding:16px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor:pointer;">Lancer la Collaboration</button>
                     </div>
                     `}
 
