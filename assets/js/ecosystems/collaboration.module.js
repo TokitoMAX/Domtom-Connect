@@ -26,7 +26,7 @@ const CollaborationModule = {
                             <span style="background:#10b981; width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow: 0 0 10px #10b981;"></span>
                             <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#94a3b8;">Workspace Actif : ${profile.company_name || 'Domtom Connect'}</span>
                         </div>
-                        <h1 style="font-size: 2.25rem; font-weight: 900; margin: 0 0 8px 0; letter-spacing:-0.03em;">Espace de Collaboration</h1>
+                        <h1 style="font-size: 2.25rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing:-0.04em; color: white;">Espace de Collaboration</h1>
                         <p style="color: #94a3b8; font-size: 1.1rem; margin:0;">Pilotez vos missions et votre stratégie en équipe en temps réel.</p>
                     </div>
                     <!-- Decorative element -->
@@ -39,10 +39,13 @@ const CollaborationModule = {
                     <div style="grid-column: span 1; display: grid; gap: 32px;">
                         
                         <!-- BOARD : MISSIONS PARTAGÉES -->
-                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; min-height: 400px;">
+                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                                <h3 style="font-size: 1.25rem; font-weight: 850; color: #0f172a; margin: 0;">📋 Nos Missions Actives</h3>
-                                <button onclick="window.location.href='#missions'" style="background:#f1f5f9; border:none; padding:8px 16px; border-radius:8px; font-weight:800; font-size:0.8rem; cursor:pointer;">Voir tout</button>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                    <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Nos Missions Actives</h3>
+                                </div>
+                                <button onclick="window.location.href='#missions'" style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 16px; border-radius:10px; font-weight:800; font-size:0.8rem; cursor:pointer; color:#475569;">Voir tout</button>
                             </div>
                             
                             <div id="hub-shared-jobs" style="display: grid; gap: 16px;">
@@ -52,20 +55,27 @@ const CollaborationModule = {
 
                         <!-- TEAM ACTIVITY FEED -->
                         <div class="dash-card" style="background: #f8fafc; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">
-                            <h3 style="font-size: 1.25rem; font-weight: 850; color: #0f172a; margin: 0 0 24px 0;">⚡ Activité de l'équipe</h3>
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Activité de l'équipe</h3>
+                            </div>
                             <div id="hub-activity-feed" style="display: grid; gap: 20px;">
                                 <div style="display:flex; gap:16px; align-items:flex-start;">
-                                    <div style="width:32px; height:32px; background:#10b981; border-radius:50%; flex-shrink:0;"></div>
+                                    <div style="width:32px; height:32px; background:#10b981; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5" /></svg>
+                                    </div>
                                     <div>
-                                        <p style="margin:0; font-size:0.9rem; font-weight:700; color:#0f172a;">Le cockpit a été mis à jour.</p>
-                                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b;">Il y a quelques instants</p>
+                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Le cockpit a été mis à jour.</p>
+                                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; font-weight:600;">Il y a quelques instants</p>
                                     </div>
                                 </div>
-                                <div style="display:flex; gap:16px; align-items:flex-start; opacity:0.6;">
-                                    <div style="width:32px; height:32px; background:#e2e8f0; border-radius:50%; flex-shrink:0;"></div>
+                                <div style="display:flex; gap:16px; align-items:flex-start;">
+                                    <div style="width:32px; height:32px; background:#e2e8f0; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="8.5" cy="7" r="4" /></svg>
+                                    </div>
                                     <div>
-                                        <p style="margin:0; font-size:0.9rem; font-weight:700; color:#0f172a;">Invitation acceptée par un nouveau collaborateur.</p>
-                                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b;">Aujourd'hui, 09:42</p>
+                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Invitation acceptée par un nouveau collaborateur.</p>
+                                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; font-weight:600;">Aujourd'hui, 09:42</p>
                                     </div>
                                 </div>
                             </div>
@@ -76,22 +86,24 @@ const CollaborationModule = {
                     <div style="grid-column: span 1; display: flex; flex-direction: column; gap: 32px;">
                         
                         <!-- ONLINE MEMBERS -->
-                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">
-                            <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.04em;">Membres de l'Équipe</h4>
+                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Équipe de pilotage</h4>
                             <div id="hub-members-list" style="display: grid; gap: 16px;">
                                 <!-- Will be loaded via loadCollaborators logic -->
                             </div>
                         </div>
 
                         <!-- COLLABORATIVE TOOLS -->
-                        <div class="dash-card" style="background: #0f172a; border-radius: 20px; padding: 32px; border: none; color: white;">
-                            <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#94a3b8; letter-spacing:0.04em;">Outils de Collaboration</h4>
-                            <div style="display:grid; gap:12px;">
-                                <a href="/messages" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.05); padding:16px; border-radius:12px;">
-                                    <span>💬</span> Salon de discussion
+                        <div class="dash-card" style="background: #0f172a; border-radius: 24px; padding: 32px; border: none; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                            <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#94a3b8; letter-spacing:0.06em;">Outils Intégrés</h4>
+                            <div style="display:grid; gap:16px;">
+                                <a href="/messages" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.07); padding:18px; border-radius:14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>
+                                    <span>Salon de discussion</span>
                                 </a>
-                                <a href="#missions" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.05); padding:16px; border-radius:12px;">
-                                    <span>📊</span> Pilotage des Missions
+                                <a href="#missions" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.07); padding:18px; border-radius:14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                    <span>Pilotage des Missions</span>
                                 </a>
                             </div>
                         </div>

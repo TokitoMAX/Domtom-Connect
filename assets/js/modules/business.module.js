@@ -305,10 +305,14 @@ const BusinessModule = {
 
     renderEmptyState: (type) => `
         <div class="dash-card" style="padding: 60px; text-align: center; border: 2px dashed #f1f5f9; border-radius: 24px; background:white;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">${type === 'quote' ? '📄' : '💰'}</div>
-            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Aucun document</h3>
-            <p style="color: #64748b; margin-bottom: 24px;">Commencez par créer votre premier ${type === 'quote' ? 'devis' : 'document de facturation'}.</p>
-            <button onclick="BusinessModule.createNewDoc('${type}')" class="cta-button primary" style="padding:12px 32px;">+ Nouveau ${type === 'quote' ? 'Devis' : 'Facture'}</button>
+            <div style="margin-bottom: 24px; display: flex; justify-content: center;">
+                <div style="width: 64px; height: 64px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                </div>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin-bottom: 12px;">Aucun document</h3>
+            <p style="color: #64748b; margin-bottom: 32px; font-weight: 600;">Commencez par créer votre premier ${type === 'quote' ? 'devis' : 'document de facturation'}.</p>
+            <button onclick="BusinessModule.createNewDoc('${type}')" class="cta-button primary" style="padding:14px 36px; border-radius:14px; font-weight:900;">+ Nouveau ${type === 'quote' ? 'Devis' : 'Facture'}</button>
         </div>
     `,
 
@@ -316,6 +320,7 @@ const BusinessModule = {
         BusinessModule.editingId = null;
         BusinessModule.currentType = type;
         BusinessModule.currentItems = [{ id: Date.now(), description: '', quantity: 1, price: 0 }];
+        BusinessModule.currentDeposit = 30; // Default 30% acompte
         BusinessModule.renderEditor();
     },
 
@@ -327,12 +332,14 @@ const BusinessModule = {
         BusinessModule.editingId = data.id;
         BusinessModule.currentType = data.doc_type;
         BusinessModule.currentItems = data.items || [];
+        BusinessModule.currentDeposit = data.deposit_perc || 0;
         BusinessModule.renderEditor();
         setTimeout(() => {
             document.getElementById('quote-client-name').value = data.client_name;
             document.getElementById('quote-project-title').value = data.project_title;
             if (data.client_details) document.getElementById('quote-client-address').value = data.client_details.address || '';
             if (data.tax_config) document.getElementById('tax-config').value = `${data.tax_config.rate}|${data.tax_config.name}|${data.tax_config.legal_mention}`;
+            if (document.getElementById('deposit-perc')) document.getElementById('deposit-perc').value = BusinessModule.currentDeposit;
         }, 50);
     },
 
@@ -352,54 +359,80 @@ const BusinessModule = {
         const currency = (typeof window.TerritoryConfig !== 'undefined') ? window.TerritoryConfig.getCurrencySymbol() : '€';
 
         content.innerHTML = `
-            <div class="quote-editor" style="background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); animation: fadeIn 0.3s ease-out;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+            <div class="quote-editor" style="background: white; border-radius: 24px; border: 1px solid #e2e8f0; padding: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); animation: fadeIn 0.3s ease-out;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; border-bottom: 1px solid #f1f5f9; padding-bottom: 32px;">
                     <div>
-                        <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0;">${isInvoice ? 'Édition Facture' : 'Édition Devis'}</h2>
-                        <span style="font-size: 0.7rem; background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 20px; font-weight: 800; margin-top: 8px; display:inline-block;">DTC BUSINESS PRO v3.5</span>
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                            <h2 style="font-size: 1.75rem; font-weight: 900; margin: 0; color: #0f172a;">${isInvoice ? 'Édition Facture' : 'Édition Devis'}</h2>
+                        </div>
+                        <span style="font-size: 0.65rem; background: #0f172a; color: white; padding: 4px 12px; border-radius: 100px; font-weight: 850; letter-spacing:0.04em; text-transform:uppercase;">DTC Business Pro v4.0</span>
                     </div>
                     <div style="display:flex; gap:12px;">
-                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="padding:12px 24px; font-weight:800;">Sauvegarder</button>
-                        <button onclick="BusinessModule.switchTab(BusinessModule.activeTab)" class="cta-button ghost" style="padding:12px 24px; color: #ef4444;">Fermer</button>
-                  <div class="editor-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="background: #f8fafc; padding: 24px; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Vos Informations</h4>
-                        <input type="text" id="expert-name" value="${p.full_name || ''}" placeholder="Votre Nom / Raison Sociale" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">
-                        <input type="text" id="expert-siret" value="${p.company_siret || ''}" placeholder="Votre SIRET" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0;">
-                        <textarea id="expert-address" placeholder="Votre Adresse Professionnelle" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; height: 70px; border-radius:10px; border:1px solid #e2e8f0;">${p.company_address || ''}</textarea>
+                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="padding:14px 28px; font-weight:900; border-radius:12px;">Sauvegarder</button>
+                        <button onclick="BusinessModule.switchTab(BusinessModule.activeTab)" class="cta-button ghost" style="padding:14px 28px; color: #ef4444; font-weight:800; border-radius:12px;">Fermer</button>
                     </div>
-                    <div style="background: white; padding: 24px; border: 1px solid #f1f5f9; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Informations Client</h4>
-                        <input type="text" id="quote-client-name" placeholder="Nom du Client" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">
-                        <textarea id="quote-client-address" placeholder="Adresse complète du Client" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; height: 70px; margin-bottom:12px; border-radius:10px; border:1px solid #e2e8f0;"></textarea>
-                        <input type="text" id="quote-project-title" placeholder="Objet de la mission (ex: Conseil Stratégique)" class="input-modern" style="width:100%; padding:12px; font-size: 0.9rem; border-radius:10px; border:1px solid #e2e8f0; font-weight:600;">
-                    </div>
-                </div>
-                   </div>
                 </div>
 
-                <div id="quote-items-container" style="margin-bottom: 32px;">
-                    <div id="quote-items-list">${BusinessModule.renderItemsList()}</div>
-                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 16px; font-size: 0.85rem; border-style: dashed; padding:12px;">+ Détails une nouvelle prestation</button>
-                <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: start;">
-                    <div style="background: #f8fafc; padding: 24px; border-radius: 16px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing:0.05em;">Fiscalité (TVA)</h4>
-                        <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700; color:#0f172a; background:white;">
-                            <option value="0|TVA non applicable|Exonération de TVA selon l'article 293 B du CGI">Micro-Entreprise (Exonéré TVA)</option>
-                            <option value="20|TVA Standard (20%)|TVA comprise">TVA Standard (20%)</option>
-                            <option value="8.5|TVA DOM (8.5%)|TVA territoriale">TVA DOM (8.5%)</option>
-                        </select>
+                <div class="editor-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                    <div style="background: #f8fafc; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.06em;">Émetteur (Vous)</h4>
+                        <input type="text" id="expert-name" value="${p.full_name || ''}" placeholder="Raison Sociale" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:700;">
+                        <input type="text" id="expert-siret" value="${p.company_siret || ''}" placeholder="N° SIRET" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:600;">
+                        <textarea id="expert-address" placeholder="Adresse Professionnelle" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; height: 80px; border-radius:12px; border:1px solid #e2e8f0; color: #475569;">${p.company_address || ''}</textarea>
                     </div>
-                    <div style="background: #0f172a; border-radius: 24px; padding: 32px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                    <div style="background: white; padding: 32px; border: 1px solid #f1f5f9; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.06em;">Destinataire (Client)</h4>
+                        <input type="text" id="quote-client-name" placeholder="Nom du Client" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0; font-weight:700;">
+                        <textarea id="quote-client-address" placeholder="Adresse facturation client" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; height: 80px; margin-bottom:12px; border-radius:12px; border:1px solid #e2e8f0;"></textarea>
+                        <input type="text" id="quote-project-title" placeholder="Objet (ex: Mission Audit Stratégique)" class="input-modern" style="width:100%; padding:14px; font-size: 0.95rem; border-radius:12px; border:1px solid #e2e8f0; font-weight:700; background:#f0fdf4; border-color:#dcfce7;">
+                    </div>
+                </div>
+
+                <div id="quote-items-container" style="margin-bottom: 40px; background:#fff; border-radius:20px; padding:2px;">
+                    <div id="quote-items-list">${BusinessModule.renderItemsList()}</div>
+                    <button onclick="BusinessModule.addItem()" class="cta-button ghost" style="width: 100%; margin-top: 20px; font-size: 0.9rem; border-style: dashed; padding:16px; border-width:2px; font-weight:800; color:#10b981; border-color:#dcfce7;">+ Ajouter une prestation</button>
+                </div>
+
+                <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: start;">
+                    <div style="background: #f8fafc; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 20px; letter-spacing:0.06em;">Paramètres Financiers</h4>
+                        
+                        <div style="margin-bottom:20px;">
+                            <label style="display:block; font-size:0.75rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Taxe de zone (TVA)</label>
+                            <select id="tax-config" onchange="BusinessModule.updateSummary()" class="input-modern" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-weight:800; color:#0f172a; background:white;">
+                                <option value="0|TVA non applicable|Exonération de TVA selon l'article 293 B du CGI">Micro-Entreprise (0%)</option>
+                                <option value="20|TVA (20%)|TVA comprise">TVA Standard (20%)</option>
+                                <option value="8.5|TVA DOM (8.5%)|TVA territoriale">TVA DOM (8.5%)</option>
+                            </select>
+                        </div>
+
+                        ${!isInvoice ? `
+                        <div>
+                            <label style="display:block; font-size:0.75rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Acompte à la signature (%)</label>
+                            <input type="number" id="deposit-perc" value="${BusinessModule.currentDeposit}" oninput="BusinessModule.currentDeposit = parseFloat(this.value) || 0; BusinessModule.updateSummary();" class="input-modern" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-weight:800;">
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <div style="background: #0f172a; border-radius: 28px; padding: 40px; color: white; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
                         <div id="quote-summary">${BusinessModule.renderSummary()}</div>
-                        <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; margin-top: 24px; padding:18px; font-weight:950; background: #10b981; border: none; font-size: 1.1rem; border-radius:14px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
-                            <i class="fas fa-file-invoice"></i> Finaliser & Générer le PDF
-                        </button>
+                        <div style="display:grid; gap:12px; margin-top:32px;">
+                            <button onclick="BusinessModule.handlePDFGeneration()" class="cta-button primary" style="width: 100%; padding:20px; font-weight:950; background: #10b981; border: none; font-size: 1.15rem; border-radius:16px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-right:8px;"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                Générer le Devis PDF
+                            </button>
+                            <button onclick="Swal.fire('Signature Active', 'L\\'invitation à signer numériquement sera envoyée au client avec le devis.', 'info')" class="cta-button secondary" style="width: 100%; padding:16px; font-weight:900; background: rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:16px; font-size:0.95rem;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="margin-right:8px;"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                Activer la Signature Électronique
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
     },
+
 
     addItem: () => { BusinessModule.currentItems.push({ id: Date.now(), description: '', quantity: 1, price: 0 }); BusinessModule.updateUI(); },
     removeItem: (id) => { BusinessModule.currentItems = BusinessModule.currentItems.filter(item => item.id !== id); BusinessModule.updateUI(); },
@@ -468,6 +501,7 @@ const BusinessModule = {
             client_name: clientName, project_title: document.getElementById('quote-project-title').value,
             doc_type: BusinessModule.currentType, items: BusinessModule.currentItems, subtotal, commission_amount: commission,
             total_amount: subtotal, total_tax: totalTax, total_ttc: subtotal + totalTax,
+            deposit_perc: document.getElementById('deposit-perc') ? parseFloat(document.getElementById('deposit-perc').value) : 0,
             expert_details: { name: document.getElementById('expert-name').value, siret: document.getElementById('expert-siret').value, address: document.getElementById('expert-address').value },
             client_details: { name: clientName, address: document.getElementById('quote-client-address').value },
             tax_config: taxConfig, status: BusinessModule.currentType === 'quote' ? 'draft' : 'sent'
@@ -486,7 +520,8 @@ const BusinessModule = {
             id: BusinessModule.editingId || 'TEMP', doc_type: BusinessModule.currentType, project_title: document.getElementById('quote-project-title').value,
             client_details: { name: document.getElementById('quote-client-name').value, address: document.getElementById('quote-client-address').value },
             expert_details: { name: document.getElementById('expert-name').value, siret: document.getElementById('expert-siret').value, address: document.getElementById('expert-address').value },
-            items: BusinessModule.currentItems, subtotal, tax_config: taxConfig
+            items: BusinessModule.currentItems, subtotal, tax_config: taxConfig,
+            deposit_perc: document.getElementById('deposit-perc') ? parseFloat(document.getElementById('deposit-perc').value) : 0
         });
     },
 
@@ -507,6 +542,15 @@ const BusinessModule = {
             const tableBody = [[{ text: 'Prestation', style: 'tableHeader', alignment: 'left' }, { text: 'Qté', style: 'tableHeader' }, { text: `P.U HT`, style: 'tableHeader', alignment: 'right' }, { text: `Total HT`, style: 'tableHeader', alignment: 'right' }]];
             doc.items.forEach(i => tableBody.push([{ text: i.description || 'Service', fontSize: 9, margin: [0, 8, 0, 8] }, { text: i.quantity, alignment: 'center', fontSize: 9, margin: [0, 8, 0, 8] }, { text: i.price.toFixed(2), alignment: 'right', fontSize: 9, margin: [0, 8, 0, 8] }, { text: (i.quantity * i.price).toFixed(2), alignment: 'right', fontSize: 9, bold: true, margin: [0, 8, 0, 8] }]));
             const totalTax = doc.subtotal * (doc.tax_config.rate / 100);
+            const grandTotal = doc.subtotal + totalTax;
+            const depositAmount = doc.deposit_perc ? (grandTotal * (doc.deposit_perc / 100)) : 0;
+
+            const summaryBody = [[{ text: 'TOTAL HT', style: 'totalLabel' }, { text: doc.subtotal.toFixed(2) + ' ' + currency, style: 'totalValue' }], [{ text: doc.tax_config.name, style: 'totalLabel' }, { text: totalTax.toFixed(2) + ' ' + currency, style: 'totalValue' }], [{ text: 'NET À PAYER TTC', bold: true, fontSize: 13, color: '#10b981' }, { text: (doc.subtotal + totalTax).toFixed(2) + ' ' + currency, bold: true, fontSize: 13, color: '#10b981' }]];
+            
+            if (depositAmount > 0) {
+                summaryBody.push([{ text: `ACOMPTE REQUIS (${doc.deposit_perc}%)`, bold: true, fontSize: 9, color: '#e11d48', margin: [0, 5, 0, 0] }, { text: depositAmount.toFixed(2) + ' ' + currency, bold: true, fontSize: 10, color: '#e11d48', margin: [0, 5, 0, 0] }]);
+            }
+
             const docDefinition = {
                 pageSize: 'A4', pageMargins: [40, 60, 40, 80], defaultStyle: { font: 'Roboto', fontSize: 10, color: '#1f2937' },
                 styles: { header: { fontSize: 22, bold: true, color: '#10b981' }, docLabel: { fontSize: 18, bold: true, alignment: 'right' }, tableHeader: { bold: true, fontSize: 9, color: '#fff', fillColor: '#111827', margin: [0, 4, 0, 4] }, totalLabel: { bold: true, fontSize: 10, alignment: 'right' }, totalValue: { bold: true, fontSize: 11, alignment: 'right' } },
@@ -515,7 +559,7 @@ const BusinessModule = {
                     { canvas: [{ type: 'line', x1: 0, y1: 15, x2: 515, y2: 15, lineWidth: 1, lineColor: '#f1f5f9' }], margin: [0, 0, 0, 30] },
                     { columns: [{ width: '50%', stack: [{ text: 'PRESTATAIRE :', bold: true, fontSize: 7, color: '#94a3b8' }, { text: doc.expert_details.name.toUpperCase(), bold: true }, { text: doc.expert_details.address, fontSize: 9 }, { text: `SIRET: ${doc.expert_details.siret}`, fontSize: 9 }] }, { width: '50%', stack: [{ text: 'CLIENT :', bold: true, alignment: 'right', fontSize: 7, color: '#94a3b8' }, { text: doc.client_details.name.toUpperCase(), bold: true, alignment: 'right' }, { text: doc.client_details.address, alignment: 'right', fontSize: 9 }, { text: `Objet: ${doc.project_title}`, alignment: 'right', fontSize: 9, bold: true }] }], margin: [0, 0, 0, 40] },
                     { table: { headerRows: 1, widths: ['*', 'auto', 'auto', 'auto'], body: tableBody }, layout: 'lightHorizontalLines' },
-                    { columns: [{ width: '*', stack: [{ text: 'MENTIONS LÉGALES', bold: true, fontSize: 7, color: '#94a3b8', margin: [0, 30, 0, 5] }, { text: doc.tax_config.legal_mention, fontSize: 8, color: '#64748b' }] }, { width: 220, margin: [0, 30, 0, 0], table: { widths: ['*', 'auto'], body: [[{ text: 'TOTAL HT', style: 'totalLabel' }, { text: doc.subtotal.toFixed(2) + ' ' + currency, style: 'totalValue' }], [{ text: doc.tax_config.name, style: 'totalLabel' }, { text: totalTax.toFixed(2) + ' ' + currency, style: 'totalValue' }], [{ text: 'NET À PAYER TTC', bold: true, fontSize: 13, color: '#10b981' }, { text: (doc.subtotal + totalTax).toFixed(2) + ' ' + currency, bold: true, fontSize: 13, color: '#10b981' }]] }, layout: 'noBorders' }] },
+                    { columns: [{ width: '*', stack: [{ text: 'MENTIONS LÉGALES', bold: true, fontSize: 7, color: '#94a3b8', margin: [0, 30, 0, 5] }, { text: doc.tax_config.legal_mention, fontSize: 8, color: '#64748b' }] }, { width: 220, margin: [0, 30, 0, 0], table: { widths: ['*', 'auto'], body: summaryBody }, layout: 'noBorders' }] },
                     { columns: [{ width: '50%', stack: [{ text: 'ACCORD CLIENT', bold: true, fontSize: 8, margin: [0, 40, 0, 10] }, { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 150, y2: 0, lineWidth: 0.5 }] }] }, { width: '50%', stack: [{ text: 'SIGNATURE PRESTATAIRE', bold: true, alignment: 'right', fontSize: 8, margin: [0, 40, 0, 10] }, { text: 'Approuvé par DTC Business', alignment: 'right', fontSize: 7, color: '#10b981' }, { canvas: [{ type: 'rect', x: 100, y: 0, w: 100, h: 30, r: 5, lineColor: '#10b981' }], alignment: 'right' }] }] }
                 ]
             };

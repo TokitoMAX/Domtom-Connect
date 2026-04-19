@@ -246,13 +246,16 @@ const CompaniesModule = {
                                     <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">${c.collaborator_email}</p>
                                     <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
                                         <p style="margin:0; font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">${c.role || 'Éditeur'}</p>
-                                        ${isPending ? `<span style="font-size:0.6rem; background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:800;">INVITATION ENVOYÉE</span>` : ''}
+                                        ${isPending ? 
+                                            `<span style="font-size:0.6rem; background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:4px; font-weight:800; letter-spacing:0.02em;">INVITATION ENVOYÉE</span>` : 
+                                            `<span style="font-size:0.6rem; background:#dcfce7; color:#166534; padding:2px 8px; border-radius:4px; font-weight:800; letter-spacing:0.02em;">ACTIF</span>`
+                                        }
                                     </div>
                                 </div>
                             </div>
                             <div style="display:flex; gap:8px;">
                                 ${isPending ? `
-                                    <button onclick="CompaniesModule.shareInvite('${inviteLink}', '${c.collaborator_email}')" style="background:#0f172a; border:none; color:white; padding:8px 14px; border-radius:8px; font-size:0.7rem; font-weight:800; cursor:pointer;">Relancer</button>
+                                    <button onclick="CompaniesModule.shareInvite('${inviteLink}', '${c.collaborator_email}')" style="background:#0f172a; border:none; color:white; padding:8px 14px; border-radius:10px; font-size:0.7rem; font-weight:800; cursor:pointer; transition:0.2s;">Relancer</button>
                                 ` : ''}
                                 <button onclick="CompaniesModule.removeCollaborator('${c.id}')" style="background:rgba(239, 68, 68, 0.05); border:none; color:#ef4444; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Retirer de l'équipe">×</button>
                             </div>
