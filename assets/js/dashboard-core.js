@@ -531,7 +531,10 @@ function applyGeographicalLocalization(zoneId) {
     // Handle Business Suite visibility/localization
     const businessSuiteLink = document.getElementById('nav-business');
     if (businessSuiteLink) {
-        businessSuiteLink.querySelector('span').textContent = (zoneId === 'OM_FR' || zoneId === 'CAR_FR') ? 'Gestion Business' : 'Business Management';
+        const label = businessSuiteLink.querySelector('.sidebar-label');
+        if (label) {
+            label.textContent = (zoneId === 'OM_FR' || zoneId === 'CAR_FR') ? 'Facturation & Devis' : 'Billing & Quotes';
+        }
     }
 
     // --- ISOLATION : Hide redundant overview cards for Strategic Roles ---
@@ -541,7 +544,8 @@ function applyGeographicalLocalization(zoneId) {
     const visibility = document.getElementById('visibility-preview-container');
     
     if (isStrategic) {
-        if (hub) hub.style.display = 'none';
+        // Only hide hub if it's the old container and the user is NOT entreprise (Enterprise needs focus on team)
+        if (hub && window.activeRole !== 'entreprise') hub.style.display = 'none';
         if (strength) { strength.style.display = 'none'; strength.classList.add('hidden-force'); }
         if (visibility) { visibility.style.display = 'none'; visibility.classList.add('hidden-force'); }
     }
