@@ -1929,10 +1929,6 @@ window.handleDeleteAccount = async function() {
 /**
  * --- DYNAMIC MOBILE NAVIGATION ---
  * Renders bottom navigation links based on user role.
- */
-/**
- * --- DYNAMIC MOBILE NAVIGATION ---
- * Renders bottom navigation links based on user role.
  * Standardizes the UI across Dashboard, Profile, and Messages.
  */
 function renderMobileNav(role) {
