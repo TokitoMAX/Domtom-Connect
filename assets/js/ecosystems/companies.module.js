@@ -16,13 +16,15 @@ const CompaniesModule = {
                 window.location.href = '/marketplace/jobs';
                 break;
             case 'business':
-                if (window.Router) window.Router.navigate('/dashboard/business');
+                const bizView = document.getElementById('business-view');
+                if (bizView && window.BusinessModule) {
+                    window.BusinessModule.renderDashboard(bizView);
+                }
                 break;
             case 'collaboration':
-                const view = document.getElementById('collaboration-view');
-                if (view && typeof CollaborationModule !== 'undefined') {
-                    view.style.display = 'block';
-                    CollaborationModule.renderDashboard(view, null, profile, session);
+                const collabView = document.getElementById('collaboration-view');
+                if (collabView && typeof CollaborationModule !== 'undefined') {
+                    CollaborationModule.renderDashboard(collabView, null, profile, session);
                 }
                 break;
             case 'overview':

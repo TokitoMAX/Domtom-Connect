@@ -12,9 +12,8 @@ const OwnersModule = {
 
         switch (viewId) {
             case 'success-engine':
-                const view = document.getElementById('success-engine-view-fixed');
-                if (view) {
-                    view.style.display = 'block';
+                const seView = document.getElementById('success-engine-view-fixed');
+                if (seView) {
                     if (typeof openProjectCockpit === 'function') openProjectCockpit();
                     else if (typeof loadMyProjects === 'function') loadMyProjects(session?.user?.id);
                 }

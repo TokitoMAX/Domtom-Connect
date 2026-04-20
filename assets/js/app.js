@@ -128,6 +128,10 @@ const App = {
         // 2. Special case for overview (Dashboard Hub)
         if (viewId === 'overview') {
             if (overview) overview.style.display = 'block';
+        } else {
+            // Automatically show the matching container if it exists
+            const target = document.getElementById(`${viewId}-view`) || document.getElementById(`${viewId}-view-fixed`);
+            if (target) target.style.display = 'block';
         }
 
         // 3. Delegate to Ecosystem Module

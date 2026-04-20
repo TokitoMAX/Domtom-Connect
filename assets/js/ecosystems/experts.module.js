@@ -14,7 +14,10 @@ const ExpertsModule = {
 
         switch (viewId) {
             case 'business':
-                if (window.Router) window.Router.navigate('/dashboard/business');
+                const bizView = document.getElementById('business-view');
+                if (bizView && window.BusinessModule) {
+                    window.BusinessModule.renderDashboard(bizView);
+                }
                 break;
             case 'missions':
                 window.location.href = '/marketplace/jobs';

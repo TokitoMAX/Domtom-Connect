@@ -124,7 +124,6 @@ const StandardModule = {
     renderTicketing: async (container, profile, session) => {
         const view = document.getElementById('billetterie-view');
         if (view) {
-            view.style.display = 'block';
             if (typeof loadMyTicketing === 'function') loadMyTicketing();
         }
     },
@@ -135,7 +134,6 @@ const StandardModule = {
     renderMyTickets: async (container, profile, session) => {
         const view = document.getElementById('mes-billets-view');
         if (view) {
-            view.style.display = 'block';
             if (typeof loadMyTickets === 'function') loadMyTickets();
         }
     },

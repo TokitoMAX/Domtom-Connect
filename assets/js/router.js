@@ -49,10 +49,18 @@ const Router = {
      */
     navigate(path, params = null) {
         console.log("[Router] Navigating to:", path);
-        if (window.location.pathname === path && !params) return;
+        if (window.location.pathname + window.location.search === path && !params) return;
 
         window.history.pushState(params, '', path);
         this.handleCurrentRoute();
+    },
+
+    /**
+     * Update URL without triggering router logic (Persistence)
+     */
+    updateUrl(path) {
+        if (window.location.pathname + window.location.search === path) return;
+        window.history.replaceState(null, '', path);
     },
 
     /**

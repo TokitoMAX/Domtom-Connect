@@ -205,10 +205,7 @@ async function openProjectCockpit(projectId, initialStep = 1) {
 
         // Mise à jour de l'URL pour la persistance au rafraîchissement
         const newPath = `/dashboard/success-engine?id=${projectId}`;
-        if (window.location.pathname + window.location.search !== newPath) {
-            if (window.Router) window.Router.navigate(newPath);
-            else window.location.href = newPath;
-        }
+        if (window.Router) window.Router.updateUrl(newPath);
 
         if (list) list.style.display = 'none';
         if (cockpit) cockpit.style.display = 'block';
@@ -702,9 +699,7 @@ function renderMatchCard(expert, isTeaser = false) {
 function closeProjectCockpit() {
     // On force le rendu de la vue liste pour vider le cockpit en cas de blocage d'URL
     if (window.Router) {
-        window.Router.navigate('/dashboard/success-engine');
-    } else {
-        window.location.href = '/dashboard/success-engine';
+        window.Router.updateUrl('/dashboard/success-engine');
     }
 }
 
