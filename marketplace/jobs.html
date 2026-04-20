@@ -456,8 +456,15 @@
         }
 
         async function loadJobs() {
+            const db = window._supabase || _supabase || initSupabase();
+            if (!db) {
+                console.warn("Supabase not initialized yet. Retrying in 100ms...");
+                setTimeout(loadJobs, 100);
+                return;
+            }
+
             const isAdmin = currentUserRole === 'admin';
-            let query = _supabase.from('job_offers').select('*');
+            let query = db.from('job_offers').select('*');
             
             // Si on n'est pas admin, on ne voit que les jobs actifs (ou non-explicitement désactivés)
             if (!isAdmin) {

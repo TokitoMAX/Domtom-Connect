@@ -30,7 +30,7 @@ function initSupabase() {
 
 // Global variable initialization attempt
 if (typeof supabase !== 'undefined' || typeof window.supabase !== 'undefined') {
-    initSupabase();
+    _supabase = initSupabase();
 }
 
 /**

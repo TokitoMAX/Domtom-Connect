@@ -588,7 +588,14 @@
                 const zone = document.getElementById('zone-filter').value;
                 const sector = document.getElementById('sector-filter').value;
 
-                let query = _supabase
+                const db = window._supabase || _supabase || initSupabase();
+                if (!db) {
+                    console.warn("Supabase not initialized yet. Retrying in 100ms...");
+                    setTimeout(loadCompanies, 100);
+                    return;
+                }
+
+                let query = db
                     .from('profiles')
                     .select('*')
                     .eq('listed', true)

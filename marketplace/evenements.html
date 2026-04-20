@@ -216,7 +216,14 @@
             try {
                 const search = document.getElementById('search-input').value.toLowerCase().trim();
 
-                const { data: events, error } = await _supabase
+                const db = window._supabase || _supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+                if (!db) {
+                    console.warn("Retrying event load in 200ms...");
+                    setTimeout(loadEvents, 200);
+                    return;
+                }
+
+                const { data: events, error } = await db
                     .from('events')
                     .select('*')
                     .order('created_at', { ascending: false });

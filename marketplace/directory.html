@@ -77,8 +77,9 @@
     <!-- Local Logic -->
     <script>
         async function loadProfiles() {
-            const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             if (!db) {
+                console.warn("Retrying profile load in 500ms...");
                 setTimeout(loadProfiles, 500);
                 return;
             }

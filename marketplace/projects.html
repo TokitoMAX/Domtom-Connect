@@ -491,10 +491,17 @@
             const container = document.getElementById('projects-container');
             const emptyState = document.getElementById('empty-state');
             try {
+                const db = window._supabase || _supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+                if (!db) {
+                    console.warn("Retrying project load in 200ms...");
+                    setTimeout(loadProjects, 200);
+                    return;
+                }
+
                 const searchTxt = document.getElementById('search-input').value.toLowerCase();
                 const territoryFilter = document.getElementById('territory-filter').value;
 
-                let query = _supabase
+                let query = db
                     .from('projects')
                     .select('*')
                     .eq('is_listed', true)
