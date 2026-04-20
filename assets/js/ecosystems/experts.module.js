@@ -14,10 +14,10 @@ const ExpertsModule = {
 
         switch (viewId) {
             case 'business':
-                window.location.href = '/business.html';
+                if (window.Router) window.Router.navigate('/dashboard/business');
                 break;
             case 'missions':
-                window.location.href = '/marketplace/jobs.html';
+                window.location.href = '/marketplace/jobs';
                 break;
             case 'overview':
             default:
@@ -55,7 +55,7 @@ const ExpertsModule = {
                             <h4 style="margin:0; font-size:1.25rem; font-weight:800; color:#0f172a;">Module Business Actif</h4>
                             <p style="font-size: 0.95rem; color: #475569; line-height:1.6; margin: 8px 0 0 0;">Utilisez notre suite native pour émettre vos devis et facturer vos missions en toute sécurité.</p>
                          </div>
-                         <button onclick="window.location.href='/business.html'" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module</button>
+                         <button onclick="if(window.Router) window.Router.navigate('/dashboard/business');" class="cta-button primary" style="background:#0f172a; border:none; border-radius:12px; font-weight:800; padding:14px 28px;">Accéder au Module</button>
                     </div>
 
                     <!-- Missions matching placeholder -->

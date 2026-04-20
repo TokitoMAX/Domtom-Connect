@@ -87,7 +87,7 @@ const StandardModule = {
                     <div class="dash-card" style="border-radius: 24px; padding: 40px; background: #f8fafc; border: 1px solid #e2e8f0; text-align:center;">
                         <h3 style="font-size: 1.25rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">🎉 Billetterie & Événements</h3>
                         <p style="color:#64748b; margin-bottom:32px;">Vous n'avez pas encore d'événements à venir. Découvrez les prochaines opportunités.</p>
-                        <a href="#billetterie" style="color:#10b981; font-weight:800; text-decoration:none; font-size:0.95rem;">Accéder à ma billetterie →</a>
+                        <a href="/dashboard/billetterie" style="color:#10b981; font-weight:800; text-decoration:none; font-size:0.95rem;">Accéder à ma billetterie →</a>
                     </div>
                 </div>
 

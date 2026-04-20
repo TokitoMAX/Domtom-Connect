@@ -88,8 +88,8 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
         
         if (engineStepContainer) {
             // Déterminer s'il faut afficher la liste des projets
-            const currentHash = window.location.hash;
-            const isListView = currentHash === '#success-engine' && !currentHash.includes('id=');
+            const path = window.location.pathname;
+            const isListView = path === '/dashboard/success-engine' && !window.location.search.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
                 if (headerContainer) headerContainer.innerHTML = '';                if (!currentSREProject) {
@@ -204,9 +204,10 @@ async function openProjectCockpit(projectId, initialStep = 1) {
         if (error) throw error;
 
         // Mise à jour de l'URL pour la persistance au rafraîchissement
-        const newHash = `success-engine?id=${projectId}`;
-        if (window.location.hash !== `#${newHash}`) {
-            window.location.hash = newHash;
+        const newPath = `/dashboard/success-engine?id=${projectId}`;
+        if (window.location.pathname + window.location.search !== newPath) {
+            if (window.Router) window.Router.navigate(newPath);
+            else window.location.href = newPath;
         }
 
         if (list) list.style.display = 'none';
@@ -241,7 +242,7 @@ function renderCockpitWithStep(p, step, score) {
     const current = stepsInfo.find(s => s.num === step);
     let stepHTML = `
         <div class="cockpit-header">
-            <a href="${window.isAdminInspection ? '/mon-espace#overview' : '#success-engine'}" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
+            <a href="${window.isAdminInspection ? '/dashboard' : '/dashboard/success-engine'}" onclick="if(!window.isAdminInspection && window.Router) { event.preventDefault(); window.Router.navigate('/dashboard/success-engine'); }" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
                 &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Projets'}
             </a>
 
@@ -700,11 +701,10 @@ function renderMatchCard(expert, isTeaser = false) {
 
 function closeProjectCockpit() {
     // On force le rendu de la vue liste pour vider le cockpit en cas de blocage d'URL
-    if (typeof showView === 'function') {
-        showView('success-engine', true);
-        window.location.hash = 'success-engine';
+    if (window.Router) {
+        window.Router.navigate('/dashboard/success-engine');
     } else {
-        window.location.hash = 'success-engine';
+        window.location.href = '/dashboard/success-engine';
     }
 }
 

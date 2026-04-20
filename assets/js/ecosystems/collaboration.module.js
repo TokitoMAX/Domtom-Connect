@@ -45,7 +45,7 @@ const CollaborationModule = {
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                                     <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Nos Missions Actives</h3>
                                 </div>
-                                <button onclick="window.location.href='#missions'" style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 16px; border-radius:10px; font-weight:800; font-size:0.8rem; cursor:pointer; color:#475569;">Voir tout</button>
+                                <button onclick="if(window.Router) window.Router.navigate('/dashboard/missions');" style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 16px; border-radius:10px; font-weight:800; font-size:0.8rem; cursor:pointer; color:#475569;">Voir tout</button>
                             </div>
                             
                             <div id="hub-shared-jobs" style="display: grid; gap: 16px;">
@@ -101,7 +101,7 @@ const CollaborationModule = {
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>
                                     <span>Salon de discussion</span>
                                 </a>
-                                <a href="#missions" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.07); padding:18px; border-radius:14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);">
+                                <a href="/dashboard/missions" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:white; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.07); padding:18px; border-radius:14px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                     <span>Pilotage des Missions</span>
                                 </a>

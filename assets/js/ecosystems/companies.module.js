@@ -13,10 +13,10 @@ const CompaniesModule = {
 
         switch (viewId) {
             case 'missions':
-                window.location.href = '/marketplace/jobs.html';
+                window.location.href = '/marketplace/jobs';
                 break;
             case 'business':
-                window.location.href = '/business.html';
+                if (window.Router) window.Router.navigate('/dashboard/business');
                 break;
             case 'collaboration':
                 const view = document.getElementById('collaboration-view');
@@ -91,7 +91,7 @@ const CompaniesModule = {
                                 <h3 style="font-size: 1.5rem; font-weight: 950; margin:0; color: #0f172a;">Annonces & Missions</h3>
                                 <p id="mission-status-label" style="font-size:0.8rem; color:#64748b; font-weight:700; margin-top:4px;">Quota : Chargement...</p>
                             </div>
-                            <button id="main-job-btn" onclick="window.location.href='/marketplace/jobs.html'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:16px 32px;">Publier une Mission</button>
+                            <button id="main-job-btn" onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:16px 32px;">Publier une Mission</button>
                         </div>
                         
                         <div id="jobs-container-${container.id || 'main'}" class="company-jobs-view-container">
@@ -259,7 +259,7 @@ const CompaniesModule = {
                 <div style="display:grid; gap:12px;">
                     ${collab.map(c => {
                         const isPending = c.status === 'pending';
-                        const inviteLink = `${window.location.origin}/mon-espace?invite=${c.id}`;
+                        const inviteLink = `${window.location.origin}/dashboard?invite=${c.id}`;
                         
                         return `
                         <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #f1f5f9; position:relative;">
@@ -331,7 +331,7 @@ const CompaniesModule = {
 
             if (error) throw error;
 
-            const inviteLink = `${window.location.origin}/mon-espace?invite=${data[0].id}`;
+            const inviteLink = `${window.location.origin}/dashboard?invite=${data[0].id}`;
 
             Swal.fire({ 
                 icon: 'success', 

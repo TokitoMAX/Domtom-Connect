@@ -16,6 +16,10 @@
         {
             "source": "/marketplace/expert/:id",
             "destination": "/marketplace/profile-detail-expert?id=:id"
+        },
+        {
+            "source": "/dashboard/:path*",
+            "destination": "/mon-espace"
         }
     ],
     "redirects": [

@@ -53,7 +53,7 @@ const OwnersModule = {
                                 <p style="font-size:1.1rem; color:#94a3b8; margin-top:12px; line-height:1.6; font-weight:500;">
                                     Vote Cockpit de réussite. Le **Success Engine** vous guide étape par étape pour certifier votre projet, lever des fonds et impacter votre territoire.
                                 </p>
-                                <a href="#success-engine" class="cta-button primary" style="background:#10b981; border:none; padding:18px 32px; border-radius:14px; font-weight:900; text-decoration:none; color:white; display:inline-flex; margin-top:32px; font-size:1.05rem;">
+                                <a href="/dashboard/success-engine" class="cta-button primary" style="background:#10b981; border:none; padding:18px 32px; border-radius:14px; font-weight:900; text-decoration:none; color:white; display:inline-flex; margin-top:32px; font-size:1.05rem;">
                                     Démarrer le Pilotage
                                 </a>
                             </div>

@@ -31,7 +31,7 @@ const TicketingModule = {
                         <div style="font-size: 3rem; margin-bottom: 20px;">🎟️</div>
                         <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucune billetterie</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 24px;">Vous n'avez pas encore publié d'événement avec billetterie native.</p>
-                        <button onclick="window.location.hash='#billetterie?action=create'" class="cta-button primary" style="background:#10b981;">Créer un évènement</button>
+                        <button onclick="if(window.Router) window.Router.navigate('/dashboard/billetterie?action=create');" class="cta-button primary" style="background:#10b981;">Créer un évènement</button>
                     </div>
                 `;
                 return;
@@ -114,7 +114,7 @@ const TicketingModule = {
                 container.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 60px; background: white; border-radius: 20px; border: 1px solid var(--gray-200);">
                         <p style="color: var(--text-secondary); margin-bottom: 24px;">Vous n'avez pas encore acheté de billets.</p>
-                        <a href="/marketplace/evenements.html" class="cta-button primary">Parcourir les évènements</a>
+                        <a href="/marketplace/evenements" class="cta-button primary">Parcourir les évènements</a>
                     </div>
                 `;
                 return;
@@ -131,7 +131,7 @@ const TicketingModule = {
                             <h4 style="margin:0; font-size:1rem; font-weight:800;">${ev.title}</h4>
                             <p style="margin:4px 0 0; font-size:0.75rem; color:#64748b;">${ev.event_date} • ${ev.location}</p>
                         </div>
-                        <a href="/ticket-view.html?id=${t.id}" target="_blank" class="cta-button secondary" style="font-size:0.75rem; padding:8px 16px;">Voir Billet</a>
+                        <a href="/ticket-view?id=${t.id}" target="_blank" class="cta-button secondary" style="font-size:0.75rem; padding:8px 16px;">Voir Billet</a>
                     </div>
                 `;
             }).join('');
