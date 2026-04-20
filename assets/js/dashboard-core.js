@@ -442,6 +442,23 @@ async function loadDashboardContent(session) {
     window.activeRole = role; // Standardize for other functions
     renderMobileNav(role);
 
+    // --- SIDEBAR ISOLATION FOR EXPLORATIVE USERS ---
+    const isSpecialist = (role === 'expert' || role === 'prestataire' || role === 'entreprise' || role === 'porteur' || role === 'owner');
+    const pilotageSection = document.querySelector('.sidebar-section-title:nth-of-type(2)'); // "Mon Pilotage"
+    const successEngineLink = document.getElementById('nav-success-engine');
+    
+    if (!isSpecialist) {
+        // We hide the advanced project pilotage for basic/spectator users
+        if (successEngineLink) {
+            successEngineLink.parentElement.style.display = 'none';
+        }
+        // Also hide the "Mon Pilotage" header if it exists
+        const titles = document.querySelectorAll('.sidebar-section-title');
+        titles.forEach(t => {
+            if (t.textContent === "Mon Pilotage") t.style.display = 'none';
+        });
+    }
+
     // Profile Strength & Visibility
     updateProfileStrength(profile);
     renderVisibilityPreview(profile);
@@ -675,8 +692,10 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
             }
             break;
         case 'spectator':
-            if (typeof SpectatorsModule !== 'undefined') {
-                SpectatorsModule.renderDashboard(target, additional, profile, session);
+        case 'user':
+        default:
+            if (typeof StandardModule !== 'undefined') {
+                StandardModule.renderDashboard(target, additional, profile, session);
             }
             break;
         case 'porteur':
@@ -685,11 +704,6 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
                 OwnersModule.renderDashboard(target, additional, profile, session);
             }
             break;
-        default:
-            // --- ECOSYSTEME : EXPLORATEUR (Standard) ---
-            // On ne masque rien ici car c'est la vue par defaut
-            if (header) header.style.display = 'block';
-            if (standardCards) standardCards.style.display = 'grid';
             
             if (typeof StandardModule !== 'undefined') {
                 StandardModule.renderDashboard(target, additional, profile, session);
@@ -2005,10 +2019,14 @@ function renderMobileNav(role) {
 
     if (normalizedRole === 'entreprise' || normalizedRole === 'expert') {
         links = [homeLink, hubLink, boardLink, msgLink, profileLink];
-    } else {
-        // Project Owners / Default
-        const epopeeLinkFixed = { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/epopee' };
+    } else if (normalizedRole === 'porteur') {
+        // Project Owners
+        const epopeeLinkFixed = { id: 'epopee', label: 'Épopée', icon: 'M13 10V3L4 14h7v7l9-11h-7z', href: '/mon-espace#overview' };
         links = [homeLink, epopeeLinkFixed, boardLink, msgLink, profileLink];
+    } else {
+        // Spectators / Explorers / Basic Users
+        const directoryLink = { id: 'talents', label: 'Talents', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-10a4 4 0 11-8 0 4 4 0 018 0zm6 3l2 2m0 0l2-2m-2 2v-6', href: '/marketplace/directory.html' };
+        links = [homeLink, directoryLink, boardLink, msgLink, profileLink];
     }
 
     nav.innerHTML = links.map(link => {
