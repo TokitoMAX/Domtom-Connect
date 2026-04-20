@@ -119,23 +119,36 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                             ${projects && projects.length > 0 ? projects.map(p => {
                                 const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                                 return `
-                                <div class="cockpit-card-premium" style="border-left: 4px solid #10b981; position:relative; display:flex; flex-direction:column;">
-                                    <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#ef4444; cursor:pointer; opacity:0.4; font-size:1.2rem;" title="Supprimer">×</button>
-                                    <div class="dash-badge emerald" style="margin-bottom:12px;">PROJET EN COURS</div>
-                                    <div class="card-title" style="font-size: 1.4rem; font-weight:900;">${p.title || p.name || 'Sans titre'}</div>
-                                    <div style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:700;">📍 ${p.territory || 'Territoire non défini'}</div>
+                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:32px; border-radius:28px; background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; backdrop-filter: blur(10px); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
+                                    <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:24px; right:24px; background:#fee2e2; border:none; color:#ef4444; width:32px; height:32px; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">×</button>
                                     
-                                    <div style="margin-top:auto;">
-                                        <div class="dash-progress-container" style="height:8px; margin-bottom:8px; background:#f1f5f9;">
-                                            <div class="dash-progress-bar" style="width: ${score}%; background:#10b981;"></div>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 24px;">
-                                            <span style="font-weight: 800; color: #1e293b;">Maturité : ${score}%</span>
-                                            <span style="color: #94a3b8;">${(p.total_raised || 0).toLocaleString()} € récoltés</span>
+                                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+                                        <div style="background:#ecfdf5; color:#10b981; padding:6px 12px; border-radius:100px; font-size:0.65rem; font-weight:900; letter-spacing:0.05em; text-transform:uppercase;">ÉPOPÉE ACTIVE</div>
+                                    </div>
+
+                                    <div class="card-title" style="font-size: 1.6rem; font-weight:950; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">${p.title || p.name || 'Sans titre'}</div>
+                                    <div style="font-size:0.9rem; color:#64748b; margin-bottom:32px; font-weight:600; display:flex; align-items:center; gap:6px;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                                        ${p.territory || 'Territoire à définir'}
+                                    </div>
+                                    
+                                    <div style="margin-top:auto; padding-top:24px; border-top:1px solid #f1f5f9;">
+                                        <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 12px;">
+                                            <div>
+                                                <span style="display:block; font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Stade de Maturité</span>
+                                                <span style="font-size:1.5rem; font-weight:950; color: #0f172a;">${score}%</span>
+                                            </div>
+                                            <span style="font-size:0.85rem; font-weight:800; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:4px 10px; border-radius:8px;">${(p.total_raised || 0).toLocaleString()} €</span>
                                         </div>
 
-                                        <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="width:100%; justify-content:center; font-weight:900; background:#0f172a; margin-bottom:12px;">Piloter mon projet</button>
-                                        <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="width:100%; justify-content:center; font-weight:800; border-radius:12px; font-size:0.75rem;">Suivi des Financements</button>
+                                        <div class="dash-progress-container" style="height:10px; margin-bottom:32px; background:#f1f5f9; border-radius:100px; overflow:hidden;">
+                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);"></div>
+                                        </div>
+
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:900; background:#0f172a; border-radius:14px; font-size:0.9rem; padding:14px;">Piloter l'Épopée</button>
+                                            <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="justify-content:center; font-weight:800; border-radius:14px; border:1px solid #e2e8f0; font-size:0.85rem; background:white; color:#0f172a;">Financements</button>
+                                        </div>
                                     </div>
                                 </div>
                                 `;

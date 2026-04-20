@@ -67,27 +67,42 @@ const StandardModule = {
                         </div>
                     </div>
 
+                    <!-- DISCOVERY SECTION (WOW Factor) -->
+                    <div style="margin-top: 16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">💎 Opportunités Flash</h3>
+                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                            <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0; position:relative; overflow:hidden;">
+                                <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">Événement à la une</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Stratégie Territoriale 2026</h4>
+                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Rejoignez 150 experts pour définir le futur de l'innovation locale.</p>
+                                <button onclick="window.Router.navigate('/dashboard/billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Découvrir →</button>
+                            </div>
+                            <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0;">
+                                <div style="font-size:0.65rem; font-weight:850; color:#f59e0b; text-transform:uppercase; margin-bottom:8px;">Nouvelle Épopée</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : Énergies Vertes Martinique</h4>
+                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Un nouveau porteur de projet recherche des experts en photovoltaïque.</p>
+                                <button onclick="window.location.href='/marketplace/directory'" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Voir le projet →</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Professional Profile Status Card -->
-                    <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: center;">
+                    <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: center; margin-top:16px;">
                         <div>
                             <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Votre Écosystème Personnel</h3>
-                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Complétez` : 'Complétez'} votre identité numérique pour être reconnu par les experts et porteurs de projets territoriaux.</p>
+                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Votre` : 'Votre'} profil est le point de départ de votre influence territoriale.</p>
                             <div style="display:flex; gap:16px;">
                                 <a href="/profile" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">Gérer mon profil</a>
                                 <a href="/marketplace/directory" class="cta-button secondary" style="border:1px solid #e2e8f0; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:#0f172a; font-size:0.9rem;">Explorer les talents</a>
                             </div>
                         </div>
                         <div style="text-align: center; border-left: 1px solid #f1f5f9; padding-left: 32px;">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; margin-bottom: 4px;">100%</div>
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Vérifié</div>
+                            <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; margin-bottom: 4px;">💯</div>
+                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Identité Prête</div>
                         </div>
-                    </div>
-
-                    <!-- My Activity Placeholder -->
-                    <div class="dash-card" style="border-radius: 24px; padding: 40px; background: #f8fafc; border: 1px solid #e2e8f0; text-align:center;">
-                        <h3 style="font-size: 1.25rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">🎉 Billetterie & Événements</h3>
-                        <p style="color:#64748b; margin-bottom:32px;">Vous n'avez pas encore d'événements à venir. Découvrez les prochaines opportunités.</p>
-                        <a href="/dashboard/billetterie" style="color:#10b981; font-weight:800; text-decoration:none; font-size:0.95rem;">Accéder à ma billetterie →</a>
                     </div>
                 </div>
 
@@ -207,10 +222,71 @@ const StandardModule = {
                 </div>
 
                 <div class="profile-side-card">
-                    <div class="dash-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px; border-radius: 24px; color: white;">
+                    <!-- PROFILE ACTIONS -->
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Dossier Digital</h4>
+                        <div style="display: grid; gap: 12px;">
+                            <button onclick="window.location.href='/registration/onboarding'" class="cta-button" style="width: 100%; padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 800;">Compléter mon Onboarding</button>
+                            <button onclick="alert('Export PDF du profil bientôt disponible')" class="cta-button secondary" style="width: 100%; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Télécharger CV / Dossier</button>
+                        </div>
+                    </div>
+
+                    <!-- UPGRADE CTA -->
+                    <div class="dash-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px; border-radius: 24px; color: white; display: none;">
                         <h4 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;">Passez au niveau supérieur</h4>
                         <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 24px; line-height: 1.5;">Devenez <strong>Expert Territorial</strong> ou <strong>Porteur de Projet</strong> pour débloquer le Success Engine.</p>
                         <button onclick="window.location.href='/registration/onboarding'" style="width: 100%; padding: 14px; border-radius: 12px; background: white; color: #059669; border: none; font-weight: 800; cursor: pointer;">Changer de Statut</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECOSYSTEM HUB (4 Cards Grid) -->
+            <div style="padding: 0 24px 48px 24px;">
+                <div style="margin-bottom: 32px;">
+                    <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">Hub d'Écosystèmes</h2>
+                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 500;">Activez vos différentes identités territoriales pour débloquer de nouveaux outils.</p>
+                </div>
+
+                <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+                    <!-- EXPLORATEUR (Current) -->
+                    <div class="eco-role-card ${profile.role === 'spectateur' || !profile.role ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'spectateur' || !profile.role ? '#10b981' : '#e2e8f0'}; position: relative;">
+                        <span style="position: absolute; top: 16px; right: 1px; background: #10b981; color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.6rem; font-weight: 800; display: ${profile.role === 'spectateur' || !profile.role ? 'block' : 'none'};">ACTIF</span>
+                        <div style="width: 48px; height: 48px; background: #f8fafc; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #64748b;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z"/></svg>
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Explorateur</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Découverte du réseau, participation aux événements et suivi de projets.</p>
+                        <button onclick="switchRole('spectateur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #f1f5f9; color: #475569; border: none;">${profile.role === 'spectateur' || !profile.role ? 'Déjà Actif' : 'Activer Discovery'}</button>
+                    </div>
+
+                    <!-- PORTEUR (Owner) -->
+                    <div class="eco-role-card ${profile.role === 'porteur' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'porteur' ? '#10b981' : '#e2e8f0'};">
+                        <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #10b981;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Porteur de Projet</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Lancement d'épopées stratégiques, accès au Success Engine et fonds.</p>
+                        <button onclick="switchRole('porteur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Pilotage</button>
+                    </div>
+
+                    <!-- EXPERT (Expert) -->
+                    <div class="eco-role-card ${profile.role === 'expert' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'expert' ? '#10b981' : '#e2e8f0'};">
+                        <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #3b82f6;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z"/></svg>
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Expert / Talent</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Mise en avant de vos compétences, Hub Business, devis et facturation.</p>
+                        <button onclick="switchRole('expert')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Expertise</button>
+                    </div>
+
+                    <!-- ENTREPRISE (Company) -->
+                    <div class="eco-role-card ${profile.role === 'entreprise' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'entreprise' ? '#10b981' : '#e2e8f0'};">
+                        <div style="width: 48px; height: 48px; background: #fdf2f8; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #db2777;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M3 7v1a3 3 0 006 0V7m6 0v1a3 3 0 006 0V7m-6 0h6M9 7h6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-6 0h6m-6 0v14m6-14v14"/></svg>
+                        </div>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Entreprise</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Dépôt d'offres de mission, recrutement de talents et impact de marque.</p>
+                        <button onclick="switchRole('entreprise')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Growth</button>
                     </div>
                 </div>
             </div>

@@ -148,6 +148,42 @@ async function signUpWithEmail(email, password, fullName) {
         }
     });
 
+/**
+ * Global Role Switching Logic
+ */
+async function switchRole(newRole) {
+    try {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        if (!session) throw new Error("Session expirée");
+
+        const { error } = await window._supabase
+            .from('profiles')
+            .update({ role: newRole })
+            .eq('id', session.user.id);
+
+        if (error) throw error;
+
+        // Visual feedback
+        if (window.Swal) {
+            await Swal.fire({
+                title: 'Écosystème Activé !',
+                text: `Votre centre de commandement ${newRole} est prêt.`,
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        // Reload to apply new role logic
+        window.location.reload();
+    } catch (err) {
+        console.error("Role Switch Error:", err);
+        alert("Erreur lors du changement de rôle : " + err.message);
+    }
+}
+
+window.switchRole = switchRole;
+
     if (error) throw error;
     return data;
 }

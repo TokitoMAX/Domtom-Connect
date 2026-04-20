@@ -8,7 +8,7 @@ const ExpertsModule = {
     /**
      * Module Router - Professional Isolation
      */
-    route: async (viewId, container, profile, session) => {
+    route: async (viewId, container, profile, session, params) => {
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
