@@ -410,9 +410,16 @@ async function loadDashboardContent(session) {
     // On cache le header standard si on est dans un Ã©cosystÃ¨me spÃ©cifique pour Ã©viter le doublon
     const isEcosystemRole = (role === 'expert' || role === 'prestataire' || role === 'entreprise' || role === 'spectator' || role === 'porteur' || role === 'owner');
     
-    if (standardHeader && isEcosystemRole) {
-        standardHeader.style.display = 'none';
-        standardHeader.classList.add('hidden-force');
+    if (isEcosystemRole) {
+        // Method 1: ID selector (fastest)
+        const greeting = document.getElementById('user-greeting');
+        const badge = document.getElementById('user-role-badge');
+        const header = document.querySelector('.dash-section-header');
+        
+        if (header) header.classList.add('hidden-force');
+        if (header) header.style.display = 'none';
+        
+        console.log("Dashboard Core: Isolation Active for role", role);
     } else if (greetingEl) {
         greetingEl.textContent = `Bonjour, ${name}`; 
     }
@@ -504,10 +511,14 @@ function renderRoleBadge(el, role) {
         el.textContent = "ADMINISTRATEUR SYSTÃˆME";
         el.style.background = "#0f172a";
         el.style.color = "white";
-    } else {
+    } else if (role === 'porteur' || role === 'owner') {
         el.textContent = "PORTEUR DE PROJET";
         el.style.background = "rgba(59, 130, 246, 0.1)";
         el.style.color = "#3b82f6";
+    } else {
+        el.textContent = "EXPLORATEUR";
+        el.style.background = "#f1f5f9";
+        el.style.color = "#64748b";
     }
     el.style.display = 'inline-block';
     el.style.textTransform = 'uppercase';
@@ -626,15 +637,32 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
     const staticHeader = document.querySelector('.dash-section-header');
 
     // NETTOYAGE & ISOLATION ABSOLUE
-    if (ecosystemContainer) ecosystemContainer.innerHTML = "";
-    if (staticHeader) staticHeader.style.display = 'none';
-    if (standardCards) standardCards.style.display = 'none';
+    const header = document.querySelector('.dash-section-header');
+    if (header) {
+        header.style.display = 'none';
+        header.classList.add('hidden-force');
+    }
+    
+    if (standardCards) {
+        standardCards.style.display = 'none';
+        standardCards.classList.add('hidden-force');
+        standardCards.innerHTML = "";
+    }
+    
+    if (ecosystemContainer) {
+        ecosystemContainer.innerHTML = "";
+        ecosystemContainer.style.display = 'block';
+    }
 
     // 2. DELEGATE TO ECOSYSTEM MODULES
-    // Use ecosystemContainer as main target if available, otherwise fallback to container
     const target = ecosystemContainer || container;
     
-    switch (role) {
+    // Safety Mapping for legacy roles
+    let activeRole = role;
+    if (!activeRole && profile?.role) activeRole = profile.role;
+    if (activeRole === 'user' && (profile?.company_name)) activeRole = 'entreprise';
+    
+    switch (activeRole) {
         case 'expert':
         case 'prestataire':
             if (typeof ExpertsModule !== 'undefined') {
