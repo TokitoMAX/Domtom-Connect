@@ -122,17 +122,15 @@ const StandardModule = {
      * Billetterie Rendering (Moved from dashboard-core)
      */
     renderTicketing: async (container, profile, session) => {
-        // Logic will be implemented here, delegating the ID 'billetterie-list'
         const view = document.getElementById('billetterie-view');
         if (view) {
             view.style.display = 'block';
-            // Trigger the actual load
             if (typeof loadMyTicketing === 'function') loadMyTicketing();
         }
     },
 
     /**
-     * My Tickets Rendering
+     * Rendu de la vue "Mes Billets"
      */
     renderMyTickets: async (container, profile, session) => {
         const view = document.getElementById('mes-billets-view');
