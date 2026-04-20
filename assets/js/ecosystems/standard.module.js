@@ -71,9 +71,9 @@ const StandardModule = {
                     <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: center;">
                         <div>
                             <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Votre Écosystème Personnel</h3>
-                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">Complétez votre identité numérique pour être reconnu par les experts et porteurs de projets territoriaux.</p>
+                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Complétez` : 'Complétez'} votre identité numérique pour être reconnu par les experts et porteurs de projets territoriaux.</p>
                             <div style="display:flex; gap:16px;">
-                                <a href="#profile" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">Gérer mon profil</a>
+                                <a href="/profile" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">Gérer mon profil</a>
                                 <a href="/marketplace/directory" class="cta-button secondary" style="border:1px solid #e2e8f0; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:#0f172a; font-size:0.9rem;">Explorer les talents</a>
                             </div>
                         </div>

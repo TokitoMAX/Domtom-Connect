@@ -12,7 +12,11 @@ window.activeBusinessId = null;
 
 // --- 2. INITIALISATION ---
 document.addEventListener('DOMContentLoaded', async () => {
-    const session = await getSession();
+    // Initialisation du cockpit (Session + Profil + Routage)
+    await checkSession();
+
+    // Vérification des invitations et collaborations en arrière-plan
+    const session = window.currentSession;
     if (session && session.user) {
         const urlParams = new URLSearchParams(window.location.search);
         const inviteId = urlParams.get('invite');
@@ -66,10 +70,13 @@ function showView(viewId, forceRender = false) {
 
     // 3. Synchronisation UI (Headers, Navbar)
     const isOverview = baseView === 'overview';
+    const overviewView = document.getElementById('overview-view');
     const greeting = document.querySelector('.dash-section-header');
     const topNav = document.querySelector('.top-nav');
 
+    if (overviewView) overviewView.style.display = isOverview ? 'block' : 'none';
     if (greeting) greeting.style.display = isOverview ? 'block' : 'none';
+    
     // Top Nav reste visible sur les écosystèmes standard
     if (topNav) topNav.style.display = 'flex';
 
