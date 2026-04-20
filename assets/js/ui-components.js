@@ -72,6 +72,19 @@ const UIComponents = {
         sidebar.innerHTML = html;
     },
 
+    renderSidebarLink(path, label, icon) {
+        return `
+            <a href="${path}" class="sidebar-link" title="${label}">
+                <div class="sidebar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="${icon}" />
+                    </svg>
+                </div>
+                <span class="sidebar-label">${label}</span>
+            </a>
+        `;
+    },
+
     /**
      * Render the Top Navigation (Marketplace & Landing Style)
      */
