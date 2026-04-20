@@ -7,6 +7,7 @@ const OwnersModule = {
      * Module Router - Professional Isolation
      */
     route: async (viewId, container, profile, session, params) => {
+        console.log(`[OwnersModule] Routing to: ${viewId}`);
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
@@ -14,8 +15,8 @@ const OwnersModule = {
             case 'success-engine':
                 const seView = document.getElementById('success-engine-view-fixed');
                 if (seView) {
-                    if (typeof openProjectCockpit === 'function') openProjectCockpit();
-                    else if (typeof loadMyProjects === 'function') loadMyProjects(session?.user?.id);
+                    if (typeof window.openProjectCockpit === 'function') window.openProjectCockpit();
+                    else if (typeof window.loadMyProjects === 'function') window.loadMyProjects(session?.user?.id);
                 }
                 break;
             case 'overview':
@@ -30,6 +31,7 @@ const OwnersModule = {
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
+        console.log("[OwnersModule] Rendering Dashboard");
 
         container.innerHTML = `
             <div class="dashboard-grid role-owner-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -71,11 +73,9 @@ const OwnersModule = {
 
                     <!-- PROJECT LIST (DYNAMIC) -->
                     <div id="owners-projects-feed">
-                        <div style="background: white; border-radius: 24px; padding: 40px; text-align: center; border: 1px dashed #cbd5e1;">
-                            <div style="font-size: 2.5rem; margin-bottom: 16px;">🚀</div>
-                            <h3 style="font-size: 1.2rem; font-weight: 800; color:#0f172a;">Aucune épopée en cours</h3>
-                            <p style="color:#64748b; margin-bottom: 24px;">Transformez votre idée en projet concret dès maintenant.</p>
-                            <button onclick="openProjectModal()" class="cta-button primary" style="background:#0f172a;">Lancer mon premier projet</button>
+                        <div style="padding: 40px; text-align: center;">
+                            <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
+                            <p style="color:#64748b; margin-top: 16px;">Chargement de vos données stratégiques...</p>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,14 @@ const OwnersModule = {
      */
     async updateDashboardStats(userId) {
         try {
-            const { data: projects, error } = await _supabase
+            console.log("[OwnersModule] Fetching stats for user:", userId);
+            const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
+            if (!db) {
+                console.error("[OwnersModule] Supabase DB not available");
+                return;
+            }
+
+            const { data: projects, error } = await db
                 .from('projects')
                 .select('*')
                 .eq('owner_id', userId);
@@ -134,10 +141,11 @@ const OwnersModule = {
             const feed = document.getElementById('owners-projects-feed');
             if (!feed) return;
 
-            // CAS : UN SEUL PROJET - ON AFFICHE LE TRAVAIL DIRECTEMENT (Vision, Mission, etc.)
+            // CAS : UN SEUL PROJET - ON AFFICHE LE TRAVAIL DIRECTEMENT
             if (projectsCount === 1) {
                 const latest = projects[0];
-                const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
+                const calcMaturity = window.calculateProjectMaturity || (typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity : () => 0);
+                const score = calcMaturity(latest);
                 
                 feed.innerHTML = `
                     <div style="display: grid; gap: 24px;">
@@ -186,8 +194,10 @@ const OwnersModule = {
                         <h3 style="font-size: 1.1rem; font-weight: 850; color:#0f172a; margin-bottom: 12px;">Mes Épopées Actives</h3>
                 `;
 
+                const calcMaturity = window.calculateProjectMaturity || (typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity : () => 0);
+
                 projects.forEach(p => {
-                    const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
+                    const score = calcMaturity(p);
                     totalMaturity += score;
                     projectsHtml += `
                         <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: grid; grid-template-columns: 1fr 200px; align-items: center; cursor: pointer; transition: all 0.3s;" onclick="window.Router.navigate('/dashboard/success-engine?id=${p.id}')">
@@ -215,9 +225,20 @@ const OwnersModule = {
                 const avgMaturity = Math.round(totalMaturity / projectsCount);
                 const avgEl = document.getElementById('dash-avg-maturity');
                 if (avgEl) avgEl.textContent = `${avgMaturity} %`;
+            } else {
+                feed.innerHTML = `
+                    <div style="background: white; border-radius: 24px; padding: 40px; text-align: center; border: 1px dashed #cbd5e1;">
+                        <div style="font-size: 2.5rem; margin-bottom: 16px;">🚀</div>
+                        <h3 style="font-size: 1.2rem; font-weight: 800; color:#0f172a;">Aucune épopée en cours</h3>
+                        <p style="color:#64748b; margin-bottom: 24px;">Transformez votre idée en projet concret dès maintenant.</p>
+                        <button onclick="if(typeof openProjectModal === 'function') openProjectModal()" class="cta-button primary" style="background:#0f172a;">Lancer mon premier projet</button>
+                    </div>
+                `;
             }
         } catch (err) {
             console.error("Dashboard Stats Update Error:", err);
+            const feed = document.getElementById('owners-projects-feed');
+            if (feed) feed.innerHTML = `<p style="color:red; text-align:center;">Erreur lors du chargement des données. Veuillez rafraîchir la page.</p>`;
         }
     }
 };
