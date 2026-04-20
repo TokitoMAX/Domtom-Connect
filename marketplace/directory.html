@@ -846,7 +846,7 @@
                 let query = _supabase
                     .from('profiles')
                     .select('*')
-                    .eq('listed', true)
+                    .not('listed', 'is', false)
                     .in('role', ['expert', 'prestataire'])
                     .neq('full_name', 'Domtom Connect');
                 

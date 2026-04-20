@@ -459,9 +459,9 @@
             const isAdmin = currentUserRole === 'admin';
             let query = _supabase.from('job_offers').select('*');
             
-            // Si on n'est pas admin, on ne voit que les jobs actifs
+            // Si on n'est pas admin, on ne voit que les jobs actifs (ou non-explicitement désactivés)
             if (!isAdmin) {
-                query = query.eq('is_active', true);
+                query = query.not('is_active', 'is', false);
             }
             
             const { data: jobs, error } = await query.order('created_at', { ascending: false });
