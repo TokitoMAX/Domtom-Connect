@@ -7,7 +7,7 @@ const OwnersModule = {
      * Module Router - Professional Isolation
      */
     route: async (viewId, container, profile, session, params) => {
-        console.log(`[OwnersModule] Routing to: ${viewId}`);
+        console.log(`[OwnersModule] Routing to: ${viewId}`, params ? params.toString() : 'No params');
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
@@ -15,8 +15,14 @@ const OwnersModule = {
             case 'success-engine':
                 const seView = document.getElementById('success-engine-view-fixed');
                 if (seView) {
-                    if (typeof window.openProjectCockpit === 'function') window.openProjectCockpit();
-                    else if (typeof window.loadMyProjects === 'function') window.loadMyProjects(session?.user?.id);
+                    const projectId = params ? params.get('id') : null;
+                    console.log(`[OwnersModule] Success Engine. ProjectID from params: ${projectId}`);
+                    
+                    if (typeof window.openProjectCockpit === 'function' && projectId) {
+                        window.openProjectCockpit(projectId);
+                    } else if (typeof window.loadMyProjects === 'function') {
+                        window.loadMyProjects(session?.user?.id);
+                    }
                 }
                 break;
             case 'overview':
@@ -74,7 +80,6 @@ const OwnersModule = {
                     <!-- PROJECT LIST (DYNAMIC) -->
                     <div id="owners-projects-feed">
                         <div style="padding: 40px; text-align: center;">
-                            <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
                             <p style="color:#64748b; margin-top: 16px;">Chargement de vos données stratégiques...</p>
                         </div>
                     </div>
@@ -155,7 +160,7 @@ const OwnersModule = {
                                     <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; margin: 0;">${latest.title}</h2>
                                     <p style="color: #10b981; font-weight: 800; margin-top: 4px;">Épopée Active • ${score}% de maturité stratégique</p>
                                 </div>
-                                <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background: #0f172a;">Ouvrir le Cockpit Intégral</button>
+                                <button onclick="window.Router.navigate('/dashboard/success-engine?id=${latest.id}')" class="cta-button primary" style="background: #0f172a;">Ouvrir le Cockpit Intégral</button>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px solid #f1f5f9; padding-top: 32px;">
@@ -186,7 +191,7 @@ const OwnersModule = {
                 return;
             }
 
-            // CAS : PLUSIEURS PROJETS - ON AFFICHE LA LISTE AVEC APERÇU
+            // CAS : PLUSIEURS PROJETS
             if (projectsCount > 0) {
                 let totalMaturity = 0;
                 let projectsHtml = `
@@ -231,7 +236,7 @@ const OwnersModule = {
                         <div style="font-size: 2.5rem; margin-bottom: 16px;">🚀</div>
                         <h3 style="font-size: 1.2rem; font-weight: 800; color:#0f172a;">Aucune épopée en cours</h3>
                         <p style="color:#64748b; margin-bottom: 24px;">Transformez votre idée en projet concret dès maintenant.</p>
-                        <button onclick="if(typeof openProjectModal === 'function') openProjectModal()" class="cta-button primary" style="background:#0f172a;">Lancer mon premier projet</button>
+                        <button onclick="if(typeof window.openProjectModal === 'function') window.openProjectModal()" class="cta-button primary" style="background:#0f172a;">Lancer mon premier projet</button>
                     </div>
                 `;
             }
