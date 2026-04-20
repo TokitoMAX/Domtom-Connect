@@ -320,29 +320,7 @@
 <body style="background: #f8fafc; color: #0f172a;">
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" style="height: 40px;">
-                <span class="nav-brand-name">Domtom Connect</span>
-            </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links" id="nav-links-container">
-                    <a href="/marketplace/directory">Talents</a>
-                    <a href="/marketplace/jobs">Missions</a>
-                    <a href="/marketplace/projects" class="active">Projets</a>
-                    <a href="/marketplace/evenements">Événements</a>
-                    <a href="/marketplace/companies">Entreprises</a>
-                </div>
-                <div class="nav-actions" id="nav-actions-container">
-                    <a href="/login" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="/register-choice" class="cta-button primary" id="start-button">Démarrer</a>
-                </div>
-            </div>
+            <!-- Navbar content will be rendered by loadGlobalNavbar() -->
         </div>
     </nav>
 
@@ -453,10 +431,12 @@
 
         async function init() {
             const session = await getSession();
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+
             if (session) {
                 currentUserId = session.user.id;
                 currentUserRole = session.user.user_metadata?.role || null;
-                await loadGlobalNavbar();
+                
                 if (currentUserRole === 'project_owner' || currentUserRole === 'porteur_projet' || currentUserRole === 'porteur') {
                     const banner = document.getElementById('project-banner');
                     if (banner) banner.style.display = 'flex';

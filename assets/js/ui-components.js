@@ -84,32 +84,87 @@ const UIComponents = {
     },
 
     /**
-     * Render the Top Navigation
+     * Render the Top Navigation (Marketplace & Landing Style)
      */
-    renderTopNav(role) {
-        const topNav = document.getElementById('nav-links-container');
+    async renderTopNav() {
+        const topNav = document.getElementById('nav-links-container') || document.querySelector('.navbar .container');
         if (!topNav) return;
 
+        // 1. Get Session for Auth Buttons
+        let session = null;
+        try {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (db) {
+                const { data } = await db.auth.getSession();
+                session = data?.session;
+            }
+        } catch (err) {
+            console.warn("[UI] Could not fetch session for navbar:", err);
+        }
+
         const links = [
-            { label: 'Talents', path: '/marketplace/directory', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z' },
-            { label: 'Missions', path: '/marketplace/jobs', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01' },
-            { label: 'Projets', path: '/marketplace/projects', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }
+            { label: 'Talents', path: '/marketplace/directory' },
+            { label: 'Missions', path: '/marketplace/jobs' },
+            { label: 'Projets', path: '/marketplace/projects' },
+            { label: 'Événements', path: '/marketplace/evenements' },
+            { label: 'Entreprises', path: '/marketplace/companies' }
         ];
 
-        let html = `<div class="nav-market-links">`;
+        const currentPath = window.location.pathname;
+
+        let html = `
+            <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-content">
+                <div class="nav-links">
+        `;
+
         links.forEach(link => {
-            const isActive = window.location.pathname.startsWith(link.path);
-            html += `
-                <a href="${link.path}" class="nav-market-link ${isActive ? 'active' : ''}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="${link.icon}" />
-                    </svg>
-                    ${link.label}
-                </a>
-            `;
+            const isActive = currentPath.includes(link.path);
+            html += `<a href="${link.path}" class="${isActive ? 'active' : ''}">${link.label}</a>`;
         });
-        html += `</div>`;
-        topNav.innerHTML = html;
+
+        html += `
+                </div>
+                <div class="nav-actions">
+                    ${session ? `
+                        <a href="/mon-espace" class="cta-button secondary">Dashboard</a>
+                        <a href="/dashboard/profile" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
+                    ` : `
+                        <a href="/login" class="cta-button secondary">Connexion</a>
+                        <a href="/register-choice" class="cta-button primary" style="background:#0f172a; color: white !important;">Démarrer</a>
+                    `}
+                </div>
+            </div>
+        `;
+
+        // Update the whole navbar container if it's the .navbar .container, otherwise just the links
+        if (topNav.classList.contains('container') && topNav.parentElement.classList.contains('navbar')) {
+            topNav.innerHTML = html;
+        } else {
+            // Fallback for older structures or id-based containers
+            const navLinksContainer = document.getElementById('nav-links-container');
+            if (navLinksContainer) {
+                let linksHtml = links.map(l => `<a href="${l.path}" class="${currentPath.includes(l.path) ? 'active' : ''}">${l.label}</a>`).join('');
+                navLinksContainer.innerHTML = linksHtml;
+            }
+            // Check for actions container
+            const actionsContainer = document.getElementById('nav-actions-container');
+            if (actionsContainer) {
+                actionsContainer.innerHTML = session ? `
+                    <a href="/mon-espace" class="cta-button secondary">Dashboard</a>
+                    <a href="/dashboard/profile" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
+                ` : `
+                    <a href="/login" class="cta-button secondary">Connexion</a>
+                    <a href="/register-choice" class="cta-button primary" style="background:#0f172a; color: white !important;">Démarrer</a>
+                `;
+            }
+        }
     },
 
     /**
@@ -139,6 +194,15 @@ const UIComponents = {
                 </a>
             </div>
         `;
+    }
+};
+
+/**
+ * Global Helper for Universal Navigation Loading
+ */
+window.loadGlobalNavbar = async function() {
+    if (window.UIComponents) {
+        await window.UIComponents.renderTopNav();
     }
 };
 

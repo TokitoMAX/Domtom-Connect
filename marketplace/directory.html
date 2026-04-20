@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="main-header">
+    <nav class="navbar">
         <div class="container">
-            <nav class="nav-links" id="nav-links-container"></nav>
+            <!-- Navbar content will be rendered by loadGlobalNavbar() -->
         </div>
-    </header>
+    </nav>
 
     <header class="directory-hero">
         <div class="container">
@@ -118,6 +118,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadGlobalNavbar === 'function') loadGlobalNavbar();
+            
             let checkApp = setInterval(() => {
                 if (window._supabase) {
                     clearInterval(checkApp);
