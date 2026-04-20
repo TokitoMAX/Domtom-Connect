@@ -407,9 +407,10 @@ async function loadDashboardContent(session) {
     // On cible spÃ©cifiquement le header de l'overview pour Ã©viter les erreurs de sÃ©lection multiple
     const standardHeader = document.querySelector('#overview-view .dash-section-header');
     
-    // On cache le header standard si on est dans un Ã©cosystÃ¨me pro pour Ã©viter le doublon
-    const isProfessional = (role === 'expert' || role === 'prestataire' || role === 'entreprise');
-    if (standardHeader && isProfessional) {
+    // On cache le header standard si on est dans un Ã©cosystÃ¨me spÃ©cifique pour Ã©viter le doublon
+    const isEcosystemRole = (role === 'expert' || role === 'prestataire' || role === 'entreprise' || role === 'spectator' || role === 'porteur' || role === 'owner');
+    
+    if (standardHeader && isEcosystemRole) {
         standardHeader.style.display = 'none';
         standardHeader.classList.add('hidden-force');
     } else if (greetingEl) {
@@ -443,7 +444,7 @@ async function loadDashboardContent(session) {
     applyGeographicalLocalization(majorZone);
 
     // Load Success Engine data if applicable (only for project owners)
-    const isProjectOwner = role !== 'expert' && role !== 'prestataire' && role !== 'entreprise' && role !== 'admin';
+    const isProjectOwner = (role === 'porteur' || role === 'owner');
     if (typeof loadMyProjects === 'function' && isProjectOwner) {
         loadMyProjects(user.id);
     }
@@ -619,57 +620,59 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         return;
     }
 
-    if (!container) return;
-    
-    // NETTOYAGE & ISOLATION ABSOLUE : On neutralise tout le contenu standard pour laisser le module maitre de l'affichage
-    const staticHeader = document.querySelector('.dash-section-header');
+    // 1.2 Target proper ecosystem container for specialized modules
+    const ecosystemContainer = document.getElementById('ecosystem-grid-container');
     const standardCards = document.getElementById('dashboard-cards');
-    
+    const staticHeader = document.querySelector('.dash-section-header');
+
+    // NETTOYAGE & ISOLATION ABSOLUE
+    if (ecosystemContainer) ecosystemContainer.innerHTML = "";
     if (staticHeader) staticHeader.style.display = 'none';
     if (standardCards) standardCards.style.display = 'none';
-    
-    container.innerHTML = "";
-    
+
     // 2. DELEGATE TO ECOSYSTEM MODULES
+    // Use ecosystemContainer as main target if available, otherwise fallback to container
+    const target = ecosystemContainer || container;
+    
     switch (role) {
         case 'expert':
         case 'prestataire':
             if (typeof ExpertsModule !== 'undefined') {
-                ExpertsModule.renderDashboard(container, additional, profile, session);
+                ExpertsModule.renderDashboard(target, additional, profile, session);
             } else {
-                container.innerHTML = '<p>Chargement du module Expert...</p>';
+                target.innerHTML = '<p>Chargement du module Expert...</p>';
             }
             break;
         case 'entreprise':
             if (typeof CompaniesModule !== 'undefined') {
-                CompaniesModule.renderDashboard(container, additional, profile, session);
+                CompaniesModule.renderDashboard(target, additional, profile, session);
             } else {
-                container.innerHTML = '<p>Chargement du module Entreprise...</p>';
+                target.innerHTML = '<p>Chargement du module Entreprise...</p>';
             }
             break;
         case 'spectator':
             if (typeof SpectatorsModule !== 'undefined') {
-                SpectatorsModule.renderDashboard(container, additional, profile, session);
+                SpectatorsModule.renderDashboard(target, additional, profile, session);
             } else {
-                container.innerHTML = '<p style="padding:40px;">Initialisation de votre espace spectateur...</p>';
+                target.innerHTML = '<p style="padding:40px;">Initialisation de votre espace spectateur...</p>';
             }
             break;
         case 'porteur':
         case 'owner':
             // --- ECOSYSTEME : PORTEUR DE PROJET ---
             if (typeof OwnersModule !== 'undefined') {
-                OwnersModule.renderDashboard(container, additional, profile, session);
+                OwnersModule.renderDashboard(target, additional, profile, session);
             } else {
-                container.innerHTML = '<p>Chargement du module Projet...</p>';
+                target.innerHTML = '<p>Chargement du module Projet...</p>';
             }
             break;
         default:
             // --- ECOSYSTEME : EXPLORATEUR (Standard) ---
             if (typeof StandardModule !== 'undefined') {
-                StandardModule.renderDashboard(container, additional, profile, session);
+                StandardModule.renderDashboard(target, additional, profile, session);
             } else {
                 // Fallback ultime
-                container.innerHTML = '<p>Bienvenue sur Domtom Connect ! Completez votre profil pour activer votre cockpit dedie.</p>';
+                target.innerHTML = '<p>Bienvenue sur Domtom Connect ! Completez votre profil pour activer votre cockpit dedie.</p>';
             }
             break;
     }
