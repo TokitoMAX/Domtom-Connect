@@ -174,4 +174,14 @@ const App = {
 window.App = App;
 window.showView = (id, force) => App.showView(id, force);
 
+/**
+ * Global Utility: isPremiumUser
+ * Determines if a profile has an active premium/authority status
+ */
+window.isPremiumUser = (profile) => {
+    if (!profile) return false;
+    const tier = profile.subscription_tier || 'free';
+    return tier !== 'free' || profile.is_premium === true;
+};
+
 document.addEventListener('DOMContentLoaded', () => App.init());
