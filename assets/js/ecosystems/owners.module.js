@@ -64,9 +64,9 @@ const OwnersModule = {
                         </div>
                         <div style="flex-grow: 1;">
                             <h3 style="font-size: 1.25rem; font-weight: 850; color:#0f172a; margin: 0 0 4px 0;">Success Engine</h3>
-                            <p style="font-size: 0.95rem; color:#64748b; margin: 0;">Votre guide de certification pour lever des fonds et sécuriser vos experts.</p>
+                            <p style="font-size: 0.95rem; color:#64748b; margin: 0;">Éditez votre carnet de route et validez vos phases stratégiques.</p>
                         </div>
-                        <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; white-space:nowrap;">Accéder au Cockpit</button>
+                        <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; white-space:nowrap;">Gérer mon Épopée</button>
                     </div>
 
                     <!-- PROJECT LIST (DYNAMIC) -->
@@ -132,30 +132,78 @@ const OwnersModule = {
             if (countEl) countEl.textContent = projectsCount;
 
             const feed = document.getElementById('owners-projects-feed');
-            if (projectsCount > 0 && feed) {
+            if (!feed) return;
+
+            // CAS : UN SEUL PROJET - ON AFFICHE LE TRAVAIL DIRECTEMENT (Vision, Mission, etc.)
+            if (projectsCount === 1) {
+                const latest = projects[0];
+                const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
+                
+                feed.innerHTML = `
+                    <div style="display: grid; gap: 24px;">
+                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #10b981; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px;">
+                                <div>
+                                    <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; margin: 0;">${latest.title}</h2>
+                                    <p style="color: #10b981; font-weight: 800; margin-top: 4px;">Épopée Active • ${score}% de maturité stratégique</p>
+                                </div>
+                                <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background: #0f172a;">Ouvrir le Cockpit Intégral</button>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px solid #f1f5f9; padding-top: 32px;">
+                                <div style="border-right: 1px solid #f1f5f9; padding-right: 40px;">
+                                    <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Ma Vision Stratégique</h4>
+                                    <p style="font-size: 1.05rem; color: #334155; line-height: 1.7; margin-bottom: 24px;">${latest.vision || '<i>Aucune vision saisie pour le moment.</i>'}</p>
+                                    
+                                    <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Ma Mission</h4>
+                                    <p style="font-size: 1.05rem; color: #334155; line-height: 1.7; margin: 0;">${latest.mission || '<i>Aucune mission saisie.</i>'}</p>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Statut du Financement</h4>
+                                    <div style="background: #f8fafc; border-radius: 20px; padding: 24px; margin-bottom: 24px; border: 1px solid #e2e8f0;">
+                                        <div style="font-size: 1.75rem; font-weight: 900; color: #0f172a; margin-bottom: 4px;">${(parseFloat(latest.total_raised) || 0).toLocaleString()} €</div>
+                                        <div style="color: #64748b; font-size: 0.9rem; font-weight: 600;">Récoltés sur un objectif de ${latest.funding_goal || '...'} €</div>
+                                    </div>
+                                    
+                                    <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Besoins Commandos</h4>
+                                    <p style="font-size: 1rem; color: #475569; line-height: 1.6; margin: 0;">${latest.needs || '<i>Pas de besoins spécifiques listés.</i>'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const avgEl = document.getElementById('dash-avg-maturity');
+                if (avgEl) avgEl.textContent = `${score} %`;
+                return;
+            }
+
+            // CAS : PLUSIEURS PROJETS - ON AFFICHE LA LISTE AVEC APERÇU
+            if (projectsCount > 0) {
                 let totalMaturity = 0;
                 let projectsHtml = `
-                    <div style="display: grid; gap: 16px;">
-                        <h3 style="font-size: 1rem; font-weight: 850; color:#0f172a; margin-bottom: 8px;">Mes Épopées Actives</h3>
+                    <div style="display: grid; gap: 20px;">
+                        <h3 style="font-size: 1.1rem; font-weight: 850; color:#0f172a; margin-bottom: 12px;">Mes Épopées Actives</h3>
                 `;
 
                 projects.forEach(p => {
                     const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                     totalMaturity += score;
                     projectsHtml += `
-                        <div class="dash-card" style="padding: 24px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s; cursor: pointer;" onclick="window.Router.navigate('/dashboard/success-engine?id=${p.id}')">
-                            <div style="flex-grow: 1;">
-                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #0f172a;">${p.title || 'Nouvelle Épopée'}</h4>
-                                <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
-                                    <div style="width: 120px; height: 6px; background: #f1f5f9; border-radius: 100px; overflow: hidden;">
+                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: grid; grid-template-columns: 1fr 200px; align-items: center; cursor: pointer; transition: all 0.3s;" onclick="window.Router.navigate('/dashboard/success-engine?id=${p.id}')">
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.3rem; font-weight: 850; color: #0f172a;">${p.title || 'Nouvelle Épopée'}</h4>
+                                <p style="font-size: 0.95rem; color: #64748b; margin: 8px 0 16px 0; line-height: 1.5; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${p.vision || 'Pas de vision définie.'}</p>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 150px; height: 8px; background: #f1f5f9; border-radius: 100px; overflow: hidden;">
                                         <div style="width: ${score}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
                                     </div>
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #64748b;">${score}% Maturité</span>
+                                    <span style="font-size: 0.8rem; font-weight: 800; color: #10b981;">${score}% Maturité</span>
                                 </div>
                             </div>
-                            <div style="text-align: right;">
-                                <span style="display:block; font-size:1.1rem; font-weight:800; color:#0f172a;">${(parseFloat(p.total_raised) || 0).toLocaleString()}€</span>
-                                <span style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Levés</span>
+                            <div style="text-align: right; border-left: 1px solid #f1f5f9; padding-left: 32px;">
+                                <div style="font-size: 1.4rem; font-weight: 900; color: #0f172a;">${(parseFloat(p.total_raised) || 0).toLocaleString()} €</div>
+                                <div style="font-size: 0.7rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Récoltés</div>
                             </div>
                         </div>
                     `;
