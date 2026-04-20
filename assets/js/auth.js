@@ -109,3 +109,27 @@ window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
 window.getUserProfile = getUserProfile;
 window.calculateProjectMaturity = calculateProjectMaturity;
+
+/**
+ * Fetch Unified Metrics for Businesses and Missions
+ */
+window.fetchBusinessStats = async (businessId) => {
+    const db = _supabase || initSupabase();
+    if (!db) return { views: 0, jobs: 0, applications: 0 };
+    
+    try {
+        const { data: profile } = await db.from('profiles').select('views_count').eq('id', businessId).single();
+        const { count: jobCount } = await db.from('job_offers').select('*', { count: 'exact', head: true }).eq('company_id', businessId);
+        const { count: appCount } = await db.from('job_applications').select('*', { count: 'exact', head: true }).eq('company_id', businessId);
+        
+        return {
+            views: profile?.views_count || 0,
+            jobs: jobCount || 0,
+            applications: appCount || 0
+        };
+    } catch (err) {
+        console.error("[Auth] fetchBusinessStats error:", err);
+        return { views: 0, jobs: 0, applications: 0 };
+    }
+};
+

@@ -76,13 +76,12 @@ const ExpertsModule = {
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; border: 1px solid #e2e8f0;">
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Performance Profil</h4>
                         <div style="display:grid; gap:20px;">
-                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Vues (30j)</span>
-                                 <span style="font-size:1.3rem; font-weight:900; color:#0f172a;">—</span>
+                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Vues Profil</span>
+                                 <span class="views-count-live" style="font-size:1.3rem; font-weight:900; color:#0f172a;">${profile.views_count || 0}</span>
                              </div>
                              <div style="display:flex; justify-content:space-between; align-items:center;">
-                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Missions Proposées</span>
-                                 <span style="font-size:1.3rem; font-weight:900; color:#0f172a;">—</span>
+                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Missions Qualifiées</span>
+                                 <span id="expert-matches-count" style="font-size:1.3rem; font-weight:900; color:#10b981;">—</span>
                              </div>
                         </div>
                     </div>
@@ -98,6 +97,14 @@ const ExpertsModule = {
         
         if (session && session.user && typeof window.loadMatchmaking === 'function') {
             window.loadMatchmaking(session.user.id);
+        }
+
+        // Live Stats Update
+        if (typeof window.fetchBusinessStats === 'function') {
+            window.fetchBusinessStats(session.user.id).then(stats => {
+                const viewsEl = container.querySelector('.views-count-live');
+                if (viewsEl) viewsEl.textContent = stats.views;
+            });
         }
     }
 };

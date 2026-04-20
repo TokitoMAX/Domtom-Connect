@@ -90,11 +90,11 @@ const CompaniesModule = {
                         <div style="display:grid; gap:20px;">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Vues Profil</span>
-                                <span style="font-size:1.3rem; font-weight:900; color:#0f172a;">—</span>
+                                <span class="views-count-live" style="font-size:1.3rem; font-weight:900; color:#0f172a;">${profile.views_count || 0}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:1rem; color:#64748b; font-weight:600;">Candidatures</span>
-                                <span style="font-size:1.3rem; font-weight:900; color:#0f172a;">—</span>
+                                <span style="font-size:1rem; color:#64748b; font-weight:600;">Applications</span>
+                                <span id="company-apps-count" style="font-size:1.3rem; font-weight:900; color:#3b82f6;">—</span>
                             </div>
                         </div>
                     </div>
@@ -111,6 +111,17 @@ const CompaniesModule = {
         // Load specific data
         if (typeof CompaniesModule.loadMyJobs === 'function') {
             CompaniesModule.loadMyJobs(session.user.id, document.getElementById('company-jobs-container'));
+        }
+
+        // Live Stats Update
+        if (typeof window.fetchBusinessStats === 'function') {
+            window.fetchBusinessStats(session.user.id).then(stats => {
+                const viewsEl = container.querySelector('.views-count-live');
+                if (viewsEl) viewsEl.textContent = stats.views;
+                
+                const appsEl = document.getElementById('company-apps-count');
+                if (appsEl) appsEl.textContent = stats.applications;
+            });
         }
     },
 

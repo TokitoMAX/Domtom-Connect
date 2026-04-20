@@ -92,12 +92,8 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
             const isListView = path === '/dashboard/success-engine' && !window.location.search.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
-                if (headerContainer) headerContainer.innerHTML = '';                if (!currentSREProject) {
-                    const session = _currentSession || (typeof getSession === 'function' ? await getSession() : null); 
-                    if (session && session.user && typeof loadMyProjects === 'function') {
-                        loadMyProjects(session.user.id);
-                    }
-                }
+                if (headerContainer) headerContainer.innerHTML = '';
+                // Removed recursive loadMyProjects call to prevent stack overflow and stuck loading states.
                 
                 let listHTML = `
                     <div id="project-list-view">

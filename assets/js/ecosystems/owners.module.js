@@ -84,20 +84,24 @@ const OwnersModule = {
                 <!-- MAIN WORKSPACE -->
                 <div class="dash-main-col" style="grid-column: span 8; display:grid; gap:32px;">
                     
-                    <!-- SUCCESS ENGINE GATEWAY -->
-                    <div class="dash-card highlight" style="padding:40px; border-radius:24px; text-align:center;">
-                         <div class="dash-icon-box" style="margin: 0 auto 20px auto; background:#10b981; color:white;">
-                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <!-- SUCCESS ENGINE GATEWAY (Premium Card) -->
+                    <div class="dash-card highlight" style="padding:48px; border-radius:24px; text-align:center; background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%); border: 1px solid rgba(16, 185, 129, 0.2);">
+                         <div class="dash-icon-box" style="margin: 0 auto 28px auto; background:#10b981; color:white; width:60px; height:60px; border-radius:18px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">
+                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                          </div>
-                         <h2 style="font-size:1.8rem; font-weight:900; color:#0f172a; margin-bottom:8px;">Success Engine</h2>
-                         <p style="color:#64748b; margin-bottom:32px;">Éditez votre carnet de route et validez vos phases stratégiques pour débloquer les financements.</p>
-                         <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; font-weight:800; padding:16px 32px; border-radius:14px; margin:0 auto;">Gérer mon Épopée</button>
+                         <h2 style="font-size:2.2rem; font-weight:900; color:#0f172a; margin-bottom:12px; letter-spacing:-0.03em;">Success Engine</h2>
+                         <p style="color:#64748b; font-size:1.1rem; max-width:500px; margin: 0 auto 36px auto; line-height:1.6;">Éditez votre carnet de route stratégique et validez vos phases pour débloquer les financements.</p>
+                         <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; font-weight:900; padding:18px 40px; border-radius:16px; margin:0 auto; font-size:1.1rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">Gérer mon Épopée</button>
                     </div>
 
-                    <!-- PROJECT QUICK VIEW -->
+                    <!-- PROJECT QUICK VIEW SECTION -->
+                    <div class="dash-section-header" style="margin-top:16px;">
+                        <h3 style="font-size:1.4rem; font-weight:900; color:#0f172a;">Mes Épopées Actives</h3>
+                    </div>
                     <div id="owners-projects-view">
-                         <!-- Injected by loadMyProjects() -->
-                         <div style="padding:40px; text-align:center; color:#94a3b8;">Chargement de vos projets...</div>
+                         <div style="padding:60px; text-align:center; background:rgba(248, 250, 252, 0.5); border-radius:24px; border:2px dashed #f1f5f9;">
+                             <p style="color: #94a3b8; font-weight: 700; font-size: 1rem;">Initialisation du pilotage...</p>
+                         </div>
                     </div>
 
                 </div>
@@ -127,10 +131,17 @@ const OwnersModule = {
             </div>
         `;
 
-        // 3. Orchestrate with original script logic
-        if (typeof window.loadMyProjects === 'function') {
-            window.loadMyProjects(session.user.id);
-        }
+        // 3. Orchestrate with original script logic (Tactical retry to ensure DOM readiness)
+        const tryLoad = (attempts = 0) => {
+            if (document.getElementById('owners-projects-view')) {
+                if (typeof window.loadMyProjects === 'function') {
+                    window.loadMyProjects(session.user.id);
+                }
+            } else if (attempts < 10) {
+                setTimeout(() => tryLoad(attempts + 1), 100);
+            }
+        };
+        tryLoad();
     }
 };
 
