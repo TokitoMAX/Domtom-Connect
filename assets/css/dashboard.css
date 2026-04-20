@@ -169,12 +169,14 @@ body {
     padding: 2px;
     border-radius: 100px;
     border: 1px solid rgba(0, 0, 0, 0.03);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     pointer-events: auto;
-    max-width: 90%;
+    max-width: 95%;
+    width: fit-content;
     margin: 0 auto;
     overflow-x: auto;
     scrollbar-width: none;
+    white-space: nowrap;
 }
 
 .nav-market-link {

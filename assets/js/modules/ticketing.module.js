@@ -41,10 +41,10 @@ const TicketingModule = {
         const listContainer = document.getElementById('billetterie-list');
         
         try {
-            const { data: { session } } = await _supabase.auth.getSession();
+            const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) return;
 
-            const { data: myEvents, error: evError } = await _supabase
+            const { data: myEvents, error: evError } = await window._supabase
                 .from('events')
                 .select('*')
                 .eq('user_id', session.user.id)
@@ -66,7 +66,7 @@ const TicketingModule = {
 
             // Fetch ticket counts
             const eventIds = myEvents.map(ev => ev.id);
-            const { data: tickets, error: tkError } = await _supabase
+            const { data: tickets, error: tkError } = await window._supabase
                 .from('tickets')
                 .select('event_id, amount_paid')
                 .in('event_id', eventIds);
@@ -186,7 +186,7 @@ const TicketingModule = {
         btn.disabled = true;
 
         try {
-            const { data: { session } } = await _supabase.auth.getSession();
+            const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) throw new Error("Session expirée");
 
             const eventData = {
@@ -200,7 +200,7 @@ const TicketingModule = {
                 created_at: new Date()
             };
 
-            const { error } = await _supabase.from('events').insert(eventData);
+            const { error } = await window._supabase.from('events').insert(eventData);
             if (error) throw error;
 
             // Success
@@ -243,10 +243,10 @@ const TicketingModule = {
         const container = document.getElementById('my-tickets-list');
         
         try {
-            const { data: { session } } = await _supabase.auth.getSession();
+            const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) return;
 
-            const { data: tickets, error: tkError } = await _supabase
+            const { data: tickets, error: tkError } = await window._supabase
                 .from('tickets')
                 .select('*, events(*)')
                 .eq('buyer_id', session.user.id)

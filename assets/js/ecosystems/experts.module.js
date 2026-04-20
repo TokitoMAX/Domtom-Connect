@@ -62,7 +62,7 @@ const ExpertsModule = {
                             <h4 style="margin:0; font-size:1.8rem; font-weight:900; color:#0f172a; letter-spacing:-0.03em;">Pilotage Business</h4>
                             <p style="font-size: 1rem; color: #64748b; line-height:1.6; margin: 12px 0 0 0; max-width:440px;">Consultez vos statistiques, gérez vos devis et facturez vos missions en toute sécurité.</p>
                          </div>
-                         <button onclick="window.Router.navigate('/dashboard/business')" class="cta-button primary large" style="background:#0f172a;">Hub Business →</button>
+                         <button onclick="window.Router.navigate('/dashboard/business')" class="cta-button primary large" style="background:#0f172a; color: white !important; border: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);">Hub Business →</button>
                     </div>
 
                     <!-- MISSIONS FEED (Pépites Matchmaking) -->

@@ -108,8 +108,15 @@ const App = {
         const successEngine = document.getElementById('success-engine-view-fixed');
         const billetterie = document.getElementById('billetterie-view');
         
-        // Role Isolation: Hide Success Engine if not owner
-        const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
+        // Role Isolation: Strictly enforce view permissions
+        const isOwner = ['porteur', 'owner', 'admin', 'admin'].includes(this.state.role);
+        
+        if (viewId === 'success-engine' && !isOwner) {
+            console.warn(`[App] Unauthorized access attempt to success-engine by role: ${this.state.role}. Redirecting...`);
+            this.showView('overview', true);
+            return;
+        }
+
         if (successEngine) successEngine.style.display = (viewId === 'success-engine' && isOwner) ? 'block' : 'none';
 
         // Select Module based on role
