@@ -81,26 +81,34 @@ const OwnersModule = {
                     </div>
                 </div>
 
-                <!-- MAIN WORKSPACE -->
+                <!-- MAIN COMMAND CENTER -->
                 <div class="dash-main-col" style="grid-column: span 8; display:grid; gap:32px;">
                     
-                    <!-- SUCCESS ENGINE GATEWAY (Premium Card) -->
-                    <div class="dash-card highlight" style="padding:48px; border-radius:24px; text-align:center; background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%); border: 1px solid rgba(16, 185, 129, 0.2);">
-                         <div class="dash-icon-box" style="margin: 0 auto 28px auto; background:#10b981; color:white; width:60px; height:60px; border-radius:18px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">
-                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <!-- MASTER PILOTAGE CARD -->
+                    <div class="dash-card highlight" style="padding:56px; border-radius:32px; text-align:center; background: #0f172a; color: white; border: none; box-shadow: 0 40px 80px rgba(0,0,0,0.15); position:relative; overflow:hidden;">
+                         <div style="position:relative; z-index:2;">
+                             <div class="dash-icon-box" style="margin: 0 auto 32px auto; background:rgba(16, 185, 129, 0.15); color:#10b981; width:72px; height:72px; border-radius:24px; border: 1px solid rgba(16, 185, 129, 0.2); backdrop-filter: blur(10px);">
+                                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                             </div>
+                             <h2 style="font-size:2.8rem; font-weight:950; color:white; margin-bottom:16px; letter-spacing:-0.05em;">Success Engine</h2>
+                             <p style="color:#94a3b8; font-size:1.15rem; max-width:540px; margin: 0 auto 40px auto; line-height:1.6; font-weight:600;">Pilotez votre épopée territoriale avec précision. Validez vos jalons stratégiques pour débloquer les financements.</p>
+                             <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; color:white; font-weight:950; padding:20px 48px; border-radius:18px; margin:0 auto; font-size:1.15rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">Piloter mon Épopée</button>
                          </div>
-                         <h2 style="font-size:2.2rem; font-weight:900; color:#0f172a; margin-bottom:12px; letter-spacing:-0.03em;">Success Engine</h2>
-                         <p style="color:#64748b; font-size:1.1rem; max-width:500px; margin: 0 auto 36px auto; line-height:1.6;">Éditez votre carnet de route stratégique et validez vos phases pour débloquer les financements.</p>
-                         <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; font-weight:900; padding:18px 40px; border-radius:16px; margin:0 auto; font-size:1.1rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">Gérer mon Épopée</button>
+                         <!-- Abstract background glow -->
+                         <div style="position:absolute; bottom:-100px; right:-100px; width:300px; height:300px; background:rgba(16, 185, 129, 0.1); border-radius:50%; filter:blur(100px);"></div>
+                         <div style="position:absolute; top:-100px; left:-100px; width:300px; height:300px; background:rgba(59, 130, 246, 0.05); border-radius:50%; filter:blur(100px);"></div>
                     </div>
 
-                    <!-- PROJECT QUICK VIEW SECTION -->
-                    <div class="dash-section-header" style="margin-top:16px;">
-                        <h3 style="font-size:1.4rem; font-weight:900; color:#0f172a;">Mes Épopées Actives</h3>
+                    <!-- PROJECT LIST HUD -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+                        <h3 style="font-size:1.5rem; font-weight:950; color:#0f172a; letter-spacing:-0.03em;">Vos Épopées Actives</h3>
+                        <span style="font-size:0.85rem; font-weight:800; color:#64748b; background:#f1f5f9; padding:4px 12px; border-radius:20px;">${projects ? projects.length : 0} Projets</span>
                     </div>
+                    
                     <div id="owners-projects-view">
-                         <div style="padding:60px; text-align:center; background:rgba(248, 250, 252, 0.5); border-radius:24px; border:2px dashed #f1f5f9;">
-                             <p style="color: #94a3b8; font-weight: 700; font-size: 1rem;">Initialisation du pilotage...</p>
+                         <div style="padding:80px; text-align:center; background:#f8fafc; border-radius:32px; border:2px dashed #e2e8f0; display:flex; flex-direction:column; align-items:center; gap:16px;">
+                             <div class="dash-loader-spinner" style="width:40px; height:40px; border:4px solid #f1f5f9; border-top-color:#10b981; border-radius:50%; animation: spin 1s linear infinite;"></div>
+                             <p style="color: #64748b; font-weight: 800; font-size: 1rem;">Activation du cockpit stratégique...</p>
                          </div>
                     </div>
 
