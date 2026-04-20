@@ -108,7 +108,16 @@ function persistOnboardingIntent() {
     }
 }
 
-// Export to window for global access
+/**
+ * Global Session Helper
+ */
+window.getSession = async function() {
+    const db = window._supabase || initSupabase();
+    if (!db) return null;
+    const { data: { session } } = await db.auth.getSession();
+    return session;
+};
+
 window.initSupabase = initSupabase;
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
