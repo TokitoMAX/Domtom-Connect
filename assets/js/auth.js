@@ -118,8 +118,44 @@ window.getSession = async function() {
     return session;
 };
 
+/**
+ * Standard Email Auth
+ */
+async function signInWithEmail(email, password) {
+    const db = _supabase || initSupabase();
+    if (!db) throw new Error("Database not initialized");
+
+    const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+    });
+
+    if (error) throw error;
+    return data;
+}
+
+async function signUpWithEmail(email, password, fullName) {
+    const db = _supabase || initSupabase();
+    if (!db) throw new Error("Database not initialized");
+
+    const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                full_name: fullName
+            }
+        }
+    });
+
+    if (error) throw error;
+    return data;
+}
+
 window.initSupabase = initSupabase;
 window.signInWithGoogle = signInWithGoogle;
+window.signInWithEmail = signInWithEmail;
+window.signUpWithEmail = signUpWithEmail;
 window.signOut = signOut;
 window.getUserProfile = getUserProfile;
 window.calculateProjectMaturity = calculateProjectMaturity;

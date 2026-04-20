@@ -96,38 +96,37 @@ const App = {
 
         if (this.state.activeView === viewId && !forceRender) return;
 
-        console.log(`[App] Switching view to: ${viewId}`);
+        console.log(`[App] Switching view to: ${viewId} with params:`, params);
         this.state.activeView = viewId;
 
-        // Hide all views (Unifed SPA Strategy)
+        // Hide all views (SPA Strategy)
         const containers = document.querySelectorAll('.view-section');
         containers.forEach(c => c.style.display = 'none');
         
-        // Target specifically the Overview or the specialized view containers
+        // Modules and specialized views
         const overview = document.getElementById('overview-view');
         const successEngine = document.getElementById('success-engine-view-fixed');
+        const billetterie = document.getElementById('billetterie-view');
         
+        // Role Isolation: Hide Success Engine if not owner
+        const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
+        if (successEngine) successEngine.style.display = (viewId === 'success-engine' && isOwner) ? 'block' : 'none';
+
         // Select Module based on role
         const activeModule = this.getActiveModule();
         
         if (activeModule) {
             // View Orchestration
-            if (viewId === 'success-engine' && successEngine) {
-                if (overview) overview.style.display = 'none';
-                successEngine.style.display = 'block';
-                // Trigger Success Engine Logic
-                if (typeof window.loadMyProjects === 'function' && this.state.session) {
-                    window.loadMyProjects(this.state.session.user.id);
-                }
-                return; // Prevent module routing for Success Engine if it's handled separately
-            } else if (overview) {
-                if (successEngine) successEngine.style.display = 'none';
+            if (viewId === 'overview' && overview) {
                 overview.style.display = 'block';
+            } else {
+                // For specialized views, show their specific containers if handled by modules
+                const targetViewId = `${viewId}-view`;
+                const targetView = document.getElementById(targetViewId);
+                if (targetView) targetView.style.display = 'block';
             }
 
             const gridContainer = document.getElementById('ecosystem-grid-container');
-            if (gridContainer) gridContainer.innerHTML = '';
-            
             await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session, params);
         }
     },

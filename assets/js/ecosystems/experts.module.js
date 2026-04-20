@@ -20,6 +20,13 @@ const ExpertsModule = {
                     window.BusinessModule.renderDashboard(bizView);
                 }
                 break;
+            case 'billetterie':
+                const ticketingView = document.getElementById('billetterie-view');
+                if (ticketingView && window.TicketingModule) {
+                    ticketingView.style.display = 'block';
+                    window.TicketingModule.loadMyTicketing(params);
+                }
+                break;
             case 'missions':
                 window.location.href = '/marketplace/jobs';
                 break;

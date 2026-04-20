@@ -11,11 +11,12 @@ const UIComponents = {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
-        const isSpecialist = ['expert', 'prestataire', 'entreprise', 'porteur', 'owner', 'admin'].includes(role);
+        const isOwner = ['porteur', 'owner', 'admin'].includes(role);
+        const isProfessional = ['expert', 'prestataire', 'entreprise', 'admin'].includes(role);
         
         const navItems = [
             { id: 'overview', label: 'ESPACE', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', path: '/dashboard' },
-            { id: 'collaboration', label: 'Hub Équipe', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4', path: '/dashboard/collaboration', hidden: !isSpecialist },
+            { id: 'collaboration', label: 'Hub Équipe', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4', path: '/dashboard/collaboration' },
         ];
 
         const networkItems = [
@@ -35,7 +36,6 @@ const UIComponents = {
 
         // Main Navigation
         navItems.forEach(item => {
-            if (item.hidden) return;
             html += this.renderSidebarLink(item.path, item.label, item.icon);
         });
 
@@ -45,13 +45,15 @@ const UIComponents = {
             html += this.renderSidebarLink(item.path, item.label, item.icon);
         });
 
-        // Professional Tools (Specialists only)
-        if (isSpecialist) {
-            html += `<div class="sidebar-section-title">Mes Outils</div>`;
+        // Professional Tools
+        html += `<div class="sidebar-section-title">Mes Outils</div>`;
+        if (isOwner) {
             html += this.renderSidebarLink('/dashboard/success-engine', 'Succès & Pilotage', 'M13 10V3L4 14h7v7l9-11h-7z');
-            html += this.renderSidebarLink('/dashboard/business', 'Factures & TJM', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z');
-            html += this.renderSidebarLink('/messages', 'Messagerie (Chat)', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
         }
+        if (isProfessional) {
+            html += this.renderSidebarLink('/dashboard/business', 'Factures & TJM', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z');
+        }
+        html += this.renderSidebarLink('/messages', 'Messagerie (Chat)', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
         // Settings
         html += `<div class="sidebar-section-title">Paramètres</div>`;
@@ -70,19 +72,6 @@ const UIComponents = {
         sidebar.innerHTML = html;
     },
 
-    renderSidebarLink(path, label, icon) {
-        return `
-            <a href="${path}" class="sidebar-link" title="${label}">
-                <div class="sidebar-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="${icon}" />
-                    </svg>
-                </div>
-                <span class="sidebar-label">${label}</span>
-            </a>
-        `;
-    },
-
     /**
      * Render the Top Navigation (Marketplace & Landing Style)
      */
@@ -90,7 +79,10 @@ const UIComponents = {
         const topNav = document.getElementById('nav-links-container') || document.querySelector('.navbar .container');
         if (!topNav) return;
 
-        // 1. Get Session for Auth Buttons
+        // 1. Context Detection
+        const isDashboard = window.location.pathname.includes('mon-espace') || window.location.pathname.includes('dashboard');
+
+        // 2. Get Session for Auth Buttons
         let session = null;
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
@@ -112,6 +104,23 @@ const UIComponents = {
 
         const currentPath = window.location.pathname;
 
+        // --- DASHBOARD MODE (Pill Style, Centered) ---
+        if (isDashboard) {
+            let pillHtml = `<div class="nav-market-links">`;
+            links.forEach(link => {
+                const isActive = currentPath.includes(link.path);
+                pillHtml += `
+                    <a href="${link.path}" class="nav-market-link ${isActive ? 'active' : ''}">
+                        ${link.label}
+                    </a>
+                `;
+            });
+            pillHtml += `</div>`;
+            topNav.innerHTML = pillHtml;
+            return;
+        }
+
+        // --- PUBLIC MODE (Standard Style with Branding & Actions) ---
         let html = `
             <a href="/" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
                 <img src="/assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
@@ -142,29 +151,7 @@ const UIComponents = {
                 </div>
             </div>
         `;
-
-        // Update the whole navbar container if it's the .navbar .container, otherwise just the links
-        if (topNav.classList.contains('container') && topNav.parentElement.classList.contains('navbar')) {
-            topNav.innerHTML = html;
-        } else {
-            // Fallback for older structures or id-based containers
-            const navLinksContainer = document.getElementById('nav-links-container');
-            if (navLinksContainer) {
-                let linksHtml = links.map(l => `<a href="${l.path}" class="${currentPath.includes(l.path) ? 'active' : ''}">${l.label}</a>`).join('');
-                navLinksContainer.innerHTML = linksHtml;
-            }
-            // Check for actions container
-            const actionsContainer = document.getElementById('nav-actions-container');
-            if (actionsContainer) {
-                actionsContainer.innerHTML = session ? `
-                    <a href="/mon-espace" class="cta-button secondary">Dashboard</a>
-                    <a href="/dashboard/profile" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
-                ` : `
-                    <a href="/login" class="cta-button secondary">Connexion</a>
-                    <a href="/register-choice" class="cta-button primary" style="background:#0f172a; color: white !important;">Démarrer</a>
-                `;
-            }
-        }
+        topNav.innerHTML = html;
     },
 
     /**

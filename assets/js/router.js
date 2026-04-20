@@ -35,9 +35,10 @@ const Router = {
         // Intercept clicks on links that should be handled by the router
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
-            if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('/dashboard')) {
+            const href = link ? link.getAttribute('href') : null;
+            if (href && (href.startsWith('/dashboard') || href.startsWith('/mon-espace'))) {
                 e.preventDefault();
-                this.navigate(link.getAttribute('href'));
+                this.navigate(href);
             }
         });
 
@@ -49,6 +50,19 @@ const Router = {
      */
     navigate(path, params = null) {
         console.log("[Router] Navigating to:", path);
+        // Handle hash-based params as fallback
+        if (path.includes('#')) {
+            const parts = path.split('#');
+            const cleanPath = parts[0];
+            const hashPart = parts[1];
+            if (hashPart.includes('?')) {
+                const subParts = hashPart.split('?');
+                path = `${subParts[0].startsWith('/') ? '' : '/dashboard/'}${subParts[0]}?${subParts[1]}`;
+            } else {
+                path = `/dashboard/${hashPart}`;
+            }
+        }
+
         if (window.location.pathname + window.location.search === path && !params) return;
 
         window.history.pushState(params, '', path);
@@ -80,13 +94,11 @@ const Router = {
             }
         }
 
-        const searchParams = new URLSearchParams(window.location.search);
-        const params = {};
-        searchParams.forEach((v, k) => params[k] = v);
+        const params = new URLSearchParams(window.location.search);
 
         console.log(`[Router] Route matched: ${path}${window.location.search} -> ${viewId}`);
         
-        // Call global showView (proxied to App.showView later)
+        // Call global showView (proxied to App.showView)
         if (typeof window.showView === 'function') {
             window.showView(viewId, true, params);
         }
