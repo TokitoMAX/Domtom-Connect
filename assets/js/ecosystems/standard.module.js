@@ -32,7 +32,7 @@ const StandardModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             </div>
                             <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Porteur de Projet</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Vous avez une ambition pour les territoires ? CrÃ©ez votre Ã©popÃ©e et trouvez des experts pour la rÃ©aliser.</p>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Vous avez une ambition pour les territoires ? Créez votre épopée et trouvez des experts pour la réaliser.</p>
                             <a href="/profile" class="cta-button" style="display:inline-block; background:#0f172a; color:white; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem;">Lancer mon projet</a>
                         </div>
                         
@@ -41,16 +41,16 @@ const StandardModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4" /></svg>
                             </div>
                             <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Expert Territorial</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos compÃ©tences aux entreprises et porteurs de projets internationaux.</p>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos compétences aux entreprises et porteurs de projets internationaux.</p>
                             <a href="/profile" class="cta-button" style="display:inline-block; border:1px solid #e2e8f0; color:#0f172a; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem; background:white;">Devenir Expert</a>
                         </div>
                     </div>
 
                     <!-- My Activity Placeholder -->
                     <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; text-align:center;">
-                        <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Vos Ã‰vÃ©nements & Billetterie</h3>
-                        <p style="color:#64748b; margin-bottom:32px;">Vous n'avez pas encore d'Ã©vÃ©nements Ã  venir. DÃ©couvrez la Marketplace pour participer aux salons et webinaires.</p>
-                        <a href="/marketplace/evenements.html" style="color:#10b981; font-weight:800; text-decoration:none; font-size:0.95rem;">Parcourir les Ã©vÃ©nements â†’</a>
+                        <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Vos Événements & Billetterie</h3>
+                        <p style="color:#64748b; margin-bottom:32px;">Vous n'avez pas encore d'événements à venir. Découvrez la Marketplace pour participer aux salons et webinaires.</p>
+                        <a href="/marketplace/evenements.html" style="color:#10b981; font-weight:800; text-decoration:none; font-size:0.95rem;">Parcourir les événements →</a>
                     </div>
                 </div>
 
