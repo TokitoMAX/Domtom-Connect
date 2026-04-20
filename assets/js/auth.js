@@ -5,404 +5,91 @@ const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
 // Initialisation
 let _supabase = null;
 
-// Initialize Supabase correctly with safe patterns
+/**
+ * Robust Supabase Initialization
+ * Ensures the SDK is loaded before trying to create a client
+ */
 function initSupabase() {
     if (typeof supabase === 'undefined') {
-        console.error("Supabase SDK not loaded!");
-        return null;
+        console.warn("[Auth] Supabase SDK global not found yet. Retrying via window...");
+        if (typeof window.supabase === 'undefined') return null;
     }
+    
+    const sdk = typeof supabase !== 'undefined' ? supabase : window.supabase;
+    
     if (!_supabase) {
-        _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        _supabase = sdk.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        window._supabase = _supabase; // Ensure global visibility
     }
     return _supabase;
 }
 
-// Global variable initialization
-if (typeof supabase !== 'undefined') {
-    _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Global variable initialization attempt
+if (typeof supabase !== 'undefined' || typeof window.supabase !== 'undefined') {
+    _supabase = initSupabase();
 }
-window._supabase = _supabase; // Expose for console debugging
 
+/**
+ * Standard Auth Functions
+ */
 async function signInWithGoogle() {
-    // Sauvegarder l'intention avant redirection si présente dans l'URL
+    const db = _supabase || initSupabase();
+    if (!db) {
+        alert("Services en cours de chargement... Veuillez patienter 2 secondes et réessayer.");
+        return;
+    }
+
     persistOnboardingIntent();
-    
-    const { data, error } = await _supabase.auth.signInWithOAuth({
+    const { data, error } = await db.auth.signInWithOAuth({
         provider: 'google',
         options: {
             redirectTo: window.location.origin + '/mon-espace'
         }
     });
-    if (error) throw error;
-}
 
-async function signUpWithEmail(email, password, fullName) {
-    const { data, error } = await _supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                full_name: fullName
-            },
-            emailRedirectTo: window.location.origin + '/registration/onboarding'
-        }
-    });
-    if (error) throw error;
-    return data;
-}
-
-async function signInWithEmail(email, password) {
-    const { data, error } = await _supabase.auth.signInWithPassword({
-        email,
-        password
-    });
-    if (error) throw error;
-    return data;
+    if (error) console.error('Error:', error.message);
 }
 
 async function signOut() {
-    const { error } = await _supabase.auth.signOut();
-    if (error) console.error('Erreur Déconnexion:', error.message);
-    const isLocal = window.location.hostname === 'localhost' || 
-                    window.location.hostname === '127.0.0.1' || 
-                    window.location.hostname.startsWith('192.168.') || 
-                    window.location.port !== '';
-    const ext = isLocal ? '.html' : '';
-    window.location.href = isLocal ? '/login.html' : '/login';
-}
-
-async function getSession() {
-    try {
-        if (!_supabase) {
-            _supabase = initSupabase();
-        }
-        if (!_supabase) return null;
-        
-        const { data, error } = await _supabase.auth.getSession();
-        if (error) throw error;
-        return data.session;
-    } catch (err) {
-        console.error("getSession Error:", err.message);
-        return null;
+    const db = _supabase || initSupabase();
+    if (db) {
+        await db.auth.signOut();
+        window.location.href = '/';
     }
 }
 
-async function updateUserProfile(data) {
-    // Met à jour les métadonnées d'authentification
-    const { data: user, error } = await _supabase.auth.updateUser({
-        data: data
-    });
-    if (error) throw error;
-
-    // Synchronise aussi dans la table publique profiles
-    const session = await getSession();
-    if (session) {
-        await upsertProfile(session.user.id, data);
-    }
-    return user;
-}
-
-// Écrit ou met à jour le profil dans la table Supabase `profiles`
-async function upsertProfile(userId, data) {
-    const profileData = {
-        id: userId,
-        full_name: data.full_name,
-        role: data.role,
-        skills: data.skills || null,
-        tjm: data.tjm ? parseInt(data.tjm) : null,
-        major_zone: data.major_zone || null,
-        territory: data.territory || null,
-        bio: data.bio || null,
-        company_name: data.company_name || null,
-        needs: data.needs || null,
-        subscription_tier: data.subscription_tier || 'free',
-        subscription_status: data.subscription_status || 'active',
-        domtom_verified: data.domtom_verified !== undefined ? data.domtom_verified : undefined
-    };
-
-    // Supprimer les clés undefined pour ne pas écraser les données existantes
-    Object.keys(profileData).forEach(key => {
-        if (profileData[key] === undefined) delete profileData[key];
-    });
-
-    const { error } = await _supabase
-        .from('profiles')
-        .upsert(profileData, { onConflict: 'id' });
-
-    if (error) console.error('Erreur upsert profile:', error.message);
-}
-
-// Lit le profil complet d'un utilisateur depuis la table profiles
-async function getProfile(userId) {
-    const { data, error } = await _supabase
+/**
+ * Profile Management
+ */
+async function getUserProfile(userId) {
+    const db = _supabase || initSupabase();
+    if (!db) return null;
+    
+    const { data, error } = await db
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
-    if (error) return null;
+    if (error) {
+        console.error('Error fetching profile:', error);
+        return null;
+    }
     return data;
 }
 
-// Retourne la liste des experts validés pour l'annuaire
-async function getExperts({ territory, majorZone } = {}) {
-    let query = _supabase
-        .from('profiles')
-        .select('*')
-        .eq('role', 'expert')
-        .neq('full_name', 'Domtom Connect'); 
-
-    if (majorZone) {
-        query = query.eq('major_zone', majorZone);
-    }
-    
-    if (territory) {
-        query = query.eq('territory', territory);
-    }
-
-    const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) throw error;
-    return data || [];
-}
-
-// Fonction utilitaire pour vérifier si l'utilisateur a déjà choisi un rôle
-async function checkUserRole(session) {
-    if (!session || !session.user) return null;
-    return session.user.user_metadata.role || null;
-}
-
-/**
- * Calcule le score de maturité d'un projet (0-100)
- * Unifiée pour tout l'écosystème Domtom Connect.
- */
-/**
- * Calcule le score de maturité d'un projet (0-100)
- * Aligné sur le parcours premium en 5 phases : Stratégie -> Arsenal -> Boussole -> Sûreté -> Orbite.
- */
-function calculateProjectMaturity(p) {
-    if (!p) return 0;
-    let score = 0;
-
-    // Phase 01: Stratégie (Titre + Vision + Mission + Enjeu)
-    if (p.title && p.title !== 'Nouvelle Épopée') score += 5;
-    
-    // Support tant pour les nouveaux champs que pour l'ancien système de description
-    if (p.vision && p.vision.length > 20) {
-        score += 5;
-    } else if (p.description && p.description.includes('[[VISION]]')) {
-        score += 5;
-    }
-
-    if (p.mission && p.mission.length > 20) {
-        score += 5;
-    } else if (p.description && p.description.includes('[[MISSION]]')) {
-        score += 5;
-    }
-
-    if (p.enjeu && p.enjeu.length > 20) {
-        score += 5;
-    } else if (p.description && p.description.includes('[[PROBLEM]]')) {
-        score += 5;
-    }
-
-    // PHASE 2 : ARSENAL (BESOINS) - 20 pts
-    if (p.needs && p.needs.length > 10) score += 20;
-
-    // PHASE 3 : BOUSSOLE (FINANCE) - 20 pts
-    if (p.funding_goal && p.funding_goal > 0) score += 5;
-    if (p.milestones_count > 0) score += 10;
-    if (p.rewards_count > 0) score += 5;
-
-    // PHASE 4 : SÛRETÉ (COMPLIANCE) - 20 pts
-    if (p.identity_verified) score += 10;
-    if (p.siret && p.siret.length > 5) score += 5;
-    if (p.social_links) score += 5;
-
-    // PHASE 5 : ORBITE (LANCEMENT) - 20 pts
-    if (p.video_url) score += 5;
-    if (p.is_listed) score += 15;
-
-    const finalScore = Math.min(100, score);
-    
-    // Sync with dashboard badge if present
-    const dashBadge = document.getElementById('epopee-score-badge');
-    if (dashBadge) dashBadge.textContent = finalScore + '%';
-
-    return finalScore;
-}
-
-/**
- * Retourne le label de statut selon le score de maturité
- * Adapté au Fundraising Cockpit (5 phases)
- */
-function getProjectStatus(score) {
-    if (score < 20) return { label: "Vision", step: 1, next: "Ressources" };
-    if (score < 40) return { label: "Ressources", step: 2, next: "Budget" };
-    if (score < 60) return { label: "Budget", step: 3, next: "Juridique" };
-    if (score < 80) return { label: "Juridique", step: 4, next: "Lancement" };
-    if (score < 100) return { label: "Prêt pour Lancement", step: 5, next: "Déploiement" };
-    return { label: "Projet Certifié", step: 5, next: "Déployé" };
-}
-
-// Exposition globale
-window.calculateProjectMaturity = calculateProjectMaturity;
-window.getProjectStatus = getProjectStatus;
-
-// Mise à jour globale de la Navbar
-let isNavbarProcessed = false;
-async function loadGlobalNavbar() {
-    if (isNavbarProcessed) return; // Éviter l'exécution double
-    isNavbarProcessed = true;
-    
-    const navLinks = document.getElementById('nav-links-container');
-    const navActions = document.getElementById('nav-actions-container');
-    
-    if (!navLinks && !navActions) {
-        // Si les conteneurs sont absents, on initialise juste le toggle si présent
-        initNavToggle();
-        return;
-    }
-
-    const session = await getSession();
-    
-    // Détection d'environnement robuste (Local vs Prod/Vercel)
-    const isLocal = window.location.hostname === 'localhost' || 
-                    window.location.hostname === '127.0.0.1' || 
-                    window.location.hostname.startsWith('192.168.') || 
-                    window.location.port !== '';
-    const ext = isLocal ? '.html' : '';
-
-    if (session) {
-        const meta = session.user.user_metadata || {};
-        const role = meta.role || null;
-        const name = meta.full_name || (session.user.email ? session.user.email.split('@')[0] : 'Membre');
-
-        // Mettre à jour le CTA SoloPrice si présent sur la page
-        const solopriceCta = document.getElementById('soloprice-cta');
-        if (solopriceCta) {
-            solopriceCta.href = '/mon-espace' + ext;
-            solopriceCta.textContent = 'Accéder à mon espace';
-        }
-
-        if (navLinks) {
-            navLinks.innerHTML = `
-                <a href="/marketplace/directory${ext}" class="nav-market-link">Talents</a>
-                <a href="/marketplace/jobs${ext}" class="nav-market-link">Missions</a>
-                <a href="/marketplace/projects${ext}" class="nav-market-link">Projets</a>
-                <a href="/marketplace/evenements${ext}" class="nav-market-link">Événements</a>
-                <a href="/marketplace/companies${ext}" class="nav-market-link">Entreprises</a>
-            `;
-        }
-
-        // Actions utilisateur (Profil + Espace + Logout)
-        if (navActions) {
-            navActions.innerHTML = `
-                <div class="user-menu-wrapper" style="display:flex; align-items:center; gap:16px;">
-                    <a href="/profile${ext}" class="nav-user-link desktop-only" style="color:var(--text-primary); text-decoration:none; font-weight:600; font-size:0.9rem; transition: color 0.2s;">
-                        Bonjour, ${name}
-                    </a>
-                    <a href="/mon-espace${ext}" class="cta-button primary" style="font-size:0.85rem; padding: 8px 16px;">
-                        Mon Espace
-                    </a>
-                    <button onclick="signOut()" class="cta-button secondary" style="font-size:0.85rem; padding: 8px 16px;">
-                        Déconnexion
-                    </button>
-                </div>
-            `;
-        }
-    } else {
-        // État GUEST (Non connecté) - S'assurer que le contenu par défaut est là
-        if (navLinks) {
-            navLinks.innerHTML = `
-                <a href="/marketplace/directory${ext}" class="nav-market-link">Talents</a>
-                <a href="/marketplace/jobs${ext}" class="nav-market-link">Missions</a>
-                <a href="/marketplace/projects${ext}" class="nav-market-link">Projets</a>
-                <a href="/marketplace/evenements${ext}" class="nav-market-link">Événements</a>
-                <a href="/marketplace/companies${ext}" class="nav-market-link">Entreprises</a>
-            `;
-        }
-        if (navActions) {
-            navActions.innerHTML = `
-                <a href="/login${ext}" class="cta-button secondary" id="login-link">Connexion</a>
-                <a href="/register-choice${ext}" class="cta-button primary" id="start-button">Démarrer</a>
-            `;
-        }
-    }
-
-    // Initialize Mobile Toggle globally
-    initNavToggle();
-}
-
-function initNavToggle() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navContent = document.querySelector('.nav-content');
-    if (navToggle && navContent) {
-        // Retirer les anciens écouteurs via clone pour éviter les doublons ou conflits
-        const newToggle = navToggle.cloneNode(true);
-        navToggle.parentNode.replaceChild(newToggle, navToggle);
-
-        newToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = navContent.classList.toggle('is-open');
-            newToggle.classList.toggle('is-open', isOpen);
-            newToggle.setAttribute('aria-expanded', isOpen);
-        });
-
-        // Fermer le menu si on clique ailleurs sur la page
-        document.addEventListener('click', (e) => {
-            if (navContent.classList.contains('is-open') && !navContent.contains(e.target) && !newToggle.contains(e.target)) {
-                navContent.classList.remove('is-open');
-                newToggle.classList.remove('is-open');
-                newToggle.setAttribute('aria-expanded', 'false');
-            }
-        }, { once: false });
-    }
-}
-
-// Re-init on DOMContentLoaded for pages that load it statically
-document.addEventListener('DOMContentLoaded', initNavToggle);
-
-// ── Auto-load notification system on all authenticated pages ──
-(function loadNotifications() {
-    if (document.querySelector('script[src*="notifications.js"]')) return;
-    const s = document.createElement('script');
-    // Resolve path relative to auth.js itself (works at any depth)
-    const basePath = (() => {
-        const scripts = document.querySelectorAll('script[src]');
-        for (const sc of scripts) {
-            if (sc.src && sc.src.includes('auth.js')) {
-                return sc.src.replace(/auth\.js.*$/, '');
-            }
-        }
-        return '/assets/js/';
-    })();
-    s.src = basePath + 'notifications.js?v=1.0';
-    s.async = true;
-    document.head.appendChild(s);
-})();
-// ── Système de persistance de l'intention (Onboarding Fluide) ──
 function persistOnboardingIntent() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const role = params.get('role');
-        const plan = params.get('plan');
-
-        if (role) {
-            localStorage.setItem('onboarding_role', role);
-            console.log("Onboarding: Rôle sauvegardé (" + role + ")");
-        }
-        if (plan) {
-            localStorage.setItem('onboarding_plan', plan);
-            console.log("Onboarding: Plan sauvegardé (" + plan + ")");
-        }
-    } catch (e) {
-        console.error("Erreur lors de la persistance de l'intention:", e);
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('role');
+    const territory = params.get('territory');
+    
+    if (role && territory) {
+        localStorage.setItem('onboarding_intent', JSON.stringify({ role, territory, timestamp: Date.now() }));
     }
 }
 
-// Capturer l'intention dès le chargement de n'importe quelle page incluant auth.js
-document.addEventListener('DOMContentLoaded', () => {
-    persistOnboardingIntent();
-    // Auto-load navbar if not already handled by the page script
-    loadGlobalNavbar();
-});
+// Export to window for global access
+window.initSupabase = initSupabase;
+window.signInWithGoogle = signInWithGoogle;
+window.signOut = signOut;
+window.getUserProfile = getUserProfile;

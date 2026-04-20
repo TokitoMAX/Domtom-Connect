@@ -3,126 +3,60 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="https://t.contentsquare.net/uxa/86bd8964d6ff4.js"></script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TBM8LXJV');</script>
-    <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Espace – Domtom Connect</title>
+    <title>Mon Espace - Domtom Connect</title>
+    <link rel="stylesheet" href="/assets/css/dashboard.css?v=2.0">
+    <link rel="stylesheet" href="/assets/css/dashboard-premium.css">
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
-    <link rel="stylesheet" href="/assets/css/style.css?v=7.5">
-    <link rel="stylesheet" href="/assets/css/dashboard.css?v=7.5">
-    
-    <style>
-        /* Critical CSS for Splash Screen */
-        #app-splash-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f172a;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            z-index: 999999;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        #app-splash-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .splash-logo {
-            width: 120px;
-            margin-bottom: 24px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-        .splash-loader {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: #10b981;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-    </style>
-    
-    <!-- Dependencies -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825&vault=true&intent=subscription&currency=EUR"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBM8LXJV"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
-    <!-- Splash Screen -->
-    <div id="app-splash-screen">
-        <img src="/assets/images/logo-domtomconnect.png" class="splash-logo" alt="Domtom Connect">
-        <div class="splash-loader"></div>
-    </div>
-    
-    <!-- Mobile Toggle Button -->
-    <button class="mobile-sidebar-toggle nav-toggle" aria-label="Menu" style="pointer-events: auto !important; z-index: 99999 !important;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="pointer-events: none;">
-            <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    </button>
-
-    <div class="dashboard-layout">
-        <!-- Sidebar injected by UIComponents.js -->
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar dynamically rendered by UIComponents -->
         <aside class="sidebar"></aside>
 
         <main class="main-content">
-            <!-- Top Nav injected by UIComponents.js -->
-            <nav class="top-nav">
-                <div class="nav-market-links" id="nav-links-container"></div>
-            </nav>
+            <!-- Top Nav dynamically rendered by UIComponents -->
+            <header class="top-nav">
+                <div class="nav-left">
+                    <div id="nav-links-container" class="nav-links"></div>
+                </div>
+            </header>
 
-            <div class="dashboard-view-container">
-                <!-- VUE : TABLEAU DE BORD (DASHBOARD GENERAL) -->
-                <div id="overview-view" style="display: none;">
-                    <div class="dash-section-header">
-                        <span class="dash-badge emerald" id="user-role-badge">...</span>
-                        <h1 id="user-greeting">Bonjour.</h1>
-                        <p>Bienvenue dans votre cockpit Domtom Connect.</p>
+            <div class="content-wrapper">
+                <!-- VIEW SECTIONS (SPA) -->
+                
+                <!-- 1. Overview (Unified Feed) -->
+                <div id="overview-view" class="view-section">
+                    <div id="ecosystem-grid-container">
+                        <!-- Module content injected here -->
+                        <div style="padding: 100px 0; text-align: center;">
+                            <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
+                            <p style="color:#64748b; margin-top: 24px; font-weight: 600;">Chargement de votre cockpit...</p>
+                        </div>
                     </div>
-
-                    <!-- ECOSYSTEM MODULES TARGET -->
-                    <div id="ecosystem-view" style="margin-top: 32px;">
-                        <div id="ecosystem-grid-container"></div>
-                    </div>
-
-                    <div class="cards-grid" id="dashboard-cards" style="margin-top: 24px;"></div>
                 </div>
 
-                <!-- SECTIONS : MANAGED BY MODULES -->
+                <!-- 2. Specific Views -->
                 <div id="missions-view" class="view-section" style="display:none;"></div>
                 <div id="billetterie-view" class="view-section" style="display:none;">
-                    <div class="dash-section-header">
-                        <h1 style="color:#0f172a;">Billetterie & Événements</h1>
-                        <p>Gérez vos réservations et vos événements organisés.</p>
-                    </div>
-                    <div id="billetterie-list" class="dashboard-grid"></div>
-                </div>
-                <div id="mes-billets-view" class="view-section" style="display:none;">
-                    <div class="dash-section-header">
-                        <h1 style="color:#0f172a;">Mes Billets</h1>
-                        <p>Retrouvez vos titres d'accès pour les événements à venir.</p>
+                    <div class="dash- pilotage-header" style="margin-bottom:32px;">
+                        <div>
+                            <h2 style="font-size:2.2rem; font-weight:900;">MA BILLETTERIE</h2>
+                            <p style="color:#64748b;">Gérez vos accès et invitations aux événements.</p>
+                        </div>
+                        <button onclick="window.Router.navigate('/marketplace/evenements')" class="cta-button primary" style="background:#10b981;">+ Créer un Événement</button>
                     </div>
                     <div id="my-tickets-list" class="dashboard-grid"></div>
                 </div>
+                
+                <!-- Success Engine View Skeleton -->
                 <div id="success-engine-view-fixed" class="view-section" style="display:none;">
                     <div id="success-engine-header"></div>
                     <div id="success-engine-step"></div>
                 </div>
+
                 <div id="business-view" class="view-section" style="display:none;"></div>
                 <div id="collaboration-view" class="view-section" style="display:none;"></div>
                 <div id="profile-view" class="view-section" style="display:none;"></div>
@@ -133,48 +67,27 @@
     <!-- Mobile Bottom Navigation (DYNAMIC) -->
     <nav class="mobile-nav"></nav>
 
-    <!-- CORE SCRIPTS -->
-    <script src="/assets/js/territory_config.js?v=7.5"></script>
+    <!-- CORE PLATFORM SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/auth.js?v=7.5"></script>
+    <script src="/assets/js/territory_config.js?v=9.0"></script>
+    <script src="/assets/js/auth.js?v=9.0"></script>
     
     <!-- Ecosystem Modules -->
-    <script src="/assets/js/ecosystems/standard.module.js?v=8.5"></script>
-    <script src="/assets/js/ecosystems/collaboration.module.js?v=8.5"></script>
-    <script src="/assets/js/ecosystems/owners.module.js?v=8.5"></script>
-    <script src="/assets/js/ecosystems/experts.module.js?v=8.5"></script>
-    <script src="/assets/js/ecosystems/companies.module.js?v=8.5"></script>
-    <script src="/assets/js/modules/ticketing.module.js?v=8.5"></script>
-    <script src="/assets/js/modules/business.module.js?v=8.5"></script>
-    <script src="/assets/js/dashboard-success-engine.js?v=8.5"></script>
+    <script src="/assets/js/ecosystems/standard.module.js?v=9.0"></script>
+    <script src="/assets/js/ecosystems/collaboration.module.js?v=9.0"></script>
+    <script src="/assets/js/ecosystems/owners.module.js?v=9.0"></script>
+    <script src="/assets/js/ecosystems/experts.module.js?v=9.0"></script>
+    <script src="/assets/js/ecosystems/companies.module.js?v=9.0"></script>
+    <script src="/assets/js/modules/ticketing.module.js?v=9.0"></script>
+    <script src="/assets/js/modules/business.module.js?v=9.0"></script>
+    <script src="/assets/js/dashboard-success-engine.js?v=9.0"></script>
 
-    <!-- Platform Core -->
-    <script src="/assets/js/ui-components.js?v=8.5"></script>
-    <script src="/assets/js/router.js?v=8.5"></script>
-    <script src="/assets/js/app.js?v=8.5"></script>
+    <!-- Platform Orchestrator (Loaded Last) -->
+    <script src="/assets/js/ui-components.js?v=9.0"></script>
+    <script src="/assets/js/router.js?v=9.0"></script>
+    <script src="/assets/js/app.js?v=9.0"></script>
 
-    <!-- MODALS (kept for functional compatibility) -->
-    <!-- Reward Modal -->
-    <div class="modal-overlay" id="reward-modal" style="display:none !important; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
-        <div class="hero-modal" style="max-width:550px; background:white; padding:40px; border-radius:24px; position:relative;">
-             <!-- ... content ... -->
-             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                <h2 style="margin:0; font-size:1.5rem; font-weight:900;">Récompense</h2>
-                <button onclick="document.getElementById('reward-modal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
-            </div>
-            <div id="reward-form-container"></div>
-        </div>
-    </div>
-
-    <!-- Milestone Modal -->
-    <div class="modal-overlay" id="milestone-modal" style="display:none !important; align-items:center; justify-content:center; z-index:10000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
-         <!-- ... content ... -->
-    </div>
-
-    <!-- Event Modal -->
-    <div class="modal-overlay" id="event-modal" style="display:none; align-items:center; justify-content:center; z-index:10001;">
-         <!-- ... content ... -->
-    </div>
-
+    <!-- MODALS -->
+    <div id="details-modal-overlay" class="modal-overlay"></div>
 </body>
 </html>

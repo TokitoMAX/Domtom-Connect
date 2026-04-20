@@ -1,160 +1,129 @@
 /**
  * App.js - Domtom Connect
- * Main Orchestrator for the SaaS Platform
+ * Main Orchestrator for the SPA Dashboard and Platform Logic
  */
 
 const App = {
     state: {
         session: null,
         profile: null,
-        role: 'user',
-        territory: 'OM_FR',
-        activeView: 'overview'
+        role: null,
+        activeView: null,
+        initialized: false
     },
 
     /**
-     * Start the application
+     * Initialization - Boot the platform
      */
     async init() {
-        console.log("[App] Starting...");
+        console.log("[App] Booting...");
         
         try {
-            // 1. Check Supabase
-            if (typeof _supabase === 'undefined' || !_supabase) {
-                if (typeof initSupabase === 'function') {
-                    window._supabase = initSupabase();
-                }
-            }
-            const db = window._supabase;
-            if (!db) {
-                console.error("[App] Supabase not initialized");
-                return;
+            // 1. Wait for Supabase SDK & Auth initialization
+            let retryCount = 0;
+            while ((!window.supabase && !window._supabase) && retryCount < 10) {
+                console.log("[App] Waiting for Supabase SDK...");
+                await new Promise(resolve => setTimeout(resolve, 300));
+                retryCount++;
             }
 
-            // 2. Check Session
-            const { data: { session } } = await db.auth.getSession();
-            if (!session) {
-                window.location.href = '/login';
-                return;
+            const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
+            if (!db) {
+                throw new Error("Supabase SDK could not be initialized after retries.");
             }
+
+            // 2. Load Session
+            const { data: { session }, error: sessionError } = await db.auth.getSession();
+            if (sessionError) throw sessionError;
+
             this.state.session = session;
 
-            // 3. Load Profile
-            const { data: profile, error } = await db
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-
-            if (error || !profile) {
-                window.location.href = '/registration/onboarding';
+            if (!session) {
+                console.log("[App] No active session found.");
+                if (!window.location.pathname.includes('/login')) {
+                    // window.location.href = '/login';
+                }
                 return;
             }
+
+            // 3. Load Profile & Role
+            const profile = await window.getUserProfile(session.user.id);
+            if (!profile) {
+                console.warn("[App] Session active but profile not found.");
+                return;
+            }
+
             this.state.profile = profile;
-            this.state.role = profile.role || 'user';
-            this.state.territory = profile.major_zone || 'OM_FR';
+            this.state.role = profile.role || 'spectateur';
+            console.log(`[App] Session initialized for: ${profile.full_name} (${this.state.role})`);
 
-            // 3. Apply Territorial Theme
-            this.applyTheme();
+            // 4. Initialize UI & Routing
+            if (window.UIComponents) {
+                window.UIComponents.renderSidebar(this.state.role, { label: profile.territory || 'Territoire' });
+                window.UIComponents.renderTopNav(this.state.role);
+            }
 
-            // 4. Initialize UI & Navigation
-            this.renderUI();
-
-            // 5. Initialize Router
             if (window.Router) {
                 window.Router.init();
             }
 
-            console.log("[App] Ready. Role:", this.state.role, "Territory:", this.state.territory);
+            this.state.initialized = true;
 
         } catch (err) {
-            console.error("[App] Initialization Error:", err);
-            // Fallback for demo/debug
+            console.error("[App] Critical Boot Error:", err);
+            // Non-blocking but visible error
+            const container = document.getElementById('ecosystem-grid-container');
+            if (container) {
+                container.innerHTML = `<div style="padding:40px; color:#ef4444; text-align:center; font-weight:800;">Erreur de connexion : ${err.message}. Veuillez rafraîchir la page.</div>`;
+            }
         }
     },
 
     /**
-     * Apply Territorial Colors and Logos via CSS Variables
-     */
-    applyTheme() {
-        const config = window.TerritoryConfig.getEcosystem(this.state.territory);
-        const root = document.documentElement;
-
-        // Define theme colors based on zone
-        const themes = {
-            'OM_FR': { primary: '#10b981', secondary: '#059669', dark: '#0f172a' },
-            'PACIFIC_FR': { primary: '#3b82f6', secondary: '#1d4ed8', dark: '#0f172a' },
-            'CAR_EN': { primary: '#f59e0b', secondary: '#d97706', dark: '#0f172a' },
-            'CAR_ES': { primary: '#ef4444', secondary: '#b91c1c', dark: '#0f172a' },
-            'INT_DIASPORA': { primary: '#6366f1', secondary: '#4338ca', dark: '#0f172a' }
-        };
-
-        const theme = themes[this.state.territory] || themes['OM_FR'];
-
-        root.style.setProperty('--primary-color', theme.primary);
-        root.style.setProperty('--secondary-color', theme.secondary);
-        root.style.setProperty('--dark-color', theme.dark);
-        
-        console.log(`[App] Theme applied for ${this.state.territory}`);
-    },
-
-    /**
-     * Render common UI components (Sidebar, TopNav, etc.)
-     */
-    renderUI() {
-        if (!window.UIComponents) return;
-        
-        const territoryConfig = window.TerritoryConfig.getEcosystem(this.state.territory);
-        
-        window.UIComponents.renderSidebar(this.state.role, territoryConfig);
-        window.UIComponents.renderTopNav(this.state.role, territoryConfig);
-        window.UIComponents.renderMobileNav(this.state.role, territoryConfig);
-    },
-
-    /**
-     * Centralized View Switcher (Delegates to Modules)
+     * View Switcher - Main entry point for Router
      */
     async showView(viewId, forceRender = false, params = null) {
+        if (!this.state.initialized && this.state.session) {
+            console.log("[App] ShowView called before initialization complete. Waiting...");
+            let waitCount = 0;
+            while (!this.state.initialized && waitCount < 10) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                waitCount++;
+            }
+        }
+
         if (this.state.activeView === viewId && !forceRender) return;
+
+        console.log(`[App] Switching view to: ${viewId}`);
         this.state.activeView = viewId;
 
-        // 1. Hide all containers
+        // Hide all views
         const containers = document.querySelectorAll('.view-section');
         containers.forEach(c => c.style.display = 'none');
         
         const overview = document.getElementById('overview-view');
         if (overview) overview.style.display = 'none';
 
-        // 2. Special case for overview (Dashboard Hub)
-        if (viewId === 'overview') {
-            if (overview) overview.style.display = 'block';
-        } else {
-            // Automatically show the matching container if it exists
-            const target = document.getElementById(`${viewId}-view`) || document.getElementById(`${viewId}-view-fixed`);
-            if (target) target.style.display = 'block';
-        }
-
-        // 3. Delegate to Ecosystem Module
+        // Select Module based on role
         const activeModule = this.getActiveModule();
+        
         if (activeModule) {
+            // Show Target View Container (if it's a fixed div)
+            const target = document.getElementById(`${viewId}-view`) || document.getElementById(`${viewId}-view-fixed`);
+            if (target) {
+                target.style.display = 'block';
+            } else {
+                // Default to overview container
+                if (overview) overview.style.display = 'block';
+            }
+
             const gridContainer = document.getElementById('ecosystem-grid-container');
             await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session, params);
-        }
-
-        // 4. Update Navigation active state
-        this.updateNavState(viewId);
-
-        // 5. Hide Splash Screen (First View Rendered)
-        const splash = document.getElementById('app-splash-screen');
-        if (splash && !splash.classList.contains('hidden')) {
-            setTimeout(() => {
-                splash.classList.add('hidden');
-            }, 300);
         }
     },
 
     getActiveModule() {
-        const role = this.state.role;
+        const role = this.state.role || 'spectateur';
         switch (role) {
             case 'expert':
             case 'prestataire': return window.ExpertsModule;
@@ -163,29 +132,17 @@ const App = {
             case 'owner': return window.OwnersModule;
             default: return window.StandardModule;
         }
-    },
-
-    updateNavState(viewId) {
-        const links = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
-        links.forEach(link => {
-            const path = link.getAttribute('href');
-            const isActive = path === `/dashboard/${viewId}` || (viewId === 'overview' && path === '/dashboard');
-            link.classList.toggle('active', isActive);
-        });
     }
 };
 
 window.App = App;
 window.showView = (id, force, params) => App.showView(id, force, params);
 
-/**
- * Global Utility: isPremiumUser
- * Determines if a profile has an active premium/authority status
- */
-window.isPremiumUser = (profile) => {
-    if (!profile) return false;
-    const tier = profile.subscription_tier || 'free';
-    return tier !== 'free' || profile.is_premium === true;
-};
-
-document.addEventListener('DOMContentLoaded', () => App.init());
+// Auto-boot if on the correct page
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('/mon-espace') || 
+        window.location.pathname.includes('/dashboard') || 
+        document.getElementById('nav-links-container')) {
+        App.init();
+    }
+});
