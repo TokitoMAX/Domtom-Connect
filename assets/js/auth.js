@@ -8,24 +8,29 @@ let _supabase = null;
 /**
  * Robust Supabase Initialization
  */
+/**
+ * Robust Supabase Initialization
+ */
 function initSupabase() {
     if (typeof supabase === 'undefined') {
-        console.warn("[Auth] Supabase SDK global not found yet. Retrying via window...");
-        if (typeof window.supabase === 'undefined') return null;
+        const sdk = window.supabase;
+        if (!sdk) {
+            console.warn("[Auth] Supabase SDK (supabase) not found. Retrying initialization via App orchestrator...");
+            return null;
+        }
     }
     
     const sdk = typeof supabase !== 'undefined' ? supabase : window.supabase;
     
-    if (!_supabase) {
-        _supabase = sdk.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        window._supabase = _supabase;
+    if (!window._supabase) {
+        window._supabase = sdk.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
-    return _supabase;
+    return window._supabase;
 }
 
 // Global variable initialization attempt
 if (typeof supabase !== 'undefined' || typeof window.supabase !== 'undefined') {
-    _supabase = initSupabase();
+    initSupabase();
 }
 
 /**
@@ -81,7 +86,7 @@ async function signOut() {
 }
 
 async function getUserProfile(userId) {
-    const db = _supabase || initSupabase();
+    const db = window._supabase || initSupabase();
     if (!db) return null;
     
     const { data, error } = await db

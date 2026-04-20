@@ -27,9 +27,9 @@ const UIComponents = {
         ];
 
         let html = `
-            <a href="/" class="sidebar-brand" style="margin-bottom:48px; display:flex; align-items:center; gap:12px; text-decoration:none;">
-                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" style="width:32px; height:auto; filter:brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(7500%) hue-rotate(251deg) brightness(97%) contrast(106%);">
-                <span class="sidebar-brand-text" style="font-size:1.4rem; font-weight:950; color:#0f172a; letter-spacing:-0.05em;">Domtom Connect</span>
+            <a href="/" class="sidebar-brand">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" class="sidebar-logo-img">
+                <span class="sidebar-brand-text">Domtom Connect</span>
             </a>
         `;
 
@@ -57,13 +57,13 @@ const UIComponents = {
         html += `<div class="sidebar-section-title">Paramètres</div>`;
         html += this.renderSidebarLink('/dashboard/profile', 'Mon Compte', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         html += `
-            <a href="javascript:void(0)" onclick="signOut()" class="sidebar-link" title="Déconnexion" style="color:#ef4444;">
-                <span class="sidebar-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <a href="javascript:void(0)" onclick="signOut()" class="sidebar-link" title="Déconnexion">
+                <div class="sidebar-icon" style="color:#ef4444;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
-                </span>
-                <span class="sidebar-label">Déconnexion</span>
+                </div>
+                <span class="sidebar-label" style="color:#ef4444;">Déconnexion</span>
             </a>
         `;
 
@@ -86,12 +86,30 @@ const UIComponents = {
     /**
      * Render the Top Navigation
      */
-    renderTopNav(role, territory) {
+    renderTopNav(role) {
         const topNav = document.getElementById('nav-links-container');
         if (!topNav) return;
 
-        // Drastic Cleanup: No more floating links in the dashboard HUD
-        topNav.innerHTML = ``;
+        const links = [
+            { label: 'Talents', path: '/marketplace/directory', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z' },
+            { label: 'Missions', path: '/marketplace/jobs', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01' },
+            { label: 'Projets', path: '/marketplace/projects', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }
+        ];
+
+        let html = `<div class="nav-market-links">`;
+        links.forEach(link => {
+            const isActive = window.location.pathname.startsWith(link.path);
+            html += `
+                <a href="${link.path}" class="nav-market-link ${isActive ? 'active' : ''}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="${link.icon}" />
+                    </svg>
+                    ${link.label}
+                </a>
+            `;
+        });
+        html += `</div>`;
+        topNav.innerHTML = html;
     },
 
     /**

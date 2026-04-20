@@ -16,21 +16,25 @@ const App = {
      * Initialization - Boot the platform
      */
     async init() {
-        console.log("[App] Booting...");
+        console.log("[App] Booting Domtom Connect Dashboard...");
         
         try {
-            // 1. Wait for Supabase SDK & Auth initialization
+            // 1. Wait for Supabase SDK & Auth initialization Injection
             let retryCount = 0;
-            while ((!window.supabase && !window._supabase) && retryCount < 10) {
+            while (!window._supabase && retryCount < 20) {
+                if (typeof window.initSupabase === 'function') window.initSupabase();
+                if (window._supabase) break;
                 console.log("[App] Waiting for Supabase SDK...");
-                await new Promise(resolve => setTimeout(resolve, 300));
+                await new Promise(resolve => setTimeout(resolve, 200));
                 retryCount++;
             }
 
-            const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
-            if (!db) {
-                throw new Error("Supabase SDK could not be initialized after retries.");
+            if (!window._supabase) {
+                throw new Error("Le SDK Supabase n'a pas pu être initialisé.");
             }
+
+            const db = window._supabase;
+            this.db = db;
 
             // 2. Load Session
             const { data: { session }, error: sessionError } = await db.auth.getSession();
@@ -39,27 +43,26 @@ const App = {
             this.state.session = session;
 
             if (!session) {
-                console.log("[App] No active session found.");
-                if (!window.location.pathname.includes('/login')) {
-                    // window.location.href = '/login';
-                }
+                console.log("[App] No active session found. Redirecting to login...");
+                window.location.href = '/login';
                 return;
             }
 
             // 3. Load Profile & Role
             const profile = await window.getUserProfile(session.user.id);
             if (!profile) {
-                console.warn("[App] Session active but profile not found.");
+                console.warn("[App] Profile not found. Redirecting to onboarding...");
+                window.location.href = '/registration/onboarding';
                 return;
             }
 
             this.state.profile = profile;
             this.state.role = profile.role || 'spectateur';
-            console.log(`[App] Session initialized for: ${profile.full_name} (${this.state.role})`);
+            console.log(`[App] Session ready: ${profile.full_name} (${this.state.role})`);
 
             // 4. Initialize UI & Routing
             if (window.UIComponents) {
-                window.UIComponents.renderSidebar(this.state.role, { label: profile.territory || 'Territoire' });
+                window.UIComponents.renderSidebar(this.state.role, profile.territory || 'Territoire');
                 window.UIComponents.renderTopNav(this.state.role);
             }
 
@@ -71,10 +74,9 @@ const App = {
 
         } catch (err) {
             console.error("[App] Critical Boot Error:", err);
-            // Non-blocking but visible error
             const container = document.getElementById('ecosystem-grid-container');
             if (container) {
-                container.innerHTML = `<div style="padding:40px; color:#ef4444; text-align:center; font-weight:800;">Erreur de connexion : ${err.message}. Veuillez rafraîchir la page.</div>`;
+                container.innerHTML = `<div style="padding:40px; color:#ef4444; text-align:center; font-weight:800;">Erreur de connexion : ${err.message}.</div>`;
             }
         }
     },

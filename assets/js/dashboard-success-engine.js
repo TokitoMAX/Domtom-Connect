@@ -52,7 +52,7 @@ function updateSuccessStepper(score, projectId) {
 async function loadMyProjects(userId, forceRenderList = false, inspectId = null) {
     if (!userId && !inspectId) return; // Sécurisation contre les sessions non chargées
     try {
-        let query = _supabase.from('projects').select('*');
+        let query = window._supabase.from('projects').select('*');
         
         if (inspectId) {
             query = query.eq('id', inspectId).single();
@@ -196,7 +196,7 @@ async function openProjectCockpit(projectId, initialStep = 1) {
     if (!list || !cockpit || !content) return;
 
     try {
-        const { data: p, error } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+        const { data: p, error } = await window._supabase.from('projects').select('*').eq('id', projectId).single();
         if (error) throw error;
 
         // Mise à jour de l'URL pour la persistance au rafraîchissement
@@ -509,13 +509,13 @@ async function handleCoverUpload(input, projectId) {
         const fileName = `${session.user.id}/cover_${projectId}_${Math.random()}.${fileExt}`;
         const filePath = `${fileName}`;
 
-        const { data, error } = await _supabase.storage
+        const { data, error } = await window._supabase.storage
             .from('avatars')
             .upload(filePath, file);
 
         if (error) throw error;
 
-        const { data: { publicUrl } } = _supabase.storage
+        const { data: { publicUrl } } = window._supabase.storage
             .from('avatars')
             .getPublicUrl(filePath);
 
@@ -563,7 +563,7 @@ async function saveProjectStep(projectId, step) {
     }
 
     try {
-        const { error } = await _supabase.from('projects').update(payload).eq('id', projectId);
+        const { error } = await window._supabase.from('projects').update(payload).eq('id', projectId);
         if (error) throw error;
 
         if (step === 6) {
@@ -571,7 +571,7 @@ async function saveProjectStep(projectId, step) {
             window.location.reload();
         } else {
             // Re-load maturity and go to next step
-            const { data: p } = await _supabase.from('projects').select('*').eq('id', projectId).single();
+            const { data: p } = await window._supabase.from('projects').select('*').eq('id', projectId).single();
             renderCockpitWithStep(p, step + 1);
         }
     } catch (err) {
@@ -587,7 +587,7 @@ async function startNewProjectWizard() {
         const session = await getSession();
         if (!session) return;
         
-        const { data: p, error } = await _supabase.from('projects').insert([{
+        const { data: p, error } = await window._supabase.from('projects').insert([{
             owner_id: session.user.id,
             title: title,
             description: "",
@@ -620,7 +620,7 @@ async function loadMatchmaking(userId, projectId) {
     if (!container || !section) return;
 
     try {
-        const { data: profile } = await _supabase.from('profiles').select('subscription_tier, role').eq('id', userId).single();
+        const { data: profile } = await window._supabase.from('profiles').select('subscription_tier, role').eq('id', userId).single();
         if (!profile) return;
 
         const tier = profile.subscription_tier || 'free';
@@ -631,7 +631,7 @@ async function loadMatchmaking(userId, projectId) {
         section.style.display = 'block';
 
         // Récupérer les 3 derniers matchs (Experts)
-        const { data: experts, error } = await _supabase
+        const { data: experts, error } = await window._supabase
             .from('profiles')
             .select('*')
             .eq('role', 'expert')
@@ -715,7 +715,7 @@ async function updateProjectManifesto(projectId) {
         if (!session) throw new Error("Veuillez vous reconnecter.");
 
         if (projectId === 'new') {
-            const { data, error } = await _supabase
+            const { data, error } = await window._supabase
                 .from('projects')
                 .insert([{ 
                     owner_id: session.user.id, 
@@ -729,7 +729,7 @@ async function updateProjectManifesto(projectId) {
             alert("✅ Épopée créée !");
             window.location.reload();
         } else {
-            const { error } = await _supabase
+            const { error } = await window._supabase
                 .from('projects')
                 .update({ vision, mission, enjeu })
                 .eq('id', projectId);
@@ -747,7 +747,7 @@ async function openArsenalModal(projectId) {
     const session = await getSession();
     if (!session) return;
 
-    const { data: p } = await _supabase.from('projects')
+    const { data: p } = await window._supabase.from('projects')
         .select('id, title, status, description, territory, vision, mission, enjeu, needs, roadmap, budget, cover_url')
         .eq('id', projectId).single();
     if (!p) return;
@@ -824,7 +824,7 @@ async function saveReward(projectId) {
     if (!title || !amount) return alert("Veuillez remplir le titre et le montant.");
 
     try {
-        const { error } = await _supabase.from('project_rewards').insert([{
+        const { error } = await window._supabase.from('project_rewards').insert([{
             project_id: projectId,
             title,
             description: desc,
@@ -849,7 +849,7 @@ async function saveMilestone(projectId) {
     if (!title || !threshold) return alert("Veuillez remplir le titre et l'objectif.");
 
     try {
-        const { error } = await _supabase.from('project_milestones').insert([{
+        const { error } = await window._supabase.from('project_milestones').insert([{
             project_id: projectId,
             title,
             funding_goal: threshold,
@@ -876,10 +876,10 @@ async function handleRewardImageUpload(input) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${session.user.id}/reward_${projectId}_${Math.random()}.${fileExt}`;
         
-        const { error } = await _supabase.storage.from('avatars').upload(fileName, file);
+        const { error } = await window._supabase.storage.from('avatars').upload(fileName, file);
         if (error) throw error;
 
-        const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(fileName);
+        const { data: { publicUrl } } = window._supabase.storage.from('avatars').getPublicUrl(fileName);
         document.getElementById('reward-image-url').value = publicUrl;
         if (preview) preview.style.background = `url('${publicUrl}') center/cover`;
     } catch (err) {
@@ -892,7 +892,7 @@ async function loadDashboardRewards(projectId) {
     if (!list) return;
 
     try {
-        const { data: rewards, error } = await _supabase
+        const { data: rewards, error } = await window._supabase
             .from('project_rewards')
             .select('*')
             .eq('project_id', projectId)
@@ -924,7 +924,7 @@ async function loadDashboardMilestones(projectId) {
     if (!list) return;
 
     try {
-        const { data: milestones, error } = await _supabase
+        const { data: milestones, error } = await window._supabase
             .from('project_milestones')
             .select('*')
             .eq('project_id', projectId)
@@ -955,13 +955,13 @@ async function loadDashboardMilestones(projectId) {
 
 async function deleteReward(rewardId, projectId) {
     if (!confirm("Supprimer cette récompense ?")) return;
-    const { error } = await _supabase.from('project_rewards').delete().eq('id', rewardId);
+    const { error } = await window._supabase.from('project_rewards').delete().eq('id', rewardId);
     if (!error) loadDashboardRewards(projectId);
 }
 
 async function deleteMilestone(milestoneId, projectId) {
     if (!confirm("Supprimer ce palier ?")) return;
-    const { error } = await _supabase.from('project_milestones').delete().eq('id', milestoneId);
+    const { error } = await window._supabase.from('project_milestones').delete().eq('id', milestoneId);
     if (!error) loadDashboardMilestones(projectId);
 }
 
@@ -1020,7 +1020,7 @@ async function saveNewProject() {
         // Sécurité anti-cache: s'assurer qu'aucun champ 'name' résiduel ne pollue l'objet
         delete payload.name; 
 
-        const { error } = await _supabase.from('projects').insert([payload]);
+        const { error } = await window._supabase.from('projects').insert([payload]);
         if (error) throw error;
         alert("✅ Épopée créée avec succès !");
         window.location.reload();
@@ -1032,15 +1032,15 @@ async function deleteSREProject(id) {
     
     try {
         // Step 1: Delete associated rewards
-        const { error: errRewards } = await _supabase.from('project_rewards').delete().eq('project_id', id);
+        const { error: errRewards } = await window._supabase.from('project_rewards').delete().eq('project_id', id);
         if (errRewards) throw errRewards;
 
         // Step 2: Delete associated milestones
-        const { error: errMilestones } = await _supabase.from('project_milestones').delete().eq('project_id', id);
+        const { error: errMilestones } = await window._supabase.from('project_milestones').delete().eq('project_id', id);
         if (errMilestones) throw errMilestones;
 
         // Step 3: Delete the project itself
-        const { error: errProject } = await _supabase.from('projects').delete().eq('id', id);
+        const { error: errProject } = await window._supabase.from('projects').delete().eq('id', id);
         if (errProject) throw errProject;
         
         const session = await getSession();
@@ -1069,7 +1069,7 @@ async function handleIDUpload(input) {
         if (!session) throw new Error("Session expirée");
         
         const path = `${session.user.id}/${Date.now()}_${file.name}`;
-        const { data, error: uploadError } = await _supabase.storage
+        const { data, error: uploadError } = await window._supabase.storage
             .from('verifications-id')
             .upload(path, file);
 
@@ -1078,7 +1078,7 @@ async function handleIDUpload(input) {
         // Mise à jour optionnelle du projet courant si on est dans un cockpit
         const projectId = window.location.hash.includes('id=') ? window.location.hash.split('id=')[1] : null;
         if (projectId) {
-            await _supabase.from('projects').update({ 
+            await window._supabase.from('projects').update({ 
                 kyc_status: 'pending_verification',
                 kyc_document_path: path 
             }).eq('id', projectId);
@@ -1102,7 +1102,7 @@ async function approveProjectFromInspection(projectId) {
     if (!confirm("Voulez-vous APPROUVER cette Épopée ? Elle deviendra visible sur la marketplace.")) return;
     
     try {
-        const { error } = await _supabase
+        const { error } = await window._supabase
             .from('projects')
             .update({ status: 'approved', is_listed: true })
             .eq('id', projectId);
@@ -1173,7 +1173,7 @@ window.viewProjectContributions = async (projectId) => {
     modal.style.display = 'flex';
 
     try {
-        const { data: contribs, error } = await _supabase
+        const { data: contribs, error } = await window._supabase
             .from('contributions')
             .select('*, profiles(full_name), project_rewards(title)')
             .eq('project_id', projectId)
