@@ -4,6 +4,29 @@
  */
 const OwnersModule = {
     /**
+     * Module Router - Professional Isolation
+     */
+    route: async (viewId, container, profile, session) => {
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
+
+        switch (viewId) {
+            case 'success-engine':
+                const view = document.getElementById('success-engine-view-fixed');
+                if (view) {
+                    view.style.display = 'block';
+                    if (typeof openProjectCockpit === 'function') openProjectCockpit();
+                    else if (typeof loadMyProjects === 'function') loadMyProjects(session?.user?.id);
+                }
+                break;
+            case 'overview':
+            default:
+                OwnersModule.renderDashboard(target, null, profile, session);
+                break;
+        }
+    },
+
+    /**
      * Dashboard Rendering Logic - Restauration Marque & Conversion Épopée
      */
     renderDashboard: (container, additional, profile, session) => {

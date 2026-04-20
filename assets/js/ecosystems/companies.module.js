@@ -5,6 +5,34 @@
  */
 const CompaniesModule = {
     /**
+     * Module Router - Professional Isolation
+     */
+    route: async (viewId, container, profile, session) => {
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
+
+        switch (viewId) {
+            case 'missions':
+                window.location.href = '/marketplace/jobs.html';
+                break;
+            case 'business':
+                window.location.href = '/business.html';
+                break;
+            case 'collaboration':
+                const view = document.getElementById('collaboration-view');
+                if (view && typeof CollaborationModule !== 'undefined') {
+                    view.style.display = 'block';
+                    CollaborationModule.renderDashboard(view, null, profile, session);
+                }
+                break;
+            case 'overview':
+            default:
+                CompaniesModule.renderDashboard(target, null, profile, session);
+                break;
+        }
+    },
+
+    /**
      * Rendu principal du Dashboard Entreprise
      */
     renderDashboard: async (container, additional, profile, session) => {
@@ -20,7 +48,7 @@ const CompaniesModule = {
         const activeId = window.activeBusinessId || session.user.id;
 
         // Fetch Real-time Stats
-        const stats = await window.fetchBusinessStats(activeId);
+        const stats = (typeof window.fetchBusinessStats === 'function') ? await window.fetchBusinessStats(activeId) : { views: 0, applications: 0 };
 
         container.innerHTML = `
             <div class="dashboard-grid role-entreprise-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -41,16 +69,16 @@ const CompaniesModule = {
                     ${!isListed ? `
                      <div class="dash-card highlight" style="background:#fff7ed; border: 1px solid #ffedd5; padding: 32px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center;">
                          <div style="flex:1;">
-                            <h4 style="margin:0; font-size:1.1rem; font-weight:850; color:#9a3412;">Etape 1 : Visibilite Marketplace requise</h4>
+                            <h4 style="margin:0; font-size:1.1rem; font-weight:850; color:#9a3412;">Étape 1 : Visibilité Marketplace requise</h4>
                             <p style="font-size: 0.95rem; color: #c2410c; line-height:1.5; margin: 12px 0 0 0;">Publiez votre profil pour pouvoir diffuser vos missions sur le réseau Domtom Connect.</p>
                          </div>
-                         <a href="/profile" class="cta-button primary" style="background:#ea580c; border:none; border-radius:12px; font-weight:800; padding:14px 28px; text-decoration:none; color:white;">Activer ma visibilite</a>
+                         <a href="/profile" class="cta-button primary" style="background:#ea580c; border:none; border-radius:12px; font-weight:800; padding:14px 28px; text-decoration:none; color:white;">Activer ma visibilité</a>
                     </div>
                     ` : `
                     <div class="dash-card highlight" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; padding: 32px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.25);">
                          <div style="flex:1;">
-                            <h4 style="margin:0; font-size:1.25rem; font-weight:950; color: white;">Etape 2 : Collaboration Strategique</h4>
-                            <p style="font-size: 0.95rem; color: rgba(255,255,255,0.9); line-height:1.5; margin: 8px 0 0 0;">Bravo, votre profil est certifie et visible ! Activez votre partenariat stratégique pour débloquer toute la puissance du réseau.</p>
+                            <h4 style="margin:0; font-size:1.25rem; font-weight:950; color: white;">Étape 2 : Collaboration Stratégique</h4>
+                            <p style="font-size: 0.95rem; color: rgba(255,255,255,0.9); line-height:1.5; margin: 8px 0 0 0;">Bravo, votre profil est certifié et visible ! Activez votre partenariat stratégique pour débloquer toute la puissance du réseau.</p>
                          </div>
                          <button onclick="showView('collaboration')" class="cta-button" style="background:white; color:#059669; border:none; border-radius:14px; font-weight:900; padding:16px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor:pointer;">Lancer la Collaboration</button>
                     </div>
@@ -63,7 +91,7 @@ const CompaniesModule = {
                                 <h3 style="font-size: 1.5rem; font-weight: 950; margin:0; color: #0f172a;">Annonces & Missions</h3>
                                 <p id="mission-status-label" style="font-size:0.8rem; color:#64748b; font-weight:700; margin-top:4px;">Quota : Chargement...</p>
                             </div>
-                            <button id="main-job-btn" onclick="window.location.href='/marketplace/jobs'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:16px 32px;">Publier une Mission</button>
+                            <button id="main-job-btn" onclick="window.location.href='/marketplace/jobs.html'" class="cta-button primary" style="background:#10b981; border:none; border-radius:12px; font-weight:800; padding:16px 32px;">Publier une Mission</button>
                         </div>
                         
                         <div id="jobs-container-${container.id || 'main'}" class="company-jobs-view-container">
@@ -278,7 +306,7 @@ const CompaniesModule = {
         } else {
             // Fallback: Copy to clipboard
             navigator.clipboard.writeText(link).then(() => {
-                Swal.fire({ icon: 'success', title: 'Lien copie !', text: `Envoyez-le par WhatsApp ou Mail.` });
+                Swal.fire({ icon: 'success', title: 'Lien copié !', text: `Envoyez-le par WhatsApp ou Mail.` });
             });
         }
     },
@@ -289,7 +317,9 @@ const CompaniesModule = {
         if (!email || !email.includes('@')) return alert("Email invalide.");
 
         try {
-            const session = await getSession();
+            const session = (typeof getSession === 'function') ? await getSession() : null;
+            if (!session) return;
+
             const { data, error } = await _supabase
                 .from('collaborators')
                 .insert([{ 

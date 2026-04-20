@@ -433,17 +433,23 @@
                 <!-- SECTION : MISSIONS -->
                 <div id="missions-view" class="view-section" style="display:none;"></div>
 
-                <!-- SECTION : BILLETTERIE -->
+                <!-- SECTION : BILLETTERIE (Déléguée au StandardModule) -->
                 <div id="billetterie-view" class="view-section" style="display:none;">
                     <div class="dash-section-header">
                         <h1 style="color:#0f172a;">Billetterie & Événements</h1>
                         <p>Gérez vos réservations et vos événements organisés.</p>
                     </div>
-                    <div id="ticketing-container"></div>
+                    <div id="billetterie-list" class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;"></div>
                 </div>
 
                 <!-- SECTION : MES BILLETS -->
-                <div id="mes-billets-view" class="view-section" style="display:none;"></div>
+                <div id="mes-billets-view" class="view-section" style="display:none;">
+                    <div class="dash-section-header">
+                        <h1 style="color:#0f172a;">Mes Billets</h1>
+                        <p>Retrouvez vos titres d'accès pour les événements à venir.</p>
+                    </div>
+                    <div id="my-tickets-list" class="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;"></div>
+                </div>
 
                 <!-- SECTION : SUCCESS ENGINE -->
                 <div id="success-engine-view-fixed" class="view-section" style="display:none;"></div>

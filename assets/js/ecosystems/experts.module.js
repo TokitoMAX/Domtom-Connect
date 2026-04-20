@@ -6,6 +6,27 @@ const ExpertsModule = {
     role: 'expert',
 
     /**
+     * Module Router - Professional Isolation
+     */
+    route: async (viewId, container, profile, session) => {
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
+
+        switch (viewId) {
+            case 'business':
+                window.location.href = '/business.html';
+                break;
+            case 'missions':
+                window.location.href = '/marketplace/jobs.html';
+                break;
+            case 'overview':
+            default:
+                ExpertsModule.renderDashboard(target, null, profile, session);
+                break;
+        }
+    },
+
+    /**
      * Dashboard Rendering Logic - Restauration Marque & Conversion Authority
      */
     renderDashboard: (container, additional, profile, session) => {
