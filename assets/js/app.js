@@ -113,12 +113,21 @@ const App = {
         if (activeModule) {
             // View Orchestration
             if (viewId === 'success-engine' && successEngine) {
+                if (overview) overview.style.display = 'none';
                 successEngine.style.display = 'block';
+                // Trigger Success Engine Logic
+                if (typeof window.loadMyProjects === 'function' && this.state.session) {
+                    window.loadMyProjects(this.state.session.user.id);
+                }
+                return; // Prevent module routing for Success Engine if it's handled separately
             } else if (overview) {
+                if (successEngine) successEngine.style.display = 'none';
                 overview.style.display = 'block';
             }
 
             const gridContainer = document.getElementById('ecosystem-grid-container');
+            if (gridContainer) gridContainer.innerHTML = '';
+            
             await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session, params);
         }
     },
