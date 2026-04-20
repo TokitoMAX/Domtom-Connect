@@ -5,18 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Espace - Domtom Connect</title>
-    <link rel="stylesheet" href="/assets/css/dashboard.css?v=2.0">
+    <link rel="stylesheet" href="/assets/css/dashboard.css?v=9.6">
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Force display for legacy containers when needed */
+        .view-section { transition: opacity 0.3s ease; }
+    </style>
 </head>
 
 <body class="dashboard-body">
     <div class="dashboard-container">
-        <!-- Sidebar dynamically rendered by UIComponents -->
+        <!-- Sidebar - Dynamic Aceternity Style -->
         <aside class="sidebar"></aside>
 
         <main class="main-content">
-            <!-- Top Nav dynamically rendered by UIComponents -->
+            <!-- Top Nav - Market QuickLinks -->
             <header class="top-nav">
                 <div class="nav-left">
                     <div id="nav-links-container" class="nav-links"></div>
@@ -24,38 +28,34 @@
             </header>
 
             <div class="content-wrapper">
-                <!-- VIEW SECTIONS (SPA) -->
-                
-                <!-- 1. Overview (Unified Feed) -->
+                <!-- 1. Overview (Default Unified Feed) -->
                 <div id="overview-view" class="view-section">
                     <div id="ecosystem-grid-container">
-                        <!-- Module content injected here -->
-                        <div style="padding: 100px 0; text-align: center;">
-                            <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
-                            <p style="color:#64748b; margin-top: 24px; font-weight: 600;">Chargement de votre cockpit...</p>
-                        </div>
+                        <!-- Module-specific dashboard cards injected here -->
                     </div>
                 </div>
 
-                <!-- 2. Specific Views -->
-                <div id="missions-view" class="view-section" style="display:none;"></div>
-                <div id="billetterie-view" class="view-section" style="display:none;">
-                    <div class="dash-pilotage-header" style="margin-bottom:32px;">
-                        <div>
-                            <h2 style="font-size:2.2rem; font-weight:900;">MA BILLETTERIE</h2>
-                            <p style="color:#64748b;">Gérez vos accès et invitations aux événements.</p>
-                        </div>
-                        <button onclick="window.Router.navigate('/marketplace/evenements')" class="cta-button primary" style="background:#10b981;">+ Créer un Événement</button>
-                    </div>
-                    <div id="my-tickets-list" class="dashboard-grid"></div>
-                </div>
-                
-                <!-- Success Engine View Skeleton -->
+                <!-- 2. SUCCESS ENGINE (Legacy Premium Integration) -->
                 <div id="success-engine-view-fixed" class="view-section" style="display:none;">
                     <div id="success-engine-header"></div>
+                    
+                    <!-- Original List View Container -->
+                    <div id="project-list-view"></div>
+                    
+                    <!-- Original Step View Container -->
                     <div id="success-engine-step"></div>
+
+                    <!-- Original Cockpit Container -->
+                    <div id="project-cockpit-view" style="display: none;">
+                        <div id="cockpit-content-internal"></div>
+                    </div>
                 </div>
 
+                <!-- 3. Specialized Ecosystem Views -->
+                <div id="missions-view" class="view-section" style="display:none;"></div>
+                <div id="billetterie-view" class="view-section" style="display:none;">
+                    <div id="my-tickets-list" class="dashboard-grid"></div>
+                </div>
                 <div id="business-view" class="view-section" style="display:none;"></div>
                 <div id="collaboration-view" class="view-section" style="display:none;"></div>
                 <div id="profile-view" class="view-section" style="display:none;"></div>
@@ -63,30 +63,30 @@
         </main>
     </div>
 
-    <!-- Mobile Bottom Navigation (DYNAMIC) -->
+    <!-- Mobile Navigation -->
     <nav class="mobile-nav"></nav>
 
-    <!-- CORE PLATFORM SCRIPTS -->
+    <!-- PLATFORM ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/territory_config.js?v=9.5"></script>
-    <script src="/assets/js/auth.js?v=9.5"></script>
+    <script src="/assets/js/territory_config.js?v=9.6"></script>
+    <script src="/assets/js/auth.js?v=9.6"></script>
     
     <!-- Ecosystem Modules -->
-    <script src="/assets/js/ecosystems/standard.module.js?v=9.5"></script>
-    <script src="/assets/js/ecosystems/collaboration.module.js?v=9.5"></script>
-    <script src="/assets/js/ecosystems/owners.module.js?v=9.5"></script>
-    <script src="/assets/js/ecosystems/experts.module.js?v=9.5"></script>
-    <script src="/assets/js/ecosystems/companies.module.js?v=9.5"></script>
-    <script src="/assets/js/modules/ticketing.module.js?v=9.5"></script>
-    <script src="/assets/js/modules/business.module.js?v=9.5"></script>
-    <script src="/assets/js/dashboard-success-engine.js?v=9.5"></script>
+    <script src="/assets/js/ecosystems/standard.module.js?v=9.6"></script>
+    <script src="/assets/js/ecosystems/collaboration.module.js?v=9.6"></script>
+    <script src="/assets/js/ecosystems/owners.module.js?v=9.6"></script>
+    <script src="/assets/js/ecosystems/experts.module.js?v=9.6"></script>
+    <script src="/assets/js/ecosystems/companies.module.js?v=9.6"></script>
+    <script src="/assets/js/modules/ticketing.module.js?v=9.6"></script>
+    <script src="/assets/js/modules/business.module.js?v=9.6"></script>
+    <script src="/assets/js/dashboard-success-engine.js?v=9.6"></script>
 
-    <!-- Platform Orchestrator (Loaded Last) -->
-    <script src="/assets/js/ui-components.js?v=9.5"></script>
-    <script src="/assets/js/router.js?v=9.5"></script>
-    <script src="/assets/js/app.js?v=9.5"></script>
+    <!-- Platform Orchestrator -->
+    <script src="/assets/js/ui-components.js?v=9.6"></script>
+    <script src="/assets/js/router.js?v=9.6"></script>
+    <script src="/assets/js/app.js?v=9.6"></script>
 
-    <!-- MODALS -->
+    <!-- Modals Layer -->
     <div id="details-modal-overlay" class="modal-overlay"></div>
 </body>
 </html>

@@ -80,7 +80,10 @@ const Router = {
             }
         }
 
-        const params = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams(window.location.search);
+        const params = {};
+        searchParams.forEach((v, k) => params[k] = v);
+
         console.log(`[Router] Route matched: ${path}${window.location.search} -> ${viewId}`);
         
         // Call global showView (proxied to App.showView later)

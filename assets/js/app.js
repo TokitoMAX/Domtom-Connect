@@ -97,24 +97,23 @@ const App = {
         console.log(`[App] Switching view to: ${viewId}`);
         this.state.activeView = viewId;
 
-        // Hide all views
+        // Hide all views (Unifed SPA Strategy)
         const containers = document.querySelectorAll('.view-section');
         containers.forEach(c => c.style.display = 'none');
         
+        // Target specifically the Overview or the specialized view containers
         const overview = document.getElementById('overview-view');
-        if (overview) overview.style.display = 'none';
-
+        const successEngine = document.getElementById('success-engine-view-fixed');
+        
         // Select Module based on role
         const activeModule = this.getActiveModule();
         
         if (activeModule) {
-            // Show Target View Container (if it's a fixed div)
-            const target = document.getElementById(`${viewId}-view`) || document.getElementById(`${viewId}-view-fixed`);
-            if (target) {
-                target.style.display = 'block';
-            } else {
-                // Default to overview container
-                if (overview) overview.style.display = 'block';
+            // View Orchestration
+            if (viewId === 'success-engine' && successEngine) {
+                successEngine.style.display = 'block';
+            } else if (overview) {
+                overview.style.display = 'block';
             }
 
             const gridContainer = document.getElementById('ecosystem-grid-container');
