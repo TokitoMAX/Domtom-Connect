@@ -667,40 +667,32 @@ function renderDashboardCards(role, tier, isListed, profile, session) {
         case 'prestataire':
             if (typeof ExpertsModule !== 'undefined') {
                 ExpertsModule.renderDashboard(target, additional, profile, session);
-            } else {
-                target.innerHTML = '<p>Chargement du module Expert...</p>';
             }
             break;
         case 'entreprise':
             if (typeof CompaniesModule !== 'undefined') {
                 CompaniesModule.renderDashboard(target, additional, profile, session);
-            } else {
-                target.innerHTML = '<p>Chargement du module Entreprise...</p>';
             }
             break;
         case 'spectator':
             if (typeof SpectatorsModule !== 'undefined') {
                 SpectatorsModule.renderDashboard(target, additional, profile, session);
-            } else {
-                target.innerHTML = '<p style="padding:40px;">Initialisation de votre espace spectateur...</p>';
             }
             break;
         case 'porteur':
         case 'owner':
-            // --- ECOSYSTEME : PORTEUR DE PROJET ---
             if (typeof OwnersModule !== 'undefined') {
                 OwnersModule.renderDashboard(target, additional, profile, session);
-            } else {
-                target.innerHTML = '<p>Chargement du module Projet...</p>';
             }
             break;
         default:
             // --- ECOSYSTEME : EXPLORATEUR (Standard) ---
+            // On ne masque rien ici car c'est la vue par defaut
+            if (header) header.style.display = 'block';
+            if (standardCards) standardCards.style.display = 'grid';
+            
             if (typeof StandardModule !== 'undefined') {
                 StandardModule.renderDashboard(target, additional, profile, session);
-            } else {
-                // Fallback ultime
-                target.innerHTML = '<p>Bienvenue sur Domtom Connect ! Completez votre profil pour activer votre cockpit dedie.</p>';
             }
             break;
     }
