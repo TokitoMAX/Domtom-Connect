@@ -1,12 +1,12 @@
 /**
  * Owners Module - Domtom Connect
- * Gestion de l'écosystème Porteur de Projet / Épopée
+ * High-Performance Cockpit for Project Owners (Épopées)
  */
 const OwnersModule = {
     /**
      * Module Router - Professional Isolation
      */
-    route: async (viewId, container, profile, session) => {
+    route: async (viewId, container, profile, session, params) => {
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
@@ -26,90 +26,152 @@ const OwnersModule = {
     },
 
     /**
-     * Dashboard Rendering Logic - Restauration Marque & Conversion Épopée
+     * Dashboard Rendering Logic - High-End Success Engine Focus
      */
     renderDashboard: (container, additional, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid role-owner-grid" style="display: grid; gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dashboard-grid role-owner-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Welcome Card (Projet Style) -->
-                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b;">
-                    <div style="position: relative; z-index: 2; padding: 40px;">
-                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Espace Porteur de Projet</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 12px; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Épique'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; font-weight: 500; line-height:1.6;">Transformez votre idée en réussite. Le réseau Domtom Connect est à vos côtés.</p>
+                <!-- TOP HEADER : COCKPIT STATS -->
+                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 24px; background: #0f172a; border: 1px solid #1e293b; padding: 40px; position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="z-index: 2;">
+                        <span style="display:inline-block; background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 14px; border-radius:100px; font-size:0.7rem; font-weight:800; margin-bottom:16px; letter-spacing:0.05em; text-transform:uppercase;">Cockpit de Pilotage</span>
+                        <h1 style="font-size: 2.2rem; font-weight: 800; color: white; margin: 0; letter-spacing: -0.03em;">Bonjour, ${profile.full_name || 'Épique'}</h1>
+                        <p style="font-size: 1rem; color: #94a3b8; margin-top: 8px; font-weight: 500;">Pilotez vos épopées territoriales avec précision.</p>
                     </div>
-                </div>
-
-                <!-- Main Content (Arsenal Commando) -->
-                <div class="dash-main-col" style="grid-column: span 1; display: grid; gap: 24px;">
-                    <div class="dash-card premium-dark" style="background:#0f172a; border:1px solid #1e293b; border-radius:32px; padding:48px; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div style="max-width:500px;">
-                                <h3 style="font-size: 2rem; font-weight: 900; margin:0; color:white; letter-spacing:-0.03em;">L'Arsenal Commando</h3>
-                                <p style="font-size:1.1rem; color:#94a3b8; margin-top:12px; line-height:1.6; font-weight:500;">
-                                    Vote Cockpit de réussite. Le **Success Engine** vous guide étape par étape pour certifier votre projet, lever des fonds et impacter votre territoire.
-                                </p>
-                                <a href="/dashboard/success-engine" class="cta-button primary" style="background:#10b981; border:none; padding:18px 32px; border-radius:14px; font-weight:900; text-decoration:none; color:white; display:inline-flex; margin-top:32px; font-size:1.05rem;">
-                                    Démarrer le Pilotage
-                                </a>
-                            </div>
-                            <div style="width:140px; height:140px; background:rgba(16,185,129,0.1); border-radius:24px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.2);">
-                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                            </div>
+                    
+                    <div style="display: flex; gap: 32px; z-index: 2;">
+                        <div style="text-align: right;">
+                            <span style="display:block; font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Épopées Actives</span>
+                            <span style="font-size:1.75rem; font-weight:800; color:white;" id="dash-projects-count">...</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="display:block; font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Maturité Moyenne</span>
+                            <span style="font-size:1.75rem; font-weight:800; color:#10b981;" id="dash-avg-maturity">... %</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar (Suivi des Épopées) -->
-                <div class="dash-side-col" style="grid-column: span 1; display: flex; flex-direction: column; gap: 24px;">
-                    <div class="dash-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:32px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
-                        <div style="margin-bottom:24px;">
-                            <h3 style="font-size: 1.2rem; font-weight: 800; margin:0; color:#0f172a;">Mes Épopées actives</h3>
-                            <p style="font-size:0.8rem; color:#64748b; margin-top:4px;">Suivez vos financements & étapes.</p>
+                <!-- MAIN WORKSPACE -->
+                <div class="dash-main-col" style="grid-column: span 8; display: grid; gap: 24px;">
+                    
+                    <!-- SUCCESS ENGINE ACCESS -->
+                    <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <div style="width:72px; height:72px; background:#f0fdf4; border-radius:20px; display:flex; align-items:center; justify-content:center; color:#10b981;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         </div>
-                        
-                        <div id="owners-projects-view">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 24px; border-radius: 20px;">
-                                <p style="color: #94a3b8; font-weight: 600; font-size: 0.85rem;">Chargement...</p>
-                            </div>
+                        <div style="flex-grow: 1;">
+                            <h3 style="font-size: 1.25rem; font-weight: 850; color:#0f172a; margin: 0 0 4px 0;">Success Engine</h3>
+                            <p style="font-size: 0.95rem; color:#64748b; margin: 0;">Votre guide de certification pour lever des fonds et sécuriser vos experts.</p>
                         </div>
+                        <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; white-space:nowrap;">Accéder au Cockpit</button>
+                    </div>
 
-                        <button onclick="openProjectModal()" class="cta-button secondary" style="width:100%; border-radius:12px; margin-top:24px; font-weight:800; justify-content:center;">
-                            + NOUVEAU PROJET
-                        </button>
+                    <!-- PROJECT LIST (DYNAMIC) -->
+                    <div id="owners-projects-feed">
+                        <div style="background: white; border-radius: 24px; padding: 40px; text-align: center; border: 1px dashed #cbd5e1;">
+                            <div style="font-size: 2.5rem; margin-bottom: 16px;">🚀</div>
+                            <h3 style="font-size: 1.2rem; font-weight: 800; color:#0f172a;">Aucune épopée en cours</h3>
+                            <p style="color:#64748b; margin-bottom: 24px;">Transformez votre idée en projet concret dès maintenant.</p>
+                            <button onclick="openProjectModal()" class="cta-button primary" style="background:#0f172a;">Lancer mon premier projet</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR TOOLS -->
+                <div class="dash-side-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
+                    <div class="dash-card" style="background: #f8fafc; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">
+                        <h4 style="font-size: 0.75rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.05em;">Outils du Porteur</h4>
+                        <div style="display:grid; gap:16px;">
+                            <button onclick="window.Router.navigate('/marketplace/directory')" style="display:flex; align-items:center; gap:12px; background:none; border:none; color:#0f172a; font-weight:700; cursor:pointer; padding:0; font-size:0.9rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                Trouver des Experts
+                            </button>
+                            <button onclick="window.Router.navigate('/dashboard/business')" style="display:flex; align-items:center; gap:12px; background:none; border:none; color:#0f172a; font-weight:700; cursor:pointer; padding:0; font-size:0.9rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Devis & Factures
+                            </button>
+                            <button onclick="window.Router.navigate('/marketplace/evenements')" style="display:flex; align-items:center; gap:12px; background:none; border:none; color:#0f172a; font-weight:700; cursor:pointer; padding:0; font-size:0.9rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                Prochains Éclats
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card premium-dark" style="border-radius: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px; color: white;">
+                        <h4 style="font-size: 1.1rem; font-weight: 850; margin-bottom: 12px;">Accompagnement Premium</h4>
+                        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.9); line-height: 1.5; margin-bottom: 24px;">Besoin d'un coup de boost ? Nos mentors territoriaux vous accompagnent.</p>
+                        <button class="cta-button" style="background: white; color: #10b981; border: none; width: 100%; border-radius: 12px; font-weight: 850; padding: 12px;">Prendre RDV</button>
                     </div>
                 </div>
             </div>
         `;
 
-        if (session && session.user && typeof loadMyProjects === 'function') {
-            loadMyProjects(session.user.id);
+        // Load data and update UI
+        if (session && session.user) {
+            OwnersModule.updateDashboardStats(session.user.id);
         }
     },
 
     /**
-     * UI Terminology - Restauration Sobriété Charte
+     * Update dynamic stats on the owner dashboard
      */
-    initUI: () => {
-        const labels = {
-            'label-name': "Nom du Porteur de Projet",
-            'label-company': "Nom de l'Épopée / Projet",
-            'label-title': "Rôle dans le projet (ex: Fondateur, Coordinateur...)",
-            'label-bio': "Pitch court du projet (Accroche)",
-            'label-logo': "Photo ou Univers Visuel"
-        };
+    async updateDashboardStats(userId) {
+        try {
+            const { data: projects, error } = await _supabase
+                .from('projects')
+                .select('*')
+                .eq('owner_id', userId);
 
-        Object.entries(labels).forEach(([id, text]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-        });
+            if (error) throw error;
 
-        console.log("OwnersModule: Terminology Refined (Epopée Style)");
-    },
+            const projectsCount = projects ? projects.length : 0;
+            const countEl = document.getElementById('dash-projects-count');
+            if (countEl) countEl.textContent = projectsCount;
+
+            const feed = document.getElementById('owners-projects-feed');
+            if (projectsCount > 0 && feed) {
+                let totalMaturity = 0;
+                let projectsHtml = `
+                    <div style="display: grid; gap: 16px;">
+                        <h3 style="font-size: 1rem; font-weight: 850; color:#0f172a; margin-bottom: 8px;">Mes Épopées Actives</h3>
+                `;
+
+                projects.forEach(p => {
+                    const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
+                    totalMaturity += score;
+                    projectsHtml += `
+                        <div class="dash-card" style="padding: 24px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s; cursor: pointer;" onclick="window.Router.navigate('/dashboard/success-engine?id=${p.id}')">
+                            <div style="flex-grow: 1;">
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #0f172a;">${p.title || 'Nouvelle Épopée'}</h4>
+                                <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                                    <div style="width: 120px; height: 6px; background: #f1f5f9; border-radius: 100px; overflow: hidden;">
+                                        <div style="width: ${score}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; font-weight: 800; color: #64748b;">${score}% Maturité</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="display:block; font-size:1.1rem; font-weight:800; color:#0f172a;">${(parseFloat(p.total_raised) || 0).toLocaleString()}€</span>
+                                <span style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Levés</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                projectsHtml += `</div>`;
+                feed.innerHTML = projectsHtml;
+
+                const avgMaturity = Math.round(totalMaturity / projectsCount);
+                const avgEl = document.getElementById('dash-avg-maturity');
+                if (avgEl) avgEl.textContent = `${avgMaturity} %`;
+            }
+        } catch (err) {
+            console.error("Dashboard Stats Update Error:", err);
+        }
+    }
 };
 
-// Exporter pour usage global
 window.OwnersModule = OwnersModule;

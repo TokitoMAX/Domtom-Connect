@@ -7,16 +7,16 @@ const StandardModule = {
     /**
      * Module Router - Professional Isolation
      */
-    route: async (viewId, container, profile, session) => {
+    route: async (viewId, container, profile, session, params) => {
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
         switch (viewId) {
             case 'billetterie':
-                await StandardModule.renderTicketing(target, profile, session);
+                await StandardModule.renderTicketing(target, profile, session, params);
                 break;
             case 'mes-billets':
-                await StandardModule.renderMyTickets(target, profile, session);
+                await StandardModule.renderMyTickets(target, profile, session, params);
                 break;
             case 'overview':
             default:
@@ -121,20 +121,24 @@ const StandardModule = {
     /**
      * Billetterie Rendering (Moved from dashboard-core)
      */
-    renderTicketing: async (container, profile, session) => {
+    renderTicketing: async (container, profile, session, params) => {
         const view = document.getElementById('billetterie-view');
         if (view) {
-            if (typeof loadMyTicketing === 'function') loadMyTicketing();
+            if (typeof TicketingModule !== 'undefined') {
+                TicketingModule.loadMyTicketing(params);
+            }
         }
     },
 
     /**
      * Rendu de la vue "Mes Billets"
      */
-    renderMyTickets: async (container, profile, session) => {
+    renderMyTickets: async (container, profile, session, params) => {
         const view = document.getElementById('mes-billets-view');
         if (view) {
-            if (typeof loadMyTickets === 'function') loadMyTickets();
+            if (typeof TicketingModule !== 'undefined') {
+                TicketingModule.loadMyTickets(params);
+            }
         }
     },
 

@@ -80,11 +80,12 @@ const Router = {
             }
         }
 
-        console.log(`[Router] Route matched: ${path} -> ${viewId}`);
+        const params = new URLSearchParams(window.location.search);
+        console.log(`[Router] Route matched: ${path}${window.location.search} -> ${viewId}`);
         
         // Call global showView (proxied to App.showView later)
         if (typeof window.showView === 'function') {
-            window.showView(viewId, true);
+            window.showView(viewId, true, params);
         }
     }
 };

@@ -114,7 +114,7 @@ const App = {
     /**
      * Centralized View Switcher (Delegates to Modules)
      */
-    async showView(viewId, forceRender = false) {
+    async showView(viewId, forceRender = false, params = null) {
         if (this.state.activeView === viewId && !forceRender) return;
         this.state.activeView = viewId;
 
@@ -138,7 +138,7 @@ const App = {
         const activeModule = this.getActiveModule();
         if (activeModule) {
             const gridContainer = document.getElementById('ecosystem-grid-container');
-            await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session);
+            await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session, params);
         }
 
         // 4. Update Navigation active state
@@ -176,7 +176,7 @@ const App = {
 };
 
 window.App = App;
-window.showView = (id, force) => App.showView(id, force);
+window.showView = (id, force, params) => App.showView(id, force, params);
 
 /**
  * Global Utility: isPremiumUser
