@@ -34,7 +34,10 @@
                             <option value="Guyane">Guyane</option>
                             <option value="Saint-Martin">Saint-Martin</option>
                         </optgroup>
-                        <!-- Other territories... (omitted for brevity in template, will keep existing in file) -->
+                        <optgroup label="Océan Indien">
+                            <option value="Réunion">La Réunion</option>
+                            <option value="Mayotte">Mayotte</option>
+                        </optgroup>
                     </select>
                 </div>
                 <button class="cta-button primary" onclick="loadProfiles()">Filtrer</button>
@@ -44,7 +47,6 @@
 
     <main class="container" style="padding-top: 32px;">
         <div class="directory-grid" id="profiles-container">
-            <!-- Loaded via script -->
              <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
                 <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
                 <p style="margin-top:20px; color:#64748b;">Initialisation du réseau...</p>
@@ -66,18 +68,17 @@
 
     <!-- CORE PLATFORM SCRIPTS (Standardized Order) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/territory_config.js?v=9.0"></script>
-    <script src="/assets/js/auth.js?v=9.0"></script>
-    <script src="/assets/js/ui-components.js?v=9.0"></script>
-    <script src="/assets/js/app.js?v=9.0"></script>
-    <script src="/assets/js/script.js?v=9.0"></script>
+    <script src="/assets/js/territory_config.js?v=9.5"></script>
+    <script src="/assets/js/auth.js?v=9.5"></script>
+    <script src="/assets/js/ui-components.js?v=9.5"></script>
+    <script src="/assets/js/app.js?v=9.5"></script>
+    <script src="/assets/js/script.js?v=9.5"></script>
     
     <!-- Local Logic -->
     <script>
         async function loadProfiles() {
             const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
             if (!db) {
-                console.warn("[Directory] Supabase not ready, retrying...");
                 setTimeout(loadProfiles, 500);
                 return;
             }
@@ -100,7 +101,7 @@
 
                 container.innerHTML = data.map(p => `
                     <div class="profile-card" onclick="window.location.href='/marketplace/expert/${p.id}'" style="cursor:pointer;">
-                        <div class="profile-avatar">${p.full_name.charAt(0)}</div>
+                        <div class="profile-avatar">${p.full_name ? p.full_name.charAt(0) : 'E'}</div>
                         <h3 class="profile-name">${p.full_name}</h3>
                         <p class="profile-role">${p.expertise || 'Expert Territorial'}</p>
                         <div class="profile-territory">${p.territory}</div>
@@ -115,7 +116,6 @@
             }
         }
 
-        // Initialize when App is ready
         document.addEventListener('DOMContentLoaded', () => {
             let checkApp = setInterval(() => {
                 if (window._supabase) {

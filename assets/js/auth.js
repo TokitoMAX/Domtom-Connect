@@ -7,7 +7,6 @@ let _supabase = null;
 
 /**
  * Robust Supabase Initialization
- * Ensures the SDK is loaded before trying to create a client
  */
 function initSupabase() {
     if (typeof supabase === 'undefined') {
@@ -19,7 +18,7 @@ function initSupabase() {
     
     if (!_supabase) {
         _supabase = sdk.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        window._supabase = _supabase; // Ensure global visibility
+        window._supabase = _supabase;
     }
     return _supabase;
 }
@@ -30,12 +29,35 @@ if (typeof supabase !== 'undefined' || typeof window.supabase !== 'undefined') {
 }
 
 /**
+ * Project Maturity Calculation
+ * Computes completion percentage based on strategic fields
+ */
+function calculateProjectMaturity(p) {
+    if (!p) return 0;
+    
+    const fields = [
+        'title', 'territory', 'vision', 'mission', 
+        'needs', 'team_description', 'funding_goal', 'cover_url'
+    ];
+    
+    let filled = 0;
+    fields.forEach(f => {
+        if (p[f] && p[f].toString().trim().length > 0 && p[f] !== '...') {
+            filled++;
+        }
+    });
+    
+    const percentage = (filled / fields.length) * 100;
+    return Math.round(percentage);
+}
+
+/**
  * Standard Auth Functions
  */
 async function signInWithGoogle() {
     const db = _supabase || initSupabase();
     if (!db) {
-        alert("Services en cours de chargement... Veuillez patienter 2 secondes et réessayer.");
+        alert("Services en cours de chargement... Veuillez patienter.");
         return;
     }
 
@@ -58,9 +80,6 @@ async function signOut() {
     }
 }
 
-/**
- * Profile Management
- */
 async function getUserProfile(userId) {
     const db = _supabase || initSupabase();
     if (!db) return null;
@@ -71,10 +90,7 @@ async function getUserProfile(userId) {
         .eq('id', userId)
         .single();
 
-    if (error) {
-        console.error('Error fetching profile:', error);
-        return null;
-    }
+    if (error) return null;
     return data;
 }
 
@@ -82,7 +98,6 @@ function persistOnboardingIntent() {
     const params = new URLSearchParams(window.location.search);
     const role = params.get('role');
     const territory = params.get('territory');
-    
     if (role && territory) {
         localStorage.setItem('onboarding_intent', JSON.stringify({ role, territory, timestamp: Date.now() }));
     }
@@ -93,3 +108,4 @@ window.initSupabase = initSupabase;
 window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
 window.getUserProfile = getUserProfile;
+window.calculateProjectMaturity = calculateProjectMaturity;
