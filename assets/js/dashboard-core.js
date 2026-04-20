@@ -106,7 +106,7 @@ async function loadPendingProjects() {
     const menuDot = document.getElementById('admin-notif-dot');
     
     try {
-        // On rÃ©cupÃ¨re TOUS les projets qui ne sont pas explicitement approuvÃ©s (false ou null)
+        // On récupère TOUS les projets qui ne sont pas explicitement approuvés (false ou null)
         const { data: projects, error } = await _supabase
             .from('projects')
             .select('*')
@@ -116,12 +116,12 @@ async function loadPendingProjects() {
 
         if (error) {
             console.error("Supabase Query Error:", error);
-            container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">âš ï¸ Erreur Supabase: ${error.message}</p>`;
+            container.innerHTML = `<p style="color: #ef4444; font-size: 0.9rem;">⚠️ Erreur Supabase: ${error.message}</p>`;
             return;
         }
 
         if (!projects || projects.length === 0) {
-            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem;">âœ… Aucun dossier en attente.</p>';
+            if (container) container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem;">✅ Aucun dossier en attente.</p>';
             if (badge) badge.style.display = 'none';
             if (menuDot) menuDot.style.display = 'none';
             return;
@@ -140,7 +140,7 @@ async function loadPendingProjects() {
                         <div style="background: white; border: 1px solid var(--gray-200); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <div style="font-weight: 800; color: #111827; font-size: 0.95rem;">${p.title}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-secondary);">MaturitÃ© : <strong>${calculateProjectMaturity(p)}%</strong> â€¢ RÃ©f: ${p.id.substring(0,8)}...</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Maturité : <strong>${calculateProjectMaturity(p)}%</strong> • Réf: ${p.id.substring(0,8)}...</div>
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button onclick="inspectSREProject('${p.id}')" class="cta-button secondary" style="font-size: 0.75rem; padding: 6px 12px; border-color: #7c3aed; color: #7c3aed;">Inspecter</button>
@@ -169,7 +169,7 @@ async function approveSREProject(projectId) {
             })
             .eq('id', projectId);
         if (error) throw error;
-        alert("Projet approuvÃ© et publiÃ© ! âœ…");
+        alert("Projet approuvé et publié ! ✅");
         if (window.isAdminInspection) {
             window.isAdminInspection = false;
             showView('overview');
@@ -182,7 +182,7 @@ async function approveSREProject(projectId) {
 
 async function rejectSREProject(projectId) {
     const reason = prompt("Indiquez la raison du refus (optionnel) :");
-    if (reason === null) return; // AnnulÃ©
+    if (reason === null) return; // Annulé
     try {
         const { error } = await _supabase
             .from('projects')
@@ -194,7 +194,7 @@ async function rejectSREProject(projectId) {
             })
             .eq('id', projectId);
         if (error) throw error;
-        alert("Projet refusÃ©. Le porteur en sera informÃ©. â Œ");
+        alert("Projet refusé. Le porteur en sera informé. ❌");
         if (window.isAdminInspection) {
             window.isAdminInspection = false;
             showView('overview');
@@ -214,7 +214,7 @@ async function inspectSREProject(projectId) {
             .single();
 
         if (error) throw error;
-        if (!project) throw new Error("Projet non trouvÃ©.");
+        if (!project) throw new Error("Projet non trouvé.");
 
         window.isAdminInspection = true;
         
