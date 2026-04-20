@@ -1,0 +1,201 @@
+/* Talent Directory Premium Styles */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* HERO SECTION */
+.directory-hero {
+    background: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(17, 24, 39, 0.05) 0px, transparent 50%),
+                #ffffff;
+    padding: 120px 0 80px;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #111827;
+    margin-bottom: 16px;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #4b5563;
+    max-width: 650px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+}
+
+/* SEARCH & FILTER BAR */
+.search-filter-bar {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    gap: 12px;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+}
+
+.search-group {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.search-group input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.filter-group {
+    flex: 1;
+    border-left: 1px solid #f1f5f9;
+    padding: 0 16px;
+}
+
+.filter-group select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* DIRECTORY GRID */
+.directory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+/* PROFILE CARDS */
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    border-color: #10b981;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: #f1f5f9;
+    color: #10b981;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 auto 24px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.profile-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.profile-role {
+    font-size: 0.9rem;
+    color: #059669;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.profile-territory {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.profile-territory::before {
+    content: '📍';
+}
+
+.profile-stats {
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.profile-stats span {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #111827;
+    background: #f8fafc;
+    padding: 6px 14px;
+    border-radius: 100px;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+    .search-filter-bar {
+        flex-direction: column;
+        padding: 16px;
+    }
+    
+    .filter-group {
+        border-left: none;
+        border-top: 1px solid #f1f5f9;
+        padding: 16px 0 0;
+        margin-top: 8px;
+    }
+    
+    .directory-hero {
+        padding: 80px 0 40px;
+    }
+}
+
+/* LOADER */
+.splash-loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f4f6;
+    border-top: 4px solid #10b981;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -89,7 +89,7 @@
             const territory = document.getElementById('filter-territory').value;
 
             try {
-                let query = db.from('profiles').select('*').eq('role', 'expert').eq('is_published', true);
+                let query = db.from('profiles').select('*').eq('role', 'expert').eq('listed', true);
                 if (territory) query = query.eq('territory', territory);
                 
                 const { data, error } = await query;
@@ -101,7 +101,7 @@
                 }
 
                 container.innerHTML = data.map(p => `
-                    <div class="profile-card" onclick="window.location.href='/marketplace/expert/${p.id}'" style="cursor:pointer;">
+                    <div class="profile-card" onclick="window.location.href='profile-detail-expert.html?id=${p.id}'" style="cursor:pointer;">
                         <div class="profile-avatar">${p.full_name ? p.full_name.charAt(0) : 'E'}</div>
                         <h3 class="profile-name">${p.full_name}</h3>
                         <p class="profile-role">${p.expertise || 'Expert Territorial'}</p>
