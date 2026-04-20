@@ -61,21 +61,21 @@ const OwnersModule = {
         container.innerHTML = `
             <div class="dashboard-grid" style="display: grid; gap: 32px;">
                 
-                <!-- Welcome & HUD Header -->
-                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 24px; padding: 48px;">
+                <!-- PREMIUM HUD HEADER (Minimalist & Clean) -->
+                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 32px; padding: 64px; background: #0f172a; border: 1px solid rgba(255,255,255,0.05); position:relative; overflow:hidden; margin-bottom:16px;">
                     <div style="z-index: 2; position: relative;">
-                        <span class="role-badge" style="background:#10b981; color:white; border:none;">COCKPIT DE PILOTAGE</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 12px 0 16px 0;">Bonjour, ${profile.full_name || 'Porteur'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 700px; line-height:1.6; margin:0;">Pilotez vos épopées territoriales avec précision et accédez aux financements stratégiques.</p>
+                        <span style="background:#10b981; color:white; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px; display:inline-block;">Cockpit de Pilotage</span>
+                        <h1 style="font-size: 3.5rem; font-weight: 950; color: white; margin: 0; letter-spacing:-0.05em;">Bonjour, ${profile.full_name.split(' ')[0]}</h1>
+                        <p style="font-size: 1.2rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin: 12px 0 0 0; font-weight:600;">Gérez vos épopées territoriales avec précision et débloquez les financements stratégiques.</p>
                         
-                        <div style="display:flex; gap:32px; margin-top:32px; border-top:1px solid rgba(255,255,255,0.1); padding-top:32px;">
+                        <div style="display:flex; gap:64px; margin-top:48px; border-top:1px solid rgba(255,255,255,0.1); padding-top:32px;">
                             <div>
-                                <div style="color:#94a3b8; font-size:0.75rem; font-weight:800; text-transform:uppercase;">Épopées Actives</div>
-                                <div style="color:white; font-size:1.8rem; font-weight:900;">${projects ? projects.length : 0}</div>
+                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Épopées Actives</div>
+                                <div style="color:white; font-size:2.5rem; font-weight:950; letter-spacing:-0.03em;">${projects ? projects.length : 0}</div>
                             </div>
                             <div>
-                                <div style="color:#94a3b8; font-size:0.75rem; font-weight:800; text-transform:uppercase;">Maturité Moyenne</div>
-                                <div id="maturity-score-dash" style="color:#10b981; font-size:1.8rem; font-weight:900;">0%</div>
+                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Maturité Moyenne</div>
+                                <div id="maturity-score-dash" style="color:#10b981; font-size:2.5rem; font-weight:950; letter-spacing:-0.03em;">0%</div>
                             </div>
                         </div>
                     </div>

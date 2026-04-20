@@ -27,9 +27,9 @@ const UIComponents = {
         ];
 
         let html = `
-            <a href="/" class="sidebar-brand">
-                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" class="sidebar-logo-img">
-                <span class="sidebar-brand-text">Domtom Connect</span>
+            <a href="/" class="sidebar-brand" style="margin-bottom:48px; display:flex; align-items:center; gap:12px; text-decoration:none;">
+                <img src="/assets/images/logo-domtomconnect.png" alt="Logo" style="width:32px; height:auto; filter:brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(7500%) hue-rotate(251deg) brightness(97%) contrast(106%);">
+                <span class="sidebar-brand-text" style="font-size:1.4rem; font-weight:950; color:#0f172a; letter-spacing:-0.05em;">Domtom Connect</span>
             </a>
         `;
 
@@ -90,13 +90,8 @@ const UIComponents = {
         const topNav = document.getElementById('nav-links-container');
         if (!topNav) return;
 
-        topNav.innerHTML = `
-            <a href="/marketplace/directory" class="nav-market-link">Talents</a>
-            <a href="/marketplace/jobs" class="nav-market-link">Missions</a>
-            <a href="/marketplace/projects" class="nav-market-link">Projets</a>
-            <a href="/marketplace/evenements" class="nav-market-link">Événements</a>
-            <a href="/marketplace/companies" class="nav-market-link">Entreprises</a>
-        `;
+        // Drastic Cleanup: No more floating links in the dashboard HUD
+        topNav.innerHTML = ``;
     },
 
     /**
