@@ -133,12 +133,12 @@
         </a>
     </nav>
     <script>
-        // --- Dashboard Navigation Persistence ---
+        // --- 1. Dashboard Navigation Sync ---
         function syncNavActiveState() {
             const hash = window.location.hash || '#overview';
             const cleanHash = hash.split('?')[0];
             
-            // 1. Mobile Nav
+            // Mobile Bottom Nav
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 const href = link.getAttribute('href');
                 if (href.includes(cleanHash) || (cleanHash === '#overview' && href === 'mon-espace.html')) {
@@ -148,7 +148,7 @@
                 }
             });
 
-            // 2. Top Nav Pills
+            // Top Nav Market Links
             document.querySelectorAll('.nav-market-link').forEach(link => {
                 const href = link.getAttribute('href');
                 if (window.location.pathname.includes(href)) {
@@ -159,49 +159,32 @@
             });
         }
 
+        // --- 2. Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu-overlay');
+            const btn = document.getElementById('mobile-menu-toggle');
+            if (menu) {
+                menu.classList.toggle('active');
+                if (btn) btn.classList.toggle('active');
+            }
+        }
+
+        // --- 3. Event Listeners ---
         window.addEventListener('hashchange', syncNavActiveState);
         window.addEventListener('load', () => {
             syncNavActiveState();
-        });
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu-overlay');
-            const btn = document.getElementById('mobile-menu-toggle');
-            if (menu) {
-                menu.classList.toggle('active');
-                if (btn) btn.classList.toggle('active');
-            }
-        }
-    </script>
-                });
-            }
-        });
-        
-        // Wait for potential dynamic rendering
-        setTimeout(syncNavActiveState, 1000);
-
-        // --- Mobile Menu Toggle ---
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu-overlay');
-            const btn = document.getElementById('mobile-menu-toggle');
-            if (menu) {
-                menu.classList.toggle('active');
-                if (btn) btn.classList.toggle('active');
-            }
-        }
-
-        // --- Emergency Profile Navigation Fix ---
-        document.querySelectorAll('a[href="#profile"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (window.showView) {
-                    window.showView('profile', true);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    // Close menu if open
-                    const menu = document.getElementById('mobile-menu-overlay');
-                    if (menu) menu.classList.remove('active');
-                }
+            
+            // Close mobile menu on hash change (navigation)
+            window.addEventListener('hashchange', () => {
+                const menu = document.getElementById('mobile-menu-overlay');
+                if (menu) menu.classList.remove('active');
+                const btn = document.getElementById('mobile-menu-toggle');
+                if (btn) btn.classList.remove('active');
             });
         });
+
+        // Emergency delay for dynamic rendering
+        setTimeout(syncNavActiveState, 1500);
     </script>
 
     <!-- MOBILE MENU OVERLAY (Native Look) -->
@@ -228,48 +211,75 @@
         .mobile-menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 10001;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             color: white;
-            padding: 24px;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
         }
         .mobile-menu-overlay.active {
-            transform: translateX(0);
+            transform: translateY(0);
         }
         .mobile-menu-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 48px;
+            margin-bottom: 60px;
+        }
+        .mobile-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .close-menu {
-            background: none;
+            background: rgba(255,255,255,0.1);
             border: none;
             color: white;
-            font-size: 2.5rem;
-            line-height: 1;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
         .mobile-menu-links {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 28px;
         }
         .mobile-menu-links a {
             color: white;
             text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-size: 1.8rem;
+            font-weight: 850;
+            letter-spacing: -0.04em;
+            transition: opacity 0.2s;
         }
+        .mobile-menu-links a:active { opacity: 0.6; }
         
-        /* Hamburger Animation Support */
-        .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: white;
+            margin: 4px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        .nav-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
         .nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .nav-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
     </style>
 </body>
 </html>
