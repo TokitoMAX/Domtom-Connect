@@ -157,27 +157,31 @@ const StandardModule = {
     },
 
     /**
-     * Profile View Rendering - Explorer Specific
+     * Profile View Rendering - Explorer Specific (Editable)
      */
     renderProfile: async (container, profile, session) => {
         const view = document.getElementById('profile-view');
         if (!view) return;
         view.style.display = 'block';
 
+        // Prepare editable data
+        const role = profile.role || 'spectateur';
+
         view.innerHTML = `
             <div class="profile-dashboard-layout">
                 <div class="profile-main-card dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0;">
                     <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 48px; border-bottom: 1px solid #f1f5f9; padding-bottom: 40px;">
-                        <div style="width: 120px; height: 120px; border-radius: 32px; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: #64748b; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative;">
+                        <div id="profile-avatar-container" style="width: 120px; height: 120px; border-radius: 32px; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: #64748b; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative;">
                             ${profile.avatar_url ? `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:28px;">` : profile.full_name?.charAt(0) || 'E'}
-                            <button onclick="window.location.href='mon-espace.html#profile'" style="position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-radius: 12px; background: #0f172a; color: white; border: 4px solid white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                            <button onclick="document.getElementById('profile-file-upload').click()" style="position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-radius: 12px; background: #0f172a; color: white; border: 4px solid white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
                             </button>
+                            <input type="file" id="profile-file-upload" style="display:none;" onchange="StandardModule.handleAvatarUpload(this)">
                         </div>
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                                <h1 style="font-size: 2.25rem; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -0.04em;">${profile.full_name || 'Explorateur'}</h1>
-                                <span style="background: #f1f5f9; color: #64748b; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">Libre</span>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <input type="text" id="profile-full-name" value="${profile.full_name || ''}" placeholder="Votre nom complet" 
+                                       style="font-size: 1.8rem; font-weight: 900; color: #0f172a; border: none; background: transparent; width: 100%; letter-spacing: -0.04em; outline: none; border-bottom: 2px dashed #e2e8f0;">
                             </div>
                             <p style="color: #64748b; font-size: 1.1rem; margin: 0;">${profile.email || session.user.email}</p>
                         </div>
@@ -187,28 +191,34 @@ const StandardModule = {
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 7a4 4 0 100-8 4 4 0 000 8z"/></svg>
-                                Identité Professionnelle
+                                Identité & Rôle
                             </h3>
-                            <div style="display: grid; gap: 20px;">
+                            <div style="display: grid; gap: 24px;">
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Titre / Expertise</label>
-                                    <div style="font-weight: 700; color: #334155;">${profile.title || profile.expertise || 'Expert Territorial'}</div>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Titre / Expertise</label>
+                                    <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Développeur BioTech, Consultant..." 
+                                           style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700; color: #334155;">
                                 </div>
-                                ${profile.role === 'expert' ? `
+                                
+                                ${role === 'expert' ? `
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Tarif Journalier (TJM)</label>
-                                    <div style="font-weight: 700; color: #10b981;">${profile.tjm || '---'} &euro; / jour</div>
-                                </div>
-                                ` : ''}
-                                ${profile.role === 'entreprise' ? `
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Nom Entreprise / Groupe</label>
-                                    <div style="font-weight: 700; color: #3b82f6;">${profile.company_name || profile.company || 'Non renseigné'}</div>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Tarif Journalier (€)</label>
+                                    <input type="number" id="profile-tjm" value="${profile.tjm || ''}" placeholder="Ex: 500" 
+                                           style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700; color: #10b981;">
                                 </div>
                                 ` : ''}
+
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Territoire</label>
-                                    <div style="font-weight: 700; color: #334155;">${profile.territory || 'International'}</div>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Territoire</label>
+                                    <select id="profile-territory" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                                        <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>🌍 International</option>
+                                        <option value="Guadeloupe" ${profile.territory === 'Guadeloupe' ? 'selected' : ''}>🇬🇵 Guadeloupe</option>
+                                        <option value="Martinique" ${profile.territory === 'Martinique' ? 'selected' : ''}>🇲🇶 Martinique</option>
+                                        <option value="Guyane" ${profile.territory === 'Guyane' ? 'selected' : ''}>🇬🇫 Guyane</option>
+                                        <option value="Réunion" ${profile.territory === 'Réunion' ? 'selected' : ''}>🇷🇪 La Réunion</option>
+                                        <option value="Mayotte" ${profile.territory === 'Mayotte' ? 'selected' : ''}>🇾🇹 Mayotte</option>
+                                        <option value="Hexagone" ${profile.territory === 'Hexagone' ? 'selected' : ''}>🇫🇷 Hexagone / Diaspora</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -220,88 +230,120 @@ const StandardModule = {
                             </h3>
                             <div style="display: grid; gap: 20px;">
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Biographie / Vision</label>
-                                    <div style="font-size: 0.9rem; line-height: 1.6; color: #475569; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #f1f5f9;">
-                                        ${profile.bio || 'Votre présentation apparaîtra ici une fois complétée.'}
-                                    </div>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Ma Bio / Ma Vision</label>
+                                    <textarea id="profile-bio" style="width: 100%; min-height: 200px; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; line-height: 1.6; color: #475569; resize: vertical;">${profile.bio || ''}</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end;">
+                        <button id="save-profile-btn" onclick="StandardModule.saveProfile()" class="cta-button primary" style="padding: 16px 40px; border-radius: 14px; font-weight: 900; background: #10b981; border: none; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(16,185,129,0.2);">
+                            ENREGISTRER LES MODIFICATIONS
+                        </button>
+                    </div>
                 </div>
 
                 <div class="profile-side-card">
-                    <!-- PROFILE ACTIONS -->
+                    <!-- ECOSYSTEM HUB MINI -->
                     <div class="dash-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Dossier Digital</h4>
-                        <div style="display: grid; gap: 12px;">
-                            <button onclick="window.location.href='/registration/onboarding'" class="cta-button" style="width: 100%; padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 800;">Compléter mon Onboarding</button>
-                            <button onclick="alert('Export PDF du profil bientôt disponible')" class="cta-button secondary" style="width: 100%; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Télécharger CV / Dossier</button>
+                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Type de Compte</h4>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; border-radius: 10px; background: #f0fdf4; color: #10b981; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 800; color: #0f172a; text-transform: capitalize;">${role}</div>
+                                <div style="font-size: 0.75rem; color: #94a3b8;">Niveau standard</div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- UPGRADE CTA -->
-                    <div class="dash-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px; border-radius: 24px; color: white; display: none;">
-                        <h4 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;">Passez au niveau supérieur</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 24px; line-height: 1.5;">Devenez <strong>Expert Territorial</strong> ou <strong>Porteur de Projet</strong> pour débloquer le Success Engine.</p>
-                        <button onclick="window.location.href='/registration/onboarding'" style="width: 100%; padding: 14px; border-radius: 12px; background: white; color: #059669; border: none; font-weight: 800; cursor: pointer;">Changer de Statut</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ECOSYSTEM HUB (4 Cards Grid) -->
-            <div style="padding: 0 0 48px 0;">
-                <div style="margin-bottom: 32px;">
-                    <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">Hub d'Écosystèmes</h2>
-                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 500;">Activez vos différentes identités territoriales pour débloquer de nouveaux outils.</p>
-                </div>
-
-                <div class="ecosystem-grid">
-                    <!-- EXPLORATEUR (Current) -->
-                    <div class="eco-role-card ${profile.role === 'spectateur' || !profile.role ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'spectateur' || !profile.role ? '#10b981' : '#e2e8f0'}; position: relative;">
-                        <span style="position: absolute; top: 16px; right: 1px; background: #10b981; color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.6rem; font-weight: 800; display: ${profile.role === 'spectateur' || !profile.role ? 'block' : 'none'};">ACTIF</span>
-                        <div style="width: 48px; height: 48px; background: #f8fafc; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #64748b;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z"/></svg>
-                        </div>
-                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Explorateur</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Découverte du réseau, participation aux événements et suivi de projets.</p>
-                        <button onclick="switchRole('spectateur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #f1f5f9; color: #475569; border: none;">${profile.role === 'spectateur' || !profile.role ? 'Déjà Actif' : 'Activer Discovery'}</button>
-                    </div>
-
-                    <!-- PORTEUR (Owner) -->
-                    <div class="eco-role-card ${profile.role === 'porteur' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'porteur' ? '#10b981' : '#e2e8f0'};">
-                        <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #10b981;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                        </div>
-                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Porteur de Projet</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Lancement d'épopées stratégiques, accès au Success Engine et fonds.</p>
-                        <button onclick="switchRole('porteur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Pilotage</button>
-                    </div>
-
-                    <!-- EXPERT (Expert) -->
-                    <div class="eco-role-card ${profile.role === 'expert' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'expert' ? '#10b981' : '#e2e8f0'};">
-                        <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #3b82f6;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z"/></svg>
-                        </div>
-                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Expert / Talent</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Mise en avant de vos compétences, Hub Business, devis et facturation.</p>
-                        <button onclick="switchRole('expert')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Expertise</button>
-                    </div>
-
-                    <!-- ENTREPRISE (Company) -->
-                    <div class="eco-role-card ${profile.role === 'entreprise' ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'entreprise' ? '#10b981' : '#e2e8f0'};">
-                        <div style="width: 48px; height: 48px; background: #fdf2f8; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #db2777;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M3 7v1a3 3 0 006 0V7m6 0v1a3 3 0 006 0V7m-6 0h6M9 7h6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-6 0h6m-6 0v14m6-14v14"/></svg>
-                        </div>
-                        <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Entreprise</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Dépôt d'offres de mission, recrutement de talents et impact de marque.</p>
-                        <button onclick="switchRole('entreprise')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Growth</button>
                     </div>
                 </div>
             </div>
         `;
+    },
+
+    saveProfile: async () => {
+        const btn = document.getElementById('save-profile-btn');
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "ENREGISTREMENT...";
+        }
+
+        try {
+            const updates = {
+                full_name: document.getElementById('profile-full-name').value,
+                title: document.getElementById('profile-title').value,
+                bio: document.getElementById('profile-bio').value,
+                territory: document.getElementById('profile-territory').value,
+                updated_at: new Date().toISOString()
+            };
+
+            const tjmEl = document.getElementById('profile-tjm');
+            if (tjmEl) updates.tjm = parseFloat(tjmEl.value) || 0;
+
+            const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) throw new Error("Session expirée");
+
+            const { error } = await window._supabase
+                .from('profiles')
+                .update(updates)
+                .eq('id', session.user.id);
+
+            if (error) throw error;
+
+            alert("✅ Profil mis à jour avec succès !");
+            
+            // Refresh to sync global state
+            window.location.reload();
+
+        } catch (err) {
+            alert("❌ Erreur lors de la sauvegarde : " + err.message);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = "ENREGISTRER LES MODIFICATIONS";
+            }
+        }
+    },
+
+    handleAvatarUpload: async (input) => {
+        const file = input.files[0];
+        if (!file) return;
+
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) throw new Error("Veuillez vous reconnecter.");
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${session.user.id}/avatar_${Date.now()}.${fileExt}`;
+
+            const { error: uploadError } = await window._supabase.storage
+                .from('avatars')
+                .upload(fileName, file, { upsert: true });
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = window._supabase.storage
+                .from('avatars')
+                .getPublicUrl(fileName);
+
+            const { error: updateError } = await window._supabase
+                .from('profiles')
+                .update({ avatar_url: publicUrl })
+                .eq('id', session.user.id);
+
+            if (updateError) throw updateError;
+
+            alert("✅ Avatar mis à jour !");
+            window.location.reload();
+        } catch (err) {
+            alert("Erreur upload avatar: " + err.message);
+        }
     }
 };
 
+// Global polyfill for onclick
+window.saveProfile = StandardModule.saveProfile;
 window.StandardModule = StandardModule;
 

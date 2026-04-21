@@ -1457,12 +1457,21 @@
                 convListEl.appendChild(item);
             });
 
+            // Priority 1: Specifically targeted conversation
             if (activeConversationId) {
                 const participantInfo = otherParticipants.find(p => p.conversation_id === activeConversationId);
                 if (participantInfo && cachedProfiles[participantInfo.user_id]) {
                     selectConversation(activeConversationId, cachedProfiles[participantInfo.user_id]);
+                    return; // Stop here, we found our target
+                } else {
+                    // It might be a brand new conversation not yet in otherParticipants
+                    // Let's try to reload profile for this conv or wait
+                    console.warn("Active conversation not found in participants, waiting...");
                 }
-            } else if (otherParticipants.length > 0) {
+            } 
+            
+            // Priority 2: Fallback to first if no target
+            if (otherParticipants.length > 0) {
                 const first = otherParticipants[0];
                 selectConversation(first.conversation_id, cachedProfiles[first.user_id]);
             }
