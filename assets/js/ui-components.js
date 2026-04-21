@@ -95,15 +95,16 @@ const UIComponents = {
         `;
     },
 
-    /**
-     * Render the Top Navigation (Marketplace & Landing Style)
-     */
     async renderTopNav() {
-        const topNav = document.querySelector('.navbar .container');
-        if (!topNav) return;
-
-        // 1. Context Detection
+        // Detect context
         const isDashboard = window.location.pathname.includes('mon-espace') || window.location.pathname.includes('dashboard');
+        
+        let topNav = document.querySelector('.navbar .container');
+        if (isDashboard) {
+            topNav = document.getElementById('nav-links-container') || topNav;
+        }
+        
+        if (!topNav) return;
 
         // 2. Get Session for Auth Buttons
         let session = null;
