@@ -1404,104 +1404,103 @@
             if (convListEl) convListEl.innerHTML = ''; 
             loader.style.display = 'block';
 
-            const { data: myConvs, error: errorConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
+            try {
+                console.log("Chargement des conversations pour:", currentUserId);
+                const { data: myConvs, error: errorConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
 
-            if (errorConvs) {
-                console.error("Erreur participants (myConvs):", errorConvs.message);
-                loader.style.display = 'none';
-                return;
-            }
-
-            if (!myConvs || myConvs.length === 0) {
-                loader.style.display = 'none';
-                convListEl.innerHTML = '<p style="padding: 24px; color: var(--text-muted); text-align: center; font-size: 0.9rem;">Aucune conversation.</p>';
-                return;
-            }
-            const convIds = myConvs.map(c => c.conversation_id);
-
-            const { data: otherParticipants, error: errorOthers } = await _supabase.from('conversation_participants')
-                .select('conversation_id, user_id')
-                .in('conversation_id', convIds)
-                .neq('user_id', currentUserId);
-
-            if (errorOthers) {
-                console.error("Erreur otherParticipants:", errorOthers.message);
-                loader.style.display = 'none';
-                return;
-            }
-
-            const otherUserIds = otherParticipants.map(p => p.user_id);
-            const { data: profiles, error: errorProf } = await _supabase.from('profiles')
-                .select('id, full_name, avatar_url, title, skills')
-                .in('id', otherUserIds);
-
-            if (errorProf) {
-                console.error("Erreur profiles message:", errorProf.message);
-                loader.style.display = 'none';
-                return;
-            }
-
-            loader.style.display = 'none';
-            if (!profiles) return;
-            profiles.forEach(p => cachedProfiles[p.id] = p);
-
-            otherParticipants.forEach(participant => {
-                const profile = cachedProfiles[participant.user_id];
-                if (!profile) return;
-
-                const convId = participant.conversation_id;
-                const name = profile.full_name || 'Anonyme';
-                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-
-                const avatar = profile.avatar_url
-                    ? `<img src="${profile.avatar_url}" class="conv-avatar">`
-                    : `<div class="conv-avatar">${initials}</div>`;
-
-                const isActive = (convId === activeConversationId);
-
-                const item = document.createElement('div');
-                item.className = 'conversation-item' + (isActive ? ' active' : '');
-                item.id = 'conv-item-' + convId;
-                item.onclick = () => selectConversation(convId, profile);
-
-                item.innerHTML = `
-                    ${avatar}
-                    <div class="conv-info">
-                        <p class="conv-name">${name}</p>
-                        <p class="conv-preview">${profile.title || profile.skills || 'Cliquez pour ouvrir'}</p>
-                    </div>
-                `;
-                convListEl.appendChild(item);
-            });
-
-            // Priority 1: Specifically targeted conversation
-            if (activeConversationId) {
-                const participantInfo = otherParticipants.find(p => p.conversation_id === activeConversationId);
-                if (participantInfo && cachedProfiles[participantInfo.user_id]) {
-                    selectConversation(activeConversationId, cachedProfiles[participantInfo.user_id]);
-                    return; // Stop here, we found our target
-                } else {
-                    // It might be a brand new conversation not yet in otherParticipants
-                    // Let's try to reload profile for this conv or wait
-                    console.warn("Active conversation not found in participants, waiting...");
+                if (errorConvs) {
+                    console.error("Erreur participants (myConvs):", errorConvs.message);
+                    return;
                 }
-            } 
-            
-            // Priority 2: Fallback to first if no target
-            const isManualTarget = new URLSearchParams(window.location.search).get('to');
-            if (otherParticipants.length > 0 && !isManualTarget) {
-                const first = otherParticipants[0];
-                selectConversation(first.conversation_id, cachedProfiles[first.user_id]);
-            } else if (isManualTarget && !activeConversationId) {
-                console.log("Mode nouvelle conversation : En attente de création.");
-                // Effacer l'UI de chargement si aucune convo trouvée
-                document.getElementById('messages-container').innerHTML = `
-                    <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#94a3b8; padding:40px; text-align:center;">
-                        <i class="fas fa-comments" style="font-size:3rem; margin-bottom:20px; opacity:0.3;"></i>
-                        <p style="font-size:1.1rem; font-weight:700; color:#475569;">Nouvelle discussion</p>
-                        <p style="font-size:0.9rem;">Dites bonjour pour démarrer l'échange !</p>
-                    </div>
-                `;
+
+                if (!myConvs || myConvs.length === 0) {
+                    convListEl.innerHTML = '<p style="padding: 24px; color: var(--text-muted); text-align: center; font-size: 0.9rem;">Aucune conversation.</p>';
+                    return;
+                }
+
+                const convIds = myConvs.map(c => c.conversation_id);
+                const { data: otherParticipants, error: errorOthers } = await _supabase.from('conversation_participants')
+                    .select('conversation_id, user_id')
+                    .in('conversation_id', convIds)
+                    .neq('user_id', currentUserId);
+
+                if (errorOthers) {
+                    console.error("Erreur otherParticipants:", errorOthers.message);
+                    return;
+                }
+
+                const otherUserIds = otherParticipants.map(p => p.user_id);
+                const { data: profiles, error: errorProf } = await _supabase.from('profiles')
+                    .select('id, full_name, avatar_url, title, skills')
+                    .in('id', otherUserIds);
+
+                if (errorProf) {
+                    console.error("Erreur profiles message:", errorProf.message);
+                    return;
+                }
+
+                if (!profiles) return;
+                profiles.forEach(p => cachedProfiles[p.id] = p);
+                console.log("Profils chargés:", profiles.length);
+
+                otherParticipants.forEach(participant => {
+                    const profile = cachedProfiles[participant.user_id];
+                    if (!profile) return;
+
+                    const convId = participant.conversation_id;
+                    const name = profile.full_name || 'Anonyme';
+                    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                    const avatar = profile.avatar_url
+                        ? `<img src="${profile.avatar_url}" class="conv-avatar">`
+                        : `<div class="conv-avatar">${initials}</div>`;
+
+                    const isActive = (convId === activeConversationId);
+
+                    const item = document.createElement('div');
+                    item.className = 'conversation-item' + (isActive ? ' active' : '');
+                    item.id = 'conv-item-' + convId;
+                    item.onclick = () => selectConversation(convId, profile);
+
+                    item.innerHTML = `
+                        ${avatar}
+                        <div class="conv-info">
+                            <p class="conv-name">${name}</p>
+                            <p class="conv-preview">${profile.title || profile.skills || 'Cliquez pour ouvrir'}</p>
+                        </div>
+                    `;
+                    convListEl.appendChild(item);
+                });
+
+                // Priority 1: Specifically targeted conversation
+                if (activeConversationId) {
+                    const participantInfo = otherParticipants.find(p => p.conversation_id === activeConversationId);
+                    if (participantInfo && cachedProfiles[participantInfo.user_id]) {
+                        selectConversation(activeConversationId, cachedProfiles[participantInfo.user_id]);
+                    } else {
+                        console.warn("Target conversation not found in local participants.");
+                    }
+                } 
+                
+                // Priority 2: Fallback to first if no target
+                const isManualTarget = new URLSearchParams(window.location.search).get('to');
+                if (otherParticipants.length > 0 && !isManualTarget) {
+                    const first = otherParticipants[0];
+                    selectConversation(first.conversation_id, cachedProfiles[first.user_id]);
+                } else if (isManualTarget && !activeConversationId) {
+                    console.log("Mode nouvelle conversation : En attente.");
+                    document.getElementById('messages-container').innerHTML = `
+                        <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#94a3b8; padding:40px; text-align:center;">
+                            <i class="fas fa-comments" style="font-size:3rem; margin-bottom:20px; opacity:0.3;"></i>
+                            <p style="font-size:1.1rem; font-weight:700; color:#475569;">Nouvelle discussion</p>
+                            <p style="font-size:0.9rem;">Dites bonjour pour démarrer l'échange !</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error("Fatal error in loadConversations:", err);
+            } finally {
+                loader.style.display = 'none';
             }
         }
 
