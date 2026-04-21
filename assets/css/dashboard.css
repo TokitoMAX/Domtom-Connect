@@ -1,10 +1,8 @@
-:root {
-    --progress-bar-bg: #e2e8f0;
-    --progress-bar-fill: #10b981;
-}
-
-body {
-    background-color: var(--bg-light);
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+    background-color: #f8fafc;
 }
 
 .dashboard-layout {
@@ -13,6 +11,8 @@ body {
     background-color: #f8fafc;
     position: relative;
     overflow-x: hidden;
+    width: 100%;
+    justify-content: center;
 }
 
 /* Sidebar Premium (Obsidian Dark - Restored Vision) */

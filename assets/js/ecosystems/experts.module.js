@@ -54,6 +54,23 @@ const ExpertsModule = {
         if (!container) return;
 
         container.innerHTML = `
+            <style>
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    overflow-x: hidden;
+                    background-color: #f8fafc;
+                }
+                .dashboard-layout {
+                    display: flex;
+                    min-height: 100vh;
+                    background-color: #f8fafc;
+                    position: relative;
+                    overflow-x: hidden;
+                    width: 100%;
+                    justify-content: center;
+                }
+            </style>
             <div class="dash-grid-layout">
                 
                 <!-- Strategic Progression Hub (Step 1 -> Step 2) -->
@@ -65,7 +82,7 @@ const ExpertsModule = {
                             </div>
                             <div>
                                 <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succès</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Référencement Actif âœ…' : 'Étape 1 : Publication du Profil â³'}</p>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Référencement Actif ✅' : 'Étape 1 : Publication du Profil ⏳'}</p>
                             </div>
                         </div>
                         <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
@@ -77,12 +94,13 @@ const ExpertsModule = {
                                 <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Rayonnement Authority</h4>
                                 <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack Activé' : 'Débloquez votre visibilité premium'}</p>
                             </div>
-                            <button onclick="window.Router.navigate('#profile?action=manage_pack')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+                             <button onclick="window.location.href = 'mon-espace.html#profile'" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#10b981' : '#0f172a'}; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
                                 ${profile.subscription_tier !== 'free' ? 'Gérer mon Pack' : 'Activer l\'Étape 2 →'}
-                            </button>
+                             </button>
                         </div>
                     </div>
                 </div>
+           </div>
 
                 <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
                     <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÉPITES & OPPORTUNITÉS</span>
