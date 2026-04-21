@@ -1346,17 +1346,25 @@
                 }
             }
 
-            // We attempt to insert a conversation. If RLS fails, we might need a field like 'created_by'.
-            const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({
-                // We send an empty object or a created_at to trigger the insert
-                // Some policies require the user to be a participant immediately, 
-                // but usually conversations allows insert if auth.uid() is valid.
+            // Attempt to insert with identity fields to satisfy RLS
+            let { data: newConv, error: errConv } = await _supabase.from('conversations').insert({
+                created_by: currentUserId,
                 updated_at: new Date().toISOString()
             }).select().single();
 
-            if (errConv || !newConv) {
-                console.error("Erreur création conv:", errConv?.message || errConv);
-                return;
+            // Fallback for different schema naming convention
+            if (errConv) {
+                console.warn("created_by likely not in schema, trying owner_id...");
+                const { data: retryConv, error: errRetry } = await _supabase.from('conversations').insert({
+                    owner_id: currentUserId,
+                    updated_at: new Date().toISOString()
+                }).select().single();
+                
+                if (errRetry) {
+                    console.error("Erreur RLS Critique:", errRetry.message);
+                    return;
+                }
+                newConv = retryConv;
             }
 
             const newConvId = newConv.id;
