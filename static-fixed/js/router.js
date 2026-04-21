@@ -50,15 +50,10 @@ const Router = {
      */
     navigate(path, params = null) {
         console.log("[Router] Navigating to:", path);
-        // Handle hash-based params as fallback
         if (path.includes('#')) {
-            const parts = path.split('#');
-            const hashPart = parts[1];
-            path = `#${hashPart}`;
+            window.location.hash = path.split('#')[1];
+            return;
         }
-
-        if (window.location.pathname + window.location.search === path && !params) return;
-
         window.history.pushState(params, '', path);
         this.handleCurrentRoute();
     },

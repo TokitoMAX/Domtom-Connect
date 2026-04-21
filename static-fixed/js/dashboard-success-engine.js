@@ -89,7 +89,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
         if (engineStepContainer) {
             // Déterminer s'il faut afficher la liste des projets
             const path = window.location.pathname;
-            const isListView = path === '/dashboard/success-engine' && !window.location.search.includes('id=');
+            const isListView = path === '#success-engine' && !window.location.search.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
                 if (headerContainer) headerContainer.innerHTML = '';
@@ -219,7 +219,7 @@ async function openProjectCockpit(projectId, initialStep = 1) {
         if (error) throw error;
 
         // Mise à jour de l'URL pour la persistance au rafraîchissement
-        const newPath = `/dashboard/success-engine?id=${projectId}`;
+        const newPath = `#success-engine?id=${projectId}`;
         if (window.Router) window.Router.updateUrl(newPath);
 
         if (list) list.style.display = 'none';
@@ -254,7 +254,7 @@ function renderCockpitWithStep(p, step, score) {
     const current = stepsInfo.find(s => s.num === step);
     let stepHTML = `
         <div class="cockpit-header">
-            <a href="${window.isAdminInspection ? '/dashboard' : '/dashboard/success-engine'}" onclick="if(!window.isAdminInspection && window.Router) { event.preventDefault(); window.Router.navigate('/dashboard/success-engine'); }" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
+            <a href="${window.isAdminInspection ? '/dashboard' : '#success-engine'}" onclick="if(!window.isAdminInspection && window.Router) { event.preventDefault(); window.Router.navigate('#success-engine'); }" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
                 &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Projets'}
             </a>
 
@@ -721,7 +721,7 @@ function renderMatchCard(expert, isTeaser = false) {
 function closeProjectCockpit() {
     // On force le rendu de la vue liste pour vider le cockpit en cas de blocage d'URL
     if (window.Router) {
-        window.Router.updateUrl('/dashboard/success-engine');
+        window.Router.updateUrl('#success-engine');
     }
 }
 
