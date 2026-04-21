@@ -139,9 +139,34 @@
         .lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; font-weight: 800; color: #64748b; background: rgba(255,255,255,0.4); border-radius: 14px; }
 
         @media (max-width: 768px) {
-            .section-header h1 { font-size: 2.5rem; }
-            .search-bar-v3 { flex-direction: column; padding: 16px; margin-top: 0; }
-            .premium-card { padding: 30px; }
+            .directory-header { padding: 60px 0 40px !important; }
+            .section-header h1 { font-size: 2.2rem !important; }
+            .section-header p { font-size: 1rem !important; }
+            .search-bar-v3 { flex-direction: column; padding: 16px; margin: 0 auto; gap: 8px; border-radius: 16px; }
+            .search-bar-v3 input, .search-bar-v3 select { width: 100% !important; padding: 12px !important; }
+            
+            .directory-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+                padding: 20px 0 !important;
+            }
+            .premium-card { 
+                padding: 20px !important; 
+                border-radius: 20px !important;
+                border-bottom-width: 3px !important;
+            }
+            .premium-card-header { gap: 12px !important; margin-bottom: 20px !important; }
+            .company-logo-box { width: 50px !important; height: 50px !important; font-size: 1.2rem !important; }
+            .job-title-line h3 { font-size: 1.2rem !important; }
+            
+            .highlights-grid { gap: 8px !important; margin-bottom: 20px !important; }
+            .h-pill { padding: 8px 12px !important; font-size: 0.75rem !important; }
+            
+            .job-content-preview { padding-left: 12px !important; margin-bottom: 20px !important; }
+            .job-snippet { font-size: 0.85rem !important; -webkit-line-clamp: 2 !important; }
+            
+            .premium-footer { padding-top: 16px !important; }
+            .btn-premium { padding: 12px !important; font-size: 0.9rem !important; border-radius: 12px !important; }
         }
 
         /* Forms & Inputs Premium (Linear Style) */

@@ -1346,7 +1346,14 @@
                 }
             }
 
-            const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({}).select().single();
+            // We attempt to insert a conversation. If RLS fails, we might need a field like 'created_by'.
+            const { data: newConv, error: errConv } = await _supabase.from('conversations').insert({
+                // We send an empty object or a created_at to trigger the insert
+                // Some policies require the user to be a participant immediately, 
+                // but usually conversations allows insert if auth.uid() is valid.
+                updated_at: new Date().toISOString()
+            }).select().single();
+
             if (errConv || !newConv) {
                 console.error("Erreur création conv:", errConv?.message || errConv);
                 return;

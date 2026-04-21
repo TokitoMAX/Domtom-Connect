@@ -9,6 +9,60 @@
     <link rel="icon" type="image/png" href="../assets/images/logo-domtomconnect.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <style>
+        /* MOBILE LIST OPTIMIZATION */
+        @media (max-width: 768px) {
+            .directory-hero { padding: 40px 0; text-align: left; }
+            .hero-title { font-size: 1.8rem !important; line-height: 1.2; }
+            .hero-subtitle { font-size: 1rem !important; margin-bottom: 24px; }
+            
+            .search-filter-bar { 
+                flex-direction: column; 
+                gap: 12px; 
+                background: white; 
+                padding: 16px; 
+                border-radius: 20px; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            }
+            .search-group input, .filter-group select { 
+                width: 100%; 
+                font-size: 0.9rem; 
+                padding: 14px; 
+                border-radius: 12px;
+            }
+            
+            .directory-grid {
+                display: flex !important;
+                flex-direction: column;
+                gap: 16px;
+                padding: 0 !important;
+            }
+            
+            /* Compact Talent Card for Mobile */
+            .profile-card {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 16px !important;
+                padding: 16px !important;
+                border-radius: 18px !important;
+                border: 1px solid #f1f5f9 !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
+                text-align: left !important;
+            }
+            .profile-avatar-container {
+                width: 60px !important;
+                height: 60px !important;
+                flex-shrink: 0;
+            }
+            .profile-info { flex: 1; min-width: 0; }
+            .profile-name { font-size: 1rem !important; margin-bottom: 2px !important; }
+            .profile-title { font-size: 0.8rem !important; margin-bottom: 8px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .profile-tags { display: none !important; } /* Hide tags on very small lists to save space */
+            .profile-cta { margin-top: 0 !important; font-size: 0.75rem !important; padding: 8px 12px !important; width: auto !important; }
+        }
+    </style>
+
     <!-- CORE PLATFORM SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
