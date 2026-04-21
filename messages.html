@@ -1346,6 +1346,15 @@
                 }
             }
 
+            // --- DIAGNOSTIC ---
+            try {
+                const { data: scan } = await _supabase.from('conversations').select('*').limit(1);
+                if (scan && scan.length > 0) {
+                    alert("Colonnes : " + Object.keys(scan[0]).join(', '));
+                }
+            } catch (e) {}
+            // --- FIN ---
+
             // Insertion minimaliste pour éviter l'erreur 400 (Colonnes inexistantes)
             let result = await _supabase.from('conversations').insert({
                 updated_at: new Date().toISOString()
