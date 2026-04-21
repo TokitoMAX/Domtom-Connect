@@ -35,11 +35,11 @@ const StandardModule = {
             <div class="dashboard-grid role-standard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Welcome Card -->
-                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 24px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1px solid #334155; padding: 48px; position: relative; overflow: hidden;">
+                <div class="dash-welcome-card" style="grid-column: 1 / -1;">
                     <div style="z-index: 2; position: relative;">
                         <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:20px; letter-spacing:0.04em; text-transform:uppercase;">Espace Explorateur</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 0 0 16px 0; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Bienvenue sur votre centre de commandement personnel. Explorez le réseau et rejoignez des écosystèmes stratégiques.</p>
+                        <h1>Bonjour, ${profile.full_name || 'Explorateur'}</h1>
+                        <p>Bienvenue sur votre centre de commandement personnel. Explorez le réseau et rejoignez des écosystèmes stratégiques.</p>
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@ const StandardModule = {
                 <div class="dash-main-col" style="grid-column: span 8; display: grid; gap: 32px;">
                     
                     <!-- UPGRADE Section (Premium SaaS Style) -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div class="role-upgrade-grid">
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; transition: all 0.3s ease;">
                             <div style="width:48px; height:48px; background:#f0fdf4; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #10b981;">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -73,7 +73,7 @@ const StandardModule = {
                             <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">💎 Opportunités Flash</h3>
                             <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
                         </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div class="role-upgrade-grid" style="margin-top: 16px;">
                             <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0; position:relative; overflow:hidden;">
                                 <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">Événement à la une</div>
                                 <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Stratégie Territoriale 2026</h4>
@@ -166,7 +166,7 @@ const StandardModule = {
         view.style.display = 'block';
 
         view.innerHTML = `
-            <div class="profile-dashboard-layout" style="display: grid; grid-template-columns: 1fr 350px; gap: 32px; padding: 24px;">
+            <div class="profile-dashboard-layout">
                 <div class="profile-main-card dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0;">
                     <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 48px; border-bottom: 1px solid #f1f5f9; padding-bottom: 40px;">
                         <div style="width: 120px; height: 120px; border-radius: 32px; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: #64748b; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative;">
@@ -184,7 +184,7 @@ const StandardModule = {
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div class="role-upgrade-grid" style="gap: 40px;">
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 7a4 4 0 100-8 4 4 0 000 8z"/></svg>
@@ -241,13 +241,13 @@ const StandardModule = {
             </div>
 
             <!-- ECOSYSTEM HUB (4 Cards Grid) -->
-            <div style="padding: 0 24px 48px 24px;">
+            <div style="padding: 0 0 48px 0;">
                 <div style="margin-bottom: 32px;">
                     <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">Hub d'Écosystèmes</h2>
                     <p style="color: #64748b; font-size: 1.1rem; font-weight: 500;">Activez vos différentes identités territoriales pour débloquer de nouveaux outils.</p>
                 </div>
 
-                <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+                <div class="ecosystem-grid">
                     <!-- EXPLORATEUR (Current) -->
                     <div class="eco-role-card ${profile.role === 'spectateur' || !profile.role ? 'active' : ''}" style="background: white; border-radius: 24px; padding: 24px; border: 2px solid ${profile.role === 'spectateur' || !profile.role ? '#10b981' : '#e2e8f0'}; position: relative;">
                         <span style="position: absolute; top: 16px; right: 1px; background: #10b981; color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.6rem; font-weight: 800; display: ${profile.role === 'spectateur' || !profile.role ? 'block' : 'none'};">ACTIF</span>

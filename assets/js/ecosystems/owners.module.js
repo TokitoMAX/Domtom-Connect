@@ -13,6 +13,11 @@ const OwnersModule = {
         const target = container || document.getElementById('ecosystem-grid-container');
         
         switch (viewId) {
+            case 'profile':
+                if (window.StandardModule) {
+                    window.StandardModule.renderProfile(target, profile, session);
+                }
+                break;
             case 'success-engine':
                 // Delegate to the Original Success Engine Logic
                 const engineView = document.getElementById('success-engine-view-fixed');
@@ -31,11 +36,7 @@ const OwnersModule = {
                 break;
             case 'collaboration':
                 if (window.CollaborationModule) {
-                    const collabView = document.getElementById('collaboration-view');
-                    if (collabView) {
-                        collabView.style.display = 'block';
-                        window.CollaborationModule.renderDashboard(collabView, null, profile, session);
-                    }
+                    await window.CollaborationModule.route('overview', target, profile, session, params);
                 }
                 break;
             case 'overview':
@@ -59,14 +60,15 @@ const OwnersModule = {
 
         // 2. Render the Premium HUD
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; gap: 32px;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- PREMIUM HUD HEADER (Minimalist & Clean) -->
-                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 32px; padding: 64px; background: #0f172a; border: 1px solid rgba(255,255,255,0.05); position:relative; overflow:hidden; margin-bottom:16px;">
+                <div class="dash-welcome-card">
                     <div style="z-index: 2; position: relative;">
                         <span style="background:#10b981; color:white; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px; display:inline-block;">Cockpit de Pilotage</span>
-                        <h1 style="font-size: 3.5rem; font-weight: 950; color: white; margin: 0; letter-spacing:-0.05em;">Bonjour, ${profile.full_name.split(' ')[0]}</h1>
-                        <p style="font-size: 1.2rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin: 12px 0 0 0; font-weight:600;">Gérez vos épopées territoriales avec précision et débloquez les financements stratégiques.</p>
+                        <h1>Bonjour, ${profile.full_name.split(' ')[0]}</h1>
+                        <p>Gérez vos épopées territoriales avec précision et débloquez les financements stratégiques.</p>
+</div>
                         
                         <div style="display:flex; gap:64px; margin-top:48px; border-top:1px solid rgba(255,255,255,0.1); padding-top:32px;">
                             <div>
@@ -82,21 +84,18 @@ const OwnersModule = {
                 </div>
 
                 <!-- MAIN COMMAND CENTER -->
-                <div class="dash-main-col" style="grid-column: span 8; display:grid; gap:32px;">
+                <div class="dash-main-col" style="grid-column: span 8;">
                     
                     <!-- MASTER PILOTAGE CARD -->
-                    <div class="dash-card highlight" style="padding:56px; border-radius:32px; text-align:center; background: #0f172a; color: white; border: none; box-shadow: 0 40px 80px rgba(0,0,0,0.15); position:relative; overflow:hidden;">
+                    <div class="dash-card-highlight">
                          <div style="position:relative; z-index:2;">
-                             <div class="dash-icon-box" style="margin: 0 auto 32px auto; background:rgba(16, 185, 129, 0.15); color:#10b981; width:72px; height:72px; border-radius:24px; border: 1px solid rgba(16, 185, 129, 0.2); backdrop-filter: blur(10px);">
+                             <div class="dash-icon-box" style="margin: 0 0 32px 0; background:rgba(16, 185, 129, 0.15); color:#10b981; width:72px; height:72px; border-radius:24px; border: 1px solid rgba(16, 185, 129, 0.2); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center;">
                                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                              </div>
-                             <h2 style="font-size:2.8rem; font-weight:950; color:white; margin-bottom:16px; letter-spacing:-0.05em;">Success Engine</h2>
-                             <p style="color:#94a3b8; font-size:1.15rem; max-width:540px; margin: 0 auto 40px auto; line-height:1.6; font-weight:600;">Pilotez votre épopée territoriale avec précision. Validez vos jalons stratégiques pour débloquer les financements.</p>
-                             <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; color:white; font-weight:950; padding:20px 48px; border-radius:18px; margin:0 auto; font-size:1.15rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">Piloter mon Épopée</button>
+                             <h2 style="font-size:2.5rem; font-weight:950; color:white; margin-bottom:16px; letter-spacing:-0.05em;">Success Engine</h2>
+                             <p style="color:#94a3b8; font-size:1.1rem; max-width:540px; margin: 0 0 40px 0; line-height:1.6; font-weight:600;">Pilotez votre épopée territoriale avec précision. Validez vos jalons stratégiques pour débloquer les financements.</p>
+                             <button onclick="window.Router.navigate('/dashboard/success-engine')" class="cta-button primary" style="background:#10b981; color:white; font-weight:950; padding:20px 48px; border-radius:18px; font-size:1.1rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">Piloter mon Épopée</button>
                          </div>
-                         <!-- Abstract background glow -->
-                         <div style="position:absolute; bottom:-100px; right:-100px; width:300px; height:300px; background:rgba(16, 185, 129, 0.1); border-radius:50%; filter:blur(100px);"></div>
-                         <div style="position:absolute; top:-100px; left:-100px; width:300px; height:300px; background:rgba(59, 130, 246, 0.05); border-radius:50%; filter:blur(100px);"></div>
                     </div>
 
                     <!-- PROJECT LIST HUD -->

@@ -124,17 +124,19 @@ const App = {
         
         if (activeModule) {
             // View Orchestration
+            const targetViewId = `${viewId}-view`;
+            const targetView = document.getElementById(targetViewId);
+            
             if (viewId === 'overview' && overview) {
                 overview.style.display = 'block';
-            } else {
-                // For specialized views, show their specific containers if handled by modules
-                const targetViewId = `${viewId}-view`;
-                const targetView = document.getElementById(targetViewId);
-                if (targetView) targetView.style.display = 'block';
+            } else if (targetView) {
+                targetView.style.display = 'block';
             }
 
             const gridContainer = document.getElementById('ecosystem-grid-container');
-            await activeModule.route(viewId, gridContainer, this.state.profile, this.state.session, params);
+            const targetContainer = targetView || gridContainer;
+            
+            await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
         }
     },
 

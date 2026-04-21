@@ -45,20 +45,18 @@ const CollaborationModule = {
             <div class="collaboration-hub" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Collaborative Header -->
-                <div style="background: #0f172a; border-radius: 24px; padding: 40px; margin-bottom: 32px; color: white; position: relative; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+                <div class="dash-welcome-card" style="margin-bottom: 32px; border: 1px solid #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
                     <div style="position:relative; z-index:2;">
                         <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                             <span style="background:#10b981; width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow: 0 0 10px #10b981;"></span>
                             <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#94a3b8;">Workspace Actif : ${profile.company_name || 'Domtom Connect'}</span>
                         </div>
-                        <h1 style="font-size: 2.25rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing:-0.04em; color: white;">Espace de Collaboration</h1>
-                        <p style="color: #94a3b8; font-size: 1.1rem; margin:0;">Pilotez vos missions et votre stratégie en équipe en temps réel.</p>
+                        <h1>Espace de Collaboration</h1>
+                        <p>Pilotez vos missions et votre stratégie en équipe en temps réel.</p>
                     </div>
-                    <!-- Decorative element -->
-                    <div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; background:rgba(16, 185, 129, 0.05); border-radius:50%; filter:blur(40px);"></div>
                 </div>
 
-                <div class="collaboration-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+                <div class="collaboration-grid">
                     
                     <!-- Left: Shared Missions & Tasks -->
                     <div style="grid-column: span 1; display: grid; gap: 32px;">

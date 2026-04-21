@@ -138,7 +138,7 @@ const TicketingModule = {
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; max-width: 1100px; margin: 0 auto;">
+            <div class="ticketing-hub-layout" style="max-width: 1100px; margin: 0 auto;">
                 
                 <!-- Main Form Column -->
                 <div class="dash-card" style="padding: 40px; background: white; border-radius: 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
@@ -168,7 +168,7 @@ const TicketingModule = {
                                     <span style="width:20px; height:20px; background:#f1f5f9; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:#0f172a;">2</span>
                                     Logistique & Accès
                                 </h3>
-                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                                <div class="role-upgrade-grid">
                                     <div class="form-group">
                                         <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Date & Heure *</label>
                                         <input type="date" id="ev-date" required style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">

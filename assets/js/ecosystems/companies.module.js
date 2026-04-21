@@ -12,6 +12,11 @@ const CompaniesModule = {
         const target = container || document.getElementById('ecosystem-grid-container');
         
         switch (viewId) {
+            case 'profile':
+                if (window.StandardModule) {
+                    window.StandardModule.renderProfile(target, profile, session);
+                }
+                break;
             case 'missions':
                 window.location.href = '/marketplace/jobs';
                 break;
@@ -23,10 +28,8 @@ const CompaniesModule = {
                 }
                 break;
             case 'collaboration':
-                const collabView = document.getElementById('collaboration-view');
-                if (collabView && window.CollaborationModule) {
-                    collabView.style.display = 'block';
-                    window.CollaborationModule.renderDashboard(collabView, null, profile, session);
+                if (window.CollaborationModule) {
+                    await window.CollaborationModule.route('overview', target, profile, session, params);
                 }
                 break;
             case 'overview':
@@ -43,30 +46,29 @@ const CompaniesModule = {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid" style="display: grid; gap: 32px;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- Unified Welcome Card (Company Premium) -->
-                <div class="dash-card premium-dark" style="grid-column: 1 / -1; border-radius: 24px; padding: 48px;">
+                <div class="dash-welcome-card">
                     <div style="z-index: 2; position: relative;">
                         <span class="role-badge" style="background:#3b82f6; color:white; border:none;">ESPACE ENTREPRISE / BUSINESS</span>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 12px 0 16px 0;">Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
-                        <p style="font-size: 1.1rem; color: #94a3b8; max-width: 700px; line-height:1.6; margin:0;">Déployez votre stratégie territoriale et pilotez vos talents experts.</p>
+                        <h1>Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
+                        <p>Déployez votre stratégie territoriale et pilotez vos talents experts.</p>
                     </div>
                 </div>
 
                 <!-- MAIN COMMAND CENTER -->
-                <div class="dash-main-col" style="grid-column: span 8; display:grid; gap:32px;">
+                <div class="dash-main-col" style="grid-column: span 8;">
                     
                     <!-- PARTNERSHIP COMMAND -->
-                    <div class="dash-card highlight" style="padding:48px; border-radius:32px; background: #0f172a; color:white; border:none; box-shadow: 0 40px 80px rgba(0,0,0,0.1); position:relative; overflow:hidden;">
-                         <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+                    <div class="dash-card-highlight">
+                         <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2; width: 100%;">
                             <div style="flex:1;">
                                 <h4 style="margin:0; font-size:1.8rem; font-weight:950; color:#10b981; letter-spacing:-0.03em;">Partenariat Stratégique</h4>
                                 <p style="font-size: 1.1rem; color: #94a3b8; line-height:1.6; margin: 12px 0 0 0; max-width:480px;">Activez votre collaboration de second niveau pour débloquer le matchmaking avancé et le recrutement expert.</p>
                             </div>
                             <button onclick="window.Router.navigate('/dashboard/collaboration')" class="cta-button primary" style="background:#10b981; color:white; border:none; border-radius:18px; font-weight:950; padding:20px 40px; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);">Lancer le Hub</button>
                          </div>
-                         <div style="position:absolute; top:-20px; right:-20px; width:140px; height:140px; background:rgba(16, 185, 129, 0.05); border-radius:50%; filter:blur(40px);"></div>
                     </div>
 
                     <!-- MISSION CENTER -->

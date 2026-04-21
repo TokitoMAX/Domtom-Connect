@@ -210,7 +210,20 @@ body {
     }
     .main-content {
         margin-left: 0 !important;
+        padding: 24px !important;
         padding-top: 20px !important;
+        padding-bottom: 120px !important;
+    }
+}
+
+/* Tablet Optimization (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dash-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .dash-main-col, .dash-side-col {
+        grid-column: 1 / -1;
     }
 }
 
@@ -224,6 +237,20 @@ body {
     position: relative;
     overflow: hidden;
     color: white;
+}
+
+@media (max-width: 768px) {
+    .dash-welcome-card {
+        padding: 32px 24px;
+        border-radius: 20px;
+    }
+    .dash-welcome-card h1 {
+        font-size: 1.85rem !important;
+        letter-spacing: -0.03em;
+    }
+    .dash-welcome-card p {
+        font-size: 0.95rem;
+    }
 }
 
 .dash-welcome-card h1 {
@@ -271,6 +298,19 @@ body {
     align-items: center;
     color: white;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .dash-card-highlight {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 32px 24px;
+        border-radius: 24px;
+    }
+    .dash-card-highlight button {
+        width: 100%;
+    }
 }
 
 .dash-card-premium {
@@ -816,11 +856,11 @@ body {
         flex-direction: column;
         align-items: flex-start !important;
         gap: 16px;
-        padding: 24px !important;
+        padding: 0 !important;
     }
 
     #success-engine-view-fixed {
-        margin-top: 20px !important;
+        margin-top: 10px !important;
     }
 
     .expert-cta-banner {
@@ -834,16 +874,26 @@ body {
     }
 
     .cockpit-section {
-        padding: 24px !important;
+        padding: 0 !important;
     }
 
-    .cockpit-section [style*="display:grid; grid-template-columns: 1fr 1fr"] {
+    /* Fix Grid 1fr for all cockpit grids */
+    .cockpit-view-container [style*="display:grid; grid-template-columns: 1fr 1fr"],
+    .cockpit-section [style*="display:grid; grid-template-columns: 1fr 1fr"],
+    .dash-grid-layout [style*="display:grid; grid-template-columns: 1fr 1fr"] {
         grid-template-columns: 1fr !important;
         gap: 16px !important;
     }
 
     .cockpit-section textarea {
-        min-height: 100px !important;
+        min-height: 120px !important;
+    }
+
+    /* Resize Heroic Titles in Cockpit */
+    .dash-card.premium-dark h1,
+    .cockpit-view-container h1 {
+        font-size: 2rem !important;
+        letter-spacing: -0.04em !important;
     }
 }
 
@@ -1033,8 +1083,28 @@ body {
 
 @media (max-width: 640px) {
     .ecosystem-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 16px;
+    }
+}
+
+/* New Layout Helpers */
+.profile-dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 32px;
+}
+
+.role-upgrade-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .profile-dashboard-layout,
+    .role-upgrade-grid {
+        grid-template-columns: 1fr !important;
     }
 }
 
@@ -1083,6 +1153,32 @@ body {
 .cover-preview.has-image {
     border: none;
     height: 280px;
+}
+
+.collaboration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+}
+
+@media (max-width: 768px) {
+    .collaboration-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px;
+    }
+}
+
+.ticketing-hub-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 1024px) {
+    .ticketing-hub-layout {
+        grid-template-columns: 1fr !important;
+        gap: 32px;
+    }
 }
 
 /* Matchmaking (Pépites) */
