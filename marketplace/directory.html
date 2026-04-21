@@ -17,7 +17,29 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <!-- Navbar content will be rendered by loadGlobalNavbar() -->
+            <a href="../index.html" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="directory.html" class="active">Talents</a>
+                    <a href="jobs.html">Missions</a>
+                    <a href="projects.html">Projets</a>
+                    <a href="evenements.html">Événements</a>
+                    <a href="companies.html">Entreprises</a>
+                </div>
+                
+                <div class="nav-actions" id="nav-auth-actions">
+                    <a href="../login.html" class="nav-login">Démarrer</a>
+                    <a href="../register-choice.html" class="cta-button primary" style="background:#0f172a; color: white !important;">Rejoindre / Explorer</a>
+                </div>
+            </div>
         </div>
     </nav>
 

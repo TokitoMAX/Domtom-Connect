@@ -75,6 +75,83 @@
     <script src="assets/js/modules/ticketing.module.js?v=9.6"></script>
     <script src="assets/js/modules/business.module.js?v=9.6"></script>
     <script src="assets/js/dashboard-success-engine.js?v=9.6"></script>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace - Domtom Connect</title>
+    <link rel="stylesheet" href="assets/css/dashboard.css?v=10.1">
+    <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Force display for legacy containers when needed */
+        .view-section { transition: opacity 0.3s ease; }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <!-- Sidebar - Dynamic Aceternity Style -->
+        <aside class="sidebar"></aside>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <div id="nav-links-container"></div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- 1. Overview (Unified Dashboard) -->
+                <div id="overview-view" class="view-section">
+                    <div id="ecosystem-grid-container"></div>
+                </div>
+
+                <!-- 2. SUCCESS ENGINE (Pilotage de Projet - Restored Detailed Structure) -->
+                <div id="success-engine-view-fixed" class="view-section" style="display:none;">
+                    <div id="success-engine-header"></div>
+                    
+                    <!-- Separate List View Container -->
+                    <div id="project-list-view"></div>
+                    
+                    <!-- Step/Wizard Container -->
+                    <div id="success-engine-step"></div>
+
+                    <!-- Internal Cockpit Container (The detailed project view) -->
+                    <div id="project-cockpit-view" style="display: none;">
+                        <div id="cockpit-content-internal"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Specialized Ecosystem Views -->
+                <div id="missions-view" class="view-section" style="display:none;"></div>
+                <div id="billetterie-view" class="view-section" style="display:none;">
+                    <div id="my-tickets-list" class="dashboard-grid"></div>
+                </div>
+                <div id="business-view" class="view-section" style="display:none;"></div>
+                <div id="collaboration-view" class="view-section" style="display:none;"></div>
+                <div id="profile-view" class="view-section" style="display:none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Navigation -->
+    
+
+    <!-- PLATFORM ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/territory_config.js?v=9.6"></script>
+    <script src="assets/js/auth.js?v=9.6"></script>
+    
+    <!-- Ecosystem Modules -->
+    <script src="assets/js/ecosystems/standard.module.js?v=9.6"></script>
+    <script src="assets/js/ecosystems/collaboration.module.js?v=9.6"></script>
+    <script src="assets/js/ecosystems/owners.module.js?v=9.6"></script>
+    <script src="assets/js/ecosystems/experts.module.js?v=9.6"></script>
+    <script src="assets/js/ecosystems/companies.module.js?v=9.6"></script>
+    <script src="assets/js/modules/ticketing.module.js?v=9.6"></script>
+    <script src="assets/js/modules/business.module.js?v=9.6"></script>
+    <script src="assets/js/dashboard-success-engine.js?v=9.6"></script>
 
     <!-- Platform Orchestrator -->
     <script src="assets/js/ui-components.js?v=10.1"></script>
@@ -83,6 +160,25 @@
 
     <!-- Modals Layer -->
     <div id="details-modal-overlay" class="modal-overlay"></div>
-<script src="assets/js/mobile-nav.js"></script>
+
+    <!-- MOBILE NAVIGATION (HARDCODED) -->
+    <nav class="mobile-nav">
+        <a href="mon-espace.html" class="mobile-nav-link active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Dashboard
+        </a>
+        <a href="marketplace/directory.html" class="mobile-nav-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+            Talents
+        </a>
+        <a href="marketplace/jobs.html" class="mobile-nav-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            Missions
+        </a>
+        <a href="mon-espace.html#profile" class="mobile-nav-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Profil
+        </a>
+    </nav>
 </body>
 </html>

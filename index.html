@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -201,7 +201,29 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <!-- Content rendered by loadGlobalNavbar() in ui-components.js?v=10.1 -->
+            <a href="index.html" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <span class="nav-brand-name">Domtom Connect</span>
+            </a>
+            
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links">
+                    <a href="marketplace/directory.html">Talents</a>
+                    <a href="marketplace/jobs.html">Missions</a>
+                    <a href="marketplace/projects.html">Projets</a>
+                    <a href="marketplace/evenements.html">Événements</a>
+                    <a href="marketplace/companies.html">Entreprises</a>
+                </div>
+                
+                <div class="nav-actions" id="nav-auth-actions">
+                    <a href="login.html" class="nav-login">Démarrer</a>
+                    <a href="register-choice.html" class="cta-button primary" style="background:#0f172a; color: white !important;">Rejoindre / Explorer</a>
+                </div>
+            </div>
         </div>
     </nav>
 

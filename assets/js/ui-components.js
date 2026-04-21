@@ -96,17 +96,7 @@ const UIComponents = {
     },
 
     async renderTopNav() {
-        // Detect context
-        const isDashboard = window.location.pathname.includes('mon-espace') || window.location.pathname.includes('dashboard');
-        
-        let topNav = document.querySelector('.navbar .container');
-        if (isDashboard) {
-            topNav = document.getElementById('nav-links-container') || topNav;
-        }
-        
-        if (!topNav) return;
-
-        // 2. Get Session for Auth Buttons
+        // We only use this function to update the auth buttons on native HTML now.
         let session = null;
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
@@ -118,101 +108,21 @@ const UIComponents = {
             console.warn("[UI] Could not fetch session for navbar:", err);
         }
 
-        const links = [
-            { label: 'Talents', path: 'marketplace/directory.html' },
-            { label: 'Missions', path: 'marketplace/jobs.html' },
-            { label: 'Projets', path: 'marketplace/projects.html' },
-            { label: 'Événements', path: 'marketplace/evenements.html' },
-            { label: 'Entreprises', path: 'marketplace/companies.html' }
-        ];
+        if (session) {
+            const authActions = document.getElementById('nav-auth-actions');
+            if (authActions) {
+                // Determine prefix based on pathname
+                const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
+                const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
+                const adjustPath = (p) => prefix + (p.startsWith('/') ? p.slice(1) : p);
 
-        // --- PATH LOGIC (Robust local file support) ---
-        // Detect if we are in a subfolder (marketplace, registration, blog, territoires, services, a-propos, diaspora)
-        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-        const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
-        
-        const adjustPath = (p) => {
-            if (p.startsWith('http')) return p;
-            let cleanPath = p.startsWith('/') ? p.slice(1) : p;
-            return prefix + cleanPath;
-        };
-
-        const currentPath = window.location.pathname;
-
-        // --- DASHBOARD MODE (Pill Style, Centered) ---
-        if (isDashboard) {
-            let pillHtml = `<div class="nav-market-links">`;
-            links.forEach(link => {
-                const finalPath = adjustPath(link.path);
-                const isActive = currentPath.includes(link.path.replace('.html', ''));
-                pillHtml += `
-                    <a href="${finalPath}" class="nav-market-link ${isActive ? 'active' : ''}">
-                        ${link.label}
-                    </a>
+                authActions.innerHTML = `
+                    <a href="${adjustPath('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
+                    <a href="${adjustPath('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
                 `;
-            });
-            pillHtml += `</div>`;
-            topNav.innerHTML = pillHtml;
-            return;
-        }
-
-        // --- PUBLIC MODE (Standard Style with Branding & Actions) ---
-        let html = `
-            <a href="${adjustPath('index.html')}" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="${adjustPath('assets/images/logo-domtomconnect.png')}" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
-            </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="nav-content">
-                <div class="nav-links">
-        `;
-
-        links.forEach(link => {
-            const finalPath = adjustPath(link.path);
-            const isActive = currentPath.includes(link.path.replace('.html', ''));
-            html += `<a href="${finalPath}" class="${isActive ? 'active' : ''}">${link.label}</a>`;
-        });
-
-        html += `
-                </div>
-                <div class="nav-actions" id="nav-auth-actions">
-                    ${session ? `
-                        <a href="${adjustPath('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
-                        <a href="${adjustPath('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
-                    ` : `
-                        <a href="${adjustPath('login.html')}" class="cta-button secondary">Connexion</a>
-                        <a href="${adjustPath('register-choice.html')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Démarrer</a>
-                    `}
-                </div>
-            </div>
-        `;
-
-        topNav.innerHTML = html;
-
-        // --- ASYNC SESSION UPDATE (Fail-safe) ---
-        if (!session) {
-            try {
-                const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-                if (db) {
-                    const { data } = await db.auth.getSession();
-                    if (data?.session) {
-                        const authActions = document.getElementById('nav-auth-actions');
-                        if (authActions) {
-                            authActions.innerHTML = `
-                                <a href="${adjustPath('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
-                                <a href="${adjustPath('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
-                            `;
-                        }
-                    }
-                }
-            } catch (err) {
-                console.warn("[UI] Could not fetch session for upgrade:", err);
             }
         }
-    },
-
+    }
 };
 
 /**
