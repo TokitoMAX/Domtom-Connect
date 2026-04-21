@@ -203,6 +203,28 @@ const UIComponents = {
 window.loadGlobalNavbar = async function() {
     if (window.UIComponents) {
         await window.UIComponents.renderTopNav();
+        
+        // --- MOBILE TOGGLE INITIALIZATION ---
+        const toggle = document.querySelector('.nav-toggle');
+        const navContent = document.querySelector('.nav-content');
+        
+        if (toggle && navContent) {
+            toggle.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+                this.setAttribute('aria-expanded', !expanded);
+                navContent.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+            
+            // Close menu when clicking links
+            navContent.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navContent.classList.remove('active');
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
     }
 };
 
