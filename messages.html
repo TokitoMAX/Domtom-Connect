@@ -1345,6 +1345,16 @@
                     return;
                 }
             }
+
+            // --- DIAGNOSTIC PARTICIPANTS ---
+            try {
+                const { data: scanP } = await _supabase.from('conversation_participants').select('*').limit(1);
+                if (scanP && scanP.length > 0) {
+                    alert("Colonnes PARTICIPANTS : " + Object.keys(scanP[0]).join(', '));
+                    console.log("Diagnostic Participants Structure:", scanP[0]);
+                }
+            } catch (e) {}
+            // --- FIN DIAGNOSTIC ---
             // --- INITIALISATION AUTOMATIQUE DU PROFIL (Anti-RLS 403) ---
             try {
                 const { data: profileCheck, error: checkError } = await _supabase.from('profiles').select('id').eq('id', currentUserId).maybeSingle();
@@ -1498,9 +1508,20 @@
             } 
             
             // Priority 2: Fallback to first if no target
-            if (otherParticipants.length > 0) {
+            const isManualTarget = new URLSearchParams(window.location.search).get('to');
+            if (otherParticipants.length > 0 && !isManualTarget) {
                 const first = otherParticipants[0];
                 selectConversation(first.conversation_id, cachedProfiles[first.user_id]);
+            } else if (isManualTarget && !activeConversationId) {
+                console.log("Mode nouvelle conversation : En attente de création.");
+                // Effacer l'UI de chargement si aucune convo trouvée
+                document.getElementById('messages-container').innerHTML = `
+                    <div style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#94a3b8; padding:40px; text-align:center;">
+                        <i class="fas fa-comments" style="font-size:3rem; margin-bottom:20px; opacity:0.3;"></i>
+                        <p style="font-size:1.1rem; font-weight:700; color:#475569;">Nouvelle discussion</p>
+                        <p style="font-size:0.9rem;">Dites bonjour pour démarrer l'échange !</p>
+                    </div>
+                `;
             }
         }
 
