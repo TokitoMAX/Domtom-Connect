@@ -2574,6 +2574,20 @@ html, body {
         display: none !important;
     }
 
+    .nav-toggle {
+        display: flex !important;
+    }
+
+    .nav-content.is-open {
+        display: flex !important;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+
     .main-content {
         margin-left: 0 !important;
         width: 100% !important;
@@ -2635,6 +2649,52 @@ html, body {
     #matches-container, .portfolio-grid {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
+    }
+
+    /* 7. Profile & Form Optimization */
+    .dashboard-view-container {
+        padding: 12px !important;
+    }
+
+    #page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+    }
+
+    #edit-toggle-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .form-row {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+
+    .profile-form-card {
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+        border-radius: 16px !important;
+    }
+
+    .avatar-upload-container {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .hub-steps {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .step-divider {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: flex !important;
     }
 }
 

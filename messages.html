@@ -509,9 +509,8 @@
         }
 
         @media (max-width: 768px) {
-            .profile-layout {
-                grid-template-columns: 1fr;
-                height: auto;
+            .navbar {
+                display: none !important;
             }
 
             .sidebar {
@@ -519,74 +518,87 @@
             }
 
             .messaging-container {
-                flex-direction: column;
+                margin: 0 !important;
+                padding: 0 !important;
                 height: 100vh;
-                margin-top: 0; /* Full screen on mobile */
-                margin-left: 0 !important;
-                padding-bottom: 0;
+                width: 100vw;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 9999;
             }
 
             .top-nav {
-                display: none !important; /* Hide marketplace pill on mobile messaging */
+                display: none !important;
             }
 
             .chat-layout {
-                height: 100vh;
+                height: 100%;
+                width: 100%;
                 position: relative;
-                overflow: hidden;
             }
 
-            /* Stack Navigation: List vs Chat */
             .conversations-list {
                 width: 100%;
                 height: 100%;
+                background: white;
                 position: absolute;
                 left: 0;
                 top: 0;
-                transition: transform 0.3s ease;
-                z-index: 10;
-                background: var(--bg-primary);
+                z-index: 1;
             }
 
             .chat-area {
                 width: 100%;
                 height: 100%;
+                background: #f0f2f5; /* WhatsApp-like background */
                 position: absolute;
-                left: 100%; /* Hidden on the right by default */
+                left: 100%;
                 top: 0;
-                transition: transform 0.3s ease;
-                z-index: 20;
-                background: var(--bg-primary);
-            }
-
-            /* Active State */
-            .chat-layout.mobile-chat-active .conversations-list {
-                transform: translateX(-100%);
+                z-index: 2;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .chat-layout.mobile-chat-active .chat-area {
                 transform: translateX(-100%);
             }
 
-            .chat-messages {
-                padding: 12px;
-                gap: 10px;
+            .chat-header {
+                padding: 10px 16px;
+                height: 60px;
+                background: #0f172a;
+                color: white;
             }
 
-            .chat-input-area {
-                padding: 8px 12px;
-                border-top: 1px solid var(--gray-100);
+            .chat-header h3, .chat-header p {
+                color: white !important;
             }
 
             .mobile-back-btn {
                 display: flex !important;
-                align-items: center;
-                justify-content: center;
-                width: 32px;
-                height: 32px;
-                margin-right: 8px;
-                color: var(--text-primary);
-                cursor: pointer;
+                color: white !important;
+                padding: 10px;
+                margin-left: -10px;
+            }
+
+            .chat-messages {
+                padding: 15px 10px;
+                background: #e5ddd5; /* Classic WhatsApp Background */
+            }
+
+            .message-bubble {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+
+            .chat-input-area {
+                padding: 8px;
+                background: #f0f2f5;
+            }
+
+            .chat-input-wrapper {
+                border-radius: 25px;
+                padding: 5px 15px;
             }
         }
 
