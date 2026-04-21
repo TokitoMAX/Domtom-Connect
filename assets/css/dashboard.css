@@ -137,13 +137,18 @@ body {
 /* --- CONTENU PRINCIPAL --- */
 .main-content {
     flex: 1;
-    margin-left: 250px;
+    margin-left: 80px; /* Aligné sur la sidebar par défaut */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: #f8fafc;
-    transition: margin-left 0.3s ease;
-    padding-top: 0 !important; /* Force le début au top */
+    transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0 !important;
+}
+
+/* Expansion du contenu quand la sidebar est survolée */
+.sidebar:hover + .main-content {
+    margin-left: 250px;
 }
 
 /* Top Bar de Navigation (Centrée, Style Pill - Restored) */
@@ -208,7 +213,7 @@ body {
     .sidebar {
         display: none !important;
     }
-    .top-nav, .nav-market-links {
+    .top-nav {
         display: none !important;
     }
     .main-content {
@@ -216,6 +221,7 @@ body {
         padding: 20px !important;
         padding-bottom: 120px !important;
         width: 100% !important;
+        min-width: 100% !important;
     }
 }
 

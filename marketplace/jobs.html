@@ -27,7 +27,7 @@
     <meta property="twitter:description" content="Le job board stratégique pour les talents de la diaspora ultramarine.">
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
 
-    <link rel="stylesheet" href="/assets/css/style.css?v=3.5">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -251,8 +251,8 @@
     </style>
     <!-- CORE PLATFORM SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/auth.js"></script>
-    <script src="/assets/js/ui-components.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/ui-components.js"></script>
 </head>
 <body style="background: white;">
     <nav class="navbar">
@@ -539,7 +539,7 @@
                           ['user', 'porteur', 'basique'].includes(currentUserRole) ? `
                             <div style="flex: 1; text-align: center;">
                                 <p style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Accès réservé aux Experts</p>
-                                <a href="/marketplace/directory" class="btn-premium" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; text-decoration: none; display: block; font-size: 0.9rem; padding: 14px;">Trouver un Expert</a>
+                                <a href="../marketplace/directory" class="btn-premium" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; text-decoration: none; display: block; font-size: 0.9rem; padding: 14px;">Trouver un Expert</a>
                             </div>` :
                           userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled><i class="fas fa-check-circle"></i> Postulé</button>' :
                           canSee ? `<button onclick="openApplyModal('${job.id}','${job.title}')" class="btn-premium btn-apply">Postuler maintenant</button>` :
@@ -696,7 +696,7 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="/assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
+                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
                     <p style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires.</p>
                 </div>
                 <div style="display: flex; gap: 32px;">
@@ -707,7 +707,7 @@
         </div>
     </footer>
     <nav class="mobile-nav"></nav>
-    <script src="/assets/js/dashboard-core.js?v=8.0"></script>
-    <script src="/assets/js/script.js?v=8.0"></script>
+    <script src="../assets/js/dashboard-core.js?v=8.0"></script>
+    <script src="../assets/js/script.js?v=8.0"></script>
 </body>
 </html>

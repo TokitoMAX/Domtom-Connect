@@ -204,7 +204,13 @@ window.loadGlobalNavbar = async function() {
     if (window.UIComponents) {
         await window.UIComponents.renderTopNav();
         
-        // --- MOBILE TOGGLE INITIALIZATION ---
+        // --- MOBILE NAV INITIALIZATION ---
+        // Render bottom nav for authenticated/dashboard views
+        if (document.querySelector('.mobile-nav')) {
+            window.UIComponents.renderMobileNav();
+        }
+        
+        // --- MOBILE TOGGLE INITIALIZATION (Landing/Public) ---
         const toggle = document.querySelector('.nav-toggle');
         const navContent = document.querySelector('.nav-content');
         
