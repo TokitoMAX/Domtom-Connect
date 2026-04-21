@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Domtom Connect - Experts Ecosystem Module
  * Logic for Experts / Talents (Premium Malt-Style)
  */
@@ -140,7 +140,7 @@ const ExpertsModule = {
 
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #0f172a; color:white; border:none; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
                         <div style="font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
-                        <div style="font-size: 2.2rem; font-weight: 900; color: #10b981; letter-spacing:-0.05em;">${(profile.tjm || '-')}â‚¬<span style="font-size:1rem; color:rgba(255,255,255,0.4);">/j</span></div>
+                        <div style="font-size: 2.2rem; font-weight: 900; color: #10b981; letter-spacing:-0.05em;">${(profile.tjm || '-')} &euro;<span style="font-size:1rem; color:rgba(255,255,255,0.4);">/j</span></div>
                         <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-top:8px;">Ajustez votre tarif selon la demande du marché.</p>
                         <button onclick="window.Router.navigate('#profile')" style="width:100%; margin-top:24px; padding:14px; border:1px solid rgba(255,255,255,0.2); border-radius:12px; background:rgba(255,255,255,0.05); color:white; font-weight:800; cursor:pointer; transition: all 0.2s;">Éditer ma fiche</button>
                     </div>

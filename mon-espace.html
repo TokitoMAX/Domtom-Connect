@@ -21,7 +21,15 @@
 
         <main class="main-content">
             <header class="top-nav">
-                <div id="nav-links-container"></div>
+                <div id="nav-links-container">
+                    <div class="nav-market-links">
+                        <a href="marketplace/directory.html" class="nav-market-link">Talents</a>
+                        <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
+                        <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
+                        <a href="marketplace/evenements.html" class="nav-market-link">Événements</a>
+                        <a href="marketplace/companies.html" class="nav-market-link">Entreprises</a>
+                    </div>
+                </div>
             </header>
 
             <div class="content-wrapper">
@@ -104,5 +112,38 @@
             Profil
         </a>
     </nav>
+    <script>
+        // --- Dashboard Navigation Persistence ---
+        function syncNavActiveState() {
+            const hash = window.location.hash || '#overview';
+            const cleanHash = hash.split('?')[0];
+            
+            // 1. Mobile Nav
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href.includes(cleanHash) || (cleanHash === '#overview' && href === 'mon-espace.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // 2. Top Nav Pills
+            document.querySelectorAll('.nav-market-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (window.location.pathname.includes(href)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        window.addEventListener('hashchange', syncNavActiveState);
+        window.addEventListener('load', syncNavActiveState);
+        
+        // Wait for potential dynamic rendering
+        setTimeout(syncNavActiveState, 1000);
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Standard Module - Domtom Connect
  * Écosystème "Explorateur" / Membre Basique
  * Un cockpit épuré pour la découverte et la gestion personnelle.
@@ -197,7 +197,7 @@ const StandardModule = {
                                 ${profile.role === 'expert' ? `
                                 <div class="info-field">
                                     <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Tarif Journalier (TJM)</label>
-                                    <div style="font-weight: 700; color: #10b981;">${profile.tjm || '---'} â‚¬ / jour</div>
+                                    <div style="font-weight: 700; color: #10b981;">${profile.tjm || '---'} &euro; / jour</div>
                                 </div>
                                 ` : ''}
                                 ${profile.role === 'entreprise' ? `
