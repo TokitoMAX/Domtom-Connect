@@ -1,7 +1,7 @@
-/**
+﻿/**
  * Collaboration Module - Domtom Connect
- * Le "Hub Équipe" : Espace de travail partagé (V2)
- * Pour une expérience type Trello / Slack
+ * Le "Hub Ã‰quipe" : Espace de travail partagÃ© (V2)
+ * Pour une expÃ©rience type Trello / Slack
  */
 const CollaborationModule = {
     /**
@@ -23,14 +23,14 @@ const CollaborationModule = {
     },
 
     /**
-     * Rendu du Hub Équipe
+     * Rendu du Hub Ã‰quipe
      */
     renderDashboard: async (container, additional, profile, session) => {
         if (!container) return;
         
         try {
             const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
-            if (!db) throw new Error("Supabase non initialisé");
+            if (!db) throw new Error("Supabase non initialisÃ©");
 
             const activeBusinessId = window.activeBusinessId || session.user.id;
             const isOwner = activeBusinessId === session.user.id;
@@ -52,7 +52,7 @@ const CollaborationModule = {
                             <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#94a3b8;">Workspace Actif : ${profile.company_name || 'Domtom Connect'}</span>
                         </div>
                         <h1>Espace de Collaboration</h1>
-                        <p>Pilotez vos missions et votre stratégie en équipe en temps réel.</p>
+                        <p>Pilotez vos missions et votre stratÃ©gie en Ã©quipe en temps rÃ©el.</p>
                     </div>
                 </div>
 
@@ -61,18 +61,18 @@ const CollaborationModule = {
                     <!-- Left: Shared Missions & Tasks -->
                     <div style="grid-column: span 1; display: grid; gap: 32px;">
                         
-                        <!-- BOARD : MISSIONS PARTAGÉES -->
+                        <!-- BOARD : MISSIONS PARTAGÃ‰ES -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                                 <div style="display:flex; align-items:center; gap:10px;">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                                     <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Nos Missions Actives</h3>
                                 </div>
-                                <button onclick="if(window.Router) window.Router.navigate('/dashboard/missions');" style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 16px; border-radius:10px; font-weight:800; font-size:0.8rem; cursor:pointer; color:#475569;">Voir tout</button>
+                                <button onclick="if(window.Router) window.Router.navigate('#missions');" style="background:#f8fafc; border:1px solid #e2e8f0; padding:8px 16px; border-radius:10px; font-weight:800; font-size:0.8rem; cursor:pointer; color:#475569;">Voir tout</button>
                             </div>
                             
                             <div id="hub-shared-jobs" style="display: grid; gap: 16px;">
-                                <p style="text-align:center; padding:40px; color:#94a3b8; font-style:italic;">Chargement de la vision partagée...</p>
+                                <p style="text-align:center; padding:40px; color:#94a3b8; font-style:italic;">Chargement de la vision partagÃ©e...</p>
                             </div>
                         </div>
 
@@ -88,7 +88,7 @@ const CollaborationModule = {
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5" /></svg>
                                     </div>
                                     <div>
-                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Le cockpit a été mis à jour.</p>
+                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Le cockpit a Ã©tÃ© mis Ã  jour.</p>
                                         <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; font-weight:600;">Il y a quelques instants</p>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@ const CollaborationModule = {
                                 <input type="email" id="invite-email" placeholder="Email du futur membre" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-size:0.9rem;">
                                 <select id="invite-role" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-size:0.9rem; background:white;">
                                     <option value="contributeur">Contributeur</option>
-                                    <option value="expert">Expert Associé</option>
+                                    <option value="expert">Expert AssociÃ©</option>
                                     <option value="admin">Administrateur</option>
                                 </select>
                                 <button onclick="window.CollaborationModule.sendTeamInvite()" class="cta-button primary" style="width:100%; padding:14px; border-radius:12px; background:#0f172a; color:white; font-weight:800; border:none; cursor:pointer;">Envoyer l'invitation</button>
@@ -124,7 +124,7 @@ const CollaborationModule = {
 
                         <!-- ONLINE MEMBERS -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Équipe de pilotage</h4>
+                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Ã‰quipe de pilotage</h4>
                             <div id="hub-members-list" style="display: grid; gap: 16px;">
                                 <!-- Will be loaded via loadCollaborators logic -->
                             </div>
@@ -148,8 +148,8 @@ const CollaborationModule = {
                         ${isOwner ? `
                         <!-- ADMIN SHORTCUT -->
                         <div style="background:#fef3c7; border: 1px solid #fde68a; padding:24px; border-radius:16px;">
-                            <p style="margin:0; font-size:0.85rem; color:#b45309; font-weight:700;">Vous êtes le Propriétaire.</p>
-                            <p style="margin:4px 0 0 0; font-size:0.75rem; color:#d97706;">Gérez les accès de votre équipe dans le cockpit principal.</p>
+                            <p style="margin:0; font-size:0.85rem; color:#b45309; font-weight:700;">Vous Ãªtes le PropriÃ©taire.</p>
+                            <p style="margin:4px 0 0 0; font-size:0.75rem; color:#d97706;">GÃ©rez les accÃ¨s de votre Ã©quipe dans le cockpit principal.</p>
                         </div>
                         ` : ''}
                     </div>
@@ -173,9 +173,9 @@ const CollaborationModule = {
             console.error("[Collaboration] Render Error:", err);
             container.innerHTML = `
                 <div style="padding:80px; text-align:center; background:#fef2f2; border-radius:24px; border:1px solid #fee2e2;">
-                    <div style="font-size:3rem; margin-bottom:20px;">⚠️</div>
+                    <div style="font-size:3rem; margin-bottom:20px;">âš ï¸</div>
                     <h3 style="color:#991b1b; font-weight:900; margin-bottom:8px;">Erreur de chargement du Hub</h3>
-                    <p style="color:#b91c1c; font-size:0.9rem; margin-bottom:24px;">Une erreur est survenue lors de la synchronisation de votre écosystème.</p>
+                    <p style="color:#b91c1c; font-size:0.9rem; margin-bottom:24px;">Une erreur est survenue lors de la synchronisation de votre Ã©cosystÃ¨me.</p>
                     <button onclick="window.location.reload()" class="cta-button primary" style="background:#ef4444; border:none; padding:12px 24px;">Actualiser la plateforme</button>
                 </div>
             `;
@@ -191,7 +191,7 @@ const CollaborationModule = {
         if (!email) return alert("Veuillez saisir un email.");
 
         // Visual Feedback (Simulated for UX)
-        alert(`🚀 Invitation envoyée à ${email} en tant que ${role} !`);
+        alert(`ðŸš€ Invitation envoyÃ©e Ã  ${email} en tant que ${role} !`);
         document.getElementById('invite-email').value = '';
     },
 
@@ -203,7 +203,7 @@ const CollaborationModule = {
         
         // Fallback members for professional look if DB is empty
         const members = [
-            { full_name: 'Propriétaire (Vous)', role: 'Admin', avatar_url: null },
+            { full_name: 'PropriÃ©taire (Vous)', role: 'Admin', avatar_url: null },
             { full_name: 'IA Domtom Connect', role: 'Support & Analyse', avatar_url: null }
         ];
 

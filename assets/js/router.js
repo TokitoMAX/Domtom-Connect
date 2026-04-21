@@ -8,16 +8,14 @@ const Router = {
      * Map clean paths to internal view identifiers
      */
     routes: {
-        '/mon-espace': 'overview',
-        '/dashboard': 'overview',
-        '/dashboard/overview': 'overview',
-        '/dashboard/success-engine': 'success-engine',
-        '/dashboard/billetterie': 'billetterie',
-        '/dashboard/mes-billets': 'mes-billets',
-        '/dashboard/missions': 'missions',
-        '/dashboard/business': 'business',
-        '/dashboard/collaboration': 'collaboration',
-        '/dashboard/profile': 'profile'
+        'overview': 'overview',
+        'success-engine': 'success-engine',
+        'billetterie': 'billetterie',
+        'mes-billets': 'mes-billets',
+        'missions': 'missions',
+        'business': 'business',
+        'collaboration': 'collaboration',
+        'profile': 'profile'
     },
 
     /**
@@ -27,16 +25,18 @@ const Router = {
         console.log("[Router] Initializing...");
         
         // Listen for back/forward navigation
-        window.addEventListener('popstate', (event) => {
-            console.log("[Router] Popstate event:", window.location.pathname);
-            this.handleCurrentRoute();
-        });
+        window.addEventListener('popstate', (event) => this.handleCurrentRoute());
+        window.addEventListener('hashchange', () => this.handleCurrentRoute());
 
-        // Intercept clicks on links that should be handled by the router
+        // Intercept clicks
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             const href = link ? link.getAttribute('href') : null;
-            if (href && (href.startsWith('/dashboard') || href.startsWith('/mon-espace'))) {
+            if (href && (href.includes('#') || href.startsWith('/dashboard'))) {
+                // If it's a cross-page link (e.g. marketplace), don't intercept here
+                if (href.includes('.html') && !window.location.pathname.includes(href.split('#')[0])) {
+                    return; 
+                }
                 e.preventDefault();
                 this.navigate(href);
             }
@@ -82,21 +82,30 @@ const Router = {
      */
     handleCurrentRoute() {
         const path = window.location.pathname;
+        const hash = window.location.hash.replace('#', '');
         let viewId = 'overview';
 
-        // Match specific routes first (Longest first)
-        const sortedRoutes = Object.entries(this.routes).sort((a, b) => b[0].length - a[0].length);
+        // 1. Try to match hash first (Preferred for file protocol)
+        if (hash) {
+            const cleanHash = hash.split('?')[0];
+            if (this.routes[cleanHash]) {
+                viewId = this.routes[cleanHash];
+            }
+        } 
         
-        for (const [route, id] of sortedRoutes) {
-            if (path === route || path.startsWith(route + '/')) {
-                viewId = id;
-                break;
+        // 2. Fallback to path matching
+        if (viewId === 'overview') {
+            for (const [route, id] of Object.entries(this.routes)) {
+                if (path.includes(route)) {
+                    viewId = id;
+                    break;
+                }
             }
         }
 
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search || window.location.hash.split('?')[1]);
 
-        console.log(`[Router] Route matched: ${path}${window.location.search} -> ${viewId}`);
+        console.log(`[Router] Route matched: ${path} (Hash: ${hash}) -> ${viewId}`);
         
         // Call global showView (proxied to App.showView)
         if (typeof window.showView === 'function') {

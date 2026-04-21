@@ -106,7 +106,7 @@
 <body>
     <nav class="navbar">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="/" class="nav-brand"><img src="../assets/images/logo-domtomconnect.png" class="nav-logo"></a>
+            <a href="../" class="nav-brand"><img src="../assets/images/logo-domtomconnect.png" class="nav-logo"></a>
             <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-navigation">
                 <span></span>
                 <span></span>
@@ -114,12 +114,12 @@
             </button>
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links" id="nav-links-container">
-                    <a href="../marketplace/directory" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Talents</a>
-                    <a href="../marketplace/jobs" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Missions</a>
-                    <a href="../marketplace/projects" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Projets</a>
+                    <a href="../marketplace/directory.html" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Talents</a>
+                    <a href="../marketplace/jobs.html" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Missions</a>
+                    <a href="../marketplace/projects.html" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Projets</a>
                     <a href="../marketplace/evenements" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Événements</a>
                     <a href="../marketplace/companies" style="text-decoration:none; color:var(--slate-800); font-weight:700;">Entreprises</a>
-                    <a href="/mon-espace" id="dashboard-link" style="text-decoration:none; color:var(--secondary); font-weight:800; border-left: 2px solid #e2e8f0; padding-left: 20px; margin-left:10px;">Mon Espace</a>
+                    <a href="../mon-espace.html" id="dashboard-link" style="text-decoration:none; color:var(--secondary); font-weight:800; border-left: 2px solid #e2e8f0; padding-left: 20px; margin-left:10px;">Mon Espace</a>
                 </div>
             </div>
         </div>
@@ -208,7 +208,7 @@
                 </div>
                 <div style="display: flex; gap: 32px;">
 
-                    <a href="/support.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
+                    <a href="../support.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
                 </div>
             </div>
         </div>
@@ -414,7 +414,7 @@
                 const { data: missions } = await _supabase.from('job_offers').select('*').eq('company_id', p.id).eq('is_active', true);
 
                 let projectsHtml = (projects || []).map(proj => `
-                    <div class="portfolio-card" style="cursor: pointer;" onclick="window.location.href='/marketplace/project.html?id=${proj.id}'">
+                    <div class="portfolio-card" style="cursor: pointer;" onclick="window.location.href='../marketplace/project.html?id=${proj.id}'">
                         <h4 style="margin:0; font-size:1.1rem; color:#0f172a;">${proj.title}</h4>
                         <p style="font-size:0.95rem; color:#475569; margin:10px 0;">${proj.description?.slice(0, 100)}...</p>
                         <p style="font-size:0.75rem; color:#1e40af; font-weight:700; margin-top:12px; text-transform:uppercase;">Voir le projet →</p>
@@ -422,7 +422,7 @@
                 `).join('') || '';
 
                 let missionsHtml = (missions || []).map(job => `
-                    <div class="portfolio-card" style="border-left: 3px solid #0f172a; cursor: pointer;" onclick="window.location.href='/marketplace/jobs.html'">
+                    <div class="portfolio-card" style="border-left: 3px solid #0f172a; cursor: pointer;" onclick="window.location.href='../marketplace/jobs.html'">
                         <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">Mission Active</span>
                         <h4 style="margin:4px 0; font-size:1.1rem; color:#0f172a;">${job.title}</h4>
                         <p style="font-size:0.9rem; color:#475569; margin:8px 0;">${job.mission_type} | ${job.territory}</p>

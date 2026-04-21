@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Domtom Connect - Experts Ecosystem Module
  * Logic for Experts / Talents (Premium Malt-Style)
  */
@@ -38,7 +38,7 @@ const ExpertsModule = {
                 }
                 break;
             case 'missions':
-                window.location.href = '/marketplace/jobs';
+                window.location.href = 'marketplace/jobs.html';
                 break;
             case 'overview':
             default:
@@ -64,8 +64,8 @@ const ExpertsModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succès</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Référencement Actif ✅' : 'Étape 1 : Publication du Profil ⏳'}</p>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de SuccÃ¨s</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Ã‰tape 1 : RÃ©fÃ©rencement Actif âœ…' : 'Ã‰tape 1 : Publication du Profil â³'}</p>
                             </div>
                         </div>
                         <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
@@ -74,18 +74,18 @@ const ExpertsModule = {
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="text-align: right;">
-                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Rayonnement Authority</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack Activé' : 'Débloquez votre visibilité premium'}</p>
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Ã‰tape 2 : Rayonnement Authority</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack ActivÃ©' : 'DÃ©bloquez votre visibilitÃ© premium'}</p>
                             </div>
-                            <button onclick="window.Router.navigate('/dashboard/profile?action=manage_pack')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
-                                ${profile.subscription_tier !== 'free' ? 'Gérer mon Pack' : 'Activer l\'Étape 2 →'}
+                            <button onclick="window.Router.navigate('#profile?action=manage_pack')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+                                ${profile.subscription_tier !== 'free' ? 'GÃ©rer mon Pack' : 'Activer l\'Ã‰tape 2 â†’'}
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÉPITES & OPPORTUNITÉS</span>
+                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÃ‰PITES & OPPORTUNITÃ‰S</span>
                     <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Expert'}</h1>
                     <p>${profile.title || 'Expert Territorial'} - Votre expertise territoriale est une force.</p>
                 </div>
@@ -97,12 +97,12 @@ const ExpertsModule = {
                     <div class="dash-card-highlight" style="background: #ffffff; border: 2px solid #10b981; padding-bottom: 56px;">
                          <div style="flex:1;">
                             <h4 style="margin:0; font-size:1.8rem; font-weight:900; color:#0f172a; letter-spacing:-0.03em;">Pilotage Business</h4>
-                            <p style="font-size: 1rem; color: #64748b; line-height:1.6; margin: 12px 0 0 0; max-width:440px;">Consultez vos statistiques, gérez vos devis et facturez vos missions en toute sécurité.</p>
+                            <p style="font-size: 1rem; color: #64748b; line-height:1.6; margin: 12px 0 0 0; max-width:440px;">Consultez vos statistiques, gÃ©rez vos devis et facturez vos missions en toute sÃ©curitÃ©.</p>
                          </div>
-                            <button onclick="window.Router.navigate('/dashboard/business')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:14px; padding:12px 24px; font-weight:800; border:none; cursor:pointer;">Accéder au Pilotage →</button>
+                            <button onclick="window.Router.navigate('#business')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:14px; padding:12px 24px; font-weight:800; border:none; cursor:pointer;">AccÃ©der au Pilotage â†’</button>
                     </div>
 
-                    <!-- MISSIONS FEED (Pépites Matchmaking) -->
+                    <!-- MISSIONS FEED (PÃ©pites Matchmaking) -->
                     <div class="dash-card-premium" id="matchmaking-section">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                             <span id="expert-matches-count" class="dash-stat-badge" style="background:#10b981; color:#fff;">MATCHING ACTIF</span>
@@ -124,12 +124,12 @@ const ExpertsModule = {
                         <h4 style="font-size: 0.8rem; font-weight: 800; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Impact & Performance</h4>
                         <div style="display:grid; gap:20px;">
                                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <span style="font-size:1rem; color:#64748b; font-weight:600;">Portée (Vues)</span>
+                                    <span style="font-size:1rem; color:#64748b; font-weight:600;">PortÃ©e (Vues)</span>
                                     <span class="views-count-live" style="font-size:1.3rem; font-weight:900; color:#0f172a;">${profile.views_count || 0}</span>
                                  </div>
                                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                                     <span style="font-size:1rem; color:#64748b; font-weight:600;">Matchs Qualifiés</span>
-                                     <span id="expert-matches-count-side" style="font-size:1.3rem; font-weight:900; color:#10b981;">—</span>
+                                     <span style="font-size:1rem; color:#64748b; font-weight:600;">Matchs QualifiÃ©s</span>
+                                     <span id="expert-matches-count-side" style="font-size:1.3rem; font-weight:900; color:#10b981;">â€”</span>
                                  </div>
                         </div>
                         <div style="margin-top:24px; padding-top:24px; border-top:1px solid #f1f5f9; display:flex; align-items:center; gap:12px;">
@@ -140,9 +140,9 @@ const ExpertsModule = {
 
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #0f172a; color:white; border:none; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
                         <div style="font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 8px;">Tarif Journalier (TJM)</div>
-                        <div style="font-size: 2.2rem; font-weight: 900; color: #10b981; letter-spacing:-0.05em;">${(profile.tjm || '—')}€<span style="font-size:1rem; color:rgba(255,255,255,0.4);">/j</span></div>
-                        <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-top:8px;">Ajustez votre tarif selon la demande du marché.</p>
-                        <button onclick="window.Router.navigate('/dashboard/profile')" style="width:100%; margin-top:24px; padding:14px; border:1px solid rgba(255,255,255,0.2); border-radius:12px; background:rgba(255,255,255,0.05); color:white; font-weight:800; cursor:pointer; transition: all 0.2s;">Éditer ma fiche</button>
+                        <div style="font-size: 2.2rem; font-weight: 900; color: #10b981; letter-spacing:-0.05em;">${(profile.tjm || 'â€”')}â‚¬<span style="font-size:1rem; color:rgba(255,255,255,0.4);">/j</span></div>
+                        <p style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin-top:8px;">Ajustez votre tarif selon la demande du marchÃ©.</p>
+                        <button onclick="window.Router.navigate('#profile')" style="width:100%; margin-top:24px; padding:14px; border:1px solid rgba(255,255,255,0.2); border-radius:12px; background:rgba(255,255,255,0.05); color:white; font-weight:800; cursor:pointer; transition: all 0.2s;">Ã‰diter ma fiche</button>
                     </div>
                 </div>
             </div>
