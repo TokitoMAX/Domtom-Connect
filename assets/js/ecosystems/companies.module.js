@@ -67,9 +67,9 @@ const CompaniesModule = {
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="text-align: right;">
                                 <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Partenariat Certifié</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Statut Certifié 💎' : 'Activez vos outils de croissance'}</p>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Statut Certifié' : 'Activez vos outils de croissance'}</p>
                             </div>
-                            <button onclick="window.location.hash='#profile'" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+                            <button onclick="window.Router.navigate('/dashboard/profile?action=manage_pack')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
                                 ${profile.subscription_tier !== 'free' ? 'Gérer le Statut' : 'Débloquer Étape 2 →'}
                             </button>
                         </div>
