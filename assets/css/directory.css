@@ -184,6 +184,17 @@
     .directory-hero {
         padding: 80px 0 40px;
     }
+
+    /* Déblocage du scroll mobile */
+    body, html {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+
+    .directory-grid {
+        padding-bottom: 120px !important; /* Espace pour la barre mobile-nav */
+    }
 }
 
 /* LOADER */

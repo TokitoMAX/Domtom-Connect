@@ -102,11 +102,53 @@ function initFAQ() {
 }
 
 /**
+ * Mobile Menu Toggle Logic
+ */
+function initMobileMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navContent = document.querySelector('.nav-content');
+
+    if (navToggle && navContent) {
+        navToggle.onclick = (e) => {
+            e.stopPropagation();
+            navToggle.classList.toggle('active');
+            navContent.classList.toggle('active');
+            
+            // Prevent scrolling when menu is open
+            if (navContent.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navContent.classList.contains('active') && !navContent.contains(e.target) && !navToggle.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navContent.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking a link
+        navContent.querySelectorAll('a').forEach(link => {
+            link.onclick = () => {
+                navToggle.classList.remove('active');
+                navContent.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+        });
+    }
+}
+
+/**
  * Initialize all components
  */
 function init() {
     initScrollAnimations();
     initFAQ();
+    initMobileMenu();
     console.log('Domtom Connect v3.0+ initialized');
 }
 

@@ -1346,26 +1346,29 @@
                 }
             }
 
-            // Attempt to insert with identity fields to satisfy RLS
-            let { data: newConv, error: errConv } = await _supabase.from('conversations').insert({
-                created_by: currentUserId,
+            // Insertion minimaliste pour éviter l'erreur 400 (Colonnes inexistantes)
+            let result = await _supabase.from('conversations').insert({
                 updated_at: new Date().toISOString()
             }).select().single();
 
-            // Fallback for different schema naming convention
-            if (errConv) {
-                console.warn("created_by likely not in schema, trying owner_id...");
-                const { data: retryConv, error: errRetry } = await _supabase.from('conversations').insert({
-                    owner_id: currentUserId,
-                    updated_at: new Date().toISOString()
-                }).select().single();
+            if (result.error) {
+                console.warn("Tentative minimaliste échouée, essai sans paramètre...");
+                result = await _supabase.from('conversations').insert({}).select().single();
+            }
+
+            if (result.error) {
+                console.error("Erreur RLS Critique (Conversations):", result.error.message);
+                // Si RLS bloque, on peut essayer d'injecter l'ID utilisateur si une colonne existe
+                console.log("Tentative avec user_id...");
+                result = await _supabase.from('conversations').insert({ user_id: currentUserId }).select().single();
                 
-                if (errRetry) {
-                    console.error("Erreur RLS Critique:", errRetry.message);
+                if (result.error) {
+                    alert("Impossible d'initier la conversation. Erreur technique base de données.");
                     return;
                 }
-                newConv = retryConv;
             }
+            
+            const newConv = result.data;
 
             const newConvId = newConv.id;
 

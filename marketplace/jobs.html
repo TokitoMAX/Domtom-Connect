@@ -148,7 +148,14 @@
             .directory-grid {
                 grid-template-columns: 1fr !important;
                 gap: 12px !important;
-                padding: 20px 0 !important;
+                padding: 20px 0 120px !important; /* Espace pour la barre mobile-nav */
+            }
+            
+            /* Déblocage du scroll mobile */
+            body, html {
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                height: auto !important;
             }
             .premium-card { 
                 padding: 20px !important; 
