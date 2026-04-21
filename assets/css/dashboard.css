@@ -2563,36 +2563,78 @@ html, body {
 
     /* 2. Kill excessive paddings that "crush" content */
     .dash-card, .premium-dark, .premium-card {
-        padding: 24px !important; /* Réduction drastique de 48px -> 24px */
+        padding: 18px !important; 
         border-radius: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box;
     }
 
-    /* 3. Typography adjustments for small screens */
+    /* 3. Nuclear Sidebar Hide & Header Compact */
+    .sidebar {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 12px !important;
+        padding-bottom: 120px !important;
+    }
+
+    .top-nav {
+        top: 0 !important;
+        height: 50px !important;
+        left: 0 !important;
+        width: 100% !important;
+        padding: 0 10px !important;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .nav-market-links {
+        padding: 2px !important;
+        gap: 4px !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .nav-market-link {
+        padding: 6px 12px !important;
+        font-size: 0.7rem !important;
+    }
+
+    /* 4. Banner Optimization (Success Path) */
+    .dash-card-progression {
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .dash-card-progression h4 {
+        font-size: 0.9rem !important;
+    }
+
+    .dash-card-progression p {
+        font-size: 0.7rem !important;
+    }
+
+    /* Hide the progress bar on very small mobile to save space */
+    .dash-card-progression div[style*="height: 4px"] {
+        display: none !important;
+    }
+
+    /* 5. Typography adjustments for small screens */
     h1, .dash-section-header h1 {
-        font-size: 1.75rem !important;
+        font-size: 1.4rem !important;
         letter-spacing: -0.02em !important;
     }
 
-    .dash-card h1, .premium-dark h1 {
-        font-size: 1.5rem !important;
-        margin-bottom: 8px !important;
-    }
-
-    /* 4. Ensure Main Content has air for the Bottom Nav */
-    .main-content {
-        padding: 16px !important;
-        padding-bottom: 140px !important;
-    }
-
-    /* 5. Matchmaking and lists optimization */
+    /* 6. Matchmaking and lists optimization */
     #matches-container, .portfolio-grid {
         grid-template-columns: 1fr !important;
-    }
-
-    /* 6. Sidebar Mobile State (Sidebar already hidden by default) */
-    .sidebar.is-mobile-active {
-        width: 280px !important;
-        display: block !important;
+        gap: 12px !important;
     }
 }
 
