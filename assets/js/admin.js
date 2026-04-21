@@ -1,11 +1,11 @@
-ï»¿// Admin mon-projet for Leads Tracking
+// Admin mon-projet for Leads Tracking
 
-const ADMIN_PASSWORD = 'domtom2025'; // Ã€ changer en production
+const ADMIN_PASSWORD = 'domtom2025'; // À changer en production
 
 let allLeads = [];
 let filteredLeads = [];
 
-// VÃ©rifier le mot de passe
+// Vérifier le mot de passe
 function checkPassword() {
     const password = document.getElementById('admin-password').value;
     const errorMsg = document.getElementById('login-error');
@@ -26,12 +26,12 @@ function checkPassword() {
 function loadLeads() {
     const leadsData = localStorage.getItem('domtom_leads');
     allLeads = leadsData ? JSON.parse(leadsData) : [];
-    filteredLeads = [...allLeads].reverse(); // Plus rÃ©cents en premier
+    filteredLeads = [...allLeads].reverse(); // Plus récents en premier
     updateStats();
     displayLeads();
 }
 
-// Mettre Ã  jour les statistiques
+// Mettre à jour les statistiques
 function updateStats() {
     const total = allLeads.length;
     const quiz = allLeads.filter(l => l.source === 'quiz').length;
@@ -120,7 +120,7 @@ function applyFilters() {
     displayLeads();
 }
 
-// RÃ©initialiser les filtres
+// Réinitialiser les filtres
 function clearFilters() {
     document.getElementById('filter-source').value = '';
     document.getElementById('filter-type').value = '';
@@ -145,7 +145,7 @@ function exportCSV() {
     const leads = filteredLeads.length > 0 ? filteredLeads : allLeads;
     
     if (leads.length === 0) {
-        alert('Aucune donnÃ©e Ã  exporter');
+        alert('Aucune donnée à exporter');
         return;
     }
     
@@ -177,19 +177,19 @@ function exportCSV() {
     link.click();
 }
 
-// Effacer toutes les donnÃ©es
+// Effacer toutes les données
 function clearData() {
-    if (confirm('ÃŠtes-vous sÃ»r de vouloir effacer toutes les donnÃ©es de tracking ? Cette action est irrÃ©versible.')) {
+    if (confirm('Êtes-vous sûr de vouloir effacer toutes les données de tracking ? Cette action est irréversible.')) {
         localStorage.removeItem('domtom_leads');
         allLeads = [];
         filteredLeads = [];
         updateStats();
         displayLeads();
-        alert('DonnÃ©es effacÃ©es avec succÃ¨s');
+        alert('Données effacées avec succès');
     }
 }
 
-// Permettre l'accÃ¨s avec Enter
+// Permettre l'accès avec Enter
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('admin-password');
     if (passwordInput) {

@@ -29,7 +29,7 @@ const TicketingModule = {
                     <h1 style="color:#0f172a; margin:0;">Billetterie & Événements</h1>
                     <p style="margin:4px 0 0; color:#64748b;">Gérez vos réservations et vos événements organisés.</p>
                 </div>
-                <button onclick="window.Router.navigate('/dashboard/billetterie?action=create')" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px;">
+                <button onclick="window.Router.navigate('#billetterie?action=create')" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px;">
                     + Créer un évènement
                 </button>
             </div>
@@ -58,7 +58,7 @@ const TicketingModule = {
                         <div style="font-size: 3rem; margin-bottom: 20px;">🎟️</div>
                         <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">Aucune billetterie</h3>
                         <p style="color: #64748b; margin-bottom: 24px;">Vous n'avez pas encore publié d'événement avec billetterie native.</p>
-                        <button onclick="window.Router.navigate('/dashboard/billetterie?action=create')" class="cta-button primary" style="background:#10b981;">Commencer maintenant</button>
+                        <button onclick="window.Router.navigate('#billetterie?action=create')" class="cta-button primary" style="background:#10b981;">Commencer maintenant</button>
                     </div>
                 `;
                 return;
@@ -127,7 +127,7 @@ const TicketingModule = {
         container.innerHTML = `
             <div class="dash-section-header" style="margin-bottom: 40px; display:flex; justify-content:space-between; align-items:flex-end;">
                 <div>
-                    <button onclick="window.Router.navigate('/dashboard/billetterie')" class="cta-button secondary" style="margin-bottom: 16px; padding: 10px 18px; font-size: 0.8rem; border-radius:12px; font-weight:800;">
+                    <button onclick="window.Router.navigate('#billetterie')" class="cta-button secondary" style="margin-bottom: 16px; padding: 10px 18px; font-size: 0.8rem; border-radius:12px; font-weight:800;">
                         &larr; Retour à la billetterie
                     </button>
                     <h1 style="color:#0f172a; margin:0; font-size:2.5rem; font-weight:950; letter-spacing:-0.04em;">Nouvel Évènement</h1>
@@ -199,7 +199,7 @@ const TicketingModule = {
                         </div>
 
                         <div style="margin-top: 48px; display: flex; justify-content: flex-end; gap: 16px;">
-                            <button type="button" onclick="window.Router.navigate('/dashboard/billetterie')" class="cta-button secondary" style="border-radius:14px; padding:16px 32px; font-weight:800;">Annuler</button>
+                            <button type="button" onclick="window.Router.navigate('#billetterie')" class="cta-button secondary" style="border-radius:14px; padding:16px 32px; font-weight:800;">Annuler</button>
                             <button type="submit" class="cta-button primary" id="ev-submit-btn" style="background:#0f172a; color:white; border:none; padding:16px 40px; border-radius:14px; font-weight:950; cursor:pointer; box-shadow: 0 10px 25px rgba(15,23,42,0.2);">PUBLIER L'ÉVÈNEMENT</button>
                         </div>
                     </form>
@@ -275,7 +275,7 @@ const TicketingModule = {
                 });
             }
 
-            window.Router.navigate('/dashboard/billetterie');
+            window.Router.navigate('#billetterie');
 
         } catch (err) {
             console.error("Creation Error:", err);

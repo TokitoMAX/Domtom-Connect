@@ -1,4 +1,4 @@
-ï»¿/**
+/**
  * Domtom Connect - Project Owners Ecosystem Module (Porteurs de Projets)
  * Restoration: Premium HUD Orchestration & Strategic Surface
  */
@@ -67,16 +67,16 @@ const OwnersModule = {
                     <div style="z-index: 2; position: relative;">
                         <span style="background:#10b981; color:white; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px; display:inline-block;">Cockpit de Pilotage</span>
                         <h1>Bonjour, ${profile.full_name.split(' ')[0]}</h1>
-                        <p>GÃ©rez vos Ã©popÃ©es territoriales avec prÃ©cision et dÃ©bloquez les financements stratÃ©giques.</p>
+                        <p>Gérez vos épopées territoriales avec précision et débloquez les financements stratégiques.</p>
 </div>
                         
                         <div style="display:flex; gap:64px; margin-top:48px; border-top:1px solid rgba(255,255,255,0.1); padding-top:32px;">
                             <div>
-                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Ã‰popÃ©es Actives</div>
+                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Épopées Actives</div>
                                 <div style="color:white; font-size:2.5rem; font-weight:950; letter-spacing:-0.03em;">${projects ? projects.length : 0}</div>
                             </div>
                             <div>
-                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">MaturitÃ© Moyenne</div>
+                                <div style="color:#64748b; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Maturité Moyenne</div>
                                 <div id="maturity-score-dash" style="color:#10b981; font-size:2.5rem; font-weight:950; letter-spacing:-0.03em;">0%</div>
                             </div>
                         </div>
@@ -93,21 +93,21 @@ const OwnersModule = {
                                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                              </div>
                              <h2 style="font-size:2.5rem; font-weight:950; color:white; margin-bottom:16px; letter-spacing:-0.05em;">Success Engine</h2>
-                             <p style="color:#94a3b8; font-size:1.1rem; max-width:540px; margin: 0 0 40px 0; line-height:1.6; font-weight:600;">Pilotez votre Ã©popÃ©e territoriale avec prÃ©cision. Validez vos jalons stratÃ©giques pour dÃ©bloquer les financements.</p>
-                             <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background:#10b981; color:white; font-weight:950; padding:20px 48px; border-radius:18px; font-size:1.1rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">Piloter mon Ã‰popÃ©e</button>
+                             <p style="color:#94a3b8; font-size:1.1rem; max-width:540px; margin: 0 0 40px 0; line-height:1.6; font-weight:600;">Pilotez votre épopée territoriale avec précision. Validez vos jalons stratégiques pour débloquer les financements.</p>
+                             <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background:#10b981; color:white; font-weight:950; padding:20px 48px; border-radius:18px; font-size:1.1rem; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">Piloter mon Épopée</button>
                          </div>
                     </div>
 
                     <!-- PROJECT LIST HUD -->
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
-                        <h3 style="font-size:1.5rem; font-weight:950; color:#0f172a; letter-spacing:-0.03em;">Vos Ã‰popÃ©es Actives</h3>
+                        <h3 style="font-size:1.5rem; font-weight:950; color:#0f172a; letter-spacing:-0.03em;">Vos Épopées Actives</h3>
                         <span style="font-size:0.85rem; font-weight:800; color:#64748b; background:#f1f5f9; padding:4px 12px; border-radius:20px;">${projects ? projects.length : 0} Projets</span>
                     </div>
                     
                     <div id="owners-projects-view">
                          <div style="padding:80px; text-align:center; background:#f8fafc; border-radius:32px; border:2px dashed #e2e8f0; display:flex; flex-direction:column; align-items:center; gap:16px;">
                              <div class="dash-loader-spinner" style="width:40px; height:40px; border:4px solid #f1f5f9; border-top-color:#10b981; border-radius:50%; animation: spin 1s linear infinite;"></div>
-                             <p style="color: #64748b; font-weight: 800; font-size: 1rem;">Activation du cockpit stratÃ©gique...</p>
+                             <p style="color: #64748b; font-weight: 800; font-size: 1rem;">Activation du cockpit stratégique...</p>
                          </div>
                     </div>
 
@@ -130,7 +130,7 @@ const OwnersModule = {
                     <!-- PREMIUM CTA -->
                     <div style="background:#10b981; border-radius:24px; padding:40px; color:white; box-shadow:0 10px 40px rgba(16, 185, 129, 0.2);">
                         <h3 style="font-size:1.4rem; font-weight:900; margin-bottom:12px;">Accompagnement Premium</h3>
-                        <p style="font-size:0.95rem; color:rgba(255,255,255,0.9); line-height:1.6; margin-bottom:24px;">Besoin d'un coup de boost ? Nos mentors territoriaux vous accompagnent pas Ã  pas.</p>
+                        <p style="font-size:0.95rem; color:rgba(255,255,255,0.9); line-height:1.6; margin-bottom:24px;">Besoin d'un coup de boost ? Nos mentors territoriaux vous accompagnent pas à pas.</p>
                         <button onclick="window.location.href='/support'" style="width:100%; padding:14px; border:none; border-radius:12px; background:white; color:#10b981; font-weight:900; cursor:pointer;">Prendre RDV</button>
                     </div>
                 </div>
