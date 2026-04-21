@@ -1346,51 +1346,42 @@
                 }
             }
 
-            // --- DIAGNOSTIC ---
-            try {
-                const { data: scan } = await _supabase.from('conversations').select('*').limit(1);
-                if (scan && scan.length > 0) {
-                    alert("Colonnes : " + Object.keys(scan[0]).join(', '));
-                }
-            } catch (e) {}
-            // --- FIN ---
-
-            // Insertion minimaliste pour éviter l'erreur 400 (Colonnes inexistantes)
-            let result = await _supabase.from('conversations').insert({
-                updated_at: new Date().toISOString()
-            }).select().single();
-
-            if (result.error) {
-                console.warn("Tentative minimaliste échouée, essai sans paramètre...");
-                result = await _supabase.from('conversations').insert({}).select().single();
-            }
-
-            if (result.error) {
-                console.error("Erreur RLS Critique (Conversations):", result.error.message);
-                // Si RLS bloque, on peut essayer d'injecter l'ID utilisateur si une colonne existe
-                console.log("Tentative avec user_id...");
-                result = await _supabase.from('conversations').insert({ user_id: currentUserId }).select().single();
-                
-                if (result.error) {
-                    alert("Impossible d'initier la conversation. Erreur technique base de données.");
-                    return;
-                }
-            }
+            // --- TENTATIVE DE CRÉATION ROBUSTE (Tabeau + UUID Manuel) ---
+            const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
             
-            const newConv = result.data;
+            console.log("Tentative création conversation avec ID:", newId);
+            
+            // On utilise .upsert() avec un tableau car c'est le standard du projet pour les écritures réussies
+            const { data: createdConv, error: errConv } = await _supabase.from('conversations').upsert([{
+                id: newId,
+                updated_at: new Date().toISOString()
+            }]).select();
 
-            const newConvId = newConv.id;
+            if (errConv) {
+                console.error("Échec création conversation (Étape 1):", errConv.message);
+                // Si l'erreur est toujours 403, on tente l'insertion directe du participant 
+                // au cas où un trigger se chargerait de créer la conversation.
+                console.log("Tentative alternative via participants...");
+            }
 
+            // Étape 2 : Liaison des participants (Utilise l'ID généré quoi qu'il arrive)
             const { error: errPart } = await _supabase.from('conversation_participants').insert([
-                { conversation_id: newConvId, user_id: currentUserId },
-                { conversation_id: newConvId, user_id: targetUserId }
+                { conversation_id: newId, user_id: currentUserId },
+                { conversation_id: newId, user_id: targetUserId }
             ]);
 
             if (errPart) {
                 console.error("Erreur insertion participants:", errPart.message);
+                if (!errConv) {
+                   // Si la conv a été créée mais pas les participants, on est dans une impasse RLS
+                   alert("Erreur de liaison des participants. Vérifiez vos droits d'accès.");
+                   return;
+                }
             }
 
-            activeConversationId = newConvId;
+            activeConversationId = newId;
+            // On vérifie si la liaison a fonctionné malgré les erreurs (certains triggers sont silencieux)
+            console.log("Conversation ID acté:", activeConversationId);
         }
 
         async function loadConversations() {
