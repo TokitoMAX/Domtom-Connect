@@ -1345,6 +1345,15 @@
                     return;
                 }
             }
+            // --- DIAGNOSTIC PROFIL POUR RLS ---
+            try {
+                const { data: myProfile } = await _supabase.from('profiles').select('role, subscription_tier, status').eq('id', currentUserId).single();
+                console.log("DIAGNOSTIC RLS - Profil Utilisateur:", myProfile);
+                if (myProfile) {
+                    alert(`Diagnose RLS: Rôle=${myProfile.role}, Pack=${myProfile.subscription_tier}, Statut=${myProfile.status}`);
+                }
+            } catch (e) { console.error("Erreur diagnostic profil:", e); }
+            // --- FIN DIAGNOSTIC ---
 
             // --- TENTATIVE DE CRÉATION ROBUSTE (Tabeau + UUID Manuel) ---
             const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
