@@ -1346,50 +1346,30 @@
                 }
             }
 
-            // --- DIAGNOSTIC PARTICIPANTS ---
+            // --- INITIALISATION AUTOMATIQUE DU PROFIL ---
             try {
-                const { data: scanP } = await _supabase.from('conversation_participants').select('*').limit(1);
-                if (scanP && scanP.length > 0) {
-                    alert("Colonnes PARTICIPANTS : " + Object.keys(scanP[0]).join(', '));
-                    console.log("Diagnostic Participants Structure:", scanP[0]);
-                }
-            } catch (e) {}
-            // --- FIN DIAGNOSTIC ---
-            // --- INITIALISATION AUTOMATIQUE DU PROFIL (Anti-RLS 403) ---
-            try {
-                const { data: profileCheck, error: checkError } = await _supabase.from('profiles').select('id').eq('id', currentUserId).maybeSingle();
-                
+                const { data: profileCheck } = await _supabase.from('profiles').select('id').eq('id', currentUserId).maybeSingle();
                 if (!profileCheck) {
-                    console.warn("Profil manquant détecté. Création d'un profil basique pour débloquer la messagerie...");
-                    const { error: initError } = await _supabase.from('profiles').insert([{
+                    await _supabase.from('profiles').insert([{
                         id: currentUserId,
                         full_name: 'Utilisateur Domtom',
                         role: 'basique',
                         subscription_tier: 'basique',
                         status: 'active',
+                        is_validated: true,
                         updated_at: new Date().toISOString()
                     }]);
-                    
-                    if (initError) {
-                        console.error("Échec initialisation profil:", initError.message);
-                        alert("Votre compte n'est pas encore initialisé. Veuillez compléter votre profil dans le Dashboard.");
-                        return;
-                    }
-                    console.log("Profil initialisé avec succès.");
                 }
-            } catch (e) { console.error("Erreur pré-vérification profil:", e); }
-            // --- FIN INITIALISATION ---
+            } catch (e) { console.error("Profile initialization error:", e); }
 
-            // --- TENTATIVE DE CRÉATION ROBUSTE (Tabeau + UUID Manuel) ---
+            // --- CRÉATION DE LA CONVERSATION ---
             const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
             
-            console.log("Tentative création conversation avec ID:", newId);
-            
-            // On utilise .upsert() avec un tableau car c'est le standard du projet pour les écritures réussies
-            const { data: createdConv, error: errConv } = await _supabase.from('conversations').upsert([{
+            // Tentative d'insertion avec le format tableau standard
+            const { error: errConv } = await _supabase.from('conversations').insert([{
                 id: newId,
                 updated_at: new Date().toISOString()
-            }]).select();
+            }]);
 
             if (errConv) {
                 console.error("Échec création conversation (Étape 1):", errConv.message);
@@ -1400,8 +1380,8 @@
 
             // Étape 2 : Liaison des participants (Utilise l'ID généré quoi qu'il arrive)
             const { error: errPart } = await _supabase.from('conversation_participants').insert([
-                { conversation_id: newId, user_id: currentUserId },
-                { conversation_id: newId, user_id: targetUserId }
+                { conversation_id: newId, user_id: currentUserId, lead_status: 'Nouveau' },
+                { conversation_id: newId, user_id: targetUserId, lead_status: 'Nouveau' }
             ]);
 
             if (errPart) {
