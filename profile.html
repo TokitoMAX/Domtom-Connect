@@ -1228,10 +1228,10 @@
                             <input type="text" id="company" name="company" placeholder="Ex : Domtom Connect" disabled>
                         </div>
                         <div class="form-group">
-                            <label id="label-title">Titre Professionnel Accrocheur</label>
+                            <label id="label-title">Titre Professionnel / Expertise</label>
                             <input type="text" id="title" name="title" placeholder="Ex : Consultant en Stratégie Digitale, Développeur Full-Stack..."
                                 disabled>
-                            <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">C'est ce qui s'affiche sous votre nom dans l'annuaire.</p>
+                            <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">C'est ce qui s'affiche sous votre nom dans l'annuaire des talents.</p>
                         </div>
                     </div>
 
@@ -2085,20 +2085,48 @@
             if (currentProfile) fillForm(currentProfile);
         }
 
-        function openSubModal(tier) {
+        function openSubModal() {
             const modal = document.getElementById('subscription-modal');
             if (!modal) return;
 
+            const roleEl = document.getElementById('user_role');
+            const role = roleEl ? roleEl.value : 'expert';
+            
+            const titleEl = document.getElementById('sub-modal-title');
+            const benefitsEl = document.getElementById('sub-modal-benefits');
+            const priceAmountEl = modal.querySelector('.price-amount');
+
+            if (role === 'entreprise') {
+                if (titleEl) titleEl.textContent = "Pack Business Growth";
+                if (benefitsEl) {
+                    benefitsEl.innerHTML = `
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Statut Entreprise Certifiée</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Publication de Missions Illimitées</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès au Talents Directory (Full)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Outil de Recrutement Avancé</li>
+                    `;
+                }
+                if (priceAmountEl) priceAmountEl.textContent = "49,99";
+            } else {
+                if (titleEl) titleEl.textContent = "Pack Authority";
+                if (benefitsEl) {
+                    benefitsEl.innerHTML = `
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Badge "Expert Authority"</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Mise en avant prioritaire (Directory)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Matchmaking IA avec Missions</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Support Dédié 24/7</li>
+                    `;
+                }
+                if (priceAmountEl) priceAmountEl.textContent = "9,99";
+            }
+
             modal.style.display = 'flex';
+            modal.classList.add('active');
             
-            // On configure le bouton PayPal pour le tier 'authority' (Strategic Partner)
-            // Note: Le plan ID 'P-123' est un exemple, il doit être remplacé par le vrai ID PayPal Authority
-            const authorityPlanId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825"; // Fallback to ClientID for dev or replace with real Plan ID
-            
-            // On utilise la fonction globale du core
+            // On configure le bouton PayPal
+            const tier = role === 'entreprise' ? 'growth' : 'authority';
             if (window.renderPayPalButton) {
-                // Pour Domtom Connect, on utilise 'authority' comme tier de collaboration active
-                window.renderPayPalButton('P-AUTHORITY_PLAN_ID', 'authority', 'paypal-button-container');
+                window.renderPayPalButton(null, tier, 'paypal-button-container');
             }
         }
 
@@ -2248,6 +2276,7 @@
                     company: getVal('company'), 
                     company_name: getVal('company'), // Double synchronization for dashboard modules
                     title: getVal('title'),
+                    expertise: getVal('title'), // Consistency with directory
                     bio: getVal('bio'),
                     sector: getVal('sector'),
                     territory: getVal('territory'),

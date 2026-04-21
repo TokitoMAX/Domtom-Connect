@@ -123,6 +123,10 @@
         <!-- Formulaire Expert -->
         <div id="expert-form" style="display: none; text-align: left;">
             <div style="margin-bottom:20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Titre Professionnel / Expertise *</label>
+                <input type="text" id="expert-title" placeholder="Ex: Développeur Senior, Expert Marketing, Designer..." style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <div style="margin-bottom:20px;">
                 <label style="display:block; font-weight:700; margin-bottom:8px;">Vos compétences clés *</label>
                 <input type="text" id="expert-skills" placeholder="Ex: Marketing Digital, React, Logistique..." style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
             </div>
@@ -316,18 +320,23 @@
             };
 
             if (finalRole === 'expert') {
+                metadata.title = document.getElementById('expert-title').value.trim();
+                metadata.expertise = metadata.title; // Double sync for directory compatibility
                 metadata.skills = document.getElementById('expert-skills').value.trim();
                 metadata.tjm = document.getElementById('expert-tjm').value.trim();
                 metadata.major_zone = document.getElementById('expert-zone').value;
                 metadata.territory = document.getElementById('expert-territory').value;
                 metadata.bio = document.getElementById('expert-bio').value.trim();
 
-                if (!metadata.skills || !metadata.tjm || !metadata.bio || !metadata.major_zone || !metadata.territory) {
+                if (!metadata.title || !metadata.skills || !metadata.tjm || !metadata.bio || !metadata.major_zone || !metadata.territory) {
                     alert("Veuillez remplir tous les champs obligatoires (All fields are required)."); 
                     return;
                 }
 
                 if (window.formSecurity) {
+                    if (metadata.title && !window.formSecurity.isValidText(metadata.title, 3)) {
+                        alert("Votre titre professionnel semble invalide."); return;
+                    }
                     if (metadata.skills && !window.formSecurity.isValidText(metadata.skills, 3)) {
                         alert("Vos compétences semblent invalides."); return;
                     }

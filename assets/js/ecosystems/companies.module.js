@@ -48,6 +48,34 @@ const CompaniesModule = {
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
+                <!-- Strategic Progression Hub (Step 1 -> Step 2) -->
+                <div class="dash-card-progression" style="grid-column: 1 / -1; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 48px; height: 48px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #3b82f6;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours Institutionnel</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Vitrine Publiée ✅' : 'Étape 1 : Création de Vitrine ⏳'}</p>
+                            </div>
+                        </div>
+                        <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
+                            <div style="position: absolute; left: 0; top: 0; height: 100%; width: ${profile.listed ? '50%' : '10%'}; background: #3b82f6; border-radius: 2px;"></div>
+                            <div style="position: absolute; left: 50%; top: -6px; width: 16px; height: 16px; border-radius: 50%; border: 4px solid white; background: ${profile.subscription_tier !== 'free' ? '#3b82f6' : '#e2e8f0'}; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="text-align: right;">
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Partenariat Certifié</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Statut Certifié 💎' : 'Activez vos outils de croissance'}</p>
+                            </div>
+                            <button onclick="window.location.hash='#profile'" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+                                ${profile.subscription_tier !== 'free' ? 'Gérer le Statut' : 'Débloquer Étape 2 →'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Unified Welcome Card (Company Premium) -->
                 <div class="dash-welcome-card">
                     <div style="z-index: 2; position: relative;">

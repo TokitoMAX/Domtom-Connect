@@ -188,15 +188,27 @@ const StandardModule = {
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 7a4 4 0 100-8 4 4 0 000 8z"/></svg>
-                                Identité Digitale
+                                Identité Professionnelle
                             </h3>
                             <div style="display: grid; gap: 20px;">
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Nom d'affichage</label>
-                                    <div style="font-weight: 700; color: #334155;">${profile.full_name || 'Non renseigné'}</div>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Titre / Expertise</label>
+                                    <div style="font-weight: 700; color: #334155;">${profile.title || profile.expertise || 'Expert Territorial'}</div>
                                 </div>
+                                ${profile.role === 'expert' ? `
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Territoire d'intérêt</label>
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Tarif Journalier (TJM)</label>
+                                    <div style="font-weight: 700; color: #10b981;">${profile.tjm || '---'} € / jour</div>
+                                </div>
+                                ` : ''}
+                                ${profile.role === 'entreprise' ? `
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Nom Entreprise / Groupe</label>
+                                    <div style="font-weight: 700; color: #3b82f6;">${profile.company_name || profile.company || 'Non renseigné'}</div>
+                                </div>
+                                ` : ''}
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Territoire</label>
                                     <div style="font-weight: 700; color: #334155;">${profile.territory || 'International'}</div>
                                 </div>
                             </div>
@@ -204,18 +216,16 @@ const StandardModule = {
 
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                Sécurité & Accès
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>
+                                Présentation & Pitch
                             </h3>
                             <div style="display: grid; gap: 20px;">
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Statut du Compte</label>
-                                    <div style="display: flex; align-items: center; gap: 8px; color: #10b981; font-weight: 800;">
-                                        <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
-                                        Vérifié
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Biographie / Vision</label>
+                                    <div style="font-size: 0.9rem; line-height: 1.6; color: #475569; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #f1f5f9;">
+                                        ${profile.bio || 'Votre présentation apparaîtra ici une fois complétée.'}
                                     </div>
                                 </div>
-                                <button onclick="window.location.href='/profile'" class="cta-button" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; width: 100%;">Éditer mes informations</button>
                             </div>
                         </div>
                     </div>

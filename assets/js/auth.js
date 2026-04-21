@@ -148,6 +148,10 @@ async function signUpWithEmail(email, password, fullName) {
         }
     });
 
+    if (error) throw error;
+    return data;
+}
+
 /**
  * Global Role Switching Logic
  */
@@ -182,10 +186,45 @@ async function switchRole(newRole) {
     }
 }
 
-window.switchRole = switchRole;
+/**
+ * Update User Profile Metadata (Sync with DB 'profiles' table)
+ */
+async function updateUserProfile(metadata) {
+    const session = await getSession();
+    if (!session) throw new Error("No active session");
 
-    if (error) throw error;
-    return data;
+    const userId = session.user.id;
+    const updates = {
+        id: userId,
+        updated_at: new Date().toISOString(),
+        ...metadata
+    };
+
+    // Handle field mapping for consistency
+    if (metadata.company_name && !metadata.company) updates.company = metadata.company_name;
+    if (metadata.expertise && !metadata.title) updates.title = metadata.expertise;
+    if (metadata.bio && !metadata.bio_field) updates.bio = metadata.bio; // Ensure bio is mapped
+
+    const { error } = await window._supabase
+        .from('profiles')
+        .upsert(updates, { onConflict: 'id' });
+
+    if (error) {
+        console.error("Error updating profile:", error);
+        throw error;
+    }
+
+    // Also update Auth Metadata for immediate session availability
+    const { error: authError } = await window._supabase.auth.updateUser({
+        data: { 
+            role: metadata.role || session.user.user_metadata?.role,
+            onboarding_done: true
+        }
+    });
+
+    if (authError) console.warn("Auth metadata update failed:", authError);
+
+    return { success: true };
 }
 
 window.initSupabase = initSupabase;
@@ -194,6 +233,8 @@ window.signInWithEmail = signInWithEmail;
 window.signUpWithEmail = signUpWithEmail;
 window.signOut = signOut;
 window.getUserProfile = getUserProfile;
+window.updateUserProfile = updateUserProfile;
+window.switchRole = switchRole;
 window.calculateProjectMaturity = calculateProjectMaturity;
 
 /**
