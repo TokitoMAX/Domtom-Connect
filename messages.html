@@ -1334,7 +1334,8 @@
                 const { data: shared, error: e2 } = await _supabase.from('conversation_participants')
                     .select('conversation_id')
                     .in('conversation_id', myConvIds)
-                    .eq('user_id', targetUserId);
+                    .eq('user_id', targetUserId)
+                    .limit(1); // On prend la plus récente (si triée par défaut) ou la première valide
 
                 if (e2) {
                     console.error("Error fetching shared convs:", e2.message);
@@ -1342,6 +1343,7 @@
 
                 if (shared && shared.length > 0) {
                     activeConversationId = shared[0].conversation_id;
+                    console.log("Conversation existante trouvée :", activeConversationId);
                     return;
                 }
             }
@@ -1469,9 +1471,9 @@
                 if (activeConversationId) {
                     const participantInfo = otherParticipants.find(p => p.conversation_id === activeConversationId);
                     if (participantInfo && cachedProfiles[participantInfo.user_id]) {
+                        console.log("Verrouillage sur la conversation cible :", activeConversationId);
                         selectConversation(activeConversationId, cachedProfiles[participantInfo.user_id]);
-                    } else {
-                        console.warn("Target conversation not found in local participants.");
+                        return; // ARRET : On a trouvé, on ne va pas plus loin
                     }
                 } 
                 
