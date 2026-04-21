@@ -1362,51 +1362,34 @@
                 }
             } catch (e) { console.error("Profile initialization error:", e); }
 
-            // --- ÉTAPE 1 : CRÉATION DE LA SALLE (CONVERSATION) ---
+            // --- ÉTAPE 1 : CRÉATION DE LA SALLE ---
             const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
-            console.log("Étape 1 : Création de la salle...", newId);
             
             const { error: errConv } = await _supabase.from('conversations').insert([{
                 id: newId,
                 updated_at: new Date().toISOString()
             }]);
 
-            if (errConv) {
-                console.error("Erreur Étape 1 (Conversations):", errConv.message);
-                // Si la conv existe déjà ou erreur RLS sur la table maître
-            }
-
-            // --- ÉTAPE 2 : AJOUT DU SENDER (VOUS) ---
-            console.log("Étape 2 : Ajout du Sender...", currentUserId);
-            const { error: errMe } = await _supabase.from('conversation_participants').insert([{
+            // --- ÉTAPE 2 : AJOUT DU SENDER ---
+            await _supabase.from('conversation_participants').insert([{
                 conversation_id: newId,
                 user_id: currentUserId,
                 lead_status: 'Nouveau'
             }]);
             
-            if (errMe) {
-                console.warn("Note Étape 2 (Lien Moi) :", errMe.message);
-                // On continue même si erreur (peut être déjà ajouté par trigger)
-            }
-
-            // --- ÉTAPE 3 : AJOUT DU TARGET (RÉMY) ---
-            console.log("Étape 3 : Ajout du Target...", targetUserId);
+            // --- ÉTAPE 3 : AJOUT DU TARGET ---
             const { error: errTarget } = await _supabase.from('conversation_participants').insert([{
                 conversation_id: newId,
                 user_id: targetUserId,
                 lead_status: 'Nouveau'
             }]);
 
-            if (errTarget) {
-                console.error("Erreur Étape 3 (Lien Destinataire) :", errTarget.message);
-                if (!errConv) {
-                    alert("Impossible de lier le destinataire. " + errTarget.message);
-                    return;
-                }
+            if (errTarget && !errConv) {
+                alert("Erreur de liaison : " + errTarget.message);
+                return;
             }
 
             activeConversationId = newId;
-            console.log("Messagerie Initialisée : ID =", activeConversationId);
         }
 
         async function loadConversations() {
@@ -1416,7 +1399,6 @@
             loader.style.display = 'block';
 
             try {
-                console.log("Chargement des conversations pour:", currentUserId);
                 const { data: myConvs, error: errorConvs } = await _supabase.from('conversation_participants').select('conversation_id').eq('user_id', currentUserId);
 
                 if (errorConvs) {
