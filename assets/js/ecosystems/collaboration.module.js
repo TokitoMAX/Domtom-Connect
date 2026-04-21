@@ -28,11 +28,18 @@ const CollaborationModule = {
     renderDashboard: async (container, additional, profile, session) => {
         if (!container) return;
         
-        const activeBusinessId = window.activeBusinessId || session.user.id;
-        const isOwner = activeBusinessId === session.user.id;
+        try {
+            const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
+            if (!db) throw new Error("Supabase non initialisé");
 
-        // Fetch shared data
-        const stats = await window.fetchBusinessStats(activeBusinessId);
+            const activeBusinessId = window.activeBusinessId || session.user.id;
+            const isOwner = activeBusinessId === session.user.id;
+
+            // Fetch shared data with safe fallback
+            let stats = { views: 0, jobs: 0, applications: 0 };
+            if (typeof window.fetchBusinessStats === 'function') {
+                stats = await window.fetchBusinessStats(activeBusinessId);
+            }
         
         container.innerHTML = `
             <div class="collaboration-hub" style="font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -162,6 +169,18 @@ const CollaborationModule = {
         const membersTarget = document.getElementById('hub-members-list');
         if (membersTarget) {
             CollaborationModule.loadCollaborators(activeBusinessId, membersTarget);
+        }
+        
+        } catch (err) {
+            console.error("[Collaboration] Render Error:", err);
+            container.innerHTML = `
+                <div style="padding:80px; text-align:center; background:#fef2f2; border-radius:24px; border:1px solid #fee2e2;">
+                    <div style="font-size:3rem; margin-bottom:20px;">⚠️</div>
+                    <h3 style="color:#991b1b; font-weight:900; margin-bottom:8px;">Erreur de chargement du Hub</h3>
+                    <p style="color:#b91c1c; font-size:0.9rem; margin-bottom:24px;">Une erreur est survenue lors de la synchronisation de votre écosystème.</p>
+                    <button onclick="window.location.reload()" class="cta-button primary" style="background:#ef4444; border:none; padding:12px 24px;">Actualiser la plateforme</button>
+                </div>
+            `;
         }
     },
 

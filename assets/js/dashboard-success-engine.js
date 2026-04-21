@@ -106,14 +106,17 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
 
                         <div class="ecosystem-grid">
                             <!-- Card : Nouvelle Épopée -->
-                            <div class="dash-card-premium highlight" style="background: #0f172a; color: white; display:flex; flex-direction:column; justify-content:center; padding:32px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <h2 style="color: white; margin: 0; font-size: 1.25rem; font-weight: 900;">Nouveau Projet</h2>
-                                        <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 0.9rem;">Prêt à changer le monde ?</p>
+                            <div class="dash-card-premium highlight" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:40px; border:none; position:relative; overflow:hidden;">
+                                <div style="position:relative; z-index:2;">
+                                    <div style="background:rgba(16, 185, 129, 0.2); width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; border:1px solid rgba(16, 185, 129, 0.3);">
+                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
                                     </div>
-                                    <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: white; color: #0f172a; font-weight:800; border:none; padding:12px 20px;">+ Démarrer</button>
+                                    <h2 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 950; letter-spacing:-0.03em;">Nouvelle Épopée</h2>
+                                    <p style="color: rgba(255,255,255,0.7); margin: 8px 0 32px 0; font-size: 0.95rem; font-weight:500; line-height:1.4;">Prêt à propulser votre prochain grand projet territorial ?</p>
+                                    <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: #10b981; color: white; font-weight:900; border:none; padding:16px 28px; width:100%; justify-content:center; border-radius:14px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">+ Démarrer l'Aventure</button>
                                 </div>
+                                <!-- Decorative -->
+                                <div style="position:absolute; bottom:-50px; right:-50px; width:150px; height:150px; background:rgba(16, 185, 129, 0.1); border-radius:50%; filter:blur(60px);"></div>
                             </div>
 
                             ${projects && projects.length > 0 ? projects.map(p => {
@@ -135,19 +138,22 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                                     <div style="margin-top:auto; padding-top:24px; border-top:1px solid #f1f5f9;">
                                         <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 12px;">
                                             <div>
-                                                <span style="display:block; font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Stade de Maturité</span>
-                                                <span style="font-size:1.5rem; font-weight:950; color: #0f172a;">${score}%</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px;">MATURITÉ STRATÉGIQUE</span>
+                                                <span style="font-size:2rem; font-weight:950; color: #0f172a; letter-spacing:-0.05em;">${score}%</span>
                                             </div>
-                                            <span style="font-size:0.85rem; font-weight:800; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:4px 10px; border-radius:8px;">${(p.total_raised || 0).toLocaleString()} €</span>
+                                            <div style="text-align:right;">
+                                                <span style="display:block; font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">COLLECTÉ</span>
+                                                <span style="font-size:1.1rem; font-weight:900; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:6px 12px; border-radius:10px;">${(p.total_raised || 0).toLocaleString()} €</span>
+                                            </div>
                                         </div>
-
-                                        <div class="dash-progress-container" style="height:10px; margin-bottom:32px; background:#f1f5f9; border-radius:100px; overflow:hidden;">
-                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);"></div>
+ 
+                                        <div class="dash-progress-container" style="height:12px; margin-bottom:32px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9;">
+                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);"></div>
                                         </div>
-
-                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:900; background:#0f172a; border-radius:14px; font-size:0.9rem; padding:14px;">Piloter l'Épopée</button>
-                                            <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="justify-content:center; font-weight:800; border-radius:14px; border:1px solid #e2e8f0; font-size:0.85rem; background:white; color:#0f172a;">Financements</button>
+ 
+                                        <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:12px;">
+                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:950; background:#0f172a; border-radius:16px; font-size:0.95rem; padding:16px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 10px 20px rgba(15, 23, 42, 0.1);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">PILOTER L'ÉPOPÉE</button>
+                                            <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="justify-content:center; font-weight:800; border-radius:16px; border:1px solid #e2e8f0; font-size:0.85rem; background:white; color:#0f172a; cursor:pointer;">FINANCEMENTS</button>
                                         </div>
                                     </div>
                                 </div>
@@ -301,92 +307,99 @@ function renderCockpitWithStep(p, step, score) {
 function renderStepFields(step, p) {
     if (step === 1) {
         return `
-            <div class="ecosystem-grid">
-                <div class="cockpit-field" style="grid-column: 1 / -1;">
-                    <label class="cockpit-field-label">Image de Couverture</label>
-                    <div class="cover-upload-container">
-                        <input type="file" id="cover-upload" style="display:none;" onchange="handleCoverUpload(this, '${p.id}')">
-                        <div id="cover-preview" class="cover-preview ${p.cover_url ? 'has-image' : ''}" 
-                             style="${p.cover_url ? `background-image: url('${p.cover_url}')` : ''}">
-                            ${!p.cover_url ? '<p>Cliquez pour définir une image</p>' : ''}
+            <div class="ecosystem-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
+                
+                <!-- LEFT: BRANDING & IDENTITY -->
+                <div style="display:flex; flex-direction:column; gap:24px;">
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">IMAGE DE COUVERTURE</label>
+                        <div class="cover-upload-container" style="border-radius:20px; overflow:hidden; border:1px solid #e2e8f0; background:#f8fafc; padding:12px;">
+                            <input type="file" id="cover-upload" style="display:none;" onchange="handleCoverUpload(this, '${p.id}')">
+                            <div id="cover-preview" class="cover-preview ${p.cover_url ? 'has-image' : ''}" 
+                                 style="height:180px; border-radius:14px; background-color:#e2e8f0; ${p.cover_url ? `background-image: url('${p.cover_url}')` : ''} background-position:center; background-size:cover; margin-bottom:12px; display:flex; align-items:center; justify-content:center;">
+                                ${!p.cover_url ? '<span style="color:#94a3b8; font-weight:800; font-size:0.85rem;">AUCUNE IMAGE</span>' : ''}
+                            </div>
+                            <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:100%; justify-content:center; border-radius:12px; font-weight:800; font-size:0.75rem;">${p.cover_url ? 'CHANGER L\'IMAGE' : 'TÉLÉVERSER UN VISUEL'}</button>
+                            <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
                         </div>
-                        <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:100%; justify-content:center;">
-                            ${p.cover_url ? 'MODIFIER L\'IMAGE' : 'CHOISIR UNE IMAGE'}
-                        </button>
-                        <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
+                    </div>
+
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">TITRE DE L'ÉPOPÉE *</label>
+                        <input type="text" id="title" class="cockpit-input-premium" value="${p.title || ''}" placeholder="Ex: Horizon Caraïbe 2026" style="padding:18px; font-size:1.1rem; font-weight:800;">
+                    </div>
+
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">BASSIN TERRITORIAL</label>
+                        <select id="territory" class="cockpit-input-premium" style="padding:18px; font-weight:700;">
+                            <optgroup label="Antilles & Guyane Françaises">
+                                <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
+                                <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
+                                <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane Française 🇬🇫</option>
+                                <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin 🇸🇽</option>
+                                <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy 🇧🇱</option>
+                            </optgroup>
+                            <optgroup label="Océan Indien">
+                                <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
+                                <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
+                            </optgroup>
+                            <optgroup label="Antilles & Caraïbes (International)">
+                                <option value="Anguilla" ${p.territory === 'Anguilla' ? 'selected' : ''}>Anguilla 🇦🇮</option>
+                                <option value="Antigua & Barbuda" ${p.territory === 'Antigua & Barbuda' ? 'selected' : ''}>Antigua & Barbuda 🇦🇬</option>
+                                <option value="Bahamas" ${p.territory === 'Bahamas' ? 'selected' : ''}>Bahamas 🇧🇸</option>
+                                <option value="Barbados" ${p.territory === 'Barbados' ? 'selected' : ''}>Barbados 🇧🇧</option>
+                                <option value="Cuba" ${p.territory === 'Cuba' ? 'selected' : ''}>Cuba 🇨🇺</option>
+                                <option value="Dominican Republic" ${p.territory === 'Dominican Republic' ? 'selected' : ''}>Dominican Republic 🇩🇴</option>
+                                <option value="Dominica" ${p.territory === 'Dominica' ? 'selected' : ''}>Dominica 🇩🇲</option>
+                                <option value="Grenada" ${p.territory === 'Grenada' ? 'selected' : ''}>Grenada 🇬🇩</option>
+                                <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haiti 🇭🇹</option>
+                                <option value="Jamaica" ${p.territory === 'Jamaica' ? 'selected' : ''}>Jamaica 🇯🇲</option>
+                                <option value="Puerto Rico" ${p.territory === 'Puerto Rico' ? 'selected' : ''}>Puerto Rico 🇵🇷</option>
+                                <option value="St. Kitts & Nevis" ${p.territory === 'St. Kitts & Nevis' ? 'selected' : ''}>St. Kitts & Nevis 🇰🇳</option>
+                                <option value="St. Lucia" ${p.territory === 'St. Lucia' ? 'selected' : ''}>St. Lucia 🇱🇨</option>
+                                <option value="St. Vincent & Grenadines" ${p.territory === 'St. Vincent & Grenadines' ? 'selected' : ''}>St. Vincent & Grenadines 🇻🇨</option>
+                                <option value="Trinidad & Tobago" ${p.territory === 'Trinidad & Tobago' ? 'selected' : ''}>Trinidad & Tobago 🇹🇹</option>
+                                <option value="Turks & Caicos" ${p.territory === 'Turks & Caicos' ? 'selected' : ''}>Turks & Caicos 🇹🇨</option>
+                            </optgroup>
+                            <optgroup label="Amérique du Nord">
+                                <option value="Canada - Montréal" ${p.territory === 'Canada - Montréal' ? 'selected' : ''}>Montréal, Canada 🇨🇦</option>
+                                <option value="Canada - Québec" ${p.territory === 'Canada - Québec' ? 'selected' : ''}>Québec, Canada 🇨🇦</option>
+                                <option value="Canada - Toronto" ${p.territory === 'Canada - Toronto' ? 'selected' : ''}>Toronto, Canada 🇨🇦</option>
+                                <option value="USA - Miami" ${p.territory === 'USA - Miami' ? 'selected' : ''}>Miami, USA 🇺🇸</option>
+                                <option value="USA - New York" ${p.territory === 'USA - New York' ? 'selected' : ''}>New York, USA 🇺🇸</option>
+                                <option value="USA - Diaspora" ${p.territory === 'USA - Diaspora' ? 'selected' : ''}>USA (Autre), Diaspora 🇺🇸</option>
+                            </optgroup>
+                            <optgroup label="Europe & Diaspora">
+                                <option value="France Hexagonale" ${p.territory === 'France Hexagonale' ? 'selected' : ''}>France Hexagonale 🇫🇷</option>
+                                <option value="Europe - Diaspora" ${p.territory === 'Europe - Diaspora' ? 'selected' : ''}>Europe (Autre), Diaspora 🇪🇺</option>
+                            </optgroup>
+                            <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire 🌍</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="cockpit-field" style="grid-column: 1 / -1;">
-                    <label class="cockpit-field-label">Nom de l'Épopée (Titre) *</label>
-                    <input type="text" id="title" class="cockpit-input-premium" value="${p.title || ''}" placeholder="Le nom de votre projet.">
-                </div>
+                <!-- RIGHT: STRATEGIC NARRATIVE -->
+                <div style="display:flex; flex-direction:column; gap:24px;">
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">L'ACCROCHE (SHORT PITCH)</label>
+                        <input type="text" id="short_description" class="cockpit-input-premium" value="${p.short_description || ''}" placeholder="Votre projet en une phrase choc" style="padding:18px; font-weight:700;">
+                        <span style="font-size:0.7rem; color:#94a3b8; font-weight:700; text-transform:uppercase; margin-top:6px; display:block;">Visible sur la marketplace</span>
+                    </div>
 
-                <div class="cockpit-field">
-                    <label class="cockpit-field-label">Territoire d'Épopée</label>
-                    <select id="territory" class="cockpit-input-premium">
-                        <!-- Options conservées -->
-                        <optgroup label="Antilles & Guyane Françaises">
-                            <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
-                            <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
-                            <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane Française 🇬🇫</option>
-                            <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin 🇸🇽</option>
-                            <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy 🇧🇱</option>
-                        </optgroup>
-                        <optgroup label="Océan Indien">
-                            <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
-                            <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
-                        </optgroup>
-                        <optgroup label="Antilles & Caraïbes (International)">
-                            <option value="Anguilla" ${p.territory === 'Anguilla' ? 'selected' : ''}>Anguilla 🇦🇮</option>
-                            <option value="Antigua & Barbuda" ${p.territory === 'Antigua & Barbuda' ? 'selected' : ''}>Antigua & Barbuda 🇦🇬</option>
-                            <option value="Bahamas" ${p.territory === 'Bahamas' ? 'selected' : ''}>Bahamas 🇧🇸</option>
-                            <option value="Barbados" ${p.territory === 'Barbados' ? 'selected' : ''}>Barbados 🇧🇧</option>
-                            <option value="Cuba" ${p.territory === 'Cuba' ? 'selected' : ''}>Cuba 🇨🇺</option>
-                            <option value="Dominican Republic" ${p.territory === 'Dominican Republic' ? 'selected' : ''}>Dominican Republic 🇩🇴</option>
-                            <option value="Dominica" ${p.territory === 'Dominica' ? 'selected' : ''}>Dominica 🇩🇲</option>
-                            <option value="Grenada" ${p.territory === 'Grenada' ? 'selected' : ''}>Grenada 🇬🇩</option>
-                            <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haiti 🇭🇹</option>
-                            <option value="Jamaica" ${p.territory === 'Jamaica' ? 'selected' : ''}>Jamaica 🇯🇲</option>
-                            <option value="Puerto Rico" ${p.territory === 'Puerto Rico' ? 'selected' : ''}>Puerto Rico 🇵🇷</option>
-                            <option value="St. Kitts & Nevis" ${p.territory === 'St. Kitts & Nevis' ? 'selected' : ''}>St. Kitts & Nevis 🇰🇳</option>
-                            <option value="St. Lucia" ${p.territory === 'St. Lucia' ? 'selected' : ''}>St. Lucia 🇱🇨</option>
-                            <option value="St. Vincent & Grenadines" ${p.territory === 'St. Vincent & Grenadines' ? 'selected' : ''}>St. Vincent & Grenadines 🇻🇨</option>
-                            <option value="Trinidad & Tobago" ${p.territory === 'Trinidad & Tobago' ? 'selected' : ''}>Trinidad & Tobago 🇹🇹</option>
-                            <option value="Turks & Caicos" ${p.territory === 'Turks & Caicos' ? 'selected' : ''}>Turks & Caicos 🇹🇨</option>
-                        </optgroup>
-                        <optgroup label="Amérique du Nord">
-                            <option value="Canada - Montréal" ${p.territory === 'Canada - Montréal' ? 'selected' : ''}>Montréal, Canada 🇨🇦</option>
-                            <option value="Canada - Québec" ${p.territory === 'Canada - Québec' ? 'selected' : ''}>Québec, Canada 🇨🇦</option>
-                            <option value="Canada - Toronto" ${p.territory === 'Canada - Toronto' ? 'selected' : ''}>Toronto, Canada 🇨🇦</option>
-                            <option value="USA - Miami" ${p.territory === 'USA - Miami' ? 'selected' : ''}>Miami, USA 🇺🇸</option>
-                            <option value="USA - New York" ${p.territory === 'USA - New York' ? 'selected' : ''}>New York, USA 🇺🇸</option>
-                            <option value="USA - Diaspora" ${p.territory === 'USA - Diaspora' ? 'selected' : ''}>USA (Autre), Diaspora 🇺🇸</option>
-                        </optgroup>
-                        <optgroup label="Europe & Diaspora">
-                            <option value="France Hexagonale" ${p.territory === 'France Hexagonale' ? 'selected' : ''}>France Hexagonale 🇫🇷</option>
-                            <option value="Europe - Diaspora" ${p.territory === 'Europe - Diaspora' ? 'selected' : ''}>Europe (Autre), Diaspora 🇪🇺</option>
-                        </optgroup>
-                        <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire 🌍</option>
-                    </select>
-                </div>
-
-                <div class="cockpit-field">
-                    <label class="cockpit-field-label">L'Accroche (Short Description)</label>
-                    <input type="text" id="short_description" class="cockpit-input-premium" value="${p.short_description || ''}" placeholder="Votre pitch en une phrase percutante.">
-                </div>
-
-                <div class="cockpit-field">
-                    <label class="cockpit-field-label">Votre Vision (Le Futur)</label>
-                    <textarea id="vision" class="cockpit-input-premium" style="height:100px;" placeholder="Où voyez-vous ce projet dans 5 ans ?">${p.vision || ''}</textarea>
-                </div>
-                <div class="cockpit-field">
-                    <label class="cockpit-field-label">L'Enjeu (Pourquoi ?)</label>
-                    <textarea id="enjeu" class="cockpit-input-premium" style="height:100px;" placeholder="Quel problème majeur résolvez-vous ?">${p.enjeu || ''}</textarea>
-                </div>
-                <div class="cockpit-field" style="grid-column: 1 / -1;">
-                    <label class="cockpit-field-label">Votre Mission (Maintenant)</label>
-                    <textarea id="mission" class="cockpit-input-premium" style="height:120px;" placeholder="Que faites-vous concrètement aujourd'hui ?">${p.mission || ''}</textarea>
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">VOTRE VISION (LE FUTUR)</label>
+                        <textarea id="vision" class="cockpit-input-premium" style="height:100px; font-size:0.95rem; line-height:1.6;" placeholder="Où voyez-vous l'impact de ce projet dans 5 ans ?">${p.vision || ''}</textarea>
+                    </div>
+                    
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">L'ENJEU (LE POURQUOI ?)</label>
+                        <textarea id="enjeu" class="cockpit-input-premium" style="height:100px; font-size:0.95rem; line-height:1.6;" placeholder="Quel problème critique ce projet résout-il pour le territoire ?">${p.enjeu || ''}</textarea>
+                    </div>
+                    
+                    <div class="cockpit-field">
+                        <label class="cockpit-field-label">VOTRE MISSION (L'ACTION MAINTENANT)</label>
+                        <textarea id="mission" class="cockpit-input-premium" style="height:120px; font-size:0.95rem; line-height:1.6;" placeholder="Quelle est la prochaine étape majeure de votre exécution ?">${p.mission || ''}</textarea>
+                    </div>
                 </div>
             </div>
 
