@@ -56,8 +56,8 @@ const CompaniesModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de SuccÃ¨s</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Ã‰tape 1 : Vitrine PubliÃ©e âœ…' : 'Ã‰tape 1 : CrÃ©ation de Vitrine â³'}</p>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succès</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Vitrine Publiée âœ…' : 'Étape 1 : Création de Vitrine â³'}</p>
                             </div>
                         </div>
                         <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
@@ -66,11 +66,11 @@ const CompaniesModule = {
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="text-align: right;">
-                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Ã‰tape 2 : Partenariat CertifiÃ©</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Statut CertifiÃ©' : 'Activez vos outils de croissance'}</p>
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Partenariat Certifié</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Statut Certifié' : 'Activez vos outils de croissance'}</p>
                             </div>
                             <button onclick="window.Router.navigate('#profile?action=manage_pack')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#f1f5f9' : '#0f172a'}; color: ${profile.subscription_tier !== 'free' ? '#64748b' : 'white'}; border: none; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
-                                ${profile.subscription_tier !== 'free' ? 'GÃ©rer le Statut' : 'DÃ©bloquer Ã‰tape 2 â†’'}
+                                ${profile.subscription_tier !== 'free' ? 'Gérer le Statut' : 'Débloquer Étape 2 →'}
                             </button>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ const CompaniesModule = {
                     <div style="z-index: 2; position: relative;">
                         <span class="role-badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">ESPACE ENTREPRISE / BUSINESS</span>
                         <h1 style="text-transform: capitalize;">Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
-                        <p>DÃ©ployez votre stratÃ©gie territoriale et pilotez vos talents experts.</p>
+                        <p>Déployez votre stratégie territoriale et pilotez vos talents experts.</p>
                     </div>
                 </div>
 
@@ -91,8 +91,8 @@ const CompaniesModule = {
                     <div class="dash-card-highlight">
                          <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2; width: 100%;">
                             <div style="flex:1;">
-                                <h4 style="margin:0; font-size:1.8rem; font-weight:950; color:#10b981; letter-spacing:-0.03em;">Partenariat StratÃ©gique</h4>
-                                <p style="font-size: 1.1rem; color: #94a3b8; line-height:1.6; margin: 12px 0 0 0; max-width:480px;">Activez votre collaboration de second niveau pour dÃ©bloquer le matchmaking avancÃ© et le recrutement expert.</p>
+                                <h4 style="margin:0; font-size:1.8rem; font-weight:950; color:#10b981; letter-spacing:-0.03em;">Partenariat Stratégique</h4>
+                                <p style="font-size: 1.1rem; color: #94a3b8; line-height:1.6; margin: 12px 0 0 0; max-width:480px;">Activez votre collaboration de second niveau pour débloquer le matchmaking avancé et le recrutement expert.</p>
                             </div>
                             <button onclick="window.Router.navigate('#collaboration')" class="cta-button primary" style="background:#10b981; color:white; border:none; border-radius:18px; font-weight:950; padding:20px 40px; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);">Lancer le Hub</button>
                          </div>
@@ -103,7 +103,7 @@ const CompaniesModule = {
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
                             <div>
                                 <h3 style="font-size: 1.8rem; font-weight: 950; margin:0; color: #0f172a; letter-spacing:-0.03em;">Annonces & Missions</h3>
-                                <p id="mission-status-label" style="font-size:0.95rem; color:#64748b; font-weight:700; margin-top:8px;">Synchronisation des opportunitÃ©s...</p>
+                                <p id="mission-status-label" style="font-size:0.95rem; color:#64748b; font-weight:700; margin-top:8px;">Synchronisation des opportunités...</p>
                             </div>
                             <button onclick="window.location.href='marketplace/jobs.html'" class="cta-button primary" style="background:#0f172a; border-radius:16px; font-weight:900; padding:18px 32px;">+ Publier</button>
                         </div>
@@ -127,15 +127,15 @@ const CompaniesModule = {
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:1rem; color:#64748b; font-weight:600;">Applications</span>
-                                <span id="company-apps-count" style="font-size:1.3rem; font-weight:900; color:#3b82f6;">â€”</span>
+                                <span id="company-apps-count" style="font-size:1.3rem; font-weight:900; color:#3b82f6;">-</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="dash-card" style="padding:32px; background:#f8fafc; border:1px solid #e2e8f0;">
-                         <h4 style="font-size: 0.8rem; font-weight: 850; color:#64748b; text-transform:uppercase; margin-bottom:24px;">Gestion Ã‰quipe</h4>
-                         <p style="font-size:0.9rem; color:#64748b; line-height:1.5; margin-bottom:24px;">Autorisez des collaborateurs Ã  gÃ©rer vos missions territoriales.</p>
-                         <button onclick="window.Router.navigate('#collaboration')" style="width:100%; padding:14px; background:white; border:1px solid #e2e8f0; border-radius:12px; color:#0f172a; font-weight:800; cursor:pointer;">GÃ©rer l'Ã©quipe</button>
+                         <h4 style="font-size: 0.8rem; font-weight: 850; color:#64748b; text-transform:uppercase; margin-bottom:24px;">Gestion Équipe</h4>
+                         <p style="font-size:0.9rem; color:#64748b; line-height:1.5; margin-bottom:24px;">Autorisez des collaborateurs à gérer vos missions territoriales.</p>
+                         <button onclick="window.Router.navigate('#collaboration')" style="width:100%; padding:14px; background:white; border:1px solid #e2e8f0; border-radius:12px; color:#0f172a; font-weight:800; cursor:pointer;">Gérer l'équipe</button>
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@ const CompaniesModule = {
                         <div style="font-weight:800; color:#0f172a;">${job.title}</div>
                         <div style="font-size:0.8rem; color:#64748b; font-weight:700; margin-top:4px;">ðŸ“ ${job.territory}</div>
                     </div>
-                    <button onclick="window.location.href='/marketplace/jobs?edit=${job.id}'" style="background:white; border:1px solid #e2e8f0; padding:8px 16px; border-radius:8px; font-weight:800; font-size:0.75rem; cursor:pointer;">Ã‰diter</button>
+                    <button onclick="window.location.href='/marketplace/jobs?edit=${job.id}'" style="background:white; border:1px solid #e2e8f0; padding:8px 16px; border-radius:8px; font-weight:800; font-size:0.75rem; cursor:pointer;">Éditer</button>
                 </div>
             `).join('');
         } catch (err) { console.error(err); }

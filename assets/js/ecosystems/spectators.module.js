@@ -19,7 +19,7 @@ const SpectatorsModule = {
                     <div style="z-index: 2; position: relative;">
                         <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.04em; text-transform:uppercase;">Espace Observateur</span>
                         <h1 style="font-size: 2.25rem; font-weight: 800; color: white; margin: 0 0 12px 0; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Bienvenue au cÅ“ur de l'Ã©cosystÃ¨me. Suivez les Ã©vÃ©nements et dÃ©couvrez les acteurs qui faÃ§onnent l'avenir des territoires.</p>
+                        <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Bienvenue au cÅ“ur de l'écosystème. Suivez les événements et découvrez les acteurs qui façonnent l'avenir des territoires.</p>
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@ const SpectatorsModule = {
                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
                             <h3 style="font-size: 1.3rem; font-weight: 800; margin:0; color:#0f172a;">Agenda des Evenements</h3>
-                            <a href="/marketplace/evenements" style="font-size:0.85rem; color:#10b981; font-weight:800; text-decoration:none;">Tout voir â†’</a>
+                            <a href="/marketplace/evenements" style="font-size:0.85rem; color:#10b981; font-weight:800; text-decoration:none;">Tout voir →</a>
                         </div>
                         <div id="spectator-events-list">
                             <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 16px;">
@@ -65,8 +65,8 @@ const SpectatorsModule = {
                 <div class="dash-side-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
                     <div class="dash-card" style="border-radius: 20px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
                         <h4 style="font-size: 0.8rem; font-weight: 850; color:#64748b; text-transform:uppercase; margin-bottom:16px;">Le Hub</h4>
-                        <p style="font-size:0.85rem; color:#64748b; line-height:1.6; margin-bottom:20px;">Vous n'avez pas encore Ã©tÃ© invitÃ© dans un espace collaboratif.</p>
-                        <button onclick="showView('collaboration')" class="cta-button secondary" style="width:100%; border:1px solid #e2e8f0; font-size:0.85rem; height:44px;">Acceder au Hub PartagÃ©</button>
+                        <p style="font-size:0.85rem; color:#64748b; line-height:1.6; margin-bottom:20px;">Vous n'avez pas encore été invité dans un espace collaboratif.</p>
+                        <button onclick="showView('collaboration')" class="cta-button secondary" style="width:100%; border:1px solid #e2e8f0; font-size:0.85rem; height:44px;">Acceder au Hub Partagé</button>
                     </div>
 
                     <div class="dash-card" style="border-radius: 20px; padding: 24px; background: #0f172a; color:white; border:none;">
@@ -93,7 +93,7 @@ const SpectatorsModule = {
             if (error || !events || events.length === 0) {
                 container.innerHTML = `
                     <div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.9rem;">
-                        Pas d'Ã©vÃ©nements prÃ©vus prochainement.
+                        Pas d'événements prévus prochainement.
                     </div>
                 `;
                 return;
@@ -108,7 +108,7 @@ const SpectatorsModule = {
                             </div>
                             <div style="flex:1;">
                                 <h4 style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">${ev.title}</h4>
-                                <p style="margin:2px 0 0; font-size:0.75rem; color:#64748b;">${ev.territory || 'Network'} â€¢ ${new Date(ev.start_date).toLocaleDateString()}</p>
+                                <p style="margin:2px 0 0; font-size:0.75rem; color:#64748b;">${ev.territory || 'Network'} "¢ ${new Date(ev.start_date).toLocaleDateString()}</p>
                             </div>
                             <a href="/marketplace/evenements" style="color:#cbd5e1;"><i class="fas fa-chevron-right"></i></a>
                         </div>
@@ -116,7 +116,7 @@ const SpectatorsModule = {
                 </div>
             `;
         } catch (e) {
-            container.innerHTML = '<p style="color:red; font-size:0.8rem;">Erreur de chargement des Ã©vÃ©nements.</p>';
+            container.innerHTML = '<p style="color:red; font-size:0.8rem;">Erreur de chargement des événements.</p>';
         }
     }
 };

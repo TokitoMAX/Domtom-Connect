@@ -1,7 +1,7 @@
 ﻿/**
  * Standard Module - Domtom Connect
- * Ã‰cosystÃ¨me "Explorateur" / Membre Basique
- * Un cockpit Ã©purÃ© pour la dÃ©couverte et la gestion personnelle.
+ * Écosystème "Explorateur" / Membre Basique
+ * Un cockpit épuré pour la découverte et la gestion personnelle.
  */
 const StandardModule = {
     /**
@@ -38,7 +38,7 @@ const StandardModule = {
                     <div style="z-index: 2; position: relative;">
                         <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:20px; letter-spacing:0.04em; text-transform:uppercase;">Espace Explorateur</span>
                         <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p>Bienvenue sur votre centre de commandement personnel. Explorez le rÃ©seau et rejoignez des Ã©cosystÃ¨mes stratÃ©giques.</p>
+                        <p>Bienvenue sur votre centre de commandement personnel. Explorez le réseau et rejoignez des écosystèmes stratégiques.</p>
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@ const StandardModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             </div>
                             <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Porteur de Projet</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Vous avez une ambition pour les territoires ? CrÃ©ez votre Ã©popÃ©e et trouvez des experts pour la rÃ©aliser.</p>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Vous avez une ambition pour les territoires ? Créez votre épopée et trouvez des experts pour la réaliser.</p>
                             <a href="/profile" class="cta-button" style="display:inline-block; background:#0f172a; color:white; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem;">Lancer mon projet</a>
                         </div>
                         
@@ -61,7 +61,7 @@ const StandardModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4" /></svg>
                             </div>
                             <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Expert Territorial</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos compÃ©tences aux entreprises et porteurs de projets internationaux.</p>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos compétences aux entreprises et porteurs de projets internationaux.</p>
                             <a href="/profile" class="cta-button" style="display:inline-block; border:1px solid #e2e8f0; color:#0f172a; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem; background:white;">Devenir Expert</a>
                         </div>
                     </div>
@@ -69,21 +69,21 @@ const StandardModule = {
                     <!-- DISCOVERY SECTION (WOW Factor) -->
                     <div style="margin-top: 16px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">OpportunitÃ©s Flash</h3>
+                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">Opportunités Flash</h3>
                             <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
                         </div>
                         <div class="role-upgrade-grid" style="margin-top: 16px;">
                             <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0; position:relative; overflow:hidden;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">Ã‰vÃ©nement Ã  la une</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : StratÃ©gie Territoriale 2026</h4>
-                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Rejoignez 150 experts pour dÃ©finir le futur de l'innovation locale.</p>
-                                <button onclick="window.Router.navigate('#billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">DÃ©couvrir â†’</button>
+                                <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">Événement à la une</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Stratégie Territoriale 2026</h4>
+                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Rejoignez 150 experts pour définir le futur de l'innovation locale.</p>
+                                <button onclick="window.Router.navigate('#billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Découvrir →</button>
                             </div>
                             <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#f59e0b; text-transform:uppercase; margin-bottom:8px;">Nouvelle Ã‰popÃ©e</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : Ã‰nergies Vertes Martinique</h4>
-                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Un nouveau porteur de projet recherche des experts en photovoltaÃ¯que.</p>
-                                <button onclick="window.location.href='marketplace/directory.html'" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Voir le projet â†’</button>
+                                <div style="font-size:0.65rem; font-weight:850; color:#f59e0b; text-transform:uppercase; margin-bottom:8px;">Nouvelle Épopée</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : Énergies Vertes Martinique</h4>
+                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Un nouveau porteur de projet recherche des experts en photovoltaïque.</p>
+                                <button onclick="window.location.href='marketplace/directory.html'" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Voir le projet →</button>
                             </div>
                         </div>
                     </div>
@@ -91,16 +91,16 @@ const StandardModule = {
                     <!-- Professional Profile Status Card -->
                     <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: center; margin-top:16px;">
                         <div>
-                            <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Votre Ã‰cosystÃ¨me Personnel</h3>
-                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Votre` : 'Votre'} profil est le point de dÃ©part de votre influence territoriale.</p>
+                            <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Votre Écosystème Personnel</h3>
+                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Votre` : 'Votre'} profil est le point de départ de votre influence territoriale.</p>
                             <div style="display:flex; gap:16px;">
-                                <a href="/profile" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">GÃ©rer mon profil</a>
+                                <a href="/profile" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">Gérer mon profil</a>
                                 <a href="/marketplace/directory" class="cta-button secondary" style="border:1px solid #e2e8f0; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:#0f172a; font-size:0.9rem;">Explorer les talents</a>
                             </div>
                         </div>
                         <div style="text-align: center; border-left: 1px solid #f1f5f9; padding-left: 32px;">
                             <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; margin-bottom: 4px;">ðŸ’¯</div>
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">IdentitÃ© PrÃªte</div>
+                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Identité Prête</div>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ const StandardModule = {
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 7a4 4 0 100-8 4 4 0 000 8z"/></svg>
-                                IdentitÃ© Professionnelle
+                                Identité Professionnelle
                             </h3>
                             <div style="display: grid; gap: 20px;">
                                 <div class="info-field">
@@ -203,7 +203,7 @@ const StandardModule = {
                                 ${profile.role === 'entreprise' ? `
                                 <div class="info-field">
                                     <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Nom Entreprise / Groupe</label>
-                                    <div style="font-weight: 700; color: #3b82f6;">${profile.company_name || profile.company || 'Non renseignÃ©'}</div>
+                                    <div style="font-weight: 700; color: #3b82f6;">${profile.company_name || profile.company || 'Non renseigné'}</div>
                                 </div>
                                 ` : ''}
                                 <div class="info-field">
@@ -216,13 +216,13 @@ const StandardModule = {
                         <div>
                             <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>
-                                PrÃ©sentation & Pitch
+                                Présentation & Pitch
                             </h3>
                             <div style="display: grid; gap: 20px;">
                                 <div class="info-field">
                                     <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Biographie / Vision</label>
                                     <div style="font-size: 0.9rem; line-height: 1.6; color: #475569; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #f1f5f9;">
-                                        ${profile.bio || 'Votre prÃ©sentation apparaÃ®tra ici une fois complÃ©tÃ©e.'}
+                                        ${profile.bio || 'Votre présentation apparaîtra ici une fois complétée.'}
                                     </div>
                                 </div>
                             </div>
@@ -235,15 +235,15 @@ const StandardModule = {
                     <div class="dash-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
                         <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Dossier Digital</h4>
                         <div style="display: grid; gap: 12px;">
-                            <button onclick="window.location.href='/registration/onboarding'" class="cta-button" style="width: 100%; padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 800;">ComplÃ©ter mon Onboarding</button>
-                            <button onclick="alert('Export PDF du profil bientÃ´t disponible')" class="cta-button secondary" style="width: 100%; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">TÃ©lÃ©charger CV / Dossier</button>
+                            <button onclick="window.location.href='/registration/onboarding'" class="cta-button" style="width: 100%; padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 800;">Compléter mon Onboarding</button>
+                            <button onclick="alert('Export PDF du profil bientôt disponible')" class="cta-button secondary" style="width: 100%; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Télécharger CV / Dossier</button>
                         </div>
                     </div>
 
                     <!-- UPGRADE CTA -->
                     <div class="dash-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px; border-radius: 24px; color: white; display: none;">
-                        <h4 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;">Passez au niveau supÃ©rieur</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 24px; line-height: 1.5;">Devenez <strong>Expert Territorial</strong> ou <strong>Porteur de Projet</strong> pour dÃ©bloquer le Success Engine.</p>
+                        <h4 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;">Passez au niveau supérieur</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 24px; line-height: 1.5;">Devenez <strong>Expert Territorial</strong> ou <strong>Porteur de Projet</strong> pour débloquer le Success Engine.</p>
                         <button onclick="window.location.href='/registration/onboarding'" style="width: 100%; padding: 14px; border-radius: 12px; background: white; color: #059669; border: none; font-weight: 800; cursor: pointer;">Changer de Statut</button>
                     </div>
                 </div>
@@ -252,8 +252,8 @@ const StandardModule = {
             <!-- ECOSYSTEM HUB (4 Cards Grid) -->
             <div style="padding: 0 0 48px 0;">
                 <div style="margin-bottom: 32px;">
-                    <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">Hub d'Ã‰cosystÃ¨mes</h2>
-                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 500;">Activez vos diffÃ©rentes identitÃ©s territoriales pour dÃ©bloquer de nouveaux outils.</p>
+                    <h2 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">Hub d'Écosystèmes</h2>
+                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 500;">Activez vos différentes identités territoriales pour débloquer de nouveaux outils.</p>
                 </div>
 
                 <div class="ecosystem-grid">
@@ -264,8 +264,8 @@ const StandardModule = {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z"/></svg>
                         </div>
                         <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Explorateur</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">DÃ©couverte du rÃ©seau, participation aux Ã©vÃ©nements et suivi de projets.</p>
-                        <button onclick="switchRole('spectateur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #f1f5f9; color: #475569; border: none;">${profile.role === 'spectateur' || !profile.role ? 'DÃ©jÃ  Actif' : 'Activer Discovery'}</button>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Découverte du réseau, participation aux événements et suivi de projets.</p>
+                        <button onclick="switchRole('spectateur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #f1f5f9; color: #475569; border: none;">${profile.role === 'spectateur' || !profile.role ? 'Déjà Actif' : 'Activer Discovery'}</button>
                     </div>
 
                     <!-- PORTEUR (Owner) -->
@@ -274,7 +274,7 @@ const StandardModule = {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         </div>
                         <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Porteur de Projet</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Lancement d'Ã©popÃ©es stratÃ©giques, accÃ¨s au Success Engine et fonds.</p>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Lancement d'épopées stratégiques, accès au Success Engine et fonds.</p>
                         <button onclick="switchRole('porteur')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Pilotage</button>
                     </div>
 
@@ -284,7 +284,7 @@ const StandardModule = {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z"/></svg>
                         </div>
                         <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Expert / Talent</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Mise en avant de vos compÃ©tences, Hub Business, devis et facturation.</p>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Mise en avant de vos compétences, Hub Business, devis et facturation.</p>
                         <button onclick="switchRole('expert')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Expertise</button>
                     </div>
 
@@ -294,7 +294,7 @@ const StandardModule = {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M3 7v1a3 3 0 006 0V7m6 0v1a3 3 0 006 0V7m-6 0h6M9 7h6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3m-6 0h6m-6 0v14m6-14v14"/></svg>
                         </div>
                         <h3 style="font-size: 1.2rem; font-weight: 900; color: #0f172a; margin-bottom: 8px;">Entreprise</h3>
-                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">DÃ©pÃ´t d'offres de mission, recrutement de talents et impact de marque.</p>
+                        <p style="font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 24px;">Dépôt d'offres de mission, recrutement de talents et impact de marque.</p>
                         <button onclick="switchRole('entreprise')" class="cta-button" style="width: 100%; border-radius: 12px; font-weight: 800; font-size: 0.8rem; background: #0f172a; color: white; border: none;">Activer Growth</button>
                     </div>
                 </div>
