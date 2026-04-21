@@ -725,13 +725,19 @@ body {
         display: flex;
     }
 
+    .dashboard-layout {
+        display: block !important;
+        background: #f8fafc !important;
+    }
+
     .main-content {
         margin-left: 0 !important;
         padding: 16px !important;
         padding-top: 90px !important;
         padding-bottom: 100px !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
         background: #f8fafc;
     }
 
