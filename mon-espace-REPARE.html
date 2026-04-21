@@ -10,7 +10,7 @@
 <body class="dashboard-body">
     <div class="dashboard-layout">
         <!-- Sidebar - Dynamic Aceternity Style -->
-        <aside class="sidebar">/aside>
+        <aside class="sidebar"></aside>
 
         <main class="main-content">
             <header class="top-nav">
@@ -132,7 +132,21 @@
         }
 
         window.addEventListener('hashchange', syncNavActiveState);
-        window.addEventListener('load', syncNavActiveState);
+        window.addEventListener('load', () => {
+            syncNavActiveState();
+            console.log("[Emergency] Forcing App Initialization...");
+            if (window.App && typeof window.App.init === 'function') {
+                window.App.init().catch(err => {
+                    console.error("[Emergency] App.init failed:", err);
+                    const target = document.getElementById('ecosystem-grid-container');
+                    if (target) target.innerHTML = `<div style="padding:40px; color:#ef4444; background:white; border-radius:12px; text-align:center;">
+                        <h3>⚠️ Erreur de démarrage</h3>
+                        <p>${err.message}</p>
+                        <button onclick="window.location.reload()" style="padding:10px 20px; background:#0f172a; color:white; border-radius:8px; border:none; cursor:pointer;">Réessayer</button>
+                    </div>`;
+                });
+            }
+        });
         
         // Wait for potential dynamic rendering
         setTimeout(syncNavActiveState, 1000);
