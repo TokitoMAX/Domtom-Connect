@@ -1345,15 +1345,30 @@
                     return;
                 }
             }
-            // --- DIAGNOSTIC PROFIL POUR RLS ---
+            // --- INITIALISATION AUTOMATIQUE DU PROFIL (Anti-RLS 403) ---
             try {
-                const { data: myProfile } = await _supabase.from('profiles').select('role, subscription_tier, status').eq('id', currentUserId).single();
-                console.log("DIAGNOSTIC RLS - Profil Utilisateur:", myProfile);
-                if (myProfile) {
-                    alert(`Diagnose RLS: Rôle=${myProfile.role}, Pack=${myProfile.subscription_tier}, Statut=${myProfile.status}`);
+                const { data: profileCheck, error: checkError } = await _supabase.from('profiles').select('id').eq('id', currentUserId).maybeSingle();
+                
+                if (!profileCheck) {
+                    console.warn("Profil manquant détecté. Création d'un profil basique pour débloquer la messagerie...");
+                    const { error: initError } = await _supabase.from('profiles').insert([{
+                        id: currentUserId,
+                        full_name: 'Utilisateur Domtom',
+                        role: 'basique',
+                        subscription_tier: 'basique',
+                        status: 'active',
+                        updated_at: new Date().toISOString()
+                    }]);
+                    
+                    if (initError) {
+                        console.error("Échec initialisation profil:", initError.message);
+                        alert("Votre compte n'est pas encore initialisé. Veuillez compléter votre profil dans le Dashboard.");
+                        return;
+                    }
+                    console.log("Profil initialisé avec succès.");
                 }
-            } catch (e) { console.error("Erreur diagnostic profil:", e); }
-            // --- FIN DIAGNOSTIC ---
+            } catch (e) { console.error("Erreur pré-vérification profil:", e); }
+            // --- FIN INITIALISATION ---
 
             // --- TENTATIVE DE CRÉATION ROBUSTE (Tabeau + UUID Manuel) ---
             const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
