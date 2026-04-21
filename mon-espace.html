@@ -171,6 +171,16 @@
         
         // Wait for potential dynamic rendering
         setTimeout(syncNavActiveState, 1000);
+
+        // --- Emergency Profile Navigation Fix ---
+        document.querySelectorAll('a[href="#profile"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (window.showView) {
+                    window.showView('profile', true);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
     </script>
 </body>
 </html>

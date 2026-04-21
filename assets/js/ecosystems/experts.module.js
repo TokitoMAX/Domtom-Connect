@@ -100,7 +100,50 @@ const ExpertsModule = {
                         </div>
                     </div>
                 </div>
-           </div>
+
+                <!-- PREMIUM PACKS BENEFITS -->
+                ${profile.subscription_tier === 'free' ? `
+                <div class="premium-benefits-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 20px; padding: 24px; position: relative;">
+                        <span style="position: absolute; top: -10px; right: 20px; background: #6366f1; color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800;">POPULAIRE</span>
+                        <div style="font-size: 0.7rem; font-weight: 800; color: #6366f1; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Authority • 9,99€</div>
+                        <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900;">Boostez votre Influence</h4>
+                        <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Badge certifié "Talent Authority"
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Référencement prioritaire (Top 3)
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Pilotage Business Illimité
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: #0f172a; color: white; border-radius: 20px; padding: 24px; position: relative;">
+                        <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Strategic • 29,99€</div>
+                        <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900; color: white;">Devenez Partenaire</h4>
+                        <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Accompagnement sur-mesure
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Mise en relation directe
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                Visibilité maximale annuaire
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                ` : ''}
+            </div>
 
                 <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
                     <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÉPITES & OPPORTUNITÉS</span>
