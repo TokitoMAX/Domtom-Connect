@@ -99,7 +99,7 @@ const UIComponents = {
      * Render the Top Navigation (Marketplace & Landing Style)
      */
     async renderTopNav() {
-        const topNav = document.getElementById('nav-links-container') || document.querySelector('.navbar .container');
+        const topNav = document.querySelector('.navbar .container');
         if (!topNav) return;
 
         // 1. Context Detection
@@ -212,39 +212,6 @@ const UIComponents = {
         }
     },
 
-    /**
-     * Render the Mobile Bottom Navigation
-     */
-    renderMobileNav(role, territory) {
-        const mobileNav = document.querySelector('.mobile-nav');
-        if (!mobileNav) return;
-
-        // Detect if we are in a subfolder for local file support
-        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-        const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
-        const adjust = (p) => prefix + (p.startsWith('/') ? p.slice(1) : p);
-
-        mobileNav.innerHTML = `
-            <div style="display: flex; justify-content: space-around; width: 100%; align-items: center; padding: 12px 0; background: #0f172a; border-radius: 20px 20px 0 0; box-shadow: 0 -10px 25px rgba(0,0,0,0.2);">
-                <a href="${adjust('mon-espace.html')}" class="mobile-nav-link" style="display:flex; flex-direction:column; align-items:center; color: white; text-decoration:none; font-size: 0.6rem; font-weight: 800; gap: 4px;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    Dashboard
-                </a>
-                <a href="${adjust('marketplace/directory.html')}" class="mobile-nav-link" style="display:flex; flex-direction:column; align-items:center; color: #94a3b8; text-decoration:none; font-size: 0.6rem; font-weight: 800; gap: 4px;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-                    Talents
-                </a>
-                <a href="${adjust('marketplace/evenements.html')}" class="mobile-nav-link" style="display:flex; flex-direction:column; align-items:center; color: #94a3b8; text-decoration:none; font-size: 0.6rem; font-weight: 800; gap: 4px;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5v2"/><path d="M15 11v2"/><path d="M15 17v2"/><path d="M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
-                    Éclats
-                </a>
-                <a href="${adjust('mon-espace.html#profile')}" class="mobile-nav-link" style="display:flex; flex-direction:column; align-items:center; color: #94a3b8; text-decoration:none; font-size: 0.6rem; font-weight: 800; gap: 4px;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    Profil
-                </a>
-            </div>
-        `;
-    }
 };
 
 /**
@@ -253,12 +220,6 @@ const UIComponents = {
 window.loadGlobalNavbar = async function() {
     if (window.UIComponents) {
         await window.UIComponents.renderTopNav();
-        
-        // --- MOBILE NAV INITIALIZATION ---
-        // Render bottom nav for authenticated/dashboard views
-        if (document.querySelector('.mobile-nav')) {
-            window.UIComponents.renderMobileNav();
-        }
         
         // --- MOBILE TOGGLE INITIALIZATION (Landing/Public) ---
         const toggle = document.querySelector('.nav-toggle');
