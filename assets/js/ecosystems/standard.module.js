@@ -34,11 +34,10 @@ const StandardModule = {
         container.innerHTML = `
             <div class="dashboard-grid role-standard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Welcome Card -->
-                <div class="dash-welcome-card" style="grid-column: 1 / -1;">
+                <div class="dash-welcome-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 48px; border-radius: 24px; position: relative; overflow: hidden; color: white;">
                     <div style="z-index: 2; position: relative;">
                         <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:20px; letter-spacing:0.04em; text-transform:uppercase;">Espace Explorateur</span>
-                        <h1>Bonjour, ${profile.full_name || 'Explorateur'}</h1>
+                        <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
                         <p>Bienvenue sur votre centre de commandement personnel. Explorez le réseau et rejoignez des écosystèmes stratégiques.</p>
                     </div>
                 </div>
@@ -70,7 +69,7 @@ const StandardModule = {
                     <!-- DISCOVERY SECTION (WOW Factor) -->
                     <div style="margin-top: 16px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">💎 Opportunités Flash</h3>
+                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">Opportunités Flash</h3>
                             <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
                         </div>
                         <div class="role-upgrade-grid" style="margin-top: 16px;">

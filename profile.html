@@ -579,12 +579,22 @@
                 font-size: 1.5rem !important;
                 margin-bottom: 12px !important;
             }
+            .mobile-only {
+                display: flex !important;
+            }
             .profile-form-card {
-                padding: 20px !important;
+                padding: 18px !important;
                 border-radius: 16px !important;
             }
-            .form-row {
-                grid-template-columns: 1fr !important;
+            .form-group label {
+                font-size: 0.7rem !important;
+                margin-bottom: 4px !important;
+            }
+            .form-group input, 
+            .form-group select, 
+            .form-group textarea {
+                font-weight: 500 !important;
+                font-size: 0.95rem !important;
             }
             .mobile-nav {
                 display: flex !important;
@@ -1072,9 +1082,14 @@
             <div class="dashboard-view-container">
                 <div id="page-header" style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
                     <div>
-                        <p id="role-badge" style="font-size:0.75rem;font-weight:700;background:var(--bg-light);color:var(--text-muted);padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;">Mon compte</p>
-                        <h1 style="font-weight:800;margin-bottom:6px;">Mon Profil</h1>
-                        <p style="color:var(--text-secondary);" id="page-subtitle">Renseignez vos informations. Elles seront sauvegardées sur votre compte.</p>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <a href="/mon-espace" class="mobile-only" style="display: none; background: #fff; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; color: #0f172a; text-decoration: none; align-items: center; gap: 4px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Dashboard
+                            </a>
+                            <p id="role-badge" style="font-size:0.75rem;font-weight:700;background:var(--bg-light);color:var(--text-muted);padding:4px 12px;border-radius:20px;display:inline-block;margin:0;">Mon compte</p>
+                        </div>
+                        <h1 style="font-weight:800;margin-bottom:6px;text-transform: capitalize;">Mon Profil</h1>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;" id="page-subtitle">Renseignez vos informations professionnelles.</p>
                     </div>
                     <button id="edit-toggle-btn" class="cta-button secondary" 
                         style="font-size:0.85rem; padding:12px 24px; border-radius:14px; font-weight:800; border:1.5px solid #e2e8f0; background:white; color:#0f172a; display:flex; align-items:center; gap:8px;"

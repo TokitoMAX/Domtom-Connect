@@ -56,7 +56,7 @@ const CompaniesModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours Institutionnel</h4>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succès</h4>
                                 <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Vitrine Publiée ✅' : 'Étape 1 : Création de Vitrine ⏳'}</p>
                             </div>
                         </div>
@@ -76,11 +76,10 @@ const CompaniesModule = {
                     </div>
                 </div>
 
-                <!-- Unified Welcome Card (Company Premium) -->
-                <div class="dash-welcome-card">
+                <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
                     <div style="z-index: 2; position: relative;">
-                        <span class="role-badge" style="background:#3b82f6; color:white; border:none;">ESPACE ENTREPRISE / BUSINESS</span>
-                        <h1>Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
+                        <span class="role-badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">ESPACE ENTREPRISE / BUSINESS</span>
+                        <h1 style="text-transform: capitalize;">Bonjour, ${profile.company_name || profile.full_name || 'Entreprise'}</h1>
                         <p>Déployez votre stratégie territoriale et pilotez vos talents experts.</p>
                     </div>
                 </div>

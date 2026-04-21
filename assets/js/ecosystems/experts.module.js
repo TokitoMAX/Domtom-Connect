@@ -84,10 +84,9 @@ const ExpertsModule = {
                     </div>
                 </div>
 
-                <!-- Unified Welcome Card (Premium Restoration) -->
                 <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">💎 VOS PÉPITES & OPPORTUNITÉS</span>
-                    <h1>Bonjour, ${profile.full_name || 'Expert'}</h1>
+                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÉPITES & OPPORTUNITÉS</span>
+                    <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Expert'}</h1>
                     <p>${profile.title || 'Expert Territorial'} - Votre expertise territoriale est une force.</p>
                 </div>
 
@@ -95,18 +94,17 @@ const ExpertsModule = {
                 <div class="dash-main-col">
                     
                     <!-- BUSINESS COMMAND CENTER (Restored Concept) -->
-                    <div class="dash-card-highlight" style="background: #ffffff; border: 2px solid #10b981;">
+                    <div class="dash-card-highlight" style="background: #ffffff; border: 2px solid #10b981; padding-bottom: 56px;">
                          <div style="flex:1;">
                             <h4 style="margin:0; font-size:1.8rem; font-weight:900; color:#0f172a; letter-spacing:-0.03em;">Pilotage Business</h4>
                             <p style="font-size: 1rem; color: #64748b; line-height:1.6; margin: 12px 0 0 0; max-width:440px;">Consultez vos statistiques, gérez vos devis et facturez vos missions en toute sécurité.</p>
                          </div>
-                         <button onclick="window.Router.navigate('/dashboard/business')" class="cta-button primary large" style="background:#0f172a; color: white !important; border: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);">Hub Business →</button>
+                            <button onclick="window.Router.navigate('/dashboard/business')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:14px; padding:12px 24px; font-weight:800; border:none; cursor:pointer;">Accéder au Pilotage →</button>
                     </div>
 
                     <!-- MISSIONS FEED (Pépites Matchmaking) -->
                     <div class="dash-card-premium" id="matchmaking-section">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-                            <h3 style="font-size: 1.6rem; font-weight: 900; margin:0; color:#0f172a; letter-spacing:-0.03em;">💎 VOS PÉPITES</h3>
                             <span id="expert-matches-count" class="dash-stat-badge" style="background:#10b981; color:#fff;">MATCHING ACTIF</span>
                         </div>
                         <div id="expert-matches-view">

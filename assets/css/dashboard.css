@@ -205,7 +205,7 @@ body {
 }
 
 @media (max-width: 960px) {
-    .top-nav {
+    .top-nav, .nav-market-links {
         display: none !important;
     }
     .main-content {
