@@ -53,14 +53,8 @@ const Router = {
         // Handle hash-based params as fallback
         if (path.includes('#')) {
             const parts = path.split('#');
-            const cleanPath = parts[0];
             const hashPart = parts[1];
-            if (hashPart.includes('?')) {
-                const subParts = hashPart.split('?');
-                path = `${subParts[0].startsWith('/') ? '' : '/dashboard/'}${subParts[0]}?${subParts[1]}`;
-            } else {
-                path = `/dashboard/${hashPart}`;
-            }
+            path = `#${hashPart}`;
         }
 
         if (window.location.pathname + window.location.search === path && !params) return;
