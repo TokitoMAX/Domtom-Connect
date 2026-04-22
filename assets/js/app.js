@@ -136,17 +136,26 @@ const App = {
             const gridContainer = document.getElementById('ecosystem-grid-container');
             const targetContainer = targetView || gridContainer;
             
+            // SECURITY CHECK: Always clear target before injecting a new module view
+            if (targetContainer) targetContainer.innerHTML = '';
+            
             await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
         }
     },
 
     getActiveModule() {
-        const role = this.state.role || 'spectateur';
+        const rawRole = this.state.role || 'spectateur';
+        // Normalize role: lowercase and remove accents/spaces for robust matching
+        const role = rawRole.toLowerCase()
+            .replace(/\s+/g, '')
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+
         switch (role) {
             case 'expert':
             case 'prestataire': return window.ExpertsModule;
             case 'entreprise': return window.CompaniesModule;
             case 'porteur':
+            case 'porteurdeprojet':
             case 'owner': return window.OwnersModule;
             default: return window.StandardModule;
         }

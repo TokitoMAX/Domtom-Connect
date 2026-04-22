@@ -2555,6 +2555,11 @@ html, body {
 @media (max-width: 1024px) {
     .sidebar {
         display: none !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: fixed !important;
+        left: -100% !important;
     }
     .main-content {
         margin-left: 0 !important;

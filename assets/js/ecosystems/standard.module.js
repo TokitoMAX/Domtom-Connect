@@ -1,9 +1,11 @@
 /**
  * Standard Module - Domtom Connect
- * Écosystème "Explorateur" / Membre Basique
- * Un cockpit épuré pour la découverte et la gestion personnelle.
+ * &Eacute;cosyst&egrave;me "Explorateur" / Membre Basique
+ * Logic for Basic Members (Premium SaaS Standard)
  */
 const StandardModule = {
+    role: 'spectateur',
+
     /**
      * Module Router - Professional Isolation
      */
@@ -13,10 +15,16 @@ const StandardModule = {
 
         switch (viewId) {
             case 'billetterie':
-                await StandardModule.renderTicketing(target, profile, session, params);
+                const billView = document.getElementById('billetterie-view');
+                if (billView) {
+                    billView.style.display = 'block';
+                    if (typeof window.TicketingModule !== 'undefined') {
+                        window.TicketingModule.loadMyTicketing(params);
+                    }
+                }
                 break;
-            case 'mes-billets':
-                await StandardModule.renderMyTickets(target, profile, session, params);
+            case 'profile':
+                await StandardModule.renderProfile(target, profile, session);
                 break;
             case 'overview':
             default:
@@ -26,106 +34,65 @@ const StandardModule = {
     },
 
     /**
-     * Rendu du Dashboard Explorateur (Overview)
+     * Dashboard Home - Discovery Overview (Mobile Harmonized)
      */
     renderDashboard: async (container, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid role-standard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <div class="dash-welcome-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 48px; border-radius: 24px; position: relative; overflow: hidden; color: white;">
+                <!-- Welcome Card (Premium SaaS Style) -->
+                <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin-bottom: 24px;">
                     <div style="z-index: 2; position: relative;">
-                        <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:20px; letter-spacing:0.04em; text-transform:uppercase;">Espace Explorateur</span>
+                        <span class="role-badge" style="background: rgba(255, 255, 255, 0.1); color: #fff; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;">Espace Explorateur</span>
                         <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p>Bienvenue sur votre centre de commandement personnel. Explorez le réseau et rejoignez des écosystèmes stratégiques.</p>
+                        <p>D&eacute;couvrez le r&eacute;seau et rejoignez des &eacute;cosyst&egrave;mes strat&eacute;giques.</p>
                     </div>
                 </div>
 
-                <!-- Main Column -->
-                <div class="dash-main-col" style="grid-column: span 8; display: grid; gap: 32px;">
+                <!-- MAIN COMMAND CENTER (Vertical Stacking) -->
+                <div class="dash-main-col" style="grid-column: 1 / -1; display: grid; gap: 24px;">
                     
-                    <!-- UPGRADE Section (Premium SaaS Style) -->
-                    <div class="role-upgrade-grid">
-                        <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; transition: all 0.3s ease;">
+                    <!-- UPGRADE PATHS -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
                             <div style="width:48px; height:48px; background:#f0fdf4; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #10b981;">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             </div>
                             <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Porteur de Projet</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Vous avez une ambition pour les territoires ? Créez votre épopée et trouvez des experts pour la réaliser.</p>
-                            <a href="profile.html" class="cta-button" style="display:inline-block; background:#0f172a; color:white; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem;">Lancer mon projet</a>
-</div>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Cr&eacute;ez votre &eacute;pop&eacute;e et trouvez des experts pour la r&eacute;aliser.</p>
+                            <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:10px; width:100%;">Lancer mon projet</button>
+                        </div>
 
-<div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0;">
-    <div style="width:48px; height:48px; background:#eff6ff; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #3b82f6;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4" /></svg>
-    </div>
-    <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Expert Territorial</h3>
-    <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos compétences aux entreprises et porteurs de projets internationaux.</p>
-    <a href="profile.html" class="cta-button" style="display:inline-block; border:1px solid #e2e8f0; color:#0f172a; padding:12px 20px; border-radius:10px; font-weight:800; text-decoration:none; font-size:0.9rem; background:white;">Devenir Expert</a>
+                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
+                            <div style="width:48px; height:48px; background:#eff6ff; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #3b82f6;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4" /></svg>
+                            </div>
+                            <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Expert Territorial</h3>
+                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos comp&eacute;tences aux porteurs de projets.</p>
+                            <button onclick="window.Router.navigate('#profile')" class="cta-button secondary" style="width:100%; border:1px solid #e2e8f0;">Devenir Expert</button>
                         </div>
                     </div>
 
-                    <!-- DISCOVERY SECTION (WOW Factor) -->
-                    <div style="margin-top: 16px;">
+                    <!-- OPPORTUNITIES -->
+                    <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">Opportunités Flash</h3>
+                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a; letter-spacing:-0.03em;">Opportunit&eacute;s Flash</h3>
                             <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
                         </div>
-                        <div class="role-upgrade-grid" style="margin-top: 16px;">
-                            <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0; position:relative; overflow:hidden;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">Événement à la une</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Stratégie Territoriale 2026</h4>
-                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Rejoignez 150 experts pour définir le futur de l'innovation locale.</p>
-                                <button onclick="window.Router.navigate('#billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Découvrir →</button>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                            <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 20px;">
+                                <div style="font-size:0.65rem; font-weight:850; color:#3b82f6; text-transform:uppercase; margin-bottom:8px;">&Eacute;v&eacute;nement &agrave; la une</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Strat&eacute;gie Territoriale 2026</h4>
+                                <button onclick="window.Router.navigate('#billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">D&eacute;couvrir →</button>
                             </div>
-                            <div class="dash-card" style="background: white; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#f59e0b; text-transform:uppercase; margin-bottom:8px;">Nouvelle Épopée</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : Énergies Vertes Martinique</h4>
-                                <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Un nouveau porteur de projet recherche des experts en photovoltaïque.</p>
+                            <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 20px;">
+                                <div style="font-size:0.65rem; font-weight:850; color:#f59e0b; text-transform:uppercase; margin-bottom:8px;">Nouvelle &Eacute;pop&eacute;e</div>
+                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : &Eacute;nergies Vertes Martinique</h4>
                                 <button onclick="window.location.href='marketplace/directory.html'" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Voir le projet →</button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Professional Profile Status Card -->
-                    <div class="dash-card" style="border-radius: 24px; padding: 40px; background: white; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: center; margin-top:16px;">
-                        <div>
-                            <h3 style="font-size: 1.5rem; font-weight: 950; color:#0f172a; margin-bottom:12px;">Votre Écosystème Personnel</h3>
-                            <p style="color:#64748b; margin-bottom:24px; line-height: 1.6;">${profile.full_name ? `Bonjour <strong>${profile.full_name}</strong>. Votre` : 'Votre'} profil est le point de départ de votre influence territoriale.</p>
-                            <div style="display:flex; gap:16px;">
-                                <a href="profile.html" class="cta-button primary" style="background:#10b981; border:none; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:white; font-size:0.9rem;">Gérer mon profil</a>
-<a href="marketplace/directory.html" class="cta-button secondary" style="border:1px solid #e2e8f0; padding:12px 24px; font-weight:800; border-radius:12px; text-decoration:none; color:#0f172a; font-size:0.9rem;">Explorer les talents</a>
-                            </div>
-                        </div>
-                        <div style="text-align: center; border-left: 1px solid #f1f5f9; padding-left: 32px;">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; margin-bottom: 4px;">ðŸ’¯</div>
-                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Identité Prête</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar column -->
-                <div class="dash-side-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 32px;">
-                     <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.04em;">Mon Compte</h4>
-                        <div style="display:grid; gap:16px;">
-                            <a href="/profile" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:#0f172a; font-weight:700; font-size:0.95rem;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                                Mon Profil
-                            </a>
-                            <a href="/messages" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:#0f172a; font-weight:700; font-size:0.95rem;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                Messagerie
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                        <p style="font-size:0.85rem; color:#64748b; line-height:1.6; margin:0;">
-                            <strong>Besoin d'aide ?</strong><br>
-                            Contactez notre support pour optimiser votre utilisation de Domtom Connect.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -133,129 +100,34 @@ const StandardModule = {
     },
 
     /**
-     * Billetterie Rendering (Moved from dashboard-core)
-     */
-    renderTicketing: async (container, profile, session, params) => {
-        const view = document.getElementById('billetterie-view');
-        if (view) {
-            if (typeof TicketingModule !== 'undefined') {
-                TicketingModule.loadMyTicketing(params);
-            }
-        }
-    },
-
-    /**
-     * Rendu de la vue "Mes Billets"
-     */
-    renderMyTickets: async (container, profile, session, params) => {
-        const view = document.getElementById('mes-billets-view');
-        if (view) {
-            if (typeof TicketingModule !== 'undefined') {
-                TicketingModule.loadMyTickets(params);
-            }
-        }
-    },
-
-    /**
-     * Profile View Rendering - Explorer Specific (Editable)
+     * Profile View Rendering
      */
     renderProfile: async (container, profile, session) => {
         const view = document.getElementById('profile-view');
         if (!view) return;
         view.style.display = 'block';
 
-        // Prepare editable data
-        const role = profile.role || 'spectateur';
-
         view.innerHTML = `
-            <div class="profile-dashboard-layout">
-                <div class="profile-main-card dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0;">
-                    <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 48px; border-bottom: 1px solid #f1f5f9; padding-bottom: 40px;">
-                        <div id="profile-avatar-container" style="width: 120px; height: 120px; border-radius: 32px; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: #64748b; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative;">
-                            ${profile.avatar_url ? `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:28px;">` : profile.full_name?.charAt(0) || 'E'}
-                            <button onclick="document.getElementById('profile-file-upload').click()" style="position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-radius: 12px; background: #0f172a; color: white; border: 4px solid white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
-                            </button>
-                            <input type="file" id="profile-file-upload" style="display:none;" onchange="StandardModule.handleAvatarUpload(this)">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                                <input type="text" id="profile-full-name" value="${profile.full_name || ''}" placeholder="Votre nom complet" 
-                                       style="font-size: 1.8rem; font-weight: 900; color: #0f172a; border: none; background: transparent; width: 100%; letter-spacing: -0.04em; outline: none; border-bottom: 2px dashed #e2e8f0;">
-                            </div>
-                            <p style="color: #64748b; font-size: 1.1rem; margin: 0;">${profile.email || session.user.email}</p>
-                        </div>
-                    </div>
-
-                    <div class="role-upgrade-grid" style="gap: 40px;">
-                        <div>
-                            <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 7a4 4 0 100-8 4 4 0 000 8z"/></svg>
-                                Identité & Rôle
-                            </h3>
-                            <div style="display: grid; gap: 24px;">
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Titre / Expertise</label>
-                                    <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Développeur BioTech, Consultant..." 
-                                           style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700; color: #334155;">
-                                </div>
-                                
-                                ${role === 'expert' ? `
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Tarif Journalier (€)</label>
-                                    <input type="number" id="profile-tjm" value="${profile.tjm || ''}" placeholder="Ex: 500" 
-                                           style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700; color: #10b981;">
-                                </div>
-                                ` : ''}
-
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Territoire</label>
-                                    <select id="profile-territory" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
-                                        <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>🌍 International</option>
-                                        <option value="Guadeloupe" ${profile.territory === 'Guadeloupe' ? 'selected' : ''}>🇬🇵 Guadeloupe</option>
-                                        <option value="Martinique" ${profile.territory === 'Martinique' ? 'selected' : ''}>🇲🇶 Martinique</option>
-                                        <option value="Guyane" ${profile.territory === 'Guyane' ? 'selected' : ''}>🇬🇫 Guyane</option>
-                                        <option value="Réunion" ${profile.territory === 'Réunion' ? 'selected' : ''}>🇷🇪 La Réunion</option>
-                                        <option value="Mayotte" ${profile.territory === 'Mayotte' ? 'selected' : ''}>🇾🇹 Mayotte</option>
-                                        <option value="Hexagone" ${profile.territory === 'Hexagone' ? 'selected' : ''}>🇫🇷 Hexagone / Diaspora</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>
-                                Présentation & Pitch
-                            </h3>
-                            <div style="display: grid; gap: 20px;">
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Ma Bio / Ma Vision</label>
-                                    <textarea id="profile-bio" style="width: 100%; min-height: 200px; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; line-height: 1.6; color: #475569; resize: vertical;">${profile.bio || ''}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0;">
+                    <h2 style="font-weight: 900; margin-bottom: 32px; letter-spacing: -0.04em;">Mon Profil Personnel</h2>
                     
-                    <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end;">
-                        <button id="save-profile-btn" onclick="StandardModule.saveProfile()" class="cta-button primary" style="padding: 16px 40px; border-radius: 14px; font-weight: 900; background: #10b981; border: none; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(16,185,129,0.2);">
-                            ENREGISTRER LES MODIFICATIONS
-                        </button>
-                    </div>
-                </div>
-
-                <div class="profile-side-card">
-                    <!-- ECOSYSTEM HUB MINI -->
-                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Type de Compte</h4>
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; border-radius: 10px; background: #f0fdf4; color: #10b981; display: flex; align-items: center; justify-content: center;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            </div>
-                            <div>
-                                <div style="font-weight: 800; color: #0f172a; text-transform: capitalize;">${role}</div>
-                                <div style="font-size: 0.75rem; color: #94a3b8;">Niveau standard</div>
-                            </div>
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Nom Complet</label>
+                            <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                        </div>
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Titre / Expertise</label>
+                            <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: D&eacute;veloppeur BioTech, Consultant..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                        </div>
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Ma Bio</label>
+                            <textarea id="profile-bio" style="width: 100%; min-height: 120px; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 600;">${profile.bio || ''}</textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; margin-top: 24px;">
+                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#10b981; color:white; border:none; padding:16px 32px; border-radius:14px; font-weight:900; width: 100%;">Enregistrer les modifications</button>
                         </div>
                     </div>
                 </div>
@@ -264,86 +136,26 @@ const StandardModule = {
     },
 
     saveProfile: async () => {
-        const btn = document.getElementById('save-profile-btn');
-        if (btn) {
-            btn.disabled = true;
-            btn.textContent = "ENREGISTREMENT...";
-        }
-
         try {
             const updates = {
                 full_name: document.getElementById('profile-full-name').value,
                 title: document.getElementById('profile-title').value,
                 bio: document.getElementById('profile-bio').value,
-                territory: document.getElementById('profile-territory').value,
                 updated_at: new Date().toISOString()
             };
 
-            const tjmEl = document.getElementById('profile-tjm');
-            if (tjmEl) updates.tjm = parseFloat(tjmEl.value) || 0;
-
             const { data: { session } } = await window._supabase.auth.getSession();
-            if (!session) throw new Error("Session expirée");
+            if (!session) throw new Error("Session expir&eacute;e");
 
-            const { error } = await window._supabase
-                .from('profiles')
-                .update(updates)
-                .eq('id', session.user.id);
-
+            const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("✅ Profil mis à jour avec succès !");
-            
-            // Refresh to sync global state
-            window.location.reload();
-
-        } catch (err) {
-            alert("❌ Erreur lors de la sauvegarde : " + err.message);
-        } finally {
-            if (btn) {
-                btn.disabled = false;
-                btn.textContent = "ENREGISTRER LES MODIFICATIONS";
-            }
-        }
-    },
-
-    handleAvatarUpload: async (input) => {
-        const file = input.files[0];
-        if (!file) return;
-
-        try {
-            const { data: { session } } = await window._supabase.auth.getSession();
-            if (!session) throw new Error("Veuillez vous reconnecter.");
-
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${session.user.id}/avatar_${Date.now()}.${fileExt}`;
-
-            const { error: uploadError } = await window._supabase.storage
-                .from('avatars')
-                .upload(fileName, file, { upsert: true });
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = window._supabase.storage
-                .from('avatars')
-                .getPublicUrl(fileName);
-
-            const { error: updateError } = await window._supabase
-                .from('profiles')
-                .update({ avatar_url: publicUrl })
-                .eq('id', session.user.id);
-
-            if (updateError) throw updateError;
-
-            alert("✅ Avatar mis à jour !");
+            alert("\u2705 Profil mis &agrave; jour !");
             window.location.reload();
         } catch (err) {
-            alert("Erreur upload avatar: " + err.message);
+            alert("\u274c Erreur : " + err.message);
         }
     }
 };
 
-// Global polyfill for onclick
-window.saveProfile = StandardModule.saveProfile;
 window.StandardModule = StandardModule;
-
