@@ -26,7 +26,7 @@ const OwnersModule = {
     },
 
     /**
-     * Dashboard Home - Epic Presentation (Picture 3 Restoration)
+     * Dashboard Home - Epic Presentation (Mobile Corrected)
      */
     renderDashboard: (container, profile, session) => {
         if (!container) return;
@@ -37,13 +37,51 @@ const OwnersModule = {
         const percent = Math.min(Math.round((current / goal) * 100), 100);
 
         container.innerHTML = `
+            <style>
+                .epic-grid-container {
+                    display: grid;
+                    grid-template-columns: 1fr 340px;
+                    gap: 32px;
+                }
+                .epic-hero-h1 {
+                    font-size: 4rem;
+                    line-height: 1.1;
+                }
+                @media (max-width: 1024px) {
+                    .epic-grid-container {
+                        grid-template-columns: 1fr;
+                        gap: 24px;
+                    }
+                    .epic-hero {
+                        padding: 40px 24px !important;
+                    }
+                    .epic-hero-h1 {
+                        font-size: 2.5rem !important;
+                    }
+                    .dash-side-col {
+                        order: 2;
+                    }
+                    .dash-left-col {
+                        order: 1;
+                    }
+                    .epic-tabs {
+                        gap: 20px !important;
+                        overflow-x: auto;
+                        padding-bottom: 10px;
+                    }
+                    .epic-tabs button {
+                        white-space: nowrap;
+                    }
+                }
+            </style>
+
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- EPIC HERO BANNER -->
                 <div class="epic-hero" style="background: linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.95)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200'); background-size: cover; background-position: center; border-radius: 28px; padding: 60px; margin-bottom: 32px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
                     <div style="position: relative; z-index: 2;">
                         <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.05em;">Projet Impact & Innovation</span>
-                        <h1 style="color: white; font-size: 4rem; font-weight: 950; margin: 20px 0 12px 0; letter-spacing: -0.04em;">${profile.project_name || 'Nouvelle &Eacute;pop&eacute;e'}</h1>
+                        <h1 class="epic-hero-h1" style="color: white; font-weight: 950; margin: 20px 0 12px 0; letter-spacing: -0.04em;">${profile.project_name || 'Nouvelle &Eacute;pop&eacute;e'}</h1>
                         <div style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.6); font-weight: 700;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             ${profile.zone || 'Guyane'}
@@ -52,18 +90,18 @@ const OwnersModule = {
                 </div>
 
                 <!-- EPIC TABS -->
-                <div style="display: flex; gap: 40px; margin-bottom: 32px; border-bottom: 1px solid #e2e8f0; padding: 0 10px;">
+                <div class="epic-tabs" style="display: flex; gap: 40px; margin-bottom: 32px; border-bottom: 1px solid #e2e8f0; padding: 0 10px;">
                     <button class="active" style="padding: 16px 0; background: none; border: none; font-weight: 900; font-size: 0.85rem; color: #10b981; border-bottom: 3px solid #10b981; text-transform: uppercase;">Le Manifeste</button>
                     <button style="padding: 16px 0; background: none; border: none; font-weight: 900; font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; cursor: pointer;">Strat&eacute;gie</button>
                     <button style="padding: 16px 0; background: none; border: none; font-weight: 900; font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; cursor: pointer;">&Eacute;quipe & Impact</button>
                     <button style="padding: 16px 0; background: none; border: none; font-weight: 900; font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; cursor: pointer;">Propulsion</button>
                 </div>
 
-                <!-- TWO COLUMN LAYOUT -->
-                <div style="display: grid; grid-template-columns: 1fr 340px; gap: 32px;">
+                <!-- TWO COLUMN LAYOUT (Responsive Grid) -->
+                <div class="epic-grid-container">
                     
                     <!-- MAIN CONTENT: MANIFESTO -->
-                    <div class="dash-card" style="padding: 40px;">
+                    <div class="dash-left-col dash-card" style="padding: 40px;">
                         <h4 style="font-size: 0.7rem; font-weight: 900; color: #10b981; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 10px;">
                             <span style="width:8px; height:8px; background:#10b981; border-radius:50%;"></span> Manifeste & Impact
                         </h4>
