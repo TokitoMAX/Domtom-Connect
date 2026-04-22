@@ -168,13 +168,13 @@ html, body {
 .nav-market-links {
     display: flex;
     gap: 8px;
-    background: #0f172a; /* Dark Premium */
+    background: rgba(15, 23, 42, 0.9); /* More opaque obsidian */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 4px;
+    padding: 6px;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     pointer-events: auto;
     max-width: 95%;
     width: fit-content;
@@ -186,11 +186,11 @@ html, body {
 
 .nav-market-link {
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.85); /* Much brighter */
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 8px 16px;
+    padding: 8px 18px;
     border-radius: 100px;
     display: flex;
     align-items: center;
@@ -200,18 +200,12 @@ html, body {
 
 .nav-market-link:hover, .nav-market-link.active {
     color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.nav-market-link:hover {
-    background: #000;
-    color: #fff;
+    background: #10b981; /* Emerald on hover/active */
 }
 
 .nav-market-link.active {
-    background: #000;
     color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 @media (max-width: 960px) {
