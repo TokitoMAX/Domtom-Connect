@@ -10,8 +10,8 @@ const ExpertsModule = {
      */
     route: async (viewId, container, profile, session, params) => {
         console.log("[ExpertsModule] Routing to:", viewId);
-        const target = container || document.getElementById('ecosystem-grid-container');
-        if (!target) return;
+        const topNav = document.getElementById('ecosystem-top-nav');
+        if (topNav) topNav.style.display = 'none';
 
         switch (viewId) {
             case 'business':
@@ -51,7 +51,7 @@ const ExpertsModule = {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; display: grid; grid-template-columns: 1fr 340px; gap: 32px; padding: 20px;">
+            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; padding: 40px; margin-left: auto; max-width: 1200px;">
                 
                 <!-- MAIN CONTENT: ACTION CENTER -->
                 <div class="dash-main-col">
@@ -168,33 +168,33 @@ const ExpertsModule = {
      */
     renderBusinessPilotage: async (container, profile, session) => {
         container.innerHTML = `
-            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; padding: 20px;">
-                <div style="margin-bottom: 32px;">
-                    <h1 style="font-weight: 900; color: #020617; font-size: 2.5rem; letter-spacing: -0.03em;">Pilotage d'Activit&eacute;</h1>
-                    <p style="color: #64748b; font-weight: 600;">G&eacute;rez votre business, vos devis et votre impact territorial.</p>
+            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; padding: 40px; margin-left: auto; max-width: 1200px;">
+                <div style="margin-bottom: 40px;">
+                    <h1 style="font-weight: 900; color: #020617; font-size: 2.8rem; letter-spacing: -0.04em;">Pilotage d'Activit&eacute;</h1>
+                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 600;">G&eacute;rez votre business, vos devis et votre impact territorial.</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
-                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Revenus G&eacute;n&eacute;r&eacute;s</h4>
-                         <div style="font-size: 2.5rem; font-weight: 950; color: #020617;">0,00 &euro;</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px;">
+                    <div class="dash-card" style="background: white; padding: 40px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.8rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Revenus G&eacute;n&eacute;r&eacute;s</h4>
+                         <div style="font-size: 3rem; font-weight: 950; color: #020617;">0,00 &euro;</div>
                     </div>
-                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Missions en cours</h4>
-                         <div style="font-size: 2.5rem; font-weight: 950; color: #10b981;">0</div>
+                    <div class="dash-card" style="background: white; padding: 40px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.8rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Missions en cours</h4>
+                         <div style="font-size: 3rem; font-weight: 950; color: #10b981;">0</div>
                     </div>
-                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Impact Territoire</h4>
-                         <div style="font-size: 2.5rem; font-weight: 950; color: #2563eb;">Elite</div>
+                    <div class="dash-card" style="background: white; padding: 40px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.8rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Impact Territoire</h4>
+                         <div style="font-size: 3rem; font-weight: 950; color: #2563eb;">Elite</div>
                     </div>
                 </div>
 
-                <div class="dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
+                <div class="dash-card" style="background: white; border-radius: 28px; padding: 50px; border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.04);">
                     <div>
-                        <h3 style="color: #020617; font-weight: 900; margin-bottom: 8px;">Prêt à booster votre visibilité ?</h3>
-                        <p style="color: #64748b; font-weight: 600;">Activez votre collaboration active pour débloquer plus de missions.</p>
+                        <h3 style="color: #020617; font-weight: 950; margin-bottom: 12px; font-size: 1.4rem;">Prêt à booster votre visibilité ?</h3>
+                        <p style="color: #64748b; font-weight: 600; font-size: 1rem;">Activez votre collaboration active pour débloquer plus de missions.</p>
                     </div>
-                    <button onclick="window.Router.navigate('#collaboration')" style="padding: 16px 32px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Lancer une Collaboration</button>
+                    <button onclick="window.Router.navigate('#collaboration')" style="padding: 20px 40px; background: #020617; color: white; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; font-size: 1.1rem; box-shadow: 0 15px 30px rgba(0,0,0,0.15);">Lancer une Collaboration</button>
                 </div>
             </div>
         `;
