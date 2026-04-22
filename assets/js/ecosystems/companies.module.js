@@ -66,8 +66,8 @@ const CompaniesModule = {
                                 <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">&Eacute;tape 2 : Partenariat Certifi&eacute;</h4>
                                 <p style="margin: 0; font-size: 0.75rem; color: #64748b;">Acc&egrave;s au r&eacute;seau de talents</p>
                             </div>
-                            <button class="cta-button primary" style="padding: 10px 20px; border-radius: 10px; background: #0f172a; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer;">
-                                D&eacute;bloquer →
+                            <button onclick="window.PaymentModule.openSubModal('strategic', 'entreprise', window.App.state.profile)" class="cta-button primary" style="padding: 10px 20px; border-radius: 10px; background: #0f172a; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer;">
+                                D&eacute;bloquer l'Etape 2 →
                             </button>
                         </div>
                     </div>
@@ -107,8 +107,33 @@ const CompaniesModule = {
     },
 
     /**
-     * RESTORED: Functional mission loading for Collaboration Hub
+     * RESTORED: Company-specific Profile Fields
      */
+    renderProfileFields: (profile) => {
+        return `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Nom de l'Entreprise</label>
+                    <input type="text" id="profile-company_name" value="${profile.company_name || ''}" placeholder="Ex: Domtom Connect SAS" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                </div>
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Num&eacute;ro SIRET</label>
+                    <input type="text" id="profile-siret" value="${profile.siret || ''}" placeholder="123 456 789 00010" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Secteur d'Activit&eacute;</label>
+                    <input type="text" id="profile-sector" value="${profile.sector || ''}" placeholder="Ex: Digital, Conseil, BTP..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                </div>
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Site Web Corporate</label>
+                    <input type="url" id="profile-website" value="${profile.website || ''}" placeholder="https://..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                </div>
+            </div>
+        `;
+    },
+
     loadMyJobs: async (container) => {
         const target = container || document.getElementById('company-jobs-container');
         if (!target) return;
@@ -117,19 +142,15 @@ const CompaniesModule = {
             target.innerHTML = `
                 <div style="text-align:center; padding:20px;">
                     <p style="color:#64748b; font-weight:700; margin-bottom:16px;">Aucune mission active pour le moment.</p>
-                    <button class="cta-button secondary" style="background:white; border:1px solid #e2e8f0; padding:10px 24px; border-radius:10px; font-weight:800; cursor:pointer;">+ Publier une mission</button>
+                    <button class="cta-button" style="background:white; border:2px solid #0f172a; padding:12px 24px; border-radius:10px; font-weight:800; cursor:pointer; color:#0f172a;">+ Publier une mission d&eacute;taill&eacute;e</button>
                 </div>
             `;
         }, 500);
     },
 
-    /**
-     * Helper for workspace rendering (called by CollaborationModule)
-     */
     renderWorkspace: async (container, profile) => {
         if (container) container.innerHTML = `<div style="padding:20px; font-weight:600;">Chargement de l'espace de travail...</div>`;
     }
 };
 
 window.CompaniesModule = CompaniesModule;
-window.loadMyJobs = CompaniesModule.loadMyJobs;

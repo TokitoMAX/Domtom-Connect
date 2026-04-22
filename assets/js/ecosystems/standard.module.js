@@ -50,10 +50,7 @@ const StandardModule = {
                     </div>
                 </div>
 
-                <!-- MAIN COMMAND CENTER (Vertical Stacking) -->
                 <div class="dash-main-col" style="grid-column: 1 / -1; display: grid; gap: 24px;">
-                    
-                    <!-- UPGRADE PATHS -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
                         <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
                             <div style="width:48px; height:48px; background:rgba(16, 185, 129, 0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #10b981;">
@@ -63,34 +60,60 @@ const StandardModule = {
                             <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Cr&eacute;ez votre &eacute;pop&eacute;e et trouvez des experts pour la r&eacute;aliser.</p>
                             <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:10px; width:100%; border:none;">Lancer mon projet</button>
                         </div>
-
-                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                            <div style="width:48px; height:48px; background:rgba(16, 185, 129, 0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #10b981;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4" /></svg>
-                            </div>
-                            <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Expert Territorial</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Proposez vos comp&eacute;tences aux porteurs de projets.</p>
-                            <button onclick="window.Router.navigate('#profile')" class="cta-button secondary" style="width:100%; border:1px solid #e2e8f0; background:white; padding:12px; border-radius:10px; font-weight:800;">Devenir Expert</button>
-                        </div>
                     </div>
+                </div>
+            </div>
+        `;
+    },
 
-                    <!-- OPPORTUNITIES -->
-                    <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h3 style="font-size: 1.4rem; font-weight: 950; color:#0f172a;">Opportunit&eacute;s Flash</h3>
-                            <span style="font-size:0.75rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.05); padding:6px 12px; border-radius:100px;">LIVE COMMUNITY</span>
+    /**
+     * Profile View - Smart Orchestrator
+     */
+    renderProfile: async (container, profile, session) => {
+        const view = container || document.getElementById('ecosystem-grid-container');
+        if (!view) return;
+
+        // Determine specialized component
+        const role = profile.role || 'spectateur';
+        let specializedFields = '';
+        
+        if (role === 'expert' && window.ExpertsModule?.renderProfileFields) {
+            specializedFields = window.ExpertsModule.renderProfileFields(profile);
+        } else if (role === 'entreprise' && window.CompaniesModule?.renderProfileFields) {
+            specializedFields = window.CompaniesModule.renderProfileFields(profile);
+        } else if (role === 'owner' && window.OwnersModule?.renderProfileFields) {
+            specializedFields = window.OwnersModule.renderProfileFields(profile);
+        }
+
+        view.innerHTML = `
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0;">
+                    <h2 style="font-weight: 900; margin-bottom: 32px; letter-spacing: -0.04em;">Mon Profil Professionnel</h2>
+                    
+                    <div id="profile-editor-form" style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Global Basic Fields -->
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Nom Complet / Public</label>
+                            <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                            <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 20px;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#10b981; text-transform:uppercase; margin-bottom:8px;">&Eacute;v&eacute;nement &agrave; la une</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Masterclass : Strat&eacute;gie Territoriale 2026</h4>
-                                <button onclick="window.Router.navigate('#billetterie')" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">D&eacute;couvrir →</button>
-                            </div>
-                            <div style="padding: 24px; border: 1px solid #f1f5f9; border-radius: 20px;">
-                                <div style="font-size:0.65rem; font-weight:850; color:#10b981; text-transform:uppercase; margin-bottom:8px;">Nouvelle &Eacute;pop&eacute;e</div>
-                                <h4 style="font-size:1rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Projet : &Eacute;nergies Vertes Martinique</h4>
-                                <button onclick="window.location.href='marketplace/directory.html'" style="background:none; border:none; color:#10b981; font-weight:800; font-size:0.8rem; cursor:pointer; padding:0;">Voir le projet →</button>
-                            </div>
+                        
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Titre / Fonction</label>
+                            <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Développeur Senior, PDG, etc." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                        </div>
+
+                        <!-- Specialized Fields Injection -->
+                        <div id="specialized-profile-fields" style="display:grid; gap:24px;">
+                            ${specializedFields}
+                        </div>
+
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Bio / Pr&eacute;sentation</label>
+                            <textarea id="profile-bio" style="width: 100%; min-height: 120px; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 600;">${profile.bio || ''}</textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; margin-top: 24px;">
+                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#10b981; color:white; border:none; padding:18px 32px; border-radius:14px; font-weight:900; width: 100%; cursor:pointer;">Enregistrer mon profil →</button>
                         </div>
                     </div>
                 </div>
@@ -99,41 +122,8 @@ const StandardModule = {
     },
 
     /**
-     * Profile View Rendering
+     * Unified Save Logic
      */
-    renderProfile: async (container, profile, session) => {
-        const view = document.getElementById('profile-view');
-        if (!view) return;
-        view.style.display = 'block';
-
-        view.innerHTML = `
-            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0;">
-                    <h2 style="font-weight: 900; margin-bottom: 32px; letter-spacing: -0.04em;">Mon Profil Personnel</h2>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 24px;">
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Nom Complet</label>
-                            <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
-                        </div>
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Titre / Expertise</label>
-                            <input type="text" id="profile-title" value="${profile.title || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
-                        </div>
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Ma Bio</label>
-                            <textarea id="profile-bio" style="width: 100%; min-height: 120px; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 600;">${profile.bio || ''}</textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 24px;">
-                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#10b981; color:white; border:none; padding:16px 32px; border-radius:14px; font-weight:900; width: 100%; cursor:pointer;">Enregistrer les modifications</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    },
-
     saveProfile: async () => {
         try {
             const updates = {
@@ -143,13 +133,24 @@ const StandardModule = {
                 updated_at: new Date().toISOString()
             };
 
+            // Collect data from specialized fields if they exist
+            const fields = [
+                'tjm', 'availability', 'skills', 'siret', 'website', 
+                'sector', 'company_name', 'project_desc', 'budget'
+            ];
+            
+            fields.forEach(f => {
+                const el = document.getElementById('profile-' + f);
+                if (el) updates[f] = el.value;
+            });
+
             const { data: { session } } = await window._supabase.auth.getSession();
-            if (!session) throw new Error("Session expir&eacute;e");
+            if (!session) throw new Error("Session expir\u00e9e");
 
             const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("\u2705 Profil mis &agrave; jour !");
+            alert("\u2705 Profil professionnel mis \u00e0 jour !");
             window.location.reload();
         } catch (err) {
             alert("\u274c Erreur : " + err.message);

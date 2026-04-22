@@ -79,32 +79,6 @@ const ExpertsModule = {
                     </div>
                 </div>
 
-                <!-- PREMIUM PACKS BENEFITS -->
-                ${profile.subscription_tier === 'free' ? `
-                <div class="premium-benefits-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
-                    <div style="background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 24px; position: relative;">
-                        <span style="position: absolute; top: -10px; right: 20px; background: #10b981; color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800;">RECOMMAND&Eacute;</span>
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Authority • 9,99€</div>
-                         <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900; color: #0f172a;">Boostez votre Influence</h4>
-                        <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
-                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Badge certifi&eacute; "Talent Authority"
-                            </li>
-                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                R&eacute;f&eacute;rencement prioritaire
-                            </li>
-                        </ul>
-                    </div>
-                    <div style="background: #0f172a; color: white; border-radius: 20px; padding: 24px;">
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Strategic • 29,00€</div>
-                        <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900; color: white;">Devenez Partenaire</h4>
-                        <button onclick="window.PaymentModule.openSubModal('strategic', 'expert', window.App.state.profile)" style="width:100%; padding:12px; border:1px solid #10b981; border-radius:10px; background:transparent; color:#10b981; font-weight:800; cursor:pointer; margin-top:12px;">En savoir plus</button>
-                    </div>
-                </div>
-                ` : ''}
-
                 <!-- Welcome Card (Native Black) -->
                 <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px;">
                     <div style="z-index: 2; position: relative;">
@@ -142,6 +116,36 @@ const ExpertsModule = {
         if (session && session.user && typeof window.loadMatchmaking === 'function') {
             window.loadMatchmaking(session.user.id);
         }
+    },
+
+    /**
+     * RESTORED: Expert-specific Profile Fields
+     */
+    renderProfileFields: (profile) => {
+        return `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Tarif Journalier (TJM &euro;)</label>
+                    <input type="number" id="profile-tjm" value="${profile.tjm || 0}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                </div>
+                <div class="info-field">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Disponibilit&eacute;</label>
+                    <select id="profile-availability" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700; background: white;">
+                        <option value="available" ${profile.availability === 'available' ? 'selected' : ''}>Disponible Immd&eacute;diatement</option>
+                        <option value="busy" ${profile.availability === 'busy' ? 'selected' : ''}>En mission</option>
+                        <option value="off" ${profile.availability === 'off' ? 'selected' : ''}>Non disponible</option>
+                    </select>
+                </div>
+            </div>
+            <div class="info-field">
+                <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Comp&eacute;tences Cl&eacute;s (S&eacute;par&eacute;es par des virgules)</label>
+                <input type="text" id="profile-skills" value="${profile.skills || ''}" placeholder="Ex: Stratégie, Digital, Management..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+            </div>
+            <div class="info-field">
+                <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Lien Portfolio / LinkedIn</label>
+                <input type="url" id="profile-website" value="${profile.website || ''}" placeholder="https://..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+            </div>
+        `;
     }
 };
 
