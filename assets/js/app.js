@@ -88,8 +88,8 @@ const App = {
         if (!this.state.initialized && this.state.session) {
             console.log("[App] ShowView called before initialization complete. Waiting...");
             let waitCount = 0;
-            while (!this.state.initialized && waitCount < 10) {
-                await new Promise(resolve => setTimeout(resolve, 500));
+            while (!this.state.initialized && waitCount < 30) {
+                await new Promise(resolve => setTimeout(resolve, 100)); // Faster check (100ms)
                 waitCount++;
             }
         }

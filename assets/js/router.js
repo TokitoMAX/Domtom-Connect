@@ -49,9 +49,17 @@ const Router = {
      * Navigate to a path
      */
     navigate(path, params = null) {
+        const hashPart = path.includes('#') ? path.split('#')[1] : null;
+        
+        // Prevent redundant navigation if already on this hash
+        if (hashPart && window.location.hash.replace('#', '') === hashPart) {
+            console.log("[Router] Already on hash:", hashPart);
+            return;
+        }
+
         console.log("[Router] Navigating to:", path);
-        if (path.includes('#')) {
-            window.location.hash = path.split('#')[1];
+        if (hashPart) {
+            window.location.hash = hashPart;
             return;
         }
         window.history.pushState(params, '', path);
@@ -83,7 +91,7 @@ const Router = {
         } 
         
         // 2. Fallback to path matching
-        if (viewId === 'overview') {
+        if (!viewId || viewId === 'overview') {
             for (const [route, id] of Object.entries(this.routes)) {
                 if (path.includes(route)) {
                     viewId = id;
@@ -92,7 +100,7 @@ const Router = {
             }
         }
 
-        const params = new URLSearchParams(window.location.search || window.location.hash.split('?')[1]);
+        const params = new URLSearchParams(window.location.search || (window.location.hash.includes('?') ? window.location.hash.split('?')[1] : ''));
 
         console.log(`[Router] Route matched: ${path} (Hash: ${hash}) -> ${viewId}`);
         
