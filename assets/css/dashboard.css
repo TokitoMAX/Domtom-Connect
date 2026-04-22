@@ -2552,6 +2552,17 @@ html, body {
    NUCLEAR MOBILE FIXES (RESCUE PLAN)
    ========================================================================== */
 
+@media (max-width: 1024px) {
+    .sidebar {
+        display: none !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 12px !important;
+    }
+}
+
 @media (max-width: 768px) {
     /* 1. Force full width and kill harmful fixed grids */
     .dashboard-grid, .cards-grid {
@@ -2566,11 +2577,6 @@ html, body {
         border-radius: 16px !important;
         width: 100% !important;
         box-sizing: border-box;
-    }
-
-    /* 3. Nuclear Sidebar Hide & Header Compact */
-    .sidebar {
-        display: none !important;
     }
 
     .nav-toggle {
@@ -2591,17 +2597,19 @@ html, body {
         margin-left: 0 !important;
         width: 100% !important;
         padding: 12px !important;
+        padding-top: 80px !important; /* Space for the floating pill nav */
         padding-bottom: 120px !important;
     }
 
     .top-nav {
-        top: 0 !important;
-        height: 50px !important;
+        position: fixed !important;
+        top: 10px !important;
+        height: 60px !important;
         left: 0 !important;
         width: 100% !important;
         padding: 0 10px !important;
-        background: rgba(15, 23, 42, 0.95);
-        backdrop-filter: blur(10px);
+        background: transparent !important;
+        pointer-events: none;
     }
 
     .nav-market-links {

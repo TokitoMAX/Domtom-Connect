@@ -81,8 +81,8 @@ const ExpertsModule = {
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succès</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? 'Étape 1 : Référencement Actif ✅' : 'Étape 1 : Publication du Profil ⏳'}</p>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succ&egrave;s</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? '&Eacute;tape 1 : R&eacute;f&eacute;rencement Actif ✅' : '&Eacute;tape 1 : Publication du Profil ⏳'}</p>
                             </div>
                         </div>
                         <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
@@ -91,8 +91,8 @@ const ExpertsModule = {
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="text-align: right;">
-                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Rayonnement Authority</h4>
-                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack Activé' : 'Débloquez votre visibilité premium'}</p>
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">&Eacute;tape 2 : Rayonnement Authority</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack Activ&eacute;' : 'D&eacute;bloquez votre visibilit&eacute; premium'}</p>
                             </div>
                              <button onclick="window.PaymentModule.openSubModal('authority', 'expert', window.App.state.profile)" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#10b981' : '#0f172a'}; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
                                 ${profile.subscription_tier !== 'free' ? 'Gérer mon Pack' : 'Activer l\'Étape 2 →'}
@@ -107,19 +107,19 @@ const ExpertsModule = {
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 20px; padding: 24px; position: relative;">
                         <span style="position: absolute; top: -10px; right: 20px; background: #6366f1; color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800;">POPULAIRE</span>
                         <div style="font-size: 0.7rem; font-weight: 800; color: #6366f1; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Authority • 9,99€</div>
-                        <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900;">Boostez votre Influence</h4>
+                         <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900;">Boostez votre Influence</h4>
                         <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Badge certifié "Talent Authority"
+                                Badge certifi&eacute; "Talent Authority"
+                            </li>
+                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                R&eacute;f&eacute;rencement prioritaire (Top 3)
                             </li>
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Référencement prioritaire (Top 3)
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Pilotage Business Illimité
+                                Pilotage Business Illimit&eacute;
                             </li>
                         </ul>
                     </div>
@@ -129,7 +129,7 @@ const ExpertsModule = {
                         <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Accompagnement sur-mesure
+                                 Accompagnement sur-mesure
                             </li>
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -137,7 +137,7 @@ const ExpertsModule = {
                             </li>
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                Visibilité maximale annuaire
+                                Visibilit&eacute; maximale annuaire
                             </li>
                         </ul>
                     </div>
@@ -146,7 +146,7 @@ const ExpertsModule = {
             </div>
 
                 <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS PÉPITES & OPPORTUNITÉS</span>
+                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VOS P&Eacute;PITES &amp; OPPORTUNIT&Eacute;S</span>
                     <h1 style="text-transform: capitalize;">Bonjour, ${profile.full_name || 'Expert'}</h1>
                     <p>${profile.title || 'Expert Territorial'} - Votre expertise territoriale est une force.</p>
                 </div>

@@ -50,7 +50,7 @@ const UIComponents = {
         });
 
         // Network Section
-        sidebarHtml += `<div class="sidebar-section-title">Le Réseau</div>`;
+        sidebarHtml += `<div class="sidebar-section-title">Le R&eacute;seau</div>`;
         networkItems.forEach(item => {
             sidebarHtml += this.renderSidebarLink(adjust(item.path), item.label, item.icon);
         });
@@ -58,7 +58,7 @@ const UIComponents = {
         // Professional Tools
         sidebarHtml += `<div class="sidebar-section-title">Mes Outils</div>`;
         if (isOwner) {
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#success-engine'), 'Succès & Pilotage', 'M13 10V3L4 14h7v7l9-11h-7z');
+            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#success-engine'), 'Succ&egrave;s & Pilotage', 'M13 10V3L4 14h7v7l9-11h-7z');
         }
         if (isProfessional) {
             sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#business'), 'Factures & TJM', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z');
@@ -66,7 +66,7 @@ const UIComponents = {
         sidebarHtml += this.renderSidebarLink(adjust('messages.html'), 'Messagerie (Chat)', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
         // Settings
-        sidebarHtml += `<div class="sidebar-section-title">Paramètres</div>`;
+        sidebarHtml += `<div class="sidebar-section-title">Param&egrave;tres</div>`;
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#profile'), 'Mon Compte', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         sidebarHtml += `
             <a href="javascript:void(0)" onclick="signOut()" class="sidebar-link" title="Déconnexion">
@@ -75,7 +75,7 @@ const UIComponents = {
                         <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
                 </div>
-                <span class="sidebar-label" style="color:#ef4444;">Déconnexion</span>
+                <span class="sidebar-label" style="color:#ef4444;">D&eacute;connexion</span>
             </a>
         `;
 
