@@ -71,10 +71,11 @@ const ExpertsModule = {
                                     <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;">PROFIL COMPLÉTÉ</span>
                                     <span style="color: #10b981; font-size: 0.8rem; font-weight: 900;">45%</span>
                                 </div>
-                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                                    <div style="width: 45%; height: 100%; background: #10b981; border-radius: 10px;"></div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                     <button onclick="ExpertsModule.showExpertPacks()" style="padding: 10px 20px; background: #020617; color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 0.85rem;">
+                                         ${profile.subscription_tier !== 'free' ? 'G&eacute;rer mon Pack' : 'Activer l\'&Eacute;tape 2'}
+                                     </button>
                                 </div>
-                            </div>
                         </div>
                     </div>
 
@@ -149,25 +150,16 @@ const ExpertsModule = {
                     <button onclick="window.location.reload()" style="background:none; border:none; color:#10b981; font-weight:800; cursor:pointer;">&larr; Retour</button>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #f1f5f9; background: #f8fafc;">
-                        <div style="font-weight: 900; color: #64748b; margin-bottom: 8px;">FREE LANCE</div>
-                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Pack Actuel</div>
-                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
-                            <li style="margin-bottom: 12px;">\u2713 Commission 15%</li>
-                            <li style="margin-bottom: 12px;">\u2713 Paiement s&eacute;curis&eacute;</li>
-                            <li style="margin-bottom: 12px; color: #cbd5e1;">\u2715 Mise en avant annuaire</li>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
+                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #020617; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center;">
+                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">PACK EXPERT</div>
+                        <div style="font-size: 3rem; font-weight: 950; color: #020617; margin-bottom: 24px;">9,99&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 40px; color: #475569; font-weight: 600; display: inline-block; text-align: left;">
+                             <li style="margin-bottom: 12px;">\u2713 Acc&egrave;s complet aux Missions</li>
+                             <li style="margin-bottom: 12px;">\u2713 Visibilit&eacute; Premium Annuaire</li>
+                             <li style="margin-bottom: 12px;">\u2713 Mises en relation prioritaires</li>
                         </ul>
-                    </div>
-                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #020617; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
-                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">ELITE EXPERT</div>
-                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">29&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
-                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
-                            <li style="margin-bottom: 12px;">\u2713 Commission 0%</li>
-                            <li style="margin-bottom: 12px;">\u2713 Badges Elite & Certifications</li>
-                            <li style="margin-bottom: 12px;">\u2713 Acc&egrave;s prioritaires missions</li>
-                        </ul>
-                        <button onclick="alert('Activation Elite Expert...')" style="width: 100%; padding: 14px; background: #020617; border: none; border-radius: 12px; font-weight: 900; color: white; cursor: pointer;">S'abonner &agrave; l'Elite</button>
+                        <button onclick="alert('Activation Pack Expert...')" style="width: 100%; max-width: 300px; padding: 18px; background: #020617; border: none; border-radius: 16px; font-weight: 900; color: white; cursor: pointer; margin: 0 auto; display: block;">G&eacute;rer mon Pack</button>
                     </div>
                 </div>
             </div>

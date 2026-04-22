@@ -124,26 +124,16 @@ const CompaniesModule = {
                     <button onclick="window.location.reload()" style="background:none; border:none; color:#10b981; font-weight:800; cursor:pointer;">&larr; Retour</button>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #f1f5f9; background: #fff;">
-                        <div style="font-weight: 900; color: #64748b; margin-bottom: 8px;">PACK DÉCOUVERTE</div>
-                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Gratuit</div>
-                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
-                            <li style="margin-bottom: 12px;">\u2713 Visibilité Annuaire</li>
-                            <li style="margin-bottom: 12px;">\u2713 1 Mission active</li>
-                            <li style="margin-bottom: 12px; color: #cbd5e1;">\u2715 Support prioritaire</li>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
+                    <div style="padding: 40px; border-radius: 20px; border: 2px solid #020617; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center;">
+                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">PACK ENTREPRISE</div>
+                        <div style="font-size: 3rem; font-weight: 950; color: #020617; margin-bottom: 24px;">29,99&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 40px; color: #475569; font-weight: 600; display: inline-block; text-align: left;">
+                             <li style="margin-bottom: 12px;">\u2713 Missions illimit&eacute;es</li>
+                             <li style="margin-bottom: 12px;">\u2713 Visibilit&eacute; Premium</li>
+                             <li style="margin-bottom: 12px;">\u2713 2-3 Missions Contenu / mois</li>
                         </ul>
-                        <button style="width: 100%; padding: 14px; border: 2px solid #e2e8f0; background: none; border-radius: 12px; font-weight: 800; color: #94a3b8;" disabled>Pack Actuel</button>
-                    </div>
-                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #10b981; background: #fff; box-shadow: 0 20px 40px rgba(16,185,129,0.1);">
-                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">PACK CROISSANCE</div>
-                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">49&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
-                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
-                            <li style="margin-bottom: 12px;">\u2713 Missions illimit&eacute;es</li>
-                            <li style="margin-bottom: 12px;">\u2713 S&eacute;lection Experts AI</li>
-                            <li style="margin-bottom: 12px;">\u2713 Support prioritaire</li>
-                        </ul>
-                        <button onclick="alert('Activation du Pack Pro...')" style="width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 12px; font-weight: 900; color: white; cursor: pointer;">Passer au Pack Pro</button>
+                        <button onclick="alert('Activation Pack Entreprise...')" style="width: 100%; max-width: 300px; padding: 18px; background: #020617; border: none; border-radius: 16px; font-weight: 900; color: white; cursor: pointer; margin: 0 auto; display: block;">Activer le Pack Pro</button>
                     </div>
                 </div>
             </div>
