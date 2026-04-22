@@ -57,7 +57,7 @@ const Router = {
             return;
         }
 
-        console.trace("[Router] Navigating to:", path);
+        console.log("[Router] Navigating to:", path);
         if (hashPart) {
             window.location.hash = hashPart;
             return;
