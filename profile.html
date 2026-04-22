@@ -1568,12 +1568,12 @@
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15l-3-3m0 0l3-3m-3 3h8M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path></svg>
             </div>
 
-            <h2 id="sub-modal-title" style="font-size: 1.5rem; font-weight: 950; margin-bottom: 12px; color: #0f172a;">Lancer la Collaboration Active</h2>
-            <p id="sub-modal-desc" style="font-size: 0.95rem; color: #64748b; line-height: 1.6; margin-bottom: 32px;">
+            <h2 id="strategic-modal-title" style="font-size: 1.5rem; font-weight: 950; margin-bottom: 12px; color: #0f172a;">Lancer la Collaboration Active</h2>
+            <p id="strategic-modal-desc" style="font-size: 0.95rem; color: #64748b; line-height: 1.6; margin-bottom: 32px;">
                 Devenez **Partenaire Stratégique** certifié. Bénéficiez d'un accompagnement sur-mesure, de la mise en relation prioritaire et débloquez vos outils DTC Business.
             </p>
 
-            <div id="paypal-button-container" style="min-height: 150px;"></div>
+            <div id="paypal-strategic-container" style="min-height: 150px;"></div>
             
             <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 24px;">
                 Paiement sécurisé via PayPal. Sans engagement, annulez à tout moment.
@@ -2107,60 +2107,107 @@
             if (currentProfile) fillForm(currentProfile);
         }
 
-        function openSubModal() {
-            const modal = document.getElementById('subscription-modal');
-            if (!modal) return;
-
+        function openSubModal(tier) {
             const roleEl = document.getElementById('user_role');
             const role = roleEl ? roleEl.value : 'expert';
-            
-            const titleEl = document.getElementById('sub-modal-title');
-            const benefitsEl = document.getElementById('sub-modal-benefits');
-            const priceAmountEl = modal.querySelector('.price-amount');
+            const targetTier = tier || (role === 'entreprise' ? 'growth' : 'authority');
 
-            if (role === 'entreprise') {
-                if (titleEl) titleEl.textContent = "Pack Business Growth";
-                if (benefitsEl) {
-                    benefitsEl.innerHTML = `
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Statut Entreprise Certifiée</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Publication de Missions Illimitées</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès au Talents Directory (Full)</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Outil de Recrutement Avancé</li>
-                    `;
+            if (targetTier === 'strategic' || targetTier === 'growth') {
+                const modal = document.getElementById('strategic-modal');
+                if (!modal) return;
+                
+                const titleEl = document.getElementById('strategic-modal-title');
+                if (titleEl) {
+                    titleEl.textContent = role === 'entreprise' ? "Pack Business Growth" : "Partenaire Stratégique";
                 }
-                if (priceAmountEl) priceAmountEl.textContent = "49,99";
+                
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+                
+                // Rendu PayPal dans le conteneur stratégique
+                renderPayPalButton(null, targetTier, 'paypal-strategic-container');
             } else {
-                if (titleEl) titleEl.textContent = "Pack Authority";
-                if (benefitsEl) {
-                    benefitsEl.innerHTML = `
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Badge "Expert Authority"</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Mise en avant prioritaire (Directory)</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Matchmaking IA avec Missions</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Support Dédié 24/7</li>
-                    `;
-                }
-                if (priceAmountEl) priceAmountEl.textContent = "9,99";
-            }
+                const modal = document.getElementById('subscription-modal');
+                if (!modal) return;
 
-            modal.style.display = 'flex';
-            modal.classList.add('active');
-            
-            // On configure le bouton PayPal
-            const tier = role === 'entreprise' ? 'growth' : 'authority';
-            if (window.renderPayPalButton) {
-                window.renderPayPalButton(null, tier, 'paypal-button-container');
+                const titleEl = document.getElementById('sub-modal-title');
+                const benefitsEl = document.getElementById('sub-modal-benefits');
+                const priceAmountEl = modal.querySelector('.price-amount');
+
+                if (role === 'entreprise') {
+                    if (titleEl) titleEl.textContent = "Pack Business Growth";
+                    if (benefitsEl) {
+                        benefitsEl.innerHTML = `
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Statut Entreprise Certifiée</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Publication de Missions Illimitées</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès au Talents Directory (Full)</li>
+                        `;
+                    }
+                    if (priceAmountEl) priceAmountEl.textContent = "29,00";
+                } else {
+                    if (titleEl) titleEl.textContent = "Pack Authority";
+                    if (benefitsEl) {
+                        benefitsEl.innerHTML = `
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Badge "Expert Authority"</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Mise en avant prioritaire (Directory)</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Podcast "Le Cercle DTC"</li>
+                        `;
+                    }
+                    if (priceAmountEl) priceAmountEl.textContent = "9,99";
+                }
+
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+                
+                renderPayPalButton(null, targetTier, 'paypal-button-container');
             }
         }
 
         function closeSubModal() {
-            const modal = document.getElementById('subscription-modal');
-            if (modal) modal.style.display = 'none';
+            document.querySelectorAll('.modal-overlay').forEach(m => {
+                if (m.id.includes('modal')) m.style.display = 'none';
+            });
         }
 
-        async function renderPayPalButton(planId, tier) {
-            // This is handled by dashboard-core.js?v=10.1 mainly, but kept for compatibility
-            if (window.renderPayPalButton) {
-                window.renderPayPalButton(planId, tier, 'paypal-button-container');
+        async function renderPayPalButton(planId, tier, containerId = 'paypal-button-container') {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            // Nettoyage container
+            container.innerHTML = '';
+            
+            try {
+                const zoneId = (currentProfile && currentProfile.zone) || 'OM_FR';
+                await loadPayPalSDK(zoneId, 'subscription');
+                
+                if (typeof paypal === 'undefined') {
+                    container.innerHTML = '<p style="color:#ef4444; font-size:0.8rem;">Erreur de chargement PayPal.</p>';
+                    return;
+                }
+
+                // Plan IDs d'origine (récupérés de epopee.html)
+                // Authority (Expert): P-3DX69524C1114072WNG2AOZQ
+                // Business (Entreprise): P-6JG84131PK915684CNG3VDSQ
+                const finalPlanId = planId || (tier === 'authority' ? 'P-3DX69524C1114072WNG2AOZQ' : 'P-6JG84131PK915684CNG3VDSQ');
+                const color = tier === 'authority' ? 'black' : 'blue';
+
+                paypal.Buttons({
+                    style: { layout: 'vertical', color: color, shape: 'rect', label: 'subscribe', height: 45 },
+                    createSubscription: function(data, actions) {
+                        return actions.subscription.create({ 'plan_id': finalPlanId });
+                    },
+                    onApprove: function(data, actions) {
+                        handleSubscriptionSuccess(data.subscriptionID, tier);
+                    },
+                    onError: function(err) {
+                        console.error('PayPal Error:', err);
+                        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem; text-align:center;">Erreur PayPal : ${err.message || 'Le Plan ID est invalide.'}</p>`;
+                    }
+                }).render('#' + containerId);
+
+            } catch (err) {
+                console.error("SDK Load Fail:", err);
+                container.innerHTML = '<p style="color:#ef4444; font-size:0.8rem;">Impossible de charger PayPal.</p>';
             }
         }
 

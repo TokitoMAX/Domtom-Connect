@@ -124,7 +124,7 @@ const ExpertsModule = {
                         </ul>
                     </div>
                     <div style="background: #0f172a; color: white; border-radius: 20px; padding: 24px; position: relative;">
-                        <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Strategic • 29,99€</div>
+                        <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Pack Strategic • 29,00€</div>
                         <h4 style="margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 900; color: white;">Devenez Partenaire</h4>
                         <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;">
                             <li style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
