@@ -44,112 +44,76 @@ const CompaniesModule = {
         if (!container) return;
 
         container.innerHTML = `
-            <style>
-                .dash-desktop-grid {
-                    display: flex;
-                    gap: 32px;
-                    align-items: start;
-                }
-                .dash-main-side {
-                    flex: 1;
-                    min-width: 0;
-                }
-                .dash-sidebar-side {
-                    width: 340px;
-                    flex-shrink: 0;
-                }
-                @media (max-width: 800px) {
-                    .dash-desktop-grid {
-                        flex-direction: column;
-                    }
-                    .dash-sidebar-side {
-                        width: 100%;
-                    }
-                }
-            </style>
-
-            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                <div class="dash-desktop-grid">
-                    <div class="dash-main-side">
+            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; display: grid; grid-template-columns: 1fr 340px; gap: 32px; padding: 20px;">
+                
+                <!-- MAIN CONTENT -->
+                <div class="dash-main-col">
                     
-                    <!-- LEFT COLUMN: CONTENT -->
-                    <div class="dash-left-col">
-                        
-                        <!-- Institutional Header -->
-                        <div class="ecosystem-header" style="background: #0f172a; border-radius: 24px; padding: 40px; margin-bottom: 32px; display: flex; align-items: center; gap: 32px;">
-                            <div style="width: 120px; height: 120px; background: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 10px; flex-shrink: 0; margin: 0 auto;">
-                                <img src="${profile.avatar_url || 'https://domtom-connect.com/assets/img/logo_mini.png'}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div>
-                                <span class="role-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight:800;">ESPACE INSTITUTIONNEL</span>
-                                <h1 style="color: white; margin: 12px 0 8px 0; font-weight: 900;">${profile.company_name || profile.full_name}</h1>
-                                <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 600;">Institution / Entreprise</p>
-                            </div>
+                    <!-- Institutional Refined Header -->
+                    <div style="background: #020617; border-radius: 24px; padding: 48px; margin-bottom: 32px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 32px;">
+                        <div style="position: absolute; top:0; right:0; width: 300px; height: 100%; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 70%);"></div>
+                        <div style="width: 100px; height: 100px; background: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; padding: 12px; flex-shrink: 0; position: relative; z-index: 2;">
+                            <img src="${profile.avatar_url || 'https://domtom-connect.com/assets/img/logo_mini.png'}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
-
-                        <!-- Présentation Core -->
-                        <div class="dash-card" style="padding: 32px; margin-bottom: 32px;">
-                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                                <div style="width: 48px; height: 48px; background: rgba(15, 23, 42, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0f172a;">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18m6-18v18M3 9h18M3 15h18"/></svg>
-                                </div>
-                                <h3 style="font-size: 1.4rem; font-weight: 950; text-transform: uppercase;">Pr&eacute;sentation Institutionnelle</h3>
-                            </div>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.7; margin-bottom: 24px;">${profile.bio || 'Acc&eacute;l&eacute;rez vos projets strat&eacute;giques aux Antilles et en Guyane.'}</p>
-                            <button onclick="window.Router.navigate('#collaboration')" class="cta-button" style="border: 1px solid #e2e8f0; background: #f8fafc; padding: 12px 24px; border-radius: 10px; font-weight: 700; color: #0f172a; cursor: pointer;">Gestion de projet</button>
-                        </div>
-
-                        <!-- Missions Section -->
-                        <div class="dash-card" style="padding: 32px;">
-                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 32px;">
-                                <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10b981;">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                </div>
-                                <h3 style="font-size: 1.4rem; font-weight: 950; text-transform: uppercase;">Projets & Missions Publi&eacute;s</h3>
-                            </div>
-                            <div id="company-active-missions" style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 1.5px solid #f1f5f9; text-align: center;">
-                                <p style="color: #94a3b8; font-weight: 800;">Aucune mission active pour le moment.</p>
-                            </div>
+                        <div style="position: relative; z-index: 2;">
+                            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.2);">ESPACE INSTITUTIONNEL</span>
+                            <h1 style="color: white; margin: 12px 0 4px 0; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.02em;">${profile.company_name || profile.full_name}</h1>
+                            <p style="color: rgba(255,255,255,0.5); font-weight: 600;">Institution / Entreprise</p>
                         </div>
                     </div>
-                    </div> <!-- End Main Side -->
 
-                    <div class="dash-sidebar-side">
-                        <!-- Action Center -->
-                        <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 24px; background: #2563eb; color: white; border: none; border-radius: 20px; font-weight: 950; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(37,99,235,0.2);">
-                            Collaborer
-                        </button>
+                    <!-- Cards -->
+                    <div class="dash-card" style="padding: 40px; margin-bottom: 32px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
+                        <h3 style="font-size: 1rem; font-weight: 900; color: #020617; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                            Pr&eacute;sentation
+                        </h3>
+                        <p style="font-size: 1.15rem; color: #475569; line-height: 1.7;">${profile.bio || 'Acc&eacute;l&eacute;rez vos projets strat&eacute;giques aux Antilles et en Guyane.'}</p>
+                    </div>
 
-                        <!-- Social Pulse -->
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 32px; gap:10px; flex-wrap:wrap;">
-                            <a href="${profile.website || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>
-                            <a href="${profile.linkedin || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
-                        <!-- Metadata List -->
-                        <div style="display: grid; gap: 12px;">
-                            <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Cr&eacute;ation</div><div style="font-weight:900; color:#0f172a;">${profile.creation_year || '2025'}</div></div>
+                    <div class="dash-card" style="padding: 40px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
+                        <h3 style="font-size: 1rem; font-weight: 900; color: #020617; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 32px; display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>
+                            Missions Publi&eacute;es
+                        </h3>
+                        <div style="background: #f8fafc; border-radius: 20px; padding: 48px; text-align: center; border: 1.5px dashed #e2e8f0;">
+                            <p style="color: #94a3b8; font-weight: 700;">Aucune mission active pour le moment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR -->
+                <div class="dash-side-col">
+                    <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 22px; background: #020617; color: white; border: none; border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-bottom: 32px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 12px;" onmouseover="this.style.background='#10b981'" onmouseout="this.style.background='#020617'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        Collaborer
+                    </button>
+
+                    <div style="background: #fff; border: 1px solid #f1f5f9; border-radius: 24px; padding: 32px;">
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px;">Identit&eacute; Digitale</h4>
+                        <div style="display: grid; gap: 16px;">
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
+                                <div style="color: #10b981;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">Cr&eacute;ation</div><div style="color: #020617; font-weight: 900;">${profile.creation_year || '2025'}</div></div>
                             </div>
-                            <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">&Eacute;quipe</div><div style="font-weight:900; color:#0f172a;">${profile.team_size || 'Ind&eacute;pendant'}</div></div>
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
+                                <div style="color: #3b82f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">&Eacute;quipe</div><div style="color: #020617; font-weight: 900;">${profile.team_size || 'Ind&eacute;pendant'}</div></div>
                             </div>
-                            <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Secteur</div><div style="font-weight:900; color:#0f172a;">${profile.sector || 'Marketing & Communication'}</div></div>
-                            </div>
-                            <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Zone</div><div style="font-weight:900; color:#0f172a;">${profile.zone || 'Paris'}</div></div>
-                            </div>
-                            <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">SIRET</div><div style="font-weight:900; color:#0f172a;">${profile.siret || '93462953600012'}</div></div>
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
+                                <div style="color: #f59e0b;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">SIRET</div><div style="color: #020617; font-weight: 900;">${profile.siret || '93462953600012'}</div></div>
                             </div>
                         </div>
-                    </div> <!-- End Sidebar Side -->
-                </div> <!-- End Desktop Grid -->
+
+                        <div style="display: flex; gap: 12px; margin-top: 32px;">
+                            <a href="${profile.linkedin || '#'}" style="flex:1; height:48px; background:#f8fafc; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+                            <a href="${profile.website || '#'}" style="flex:1; height:48px; background:#f8fafc; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
         `;
     },
