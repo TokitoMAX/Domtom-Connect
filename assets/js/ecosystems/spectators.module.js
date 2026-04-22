@@ -1,123 +1,123 @@
 /**
  * Domtom Connect - Spectator Ecosystem Module
- * Espace pour les utilisateurs classiques (Observateurs)
+ * Logic for Spectators / Guest Users (Premium SaaS Standard)
  */
 const SpectatorsModule = {
     role: 'spectator',
 
     /**
-     * Dashboard Rendering - Focus Events & Networking
+     * Module Router - Professional Isolation
      */
-    renderDashboard: async (container, additional, profile, session) => {
+    route: async (view_id, container, profile, session, params) => {
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
+
+        switch (view_id) {
+            case 'profile':
+                if (window.StandardModule) {
+                    window.StandardModule.renderProfile(target, profile, session);
+                }
+                break;
+            case 'marketplace':
+                window.location.href = 'marketplace/explorer.html';
+                break;
+            case 'overview':
+            default:
+                SpectatorsModule.renderDashboard(target, profile, session);
+                break;
+        }
+    },
+
+    /**
+     * Dashboard Home - Discovery Overview (Mobile Harmonized)
+     */
+    renderDashboard: (container, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dashboard-grid role-spectator-grid" style="display: grid; gap: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <!-- Unified Welcome Card (Spectator Style) -->
-                <div class="dash-card premium-dark" style="grid-column: 1/-1; border-radius: 20px; background: #0f172a; border: 1px solid #1e293b; padding: 40px; position: relative; overflow: hidden;">
+                <!-- Strategic Progression Hub (Step 1 -> Step 2) -->
+                <div class="dash-card-progression" style="grid-column: 1 / -1; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 48px; height: 48px; background: rgba(71, 85, 105, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #475569;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours D&eacute;couverte</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">&Eacute;tape 1 : Exploration du R&eacute;seau âœ…</p>
+                            </div>
+                        </div>
+                        <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
+                            <div style="position: absolute; left: 0; top: 0; height: 100%; width: 50%; background: #475569; border-radius: 2px;"></div>
+                            <div style="position: absolute; left: 50%; top: -6px; width: 16px; height: 16px; border-radius: 50%; border: 4px solid white; background: #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="text-align: right;">
+                                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">&Eacute;tape 2 : Activer mon Statut</h4>
+                                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">Choisissez votre r&ocirc;le expert ou entreprise</p>
+                            </div>
+                            <button onclick="window.Router.navigate('#profile')" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: #0f172a; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                                Compl&eacute;ter mon Profil â†’
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #475569 100%); margin-bottom: 24px;">
                     <div style="z-index: 2; position: relative;">
-                        <span style="display:inline-block; background:rgba(255, 255, 255, 0.1); color:white; padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:800; margin-bottom:16px; letter-spacing:0.04em; text-transform:uppercase;">Espace Observateur</span>
-                        <h1 style="font-size: 2.25rem; font-weight: 800; color: white; margin: 0 0 12px 0; letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p style="font-size: 1rem; color: #94a3b8; max-width: 600px; line-height:1.6; margin:0;">Bienvenue au cÅ“ur de l'écosystème. Suivez les événements et découvrez les acteurs qui façonnent l'avenir des territoires.</p>
+                        <span class="role-badge" style="background: rgba(255, 255, 255, 0.1); color: #fff; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">VISITEUR / SPECTATEUR</span>
+                        <h1 style="text-transform: capitalize;">Bienvenue, ${profile.full_name || 'Explorateur'}</h1>
+                        <p>D&eacute;couvrez les p&eacute;pites de votre territoire et restez branch&eacute; sur l'innovation locale.</p>
                     </div>
                 </div>
 
-                <!-- Main Content -->
-                <div class="dash-main-col" style="grid-column: span 8; display: grid; gap: 24px;">
+                <!-- MAIN COMMAND CENTER (Vertical Stacking for Mobile) -->
+                <div class="dash-main-col" style="grid-column: 1 / -1; display: grid; gap: 24px;">
                     
-                    <!-- Events Section -->
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h3 style="font-size: 1.3rem; font-weight: 800; margin:0; color:#0f172a;">Agenda des Evenements</h3>
-                            <a href="/marketplace/evenements" style="font-size:0.85rem; color:#10b981; font-weight:800; text-decoration:none;">Tout voir ?</a>
-                        </div>
-                        <div id="spectator-events-list">
-                            <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 40px; border-radius: 16px;">
-                                <p style="color: #94a3b8; font-weight: 600;">Chargement des prochains meetups...</p>
-                            </div>
-                        </div>
+                    <!-- MARKETPLACE HIGHLIGHT -->
+                    <div class="dash-card-highlight" style="background: #ffffff; border: 2px solid #475569; padding-bottom: 32px;">
+                         <div style="flex:1;">
+                            <h4 style="margin:0; font-size:1.8rem; font-weight:950; color:#0f172a; letter-spacing:-0.03em;">Explorer le R&eacute;seau</h4>
+                            <p style="font-size: 1.1rem; color: #64748b; line-height:1.6; margin: 12px 0 24px 0; max-width:480px;">Consultez l'annuaire des talents et des entreprises pour d&eacute;nicher des opportunit&eacute;s.</p>
+                         </div>
+                         <button onclick="window.location.href='marketplace/explorer.html'" class="cta-button primary" style="background:#0f172a; color:white; border:none; border-radius:18px; font-weight:950; padding:18px 36px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); width: fit-content;">Acc&eacute;der Ã  l'Annuaire â†’</button>
                     </div>
 
-                    <!-- Discovery Feed -->
-                    <div class="dash-card" style="border-radius: 20px; padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0;">
-                        <h3 style="font-size: 1.15rem; font-weight: 800; margin:0 0 24px 0; color:#0f172a; text-transform:uppercase; letter-spacing:0.02em;">Exploration du Reseau</h3>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-                            <div onclick="window.location.href='marketplace/directory.html'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.3s; position:relative; overflow:hidden;" class="spectator-discovery-card">
-                                <div style="width:40px; height:40px; border-radius:10px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-10a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                                </div>
-                                <h4 style="margin:0; font-weight:800; font-size:0.95rem; color:#1e293b;">Annuaire des Talents</h4>
-                                <p style="margin:6px 0 0; font-size:0.75rem; color:#64748b; line-height:1.4;">Accedez aux experts et prestataires certifies.</p>
+                    <!-- TRENDS & OPPORTUNITIES -->
+                    <div class="dash-card" style="border-radius:24px; padding:32px; background: white; border: 1px solid #e2e8f0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap: wrap; gap:16px;">
+                            <div>
+                                <h3 style="font-size: 1.6rem; font-weight: 900; margin:0; color: #0f172a; letter-spacing:-0.03em;">Opportunit&eacute;s R&eacute;centes</h3>
+                                <p style="font-size:0.9rem; color:#64748b; font-weight:700; margin-top:4px;">Derniers projets lanc&eacute;s sur la plateforme</p>
                             </div>
-                            <div onclick="window.location.href='/marketplace/companies'" style="background:white; padding:24px; border-radius:16px; border:1px solid #e2e8f0; cursor:pointer; transition:0.3s; position:relative; overflow:hidden;" class="spectator-discovery-card">
-                                <div style="width:40px; height:40px; border-radius:10px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" /></svg>
-                                </div>
-                                <h4 style="margin:0; font-weight:800; font-size:0.95rem; color:#1e293b;">Ecosysteme Entreprises</h4>
-                                <p style="margin:6px 0 0; font-size:0.75rem; color:#64748b; line-height:1.4;">Decouvrez les entreprises et partenaires du territoire.</p>
+                            <button onclick="window.location.href='marketplace/jobs.html'" class="cta-button primary" style="background:#f8fafc; color:#0f172a; border-radius:14px; font-weight:900; padding:14px 28px; border:1.5px solid #e2e8f0;">Explorer tout</button>
+                        </div>
+                        <div id="latest-activities-container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                            <div style="text-align: center; padding: 40px; border-radius: 20px; background:#f8fafc; border:2px dashed #e2e8f0;">
+                                <div class="dash-loader-spinner" style="width:24px; height:24px; border:3px solid #f1f5f9; border-top-color:#475569; border-radius:50%; animation: spin 1s linear infinite; margin:0 auto 12px auto;"></div>
+                                <p style="color: #64748b; font-weight: 800; font-size: 0.85rem;">Chargement des &eacute;v&eacute;nements r&eacute;cents...</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="dash-side-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 24px;">
-                    <div class="dash-card" style="border-radius: 20px; padding: 24px; background: white; border: 1px solid #e2e8f0;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color:#64748b; text-transform:uppercase; margin-bottom:16px;">Le Hub</h4>
-                        <p style="font-size:0.85rem; color:#64748b; line-height:1.6; margin-bottom:20px;">Vous n'avez pas encore été invité dans un espace collaboratif.</p>
-                        <button onclick="showView('collaboration')" class="cta-button secondary" style="width:100%; border:1px solid #e2e8f0; font-size:0.85rem; height:44px;">Acceder au Hub Partagé</button>
-                    </div>
-
-                    <div class="dash-card" style="border-radius: 20px; padding: 24px; background: #0f172a; color:white; border:none;">
-                        <h4 style="font-size: 0.8rem; font-weight: 850; color:rgba(255,255,255,0.6); text-transform:uppercase; margin-bottom:16px;">Devenir Actif</h4>
-                        <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); line-height:1.6; margin-bottom:20px;">Vous voulez proposer vos services ou lancer un projet ?</p>
-                        <a href="/profile" class="cta-button primary" style="width:100%; text-align:center; background:#10b981; border:none; display:flex; align-items:center; justify-content:center; text-decoration:none; color:white; font-size:0.85rem; height:44px; border-radius:10px;">Changer de role</a>
                     </div>
                 </div>
             </div>
         `;
 
-        // Load specific content (events)
-        SpectatorsModule.loadEvents(document.getElementById('spectator-events-list'));
+        // Load specific data
+        SpectatorsModule.loadLatestActivities(document.getElementById('latest-activities-container'));
     },
 
-    loadEvents: async (container) => {
-        try {
-            const { data: events, error } = await _supabase
-                .from('events')
-                .select('*')
-                .order('start_date', { ascending: true })
-                .limit(3);
-
-            if (error || !events || events.length === 0) {
-                container.innerHTML = `
-                    <div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.9rem;">
-                        Pas d'événements prévus prochainement.
-                    </div>
-                `;
-                return;
-            }
-
+    loadLatestActivities: async (container) => {
+        if (!container) return;
+        setTimeout(() => {
             container.innerHTML = `
-                <div style="display:grid; gap:12px;">
-                    ${events.map(ev => `
-                        <div class="event-mini-card" style="display:flex; gap:16px; align-items:center; padding:16px; border-radius:12px; border:1px solid #f1f5f9; background:#ffffff;">
-                            <div style="width:40px; height:40px; background:#f0fdf4; color:#10b981; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem; flex-shrink:0;">
-                                ${new Date(ev.start_date).getDate()}
-                            </div>
-                            <div style="flex:1;">
-                                <h4 style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">${ev.title}</h4>
-                                <p style="margin:2px 0 0; font-size:0.75rem; color:#64748b;">${ev.territory || 'Network'} "¢ ${new Date(ev.start_date).toLocaleDateString()}</p>
-                            </div>
-                            <a href="/marketplace/evenements" style="color:#cbd5e1;"><i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    `).join('')}
+                <div style="text-align:center; padding:30px; color:#64748b; font-weight:600; font-size:0.9rem;">
+                    Aucune activit&eacute; publique r&eacute;cente &agrave; afficher.
                 </div>
             `;
-        } catch (e) {
-            container.innerHTML = '<p style="color:red; font-size:0.8rem;">Erreur de chargement des événements.</p>';
-        }
+        }, 800);
     }
 };
 
