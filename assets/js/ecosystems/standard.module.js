@@ -33,50 +33,35 @@ const StandardModule = {
     },
 
     /**
-     * Dashboard Home - Discovery Overview (Mobile Harmonized - Black/Green)
+     * Dashboard Home - Discovery Overview
      */
     renderDashboard: async (container, profile, session) => {
         if (!container) return;
-
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                
-                <!-- Welcome Card (Native Black/Green) -->
-                <div class="dash-welcome-card" style="background: #0f172a; margin-bottom: 24px; border-radius: 24px;">
-                    <div style="z-index: 2; position: relative;">
-                        <span class="role-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 800; font-size: 0.75rem; border: 1px solid rgba(16, 185, 129, 0.3);">ESPACE EXPLORATEUR</span>
-                        <h1 style="color: white; text-transform: capitalize;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                        <p style="color: rgba(255,255,255,0.7);">D&eacute;couvrez le r&eacute;seau et rejoignez des &eacute;cosyst&egrave;mes strat&eacute;giques.</p>
-                    </div>
+                <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px;">
+                    <span class="role-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 800; font-size: 0.75rem;">ESPACE EXPLORATEUR</span>
+                    <h1 style="color: white; margin-top:12px;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
+                    <p style="color: rgba(255,255,255,0.7);">D&eacute;couvrez l'annuaire et commencez votre &eacute;pop&eacute;e.</p>
                 </div>
-
-                <div class="dash-main-col" style="grid-column: 1 / -1; display: grid; gap: 24px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #e2e8f0;">
-                            <div style="width:48px; height:48px; background:rgba(16, 185, 129, 0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color: #10b981;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                            </div>
-                            <h3 style="font-size:1.25rem; font-weight:850; color:#0f172a; margin-bottom:12px;">Porteur de Projet</h3>
-                            <p style="font-size:0.95rem; color:#64748b; margin-bottom:24px; line-height:1.5;">Cr&eacute;ez votre &eacute;pop&eacute;e et trouvez des experts pour la r&eacute;aliser.</p>
-                            <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:10px; width:100%; border:none;">Lancer mon projet</button>
-                        </div>
-                    </div>
+                <div style="display:grid; gap:24px;">
+                    <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:20px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert →</button>
                 </div>
             </div>
         `;
     },
 
     /**
-     * Profile View - Smart Orchestrator
+     * Profile View - Elite Orchestrator
      */
     renderProfile: async (container, profile, session) => {
         const view = container || document.getElementById('ecosystem-grid-container');
         if (!view) return;
 
-        // Determine specialized component
         const role = profile.role || 'spectateur';
         let specializedFields = '';
         
+        // Dynamically fetch specialized fields from active module
         if (role === 'expert' && window.ExpertsModule?.renderProfileFields) {
             specializedFields = window.ExpertsModule.renderProfileFields(profile);
         } else if (role === 'entreprise' && window.CompaniesModule?.renderProfileFields) {
@@ -87,33 +72,58 @@ const StandardModule = {
 
         view.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 32px; border-radius: 24px; border: 1px solid #e2e8f0;">
-                    <h2 style="font-weight: 900; margin-bottom: 32px; letter-spacing: -0.04em;">Mon Profil Professionnel</h2>
+                <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 40px; border-radius: 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
+                    <h2 style="font-weight: 900; margin-bottom: 40px; letter-spacing: -0.04em; color:#0f172a; font-size:2.2rem;">Édition du Profil Élite</h2>
                     
-                    <div id="profile-editor-form" style="display: flex; flex-direction: column; gap: 24px;">
-                        <!-- Global Basic Fields -->
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Nom Complet / Public</label>
-                            <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
-                        </div>
+                    <div id="profile-editor-form" style="display: flex; flex-direction: column; gap: 32px;">
                         
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Titre / Fonction</label>
-                            <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Développeur Senior, PDG, etc." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;">
+                        <!-- SECTION 1: IDENTITY -->
+                        <div style="background:#f8fafc; padding:24px; border-radius:20px; border:1px solid #f1f5f9;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; margin-bottom:24px; letter-spacing:0.05em;">Identit&eacute; Visuelle</h3>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Nom Complet / Marque</label>
+                                    <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Titre / Fonction</label>
+                                    <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Fondateur, Expert Territorial..." style="width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Specialized Fields Injection -->
-                        <div id="specialized-profile-fields" style="display:grid; gap:24px;">
-                            ${specializedFields}
+                        <!-- SECTION 2: SPECIALIZED (SIRET, TJM, VISION, etc.) -->
+                        <div style="background:#fff; padding:0; border-radius:20px;">
+                             ${specializedFields}
                         </div>
 
+                        <!-- SECTION 3: SOCIAL PULSE -->
+                        <div style="background:#f8fafc; padding:24px; border-radius:20px; border:1px solid #f1f5f9;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; margin-bottom:24px; letter-spacing:0.05em;">R&eacute;seaux et Influence</h3>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+                                <div class="info-field">
+                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">LinkedIn (URL)</label>
+                                    <input type="url" id="profile-linkedin" value="${profile.linkedin || ''}" placeholder="https://linkedin.com/in/..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Instagram (URL)</label>
+                                    <input type="url" id="profile-instagram" value="${profile.instagram || ''}" placeholder="https://instagram.com/..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">TikTok (URL)</label>
+                                    <input type="url" id="profile-tiktok" value="${profile.tiktok || ''}" placeholder="https://tiktok.com/@..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 4: PRESENTATION -->
                         <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Bio / Pr&eacute;sentation</label>
-                            <textarea id="profile-bio" style="width: 100%; min-height: 120px; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 600;">${profile.bio || ''}</textarea>
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:12px;">Bio Institutionnelle / Pr&eacute;sentation</label>
+                            <textarea id="profile-bio" style="width: 100%; min-height: 150px; padding: 20px; border-radius: 16px; border: 1.5px solid #e2e8f0; font-weight: 600; line-height:1.6;">${profile.bio || ''}</textarea>
                         </div>
                         
-                        <div style="display: flex; gap: 16px; margin-top: 24px;">
-                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#10b981; color:white; border:none; padding:18px 32px; border-radius:14px; font-weight:900; width: 100%; cursor:pointer;">Enregistrer mon profil →</button>
+                        <div style="margin-top: 32px; padding-top:32px; border-top:1px solid #f1f5f9;">
+                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer mon Profil &Eacute;lite →</button>
                         </div>
                     </div>
                 </div>
@@ -122,7 +132,7 @@ const StandardModule = {
     },
 
     /**
-     * Unified Save Logic
+     * Save Strategy - Capturing EVERYTHING
      */
     saveProfile: async () => {
         try {
@@ -130,16 +140,20 @@ const StandardModule = {
                 full_name: document.getElementById('profile-full-name').value,
                 title: document.getElementById('profile-title').value,
                 bio: document.getElementById('profile-bio').value,
+                linkedin: document.getElementById('profile-linkedin').value,
+                instagram: document.getElementById('profile-instagram').value,
+                tiktok: document.getElementById('profile-tiktok').value,
                 updated_at: new Date().toISOString()
             };
 
-            // Collect data from specialized fields if they exist
-            const fields = [
+            // Exhaustive field collection
+            const allPossibleFields = [
                 'tjm', 'availability', 'skills', 'siret', 'website', 
-                'sector', 'company_name', 'project_desc', 'budget'
+                'sector', 'company_name', 'project_desc', 'budget',
+                'vision', 'mission', 'enjeu', 'creation_year', 'team_size', 'zone'
             ];
             
-            fields.forEach(f => {
+            allPossibleFields.forEach(f => {
                 const el = document.getElementById('profile-' + f);
                 if (el) updates[f] = el.value;
             });
@@ -150,7 +164,7 @@ const StandardModule = {
             const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("\u2705 Profil professionnel mis \u00e0 jour !");
+            alert("\u2705 Profil professionnel mis \u00e0 jour avec succ\u00e8s !");
             window.location.reload();
         } catch (err) {
             alert("\u274c Erreur : " + err.message);
