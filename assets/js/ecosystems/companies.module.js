@@ -45,30 +45,32 @@ const CompaniesModule = {
 
         container.innerHTML = `
             <style>
-                .ecosystem-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 340px;
+                .dash-desktop-grid {
+                    display: flex;
                     gap: 32px;
                     align-items: start;
                 }
-                .ecosystem-header h1 { font-size: 2.8rem; }
-                @media (max-width: 900px) {
-                    .ecosystem-grid {
-                        grid-template-columns: 1fr;
-                        gap: 24px;
+                .dash-main-side {
+                    flex: 1;
+                    min-width: 0;
+                }
+                .dash-sidebar-side {
+                    width: 340px;
+                    flex-shrink: 0;
+                }
+                @media (max-width: 800px) {
+                    .dash-desktop-grid {
+                        flex-direction: column;
                     }
-                    .ecosystem-header {
-                        flex-direction: column !important;
-                        text-align: center;
-                        padding: 30px 20px !important;
+                    .dash-sidebar-side {
+                        width: 100%;
                     }
-                    .ecosystem-header h1 { font-size: 1.8rem !important; }
                 }
             </style>
 
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                
-                <div class="ecosystem-grid">
+                <div class="dash-desktop-grid">
+                    <div class="dash-main-side">
                     
                     <!-- LEFT COLUMN: CONTENT -->
                     <div class="dash-left-col">
@@ -110,10 +112,9 @@ const CompaniesModule = {
                             </div>
                         </div>
                     </div>
+                    </div> <!-- End Main Side -->
 
-                    <!-- RIGHT COLUMN: SIDEBAR -->
-                    <div class="dash-side-col">
-                        
+                    <div class="dash-sidebar-side">
                         <!-- Action Center -->
                         <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 24px; background: #2563eb; color: white; border: none; border-radius: 20px; font-weight: 950; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(37,99,235,0.2);">
                             Collaborer
@@ -123,37 +124,33 @@ const CompaniesModule = {
                         <div style="display: flex; justify-content: space-between; margin-bottom: 32px; gap:10px; flex-wrap:wrap;">
                             <a href="${profile.website || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>
                             <a href="${profile.linkedin || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
-                            <a href="${profile.instagram || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/></svg></a>
-                            <a href="${profile.youtube || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 00-1.94 2C1 8.14 1 12 1 12s0 3.86.42 5.58a2.78 2.78 0 001.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 001.94-2C23 15.86 23 12 23 12s0-3.86-.42-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
-                            <a href="${profile.tiktok || '#'}" target="_blank" style="width:48px; height:48px; border-radius:12px; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5h-4v2h2a3 3 0 11-3-3V4H9v8z"/></svg></a>
-                        </div>
-
                         <!-- Metadata List -->
                         <div style="display: grid; gap: 12px;">
                             <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
                                 <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-                                <div><div style="font-size:0.6rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Cr&eacute;ation</div><div style="font-weight:900; color:#0f172a;">${profile.creation_year || '2025'}</div></div>
+                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Cr&eacute;ation</div><div style="font-weight:900; color:#0f172a;">${profile.creation_year || '2025'}</div></div>
                             </div>
                             <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
                                 <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-                                <div><div style="font-size:0.6rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">&Eacute;quipe</div><div style="font-weight:900; color:#0f172a;">${profile.team_size || 'Ind&eacute;pendant'}</div></div>
+                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">&Eacute;quipe</div><div style="font-weight:900; color:#0f172a;">${profile.team_size || 'Ind&eacute;pendant'}</div></div>
                             </div>
                             <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-                                <div><div style="font-size:0.6rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Secteur</div><div style="font-weight:900; color:#0f172a;">${profile.sector || 'Marketing & Communication'}</div></div>
+                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Secteur</div><div style="font-weight:900; color:#0f172a;">${profile.sector || 'Marketing & Communication'}</div></div>
                             </div>
                             <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
-                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                                <div><div style="font-size:0.6rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Zone</div><div style="font-weight:900; color:#0f172a;">${profile.zone || 'Paris'}</div></div>
+                                <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">Zone</div><div style="font-weight:900; color:#0f172a;">${profile.zone || 'Paris'}</div></div>
                             </div>
                             <div class="meta-item" style="background:#f8fafc; padding:20px; border-radius:16px; display:flex; align-items:center; gap:20px;">
                                 <div style="color:#2563eb;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                                <div><div style="font-size:0.6rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">SIRET</div><div style="font-weight:900; color:#0f172a;">${profile.siret || '93462953600012'}</div></div>
+                                <div><div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">SIRET</div><div style="font-weight:900; color:#0f172a;">${profile.siret || '93462953600012'}</div></div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> <!-- End Sidebar Side -->
+                </div> <!-- End Desktop Grid -->
             </div>
+
         `;
     },
 
