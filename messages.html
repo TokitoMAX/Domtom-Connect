@@ -1166,9 +1166,8 @@
                                     </svg>
                                 </h3>
                                 <div style="display:flex; align-items:center; gap:8px;">
-                                    <p id="active-role" style="margin:0;">Expert Domtom Connect</p>
                                     <span
-                                        style="font-size:0.65rem; background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em;">Espace
+                                        style="font-size:0.65rem; background:rgba(16,185,129,0.15); color:#10b981; padding:2px 8px; border-radius:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em;">Espace
                                         Sécurisé</span>
                                 </div>
                             </div>
@@ -1544,7 +1543,6 @@
             const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
             const nameTextEl = document.getElementById('active-name-text');
             if (nameTextEl) nameTextEl.textContent = name;
-            document.getElementById('active-role').textContent = profile.title || profile.skills || 'Expert Domtom Connect';
 
             const avatarEl = document.getElementById('active-avatar');
             if (profile.avatar_url) {
