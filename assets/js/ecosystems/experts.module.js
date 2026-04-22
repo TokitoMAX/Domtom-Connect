@@ -13,21 +13,17 @@ const ExpertsModule = {
         if (!target) return;
 
         switch (viewId) {
+            case 'business':
+                await ExpertsModule.renderBusinessPilotage(target, profile, session);
+                break;
             case 'profile':
                 if (window.StandardModule) {
-                    window.StandardModule.renderProfile(target, profile, session);
+                    await window.StandardModule.renderProfile(target, profile, session);
                 }
                 break;
             case 'collaboration':
                 if (window.CollaborationModule) {
                     await window.CollaborationModule.route('overview', target, profile, session, params);
-                }
-                break;
-            case 'business':
-                const bizView = document.getElementById('business-view');
-                if (bizView && window.BusinessModule) {
-                    bizView.style.display = 'block';
-                    window.BusinessModule.renderDashboard(bizView);
                 }
                 break;
             case 'billetterie':

@@ -13,16 +13,12 @@ const CompaniesModule = {
         if (!target) return;
 
         switch (view_id) {
+            case 'business':
+                await CompaniesModule.renderBusinessPilotage(target, profile, session);
+                break;
             case 'profile':
                 if (window.StandardModule) {
                     window.StandardModule.renderProfile(target, profile, session);
-                }
-                break;
-            case 'business':
-                const bizView = document.getElementById('business-view');
-                if (bizView && window.BusinessModule) {
-                    bizView.style.display = 'block';
-                    window.BusinessModule.renderDashboard(bizView);
                 }
                 break;
             case 'collaboration':
@@ -67,9 +63,9 @@ const CompaniesModule = {
                             <button onclick="window.Router.navigate('#business')" style="padding: 12px 24px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Acc&eacute;der au Pilotage</button>
                         </div>
                         <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #f1f5f9; border-radius: 24px;">
-                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Recherche Experts</h4>
-                            <div style="font-size: 1.8rem; font-weight: 900; color: #020617; margin-bottom: 20px;">+500 Talents</div>
-                            <button onclick="window.location.href='marketplace/talents.html'" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Trouver un Expert</button>
+                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">R&eacute;seau Experts</h4>
+                            <div style="font-size: 1.8rem; font-weight: 900; color: #020617; margin-bottom: 20px;">Acc&egrave;s Talents</div>
+                            <button onclick="window.location.href='marketplace/talents.html'" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Parcourir l'Annuaire</button>
                         </div>
                     </div>
 
