@@ -46,75 +46,107 @@ const CompaniesModule = {
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; display: grid; grid-template-columns: 1fr 340px; gap: 32px; padding: 20px;">
                 
-                <!-- MAIN CONTENT -->
+                <!-- MAIN CONTENT: ACTION CENTER -->
                 <div class="dash-main-col">
                     
-                    <!-- Institutional Refined Header -->
-                    <div style="background: #020617; border-radius: 24px; padding: 48px; margin-bottom: 32px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 32px;">
+                    <!-- Welcome & Status -->
+                    <div style="background: #020617; border-radius: 24px; padding: 48px; margin-bottom: 32px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
                         <div style="position: absolute; top:0; right:0; width: 300px; height: 100%; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 70%);"></div>
-                        <div style="width: 100px; height: 100px; background: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; padding: 12px; flex-shrink: 0; position: relative; z-index: 2;">
-                            <img src="${profile.avatar_url || 'https://domtom-connect.com/assets/img/logo_mini.png'}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                        </div>
                         <div style="position: relative; z-index: 2;">
-                            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.2);">ESPACE INSTITUTIONNEL</span>
-                            <h1 style="color: white; margin: 12px 0 4px 0; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.02em;">${profile.company_name || profile.full_name}</h1>
-                            <p style="color: rgba(255,255,255,0.5); font-weight: 600;">Institution / Entreprise</p>
+                            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.2);">COCKPIT ENTREPRISE</span>
+                            <h1 style="color: white; margin: 12px 0 8px 0; font-size: 2.2rem; font-weight: 900;">${profile.company_name || profile.full_name}</h1>
+                            <p style="color: rgba(255,255,255,0.5); font-weight: 600;">G&eacute;rez vos missions et vos recrutements territoriaux.</p>
                         </div>
                     </div>
 
-                    <!-- Cards -->
-                    <div class="dash-card" style="padding: 40px; margin-bottom: 32px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
-                        <h3 style="font-size: 1rem; font-weight: 900; color: #020617; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
-                            Pr&eacute;sentation
-                        </h3>
-                        <p style="font-size: 1.15rem; color: #475569; line-height: 1.7;">${profile.bio || 'Acc&eacute;l&eacute;rez vos projets strat&eacute;giques aux Antilles et en Guyane.'}</p>
+                    <!-- Project Management Hub -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #f1f5f9; border-radius: 24px; position: relative; overflow: hidden;">
+                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Pilotage Projets</h4>
+                            <div style="font-size: 1.8rem; font-weight: 900; color: #020617; margin-bottom: 20px;">0 Missions</div>
+                            <button onclick="window.Router.navigate('#business')" style="padding: 12px 24px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Acc&eacute;der au Pilotage</button>
+                        </div>
+                        <div class="dash-card" style="padding: 32px; background: white; border: 1px solid #f1f5f9; border-radius: 24px;">
+                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Recherche Experts</h4>
+                            <div style="font-size: 1.8rem; font-weight: 900; color: #020617; margin-bottom: 20px;">+500 Talents</div>
+                            <button onclick="window.location.href='marketplace/talents.html'" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Trouver un Expert</button>
+                        </div>
                     </div>
 
-                    <div class="dash-card" style="padding: 40px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
-                        <h3 style="font-size: 1rem; font-weight: 900; color: #020617; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 32px; display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>
-                            Missions Publi&eacute;es
-                        </h3>
-                        <div style="background: #f8fafc; border-radius: 20px; padding: 48px; text-align: center; border: 1.5px dashed #e2e8f0;">
-                            <p style="color: #94a3b8; font-weight: 700;">Aucune mission active pour le moment.</p>
-                        </div>
+                    <!-- Pack Management View -->
+                    <div id="pack-management-view" class="dash-card" style="padding: 40px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
+                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                            <h3 style="font-size: 1.2rem; font-weight: 900; color: #020617; text-transform: uppercase;">Mon Pack Entreprise</h3>
+                            <span style="background: #f1f5f9; padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; color: #64748b;">VERSION GRATUITE</span>
+                         </div>
+                         <div style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 2px dashed #e2e8f0; text-align: center;">
+                            <p style="color: #64748b; font-weight: 700; margin-bottom: 24px;">Passez à la version Premium pour débloquer les recrutements illimités.</p>
+                            <button onclick="CompaniesModule.showPacks()" style="padding: 16px 32px; background: #020617; color: white; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">D&eacute;couvrir les Packs</button>
+                         </div>
                     </div>
                 </div>
 
                 <!-- SIDEBAR -->
                 <div class="dash-side-col">
-                    <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 22px; background: #020617; color: white; border: none; border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-bottom: 32px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 12px;" onmouseover="this.style.background='#10b981'" onmouseout="this.style.background='#020617'">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        Collaborer
-                    </button>
-
+                    <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 22px; background: #2563eb; color: white; border: none; border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-bottom: 24px; box-shadow: 0 10px 20px rgba(37,99,235,0.2);">Collaborer</button>
+                    
                     <div style="background: #fff; border: 1px solid #f1f5f9; border-radius: 24px; padding: 32px;">
-                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px;">Identit&eacute; Digitale</h4>
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 24px;">Identit&eacute; Institutionnelle</h4>
                         <div style="display: grid; gap: 16px;">
                             <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
                                 <div style="color: #10b981;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">Cr&eacute;ation</div><div style="color: #020617; font-weight: 900;">${profile.creation_year || '2025'}</div></div>
+                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">Zone</div><div style="color: #020617; font-weight: 900;">${profile.zone || 'Antilles'}</div></div>
                             </div>
                             <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
-                                <div style="color: #3b82f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">&Eacute;quipe</div><div style="color: #020617; font-weight: 900;">${profile.team_size || 'Ind&eacute;pendant'}</div></div>
+                                <div style="color: #3b82f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">SIRET</div><div style="color: #020617; font-weight: 900;">${profile.siret || 'V&eacute;rification en cours'}</div></div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; background: #f8fafc;">
-                                <div style="color: #f59e0b;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                                <div><div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">SIRET</div><div style="color: #020617; font-weight: 900;">${profile.siret || '93462953600012'}</div></div>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 12px; margin-top: 32px;">
-                            <a href="${profile.linkedin || '#'}" style="flex:1; height:48px; background:#f8fafc; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
-                            <a href="${profile.website || '#'}" style="flex:1; height:48px; background:#f8fafc; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>
                         </div>
                     </div>
                 </div>
             </div>
 
 
+        `;
+    },
+
+    /**
+     * MATERIALIZING THE PACKS - Selection Interface
+     */
+    showPacks: () => {
+        const view = document.getElementById('pack-management-view');
+        if (!view) return;
+
+        view.innerHTML = `
+            <div style="animation: fadeInUp 0.4s ease-out;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #020617; text-transform: uppercase;">Choisissez votre Pack Entreprise</h3>
+                    <button onclick="window.location.reload()" style="background:none; border:none; color:#10b981; font-weight:800; cursor:pointer;">&larr; Retour</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #f1f5f9; background: #fff;">
+                        <div style="font-weight: 900; color: #64748b; margin-bottom: 8px;">PACK DÉCOUVERTE</div>
+                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Gratuit</div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
+                            <li style="margin-bottom: 12px;">\u2713 Visibilité Annuaire</li>
+                            <li style="margin-bottom: 12px;">\u2713 1 Mission active</li>
+                            <li style="margin-bottom: 12px; color: #cbd5e1;">\u2715 Support prioritaire</li>
+                        </ul>
+                        <button style="width: 100%; padding: 14px; border: 2px solid #e2e8f0; background: none; border-radius: 12px; font-weight: 800; color: #94a3b8;" disabled>Pack Actuel</button>
+                    </div>
+                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #10b981; background: #fff; box-shadow: 0 20px 40px rgba(16,185,129,0.1);">
+                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">PACK CROISSANCE</div>
+                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">49&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
+                            <li style="margin-bottom: 12px;">\u2713 Missions illimit&eacute;es</li>
+                            <li style="margin-bottom: 12px;">\u2713 S&eacute;lection Experts AI</li>
+                            <li style="margin-bottom: 12px;">\u2713 Support prioritaire</li>
+                        </ul>
+                        <button onclick="alert('Activation du Pack Pro...')" style="width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 12px; font-weight: 900; color: white; cursor: pointer;">Passer au Pack Pro</button>
+                    </div>
+                </div>
+            </div>
         `;
     },
 

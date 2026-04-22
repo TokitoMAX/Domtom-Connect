@@ -56,69 +56,73 @@ const ExpertsModule = {
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; display: grid; grid-template-columns: 1fr 340px; gap: 32px; padding: 20px;">
                 
-                <!-- MAIN CONTENT -->
+                <!-- MAIN CONTENT: ACTION CENTER -->
                 <div class="dash-main-col">
                     
-                    <!-- Expert Refined Header -->
+                    <!-- Welcome & Success Path -->
                     <div style="background: #020617; border-radius: 24px; padding: 48px; margin-bottom: 32px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
                         <div style="position: absolute; top:0; right:0; width: 300px; height: 100%; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 70%);"></div>
                         <div style="position: relative; z-index: 2;">
-                            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.2);">DOMTOM EXPERT</span>
-                            <h1 style="color: white; margin: 12px 0 4px 0; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.02em;">Bonjour, ${profile.full_name || 'Expert'}</h1>
-                            <p style="color: rgba(255,255,255,0.5); font-weight: 600;">${profile.title || 'Expert Territorial'} - Votre expertise est votre force.</p>
-                        </div>
-                    </div>
-
-                    <!-- Pilotage Highlight -->
-                    <div class="dash-card-highlight" style="background: #ffffff; border: 1px solid rgba(16, 185, 129, 0.3); padding: 40px; border-radius: 24px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 40px rgba(16,185,129,0.05);">
-                         <div style="flex: 1;">
-                            <h4 style="margin: 0; font-size: 1.4rem; font-weight: 900; color: #020617; letter-spacing: -0.01em;">Pilotage Business</h4>
-                            <p style="font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-top: 8px; max-width: 440px;">Consultez vos statistiques, g&eacute;rez vos devis et facturez vos missions en toute s&eacute;curit&eacute;.</p>
-                         </div>
-                         <button onclick="window.Router.navigate('#business')" style="background: #020617; color: white; border-radius: 14px; font-weight: 900; padding: 16px 32px; border: none; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#10b981'">Acc&eacute;der</button>
-                    </div>
-
-                    <!-- Matching Section -->
-                    <div class="dash-card" style="padding: 40px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
-                        <h3 style="font-size: 1rem; font-weight: 900; color: #020617; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 32px; display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>
-                            Missions &amp; Matching
-                        </h3>
-                        <div id="expert-matches-view">
-                            <div id="matches-container">
-                                <div style="text-align: center; padding: 60px; border-radius: 24px; background: #f8fafc; border: 1.5px dashed #e2e8f0;">
-                                    <p style="color: #94a3b8; font-weight: 700;">Analyse des missions territoriales...</p>
+                            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.2);">ESPACE EXPERT PREMIUM</span>
+                            <h1 style="color: white; margin: 12px 0 8px 0; font-size: 2.2rem; font-weight: 900;">Bonjour, ${profile.full_name || 'Expert'}</h1>
+                            
+                            <div style="margin-top: 24px; max-width: 400px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;">PROFIL COMPLÉTÉ</span>
+                                    <span style="color: #10b981; font-size: 0.8rem; font-weight: 900;">45%</span>
+                                </div>
+                                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                                    <div style="width: 45%; height: 100%; background: #10b981; border-radius: 10px;"></div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Pilotage & Matchmaking -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+                        <button onclick="window.Router.navigate('#business')" class="dash-card" style="padding: 32px; background: white; border: 1px solid #f1f5f9; border-radius: 24px; text-align: left; cursor: pointer; transition: 0.3s; display: block; width: 100%;">
+                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Pilotage Business</h4>
+                            <div style="font-size: 1.4rem; font-weight: 900; color: #020617;">Facturation & Devis &rarr;</div>
+                        </button>
+                        <button onclick="window.location.href='marketplace/jobs.html'" class="dash-card" style="padding: 32px; background: white; border: 1px solid #f1f5f9; border-radius: 24px; text-align: left; cursor: pointer; transition: 0.3s; display: block; width: 100%;">
+                            <h4 style="font-size: 0.8rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Opportunit&eacute;s</h4>
+                            <div style="font-size: 1.4rem; font-weight: 900; color: #10b981;">Voir les Missions &rarr;</div>
+                        </button>
+                    </div>
+
+                    <!-- Pack Expert Management -->
+                    <div id="expert-pack-view" class="dash-card" style="padding: 40px; border-radius: 24px; background: white; border: 1px solid #f1f5f9;">
+                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                            <h3 style="font-size: 1.2rem; font-weight: 900; color: #020617; text-transform: uppercase;">Abonnement Expert</h3>
+                            <button onclick="ExpertsModule.showExpertPacks()" style="padding: 12px 24px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">G&eacute;rer mon Pack</button>
+                         </div>
+                         <div style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 24px;">
+                            <div style="width: 64px; height: 64px; background: rgba(16,185,129,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #10b981;">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 900; color: #020617;">STATUT : EXPERT NIVEAU 1</div>
+                                <div style="font-size: 0.9rem; color: #64748b; font-weight: 600;">Prochain palier à 500 points.</div>
+                            </div>
+                         </div>
                     </div>
                 </div>
 
                 <!-- SIDEBAR -->
                 <div class="dash-side-col">
-                    <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 22px; background: #2563eb; color: white; border: none; border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-bottom: 32px; box-shadow: 0 10px 20px rgba(37,99,235,0.15); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 12px;">
-                        Collaborer
-                    </button>
-
-                    <!-- Success Progress -->
+                    <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 22px; background: #2563eb; color: white; border: none; border-radius: 18px; font-weight: 900; font-size: 1.1rem; cursor: pointer; margin-bottom: 24px; box-shadow: 0 10px 20px rgba(37,99,235,0.2);">Collaborer</button>
+                    
+                    <!-- Quick Actions -->
                     <div style="background: #fff; border: 1px solid #f1f5f9; border-radius: 24px; padding: 32px; margin-bottom: 24px;">
-                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">Parcours de Succ&egrave;s</h4>
-                        <div style="height: 6px; background: #f1f5f9; border-radius: 10px; margin-bottom: 12px; position: relative;">
-                            <div style="position: absolute; top:0; left:0; height:100%; width: 45%; background: #10b981; border-radius: 10px;"></div>
-                        </div>
-                        <p style="font-size: 0.8rem; color: #64748b; font-weight: 600;">&Eacute;tape 1 : R&eacute;f&eacute;rencement Actif</p>
-                    </div>
-
-                    <!-- Metrics -->
-                    <div style="background: #f8fafc; border-radius: 24px; padding: 32px; border: 1px solid #f1f5f9;">
-                         <div style="display: grid; gap: 16px;">
+                        <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px;">Indicateurs Performance</h4>
+                        <div style="display: grid; gap: 16px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: #64748b; font-weight: 600;">TJM Moyen</span>
-                                <span style="color: #020617; font-weight: 900;">${profile.tjm || '0'} €</span>
+                                <span style="color: #64748b; font-weight: 600;">Profil Vues</span>
+                                <span style="color: #020617; font-weight: 900;">0</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <span style="color: #64748b; font-weight: 600;">Disponibilit&eacute;</span>
-                                <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.75rem;">${profile.availability === 'available' ? 'Disponible' : 'Occupé'}</span>
+                                <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.75rem;">ACTIF</span>
                             </div>
                         </div>
                     </div>
@@ -129,6 +133,45 @@ const ExpertsModule = {
         if (session && session.user && typeof window.loadMatchmaking === 'function') {
             window.loadMatchmaking(session.user.id);
         }
+    },
+
+    /**
+     * MATERIALIZING THE EXPERT PACKS - Selection Interface
+     */
+    showExpertPacks: () => {
+        const view = document.getElementById('expert-pack-view');
+        if (!view) return;
+
+        view.innerHTML = `
+            <div style="animation: fadeInUp 0.4s ease-out;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #020617; text-transform: uppercase;">Abonnement Professionnel</h3>
+                    <button onclick="window.location.reload()" style="background:none; border:none; color:#10b981; font-weight:800; cursor:pointer;">&larr; Retour</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #f1f5f9; background: #f8fafc;">
+                        <div style="font-weight: 900; color: #64748b; margin-bottom: 8px;">FREE LANCE</div>
+                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Pack Actuel</div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
+                            <li style="margin-bottom: 12px;">\u2713 Commission 15%</li>
+                            <li style="margin-bottom: 12px;">\u2713 Paiement s&eacute;curis&eacute;</li>
+                            <li style="margin-bottom: 12px; color: #cbd5e1;">\u2715 Mise en avant annuaire</li>
+                        </ul>
+                    </div>
+                    <div style="padding: 32px; border-radius: 20px; border: 2px solid #020617; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+                        <div style="font-weight: 900; color: #10b981; margin-bottom: 8px;">ELITE EXPERT</div>
+                        <div style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 24px;">29&euro;<span style="font-size: 1rem; color: #64748b;">/mois</span></div>
+                        <ul style="list-style: none; padding: 0; margin-bottom: 32px; color: #475569; font-weight: 600;">
+                            <li style="margin-bottom: 12px;">\u2713 Commission 0%</li>
+                            <li style="margin-bottom: 12px;">\u2713 Badges Elite & Certifications</li>
+                            <li style="margin-bottom: 12px;">\u2713 Acc&egrave;s prioritaires missions</li>
+                        </ul>
+                        <button onclick="alert('Activation Elite Expert...')" style="width: 100%; padding: 14px; background: #020617; border: none; border-radius: 12px; font-weight: 900; color: white; cursor: pointer;">S'abonner &agrave; l'Elite</button>
+                    </div>
+                </div>
+            </div>
+        `;
     },
 
     /**
