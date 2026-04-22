@@ -280,20 +280,20 @@ function renderCockpitWithStep(p, step, score) {
                 </div>
             </div>
 
-            <div class="cockpit-card-premium" style="background: white; padding: 56px; border-radius: 40px; border: 1px solid #e2e8f0; box-shadow: 0 20px 50px rgba(0,0,0,0.04); animation: slideUp 0.5s ease-out;">
+            <div class="cockpit-card-premium" style="background: white; border-radius: 40px; border: 1px solid #e2e8f0; box-shadow: 0 20px 50px rgba(0,0,0,0.04); animation: slideUp 0.5s ease-out; padding: 56px;">
                 ${renderStepFields(step, p)}
                 
-                <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; gap: 24px;">
+                <div class="cockpit-footer-buttons" style="margin-top: 64px; padding-top: 48px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; gap: 24px;">
                     <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
-                            class="cta-button secondary" style="flex: 1; justify-content: center; padding: 20px; border-radius: 18px; font-weight: 800; font-size: 1rem; border: 1px solid #e2e8f0;">
+                            class="cta-button secondary" style="flex: 1; justify-content: center; padding: 20px; border-radius: 18px; font-weight: 800; font-size: 1rem; border: 1px solid #e2e8f0; cursor: pointer;">
                          ${step > 1 ? '← Étape Précédente' : 'Quitter le Pilote'}
                     </button>
                     
                     ${window.isAdminInspection ? `
-                        <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25);">APPROUVER L'ÉPOPÉE ✓</button>
+                        <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">APPROUVER L'ÉPOPÉE ✓</button>
                     ` : `
                         <button onclick="saveProjectStep('${p.id}', ${step})" 
-                                class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25);">
+                                class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">
                                 ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE 🚀' : 'Enregistrer & Étape Suivante →'}
                         </button>
                     `}

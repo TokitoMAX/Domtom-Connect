@@ -2835,5 +2835,76 @@ html, body {
     }
 }
 
-/* --- MOBILE DASHBOARD OVERRIDES --- */
+/* --- MOBILE SUCCESS ENGINE (L'ÉPOPÉE) OPTIMIZATION --- */
+@media (max-width: 768px) {
+    .dash-pilotage-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+    }
+
+    .dash-pilotage-header h1 {
+        font-size: 2.2rem !important;
+    }
+
+    .ecosystem-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+
+    .cockpit-card-premium, .dash-card-premium {
+        padding: 32px !important;
+        border-radius: 24px !important;
+        min-height: auto !important;
+    }
+
+    .cockpit-card-premium h2, .dash-card-premium h2 {
+        font-size: 1.8rem !important;
+    }
+
+    /* Cockpit Pilotage (Wizard) */
+    .cockpit-container {
+        padding-bottom: 60px !important;
+    }
+
+    .cockpit-header h1 {
+        font-size: 2.2rem !important;
+    }
+
+    .cockpit-stepper {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        padding: 12px !important;
+        border-radius: 20px !important;
+    }
+
+    .cockpit-stepper div {
+        padding: 12px 6px !important;
+        border-radius: 12px !important;
+    }
+
+    .cockpit-stepper div div {
+        font-size: 0.75rem !important;
+    }
+
+    .cockpit-card-premium {
+        padding: 32px 24px !important;
+        border-radius: 24px !important;
+    }
+
+    .cockpit-card-premium h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .cockpit-field-label {
+        font-size: 0.65rem !important;
+    }
+
+    .cockpit-footer-buttons {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+}
+
 /* FIN DU FICHIER - NETTOYAGE EFFECTUÉ */
