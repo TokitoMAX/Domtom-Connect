@@ -18,6 +18,15 @@ const OwnersModule = {
                     window.StandardModule.renderProfile(target, profile, session);
                 }
                 break;
+            case 'success-engine':
+                if (window.loadMyProjects) {
+                    const engineContainer = document.getElementById('success-engine-view-fixed');
+                    if (engineContainer) {
+                        engineContainer.style.display = 'block';
+                        window.loadMyProjects(session.user.id);
+                    }
+                }
+                break;
             case 'overview':
             default:
                 OwnersModule.renderDashboard(target, profile, session);

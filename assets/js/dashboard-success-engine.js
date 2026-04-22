@@ -79,81 +79,79 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
             if (collectedEl) {
                 const total = projects.reduce((acc, p) => acc + (parseFloat(p.total_raised) || 0), 0);
                 collectedEl.textContent = `${total.toLocaleString()} €`;
-            }
-        }
-
-        // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" ---
-        const headerContainer = document.getElementById('success-engine-header');
-        const engineStepContainer = document.getElementById('success-engine-step');
+                   // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" ---
+        const engineView = document.getElementById('success-engine-view-fixed');
         
-        if (engineStepContainer) {
+        if (engineView) {
             // Déterminer s'il faut afficher la liste des projets
-            const path = window.location.pathname;
-            const isListView = path === '#success-engine' && !window.location.search.includes('id=');
+            const hash = window.location.hash;
+            const isListView = hash === '#success-engine' && !hash.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
-                if (headerContainer) headerContainer.innerHTML = '';
-                // Removed recursive loadMyProjects call to prevent stack overflow and stuck loading states.
-                
                 let listHTML = `
-                    <div id="project-list-view">
-                        <div class="dash-pilotage-header" style="margin-bottom:32px;">
+                    <div id="project-list-view" style="animation: fadeIn 0.4s ease-out;">
+                        <div class="dash-pilotage-header" style="margin-bottom:40px; display:flex; justify-content:space-between; align-items:flex-end;">
                             <div>
-                                <h2 class="success-engine-project-title">MES PROJETS</h2>
-                                <p class="success-engine-subtitle">Gérez vos aventures territoriales étape par étape.</p>
+                                <h1 style="font-size: 2.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em;">L'ÉPOPÉE</h1>
+                                <p style="color: #64748b; font-size: 1.1rem; font-weight: 500; margin-top: 8px;">Pilotez vos ambitions territoriales pas à pas.</p>
+                            </div>
+                            <div style="background: white; padding: 12px 24px; border-radius: 100px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Total Projets</span>
+                                <span style="font-size: 1.2rem; font-weight: 900; color: #10b981;">${projects.length}</span>
                             </div>
                         </div>
 
-                        <div class="ecosystem-grid">
+                        <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 32px;">
                             <!-- Card : Nouvelle Épopée -->
-                            <div class="dash-card-premium highlight" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:40px; border:none; position:relative; overflow:hidden;">
+                            <div class="dash-card-premium" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:40px; border:none; position:relative; overflow:hidden; border-radius: 32px; min-height: 380px; cursor: pointer; transition: transform 0.3s;" onclick="startNewProjectWizard()">
                                 <div style="position:relative; z-index:2;">
-                                    <div style="background:rgba(16, 185, 129, 0.2); width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; border:1px solid rgba(16, 185, 129, 0.3);">
-                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+                                    <div style="background:rgba(16, 185, 129, 0.2); width:60px; height:60px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:32px; border:1px solid rgba(16, 185, 129, 0.3);">
+                                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
                                     </div>
-                                    <h2 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 950; letter-spacing:-0.03em;">Nouvelle Épopée</h2>
-                                    <p style="color: rgba(255,255,255,0.7); margin: 8px 0 32px 0; font-size: 0.95rem; font-weight:500; line-height:1.4;">Prêt à propulser votre prochain grand projet territorial ?</p>
-                                    <button onclick="startNewProjectWizard()" class="cta-button primary" style="background: #10b981; color: white; font-weight:900; border:none; padding:16px 28px; width:100%; justify-content:center; border-radius:14px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">+ Démarrer l'Aventure</button>
+                                    <h2 style="color: white; margin: 0; font-size: 2rem; font-weight: 950; letter-spacing:-0.04em;">Nouvelle Épopée</h2>
+                                    <p style="color: rgba(255,255,255,0.7); margin: 12px 0 0 0; font-size: 1.05rem; font-weight:500; line-height:1.5;">Propulsez votre prochain grand projet à impact.</p>
+                                </div>
+                                <div style="position:relative; z-index:2; margin-top: auto;">
+                                    <button class="cta-button primary" style="background: #10b981; color: white; font-weight:900; border:none; padding:18px 28px; width:100%; justify-content:center; border-radius:16px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); font-size: 1.1rem;">Démarrer l'Aventure →</button>
                                 </div>
                                 <!-- Decorative -->
-                                <div style="position:absolute; bottom:-50px; right:-50px; width:150px; height:150px; background:rgba(16, 185, 129, 0.1); border-radius:50%; filter:blur(60px);"></div>
+                                <div style="position:absolute; bottom:-50px; right:-50px; width:200px; height:200px; background:rgba(16, 185, 129, 0.15); border-radius:50%; filter:blur(60px);"></div>
                             </div>
 
                             ${projects && projects.length > 0 ? projects.map(p => {
                                 const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                                 return `
-                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:32px; border-radius:28px; background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; backdrop-filter: blur(10px); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
-                                    <button onclick="deleteSREProject('${p.id}')" style="position:absolute; top:24px; right:24px; background:#fee2e2; border:none; color:#ef4444; width:32px; height:32px; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">×</button>
+                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:40px; border-radius:32px; background: white; border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 30px 60px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
+                                    <button onclick="event.stopPropagation(); deleteSREProject('${p.id}')" style="position:absolute; top:24px; right:24px; background:#f8fafc; border:1px solid #e2e8f0; color:#94a3b8; width:36px; height:36px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444'; this.style.borderColor='#fecaca';">×</button>
                                     
-                                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
-                                        <div style="background:#ecfdf5; color:#10b981; padding:6px 12px; border-radius:100px; font-size:0.65rem; font-weight:900; letter-spacing:0.05em; text-transform:uppercase;">ÉPOPÉE ACTIVE</div>
+                                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+                                        <div style="background:${p.status === 'approved' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(148, 163, 184, 0.1)'}; color:${p.status === 'approved' ? '#10b981' : '#64748b'}; padding:8px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; letter-spacing:0.05em; text-transform:uppercase;">${p.status === 'approved' ? 'Épopée Validée' : 'Mode Brouillon'}</div>
                                     </div>
 
-                                    <div class="card-title" style="font-size: 1.6rem; font-weight:950; color:#0f172a; margin-bottom:8px; letter-spacing:-0.03em;">${p.title || p.name || 'Sans titre'}</div>
-                                    <div style="font-size:0.9rem; color:#64748b; margin-bottom:32px; font-weight:600; display:flex; align-items:center; gap:6px;">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                                    <div class="card-title" style="font-size: 2rem; font-weight:950; color:#0f172a; margin-bottom:12px; letter-spacing:-0.04em;">${p.title || p.name || 'Sans titre'}</div>
+                                    <div style="font-size:1rem; color:#64748b; margin-bottom:40px; font-weight:600; display:flex; align-items:center; gap:8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
                                         ${p.territory || 'Territoire à définir'}
                                     </div>
                                     
-                                    <div style="margin-top:auto; padding-top:24px; border-top:1px solid #f1f5f9;">
-                                        <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 12px;">
+                                    <div style="margin-top:auto; padding-top:32px; border-top:1px solid #f1f5f9;">
+                                        <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 16px;">
                                             <div>
-                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px;">MATURITÉ STRATÉGIQUE</span>
-                                                <span style="font-size:2rem; font-weight:950; color: #0f172a; letter-spacing:-0.05em;">${score}%</span>
+                                                <span style="display:block; font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">MATURITÉ STRATÉGIQUE</span>
+                                                <span style="font-size:2.5rem; font-weight:950; color: #0f172a; letter-spacing:-0.05em;">${score}%</span>
                                             </div>
                                             <div style="text-align:right;">
-                                                <span style="display:block; font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">COLLECTÉ</span>
-                                                <span style="font-size:1.1rem; font-weight:900; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:6px 12px; border-radius:10px;">${(p.total_raised || 0).toLocaleString()} €</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">COLLECTÉ</span>
+                                                <span style="font-size:1.3rem; font-weight:950; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:8px 16px; border-radius:12px;">${(p.total_raised || 0).toLocaleString()} €</span>
                                             </div>
                                         </div>
  
-                                        <div class="dash-progress-container" style="height:12px; margin-bottom:32px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9;">
-                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);"></div>
+                                        <div class="dash-progress-container" style="height:14px; margin-bottom:40px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9;">
+                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);"></div>
                                         </div>
  
-                                        <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:12px;">
-                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:950; background:#0f172a; border-radius:16px; font-size:0.95rem; padding:16px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 10px 20px rgba(15, 23, 42, 0.1);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">PILOTER L'ÉPOPÉE</button>
-                                            <button onclick="viewProjectContributions('${p.id}')" class="cta-button secondary" style="justify-content:center; font-weight:800; border-radius:16px; border:1px solid #e2e8f0; font-size:0.85rem; background:white; color:#0f172a; cursor:pointer;">FINANCEMENTS</button>
+                                        <div style="display:grid; grid-template-columns: 1fr; gap:16px;">
+                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:950; background:#0f172a; border-radius:18px; font-size:1.1rem; padding:20px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 15px 30px rgba(15, 23, 42, 0.15);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">PILOTER L'ÉPOPÉE →</button>
                                         </div>
                                     </div>
                                 </div>
@@ -162,12 +160,14 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                         </div>
                     </div>
                     
-                    <div id="project-cockpit-view" style="display: none; z-index: 10002; padding: 0 16px; pointer-events: auto !important; padding-bottom: 80px;">
-                        <a href="#success-engine" class="cta-button secondary" style="display:inline-flex; align-items:center; text-decoration:none; margin-bottom: 24px; font-weight:800; border-radius: 12px; font-size: 0.85rem; padding: 10px 16px;">&larr; Mes Projets</a>
+                    <div id="project-cockpit-view" style="display: none; animation: fadeIn 0.4s ease-out;">
                         <div id="cockpit-content-internal"></div>
                     </div>
                 `;
-                engineStepContainer.innerHTML = listHTML;
+                engineView.innerHTML = listHTML;
+            }
+        }
+ML = listHTML;
             }
         }
 
@@ -243,59 +243,73 @@ function renderCockpitWithStep(p, step, score) {
     if (!content) return;
 
     const stepsInfo = [
-        { num: 1, title: '01. Vision', subtitle: 'Concept, Vision & Mission' },
-        { num: 2, title: '02. Équipe', subtitle: 'Les fondateurs & Le Commando' },
-        { num: 3, title: '03. Marché', subtitle: 'Le Terrain & L\'Opportunité' },
-        { num: 4, title: '04. Impact', subtitle: 'Valeur Locale, Innovation & Emploi' },
-        { num: 5, title: '05. Budget', subtitle: 'Besoins de Financement' },
-        { num: 6, title: '06. Lancement', subtitle: 'Pitch Final & Validation Admin' }
+        { num: 1, title: '01. Vision', subtitle: 'Concept & Identité' },
+        { num: 2, title: '02. Équipe', subtitle: 'Le Commando' },
+        { num: 3, title: '03. Marché', subtitle: 'Opportunités' },
+        { num: 4, title: '04. Impact', subtitle: 'Valeur Locale' },
+        { num: 5, title: '05. Budget', subtitle: 'Financement' },
+        { num: 6, title: '06. Soumission', subtitle: 'Validation Finale' }
     ];
 
     const current = stepsInfo.find(s => s.num === step);
     let stepHTML = `
-        <div class="cockpit-header">
-            <a href="${window.isAdminInspection ? '/dashboard' : '#success-engine'}" onclick="if(!window.isAdminInspection && window.Router) { event.preventDefault(); window.Router.navigate('#success-engine'); }" class="cta-button secondary" style="margin-bottom: 32px; border-radius: 14px;">
-                &larr; ${window.isAdminInspection ? 'Retour au Dashboard SRE' : 'Retour à mes Projets'}
-            </a>
-
-            <div class="cockpit-stepper">
-                ${stepsInfo.map(s => `
-                    <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num})" 
-                         class="cockpit-step ${s.num === step ? 'active' : ''}">
-                        <div class="step-number-tag">ÉTAPE ${s.num}</div>
-                        <div class="step-label-text">${s.title.split('. ')[1]}</div>
+        <div class="cockpit-container" style="max-width: 1100px; margin: 0 auto; padding-bottom: 100px;">
+            <div class="cockpit-header" style="margin-bottom: 48px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                    <a href="#success-engine" onclick="event.preventDefault(); window.Router.navigate('#success-engine');" 
+                       class="cta-button secondary" style="border-radius: 100px; padding: 12px 24px; font-weight: 800; font-size: 0.85rem; border: 1px solid #e2e8f0; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        &larr; Retour aux Projets
+                    </a>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Progression</span>
+                        <div style="width: 150px; height: 8px; background: #f1f5f9; border-radius: 100px; overflow: hidden; border: 1px solid #f1f5f9;">
+                            <div style="width: ${Math.round((step/6)*100)}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
+                        </div>
+                        <span style="font-size: 1rem; font-weight: 900; color: #0f172a;">${step}/6</span>
                     </div>
-                `).join('')}
-            </div>
-            
-            <div style="margin-bottom:32px;">
-                <div class="dash-badge emerald" style="margin-bottom:12px;">PILOTAGE : ${p.title || 'SANS TITRE'}</div>
-                <h2 style="font-size:2.2rem; font-weight:900; margin:0; letter-spacing: -0.05em;">${current.title}</h2>
-                <p style="color:#64748b; font-size: 1.1rem; font-weight: 500; margin-top:8px;">${current.subtitle}</p>
-            </div>
-        </div>
+                </div>
 
-        <div class="cockpit-card-premium">
-            ${renderStepFields(step, p)}
-        </div>
+                <div style="text-align: center; margin-bottom: 48px;">
+                    <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 8px 16px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px;">PILOTAGE : ${p.title || 'SANS TITRE'}</span>
+                    <h1 style="font-size: 3.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em; line-height: 1;">${current.title}</h1>
+                    <p style="color: #64748b; font-size: 1.25rem; font-weight: 500; margin-top: 12px;">${current.subtitle}</p>
+                </div>
 
-        <div style="margin-top:40px; display:flex; justify-content:space-between; gap:20px;">
-            <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
-                    class="cta-button secondary" style="flex:1; justify-content:center;">${step > 1 ? '← Précédent' : 'Fermer'}</button>
-            
-            ${window.isAdminInspection ? `
-                <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">APPROUVER LE PROJET</button>
-            ` : `
-                <button onclick="saveProjectStep('${p.id}', ${step})" 
-                        class="cta-button primary" style="flex:2; justify-content:center; background:#10b981; font-weight:900;">
-                        ${step === 6 ? 'SOUMETTRE MON PROJET' : 'Enregistrer & Continuer'}
-                </button>
-            `}
+                <div class="cockpit-stepper" style="display: flex; gap: 8px; background: white; padding: 8px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 48px;">
+                    ${stepsInfo.map(s => `
+                        <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num})" 
+                             style="flex: 1; padding: 16px 8px; border-radius: 18px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); ${s.num === step ? 'background: #0f172a; color: white;' : 'color: #94a3b8;'}">
+                            <div style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; opacity: ${s.num === step ? '0.7' : '1'}">ÉTAPE ${s.num}</div>
+                            <div style="font-size: 0.9rem; font-weight: 900; letter-spacing: -0.02em;">${s.title.split('. ')[1]}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div class="cockpit-card-premium" style="background: white; padding: 56px; border-radius: 40px; border: 1px solid #e2e8f0; box-shadow: 0 20px 50px rgba(0,0,0,0.04); animation: slideUp 0.5s ease-out;">
+                ${renderStepFields(step, p)}
+                
+                <div style="margin-top: 64px; padding-top: 48px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; gap: 24px;">
+                    <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
+                            class="cta-button secondary" style="flex: 1; justify-content: center; padding: 20px; border-radius: 18px; font-weight: 800; font-size: 1rem; border: 1px solid #e2e8f0;">
+                         ${step > 1 ? '← Étape Précédente' : 'Quitter le Pilote'}
+                    </button>
+                    
+                    ${window.isAdminInspection ? `
+                        <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25);">APPROUVER L'ÉPOPÉE ✓</button>
+                    ` : `
+                        <button onclick="saveProjectStep('${p.id}', ${step})" 
+                                class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25);">
+                                ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE 🚀' : 'Enregistrer & Étape Suivante →'}
+                        </button>
+                    `}
+                </div>
+            </div>
         </div>
     `;
 
     content.innerHTML = stepHTML;
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Initialisation dynamique des données de crowdfunding à l'étape 5
     if (step === 5) {
