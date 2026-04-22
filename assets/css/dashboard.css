@@ -167,14 +167,14 @@ html, body {
 
 .nav-market-links {
     display: flex;
-    gap: 8px;
-    background: rgba(15, 23, 42, 0.9); /* More opaque obsidian */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 6px;
-    border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    gap: 12px;
+    background: rgba(15, 23, 42, 0.95) !important; /* Balanced Obsidian Glass */
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    padding: 6px 12px !important;
+    border-radius: 100px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
     pointer-events: auto;
     max-width: 95%;
     width: fit-content;
@@ -185,27 +185,25 @@ html, body {
 }
 
 .nav-market-link {
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.85); /* Much brighter */
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 8px 18px;
-    border-radius: 100px;
+    text-decoration: none !important;
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important; /* Pure White for maximum visibility */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    padding: 8px 16px !important;
+    border-radius: 100px !important;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     white-space: nowrap;
+    opacity: 0.7;
 }
 
 .nav-market-link:hover, .nav-market-link.active {
-    color: #fff;
-    background: #10b981; /* Emerald on hover/active */
-}
-
-.nav-market-link.active {
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    color: #ffffff !important;
+    background: #10b981 !important; /* Emerald on hover/active */
+    opacity: 1 !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
 }
 
 @media (max-width: 960px) {
