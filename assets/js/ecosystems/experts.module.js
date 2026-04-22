@@ -9,6 +9,7 @@ const ExpertsModule = {
      * Module Router - Professional Isolation
      */
     route: async (viewId, container, profile, session, params) => {
+        console.log("[ExpertsModule] Routing to:", viewId);
         const target = container || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
@@ -157,6 +158,43 @@ const ExpertsModule = {
                         </ul>
                         <button onclick="alert('Activation Pack Expert...')" style="width: 100%; max-width: 300px; padding: 18px; background: #020617; border: none; border-radius: 16px; font-weight: 900; color: white; cursor: pointer; margin: 0 auto; display: block;">G&eacute;rer mon Pack</button>
                     </div>
+                </div>
+            </div>
+        `;
+    },
+
+    /**
+     * Business Pilotage - Expert Dashboard Hub
+     */
+    renderBusinessPilotage: async (container, profile, session) => {
+        container.innerHTML = `
+            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; padding: 20px;">
+                <div style="margin-bottom: 32px;">
+                    <h1 style="font-weight: 900; color: #020617; font-size: 2.5rem; letter-spacing: -0.03em;">Pilotage d'Activit&eacute;</h1>
+                    <p style="color: #64748b; font-weight: 600;">G&eacute;rez votre business, vos devis et votre impact territorial.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Revenus G&eacute;n&eacute;r&eacute;s</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #020617;">0,00 &euro;</div>
+                    </div>
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Missions en cours</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #10b981;">0</div>
+                    </div>
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Impact Territoire</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #2563eb;">Elite</div>
+                    </div>
+                </div>
+
+                <div class="dash-card" style="background: white; border-radius: 24px; padding: 40px; border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
+                    <div>
+                        <h3 style="color: #020617; font-weight: 900; margin-bottom: 8px;">Prêt à booster votre visibilité ?</h3>
+                        <p style="color: #64748b; font-weight: 600;">Activez votre collaboration active pour débloquer plus de missions.</p>
+                    </div>
+                    <button onclick="window.Router.navigate('#collaboration')" style="padding: 16px 32px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Lancer une Collaboration</button>
                 </div>
             </div>
         `;

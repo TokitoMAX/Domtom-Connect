@@ -173,6 +173,40 @@ const CompaniesModule = {
                 </div>
             </div>
         `;
+    },
+
+    /**
+     * Business Pilotage - Company Dashboard Hub
+     */
+    renderBusinessPilotage: async (container, profile, session) => {
+        container.innerHTML = `
+            <div class="dash-grid-layout" style="font-family: 'Inter', sans-serif; padding: 20px;">
+                <div style="margin-bottom: 32px;">
+                    <h1 style="font-weight: 900; color: #020617; font-size: 2.5rem; letter-spacing: -0.03em;">Centre de Pilotage Business</h1>
+                    <p style="color: #64748b; font-weight: 600;">G&eacute;rez vos missions, collaborations et contenus strat&eacute;giques.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;">
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Missions Lanc&eacute;es</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #020617;">0</div>
+                    </div>
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Contenus Pr&eacute;vus</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #10b981;">0 / 3</div>
+                    </div>
+                    <div class="dash-card" style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                         <h4 style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">Collaborations</h4>
+                         <div style="font-size: 2.5rem; font-weight: 950; color: #2563eb;">0</div>
+                    </div>
+                </div>
+
+                <div style="background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 24px; padding: 60px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
+                    <h3 style="color: #64748b; font-weight: 800; margin-bottom: 24px;">Pr&ecirc;t &agrave; lancer votre premi&egrave;re mission ?</h3>
+                    <button onclick="window.Router.navigate('#collaboration')" style="padding: 16px 32px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Lancer une Mission</button>
+                </div>
+            </div>
+        `;
     }
 };
 
