@@ -1228,6 +1228,19 @@ html, body {
     }
 }
 
+.dash-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 32px;
+}
+
+@media (max-width: 1024px) {
+    .dash-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
 /* Matchmaking (Pépites) */
 .match-card {
     background: white;
