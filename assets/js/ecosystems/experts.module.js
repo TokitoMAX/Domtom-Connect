@@ -94,7 +94,7 @@ const ExpertsModule = {
                                 <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Étape 2 : Rayonnement Authority</h4>
                                 <p style="margin: 0; font-size: 0.75rem; color: #64748b;">${profile.subscription_tier !== 'free' ? 'Pack Activé' : 'Débloquez votre visibilité premium'}</p>
                             </div>
-                             <button onclick="window.PaymentModule.openSubModal('authority', 'expert', profile)" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#10b981' : '#0f172a'}; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
+                             <button onclick="window.PaymentModule.openSubModal('authority', 'expert', window.App.state.profile)" class="cta-button" style="padding: 10px 20px; border-radius: 10px; background: ${profile.subscription_tier !== 'free' ? '#10b981' : '#0f172a'}; color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 200px;">
                                 ${profile.subscription_tier !== 'free' ? 'Gérer mon Pack' : 'Activer l\'Étape 2 →'}
                              </button>
                         </div>

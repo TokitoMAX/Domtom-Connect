@@ -12,9 +12,17 @@ const PaymentModule = {
      * @param {object} profile - User profile data
      */
     async openSubModal(tier, role, profile) {
-        this.currentProfile = profile;
-        this.currentRole = role;
-        this.currentTier = tier || (role === 'entreprise' ? 'growth' : 'authority');
+        // Fallback if profile is not provided or undefined
+        this.currentProfile = profile || (window.App && window.App.state.profile);
+        this.currentRole = role || (window.App && window.App.state.role) || 'expert';
+        
+        if (!this.currentProfile) {
+            console.error("PaymentModule: Missing profile data for subscription.");
+            alert("⚠️ Impossible d'ouvrir le paiement : profil non chargé.");
+            return;
+        }
+
+        this.currentTier = tier || (this.currentRole === 'entreprise' ? 'growth' : 'authority');
 
         // 1. Inject CSS if missing
         this.injectStyles();
