@@ -45,7 +45,7 @@ const StandardModule = {
                     <p style="color: rgba(255,255,255,0.7);">D&eacute;couvrez l'annuaire et commencez votre &eacute;pop&eacute;e.</p>
                 </div>
                 <div style="display:grid; gap:24px;">
-                    <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:20px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert →</button>
+                    <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:20px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert</button>
                 </div>
             </div>
         `;
@@ -123,7 +123,7 @@ const StandardModule = {
                         </div>
                         
                         <div style="margin-top: 32px; padding-top:32px; border-top:1px solid #f1f5f9;">
-                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer mon Profil &Eacute;lite →</button>
+                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer mon Profil Élite</button>
                         </div>
                     </div>
                 </div>
@@ -164,10 +164,10 @@ const StandardModule = {
             const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("\u2705 Profil professionnel mis \u00e0 jour avec succ\u00e8s !");
+            alert("Profil professionnel mis \u00e0 jour avec succ\u00e8s !");
             window.location.reload();
         } catch (err) {
-            alert("\u274c Erreur : " + err.message);
+            alert("Erreur : " + err.message);
         }
     }
 };

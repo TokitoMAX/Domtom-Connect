@@ -126,7 +126,6 @@ const CompaniesModule = {
                         
                         <!-- Action Center -->
                         <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 24px; background: #2563eb; color: white; border: none; border-radius: 20px; font-weight: 950; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(37,99,235,0.2);">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4z"/></svg>
                             Collaborer
                         </button>
 

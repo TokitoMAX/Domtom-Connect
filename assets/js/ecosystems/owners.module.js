@@ -131,7 +131,7 @@ const OwnersModule = {
                             <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Reprenez l'édition de votre projet étape par étape.</p>
                         </div>
                         <button onclick="window.Router.navigate('#success-engine')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(16,185,129,0.2);">
-                            Lancer le Pilotage 🚀
+                            Lancer le Pilotage
                         </button>
                     </div>
                 </div>

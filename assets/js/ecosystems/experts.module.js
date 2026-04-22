@@ -65,15 +65,14 @@ const ExpertsModule = {
                             </div>
                             <div>
                                 <h4 style="margin: 0; font-size: 1.1rem; font-weight: 850; color: #0f172a;">Parcours de Succ&egrave;s</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? '&Eacute;tape 1 : R&eacute;f&eacute;rencement Actif ✅' : '&Eacute;tape 1 : Publication du Profil ⏳'}</p>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">${profile.listed ? '&Eacute;tape 1 : R&eacute;f&eacute;rencement Actif' : '&Eacute;tape 1 : Publication en cours'}</p>
                             </div>
                         </div>
                         <div style="flex: 1; height: 4px; background: #f1f5f9; border-radius: 2px; position: relative; margin: 0 40px; min-width: 100px;">
                             <div style="position: absolute; left: 0; top: 0; height: 100%; width: ${profile.listed ? '50%' : '10%'}; background: #10b981; border-radius: 2px;"></div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
-                             <button onclick="window.PaymentModule.openSubModal('authority', 'expert', window.App.state.profile)" class="cta-button primary" style="padding: 12px 24px; border-radius: 12px; background: #0f172a; color: white; border: none; font-weight: 800; font-size: 0.9rem; cursor: pointer; width: 100%;">
-                                ${profile.subscription_tier !== 'free' ? 'G&eacute;rer mon Pack' : 'Activer l\'&Eacute;tape 2 →'}
+                                 ${profile.subscription_tier !== 'free' ? 'G&eacute;rer mon Pack' : 'Activer l\'&Eacute;tape 2'}
                              </button>
                         </div>
                     </div>
@@ -96,7 +95,7 @@ const ExpertsModule = {
                             <h4 style="margin:0; font-size:1.8rem; font-weight:950; color:#0f172a; letter-spacing:-0.03em;">Pilotage Business</h4>
                             <p style="font-size: 1.1rem; color: #64748b; line-height:1.6; margin: 12px 0 24px 0; max-width:480px;">Consultez vos statistiques, g&eacute;rez vos devis et facturez vos missions en toute s&eacute;curit&eacute;.</p>
                          </div>
-                         <button onclick="window.Router.navigate('#business')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:18px; font-weight:950; padding:18px 36px; border:none; width: fit-content; cursor:pointer;">Acc&eacute;der au Pilotage →</button>
+                         <button onclick="window.Router.navigate('#business')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:18px; font-weight:950; padding:18px 36px; border:none; width: fit-content; cursor:pointer;">Acc&eacute;der au Pilotage</button>
                     </div>
 
                     <div class="dash-card" style="padding:32px; background: white; border: 1px solid #e2e8f0; border-radius: 24px;">
