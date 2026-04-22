@@ -45,46 +45,36 @@ const CompaniesModule = {
 
         container.innerHTML = `
             <style>
-                .company-grid-container {
+                .ecosystem-grid {
                     display: grid;
                     grid-template-columns: 1fr 340px;
                     gap: 32px;
+                    align-items: start;
                 }
-                .company-header h1 {
-                    font-size: 2.8rem;
-                }
-                @media (max-width: 1024px) {
-                    .company-grid-container {
+                .ecosystem-header h1 { font-size: 2.8rem; }
+                @media (max-width: 900px) {
+                    .ecosystem-grid {
                         grid-template-columns: 1fr;
                         gap: 24px;
                     }
-                    .company-header {
+                    .ecosystem-header {
                         flex-direction: column !important;
                         text-align: center;
-                        gap: 20px !important;
                         padding: 30px 20px !important;
                     }
-                    .company-header h1 {
-                        font-size: 1.8rem !important;
-                    }
-                    .dash-side-col {
-                        order: 2;
-                    }
-                    .dash-left-col {
-                        order: 1;
-                    }
+                    .ecosystem-header h1 { font-size: 1.8rem !important; }
                 }
             </style>
 
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
-                <div class="company-grid-container">
+                <div class="ecosystem-grid">
                     
                     <!-- LEFT COLUMN: CONTENT -->
                     <div class="dash-left-col">
                         
                         <!-- Institutional Header -->
-                        <div class="company-header" style="background: #0f172a; border-radius: 24px; padding: 40px; margin-bottom: 32px; display: flex; align-items: center; gap: 32px;">
+                        <div class="ecosystem-header" style="background: #0f172a; border-radius: 24px; padding: 40px; margin-bottom: 32px; display: flex; align-items: center; gap: 32px;">
                             <div style="width: 120px; height: 120px; background: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 10px; flex-shrink: 0; margin: 0 auto;">
                                 <img src="${profile.avatar_url || 'https://domtom-connect.com/assets/img/logo_mini.png'}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                             </div>
