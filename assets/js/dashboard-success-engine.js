@@ -50,10 +50,9 @@ function updateSuccessStepper(score, projectId) {
 // --- 2. PROJECT LOADING & HUB ---
 
 async function loadMyProjects(userId, forceRenderList = false, inspectId = null) {
-    if (!userId && !inspectId) return; // Sécurisation contre les sessions non chargées
+    if (!userId && !inspectId) return;
     try {
         let query = window._supabase.from('projects').select('*');
-        
         if (inspectId) {
             query = query.eq('id', inspectId).single();
         } else {
@@ -62,7 +61,6 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
 
         const { data, error } = await query;
         if (error) throw error;
-
         const projects = inspectId ? [data] : (data || []);
 
         // --- 1. SYNCHRONISATION AVEC L'OVERVIEW (Maturité & Collecte) ---
@@ -75,84 +73,82 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                 const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(latest) : 0;
                 maturityEl.textContent = `${score} %`;
             }
-            
             if (collectedEl) {
                 const total = projects.reduce((acc, p) => acc + (parseFloat(p.total_raised) || 0), 0);
                 collectedEl.textContent = `${total.toLocaleString()} €`;
-                   // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" ---
+            }
+        }
+
+        // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" (Pilotage Central) ---
         const engineView = document.getElementById('success-engine-view-fixed');
-        
         if (engineView) {
-            // Déterminer s'il faut afficher la liste des projets
             const hash = window.location.hash;
             const isListView = hash === '#success-engine' && !hash.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
                 let listHTML = `
-                    <div id="project-list-view" style="animation: fadeIn 0.4s ease-out;">
-                        <div class="dash-pilotage-header" style="margin-bottom:40px; display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div id="project-list-view" style="animation: fadeIn 0.4s ease-out; width:100%; max-width:1400px; margin:0 auto; padding:20px;">
+                        <div class="dash-pilotage-header" style="margin-bottom:48px; display:flex; justify-content:space-between; align-items:flex-end;">
                             <div>
-                                <h1 style="font-size: 2.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em;">L'ÉPOPÉE</h1>
-                                <p style="color: #64748b; font-size: 1.1rem; font-weight: 500; margin-top: 8px;">Pilotez vos ambitions territoriales pas à pas.</p>
+                                <h1 style="font-size: 3.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.06em;">L'ÉPOPÉE</h1>
+                                <p style="color: #64748b; font-size: 1.2rem; font-weight: 500; margin-top: 12px; max-width:600px;">Gérez vos projets à impact territorial et pilotez vos ambitions stratégiques pas à pas.</p>
                             </div>
-                            <div style="background: white; padding: 12px 24px; border-radius: 100px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                                <span style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase;">Total Projets</span>
-                                <span style="font-size: 1.2rem; font-weight: 900; color: #10b981;">${projects.length}</span>
+                            <div style="background: white; padding: 16px 32px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                                <div style="text-align:right;">
+                                    <span style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; display:block;">Total Épopées</span>
+                                    <span style="font-size: 1.8rem; font-weight: 950; color: #10b981;">${projects.length}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 32px;">
+                        <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px;">
                             <!-- Card : Nouvelle Épopée -->
-                            <div class="dash-card-premium" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:40px; border:none; position:relative; overflow:hidden; border-radius: 32px; min-height: 380px; cursor: pointer; transition: transform 0.3s;" onclick="startNewProjectWizard()">
+                            <div class="dash-card-premium" style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:48px; border:none; position:relative; overflow:hidden; border-radius: 40px; min-height: 420px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 70px rgba(0,0,0,0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.15)';" onclick="startNewProjectWizard()">
                                 <div style="position:relative; z-index:2;">
-                                    <div style="background:rgba(16, 185, 129, 0.2); width:60px; height:60px; border-radius:18px; display:flex; align-items:center; justify-content:center; margin-bottom:32px; border:1px solid rgba(16, 185, 129, 0.3);">
-                                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+                                    <div style="background:#10b981; width:70px; height:70px; border-radius:24px; display:flex; align-items:center; justify-content:center; margin-bottom:40px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">
+                                         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5"><path d="M12 5v14M5 12h14"/></svg>
                                     </div>
-                                    <h2 style="color: white; margin: 0; font-size: 2rem; font-weight: 950; letter-spacing:-0.04em;">Nouvelle Épopée</h2>
-                                    <p style="color: rgba(255,255,255,0.7); margin: 12px 0 0 0; font-size: 1.05rem; font-weight:500; line-height:1.5;">Propulsez votre prochain grand projet à impact.</p>
+                                    <h2 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 950; letter-spacing:-0.05em; line-height:1.1;">Commencer une<br><span style="color:#10b981;">Nouvelle Épopée</span></h2>
+                                    <p style="color: rgba(255,255,255,0.5); margin: 20px 0 0 0; font-size: 1.1rem; font-weight:500; line-height:1.6;">Créez un nouveau projet et profitez de notre moteur de succès.</p>
                                 </div>
                                 <div style="position:relative; z-index:2; margin-top: auto;">
-                                    <button class="cta-button primary" style="background: #10b981; color: white; font-weight:900; border:none; padding:18px 28px; width:100%; justify-content:center; border-radius:16px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); font-size: 1.1rem;">Démarrer l'Aventure →</button>
+                                    <button class="cta-button primary" style="background: #10b981; color: white; font-weight:950; border:none; padding:22px 32px; width:100%; justify-content:center; border-radius:20px; font-size: 1.15rem;">Démarrer l'Aventure →</button>
                                 </div>
-                                <!-- Decorative -->
-                                <div style="position:absolute; bottom:-50px; right:-50px; width:200px; height:200px; background:rgba(16, 185, 129, 0.15); border-radius:50%; filter:blur(60px);"></div>
+                                <div style="position:absolute; bottom:-80px; right:-80px; width:250px; height:250px; background:rgba(16, 185, 129, 0.15); border-radius:50%; filter:blur(80px);"></div>
                             </div>
 
-                            ${projects && projects.length > 0 ? projects.map(p => {
+                            ${projects.length > 0 ? projects.map(p => {
                                 const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                                 return `
-                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:40px; border-radius:32px; background: white; border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 30px 60px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.03)';">
-                                    <button onclick="event.stopPropagation(); deleteSREProject('${p.id}')" style="position:absolute; top:24px; right:24px; background:#f8fafc; border:1px solid #e2e8f0; color:#94a3b8; width:36px; height:36px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444'; this.style.borderColor='#fecaca';">×</button>
+                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:48px; border-radius:40px; background: white; border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 80px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.03)';" onclick="openProjectCockpit('${p.id}')">
+                                    <button onclick="event.stopPropagation(); deleteSREProject('${p.id}')" style="position:absolute; top:32px; right:32px; background:#f8fafc; border:1px solid #e2e8f0; color:#94a3b8; width:40px; height:40px; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" title="Supprimer ce projet">×</button>
                                     
-                                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
-                                        <div style="background:${p.status === 'approved' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(148, 163, 184, 0.1)'}; color:${p.status === 'approved' ? '#10b981' : '#64748b'}; padding:8px 16px; border-radius:100px; font-size:0.75rem; font-weight:900; letter-spacing:0.05em; text-transform:uppercase;">${p.status === 'approved' ? 'Épopée Validée' : 'Mode Brouillon'}</div>
+                                    <div style="display:flex; align-items:center; gap:16px; margin-bottom:32px;">
+                                        <div style="background:${p.status === 'approved' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(148, 163, 184, 0.1)'}; color:${p.status === 'approved' ? '#10b981' : '#64748b'}; padding:10px 20px; border-radius:100px; font-size:0.7rem; font-weight:950; letter-spacing:0.08em; text-transform:uppercase; border:1px solid ${p.status === 'approved' ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.05)'}">${p.status === 'approved' ? 'Épopée Validée' : 'Mode Brouillon'}</div>
                                     </div>
 
-                                    <div class="card-title" style="font-size: 2rem; font-weight:950; color:#0f172a; margin-bottom:12px; letter-spacing:-0.04em;">${p.title || p.name || 'Sans titre'}</div>
-                                    <div style="font-size:1rem; color:#64748b; margin-bottom:40px; font-weight:600; display:flex; align-items:center; gap:8px;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                                        ${p.territory || 'Territoire à définir'}
+                                    <h2 style="font-size: 2.2rem; font-weight:950; color:#0f172a; margin:0 0 16px 0; letter-spacing:-0.05em; line-height:1.2;">${p.title || p.name || 'Sans titre'}</h2>
+                                    <div style="font-size:1.1rem; color:#64748b; margin-bottom:48px; font-weight:600; display:flex; align-items:center; gap:10px;">
+                                        <span style="opacity:0.6;">📍</span> ${p.territory || 'Territoire à définir'}
                                     </div>
                                     
-                                    <div style="margin-top:auto; padding-top:32px; border-top:1px solid #f1f5f9;">
-                                        <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 16px;">
+                                    <div style="margin-top:auto; padding-top:40px; border-top:1.5px solid #f8fafc;">
+                                        <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 24px;">
                                             <div>
-                                                <span style="display:block; font-size:0.8rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">MATURITÉ STRATÉGIQUE</span>
-                                                <span style="font-size:2.5rem; font-weight:950; color: #0f172a; letter-spacing:-0.05em;">${score}%</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Maturité Stratégique</span>
+                                                <span style="font-size:3rem; font-weight:950; color: #0f172a; letter-spacing:-0.06em;">${score}%</span>
                                             </div>
                                             <div style="text-align:right;">
-                                                <span style="display:block; font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">COLLECTÉ</span>
-                                                <span style="font-size:1.3rem; font-weight:950; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:8px 16px; border-radius:12px;">${(p.total_raised || 0).toLocaleString()} €</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Collecté</span>
+                                                <span style="font-size:1.5rem; font-weight:950; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:10px 20px; border-radius:16px; border:1px solid rgba(16,185,129,0.1);">${(p.total_raised || 0).toLocaleString()} €</span>
                                             </div>
                                         </div>
- 
-                                        <div class="dash-progress-container" style="height:14px; margin-bottom:40px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9;">
-                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);"></div>
+
+                                        <div class="dash-progress-container" style="height:18px; margin-bottom:40px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9; padding:2px;">
+                                            <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);"></div>
                                         </div>
- 
-                                        <div style="display:grid; grid-template-columns: 1fr; gap:16px;">
-                                            <button onclick="openProjectCockpit('${p.id}')" class="cta-button primary" style="justify-content:center; font-weight:950; background:#0f172a; border-radius:18px; font-size:1.1rem; padding:20px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 15px 30px rgba(15, 23, 42, 0.15);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">PILOTER L'ÉPOPÉE →</button>
-                                        </div>
+
+                                        <button class="cta-button primary" style="width:100%; justify-content:center; font-weight:950; background:#0f172a; border-radius:24px; font-size:1.15rem; padding:22px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 20px 40px rgba(15, 23, 42, 0.15);">PILOTER L'ÉPOPÉE →</button>
                                     </div>
                                 </div>
                                 `;
@@ -165,9 +161,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                     </div>
                 `;
                 engineView.innerHTML = listHTML;
-            }
-        }
-ML = listHTML;
+                engineView.style.display = 'block';
             }
         }
 
@@ -203,7 +197,7 @@ ML = listHTML;
             }
         }
     } catch (err) {
-        console.error("Error loading projects:", err);
+        console.error("[SuccessEngine] Error loading projects:", err);
     }
 }
 
