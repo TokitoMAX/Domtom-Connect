@@ -4,121 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signature de Document - Domtom Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root { --primary: #10b981; --dark: #020617; --slate: #64748b; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .quote-container { background: white; width: 100%; max-width: 800px; padding: 60px; border-radius: 32px; box-shadow: 0 40px 100px rgba(0,0,0,0.1); border: 1px solid #f1f5f9; }
-        .header { display: flex; justify-content: space-between; margin-bottom: 60px; border-bottom: 2px solid #f1f5f9; padding-bottom: 40px; }
-        .total-box { background: var(--dark); color: white; padding: 40px; border-radius: 24px; text-align: right; margin-top: 40px; }
-        .sig-canvas { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 20px; cursor: crosshair; touch-action: none; }
-        .btn-sign { background: var(--primary); color: white; border: none; padding: 18px 48px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 24px; }
-        .loader { width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; display: inline-block; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; min-height: 100vh; padding: 40px 20px; display: flex; justify-content: center; align-items: flex-start; }
+        .doc-card { background: white; width: 100%; max-width: 760px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); overflow: hidden; }
+        .doc-header { background: #020617; color: white; padding: 40px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .doc-body { padding: 48px; }
+        .section-label { font-size: 0.65rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .divider { border: none; border-top: 1px solid #f1f5f9; margin: 32px 0; }
+        .total-block { background: #f8fafc; border-radius: 16px; padding: 28px; text-align: right; border: 1px solid #e2e8f0; }
+        .sig-canvas { width: 100%; height: 160px; background: white; border: 2px dashed #cbd5e1; border-radius: 16px; cursor: crosshair; display: block; touch-action: none; }
+        .btn-primary { width: 100%; background: #10b981; color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; font-family: inherit; transition: 0.2s; }
+        .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .status-signed { background: #ecfdf5; border: 2px solid #10b981; border-radius: 16px; padding: 32px; text-align: center; }
+        .loader { display: inline-block; width: 28px; height: 28px; border: 3px solid #e2e8f0; border-top-color: #10b981; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .line-table { width: 100%; border-collapse: collapse; }
+        .line-table th { padding: 10px 12px; font-size: 0.65rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; text-align: left; border-bottom: 1px solid #f1f5f9; }
+        .line-table td { padding: 14px 12px; font-weight: 600; color: #334155; border-bottom: 1px solid #f8fafc; }
+        .line-table td:last-child { text-align: right; font-weight: 800; color: #020617; }
     </style>
 </head>
 <body>
-    <div id="app-mount">
-        <div style="text-align:center; margin-top:100px;"><span class="loader"></span></div>
+    <div class="doc-card" id="doc-root">
+        <div style="padding: 80px; text-align: center;">
+            <span class="loader"></span>
+            <p style="margin-top: 20px; color: #64748b; font-weight: 700;">Chargement du document sécurisé...</p>
+        </div>
     </div>
 
-    <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-        const urlParams = new URLSearchParams(window.location.search);
-        const docId = urlParams.get('id');
+    <script>
+        // ─── Init Supabase (sans module ES pour compatibilité locale) ───
+        const _db = supabase.createClient(
+            'https://vlpzmxddgdjjtrpbtksd.supabase.co',
+            'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF'
+        );
 
-        // Initialisation Supabase
-        const supabase = createClient('https://YOUR_PROJECT.supabase.co', 'YOUR_KEY');
+        const docId = new URLSearchParams(window.location.search).get('id');
 
-        async function init() {
-            if(!docId) { document.getElementById('app-mount').innerHTML = "Document introuvable."; return; }
-            const { data: doc } = await supabase.from('business_docs').select('*, expert:expert_id(full_name)').eq('id', docId).single();
-            if(!doc) { document.getElementById('app-mount').innerHTML = "Document expiré."; return; }
-            render(doc);
+        // ─── Signature Pad ───
+        let canvas, ctx, isDrawing = false, hasSig = false;
+
+        function initPad() {
+            canvas = document.getElementById('sig-pad');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#020617';
+
+            const getPos = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const src = e.touches ? e.touches[0] : e;
+                return { x: (src.clientX - r.left) * (canvas.width / r.width), y: (src.clientY - r.top) * (canvas.height / r.height) };
+            };
+
+            canvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+            canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; });
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseleave', () => isDrawing = false);
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; });
+            canvas.addEventListener('touchend', () => isDrawing = false);
         }
 
+        function clearPad() {
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSig = false;
+        }
+
+        // ─── Render ───
         function render(doc) {
-            const isSigned = doc.status === 'paid' || doc.status === 'signed' || doc.status === 'sent';
-            
-            document.getElementById('app-mount').innerHTML = `
-                <div class="quote-container">
-                    <div class="header">
+            const signed = ['sent', 'paid'].includes(doc.status);
+            const items = (() => { try { return JSON.parse(doc.items || '[]'); } catch { return []; } })();
+            const net = (doc.total_amount || 0) * 0.875; // 12.5% commission
+
+            document.getElementById('doc-root').innerHTML = `
+                <div class="doc-header">
+                    <div>
+                        <div style="font-size: 0.65rem; font-weight: 950; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Domtom Connect · Devis Pro</div>
+                        <div style="font-size: 1.8rem; font-weight: 950;">${doc.project_title || 'Prestation Expert'}</div>
+                        <div style="color: rgba(255,255,255,0.5); font-weight: 600; margin-top: 6px;">Réf. #${doc.id.slice(0,8).toUpperCase()}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 4px;">Statut</div>
+                        <span style="background: ${signed ? '#10b981' : '#f59e0b'}; color: white; padding: 4px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 950; text-transform: uppercase;">${signed ? 'Signé' : 'En attente'}</span>
+                    </div>
+                </div>
+
+                <div class="doc-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px;">
                         <div>
-                            <h1 style="margin:0; font-weight:950; letter-spacing:-0.04em;">DEVIS PROFESSIONNEL</h1>
-                            <p style="color:var(--slate); margin-top:8px;">REF: #${doc.id.slice(0,8).toUpperCase()}</p>
+                            <div class="section-label">Client</div>
+                            <div style="font-size: 1.2rem; font-weight: 900; color: #020617;">${doc.client_name || '—'}</div>
                         </div>
-                        <div style="text-align:right">
-                            <div style="font-weight:800;">Émis par :</div>
-                            <div style="font-weight:950; color:var(--primary);">${doc.expert?.full_name || 'Expert Domtom Connect'}</div>
+                        <div>
+                            <div class="section-label">Date d'émission</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #020617;">${new Date(doc.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
                         </div>
                     </div>
 
-                    <div style="margin-bottom:40px;">
-                        <h4 style="font-size:0.75rem; color:var(--slate); text-transform:uppercase;">Objet de la mission</h4>
-                        <div style="font-size:1.4rem; font-weight:800; color:var(--dark);">${doc.project_title}</div>
-                        <p style="color:var(--slate); font-weight:600; margin-top:12px;">Client: ${doc.client_name}</p>
-                    </div>
+                    <hr class="divider">
 
-                    <div class="total-box">
-                        <div style="font-size:0.9rem; opacity:0.6; margin-bottom:8px;">MONTANT TOTAL HT</div>
-                        <div style="font-size:3rem; font-weight:950;">${doc.total_amount.toFixed(2)} €</div>
-                    </div>
+                    ${items.length > 0 ? `
+                    <table class="line-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Qté</th>
+                                <th>Prix Unit.</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(i => `
+                            <tr>
+                                <td>${i.description || '—'}</td>
+                                <td>${i.qty}</td>
+                                <td>${parseFloat(i.price).toFixed(2)} €</td>
+                                <td>${parseFloat(i.total).toFixed(2)} €</td>
+                            </tr>`).join('')}
+                        </tbody>
+                    </table>
+                    <hr class="divider">
+                    ` : ''}
 
-                    ${!isSigned ? `
-                        <div style="margin-top:60px;">
-                            <h4 style="font-size:0.75rem; color:var(--slate); text-transform:uppercase; margin-bottom:16px;">Signature Manuscrite Digitale</h4>
-                            <div style="position:relative;">
-                                <canvas id="signature-pad" class="sig-canvas" width="680" height="200"></canvas>
-                                <button onclick="clearSig()" style="position:absolute; top:12px; right:12px; background:white; border:1px solid #e2e8f0; padding:6px 12px; border-radius:8px; font-size:0.7rem; font-weight:800; cursor:pointer;">Effacer</button>
-                            </div>
-                            <button onclick="handleSign()" id="btn-sign-main" class="btn-sign">SIGNER ET VALIDER LE DEVIS</button>
+                    <div class="total-block">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="font-weight: 700; color: #64748b;">Montant total HT</span>
+                            <span style="font-size: 1.5rem; font-weight: 950; color: #020617;">${(doc.total_amount || 0).toFixed(2)} €</span>
                         </div>
+                        <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">
+                            Le montant net reversé à l'expert (hors frais DTC 12.5%) est de <strong style="color: #10b981;">${net.toFixed(2)} €</strong>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    ${signed ? `
+                    <div class="status-signed">
+                        <div style="font-size: 2rem; margin-bottom: 12px;">✅</div>
+                        <div style="font-size: 1.2rem; font-weight: 950; color: #059669;">Document signé et validé</div>
+                        <div style="color: #64748b; font-weight: 600; margin-top: 8px;">Ce devis a été accepté numériquement. La mission peut démarrer.</div>
+                    </div>
                     ` : `
-                        <div style="margin-top:60px; text-align:center; padding:40px; background:#f0fdf4; border-radius:24px; border:2px solid #10b981; color:#059669;">
-                            <div style="font-size:2rem; margin-bottom:12px;">✅</div>
-                            <h3 style="margin:0; font-weight:950;">DOCUMENT SIGNÉ</h3>
-                            <p style="font-weight:600; opacity:0.8;">La mission peut désormais débuter.</p>
+                    <div>
+                        <div style="font-weight: 950; color: #020617; font-size: 1.1rem; margin-bottom: 8px;">Signature du Client</div>
+                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-bottom: 20px;">En signant ci-dessous, vous acceptez les conditions de la prestation et vous engagez à régler le montant indiqué.</div>
+
+                        <div style="position: relative; margin-bottom: 12px;">
+                            <canvas id="sig-pad" class="sig-canvas" width="680" height="160"></canvas>
+                            <button onclick="clearPad()" style="position: absolute; top: 10px; right: 10px; background: white; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; cursor: pointer; color: #64748b;">Effacer</button>
                         </div>
+
+                        <button class="btn-primary" id="btn-sign" onclick="handleSign('${doc.id}')">SIGNER ET ACCEPTER LE DEVIS</button>
+                        <div style="text-align: center; font-size: 0.75rem; color: #94a3b8; font-weight: 700; margin-top: 12px;">Signature électronique sécurisée via Domtom Connect</div>
+                    </div>
                     `}
                 </div>
             `;
 
-            if(!isSigned) initCanvas();
+            if (!signed) { setTimeout(initPad, 50); }
         }
 
-        let canvas, ctx, drawing = false;
-        function initCanvas() {
-            canvas = document.getElementById('signature-pad');
-            if(!canvas) return;
-            ctx = canvas.getContext('2d');
-            ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.strokeStyle = '#020617';
-
-            const start = (e) => { drawing = true; draw(e); };
-            const stop = () => { drawing = false; ctx.beginPath(); };
-            const draw = (e) => {
-                if(!drawing) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
-                ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
-            };
-
-            canvas.addEventListener('mousedown', start); canvas.addEventListener('mouseup', stop); canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('touchstart', start); canvas.addEventListener('touchend', stop); canvas.addEventListener('touchmove', draw);
+        async function handleSign(id) {
+            if (!hasSig) { Swal.fire('Signature requise', 'Veuillez signer dans le cadre avant de valider.', 'warning'); return; }
+            const btn = document.getElementById('btn-sign');
+            btn.disabled = true; btn.textContent = 'Validation en cours...';
+            const { error } = await _db.from('business_docs').update({ status: 'sent', updated_at: new Date().toISOString() }).eq('id', id);
+            if (error) { Swal.fire('Erreur', error.message, 'error'); btn.disabled = false; btn.textContent = 'SIGNER ET ACCEPTER LE DEVIS'; return; }
+            Swal.fire({ title: 'Signé !', text: 'Votre accord a bien été transmis à l\'expert.', icon: 'success', confirmButtonColor: '#10b981' }).then(() => location.reload());
         }
 
-        window.clearSig = () => { if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); };
-
-        window.handleSign = async () => {
-             const btn = document.getElementById('btn-sign-main');
-             btn.disabled = true; btn.textContent = "Validation sécurisée...";
-             await supabase.from('business_docs').update({ status: 'sent', updated_at: new Date() }).eq('id', docId);
-             Swal.fire({ title: "Validé !", text: "Le contrat est signé.", icon: "success" }).then(() => location.reload());
+        // ─── Boot ───
+        async function boot() {
+            if (!docId) { document.getElementById('doc-root').innerHTML = '<div style="padding:60px; text-align:center; color:#ef4444; font-weight:800;">Lien invalide. Aucun document spécifié.</div>'; return; }
+            const { data, error } = await _db.from('business_docs').select('*').eq('id', docId).single();
+            if (error || !data) { document.getElementById('doc-root').innerHTML = '<div style="padding:60px; text-align:center; color:#ef4444; font-weight:800;">Document introuvable ou lien expiré.</div>'; return; }
+            render(data);
         }
 
-        init();
+        boot();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
