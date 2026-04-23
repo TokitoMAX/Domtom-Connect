@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             await window.handleInviteToken(inviteId, session.user);
         }
 
-        const collabs = await window.checkCollaborations(session.user.email);
-        if (collabs && collabs.length > 0) {
-            setTimeout(() => window.renderCollaborationSwitch(collabs), 1000);
-        }
+        // const collabs = await window.checkCollaborations(session.user.email);
+        // if (collabs && collabs.length > 0) {
+        //     setTimeout(() => window.renderCollaborationSwitch(collabs), 1000);
+        // }
     }
 });
 

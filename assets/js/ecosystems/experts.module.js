@@ -134,9 +134,9 @@ const ExpertsModule = {
                 <div style="background: linear-gradient(135deg, #020617 0%, #1e293b 100%); border-radius: 24px; padding: clamp(32px, 6vw, 64px); color: white; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);">
                     <div style="flex: 1; min-width: 250px;">
                         <h3 style="font-weight: 900; margin: 0 0 12px 0; font-size: 1.8rem;">Facturation Intégrée</h3>
-                        <p style="color: rgba(255,255,255,0.7); font-weight: 500; margin: 0; font-size: 1rem;">Générez vos factures certifiées en un seul clic.</p>
+                        <p style="color: rgba(255,255,255,0.7); font-weight: 500; margin: 0; font-size: 1rem;">Générez et gérez vos factures certifiées en un seul clic.</p>
                     </div>
-                    <button disabled style="padding: 16px 32px; background: rgba(16, 185, 129, 0.2); color: rgba(255,255,255,0.6); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; font-weight: 800; cursor: not-allowed; white-space: nowrap;">⚡ Automne 2026</button>
+                    <button onclick="window.Router.navigate('#business')" style="padding: 16px 32px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 15px rgba(16,185,129,0.2);">Accéder à la Facturation</button>
                 </div>
             </div>
         `;
