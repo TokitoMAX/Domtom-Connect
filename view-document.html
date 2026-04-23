@@ -3,210 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultation Document – Domtom Connect</title>
-    <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=10.1">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Signature de Document - Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { background: #f1f5f9; min-height: 100vh; padding: 40px 20px; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .client-container { max-width: 900px; margin: 0 auto; }
-        .paper-view { background: white; padding: 60px; border-radius: 4px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; position: relative; min-height: 800px; }
-        .signature-footer { margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 32px; background: white; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .status-badge { padding: 6px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
-        .status-signed { background: #ecfdf5; color: #10b981; border: 1px solid #10b981; }
-        .doc-header { display: flex; justify-content: space-between; margin-bottom: 60px; }
-        .items-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
-        .items-table th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .items-table td { padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 0.95rem; }
-        .total-area { float: right; width: 300px; margin-top: 30px; }
-        .total-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-        .total-final { font-size: 1.25rem; font-weight: 900; color: #0f172a; border-bottom: none; padding-top: 20px; }
+        :root { --primary: #10b981; --dark: #020617; --slate: #64748b; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .quote-container { background: white; width: 100%; max-width: 800px; padding: 60px; border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08); position: relative; overflow: hidden; }
+        .header { display: flex; justify-content: space-between; margin-bottom: 60px; border-bottom: 2px solid #f1f5f9; padding-bottom: 40px; }
+        .status-pill { background: #fee2e2; color: #ef4444; padding: 6px 16px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+        .item-table th { text-align: left; padding: 16px; font-size: 0.75rem; color: var(--slate); text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
+        .item-table td { padding: 20px 16px; border-bottom: 1px solid #f8fafc; font-weight: 600; }
+        .total-box { background: var(--dark); color: white; padding: 40px; border-radius: 24px; text-align: right; }
+        .signature-zone { margin-top: 60px; padding: 40px; border: 2px dashed #e2e8f0; border-radius: 24px; text-align: center; }
+        .btn-sign { background: var(--primary); color: white; border: none; padding: 18px 48px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-sign:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .loader { width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; display: inline-block; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="client-container">
-        <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <img src="assets/images/logo-domtomconnect.png" alt="Logo" style="height:40px;">
-            <div id="status-container"></div>
-        </header>
-
-        <div id="doc-paper" class="paper-view">
-            <p style="text-align:center; color:#64748b;">Chargement du document...</p>
-        </div>
-
-        <div id="signature-actions" class="signature-footer" style="display:none;">
-            <p style="margin:0; font-size:0.9rem; color:#64748b; font-weight:500;">En cliquant sur signer, vous acceptez les termes de ce document.</p>
-            <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; border:none; padding:16px 32px; font-weight:900;">SIGNER LE DOCUMENT</button>
-        </div>
+    <div id="app-mount">
+        <div style="text-align:center; margin-top:100px;"><span class="loader"></span><p>Recherche du document sécurisé...</p></div>
     </div>
 
-    <script>
-        const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        const urlParams = new URLSearchParams(window.location.search);
+        const docId = urlParams.get('id');
 
-        let currentDoc = null;
+        // Initialisation Supabase (Config Territory)
+        const supabase = createClient(window.location.hostname === 'localhost' ? 'https://YOUR_SUPABASE_URL' : 'https://YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
 
         async function init() {
-            const params = new URLSearchParams(window.location.search);
-            const docId = params.get('id');
-            if (!docId) return renderError("ID du document manquant.");
-
-            const { data, error } = await _supabase
-                .from('business_docs')
-                .select('*')
-                .eq('id', docId)
-                .single();
-
-            if (error || !data) return renderError("Impossible de charger ce document.");
-            currentDoc = data;
-            renderDocument(data);
-        }
-
-        function renderDocument(doc) {
-            const isSigned = doc.signature_status === 'signed';
-            const statusContainer = document.getElementById('status-container');
+            if(!docId) { document.getElementById('app-mount').innerHTML = "Lien invalide."; return; }
+            const { data: doc, error } = await supabase.from('business_docs').select('*, expert:expert_id(*)').eq('id', docId).single();
             
-            if (isSigned) {
-                statusContainer.innerHTML = '<span class="status-badge status-signed">Document Signe & Approuve</span>';
-                document.getElementById('signature-actions').style.display = 'none';
-            } else if (doc.signature_status === 'pending') {
-                statusContainer.innerHTML = '<span class="status-badge" style="background:#fff7ed; color:#f97316; border:1px solid #f97316;">En attente de signature</span>';
-                document.getElementById('signature-actions').style.display = 'flex';
+            if (error || !doc) {
+                document.getElementById('app-mount').innerHTML = "Document introuvable ou expiré.";
+                return;
             }
 
-            const headerHTML = `
-                <div class="doc-header">
-                    <div class="expert-info">
-                        <h2 style="font-weight:900; margin:0 0 10px 0;">${doc.expert_details?.name || 'Prestataire'}</h2>
-                        <p style="margin:0; color:#64748b; font-size:0.9rem;">${doc.expert_details?.address || ''}</p>
-                    </div>
-                    <div class="doc-meta" style="text-align:right;">
-                        <h1 style="font-weight:900; margin:0; text-transform:uppercase; letter-spacing:0.05em;">${doc.type === 'invoice' ? 'Facture' : 'Devis'}</h1>
-                        <p style="margin:5px 0 0; color:#64748b; font-weight:800;">N° ${doc.number}</p>
-                        <p style="margin:5px 0 0; font-size:0.85rem; color:#94a3b8;">Emis le ${new Date(doc.created_at).toLocaleDateString()}</p>
-                    </div>
-                </div>
-                <div class="client-block" style="margin-bottom:60px;">
-                    <label style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; display:block; margin-bottom:8px;">Destinataire</label>
-                    <div style="padding:24px; background:#f8fafc; border-radius:12px; border:1px solid #f1f5f9; width:fit-content; min-width:300px;">
-                        <h3 style="margin:0; font-weight:800;">${doc.client_details?.name || 'Client'}</h3>
-                        <p style="margin:8px 0 0; color:#64748b; font-size:0.9rem; line-height:1.5;">${doc.client_details?.address || ''}</p>
-                    </div>
-                </div>
-            `;
+            render(doc);
+        }
 
-            const tableHTML = `
-                <table class="items-table">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th style="text-align:center;">Qté</th>
-                            <th style="text-align:right;">Prix Unit.</th>
-                            <th style="text-align:right;">Total HT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${(doc.items || []).map(item => `
+        function render(doc) {
+            const expired = doc.status === 'paid' || doc.status === 'signed';
+            document.getElementById('app-mount').innerHTML = `
+                <div class="quote-container">
+                    <div class="header">
+                        <div>
+                            <h1 style="margin:0; font-weight:950; letter-spacing:-0.04em;">DEVIS PROFESSIONNEL</h1>
+                            <p style="color:var(--slate); margin:8px 0 0;">Référence: #${doc.id.slice(0,8).toUpperCase()}</p>
+                        </div>
+                        <div>
+                            <span class="status-pill" style="${doc.status === 'sent' ? '' : 'background:#dcfce7; color:#10b981;'}">
+                                ${doc.status === 'sent' ? 'Attente de Signature' : 'Document Signé'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="details-grid">
+                        <div>
+                            <h4 style="font-size:0.7rem; color:var(--slate); text-transform:uppercase;">Émis par</h4>
+                            <div style="font-weight:800; font-size:1.1rem;">${doc.expert?.full_name || 'Expert Domtom Connect'}</div>
+                            <div style="color:var(--slate); font-size:0.9rem;">Certifié DTC Network</div>
+                        </div>
+                        <div>
+                            <h4 style="font-size:0.7rem; color:var(--slate); text-transform:uppercase;">Destinataire</h4>
+                            <div style="font-weight:800; font-size:1.1rem;">${doc.client_name}</div>
+                            <div style="color:var(--slate); font-size:0.9rem;">${doc.project_title}</div>
+                        </div>
+                    </div>
+
+                    <table class="item-table">
+                        <thead><tr><th>Prestation</th><th style="text-align:right;">Total HT</th></tr></thead>
+                        <tbody>
                             <tr>
-                                <td style="font-weight:700;">${item.desc}</td>
-                                <td style="text-align:center;">${item.qty}</td>
-                                <td style="text-align:right;">${item.unitPrice}€</td>
-                                <td style="text-align:right; font-weight:800;">${(item.qty * item.unitPrice).toFixed(2)}€</td>
+                                <td>${doc.project_title}</td>
+                                <td style="text-align:right;">${doc.total_amount.toFixed(2)} €</td>
                             </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
+                        </tbody>
+                    </table>
 
-            const totalHTML = `
-                <div class="total-area">
-                    <div class="total-row"><span>Total HT</span> <span>${(doc.total_ttc - (doc.total_tax || 0)).toFixed(2)}€</span></div>
-                    <div class="total-row"><span>TVA (${doc.tax_config?.rate || 0}%)</span> <span>${(doc.total_tax || 0).toFixed(2)}€</span></div>
-                    <div class="total-row total-final"><span>Total TTC</span> <span>${doc.total_ttc?.toFixed(2)}€</span></div>
-                    ${doc.deposit_perc > 0 ? `<div class="total-row" style="margin-top:10px; color:#10b981; font-weight:800;"><span>Acompte (${doc.deposit_perc}%)</span> <span>${(doc.total_ttc * doc.deposit_perc / 100).toFixed(2)}€</span></div>` : ''}
-                </div>
-                <div style="clear:both;"></div>
-            `;
-
-            const signatureProofHTML = isSigned ? `
-                <div style="margin-top:60px; padding:32px; background:#f0fdf4; border:1px solid #10b981; border-radius:12px;">
-                    <h4 style="margin:0 0 16px 0; color:#065f46; font-weight:900; text-transform:uppercase; font-size:0.75rem;">Preuve de Signature Numerique</h4>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:0.85rem; color:#065f46;">
-                        <div><strong>Signataire :</strong> ${doc.signature_data?.client_name}</div>
-                        <div><strong>Date :</strong> ${new Date(doc.signature_data?.signed_at).toLocaleString()}</div>
-                        <div><strong>Addresse IP :</strong> ${doc.signature_data?.ip}</div>
-                        <div><strong>Certificat :</strong> Fingerprint-${doc.id.substring(0,8)}</div>
+                    <div class="total-box">
+                        <div style="font-size:0.9rem; opacity:0.6; margin-bottom:8px;">MONTANT TOTAL TTC</div>
+                        <div style="font-size:2.8rem; font-weight:950;">${doc.total_amount.toFixed(2)} €</div>
+                        ${doc.acompte_percent > 0 ? `<div style="color:var(--primary); font-weight:800; margin-top:12px;">Acompte exigé pour démarrage : ${(doc.total_amount * doc.acompte_percent / 100).toFixed(2)} € (${doc.acompte_percent}%)</div>` : ''}
                     </div>
-                    <div style="margin-top:20px; font-family:'Dancing Script', cursive; font-size:1.5rem; color:#10b981;">
-                        ${doc.signature_data?.client_name}
-                    </div>
+
+                    ${!expired ? `
+                        <div class="signature-zone">
+                            <h4 style="margin-bottom:24px;">Accord & Signature Électronique</h4>
+                            <div style="background:#f8fafc; border:1px solid #e2e8f0; height:120px; border-radius:16px; margin-bottom:24px; display:flex; align-items:center; justify-content:center; color:var(--slate); font-style:italic;">
+                                Cliquez sur le bouton pour valider numériquement le contrat
+                            </div>
+                            <button onclick="handleSign()" id="btn-sign-main" class="btn-sign">SIGNER ET ACCEPTER LE DEVIS</button>
+                        </div>
+                    ` : `
+                        <div style="margin-top:60px; text-align:center; padding:40px; background:#f0fdf4; border-radius:24px; border:2px solid #10b981;">
+                            <h3 style="color:#10b981; margin:0;">CONTRAT ACTIF ✅</h3>
+                            <p style="margin-top:10px; font-weight:600;">Ce document a été signé numériquement et transmis pour exécution.</p>
+                        </div>
+                    `}
                 </div>
-            ` : '';
-
-            document.getElementById('doc-paper').innerHTML = headerHTML + tableHTML + totalHTML + signatureProofHTML;
+            `;
         }
 
-        async function openSignatureModal() {
-            const { value: name } = await Swal.fire({
-                title: 'Confirmer votre Signature',
-                text: 'En tapant votre nom, vous approuvez ce document numériquement.',
-                input: 'text',
-                inputLabel: 'Votre Nom Complet',
-                inputPlaceholder: 'Ex: Jean Dupont',
-                showCancelButton: true,
-                confirmButtonText: 'SIGNER & APPROUVER',
-                confirmButtonColor: '#10b981',
-                inputValidator: (value) => {
-                    if (!value) return 'Veuillez saisir votre nom pour signer.'
-                }
-            });
-
-            if (name) {
-                processSignature(name);
-            }
-        }
-
-        async function processSignature(clientName) {
-            Swal.fire({ title: 'Traitement de la signature...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            
-            try {
-                const ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => ({ ip: 'Unknown' }));
-                
-                const signatureData = {
-                    ...currentDoc.signature_data,
-                    client_name: clientName,
-                    signed_at: new Date().toISOString(),
-                    ip: ipData.ip,
-                    status: 'signed'
-                };
-
-                const { error } = await _supabase
-                    .from('business_docs')
-                    .update({ 
-                        signature_status: 'signed',
-                        signature_data: signatureData
-                    })
-                    .eq('id', currentDoc.id);
-
-                if (error) throw error;
-
-                Swal.fire({
-                    title: 'Merci !',
-                    text: 'Le document a été signé et le prestataire en a été informé.',
-                    icon: 'success'
-                }).then(() => {
-                    location.reload();
-                });
-
-            } catch (err) {
-                Swal.fire('Erreur', 'Impossible de valider la signature.', 'error');
-            }
-        }
-
-        function renderError(msg) {
-            document.getElementById('doc-paper').innerHTML = `<p style="text-align:center; color:#ef4444; font-weight:800;">${msg}</p>`;
+        window.handleSign = async () => {
+             const btn = document.getElementById('btn-sign-main');
+             btn.disabled = true;
+             btn.textContent = "Signature en cours...";
+             
+             await supabase.from('business_docs').update({ status: 'sent', updated_at: new Date() }).eq('id', docId);
+             
+             alert("Contrat signé avec succès ! L'expert va être notifié du démarrage de la mission.");
+             location.reload();
         }
 
         init();
