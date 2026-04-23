@@ -67,7 +67,7 @@ const ExpertsModule = {
                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Pilotage Business</h4>
                         <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Devis & Missions</div>
-                        <button onclick="window.Router.navigate('#business')" style="width: 100%; padding: 12px; background: #f1f5f9; color: #020617; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Ouvrir le Pilotage</button>
+                        <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 12px; background: #f1f5f9; color: #020617; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Ouvrir le Pilotage</button>
                     </div>
 
                     <div style="background: #f0fdf4; border: 1px solid #10b981; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.1);">
@@ -92,7 +92,7 @@ const ExpertsModule = {
                              <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> Visibilité Premium
                          </div>
                          <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: #020617;">
-                             <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> 0% de Commission
+                             <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> Badge Expert Vérifié
                          </div>
                     </div>
 
