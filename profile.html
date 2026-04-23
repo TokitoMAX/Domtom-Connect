@@ -1461,8 +1461,15 @@
                                 <input type="text" id="port-title" class="form-input" placeholder="Ex: Campagne Digitale 2024">
                             </div>
                             <div>
-                                <label class="form-label" style="font-size: 0.7rem;">Lien (YouTube, Site, etc.) *</label>
-                                <input type="url" id="port-url" class="form-input" placeholder="https://...">
+                                <label class="form-label" style="font-size: 0.7rem;">Média (Lien ou Image) *</label>
+                                <div style="display:flex;gap:8px;">
+                                    <input type="text" id="port-url" class="form-input" placeholder="https://..." style="flex:1;">
+                                    <button type="button" class="cta-button secondary" onclick="document.activeElement.blur();document.getElementById('port-file').click()" style="padding:0 12px; font-size:1.1rem; min-width:48px;" title="Envoyer une image">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    </button>
+                                    <input type="file" id="port-file" style="display:none;" onchange="handlePortfolioFileUpload(this)">
+                                </div>
+                                <div id="port-upload-status" style="font-size:0.7rem;margin-top:4px;color:#10b981;display:none;font-weight:700;">✓ Image chargée</div>
                             </div>
                         </div>
                         <div style="margin-bottom: 20px;">
@@ -2451,7 +2458,74 @@
             document.getElementById('port-title').value = '';
             document.getElementById('port-url').value = '';
             document.getElementById('port-desc').value = '';
+            const status = document.getElementById('port-upload-status');
+            if (status) status.style.display = 'none';
         }
+
+        async function handlePortfolioFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const status = document.getElementById('port-upload-status');
+            const urlInput = document.getElementById('port-url');
+            
+            try {
+                if (status) {
+                    status.textContent = "Upload...";
+                    status.style.color = "#64748b";
+                    status.style.display = "block";
+                }
+                
+                const session = await getSession();
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${session.user.id}/port_${Date.now()}.${fileExt}`;
+                
+                const { data, error } = await _supabase.storage.from('avatars').upload(fileName, file);
+                if (error) throw error;
+                
+                const { data: { publicUrl } } = _supabase.storage.from('avatars').getPublicUrl(fileName);
+                
+                if (urlInput) urlInput.value = publicUrl;
+                if (status) {
+                    status.textContent = "✓ Image chargée";
+                    status.style.color = "#10b981";
+                }
+            } catch (err) {
+                alert("Erreur upload: " + err.message);
+                if (status) status.style.display = "none";
+            }
+        }
+
+        // Global Paste support for images in Profile
+        window.addEventListener('paste', async (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (const item of items) {
+                if (item.type.indexOf('image') === 0) {
+                    const blob = item.getAsFile();
+                    const file = new File([blob], `pasted_profile_${Date.now()}.png`, { type: blob.type });
+                    
+                    // Check context
+                    const portForm = document.getElementById('add-portfolio-item-form');
+                    if (portForm && portForm.style.display !== 'none') {
+                        handlePortfolioFileUpload({ files: [file] });
+                        return;
+                    }
+                    
+                    if (isEditing) {
+                        // If editing profile, upload as avatar
+                        const avatarUrlInput = document.getElementById('avatar_url');
+                        const preview = document.getElementById('avatar-preview');
+                        if (avatarUrlInput && preview) {
+                            try {
+                                preview.innerHTML = '<span style="font-size:0.8rem;">Upload...</span>';
+                                const url = await uploadFile(file, 'logos');
+                                avatarUrlInput.value = url;
+                                preview.innerHTML = `<img src="${url}" alt="Avatar">`;
+                            } catch(err) { alert(err.message); }
+                        }
+                    }
+                }
+            }
+        });
 
         function removePortfolioItem(index) {
             if (confirm("Supprimer cette réalisation du portfolio ?")) {

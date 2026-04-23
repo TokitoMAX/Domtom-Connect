@@ -35,10 +35,15 @@ const BusinessModule = {
                     <h1 style="font-size:2rem;font-weight:950;color:#020617;letter-spacing:-0.04em;margin:0;">Pilotage d'Activité</h1>
                     <p style="color:#64748b;font-weight:600;margin-top:6px;">Créez vos devis, suivez vos missions, encaissez vos revenus.</p>
                 </div>
-                <button onclick="BusinessModule.openEditor('quote')" style="background:#020617;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                    Nouveau Devis
-                </button>
+                <div style="display:flex;gap:20px;align-items:center;">
+                    <div id="biz-user-logo" onclick="window.Router.navigate('#profile')" style="width:60px;height:60px;border-radius:16px;background:white;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.03);" title="Gérer mon logo dans mon profil">
+                        <span style="font-size:0.7rem;color:#94a3b8;font-weight:800;text-align:center;padding:4px;">Logo Pro</span>
+                    </div>
+                    <button onclick="BusinessModule.openEditor('quote')" style="background:#020617;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                        Nouveau Devis
+                    </button>
+                </div>
             </div>
 
             <!-- Stats -->
@@ -69,6 +74,22 @@ const BusinessModule = {
         </div>`;
 
         this.switchTab(this.activeTab);
+        this.loadProfileLogo();
+    },
+
+    loadProfileLogo: async function() {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        if (!session) return;
+        const { data: profile } = await window._supabase.from('profiles').select('avatar_url, full_name, company').eq('id', session.user.id).single();
+        const logoEl = document.getElementById('biz-user-logo');
+        if (profile && logoEl) {
+            if (profile.avatar_url) {
+                logoEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                const initials = (profile.company || profile.full_name || 'DC').slice(0, 2).toUpperCase();
+                logoEl.innerHTML = `<span style="font-weight:900;color:#020617;font-size:1.2rem;">${initials}</span>`;
+            }
+        }
     },
 
     switchTab: async function(tab) {

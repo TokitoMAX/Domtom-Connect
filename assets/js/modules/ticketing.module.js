@@ -334,6 +334,59 @@ const TicketingModule = {
                     </div>
                 </div>
             </div>`;
+        
+        setTimeout(() => this.setupUploadListeners(), 100);
+    },
+
+    setupUploadListeners() {
+        const zone = document.getElementById('ev-upload-zone');
+        if (!zone) return;
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
+            zone.addEventListener(name, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+
+        zone.addEventListener('dragover', () => {
+            zone.style.borderColor = '#0f172a';
+            zone.style.background = '#fff';
+        });
+
+        zone.addEventListener('dragleave', () => {
+            zone.style.borderColor = '#e2e8f0';
+            zone.style.background = '#f8fafc';
+        });
+
+        zone.addEventListener('drop', e => {
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                const input = document.getElementById('ev-image-file');
+                const dt = new DataTransfer();
+                dt.items.add(files[0]);
+                input.files = dt.files;
+                this.handleUpload(input);
+            }
+        });
+
+        // Paste support
+        const pasteHandler = e => {
+            if (!document.getElementById('ev-upload-zone')) {
+                window.removeEventListener('paste', pasteHandler);
+                return;
+            }
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (const item of items) {
+                if (item.type.indexOf('image') === 0) {
+                    const blob = item.getAsFile();
+                    const file = new File([blob], `pasted_event_${Date.now()}.png`, { type: blob.type });
+                    const input = document.getElementById('ev-image-file');
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    input.files = dt.files;
+                    this.handleUpload(input);
+                }
+            }
+        };
+        window.addEventListener('paste', pasteHandler);
     },
 
     async handleUpload(input) {
