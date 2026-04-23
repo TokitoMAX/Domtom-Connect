@@ -136,7 +136,7 @@ const ExpertsModule = {
                         <h3 style="font-weight: 900; margin: 0 0 12px 0; font-size: 1.8rem;">Facturation Intégrée</h3>
                         <p style="color: rgba(255,255,255,0.7); font-weight: 500; margin: 0; font-size: 1rem;">Générez et gérez vos factures certifiées en un seul clic.</p>
                     </div>
-                    <button onclick="window.Router.navigate('#business')" style="padding: 16px 32px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 15px rgba(16,185,129,0.2);">Accéder à la Facturation</button>
+                    <button onclick="window.location.hash = 'business'" style="padding: 16px 32px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 15px rgba(16,185,129,0.2);">Accéder à la Facturation</button>
                 </div>
             </div>
         `;

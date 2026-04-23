@@ -25,8 +25,7 @@ const UIComponents = {
         const isProfessional = ['expert', 'prestataire', 'entreprise', 'admin'].includes(role);
         
         const navItems = [
-            { id: 'overview', label: 'ESPACE', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', path: 'mon-espace.html' },
-            { id: 'collaboration', label: 'Hub Équipe', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-19a4 4 0 11-4 4 4 4 0 014-4zm6 19v-2a4 4 0 00-3-3.87m-4-12a4 4 0 014 4', path: 'mon-espace.html#collaboration' },
+            { id: 'overview', label: 'ESPACE', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', path: 'mon-espace.html' }
         ];
 
         const networkItems = [
