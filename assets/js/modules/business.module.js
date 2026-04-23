@@ -156,9 +156,9 @@ const BusinessModule = {
             <p style="color:#64748b; font-size:0.9rem; line-height:1.6; margin-bottom:24px;">
                 Dès qu'un client paye une facture ou un acompte, les fonds sont sécurisés par Domtom Connect. Votre part est automatiquement créditée sur votre portefeuille après déduction des frais de service.
             </p>
-            <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1.5px dashed #cbd5e1; text-align:center;">
-                <span style="font-size:0.8rem; font-weight:800; color:#475569;">Demander un virement sur mon compte bancaire (Vers l'International ou Local) →</span>
-            </div>
+            <button onclick="BusinessModule.requestPayout(${totalNet})" style="width:100%; padding:20px; border-radius:12px; border:2px dashed #10b981; background:#f0fdf4; text-align:center; cursor:pointer; font-family:inherit; transition:all 0.2s;" onmouseenter="this.style.background='#dcfce7'" onmouseleave="this.style.background='#f0fdf4'">
+                <span style="font-size:0.85rem; font-weight:800; color:#16a34a;">Demander un virement sur mon compte bancaire (Vers l'International ou Local) →</span>
+            </button>
         </div>
         `;
     },
@@ -410,6 +410,50 @@ const BusinessModule = {
         // Simulate update in DB
         await window._supabase.from('business_docs').update({ status: 'sent' }).eq('id', id);
         this.switchTab(this.activeTab);
+    },
+
+    requestPayout: async function(balance) {
+        if (balance <= 0) {
+            Swal.fire({ title: 'Solde insuffisant', text: 'Vous n\'avez pas encore de fonds disponibles pour un virement.', icon: 'warning', confirmButtonColor: '#020617' });
+            return;
+        }
+
+        const { value: formValues } = await Swal.fire({
+            title: 'Demande de Virement',
+            html: `
+                <div style="text-align:left;">
+                    <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Montant disponible : <strong>${balance.toFixed(2)} €</strong></p>
+                    <label style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">IBAN du compte bénéficiaire</label>
+                    <input id="swal-iban" class="swal2-input" placeholder="FR76 ..." style="margin-top:8px; width:100%;">
+                    
+                    <label style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-top:16px; display:block;">BIC / SWIFT</label>
+                    <input id="swal-bic" class="swal2-input" placeholder="XXXXFR2X" style="margin-top:8px; width:100%;">
+                </div>
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Valider la demande',
+            cancelButtonText: 'Annuler',
+            confirmButtonColor: '#10b981',
+            preConfirm: () => {
+                const iban = document.getElementById('swal-iban').value;
+                const bic = document.getElementById('swal-bic').value;
+                if (!iban || !bic) {
+                    Swal.showValidationMessage(`Veuillez renseigner toutes les informations bancaires.`);
+                }
+                return { iban: iban, bic: bic };
+            }
+        });
+
+        if (formValues) {
+            Swal.fire({
+                title: 'Demande enregistrée !',
+                text: `Votre virement de ${balance.toFixed(2)} € est en cours de traitement (Vérification Domtom Connect).`,
+                icon: 'success',
+                confirmButtonColor: '#10b981'
+            });
+            // Here you would typically insert a row into a 'payout_requests' table in Supabase
+        }
     },
 
     deleteDoc: async function(id) {
