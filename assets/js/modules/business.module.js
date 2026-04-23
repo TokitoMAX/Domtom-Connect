@@ -301,12 +301,14 @@ const BusinessModule = {
                                         <button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'expert')" class="status-badge" style="width:100%; border:none; cursor:pointer; padding:10px; border-radius:10px; background:${isExpertPaid ? '#dcfce7' : '#f1f5f9'}; color:${isExpertPaid ? '#166534' : '#64748b'}; font-weight:800; font-size:0.75rem;">
                                             ${isExpertPaid ? '✅ Encaissé' : '⏳ En attente'}
                                         </button>
+                                        <p style="font-size:0.6rem; color:#94a3b8; font-weight:700; margin-top:4px;">Signature: ${doc.signature_date ? new Date(doc.signature_date).toLocaleDateString() : 'En attente'}</p>
                                     </div>
                                     <div>
-                                        <div style="font-size:0.65rem; font-weight:850; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Com plateforme</div>
+                                        <div style="font-size:0.65rem; font-weight:850; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Commission DTC (12%)</div>
                                         <button onclick="BusinessModule.togglePaymentStatus('${doc.id}', 'platform')" class="status-badge" style="width:100%; border:none; cursor:pointer; padding:10px; border-radius:10px; background:${isPlatformPaid ? '#dcfce7' : '#fef3c7'}; color:${isPlatformPaid ? '#166534' : '#92400e'}; font-weight:800; font-size:0.75rem;">
-                                            ${isPlatformPaid ? '✅ Payée' : '⚠️ À régler'}
+                                            ${isPlatformPaid ? '✅ Payé Plateforme' : '⚠️ À régler'}
                                         </button>
+                                        <p style="font-size:0.6rem; color:#b45309; font-weight:700; margin-top:4px;">Part DTC: ${commission.toFixed(2)}${currency}</p>
                                     </div>
                                 </div>
                             </div>
@@ -383,7 +385,10 @@ const BusinessModule = {
                         <span style="font-size: 0.65rem; background: #0f172a; color: white; padding: 4px 12px; border-radius: 100px; font-weight: 850; letter-spacing:0.04em; text-transform:uppercase;">DTC Business Pro v4.0</span>
                     </div>
                     <div style="display:flex; gap:12px;">
-                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="padding:14px 28px; font-weight:900; border-radius:12px;">Sauvegarder</button>
+                        <button onclick="BusinessModule.saveDoc()" class="cta-button primary" style="padding:14px 28px; font-weight:900; border-radius:12px;">Enregistrer</button>
+                        ${!isInvoice && BusinessModule.editingId ? `
+                            <button onclick="BusinessModule.automateSignature('${BusinessModule.editingId}')" class="cta-button primary" style="padding:14px 28px; font-weight:900; background:#1e293b; border-radius:12px; border:none;">✍️ Signer & Acompte</button>
+                        ` : ''}
                         <button onclick="BusinessModule.switchTab(BusinessModule.activeTab)" class="cta-button ghost" style="padding:14px 28px; color: #ef4444; font-weight:800; border-radius:12px;">Fermer</button>
                     </div>
                 </div>
@@ -602,6 +607,90 @@ const BusinessModule = {
             icon: 'success',
             confirmButtonColor: '#10b981'
         });
+    },
+
+    saveDoc: async () => {
+        try {
+            const supabase = await BusinessModule.waitForSupabase();
+            if (!supabase) return;
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("Session expirée");
+
+            const taxEl = document.getElementById('tax-config');
+            const taxConfig = taxEl ? { rate: parseFloat(taxEl.value.split('|')[0]), name: taxEl.value.split('|')[1], legal_mention: taxEl.value.split('|')[2] } : { rate: 0, name: 'Sans Taxes', legal_mention: '' };
+            const subtotal = BusinessModule.currentItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
+            const totalTax = subtotal * (taxConfig.rate / 100);
+            
+            const docData = {
+                expert_id: user.id,
+                doc_type: BusinessModule.currentType,
+                client_name: document.getElementById('quote-client-name').value,
+                project_title: document.getElementById('quote-project-title').value,
+                client_details: { 
+                    address: document.getElementById('quote-client-address').value 
+                },
+                expert_details: {
+                    name: document.getElementById('expert-name').value,
+                    siret: document.getElementById('expert-siret').value,
+                    address: document.getElementById('expert-address').value
+                },
+                items: BusinessModule.currentItems,
+                subtotal: subtotal,
+                total_ttc: subtotal + totalTax,
+                tax_config: taxConfig,
+                deposit_perc: document.getElementById('deposit-perc') ? parseFloat(document.getElementById('deposit-perc').value) : 30,
+                status: 'draft',
+                updated_at: new Date()
+            };
+
+            if (BusinessModule.editingId) {
+                await supabase.from('business_docs').update(docData).eq('id', BusinessModule.editingId);
+            } else {
+                await supabase.from('business_docs').insert({ ...docData, created_at: new Date() });
+            }
+
+            Swal.fire('Succès', 'Document enregistré.', 'success');
+            BusinessModule.switchTab(BusinessModule.activeTab);
+
+        } catch (err) { alert("Erreur sauvegarde: " + err.message); }
+    },
+
+    automateSignature: async (id) => {
+        try {
+            const supabase = await BusinessModule.waitForSupabase();
+            if (!supabase) return;
+            
+            const { data: doc } = await supabase.from('business_docs').select('*').eq('id', id).single();
+            if (!doc) return;
+
+            const { value: accept } = await Swal.fire({
+                title: 'Certifier le document',
+                text: 'En signant ce devis, vous validez l\'accord avec le client. Un acompte de ' + (doc.deposit_perc || 30) + '% sera automatiquement généré.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Signer maintenant',
+                confirmButtonColor: '#10b981'
+            });
+
+            if (accept) {
+                // 1. Mark as signed
+                await supabase.from('business_docs').update({
+                    status: 'accepted',
+                    signature_status: 'signed',
+                    signature_date: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                }).eq('id', id);
+
+                // 2. Alert Platform
+                Swal.fire({
+                    title: 'Devis Signé !',
+                    text: 'L\'acompte a été notifié. Domtom Connect prélèvera la commission de 12% dès l\'encaissement.',
+                    icon: 'success'
+                });
+
+                BusinessModule.switchTab('payments');
+            }
+        } catch (err) { alert(err.message); }
     },
 
     handlePDFGeneration: async () => {

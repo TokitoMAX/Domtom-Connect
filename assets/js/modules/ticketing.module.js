@@ -107,7 +107,8 @@ const TicketingModule = {
                             </div>
                             <div style="margin-top: 16px; display: flex; gap: 8px;">
                                 <button onclick="window.open('/marketplace/evenement-details?id=${ev.id}', '_blank')" class="cta-button secondary" style="flex:1; font-size:0.7rem; padding:8px;">Voir</button>
-                                <button onclick="TicketingModule.renderEditForm('${ev.id}')" class="cta-button secondary" style="flex:1; font-size:0.7rem; padding:8px;">Modifier</button>
+                                <button onclick="TicketingModule.renderEventManager('${ev.id}')" class="cta-button primary" style="flex:1; font-size:0.7rem; padding:8px; background:#0f172a;">Gérer</button>
+                                <button onclick="TicketingModule.renderEditForm('${ev.id}')" class="cta-button secondary" style="flex:1; font-size:0.7rem; padding:8px;">Editer</button>
                             </div>
                         </div>
                     </div>
@@ -180,8 +181,18 @@ const TicketingModule = {
                                         <input type="number" id="ev-capacity" placeholder="Illimité" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
                                     </div>
                                     <div class="form-group" style="grid-column: 1/-1;">
-                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Lieu / Plateforme *</label>
-                                        <input type="text" id="ev-location" required placeholder="Ex: Paris 8e ou Lien de visioconférence" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Lieu / Adresse Physique *</label>
+                                        <input type="text" id="ev-location" required placeholder="Ex: Paris 8e ou Palais des Congrès" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    </div>
+                                    <div class="form-group" style="grid-column: 1/-1; background:#f0f9ff; padding:20px; border-radius:16px; border:1px solid #bae6fd;">
+                                        <label style="display:flex; align-items:center; gap:10px; font-weight:800; font-size:0.8rem; color:#0369a1; cursor:pointer;">
+                                            <input type="checkbox" id="ev-is-virtual" onchange="document.getElementById('virtual-link-container').style.display = this.checked ? 'block' : 'none'" style="width:18px; height:18px;">
+                                            Évènement Virtuel (Lien de diffusion)
+                                        </label>
+                                        <div id="virtual-link-container" style="display:none; margin-top:16px;">
+                                            <input type="url" id="ev-virtual-link" placeholder="Ex: https://zoom.us/j/... ou lien YouTube Live" style="width:100%; padding:12px; border:1px solid #bae6fd; border-radius:10px; font-weight:600;">
+                                            <p style="font-size:0.7rem; color:#0369a1; margin-top:8px;">Ce lien sera envoyé automatiquement aux acheteurs de billets.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -329,8 +340,17 @@ const TicketingModule = {
                                         <input type="number" id="edit-ev-capacity" value="${ev.total_tickets || ''}" placeholder="Illimité" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
                                     </div>
                                     <div class="form-group" style="grid-column: 1/-1;">
-                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Lieu / Plateforme *</label>
+                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Lieu Physique *</label>
                                         <input type="text" id="edit-ev-location" value="${ev.location || ''}" required style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    </div>
+                                    <div class="form-group" style="grid-column: 1/-1; background:#f0f9ff; padding:20px; border-radius:16px; border:1px solid #bae6fd;">
+                                        <label style="display:flex; align-items:center; gap:10px; font-weight:800; font-size:0.8rem; color:#0369a1; cursor:pointer;">
+                                            <input type="checkbox" id="edit-ev-is-virtual" ${ev.is_virtual ? 'checked' : ''} onchange="document.getElementById('edit-virtual-link-container').style.display = this.checked ? 'block' : 'none'" style="width:18px; height:18px;">
+                                            Évènement Virtuel (Lien de diffusion)
+                                        </label>
+                                        <div id="edit-virtual-link-container" style="display:${ev.is_virtual ? 'block' : 'none'}; margin-top:16px;">
+                                            <input type="url" id="edit-ev-virtual-link" value="${ev.virtual_link || ''}" placeholder="Ex: https://zoom.us/j/..." style="width:100%; padding:12px; border:1px solid #bae6fd; border-radius:10px; font-weight:600;">
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -419,7 +439,9 @@ const TicketingModule = {
                 location: document.getElementById('edit-ev-location').value,
                 description: document.getElementById('edit-ev-description').value,
                 image_url: document.getElementById('edit-ev-image').value || null,
-                total_tickets: parseInt(document.getElementById('edit-ev-capacity').value) || null
+                total_tickets: parseInt(document.getElementById('edit-ev-capacity').value) || null,
+                is_virtual: document.getElementById('edit-ev-is-virtual').checked,
+                virtual_link: document.getElementById('edit-ev-virtual-link').value || null
             };
 
             const { error } = await window._supabase.from('events').update(eventData).eq('id', eventId);
@@ -459,6 +481,8 @@ const TicketingModule = {
                 description: document.getElementById('ev-description').value,
                 image_url: document.getElementById('ev-image').value || null,
                 total_tickets: parseInt(document.getElementById('ev-capacity').value) || null,
+                is_virtual: document.getElementById('ev-is-virtual').checked,
+                virtual_link: document.getElementById('ev-virtual-link').value || null,
                 created_at: new Date()
             };
 
@@ -538,6 +562,13 @@ const TicketingModule = {
                             <h4 style="margin:0; font-size:1rem; font-weight:800; color:#0f172a;">${ev.title}</h4>
                             <p style="margin:4px 0 0; font-size:0.75rem; color:#64748b;">${ev.event_date} • ${ev.location}</p>
                         </div>
+                                <div style="width:60px; height:60px; border-radius:12px; overflow:hidden; flex-shrink:0;">
+                            <img src="${ev.image_url || '/assets/images/default-event.jpg'}" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div style="flex-grow:1;">
+                            <h4 style="margin:0; font-size:1rem; font-weight:800; color:#0f172a;">${ev.title}</h4>
+                            <p style="margin:4px 0 0; font-size:0.75rem; color:#64748b;">${ev.event_date} • ${ev.location}</p>
+                        </div>
                         <a href="/ticket-view?id=${t.id}" target="_blank" class="cta-button secondary" style="font-size:0.75rem; padding:8px 16px;">Voir Billet</a>
                     </div>
                 `;
@@ -547,7 +578,148 @@ const TicketingModule = {
             console.error("Tickets Load Error:", err);
             container.innerHTML = `<div style="padding:40px; color:#ef4444;">Erreur: ${err.message}</div>`;
         }
-    }
+    },
+
+    /**
+     * Render the Event Manager (Organizers Only)
+     */
+    async renderEventManager(eventId) {
+        const view = document.getElementById('billetterie-view');
+        if (!view) return;
+
+        view.innerHTML = `<div style="text-align:center; padding:40px;"><span class="loader"></span></div>`;
+
+        try {
+            const { data: ev, error: evErr } = await window._supabase.from('events').select('*').eq('id', eventId).single();
+            if (evErr) throw evErr;
+
+            const { data: attendees, error: atErr } = await window._supabase.from('tickets').select('*').eq('event_id', eventId).order('created_at', { ascending: false });
+            if (atErr) throw atErr;
+
+            const netCommissionRate = 0.15; // 15% Platform Commission
+            const grossSales = attendees.reduce((acc, t) => acc + (parseFloat(t.amount_paid) || 0), 0);
+            const platformFee = grossSales * netCommissionRate;
+            const netOrganizer = grossSales - platformFee;
+
+            view.innerHTML = `
+                <div style="font-family: 'Inter', sans-serif; padding: clamp(24px, 5vw, 48px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                    <div style="margin-bottom: 32px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px;">
+                        <div>
+                            <button onclick="window.Router.navigate('#billetterie')" class="cta-button ghost" style="margin-bottom: 12px; padding: 8px 16px; font-size: 0.8rem; border:1px solid #e2e8f0; background:white; font-weight:800; border-radius:10px;">&larr; Retour</button>
+                            <h1 style="color:#0f172a; margin:0; font-weight:950; letter-spacing:-0.03em;">Pilotage: ${ev.title}</h1>
+                            <p style="margin:4px 0 0; color:#64748b; font-weight:600;">Tableau de bord de l'organisateur</p>
+                        </div>
+                        <div style="display:flex; gap:12px;">
+                            <button onclick="TicketingModule.renderScanView('${ev.id}')" class="cta-button primary" style="background:#0f172a; padding:12px 24px; display:flex; align-items:center; gap:10px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" /><rect x="7" y="7" width="10" height="10" rx="1" /></svg>
+                                Scanner Billets
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                        <div style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                             <h4 style="font-size: 0.7rem; font-weight: 850; color:#94a3b8; text-transform:uppercase; margin-bottom:12px;">Ventes Totales (Brut)</h4>
+                             <div style="font-size: 2.5rem; font-weight: 900; color:#0f172a;">${grossSales.toFixed(2)}€</div>
+                        </div>
+                        <div style="background: white; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                             <h4 style="font-size: 0.7rem; font-weight: 850; color:#94a3b8; text-transform:uppercase; margin-bottom:12px;">Commission Plateforme (15%)</h4>
+                             <div style="font-size: 2.5rem; font-weight: 900; color:#ef4444;">-${platformFee.toFixed(2)}€</div>
+                        </div>
+                        <div style="background: #f0fdf4; padding: 32px; border-radius: 20px; border: 1px solid #10b981; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.1);">
+                             <h4 style="font-size: 0.7rem; font-weight: 850; color:#166534; text-transform:uppercase; margin-bottom:12px;">Net Organisateur</h4>
+                             <div style="font-size: 2.5rem; font-weight: 900; color:#10b981;">${netOrganizer.toFixed(2)}€</div>
+                        </div>
+                    </div>
+
+                    <div class="dash-card" style="padding:40px; background:white; border-radius:24px; border:1px solid #e2e8f0;">
+                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                            <h3 style="font-size:1.1rem; font-weight:900; margin:0;">Participants (${attendees.length})</h3>
+                         </div>
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr style="text-align:left; border-bottom:1.5px solid #f1f5f9;">
+                                    <th style="padding:12px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase;">Participant</th>
+                                    <th style="padding:12px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase;">Statut</th>
+                                    <th style="padding:12px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase;">Date d'achat</th>
+                                    <th style="padding:12px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; text-align:right;">Montant Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${attendees.length === 0 ? `<tr><td colspan="4" style="text-align:center; padding:40px; color:#64748b;">Aucun achat pour le moment.</td></tr>` : 
+                                    attendees.map(t => {
+                                        const tNet = (parseFloat(t.amount_paid) || 0) * (1 - netCommissionRate);
+                                        return `
+                                        <tr style="border-bottom:1px solid #f8fafc;">
+                                            <td style="padding:16px 12px;">
+                                                <div style="font-weight:700;">${t.first_name || 'Anonyme'} ${t.last_name || ''}</div>
+                                                <div style="font-size:0.65rem; color:#94a3b8;">${t.email || ''}</div>
+                                            </td>
+                                            <td style="padding:16px 12px;">
+                                                <span style="background:${t.checked_in ? '#f0fdf4' : '#f1f5f9'}; color:${t.checked_in ? '#10b981' : '#64748b'}; padding:4px 10px; border-radius:100px; font-size:0.7rem; font-weight:800; text-transform:uppercase;">
+                                                    ${t.checked_in ? 'Saturé / Arrivé' : 'Non validé'}
+                                                </span>
+                                            </td>
+                                            <td style="padding:16px 12px; font-size:0.85rem; color:#64748b;">${new Date(t.created_at).toLocaleDateString()}</td>
+                                            <td style="padding:16px 12px; text-align:right; font-weight:800; color:#10b981;">${tNet.toFixed(2)}€</td>
+                                        </tr>
+                                    `}).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        } catch (err) {
+            view.innerHTML = `<div style="padding:40px; color:#ef4444;">Erreur: ${err.message}</div>`;
+        }
+    },
+
+    /**
+     * Render the Scan View for Entrance Control
+     */
+    renderScanView(eventId) {
+        const view = document.getElementById('billetterie-view');
+        view.innerHTML = `
+            <div style="padding:40px; max-width:600px; margin:0 auto; text-align:center; font-family:'Inter', sans-serif;">
+                <button onclick="TicketingModule.renderEventManager('${eventId}')" class="cta-button ghost" style="margin-bottom:32px; border:1px solid #e2e8f0; border-radius:10px; font-weight:800;">&larr; Retour Gestion</button>
+                <h2 style="font-weight:900; margin-bottom:8px;">Scanner des Billets</h2>
+                <p style="color:#64748b; margin-bottom:32px;">Pointez la caméra vers le QR Code du billet.</p>
+                
+                <div id="qr-reader-placeholder" style="aspect-ratio:3/4; background:#020617; border-radius:32px; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white;">
+                    <div style="width:200px; height:200px; border:2px solid #10b981; border-radius:20px; position:relative;">
+                        <div style="position:absolute; top:0; left:0; width:100%; height:2px; background:#10b981; animation: scanning 2s infinite ease-in-out;"></div>
+                    </div>
+                    <p style="margin-top:32px; font-weight:700; opacity:0.6;">DTC Scanner Engine Active</p>
+                </div>
+                
+                <div style="margin-top:32px;">
+                    <input type="text" id="manual-ticket-id" placeholder="Ou entrez l'ID du billet manuellement" style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:700; margin-bottom:12px;">
+                    <button onclick="TicketingModule.validateTicket(document.getElementById('manual-ticket-id').value, '${eventId}')" class="cta-button primary" style="width:100%; padding:14px; border-radius:12px; font-weight:900;">Valider manuellement</button>
+                </div>
+            </div>
+            <style>
+                @keyframes scanning { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+            </style>
+        `;
+    },
+
+    async validateTicket(ticketId, eventId) {
+        if (!ticketId) return;
+        try {
+            const { data, error } = await window._supabase.from('tickets').select('*').eq('id', ticketId).eq('event_id', eventId).single();
+            if (error || !data) {
+                Swal.fire({ title: 'Invalide', text: 'Ce billet n\'existe pas pour cet évènement.', icon: 'error' });
+                return;
+            }
+            if (data.checked_in) {
+                Swal.fire({ title: 'Déjà scanné', text: 'Ce billet a déjà été utilisé le ' + new Date(data.updated_at).toLocaleString(), icon: 'warning' });
+                return;
+            }
+            await window._supabase.from('tickets').update({ checked_in: true, updated_at: new Date() }).eq('id', ticketId);
+            Swal.fire({ title: 'Billet Validé !', text: 'Bienvenue à bord ' + (data.first_name || ''), icon: 'success' });
+            document.getElementById('manual-ticket-id').value = '';
+        } catch (err) { alert(err.message); }
+    },
 };
 
 window.TicketingModule = TicketingModule;
