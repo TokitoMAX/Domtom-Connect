@@ -186,15 +186,20 @@ const TicketingModule = {
                                 </div>
                             </div>
 
-                            <!-- SECTION 3: VISIBILITÉ -->
+                             <!-- SECTION 3: VISIBILITÉ -->
                             <div>
                                 <h3 style="font-size:0.85rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:24px; display:flex; align-items:center; gap:8px;">
                                     <span style="width:20px; height:20px; background:#f1f5f9; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:#0f172a;">3</span>
                                     Visibilité & Visuel
                                 </h3>
                                 <div class="form-group">
-                                    <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Image de l'affiche (URL)</label>
-                                    <input type="url" id="ev-image" placeholder="https://votre-image.jpg" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Image de l'affiche</label>
+                                    <div style="display:flex; gap:16px; align-items:center;">
+                                        <input type="file" id="ev-image-file" accept="image/*" style="flex:1; padding:12px; border:1px dashed #cbd5e1; border-radius:14px; background:#f8fafc; cursor:pointer;">
+                                        <input type="hidden" id="ev-image" value="">
+                                        <div id="ev-image-preview" style="width:60px; height:60px; border-radius:12px; background:#f1f5f9; border:1px solid #e2e8f0; background-size:cover; background-position:center;"></div>
+                                    </div>
+                                    <p style="font-size:0.7rem; color:#94a3b8; margin-top:8px;">Formats acceptés: JPG, PNG. Poids max: 2Mo.</p>
                                 </div>
                             </div>
 
@@ -223,7 +228,7 @@ const TicketingModule = {
                              </li>
                              <li style="display:flex; align-items:flex-start; gap:12px;">
                                  <span style="color:#10b981; font-weight:900;">✓</span>
-                                 <span style="font-size:0.85rem; font-weight:600;">Ajoutez une image HD pour booster les clics de 3x.</span>
+                                 <span style="font-size:0.85rem; font-weight:600;">Ajoutez une belle affiche pour booster les clics de 3x.</span>
                              </li>
                          </ul>
                          <div style="position:absolute; top:-40px; right:-40px; width:120px; height:120px; background:rgba(16, 185, 129, 0.1); border-radius:50%; filter:blur(40px);"></div>
@@ -238,6 +243,199 @@ const TicketingModule = {
             </div>
             </div>
         `;
+
+        // Add file upload listener
+        setTimeout(() => {
+            const fileInput = document.getElementById('ev-image-file');
+            if(fileInput) {
+                fileInput.addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if(!file) return;
+                    
+                    const btn = document.getElementById('ev-submit-btn');
+                    const origText = btn.textContent;
+                    btn.textContent = 'Upload en cours...';
+                    btn.disabled = true;
+
+                    try {
+                        const fileExt = file.name.split('.').pop();
+                        const fileName = `${Math.random()}.${fileExt}`;
+                        const filePath = `events/${fileName}`;
+
+                        const { error: uploadError } = await window._supabase.storage
+                            .from('avatars')
+                            .upload(filePath, file);
+
+                        if (uploadError) throw uploadError;
+
+                        const { data: { publicUrl } } = window._supabase.storage
+                            .from('avatars')
+                            .getPublicUrl(filePath);
+
+                        document.getElementById('ev-image').value = publicUrl;
+                        document.getElementById('ev-image-preview').style.backgroundImage = `url('${publicUrl}')`;
+                        
+                    } catch (err) {
+                        alert("Erreur upload image: " + err.message);
+                    } finally {
+                        btn.textContent = origText;
+                        btn.disabled = false;
+                    }
+                });
+            }
+        }, 300);
+    },
+
+    /**
+     * Render the simplified management/edit form
+     */
+    async renderEditForm(eventId) {
+        const container = document.getElementById('billetterie-view');
+        if (!container) return;
+
+        try {
+            container.innerHTML = `<div style="text-align:center; padding:40px;"><span class="loader"></span></div>`;
+            const { data: ev, error } = await window._supabase.from('events').select('*').eq('id', eventId).single();
+            if (error) throw error;
+
+            container.innerHTML = `
+                <div style="font-family: 'Inter', sans-serif; padding: clamp(24px, 5vw, 48px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                    <div style="margin-bottom: 40px; display:flex; flex-wrap: wrap; gap: 20px; justify-content:space-between; align-items:flex-end;">
+                        <div>
+                            <button onclick="window.Router.navigate('#billetterie')" class="cta-button ghost" style="margin-bottom: 16px; padding: 10px 18px; font-size: 0.85rem; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; cursor:pointer; background:white;">
+                                &larr; Retour à la billetterie
+                            </button>
+                            <h1 style="color:#0f172a; margin:0; font-size:clamp(2rem, 5vw, 2.5rem); font-weight:950; letter-spacing:-0.04em;">Gérer: ${ev.title}</h1>
+                            <p style="margin:8px 0 0; color:#64748b; font-size:1.1rem; font-weight:500;">Modifiez vos informations et contrôlez vos ventes.</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card" style="padding: 40px; background: white; border-radius: 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
+                        <form id="event-edit-form" onsubmit="TicketingModule.handleEditSubmit(event, '${ev.id}')">
+                            <div style="display: flex; flex-direction: column; gap: 32px;">
+                                
+                                <div class="form-group" style="margin-bottom:24px;">
+                                    <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Titre de l'évènement *</label>
+                                    <input type="text" id="edit-ev-title" value="${ev.title || ''}" required style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-size:1rem; font-weight:700; background:#f8fafc;">
+                                </div>
+
+                                <div class="role-upgrade-grid">
+                                    <div class="form-group">
+                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Date & Heure *</label>
+                                        <input type="date" id="edit-ev-date" value="${ev.event_date || ''}" required style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Capacité d'accueil</label>
+                                        <input type="number" id="edit-ev-capacity" value="${ev.total_tickets || ''}" placeholder="Illimité" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    </div>
+                                    <div class="form-group" style="grid-column: 1/-1;">
+                                        <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Lieu / Plateforme *</label>
+                                        <input type="text" id="edit-ev-location" value="${ev.location || ''}" required style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-weight:700; background:#f8fafc;">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Description</label>
+                                    <textarea id="edit-ev-description" rows="5" style="width:100%; padding:16px; border:1px solid #e2e8f0; border-radius:14px; font-family:inherit; font-size:0.95rem; line-height:1.6; background:#f8fafc;">${ev.description || ''}</textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:#0f172a; margin-bottom:8px;">Image de l'affiche</label>
+                                    <div style="display:flex; gap:16px; align-items:center;">
+                                        <input type="file" id="edit-ev-image-file" accept="image/*" style="flex:1; padding:12px; border:1px dashed #cbd5e1; border-radius:14px; background:#f8fafc; cursor:pointer;">
+                                        <input type="hidden" id="edit-ev-image" value="${ev.image_url || ''}">
+                                        <div id="edit-ev-image-preview" style="width:60px; height:60px; border-radius:12px; background:#f1f5f9; border:1px solid #e2e8f0; background-size:cover; background-position:center; background-image:url('${ev.image_url || ''}')"></div>
+                                    </div>
+                                </div>
+
+                                <div style="padding-top: 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 16px;">
+                                    <button type="submit" class="cta-button primary" id="edit-ev-submit-btn" style="background:#10b981; color:white; border:none; padding:16px 40px; border-radius:14px; font-weight:950; cursor:pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.2);">SAUVEGARDER</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            // Edit Image Upload Listener
+            setTimeout(() => {
+                const fileInput = document.getElementById('edit-ev-image-file');
+                if(fileInput) {
+                    fileInput.addEventListener('change', async (e) => {
+                        const file = e.target.files[0];
+                        if(!file) return;
+                        
+                        const btn = document.getElementById('edit-ev-submit-btn');
+                        const origText = btn.textContent;
+                        btn.textContent = 'Upload...';
+                        btn.disabled = true;
+
+                        try {
+                            const fileExt = file.name.split('.').pop();
+                            const fileName = `${Math.random()}.${fileExt}`;
+                            const filePath = `events/${fileName}`;
+
+                            const { error: uploadError } = await window._supabase.storage
+                                .from('avatars')
+                                .upload(filePath, file);
+
+                            if (uploadError) throw uploadError;
+
+                            const { data: { publicUrl } } = window._supabase.storage
+                                .from('avatars')
+                                .getPublicUrl(filePath);
+
+                            document.getElementById('edit-ev-image').value = publicUrl;
+                            document.getElementById('edit-ev-image-preview').style.backgroundImage = `url('${publicUrl}')`;
+                            
+                        } catch (err) {
+                            alert("Erreur upload image: " + err.message);
+                        } finally {
+                            btn.textContent = origText;
+                            btn.disabled = false;
+                        }
+                    });
+                }
+            }, 300);
+
+        } catch (err) {
+            container.innerHTML = `<div style="padding:40px; color:#ef4444;">Erreur: ${err.message}</div>`;
+        }
+    },
+    
+    /**
+     * Handle Edit Submit
+     */
+    async handleEditSubmit(e, eventId) {
+        e.preventDefault();
+        const btn = document.getElementById('edit-ev-submit-btn');
+        btn.textContent = 'Enregistrement...';
+        btn.disabled = true;
+
+        try {
+            const eventData = {
+                title: document.getElementById('edit-ev-title').value,
+                event_date: document.getElementById('edit-ev-date').value,
+                location: document.getElementById('edit-ev-location').value,
+                description: document.getElementById('edit-ev-description').value,
+                image_url: document.getElementById('edit-ev-image').value || null,
+                total_tickets: parseInt(document.getElementById('edit-ev-capacity').value) || null
+            };
+
+            const { error } = await window._supabase.from('events').update(eventData).eq('id', eventId);
+            if (error) throw error;
+
+            if (window.Swal) {
+                await Swal.fire({ title: 'Modifié !', text: 'Les informations sont à jour.', icon: 'success', confirmButtonColor: '#10b981' });
+            }
+            window.Router.navigate('#billetterie');
+
+        } catch (err) {
+            console.error("Update Error:", err);
+            alert("Erreur: " + err.message);
+            btn.textContent = "SAUVEGARDER";
+            btn.disabled = false;
+        }
     },
 
     /**
