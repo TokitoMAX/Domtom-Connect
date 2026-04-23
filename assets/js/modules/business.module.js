@@ -322,8 +322,7 @@ const BusinessModule = {
     },
 
     copyLink: function(id) {
-        const base = window.location.origin + window.location.pathname.replace('mon-espace.html', '');
-        const url = `${base}view-document.html?id=${id}`;
+        const url = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'view-document.html?id=' + id;
         navigator.clipboard.writeText(url).catch(() => prompt('Copiez ce lien:', url));
         Swal.fire({ title: 'Lien copié !', text: 'Envoyez ce lien à votre client pour signature.', icon: 'success', timer: 2000, showConfirmButton: false });
     },
