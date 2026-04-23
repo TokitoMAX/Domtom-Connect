@@ -9,6 +9,8 @@ const CompaniesModule = {
      * Module Router
      */
     route: async (view_id, container, profile, session, params) => {
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
         const topNav = document.getElementById('ecosystem-top-nav');
         if (topNav) topNav.style.display = 'none';
 

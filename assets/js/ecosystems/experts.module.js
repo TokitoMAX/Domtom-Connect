@@ -10,6 +10,8 @@ const ExpertsModule = {
      */
     route: async (viewId, container, profile, session, params) => {
         console.log("[ExpertsModule] Routing to:", viewId);
+        const target = container || document.getElementById('ecosystem-grid-container');
+        if (!target) return;
         const topNav = document.getElementById('ecosystem-top-nav');
         if (topNav) topNav.style.display = 'none';
 
