@@ -36,9 +36,9 @@ const BusinessModule = {
                     <p style="color:#64748b;font-weight:600;margin-top:6px;">Créez vos devis, suivez vos missions, encaissez vos revenus.</p>
                 </div>
                 <div style="display:flex;gap:20px;align-items:center;">
-                    <div id="biz-user-logo" onclick="window.Router.navigate('#profile')" style="width:60px;height:60px;border-radius:16px;background:white;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.03);" title="Gérer mon logo dans mon profil">
+                    <a href="profile.html" id="biz-user-logo" style="width:60px;height:60px;border-radius:16px;background:white;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.03);text-decoration:none;" title="Gérer mon logo dans mon profil">
                         <span style="font-size:0.7rem;color:#94a3b8;font-weight:800;text-align:center;padding:4px;">Logo Pro</span>
-                    </div>
+                    </a>
                     <button onclick="BusinessModule.openEditor('quote')" style="background:#020617;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                         Nouveau Devis
@@ -221,11 +221,22 @@ const BusinessModule = {
             </div>
 
             <!-- Totaux -->
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:20px;margin-bottom:28px;display:flex;justify-content:flex-end;">
-                <div style="text-align:right;">
-                    <div style="font-size:0.65rem;font-weight:950;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">Total HT</div>
-                    <div id="preview-ht" style="font-size:2rem;font-weight:950;color:#020617;">0,00 €</div>
-                    <div id="preview-net" style="font-size:0.8rem;font-weight:800;color:#10b981;margin-top:4px;">Net expert: 0,00 € <span style="color:#94a3b8;font-weight:700;">(après 12.5% frais DTC)</span></div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:24px;margin-bottom:28px;">
+                <div style="font-size:0.65rem;font-weight:950;color:#94a3b8;text-transform:uppercase;margin-bottom:16px;">Récapitulatif financier</div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-weight:700;color:#64748b;">
+                    <span>Total de la mission (HT)</span>
+                    <span id="preview-ht">0,00 €</span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-weight:700;color:#ef4444;">
+                    <span>Commission Plateforme (12.5%)</span>
+                    <span id="preview-comm">- 0,00 €</span>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;padding:16px;background:#020617;border-radius:10px;color:white;font-weight:950;font-size:1.1rem;">
+                    <span>VOTRE NET FINAL</span>
+                    <span id="preview-net">0,00 €</span>
                 </div>
             </div>
 
@@ -265,11 +276,16 @@ const BusinessModule = {
 
     recalc: function() {
         const total = this._items.reduce((s, i) => s + (i.qty * i.price), 0);
-        const net = total * (1 - this.COMMISSION);
+        const commAmt = total * this.COMMISSION;
+        const net = total - commAmt;
+        
         const ht = document.getElementById('preview-ht');
+        const commEl = document.getElementById('preview-comm');
         const netEl = document.getElementById('preview-net');
+        
         if (ht) ht.textContent = total.toFixed(2) + ' €';
-        if (netEl) netEl.innerHTML = `Net expert: <strong>${net.toFixed(2)} €</strong> <span style="color:#94a3b8;font-weight:700;">(après 12.5% frais DTC)</span>`;
+        if (commEl) commEl.textContent = '- ' + commAmt.toFixed(2) + ' €';
+        if (netEl) netEl.textContent = net.toFixed(2) + ' €';
     },
 
     save: async function(type) {
