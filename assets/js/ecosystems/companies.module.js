@@ -19,7 +19,7 @@ const CompaniesModule = {
                 const bizView = document.getElementById('business-view');
                 if (bizView) {
                     bizView.style.display = 'block';
-                    await CompaniesModule.renderBusinessPilotage(bizView, profile, session);
+                    if (window.BusinessModule) await window.BusinessModule.renderView(bizView);
                 }
                 break;
             case 'profile':
@@ -27,13 +27,16 @@ const CompaniesModule = {
                     window.StandardModule.renderProfile(target, profile, session);
                 }
                 break;
+            case 'billetterie':
+                const tickView = document.getElementById('billetterie-view');
+                if (tickView && window.TicketingModule) {
+                    tickView.style.display = 'block';
+                    window.TicketingModule.loadMyTicketing(params);
+                }
+                break;
             case 'overview':
             default:
                 if (container) container.style.display = 'block';
-                else {
-                    const overview = document.getElementById('overview-view');
-                    if (overview) overview.style.display = 'block';
-                }
                 CompaniesModule.renderDashboard(target, profile, session);
                 break;
         }

@@ -27,6 +27,20 @@ const OwnersModule = {
                     }
                 }
                 break;
+            case 'billetterie':
+                const tickView = document.getElementById('billetterie-view');
+                if (tickView && window.TicketingModule) {
+                    tickView.style.display = 'block';
+                    window.TicketingModule.loadMyTicketing(params);
+                }
+                break;
+            case 'business':
+                const bizView = document.getElementById('business-view');
+                if (bizView && window.BusinessModule) {
+                    bizView.style.display = 'block';
+                    window.BusinessModule.renderView(bizView);
+                }
+                break;
             case 'overview':
             default:
                 OwnersModule.renderDashboard(target, profile, session);
@@ -123,15 +137,28 @@ const OwnersModule = {
                     <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600;">${profile.enjeu || 'Définissez l\'enjeu territorial...'}</p>
                 </div>
 
-                <!-- 4. ACTION CENTER (Big button to go to the step-by-step Épopée) -->
+                <!-- 4. ACTION CENTER (Professional Hubs) -->
+                <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                    <h4 style="font-size: 0.65rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Ventes & Billetterie</h4>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Gestion des Évènements</div>
+                    <button onclick="window.location.hash = 'billetterie'" style="width: 100%; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Ouvrir la Billetterie</button>
+                </div>
+
+                <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                    <h4 style="font-size: 0.65rem; font-weight: 950; color: #3b82f6; text-transform: uppercase; margin-bottom: 16px;">Finance & Pilotage</h4>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Devis & Facturation</div>
+                    <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Accéder aux Documents</button>
+                </div>
+
+                <!-- 5. MAIN NAVIGATION -->
                 <div style="grid-column: span 12; margin-top: 16px;">
-                    <div style="background: #f1f5f9; border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px; border: 1px solid #e2e8f0;">
+                    <div style="background: #0f172a; border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px; border: 1px solid rgba(255,255,255,0.05);">
                         <div>
-                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 4px 0;">Continuer mon Épopée</h3>
-                            <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Reprenez l'édition de votre projet étape par étape.</p>
+                            <h3 style="font-size: 1.25rem; font-weight: 950; color: white; margin: 0 0 4px 0;">Pilotage de l'Épopée</h3>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin: 0; font-weight: 600;">Centralisez vos actions, financements et validation de projet.</p>
                         </div>
-                        <button onclick="window.Router.navigate('#success-engine')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(16,185,129,0.2);">
-                            Lancer le Pilotage
+                        <button onclick="window.Router.navigate('#success-engine')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(16,185,129,0.2);">
+                            Lancer Success Engine
                         </button>
                     </div>
                 </div>
