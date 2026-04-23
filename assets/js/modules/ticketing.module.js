@@ -315,8 +315,20 @@ const TicketingModule = {
                             </div>
                         </div>
                         <div>
-                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">URL Image Affiche</label>
-                            <input id="ev-image" type="url" placeholder="https://..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
+                            <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onmouseover="this.style.borderColor='#0f172a';this.style.background='#fff';" onmouseout="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';" onclick="document.getElementById('ev-image-file').click()">
+                                <input id="ev-image-file" type="file" accept="image/*" style="display:none;" onchange="TicketingModule.handleUpload(this)">
+                                <div id="ev-preview-container" style="display:none;">
+                                    <div id="ev-preview-img" style="width:100%;height:200px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:12px;"></div>
+                                    <span style="font-size:0.75rem;font-weight:800;color:#0f172a;">Cliquer pour changer l'image</span>
+                                </div>
+                                <div id="ev-upload-prompt">
+                                    <div style="font-size:2.5rem;margin-bottom:12px;">🖼️</div>
+                                    <p style="margin:0;font-weight:800;color:#0f172a;">Sélectionnez une affiche</p>
+                                    <p style="margin:4px 0 0;font-size:0.8rem;color:#64748b;font-weight:600;">PNG, JPG jusqu'à 5Mo</p>
+                                </div>
+                                <input type="hidden" id="ev-image-url">
+                            </div>
                         </div>
                         <button id="ev-save-btn" onclick="TicketingModule.saveEvent()" style="background:#0f172a;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">CRÉER L'ÉVÉNEMENT</button>
                     </div>
@@ -324,12 +336,56 @@ const TicketingModule = {
             </div>`;
     },
 
+    async handleUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const zone = document.getElementById('ev-upload-zone');
+        const prompt = document.getElementById('ev-upload-prompt');
+        const previewCont = document.getElementById('ev-preview-container');
+        const previewImg = document.getElementById('ev-preview-img');
+        const urlInput = document.getElementById('ev-image-url');
+
+        try {
+            prompt.innerHTML = `<span class="loader"></span><p style="margin-top:10px;font-weight:800;">Envoi en cours...</p>`;
+            
+            const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) throw new Error("Non connecté");
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${session.user.id}/event_${Date.now()}.${fileExt}`;
+
+            const { data, error } = await window._supabase.storage
+                .from('avatars')
+                .upload(fileName, file);
+
+            if (error) throw error;
+
+            const { data: { publicUrl } } = window._supabase.storage
+                .from('avatars')
+                .getPublicUrl(fileName);
+
+            urlInput.value = publicUrl;
+            previewImg.style.backgroundImage = `url('${publicUrl}')`;
+            prompt.style.display = 'none';
+            previewCont.style.display = 'block';
+            zone.style.padding = '12px';
+            
+        } catch (err) {
+            alert('Erreur upload: ' + err.message);
+            prompt.innerHTML = `
+                <div style="font-size:2.5rem;margin-bottom:12px;">❌</div>
+                <p style="margin:0;font-weight:800;color:#dc2626;">Échec de l'envoi</p>
+                <p style="margin:4px 0 0;font-size:0.8rem;color:#64748b;font-weight:600;">Réessayez</p>`;
+        }
+    },
+
     async saveEvent() {
         const btn = document.getElementById('ev-save-btn');
         const title = document.getElementById('ev-title')?.value?.trim();
         const date = document.getElementById('ev-date')?.value;
         const location = document.getElementById('ev-location')?.value?.trim();
-        const imageUrl = document.getElementById('ev-image')?.value?.trim();
+        const imageUrl = document.getElementById('ev-image-url')?.value?.trim();
 
         if (!title || !date || !location) { alert('Remplissez les champs obligatoires (titre, date, lieu).'); return; }
 
