@@ -18,6 +18,10 @@
             "destination": "/marketplace/profile-detail-expert?id=:id"
         },
         {
+            "source": "/(.*)/assets/:match*",
+            "destination": "/assets/:match*"
+        },
+        {
             "source": "/dashboard/:path*",
             "destination": "/mon-espace"
         }
