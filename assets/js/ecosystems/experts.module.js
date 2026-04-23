@@ -53,16 +53,52 @@ const ExpertsModule = {
         if (!container) return;
 
         container.innerHTML = `
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: #64748b; font-weight: 600;">Profil Vues</span>
-                                <span style="color: #020617; font-weight: 900;">0</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: #64748b; font-weight: 600;">Disponibilit&eacute;</span>
-                                <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.75rem;">ACTIF</span>
-                            </div>
-                        </div>
+            <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                
+                <!-- HEADER -->
+                <div style="background: #020617; border-radius: 20px; padding: clamp(24px, 5vw, 40px); margin-bottom: 32px; color: white;">
+                    <span style="background: rgba(16,185,129,0.15); color: #10b981; padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Espace Expert</span>
+                    <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin: 12px 0 12px 0;">Bonjour, ${profile.full_name || 'Expert'}</h1>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 1rem; margin: 0;">Suivez votre activité et gérez votre impact territorial.</p>
+                </div>
+
+                <!-- CARDS GRID -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Pilotage Business</h4>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Devis & Missions</div>
+                        <button onclick="window.Router.navigate('#business')" style="width: 100%; padding: 12px; background: #f1f5f9; color: #020617; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Ouvrir le Pilotage</button>
                     </div>
+
+                    <div style="background: #f0fdf4; border: 1px solid #10b981; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.1);">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin: 0 0 12px 0;">Opportunités</h4>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Voir les Missions</div>
+                        <button onclick="window.location.href='marketplace/jobs.html'" style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Explorer</button>
+                    </div>
+                </div>
+
+                <!-- PACK EXPERT (PAYPAL) -->
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: clamp(24px, 5vw, 40px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <h3 style="font-size: 1.5rem; font-weight: 900; color: #020617; margin: 0 0 8px 0;">PACK EXPERT</h3>
+                        <div style="font-size: 2.5rem; font-weight: 900; color: #020617;">9,99€ <span style="font-size: 1rem; color: #64748b; font-weight: 600;">/mois</span></div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; background: #f8fafc; padding: 24px; border-radius: 16px;">
+                         <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: #020617;">
+                             <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> Accès complet aux Missions
+                         </div>
+                         <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: #020617;">
+                             <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> Visibilité Premium
+                         </div>
+                         <div style="display: flex; align-items: center; gap: 12px; font-weight: 600; color: #020617;">
+                             <span style="color: #10b981; font-weight: bold; font-size: 1.2rem;">✓</span> 0% de Commission
+                         </div>
+                    </div>
+
+                    <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('authority', 'expert') : alert('Le module de paiement charge, veuillez patienter.')" style="width: 100%; max-width: 400px; margin: 0 auto; display: block; padding: 16px; background: #020617; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800; color: white; cursor: pointer; transition: 0.2s;">
+                        Activer mon Pack Premium
+                    </button>
                 </div>
             </div>
         `;
