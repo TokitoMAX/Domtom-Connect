@@ -125,20 +125,22 @@ const TicketingModule = {
      */
     async renderCreateForm(container) {
         container.innerHTML = `
-            <div class="dash-section-header" style="margin-bottom: 40px; display:flex; justify-content:space-between; align-items:flex-end;">
-                <div>
-                    <button onclick="window.Router.navigate('#billetterie')" class="cta-button secondary" style="margin-bottom: 16px; padding: 10px 18px; font-size: 0.8rem; border-radius:12px; font-weight:800;">
-                        &larr; Retour à la billetterie
-                    </button>
-                    <h1 style="color:#0f172a; margin:0; font-size:2.5rem; font-weight:950; letter-spacing:-0.04em;">Nouvel Évènement</h1>
-                    <p style="margin:8px 0 0; color:#64748b; font-size:1.1rem; font-weight:500;">Propulsez votre évènement stratégique sur toute the diaspora.</p>
+            <div style="font-family: 'Inter', sans-serif; padding: clamp(24px, 5vw, 48px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                <div style="margin-bottom: 40px; display:flex; flex-wrap: wrap; gap: 20px; justify-content:space-between; align-items:flex-end;">
+                    <div>
+                        <button onclick="window.Router.navigate('#billetterie')" class="cta-button ghost" style="margin-bottom: 16px; padding: 10px 18px; font-size: 0.85rem; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; cursor:pointer; background:white;">
+                            &larr; Retour à la billetterie
+                        </button>
+                        <h1 style="color:#0f172a; margin:0; font-size:clamp(2rem, 5vw, 2.5rem); font-weight:950; letter-spacing:-0.04em;">Nouvel Évènement</h1>
+                        <p style="margin:8px 0 0; color:#64748b; font-size:1.1rem; font-weight:500;">Propulsez votre évènement stratégique sur toute la diaspora.</p>
+                    </div>
+                    <div style="background:#ecfdf5; color:#10b981; padding:8px 16px; border-radius:12px; font-weight:800; font-size:0.8rem; border:1px solid rgba(16, 185, 129, 0.2);">
+                        HUB OFFICIEL
+                    </div>
                 </div>
-                <div style="background:#ecfdf5; color:#10b981; padding:8px 16px; border-radius:12px; font-weight:800; font-size:0.8rem; border:1px solid rgba(16, 185, 129, 0.2);">
-                    HUB OFFICIEL
-                </div>
-            </div>
 
-            <div class="ticketing-hub-layout" style="max-width: 1100px; margin: 0 auto;">
+                <div class="ticketing-hub-layout" style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start;">
+
                 
                 <!-- Main Form Column -->
                 <div class="dash-card" style="padding: 40px; background: white; border-radius: 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
@@ -232,8 +234,8 @@ const TicketingModule = {
                          <p style="font-size:0.85rem; color:#64748b; line-height:1.6; margin-bottom:24px;">Besoin d'aide pour configurer votre vente de billets ou vos tarifs ?</p>
                          <button style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; background:white; font-weight:800; color:#0f172a; cursor:pointer;">Contacter le Support</button>
                     </div>
-                </div>
-
+                 </div>
+            </div>
             </div>
         `;
     },
