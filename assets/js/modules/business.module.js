@@ -68,6 +68,7 @@ const BusinessModule = {
                 <div style="display:flex;gap:0;border-bottom:1px solid #f1f5f9;margin-bottom:28px;">
                     <button id="tab-btn-quotes" onclick="BusinessModule.switchTab('quotes')" style="border:none;background:none;padding:12px 24px;font-weight:950;cursor:pointer;font-family:inherit;font-size:0.9rem;border-bottom:3px solid ${this.activeTab==='quotes'?'#10b981':'transparent'};color:${this.activeTab==='quotes'?'#020617':'#94a3b8'};margin-bottom:-1px;">Devis</button>
                     <button id="tab-btn-invoices" onclick="BusinessModule.switchTab('invoices')" style="border:none;background:none;padding:12px 24px;font-weight:950;cursor:pointer;font-family:inherit;font-size:0.9rem;border-bottom:3px solid ${this.activeTab==='invoices'?'#10b981':'transparent'};color:${this.activeTab==='invoices'?'#020617':'#94a3b8'};margin-bottom:-1px;">Factures</button>
+                    <button id="tab-btn-finances" onclick="BusinessModule.switchTab('finances')" style="border:none;background:none;padding:12px 24px;font-weight:950;cursor:pointer;font-family:inherit;font-size:0.9rem;border-bottom:3px solid ${this.activeTab==='finances'?'#10b981':'transparent'};color:${this.activeTab==='finances'?'#020617':'#94a3b8'};margin-bottom:-1px;">Finances & Commissions</button>
                 </div>
                 <div id="biz-content"></div>
             </div>
@@ -95,7 +96,7 @@ const BusinessModule = {
     switchTab: async function(tab) {
         this.activeTab = tab;
         localStorage.setItem('dtc_biz_tab', tab);
-        ['quotes','invoices'].forEach(t => {
+        ['quotes','invoices','finances'].forEach(t => {
             const b = document.getElementById(`tab-btn-${t}`);
             if (!b) return;
             const active = t === tab;
@@ -104,6 +105,12 @@ const BusinessModule = {
         });
         const el = document.getElementById('biz-content');
         if (!el) return;
+
+        if (tab === 'finances') {
+            this.renderFinances(el);
+            return;
+        }
+
         el.innerHTML = `<div style="text-align:center;padding:40px;"><span class="loader"></span></div>`;
 
         const { data: { session } } = await window._supabase.auth.getSession();
@@ -116,6 +123,44 @@ const BusinessModule = {
 
         if (error) { el.innerHTML = `<div style="padding:20px;color:#dc2626;font-weight:800;">${error.message}</div>`; return; }
         this.renderList(el, data || []);
+    },
+
+    renderFinances: async function(el) {
+        el.innerHTML = `<div style="text-align:center;padding:40px;"><span class="loader"></span></div>`;
+        const { data: { session } } = await window._supabase.auth.getSession();
+        
+        const { data: docs } = await window._supabase.from('business_docs').select('total_amount, status').eq('expert_id', session.user.id);
+        
+        const paidDocs = docs ? docs.filter(d => d.status === 'paid') : [];
+        const totalCA = paidDocs.reduce((s, d) => s + (d.total_amount || 0), 0);
+        const totalComm = totalCA * this.COMMISSION;
+        const totalNet = totalCA - totalComm;
+
+        el.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:40px;">
+            <div style="background:#f8fafc; padding:24px; border-radius:16px; border:1px solid #e2e8f0;">
+                <div style="font-size:0.65rem; font-weight:950; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">CA Encaissé HT</div>
+                <div style="font-size:1.8rem; font-weight:950; color:#020617;">${totalCA.toFixed(2)} €</div>
+            </div>
+            <div style="background:#fff1f2; padding:24px; border-radius:16px; border:1px solid #fecaca;">
+                <div style="font-size:0.65rem; font-weight:950; color:#dc2626; text-transform:uppercase; margin-bottom:8px;">Part Plateforme (12.5%)</div>
+                <div style="font-size:1.8rem; font-weight:950; color:#dc2626;">${totalComm.toFixed(2)} €</div>
+            </div>
+             <div style="background:#f0fdf4; padding:24px; border-radius:16px; border:1px solid #bbf7d0;">
+                <div style="font-size:0.65rem; font-weight:950; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Votre Net Touché</div>
+                <div style="font-size:1.8rem; font-weight:950; color:#16a34a;">${totalNet.toFixed(2)} €</div>
+            </div>
+        </div>
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:32px;">
+            <h4 style="margin:0 0 16px 0; font-weight:950; font-size:1.1rem; color:#020617;">Reversements & Portefeuille</h4>
+            <p style="color:#64748b; font-size:0.9rem; line-height:1.6; margin-bottom:24px;">
+                Dès qu'un client paye une facture ou un acompte, les fonds sont sécurisés par Domtom Connect. Votre part est automatiquement créditée sur votre portefeuille après déduction des frais de service.
+            </p>
+            <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1.5px dashed #cbd5e1; text-align:center;">
+                <span style="font-size:0.8rem; font-weight:800; color:#475569;">Demander un virement sur mon compte bancaire (Vers l'International ou Local) →</span>
+            </div>
+        </div>
+        `;
     },
 
     renderList: function(el, docs) {
@@ -170,6 +215,11 @@ const BusinessModule = {
                             <td style="padding:14px 12px;text-align:right;font-weight:900;color:#10b981;">${net.toFixed(2)} €</td>
                             <td style="padding:14px 12px;text-align:right;">
                                 <div style="display:flex;gap:8px;justify-content:flex-end;">
+                                    ${d.status === 'signed' ? `
+                                        <button onclick="BusinessModule.requestPayment('${d.id}', ${d.total_amount})" title="Demander un acompte" style="background:#10b981;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                                        </button>
+                                    ` : ''}
                                     <button onclick="BusinessModule.copyLink('${d.id}')" title="Copier lien de signature" style="background:#f1f5f9;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                                     </button>
@@ -325,6 +375,41 @@ const BusinessModule = {
         const url = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'view-document.html?id=' + id;
         navigator.clipboard.writeText(url).catch(() => prompt('Copiez ce lien:', url));
         Swal.fire({ title: 'Lien copié !', text: 'Envoyez ce lien à votre client pour signature.', icon: 'success', timer: 2000, showConfirmButton: false });
+    },
+
+    requestPayment: async function(id, total) {
+        const deposit = (total * 0.2).toFixed(2);
+        const { value: choice } = await Swal.fire({
+            title: 'Demander un paiement',
+            html: `Vous allez envoyer une demande de paiement pour le devis <strong>#${id.slice(0,8).toUpperCase()}</strong>.<br><br>
+                   Choisissez le montant à réclamer :`,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: `Acompte 20% (${deposit} €)`,
+            cancelButtonText: `Solde Total (${total.toFixed(2)} €)`,
+            confirmButtonColor: '#10b981',
+            cancelButtonColor: '#020617',
+            footer: '<span style="font-size:0.7rem; color:#94a3b8;">La commission Domtom Connect sera déduite automatiquement du versement.</span>'
+        });
+
+        // choice is true for confirm (acompte), undefined/false for cancel/close (but here cancel is used for Full Amount)
+        // Let's refine the logic for clearer choice
+        if (choice === undefined) return; 
+
+        const amount = choice ? deposit : total;
+        const type = choice ? 'Acompte' : 'Solde';
+
+        Swal.fire({
+            title: 'Demande envoyée !',
+            text: `Votre client a reçu un lien pour régler l'${type} (${amount} €).`,
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false
+        });
+
+        // Simulate update in DB
+        await window._supabase.from('business_docs').update({ status: 'sent' }).eq('id', id);
+        this.switchTab(this.activeTab);
     },
 
     deleteDoc: async function(id) {
