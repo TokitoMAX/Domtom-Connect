@@ -1,206 +1,255 @@
 /**
- * Domtom Connect - Business Module (Pro Edition)
- * Flux complet : Devis -> Signature Pad -> Acompte -> Facture
+ * Domtom Connect - Business Module
+ * Aligné sur le schéma réel: expert_id, doc_type, items (JSONB), subtotal, total_amount
  */
 const BusinessModule = {
-    // --- Configuration ---
-    commissionRate: 0.125, // 12.5% Domtom Connect
+    commissionRate: 0.125, // 12.5%
     activeTab: 'quotes',
-    expertProfile: null,
 
-    // --- Core Routing ---
-    renderDashboard: async (container) => {
-        await BusinessModule.renderView(container);
-    },
+    renderDashboard: async (container) => { await BusinessModule.renderView(container); },
 
     renderView: async (container) => {
         if (!container) return;
-        container.innerHTML = `<div style="text-align:center; padding: 100px; font-family: 'Plus Jakarta Sans', sans-serif;"><span class="loader"></span><p style="margin-top:20px; color:#64748b; font-weight:800;">Accès au Centre Pilotage...</p></div>`;
-        await BusinessModule.refreshExpertProfile();
         BusinessModule.activeTab = localStorage.getItem('dtc_business_tab') || 'quotes';
-        
+
         container.innerHTML = `
-            <div class="business-pro-container" style="padding: clamp(20px, 4vw, 40px); font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; min-height: 100vh;">
-                <!-- Header -->
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 24px;">
+            <div style="padding: clamp(20px, 4vw, 40px); font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; min-height: 100vh;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px; flex-wrap:wrap; gap:20px;">
                     <div>
-                        <h1 style="font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 950; color: #020617; letter-spacing: -0.05em; margin: 0;">Pilotage d'Activité</h1>
-                        <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-top: 8px;">Gérez vos devis, factures et suivi territorial.</p>
+                        <h1 style="font-size:2.2rem; font-weight:950; color:#020617; letter-spacing:-0.05em; margin:0;">Pilotage d'Activité</h1>
+                        <p style="color:#64748b; font-weight:600; margin-top:8px;">Gérez vos devis, factures et suivi territorial.</p>
                     </div>
-                    <div style="display: flex; gap: 12px;">
-                        <button onclick="BusinessModule.openDocEditor('quote')" class="btn-dtc primary-black">+ Créer un Devis</button>
-                    </div>
+                    <button onclick="BusinessModule.openDocEditor('quote')" style="background:#020617; color:white; border:none; padding:16px 32px; border-radius:14px; font-weight:950; cursor:pointer; font-family:inherit;">+ Créer un Devis</button>
                 </div>
 
-                <!-- Stats -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
-                    <div class="stat-card">
-                        <span class="stat-label">Revenus Générés</span>
-                        <div id="stats-total-revenue" class="stat-value">0,00 €</div>
-                        <div class="stat-indicator green">+12.5% vs mois dernier</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Missions Terminées</span>
-                        <div id="stats-missions-count" class="stat-value">0</div>
-                        <div class="stat-indicator blue">Objectif territorial</div>
-                    </div>
-                </div>
-
-                <!-- Tabs & Content -->
-                <div style="background: white; border-radius: 32px; border: 1px solid #e2e8f0; padding: clamp(20px, 3vw, 40px); box-shadow: 0 20px 50px rgba(0,0,0,0.03);">
-                    <div class="tabs-lux" style="display: flex; gap: 40px; margin-bottom: 32px; border-bottom: 2px solid #f1f5f9;">
-                        <button class="tab-lux-btn ${BusinessModule.activeTab === 'quotes' ? 'active' : ''}" onclick="BusinessModule.switchTab('quotes')">Devis & Contrats</button>
-                        <button class="tab-lux-btn ${BusinessModule.activeTab === 'invoices' ? 'active' : ''}" onclick="BusinessModule.switchTab('invoices')">Factures & Acomptes</button>
+                <div style="background:white; border-radius:24px; border:1px solid #e2e8f0; padding:32px; box-shadow:0 4px 20px rgba(0,0,0,0.03);">
+                    <div style="display:flex; gap:32px; border-bottom:2px solid #f1f5f9; margin-bottom:32px;">
+                        <button id="tab-quotes" onclick="BusinessModule.switchTab('quotes')" style="border:none; background:none; padding:12px 0; font-weight:950; font-size:1rem; cursor:pointer; font-family:inherit; border-bottom:3px solid ${BusinessModule.activeTab === 'quotes' ? '#10b981' : 'transparent'}; color:${BusinessModule.activeTab === 'quotes' ? '#020617' : '#94a3b8'}; margin-bottom:-2px;">Devis & Contrats</button>
+                        <button id="tab-invoices" onclick="BusinessModule.switchTab('invoices')" style="border:none; background:none; padding:12px 0; font-weight:950; font-size:1rem; cursor:pointer; font-family:inherit; border-bottom:3px solid ${BusinessModule.activeTab === 'invoices' ? '#10b981' : 'transparent'}; color:${BusinessModule.activeTab === 'invoices' ? '#020617' : '#94a3b8'}; margin-bottom:-2px;">Factures</button>
                     </div>
                     <div id="business-dynamic-content"></div>
                 </div>
             </div>
-
-            <style>
-                .btn-dtc { padding: 16px 32px; border-radius: 16px; font-weight: 950; border: none; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit; }
-                .btn-dtc.primary-black { background: #020617; color: white; box-shadow: 0 10px 20px rgba(2, 6, 23, 0.15); }
-                .stat-card { background: white; padding: 32px; border-radius: 28px; border: 1px solid #e2e8f0; }
-                .stat-label { font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; }
-                .stat-value { font-size: 2.2rem; font-weight: 950; color: #020617; margin: 12px 0; }
-                .tab-lux-btn { background: none; border: none; padding: 16px 0; font-size: 1.1rem; font-weight: 950; color: #94a3b8; cursor: pointer; position: relative; font-family: inherit; }
-                .tab-lux-btn.active { color: #020617; }
-                .tab-lux-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: #10b981; border-radius: 10px; }
-            </style>
         `;
+
         await BusinessModule.switchTab(BusinessModule.activeTab);
     },
 
     switchTab: async (tabId) => {
         BusinessModule.activeTab = tabId;
         localStorage.setItem('dtc_business_tab', tabId);
+
+        // Update tab styles
+        ['quotes', 'invoices'].forEach(t => {
+            const btn = document.getElementById(`tab-${t}`);
+            if (!btn) return;
+            const active = t === tabId;
+            btn.style.borderBottom = `3px solid ${active ? '#10b981' : 'transparent'}`;
+            btn.style.color = active ? '#020617' : '#94a3b8';
+            btn.style.marginBottom = '-2px';
+        });
+
         const content = document.getElementById('business-dynamic-content');
         if (!content) return;
-        content.innerHTML = `<div style="text-align:center; padding:60px;"><span class="loader"></span></div>`;
+        content.innerHTML = `<div style="text-align:center;padding:60px;"><span class="loader"></span></div>`;
+
         try {
-            const data = await BusinessModule.fetchDocs(tabId === 'quotes' ? 'quote' : 'invoice');
-            BusinessModule.renderList(content, data, tabId);
+            const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) throw new Error("Non connecté");
+
+            const docType = tabId === 'quotes' ? 'quote' : 'invoice';
+            const { data, error } = await window._supabase
+                .from('business_docs')
+                .select('*')
+                .eq('expert_id', session.user.id)
+                .eq('doc_type', docType)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+            BusinessModule.renderList(content, data || []);
         } catch (err) {
-            content.innerHTML = `<div style="padding:40px; text-align:center; color:#ef4444; font-weight:900;">Erreur: ${err.message}</div>`;
+            content.innerHTML = `<div style="padding:32px;background:#fef2f2;border-radius:16px;border:1px solid #fecaca;color:#dc2626;font-weight:800;">Erreur: ${err.message}</div>`;
         }
     },
 
-    renderList: (container, data, type) => {
-        if (!data || data.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:80px; background:#f8fafc; border-radius:24px; border:1px solid #e2e8f0;"><p style="color:#64748b; font-weight:600;">Aucun document trouvé.</p></div>`;
+    renderList: (container, data) => {
+        if (!data.length) {
+            container.innerHTML = `
+                <div style="text-align:center;padding:80px;border:2px dashed #e2e8f0;border-radius:20px;">
+                    <div style="font-size:2.5rem;margin-bottom:16px;">📄</div>
+                    <p style="font-weight:800;color:#64748b;margin:0;">Aucun document. Créez votre premier devis.</p>
+                </div>`;
             return;
         }
 
         container.innerHTML = `
-            <div style="overflow-x:auto;">
-                <table style="width:100%; border-collapse:collapse; min-width:800px;">
-                    <thead>
-                        <tr style="text-align:left; border-bottom:1.5px solid #f1f5f9;">
-                            <th style="padding:20px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:950;">Document</th>
-                            <th style="padding:20px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:950;">Client / Projet</th>
-                            <th style="padding:20px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:950;">Statut</th>
-                            <th style="padding:20px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:950;">Total HT</th>
-                            <th style="padding:20px; font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:950; text-align:right;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map(doc => `
-                            <tr style="border-bottom:1px solid #f8fafc;">
-                                <td style="padding:24px 20px;">
-                                    <div style="font-weight:950; color:#020617; font-size:1.1rem;">#${doc.id.slice(0,8).toUpperCase()}</div>
-                                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:700;">${new Date(doc.created_at).toLocaleDateString()}</div>
-                                </td>
-                                <td style="padding:24px 20px;">
-                                    <div style="font-weight:900; color:#020617;">${doc.client_name}</div>
-                                    <div style="font-size:0.8rem; color:#64748b; font-weight:600;">${doc.project_title}</div>
-                                </td>
-                                <td style="padding:24px 20px;">
-                                    <span style="background:#f1f5f9; color:#64748b; font-size:0.65rem; font-weight:950; text-transform:uppercase; padding:6px 14px; border-radius:100px;">${doc.status}</span>
-                                </td>
-                                <td style="padding:24px 20px;">
-                                    <div style="font-weight:950; color:#020617; font-size:1.25rem;">${(doc.total_amount || 0).toFixed(2)} €</div>
-                                    <div style="font-size:0.65rem; color:#10b981; font-weight:900; text-transform:uppercase;">Net: ${((doc.total_amount || 0)*(1 - BusinessModule.commissionRate)).toFixed(2)} €</div>
-                                </td>
-                                <td style="padding:24px 20px; text-align:right;">
-                                    <button onclick="BusinessModule.openQuotePortal('${doc.id}')" style="background:#020617; color:white; border:none; padding:8px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.75rem;">LIEN SIGNATURE</button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Réf</th>
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Client</th>
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Statut</th>
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;">Total HT</th>
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;">Net Expert</th>
+                        <th style="padding:12px 16px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.map(doc => {
+                        const net = (doc.total_amount || 0) * (1 - BusinessModule.commissionRate);
+                        const statusColors = { draft: '#64748b', sent: '#2563eb', paid: '#059669', cancelled: '#dc2626' };
+                        const statusLabels = { draft: 'Brouillon', sent: 'Envoyé', paid: 'Payé', cancelled: 'Annulé' };
+                        return `
+                        <tr style="border-bottom:1px solid #f8fafc;" onmouseenter="this.style.background='#f8fafc'" onmouseleave="this.style.background=''">
+                            <td style="padding:16px;">
+                                <div style="font-weight:900;color:#020617;">#${doc.id.slice(0,8).toUpperCase()}</div>
+                                <div style="font-size:0.75rem;color:#94a3b8;">${new Date(doc.created_at).toLocaleDateString()}</div>
+                            </td>
+                            <td style="padding:16px;">
+                                <div style="font-weight:800;color:#020617;">${doc.client_name}</div>
+                                <div style="font-size:0.8rem;color:#64748b;">${doc.project_title}</div>
+                            </td>
+                            <td style="padding:16px;">
+                                <span style="background:${statusColors[doc.status]}20;color:${statusColors[doc.status]};font-size:0.65rem;font-weight:950;text-transform:uppercase;padding:4px 10px;border-radius:100px;">${statusLabels[doc.status] || doc.status}</span>
+                            </td>
+                            <td style="padding:16px;text-align:right;font-weight:950;color:#020617;">${(doc.total_amount||0).toFixed(2)} €</td>
+                            <td style="padding:16px;text-align:right;font-weight:950;color:#10b981;">${net.toFixed(2)} €</td>
+                            <td style="padding:16px;text-align:right;">
+                                <button onclick="BusinessModule.copySignatureLink('${doc.id}')" style="background:#f1f5f9;border:none;padding:8px 14px;border-radius:8px;font-weight:800;cursor:pointer;font-size:0.75rem;">Lien Signature</button>
+                            </td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>`;
     },
 
-    openQuotePortal: (id) => {
+    copySignatureLink: (id) => {
         const url = `${window.location.origin}/view-document.html?id=${id}`;
-        navigator.clipboard.writeText(url);
-        Swal.fire({ title: 'Lien Copié !', text: 'Le client peut signer ce devis numériquement.', icon: 'success' });
+        navigator.clipboard.writeText(url).catch(() => prompt('Copiez ce lien:', url));
+        alert('Lien de signature copié ! Envoyez-le à votre client.');
     },
 
     openDocEditor: (type = 'quote') => {
         const container = document.getElementById('business-dynamic-content');
         container.innerHTML = `
-            <div style="background: #f8fafc; border-radius: 32px; border: 2px dashed #cbd5e1; padding: 48px; margin-top: 20px;">
-                <h3 style="font-weight:950; color:#020617; font-size:1.8rem; margin-bottom:32px;">Édition du Devis</h3>
-                
-                <div style="display:grid; grid-template-columns: 2fr 1fr; gap:32px; margin-bottom:40px;">
-                    <div style="display:flex; flex-direction:column; gap:20px;">
-                        <input type="text" id="doc-project-title" placeholder="Titre de la mission..." class="lux-input">
-                        <input type="text" id="doc-client-name" placeholder="Nom du client..." class="lux-input">
+            <div style="background:#f8fafc;border-radius:20px;border:2px dashed #cbd5e1;padding:40px;">
+                <h3 style="font-weight:950;color:#020617;font-size:1.5rem;margin-bottom:28px;">Nouveau Devis</h3>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+                    <div>
+                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Titre de la mission *</label>
+                        <input id="doc-title" type="text" placeholder="Ex: Audit marketing territorial" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;background:white;box-sizing:border-box;">
                     </div>
-                    <div style="background:white; border-radius:24px; padding:24px; border:1.5px solid #e2e8f0; display:flex; flex-direction:column; justify-content:center; text-align:center;">
-                        <input type="number" id="doc-total-amount" placeholder="Montant Total HT (€)" class="lux-input" style="font-size:1.8rem; font-weight:950; text-align:center; color:#10b981;" onchange="BusinessModule.updateNetPreview()">
-                        <div id="net-preview" style="font-size:0.75rem; font-weight:900; color:#94a3b8; margin-top:12px; text-transform:uppercase;">NET EXPERT: 0.00 €</div>
+                    <div>
+                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Nom du client *</label>
+                        <input id="doc-client" type="text" placeholder="Ex: Mairie de Fort-de-France" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;background:white;box-sizing:border-box;">
                     </div>
                 </div>
 
-                <div style="display:flex; justify-content:flex-end; gap:16px;">
-                    <button onclick="BusinessModule.switchTab('quotes')" style="padding:18px 40px; border-radius:18px; border:2px solid #f1f5f9; font-weight:950; cursor:pointer;">Annuler</button>
-                    <button onclick="BusinessModule.saveDoc('${type}')" class="btn-dtc primary-black" id="save-doc-btn">ENREGISTRER & GÉNÉRER LIEN</button>
+                <!-- Lignes de prestation -->
+                <div style="background:white;border-radius:16px;border:1px solid #e2e8f0;padding:24px;margin-bottom:24px;">
+                    <div style="display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:12px;margin-bottom:12px;">
+                        <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;">Description</div>
+                        <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;">Qté</div>
+                        <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;">Prix (€)</div>
+                        <div></div>
+                    </div>
+                    <div id="items-container"></div>
+                    <button onclick="BusinessModule.addLine()" style="background:#f1f5f9;border:none;padding:10px 20px;border-radius:10px;font-weight:800;cursor:pointer;margin-top:12px;font-family:inherit;">+ Ajouter une ligne</button>
                 </div>
-            </div>
-            <style>
-                .lux-input { width:100%; padding:18px; border-radius:18px; border:1.5px solid #e2e8f0; font-weight:750; font-family:inherit; background:#f8fafc; }
-            </style>
-        `;
+
+                <!-- Totaux -->
+                <div style="background:white;border-radius:16px;border:1px solid #e2e8f0;padding:24px;margin-bottom:24px;text-align:right;">
+                    <div style="font-size:0.75rem;color:#94a3b8;font-weight:900;text-transform:uppercase;margin-bottom:8px;">Total HT</div>
+                    <div id="total-ht" style="font-size:2rem;font-weight:950;color:#020617;">0,00 €</div>
+                    <div id="net-expert" style="font-size:0.9rem;font-weight:800;color:#10b981;margin-top:4px;">Net Expert (après 12.5% DTC): 0,00 €</div>
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;gap:12px;">
+                    <button onclick="BusinessModule.switchTab('quotes')" style="padding:14px 28px;border-radius:12px;border:1.5px solid #e2e8f0;background:white;font-weight:900;cursor:pointer;font-family:inherit;">Annuler</button>
+                    <button onclick="BusinessModule.saveDoc('${type}')" id="save-btn" style="padding:14px 28px;border-radius:12px;background:#020617;color:white;border:none;font-weight:950;cursor:pointer;font-family:inherit;">Enregistrer le Devis</button>
+                </div>
+            </div>`;
+
+        BusinessModule.addLine(); // Première ligne par défaut
     },
 
-    updateNetPreview: () => {
-        const amount = parseFloat(document.getElementById('doc-total-amount').value) || 0;
-        const net = amount * (1 - BusinessModule.commissionRate);
-        document.getElementById('net-preview').textContent = `NET EXPERT: ${net.toFixed(2)} € (APRÈS FRAIS DTC 12.5%)`;
+    addLine: () => {
+        const container = document.getElementById('items-container');
+        const lineId = Date.now();
+        const div = document.createElement('div');
+        div.id = `line-${lineId}`;
+        div.style = 'display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:12px;margin-bottom:10px;align-items:center;';
+        div.innerHTML = `
+            <input type="text" placeholder="Description de la prestation..." style="padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:600;" class="item-desc">
+            <input type="number" value="1" min="1" style="padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:600;" class="item-qty" oninput="BusinessModule.recalculate()">
+            <input type="number" value="0" min="0" step="0.01" style="padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:600;" class="item-price" oninput="BusinessModule.recalculate()">
+            <button onclick="document.getElementById('line-${lineId}').remove(); BusinessModule.recalculate();" style="background:none;border:none;color:#ef4444;font-size:1.3rem;cursor:pointer;padding:0 8px;">×</button>`;
+        container.appendChild(div);
+    },
+
+    recalculate: () => {
+        let total = 0;
+        document.querySelectorAll('#items-container > div').forEach(line => {
+            const qty = parseFloat(line.querySelector('.item-qty')?.value) || 0;
+            const price = parseFloat(line.querySelector('.item-price')?.value) || 0;
+            total += qty * price;
+        });
+        const net = total * (1 - BusinessModule.commissionRate);
+        const htEl = document.getElementById('total-ht');
+        const netEl = document.getElementById('net-expert');
+        if (htEl) htEl.textContent = total.toFixed(2) + ' €';
+        if (netEl) netEl.textContent = `Net Expert (après 12.5% DTC): ${net.toFixed(2)} €`;
+        return total;
     },
 
     async saveDoc(type) {
-        const btn = document.getElementById('save-doc-btn');
+        const btn = document.getElementById('save-btn');
+        const title = document.getElementById('doc-title')?.value?.trim();
+        const client = document.getElementById('doc-client')?.value?.trim();
+
+        if (!title || !client) { alert('Remplissez le titre et le nom du client.'); return; }
+
         btn.disabled = true;
+        btn.textContent = 'Enregistrement...';
+
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            const payload = {
+            if (!session) throw new Error("Non connecté");
+
+            // Collecter les lignes
+            const items = [];
+            document.querySelectorAll('#items-container > div').forEach(line => {
+                const desc = line.querySelector('.item-desc')?.value || '';
+                const qty = parseFloat(line.querySelector('.item-qty')?.value) || 1;
+                const price = parseFloat(line.querySelector('.item-price')?.value) || 0;
+                if (desc || price > 0) items.push({ description: desc, qty, price, total: qty * price });
+            });
+
+            const subtotal = items.reduce((acc, i) => acc + i.total, 0);
+            const commission = subtotal * BusinessModule.commissionRate;
+
+            const { error } = await window._supabase.from('business_docs').insert({
                 expert_id: session.user.id,
-                project_title: document.getElementById('doc-project-title').value,
-                client_name: document.getElementById('doc-client-name').value,
-                total_amount: parseFloat(document.getElementById('doc-total-amount').value) || 0,
+                project_title: title,
+                client_name: client,
                 doc_type: type,
-                status: 'draft'
-            };
-            await window._supabase.from('business_docs').insert(payload);
-            BusinessModule.switchTab('quotes');
-        } catch (err) { alert(err.message); btn.disabled = false; }
-    },
+                status: 'draft',
+                items: JSON.stringify(items),
+                subtotal: subtotal,
+                commission_rate: BusinessModule.commissionRate * 100,
+                commission_amount: commission,
+                total_amount: subtotal,
+                currency: 'EUR'
+            });
 
-    fetchDocs: async (type) => {
-        const { data: { session } } = await window._supabase.auth.getSession();
-        if (!session) return [];
-        const { data } = await window._supabase.from('business_docs').select('*').eq('expert_id', session.user.id).eq('doc_type', type).order('created_at', { ascending: false });
-        return data || [];
-    },
-
-    refreshExpertProfile: async () => {
-        const { data: { session } } = await window._supabase.auth.getSession();
-        if (!session) return;
-        const { data } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
-        BusinessModule.expertProfile = data;
+            if (error) throw error;
+            await BusinessModule.switchTab('quotes');
+        } catch (err) {
+            alert('Erreur: ' + err.message);
+            btn.disabled = false;
+            btn.textContent = 'Enregistrer le Devis';
+        }
     }
 };
 
