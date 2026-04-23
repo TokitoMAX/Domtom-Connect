@@ -17,16 +17,15 @@ const ExpertsModule = {
 
         switch (viewId) {
             case 'business':
-                await ExpertsModule.renderBusinessPilotage(target, profile, session);
+                const bizView = document.getElementById('business-view');
+                if (bizView) {
+                    bizView.style.display = 'block';
+                    await ExpertsModule.renderBusinessPilotage(bizView, profile, session);
+                }
                 break;
             case 'profile':
                 if (window.StandardModule) {
                     await window.StandardModule.renderProfile(target, profile, session);
-                }
-                break;
-            case 'collaboration':
-                if (window.CollaborationModule) {
-                    await window.CollaborationModule.route('overview', target, profile, session, params);
                 }
                 break;
             case 'billetterie':
@@ -41,6 +40,11 @@ const ExpertsModule = {
                 break;
             case 'overview':
             default:
+                if (container) container.style.display = 'block';
+                else {
+                    const overview = document.getElementById('overview-view');
+                    if (overview) overview.style.display = 'block';
+                }
                 ExpertsModule.renderDashboard(target, profile, session);
                 break;
         }
@@ -131,15 +135,29 @@ const ExpertsModule = {
                     </div>
                 </div>
 
-                <div style="background: linear-gradient(135deg, #020617 0%, #1e293b 100%); border-radius: 24px; padding: clamp(32px, 6vw, 64px); color: white; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);">
-                    <div style="flex: 1; min-width: 250px;">
-                        <h3 style="font-weight: 900; margin: 0 0 12px 0; font-size: 1.8rem;">Facturation Intégrée</h3>
-                        <p style="color: rgba(255,255,255,0.7); font-weight: 500; margin: 0; font-size: 1rem;">Générez et gérez vos factures certifiées en un seul clic.</p>
-                    </div>
-                    <button onclick="window.location.hash = 'business'" style="padding: 16px 32px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 15px rgba(16,185,129,0.2);">Accéder à la Facturation</button>
+                <!-- Facturation Engine Mount Point -->
+                <div id="business-module-mount-point" style="background: white; border-radius: 24px; border: 1px solid #e2e8f0; min-height: 400px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                     <div style="text-align:center; padding: 60px;">
+                        <h3 style="font-weight: 900; color: #020617; font-size: 1.5rem; margin-bottom: 12px;">Facturation Certifiée DTC</h3>
+                        <p style="color: #64748b; margin-bottom: 32px;">L'outil professionnel pour vos devis et facturation.</p>
+                        <button id="load-billing-engine-btn" class="cta-button primary" style="padding: 16px 32px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(16,185,129,0.2);">Activer la Console de Facturation</button>
+                     </div>
                 </div>
             </div>
         `;
+        
+        // Add listener for the button
+        setTimeout(() => {
+            const btn = document.getElementById('load-billing-engine-btn');
+            if (btn && window.BusinessModule) {
+                btn.onclick = () => {
+                    const mountPoint = document.getElementById('business-module-mount-point');
+                    if (mountPoint) {
+                        window.BusinessModule.renderDashboard(mountPoint);
+                    }
+                };
+            }
+        }, 100);
     },
 
     /**

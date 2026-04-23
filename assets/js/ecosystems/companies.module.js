@@ -16,20 +16,24 @@ const CompaniesModule = {
 
         switch (view_id) {
             case 'business':
-                await CompaniesModule.renderBusinessPilotage(target, profile, session);
+                const bizView = document.getElementById('business-view');
+                if (bizView) {
+                    bizView.style.display = 'block';
+                    await CompaniesModule.renderBusinessPilotage(bizView, profile, session);
+                }
                 break;
             case 'profile':
                 if (window.StandardModule) {
                     window.StandardModule.renderProfile(target, profile, session);
                 }
                 break;
-            case 'collaboration':
-                if (window.CollaborationModule) {
-                    await window.CollaborationModule.route('overview', target, profile, session, params);
-                }
-                break;
             case 'overview':
             default:
+                if (container) container.style.display = 'block';
+                else {
+                    const overview = document.getElementById('overview-view');
+                    if (overview) overview.style.display = 'block';
+                }
                 CompaniesModule.renderDashboard(target, profile, session);
                 break;
         }
@@ -62,9 +66,9 @@ const CompaniesModule = {
                 <!-- CARDS GRID -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Pilotage Projets</h4>
-                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Créer une Mission</div>
-                        <button onclick="window.Router.navigate('#collaboration')" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Lancer un Projet</button>
+                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Pilotage Business</h4>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Devis & Factures</div>
+                        <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 12px; background: #f1f5f9; color: #020617; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Ouvrir le Pilotage</button>
                     </div>
 
                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
@@ -154,31 +158,19 @@ const CompaniesModule = {
         container.innerHTML = `
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
                 <div style="margin-bottom: 32px;">
-                    <h1 style="font-weight: 950; color: #020617; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.05em; margin: 0 0 8px 0;">Pilotage Business</h1>
-                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin: 0;">Gérez vos missions et suivez l'impact territorial de votre entreprise.</p>
+                    <h1 style="font-weight: 950; color: #020617; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.05em; margin: 0 0 8px 0;">Pilotage d'Activité</h1>
+                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin: 0;">Gérez vos finances et vos relations prestataires.</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                    <div style="background: white; padding: clamp(24px, 4vw, 40px); border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 16px 0;">Missions Actives</h4>
-                         <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: #020617;">0</div>
-                    </div>
-                    <div style="background: white; padding: clamp(24px, 4vw, 40px); border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 16px 0;">Contenus Créés</h4>
-                         <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: #10b981;">0</div>
-                    </div>
-                </div>
-
-                <div style="background: linear-gradient(135deg, #020617 0%, #1e293b 100%); border-radius: 24px; padding: clamp(32px, 6vw, 64px); color: white; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);">
-                    <div style="flex: 1; min-width: 250px;">
-                        <span style="display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.1); border-radius: 100px; font-size: 0.75rem; font-weight: 800; margin-bottom: 12px; color: #60a5fa;">ACCÉLÉRATEUR</span>
-                        <h3 style="font-weight: 900; margin: 0 0 12px 0; font-size: 1.8rem;">Besoin d'aller plus vite ?</h3>
-                        <p style="color: rgba(255,255,255,0.7); font-weight: 500; margin: 0; font-size: 1rem;">Mobilisez un expert pour structurer vos objectifs sur l'année.</p>
-                    </div>
-                    <button onclick="window.Router.navigate('#collaboration')" style="padding: 16px 32px; background: white; color: #020617; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: 0.2s;">Lancer un Projet</button>
+                <div id="company-business-mount" style="background: white; border-radius: 24px; border: 1px solid #e2e8f0; min-height: 400px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <div style="text-align:center; padding: 40px;">Chargement du centre financier...</div>
                 </div>
             </div>
         `;
+        
+        if (window.BusinessModule) {
+            window.BusinessModule.renderDashboard(document.getElementById('company-business-mount'));
+        }
     }
 };
 

@@ -27,13 +27,13 @@ const BusinessModule = {
         // Load profile first to check tier
         await BusinessModule.refreshExpertProfile();
         
+        // Tier check disabled by request to allow full access to billing tools
         const tier = (BusinessModule.expertProfile && BusinessModule.expertProfile.subscription_tier) || window.currentSubscriptionTier || 'free';
-        const isPartner = (tier !== 'free');
-
-        if (!isPartner) {
-            BusinessModule.renderLockedView(container);
-            return;
-        }
+        // const isPartner = (tier !== 'free');
+        // if (!isPartner) {
+        //     BusinessModule.renderLockedView(container);
+        //     return;
+        // }
 
         BusinessModule.activeTab = localStorage.getItem('dtc_business_tab') || 'quotes';
         
