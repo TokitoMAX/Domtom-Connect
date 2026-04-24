@@ -99,29 +99,29 @@ const StandardModule = {
                             
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
                                 <label style="cursor: pointer; position: relative;">
-                                    <input type="radio" name="profile-role" value="spectateur" ${profile.role === 'spectateur' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
-                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'spectateur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                    <input type="radio" name="profile-role" value="spectateur" ${profile.role === 'spectateur' ? 'checked' : ''} style="display:none;" onchange="StandardModule.handleRoleSwitch('spectateur')">
+                                    <div class="role-card" style="padding: 16px; border: 2px solid ${profile.role === 'spectateur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
                                         <span style="display:block; font-weight: 800; font-size: 0.9rem;">Observateur</span>
                                         <span style="font-size: 0.7rem; color: #94a3b8;">Veille Strat&eacute;gique</span>
                                     </div>
                                 </label>
                                 <label style="cursor: pointer; position: relative;">
-                                    <input type="radio" name="profile-role" value="porteur" ${profile.role === 'porteur' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
-                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'porteur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                    <input type="radio" name="profile-role" value="porteur" ${profile.role === 'porteur' ? 'checked' : ''} style="display:none;" onchange="StandardModule.handleRoleSwitch('porteur')">
+                                    <div class="role-card" style="padding: 16px; border: 2px solid ${profile.role === 'porteur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
                                         <span style="display:block; font-weight: 800; font-size: 0.9rem;">Porteur / Owner</span>
                                         <span style="font-size: 0.7rem; color: #94a3b8;">Lancer un Projet</span>
                                     </div>
                                 </label>
                                 <label style="cursor: pointer; position: relative;">
-                                    <input type="radio" name="profile-role" value="expert" ${profile.role === 'expert' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
-                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'expert' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                    <input type="radio" name="profile-role" value="expert" ${profile.role === 'expert' ? 'checked' : ''} style="display:none;" onchange="StandardModule.handleRoleSwitch('expert')">
+                                    <div class="role-card" style="padding: 16px; border: 2px solid ${profile.role === 'expert' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
                                         <span style="display:block; font-weight: 800; font-size: 0.9rem;">Expert / Talent</span>
                                         <span style="font-size: 0.7rem; color: #94a3b8;">Offrir mes Services</span>
                                     </div>
                                 </label>
                                 <label style="cursor: pointer; position: relative;">
-                                    <input type="radio" name="profile-role" value="entreprise" ${profile.role === 'entreprise' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
-                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'entreprise' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                    <input type="radio" name="profile-role" value="entreprise" ${profile.role === 'entreprise' ? 'checked' : ''} style="display:none;" onchange="StandardModule.handleRoleSwitch('entreprise')">
+                                    <div class="role-card" style="padding: 16px; border: 2px solid ${profile.role === 'entreprise' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
                                         <span style="display:block; font-weight: 800; font-size: 0.9rem;">Entreprise</span>
                                         <span style="font-size: 0.7rem; color: #94a3b8;">Besoins & Croissance</span>
                                     </div>
@@ -129,31 +129,12 @@ const StandardModule = {
                             </div>
                         </div>
 
-                        <!-- SECTION 2: SPECIALIZED (SIRET, TJM, VISION, etc.) -->
-                        <div style="background:#fff; padding:0; border-radius:20px;">
+                        <!-- SECTION 2: SPECIALIZED FIELDS -->
+                        <div id="specialized-fields-container" style="background:#fff; padding:0; border-radius:20px;">
                              ${specializedFields}
                         </div>
 
-                        <!-- SECTION 3: SOCIAL PULSE -->
-                        <div style="background:#f8fafc; padding:24px; border-radius:20px; border:1px solid #f1f5f9;">
-                            <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; margin-bottom:24px; letter-spacing:0.05em;">R&eacute;seaux et Influence</h3>
-                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
-                                <div class="info-field">
-                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">LinkedIn (URL)</label>
-                                    <input type="url" id="profile-linkedin" value="${profile.linkedin || ''}" placeholder="https://linkedin.com/in/..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
-                                </div>
-                                <div class="info-field">
-                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Instagram (URL)</label>
-                                    <input type="url" id="profile-instagram" value="${profile.instagram || ''}" placeholder="https://instagram.com/..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
-                                </div>
-                                <div class="info-field">
-                                    <label style="font-size: 0.65rem; font-weight: 800; color: #94a3b8;">TikTok (URL)</label>
-                                    <input type="url" id="profile-tiktok" value="${profile.tiktok || ''}" placeholder="https://tiktok.com/@..." style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #e2e8f0; font-weight:600;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 4: PRESENTATION -->
+                        <!-- SECTION 3: PRESENTATION -->
                         <div class="info-field">
                             <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:12px;">Bio Institutionnelle / Pr&eacute;sentation</label>
                             <textarea id="profile-bio" style="width: 100%; min-height: 150px; padding: 20px; border-radius: 16px; border: 1.5px solid #e2e8f0; font-weight: 600; line-height:1.6;">${profile.bio || ''}</textarea>
@@ -169,6 +150,31 @@ const StandardModule = {
     },
 
     /**
+     * Dynamic Role UI Switch
+     */
+    handleRoleSwitch: (role) => {
+        // UI Visual Update
+        document.querySelectorAll('.role-card').forEach(card => card.style.borderColor = '#e2e8f0');
+        const selectedRadio = document.querySelector(`input[name="profile-role"][value="${role}"]`);
+        if (selectedRadio) selectedRadio.nextElementSibling.style.borderColor = '#10b981';
+
+        // Specialized Fields Injection
+        const container = document.getElementById('specialized-fields-container');
+        if (!container) return;
+
+        let fields = '';
+        if (role === 'expert' && window.ExpertsModule?.renderProfileFields) {
+            fields = window.ExpertsModule.renderProfileFields({});
+        } else if (role === 'porteur' && window.OwnersModule?.renderProfileFields) {
+            fields = window.OwnersModule.renderProfileFields({});
+        } else if (role === 'entreprise' && window.CompaniesModule?.renderProfileFields) {
+            fields = window.CompaniesModule.renderProfileFields({});
+        }
+        
+        container.innerHTML = fields;
+    },
+
+    /**
      * Save Strategy - Capturing EVERYTHING
      */
     saveProfile: async () => {
@@ -177,9 +183,6 @@ const StandardModule = {
                 full_name: document.getElementById('profile-full-name').value,
                 title: document.getElementById('profile-title').value,
                 bio: document.getElementById('profile-bio').value,
-                linkedin: document.getElementById('profile-linkedin').value,
-                instagram: document.getElementById('profile-instagram').value,
-                tiktok: document.getElementById('profile-tiktok').value,
                 updated_at: new Date().toISOString()
             };
 
