@@ -238,17 +238,22 @@ const StandardModule = {
             if (updates.role === 'expert') updates.expertise = updates.title;
             if (updates.role === 'entreprise') updates.company_name = updates.full_name;
 
-            // Exhaustive field collection
+            // Exhaustive field collection - PRUNED for DB Compatibility
             const allPossibleFields = [
                 'tjm', 'availability', 'skills', 'siret', 'website', 
-                'sector', 'company_name', 'project_desc', 'budget',
-                'vision', 'mission', 'enjeu', 'creation_year', 'team_size', 'zone'
+                'sector', 'company_name', 'creation_year', 'team_size', 'zone'
             ];
             
             allPossibleFields.forEach(f => {
                 const el = document.getElementById('profile-' + f);
                 if (el) updates[f] = el.value;
             });
+
+            // Special mapping for Experts
+            if (updates.role === 'expert') {
+                const skillsEl = document.getElementById('profile-skills');
+                if (skillsEl) updates.expertise = skillsEl.value; // Expertise mapping
+            }
 
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) throw new Error("Session expir\u00e9e");
