@@ -34,6 +34,11 @@ const CompaniesModule = {
                     window.TicketingModule.loadMyTicketing(params);
                 }
                 break;
+            case 'vitrine':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderManager(target);
+                }
+                break;
             case 'overview':
             default:
                 if (container) container.style.display = 'block';
@@ -78,6 +83,12 @@ const CompaniesModule = {
                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Réseau Experts</h4>
                         <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Trouver des Talents</div>
                         <button onclick="window.location.href='marketplace/talents.html'" style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Explorer l'Annuaire</button>
+                    </div>
+
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Notre Vitrine</h4>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Produits & Services</div>
+                        <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Gérer notre Vitrine</button>
                     </div>
                 </div>
 

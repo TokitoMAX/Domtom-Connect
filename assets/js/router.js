@@ -15,7 +15,8 @@ const Router = {
         'missions': 'missions',
         'business': 'business',
         'collaboration': 'collaboration',
-        'profile': 'profile'
+        'profile': 'profile',
+        'vitrine': 'vitrine'
     },
 
     /**

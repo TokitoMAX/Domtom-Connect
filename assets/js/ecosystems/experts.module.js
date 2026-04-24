@@ -35,6 +35,11 @@ const ExpertsModule = {
                     window.TicketingModule.loadMyTicketing(params);
                 }
                 break;
+            case 'vitrine':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderManager(target);
+                }
+                break;
             case 'missions':
                 window.location.href = 'marketplace/jobs.html';
                 break;
@@ -78,6 +83,12 @@ const ExpertsModule = {
                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #10b981; text-transform: uppercase; margin: 0 0 12px 0;">Opportunités</h4>
                         <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Voir les Missions</div>
                         <button onclick="window.location.href='marketplace/jobs.html'" style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Explorer</button>
+                    </div>
+
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <h4 style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin: 0 0 12px 0;">Ma Vitrine</h4>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #020617; margin-bottom: 16px;">Services & Offres</div>
+                        <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Piloter ma Vitrine</button>
                     </div>
                 </div>
 
