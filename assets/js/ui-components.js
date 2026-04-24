@@ -99,7 +99,49 @@ const UIComponents = {
     },
 
     async renderTopNav() {
-        // We only use this function to update the auth buttons on native HTML now.
+        const navContainer = document.querySelector('.navbar .container');
+        if (!navContainer) return;
+
+        // --- PATH LOGIC ---
+        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
+        const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
+        const adjust = (p) => {
+            if (p.startsWith('http') || p.startsWith('javascript:')) return p;
+            let clean = p.startsWith('/') ? p.slice(1) : p;
+            if (!clean.includes('.') && !clean.includes('#') && !clean.endsWith('/')) clean += '.html';
+            return prefix + clean;
+        };
+
+        // If navContainer is empty, inject the boilerplate
+        if (navContainer.children.length === 0 || !navContainer.querySelector('.nav-brand')) {
+            navContainer.innerHTML = `
+                <a href="${adjust('index.html')}" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                    <img src="${adjust('assets/images/logo-domtomconnect.png')}" alt="Domtom Connect" class="nav-logo">
+                    <span class="nav-brand-name">Domtom Connect</span>
+                </a>
+                
+                <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                
+                <div class="nav-content" id="primary-navigation">
+                    <div class="nav-links">
+                        <a href="${adjust('marketplace/directory.html')}">Talents</a>
+                        <a href="${adjust('marketplace/jobs.html')}">Missions</a>
+                        <a href="${adjust('marketplace/projects.html')}">Projets</a>
+                        <a href="${adjust('marketplace/evenements.html')}">Événements</a>
+                        <a href="${adjust('marketplace/companies.html')}">Entreprises</a>
+                    </div>
+                    
+                    <div class="nav-actions" id="nav-auth-actions">
+                        <a href="${adjust('login.html')}" class="nav-login">Démarrer</a>
+                        <a href="${adjust('register-choice.html')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Rejoindre / Explorer</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update Auth Actions if session exists
         let session = null;
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
@@ -114,14 +156,9 @@ const UIComponents = {
         if (session) {
             const authActions = document.getElementById('nav-auth-actions');
             if (authActions) {
-                // Determine prefix based on pathname
-                const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-                const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
-                const adjustPath = (p) => prefix + (p.startsWith('/') ? p.slice(1) : p);
-
                 authActions.innerHTML = `
-                    <a href="${adjustPath('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
-                    <a href="${adjustPath('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
+                    <a href="${adjust('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
+                    <a href="${adjust('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
                 `;
             }
         }
@@ -135,25 +172,48 @@ window.loadGlobalNavbar = async function() {
     if (window.UIComponents) {
         await window.UIComponents.renderTopNav();
         
-        // --- MOBILE TOGGLE INITIALIZATION (Landing/Public) ---
+        // --- MOBILE TOGGLE INITIALIZATION ---
         const toggle = document.querySelector('.nav-toggle');
         const navContent = document.querySelector('.nav-content');
         
         if (toggle && navContent) {
-            toggle.addEventListener('click', function() {
-                const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+            // Remove any existing click listeners to avoid double-triggering
+            const newToggle = toggle.cloneNode(true);
+            toggle.parentNode.replaceChild(newToggle, toggle);
+
+            newToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const expanded = this.getAttribute('aria-expanded') === 'true';
                 this.setAttribute('aria-expanded', !expanded);
-                navContent.classList.toggle('active');
                 this.classList.toggle('active');
+                navContent.classList.toggle('active');
+                
+                // Prevent scrolling when menu is open
+                if (navContent.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
             });
             
             // Close menu when clicking links
             navContent.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     navContent.classList.remove('active');
-                    toggle.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
+                    newToggle.classList.remove('active');
+                    newToggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
                 });
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navContent.classList.contains('active') && !navContent.contains(e.target) && !newToggle.contains(e.target)) {
+                    navContent.classList.remove('active');
+                    newToggle.classList.remove('active');
+                    newToggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
             });
         }
     }
