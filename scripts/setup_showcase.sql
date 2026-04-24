@@ -32,6 +32,14 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='showcase_items' AND column_name='unit') THEN
         ALTER TABLE showcase_items ADD COLUMN unit TEXT;
     END IF;
+
+    -- Ajout des champs Shopify
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='shopify_domain') THEN
+        ALTER TABLE profiles ADD COLUMN shopify_domain TEXT;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='shopify_access_token') THEN
+        ALTER TABLE profiles ADD COLUMN shopify_access_token TEXT;
+    END IF;
 END $$;
 
 -- Index pour la performance des recherches par utilisateur et par catégorie
