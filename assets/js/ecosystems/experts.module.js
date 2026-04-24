@@ -40,6 +40,11 @@ const ExpertsModule = {
                     ShowcaseModule.renderManager(target);
                 }
                 break;
+            case 'marketplace':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderMarketplace(target);
+                }
+                break;
             case 'missions':
                 window.location.href = 'marketplace/jobs.html';
                 break;

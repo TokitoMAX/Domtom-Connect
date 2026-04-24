@@ -25,6 +25,11 @@ const StandardModule = {
             case 'profile':
                 await StandardModule.renderProfile(target, profile, session);
                 break;
+            case 'marketplace':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderMarketplace(target);
+                }
+                break;
             case 'overview':
             default:
                 await StandardModule.renderDashboard(target, profile, session);

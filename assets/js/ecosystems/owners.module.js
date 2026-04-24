@@ -41,6 +41,11 @@ const OwnersModule = {
                     window.BusinessModule.renderView(bizView);
                 }
                 break;
+            case 'marketplace':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderMarketplace(target);
+                }
+                break;
             case 'overview':
             default:
                 OwnersModule.renderDashboard(target, profile, session);

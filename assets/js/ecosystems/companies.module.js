@@ -39,6 +39,11 @@ const CompaniesModule = {
                     ShowcaseModule.renderManager(target);
                 }
                 break;
+            case 'marketplace':
+                if (window.ShowcaseModule) {
+                    ShowcaseModule.renderMarketplace(target);
+                }
+                break;
             case 'overview':
             default:
                 if (container) container.style.display = 'block';
