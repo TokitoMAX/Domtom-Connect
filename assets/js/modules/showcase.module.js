@@ -32,14 +32,14 @@ const ShowcaseModule = {
                     </div>
 
                     ${items && items.length > 0 ? `
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;">
                             ${items.map(item => this.renderShowcaseCard(item, false)).join('')}
                         </div>
                     ` : `
-                        <div style="text-align:center; padding: 100px 20px; background: white; border-radius: 32px; border: 2px dashed #e2e8f0;">
-                            <div style="font-size: 4rem; margin-bottom: 24px;">🏢</div>
-                            <h3 style="font-weight: 900; color: #0f172a; font-size: 1.5rem; margin-bottom: 12px;">Le catalogue arrive...</h3>
-                            <p style="color: #64748b; font-weight: 600;">Nos prestataires sont en train de configurer leurs vitrines.</p>
+                        <div style="text-align:center; padding: 120px 20px; background: white; border-radius: 40px; border: 2px dashed #e2e8f0;">
+                            <div style="font-size: 5rem; margin-bottom: 24px;">🏢</div>
+                            <h3 style="font-weight: 950; color: #0f172a; font-size: 1.8rem; margin-bottom: 12px; letter-spacing: -0.02em;">Le Marché se prépare...</h3>
+                            <p style="color: #64748b; font-weight: 600; font-size: 1.1rem;">Nos prestataires configurént actuellement leurs meilleures offres.</p>
                         </div>
                     `}
                 </div>
@@ -109,56 +109,47 @@ const ShowcaseModule = {
     },
 
     /**
-     * Card Template (High-Fidelity)
-     */
-    renderShowcaseCard(item, isEditable = false) {
+     * Card Template (High-Fi    renderShowcaseCard(item, isEditable = false) {
         const unitLabel = item.unit ? ` / ${item.unit}` : '';
         const priceDisplay = item.price ? `${item.price_prefix || 'À partir de'} ${item.price}€${unitLabel}` : 'Sur devis';
         const profile = item.profile || {};
         
         return `
-            <div style="background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); cursor: ${isEditable ? 'default' : 'pointer'};" 
-                 onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 25px 50px -12px rgba(0,0,0,0.08)';"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="background: white; border-radius: 32px; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); position: relative;">
                 
-                <div style="position: relative; height: 180px; width: 100%; overflow: hidden; background: #f8fafc;">
-                    <img src="${item.image_url || 'https://via.placeholder.com/400x250?text=Service'}" style="width: 100%; height: 100%; object-fit: cover;">
-                    <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 100px; color: white; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;">
+                <div style="position: relative; height: 220px; width: 100%; overflow: hidden; background: #f8fafc;">
+                    <img src="${item.image_url || 'https://via.placeholder.com/600x400?text=Offre+DTC'}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+                    <div style="position: absolute; top: 16px; left: 16px; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); padding: 6px 14px; border-radius: 100px; color: #0f172a; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 6px;">
                         ${item.category === 'product' ? '📦 Produit' : '💡 Service'}
                     </div>
                 </div>
-
-                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                        <div style="font-size: 1.1rem; font-weight: 900; color: #020617; flex: 1; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">${item.title}</div>
-                    </div>
+                
+                <div style="padding: 28px; flex: 1; display: flex; flex-direction: column; gap: 12px;">
+                    <div style="font-size: 1.25rem; font-weight: 950; color: #0f172a; line-height: 1.2; letter-spacing: -0.03em;">${item.title}</div>
                     
-                    <p style="font-size: 0.85rem; color: #64748b; font-weight: 500; line-height: 1.5; margin: 0 0 20px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                    <p style="font-size: 0.95rem; color: #64748b; font-weight: 500; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                         ${item.description || 'Appuyez pour voir les détails de cette offre.'}
                     </p>
 
-                    <div style="margin-top: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-                            <div style="font-weight: 950; font-size: 1.25rem; color: #0f172a;">${priceDisplay}</div>
-                            ${isEditable ? `
-                                <div style="display: flex; gap: 8px;">
-                                    <button onclick="window.ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; color: #020617; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">✏️</button>
-                                    <button onclick="window.ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; color: #dc2626; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">🗑️</button>
-                                </div>
-                            ` : `
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="width: 28px; height: 28px; background: #e2e8f0; border-radius: 50%; overflow: hidden;">
-                                        <img src="${profile.avatar_url || 'https://via.placeholder.com/100'}" style="width: 100%; height: 100%; object-fit: cover;">
-                                    </div>
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #0f172a;">${profile.full_name || 'Expert'}</span>
-                                </div>
-                                <button onclick="window.ShowcaseModule.openCheckoutModal('${item.id}')" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 850; font-size: 0.85rem; cursor: pointer; transition: 0.2s;">
-                                    Commander
-                                </button>
-                            `}
+                    <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">${item.price_prefix || 'Tarif'}</div>
+                            <div style="font-weight: 950; font-size: 1.4rem; color: #10b981;">${item.price ? item.price + '€' : 'Sur devis'}<span style="font-size: 0.85rem; color:#94a3b8; font-weight:700;">${unitLabel}</span></div>
                         </div>
+
+                        ${isEditable ? `
+                            <div style="display: flex; gap: 8px;">
+                                <button onclick="window.ShowcaseModule.openItemModal('${item.id}')" style="background: #f8fafc; color: #020617; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;">✏️</button>
+                                <button onclick="window.ShowcaseModule.deleteItem('${item.id}')" style="background: #fff1f2; color: #be123c; border: 1px solid #fecaca; width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;">🗑️</button>
+                            </div>
+                        ` : `
+                            <button onclick="window.ShowcaseModule.openCheckoutModal('${item.id}')" style="background: #0f172a; color: white; border: none; padding: 12px 24px; border-radius: 16px; font-weight: 900; font-size: 0.95rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(15,23,42,0.15);" onmouseenter="this.style.transform='translateY(-2px)'; this.style.background='#1e293b';" onmouseleave="this.style.transform='translateY(0)'; this.style.background='#0f172a';">
+                                Commander
+                            </button>
+                        `}
                     </div>
                 </div>
+            </div>          </div>
             </div>
         `;
     },
@@ -232,10 +223,13 @@ const ShowcaseModule = {
                     </div>
 
                     <div>
-                        <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Image de l'offre</label>
-                        <div id="image-upload-zone" style="display: flex; flex-direction: column; gap: 12px;">
-                            ${itemData.image_url ? `<img src="${itemData.image_url}" id="item-preview" style="width: 120px; height: 80px; object-fit: cover; border-radius: 12px;">` : `<div id="item-preview" style="width: 120px; height: 80px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📸</div>`}
-                            <input id="item-file" type="file" accept="image/*" style="font-size: 0.8rem; font-weight: 700; color: #64748b;">
+                        <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Image de l'offre (Aspect Ratio 3:2 conseillé)</label>
+                        <div id="image-upload-zone" style="display: flex; align-items: center; gap: 20px; background: #f8fafc; padding: 20px; border-radius: 20px; border: 2px dashed #e2e8f0;">
+                            ${itemData.image_url ? `<img src="${itemData.image_url}" id="item-preview" style="width: 100px; height: 66px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">` : `<div id="item-preview" style="width: 100px; height: 66px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📸</div>`}
+                            <div style="flex: 1;">
+                                <input id="item-file" type="file" accept="image/*" style="font-size: 0.8rem; font-weight: 700; color: #020617; width: 100%; border: none; background: transparent;">
+                                <p style="font-size: 0.65rem; color: #94a3b8; font-weight: 600; margin-top: 4px;">PNG, JPG ou WEBP. Max 2MB.</p>
+                            </div>
                             <input id="item-image" type="hidden" value="${itemData.image_url}">
                         </div>
                     </div>

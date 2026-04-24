@@ -77,4 +77,20 @@ FOR UPDATE USING (auth.uid() = provider_id);
 -- Seul le propriétaire peut gérer ses articles (All operations)
 DROP POLICY IF EXISTS "Owners can manage their items" ON showcase_items;
 CREATE POLICY "Owners can manage their items" ON showcase_items 
-FOR ALL USING (auth.uid() = user_id);
+FOR ALL USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- POLITIQUES POUR LE STOCKAGE DES IMAGES (Storage)
+-- Note: À exécuter dans l'éditeur SQL pour configurer le bucket 'showcase'
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('showcase', 'showcase', true) 
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Public can view images" ON storage.objects;
+CREATE POLICY "Public can view images" ON storage.objects FOR SELECT USING (bucket_id = 'showcase');
+
+DROP POLICY IF EXISTS "Authenticated users can upload images" ON storage.objects;
+CREATE POLICY "Authenticated users can upload images" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'showcase' AND auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Owners can delete their images" ON storage.objects;
+CREATE POLICY "Owners can delete their images" ON storage.objects FOR DELETE USING (bucket_id = 'showcase' AND auth.uid() = (storage.foldername(name))[1]::uuid);
