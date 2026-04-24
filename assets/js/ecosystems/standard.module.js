@@ -92,6 +92,43 @@ const StandardModule = {
                             </div>
                         </div>
 
+                        <!-- SECTION 1.5: ROLE ACTIVATION (Reliable Switch System) -->
+                        <div style="background: white; padding: 24px; border-radius: 20px; border: 2.5px solid #0f172a;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Activation du R&ocirc;le Professionnel</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px;">Choisissez votre &eacute;cosyst&egrave;me pour d&eacute;bloquer vos outils de croissance.</p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                                <label style="cursor: pointer; position: relative;">
+                                    <input type="radio" name="profile-role" value="spectateur" ${profile.role === 'spectateur' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
+                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'spectateur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                        <span style="display:block; font-weight: 800; font-size: 0.9rem;">Observateur</span>
+                                        <span style="font-size: 0.7rem; color: #94a3b8;">Veille Strat&eacute;gique</span>
+                                    </div>
+                                </label>
+                                <label style="cursor: pointer; position: relative;">
+                                    <input type="radio" name="profile-role" value="porteur" ${profile.role === 'porteur' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
+                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'porteur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                        <span style="display:block; font-weight: 800; font-size: 0.9rem;">Porteur / Owner</span>
+                                        <span style="font-size: 0.7rem; color: #94a3b8;">Lancer un Projet</span>
+                                    </div>
+                                </label>
+                                <label style="cursor: pointer; position: relative;">
+                                    <input type="radio" name="profile-role" value="expert" ${profile.role === 'expert' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
+                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'expert' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                        <span style="display:block; font-weight: 800; font-size: 0.9rem;">Expert / Talent</span>
+                                        <span style="font-size: 0.7rem; color: #94a3b8;">Offrir mes Services</span>
+                                    </div>
+                                </label>
+                                <label style="cursor: pointer; position: relative;">
+                                    <input type="radio" name="profile-role" value="entreprise" ${profile.role === 'entreprise' ? 'checked' : ''} style="display:none;" onchange="this.parentElement.parentElement.querySelectorAll('div').forEach(d => d.style.borderColor='#e2e8f0'); this.nextElementSibling.style.borderColor='#10b981'">
+                                    <div style="padding: 16px; border: 2px solid ${profile.role === 'entreprise' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
+                                        <span style="display:block; font-weight: 800; font-size: 0.9rem;">Entreprise</span>
+                                        <span style="font-size: 0.7rem; color: #94a3b8;">Besoins & Croissance</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
                         <!-- SECTION 2: SPECIALIZED (SIRET, TJM, VISION, etc.) -->
                         <div style="background:#fff; padding:0; border-radius:20px;">
                              ${specializedFields}
@@ -145,6 +182,10 @@ const StandardModule = {
                 tiktok: document.getElementById('profile-tiktok').value,
                 updated_at: new Date().toISOString()
             };
+
+            // Capture Selected Role (Reliable Switch)
+            const selectedRole = document.querySelector('input[name="profile-role"]:checked');
+            if (selectedRole) updates.role = selectedRole.value;
 
             // Exhaustive field collection
             const allPossibleFields = [
