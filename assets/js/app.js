@@ -157,6 +157,8 @@ const App = {
             case 'porteur':
             case 'porteurdeprojet':
             case 'owner': return window.OwnersModule;
+            case 'spectateur':
+            case 'spectator': return window.SpectatorsModule;
             default: return window.StandardModule;
         }
     }
