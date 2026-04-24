@@ -21,6 +21,13 @@ const SpectatorsModule = {
             case 'marketplace':
                 window.location.href = 'marketplace/directory.html';
                 break;
+            case 'billetterie':
+                const ticketingView = document.getElementById('billetterie-view');
+                if (ticketingView && window.TicketingModule) {
+                    ticketingView.style.display = 'block';
+                    window.TicketingModule.loadMyTicketing(params);
+                }
+                break;
             case 'overview':
             default:
                  SpectatorsModule.renderDashboard(target, profile, session);
@@ -120,9 +127,10 @@ const SpectatorsModule = {
                                     <div style="color: #6366f1; margin-top: 4px;">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                                     </div>
-                                    <div>
+                                    <div style="flex: 1;">
                                         <h5 style="margin: 0 0 4px 0; font-weight: 800; color: #0f172a;">Créer un Événement</h5>
-                                        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Organisez un meetup, un atelier ou une rencontre informelle pour dynamiser le réseau.</p>
+                                        <p style="margin: 0 0 16px 0; font-size: 0.85rem; color: #64748b;">Organisez un meetup, un atelier ou une rencontre informelle pour dynamiser le réseau.</p>
+                                        <button onclick="window.Router.navigate('#billetterie?action=create')" style="background: #6366f1; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">Organiser maintenant</button>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +141,7 @@ const SpectatorsModule = {
                                 <div style="display: grid; gap: 12px;">
                                     <button onclick="window.location.href='marketplace/projects.html'" class="cta-button primary" style="width: 100%; height: 50px; background: #0f172a; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Découvrir les Projets à Soutenir</button>
                                     <button onclick="window.location.href='marketplace/evenements.html'" class="cta-button secondary" style="width: 100%; height: 50px; border: 2px solid #0f172a; color: #0f172a; border-radius: 12px; font-weight: 800; cursor: pointer; background: white;">Parcourir les Événements</button>
+                                    <button onclick="window.Router.navigate('#billetterie')" class="cta-button" style="width: 100%; height: 50px; background: #f1f5f9; color: #0f172a; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">Gérer mes Événements</button>
                                 </div>
                             </div>
                             <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; border-radius: 32px; color: white;">
