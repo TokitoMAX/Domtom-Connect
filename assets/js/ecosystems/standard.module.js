@@ -92,6 +92,39 @@ const StandardModule = {
                             </div>
                         </div>
 
+                         <!-- SECTION 1.2: VISIBILITY & PUBLICATION (The 'Listed' System) -->
+                        <div style="background: #fdfdfd; padding: 24px; border-radius: 20px; border: 2.5px dashed #10b981;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                <div>
+                                    <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin: 0; letter-spacing:0.05em;">Visibilit&eacute; dans l'Annuaire</h3>
+                                    <p style="font-size: 0.75rem; color: #64748b; margin: 4px 0 0 0;">Activez ce bouton pour apparaître publiquement et recevoir des propositions.</p>
+                                </div>
+                                <label class="switch" style="position: relative; display: inline-block; width: 60px; height: 34px;">
+                                    <input type="checkbox" id="profile-listed" ${profile.listed ? 'checked' : ''} style="opacity: 0; width: 0; height: 0;">
+                                    <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: ${profile.listed ? '#10b981' : '#ccc'}; transition: .4s; border-radius: 34px;"></span>
+                                </label>
+                            </div>
+
+                            <div class="info-field">
+                                <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Territoire de R&eacute;f&eacute;rence</label>
+                                <select id="profile-territory" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white;">
+                                    <option value="">Sélectionnez votre territoire...</option>
+                                    <optgroup label="Antilles-Guyane">
+                                        <option value="Martinique" ${profile.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
+                                        <option value="Guadeloupe" ${profile.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
+                                        <option value="Guyane" ${profile.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
+                                        <option value="Saint-Martin" ${profile.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
+                                    </optgroup>
+                                    <optgroup label="Océan Indien">
+                                        <option value="Réunion" ${profile.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
+                                        <option value="Mayotte" ${profile.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
+                                    </optgroup>
+                                    <option value="France Hexagone" ${profile.territory === 'France Hexagone' ? 'selected' : ''}>France Hexagone</option>
+                                    <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>International / Diaspora</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <!-- SECTION 1.5: ROLE ACTIVATION (Reliable Switch System) -->
                         <div style="background: white; padding: 24px; border-radius: 20px; border: 2.5px solid #0f172a;">
                             <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Activation du R&ocirc;le Professionnel</h3>
@@ -141,11 +174,20 @@ const StandardModule = {
                         </div>
                         
                         <div style="margin-top: 32px; padding-top:32px; border-top:1px solid #f1f5f9;">
-                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer mon Profil Élite</button>
+                            <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer et Publier mon Profil</button>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <style>
+                .switch input:checked + .slider { background-color: #10b981; }
+                .slider:before {
+                    position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px;
+                    background-color: white; transition: .4s; border-radius: 50%;
+                }
+                .switch input:checked + .slider:before { transform: translateX(26px); }
+            </style>
         `;
     },
 
@@ -183,12 +225,18 @@ const StandardModule = {
                 full_name: document.getElementById('profile-full-name').value,
                 title: document.getElementById('profile-title').value,
                 bio: document.getElementById('profile-bio').value,
+                listed: document.getElementById('profile-listed').checked,
+                territory: document.getElementById('profile-territory').value,
                 updated_at: new Date().toISOString()
             };
 
-            // Capture Selected Role (Reliable Switch)
+            // Capture Selected Role
             const selectedRole = document.querySelector('input[name="profile-role"]:checked');
             if (selectedRole) updates.role = selectedRole.value;
+
+            // Mapping for Directory Compatibility
+            if (updates.role === 'expert') updates.expertise = updates.title;
+            if (updates.role === 'entreprise') updates.company_name = updates.full_name;
 
             // Exhaustive field collection
             const allPossibleFields = [
@@ -208,7 +256,7 @@ const StandardModule = {
             const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("Profil professionnel mis \u00e0 jour avec succ\u00e8s !");
+            alert("Profil publi\u00e9 et mis \u00e0 jour avec succ\u00e8s !");
             window.location.reload();
         } catch (err) {
             alert("Erreur : " + err.message);
