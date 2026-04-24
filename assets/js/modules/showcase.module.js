@@ -76,7 +76,7 @@ const ShowcaseModule = {
                             <h1 style="font-size: 2.2rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.04em;">Ma Vitrine Professionnelle</h1>
                             <p style="color: #64748b; font-weight: 600; margin-top: 8px;">Gérez vos offres de services et produits visibles par tout l'écosystème.</p>
                         </div>
-                        <button onclick="ShowcaseModule.openItemModal()" style="background: #0f172a; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s;">
+                        <button onclick="window.ShowcaseModule.openItemModal()" style="background: #0f172a; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s;">
                             + Ajouter une Offre
                         </button>
                     </div>
@@ -90,7 +90,7 @@ const ShowcaseModule = {
                             <div style="font-size: 3.5rem; margin-bottom: 24px;">✨</div>
                             <h3 style="font-weight: 950; color: #020617; font-size: 1.5rem; margin-bottom: 12px;">Prenez votre place sur le Marché</h3>
                             <p style="color: #94a3b8; font-weight: 600; max-width: 400px; margin: 0 auto 32px auto;">Détaillez vos services ou produits pour attirer les porteurs de projets et les entreprises.</p>
-                            <button onclick="ShowcaseModule.openItemModal()" style="background: #10b981; color: white; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 800; cursor: pointer;">Configurer mon 1er Service</button>
+                            <button onclick="window.ShowcaseModule.openItemModal()" style="background: #10b981; color: white; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 800; cursor: pointer;">Configurer mon 1er Service</button>
                         </div>
                     `}
                 </div>
@@ -134,8 +134,8 @@ const ShowcaseModule = {
                             <div style="font-weight: 950; font-size: 1.25rem; color: #0f172a;">${priceDisplay}</div>
                             ${isEditable ? `
                                 <div style="display: flex; gap: 8px;">
-                                    <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; color: #020617; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">✏️</button>
-                                    <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; color: #dc2626; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">🗑️</button>
+                                    <button onclick="window.ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; color: #020617; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">✏️</button>
+                                    <button onclick="window.ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; color: #dc2626; border: none; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;">🗑️</button>
                                 </div>
                             ` : `
                                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -156,6 +156,7 @@ const ShowcaseModule = {
      * ITEM MODAL (Add / Edit)
      */
     async openItemModal(itemId = null) {
+        console.log("[Showcase] Opening Modal for:", itemId || 'New Item');
         let itemData = { title: '', description: '', price: '', category: 'service', image_url: '', price_prefix: 'À partir de' };
         
         if (itemId) {
@@ -201,13 +202,13 @@ const ShowcaseModule = {
                     </div>
 
                     <div style="display: flex; gap: 12px; margin-top: 12px;">
-                        <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="flex: 2; background: #10b981; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 900; cursor: pointer;">PUBLIER L'OFFRE</button>
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('active')" style="flex: 1; background: #f1f5f9; color: #64748b; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer;">Annuler</button>
+                        <button onclick="window.ShowcaseModule.saveItem('${itemId || ''}')" style="flex: 2; background: #10b981; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 900; cursor: pointer;">PUBLIER L'OFFRE</button>
+                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="flex: 1; background: #f1f5f9; color: #64748b; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer;">Annuler</button>
                     </div>
                 </div>
             </div>
         `;
-        overlay.classList.add('active');
+        overlay.classList.add('open');
     },
 
     /**
@@ -241,9 +242,9 @@ const ShowcaseModule = {
 
             if (res.error) throw res.error;
 
-            document.getElementById('details-modal-overlay').classList.remove('active');
+            document.getElementById('details-modal-overlay').classList.remove('open');
             const target = document.getElementById('ecosystem-grid-container');
-            this.renderManager(target);
+            ShowcaseModule.renderManager(target);
         } catch (err) { alert("Erreur: " + err.message); }
     },
 
@@ -256,7 +257,7 @@ const ShowcaseModule = {
             const { error } = await window._supabase.from('showcase_items').delete().eq('id', id);
             if (error) throw error;
             const target = document.getElementById('ecosystem-grid-container');
-            this.renderManager(target);
+            ShowcaseModule.renderManager(target);
         } catch (err) { alert("Erreur: " + err.message); }
     }
 };
