@@ -1,7 +1,7 @@
 -- Table pour la Vitrine / Showcase (Services & Produits)
 CREATE TABLE IF NOT EXISTS showcase_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
     description TEXT,
     price NUMERIC,
@@ -37,8 +37,8 @@ FOR SELECT USING (status = 'active');
 CREATE TABLE IF NOT EXISTS showcase_orders (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     item_id UUID REFERENCES showcase_items(id) ON DELETE SET NULL,
-    buyer_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-    provider_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    buyer_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    provider_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
     status TEXT DEFAULT 'pending', -- 'pending', 'paid', 'fulfilled', 'cancelled'
     quantity INTEGER DEFAULT 1,
     total_price NUMERIC,
@@ -49,12 +49,15 @@ CREATE TABLE IF NOT EXISTS showcase_orders (
 -- RLS pour les commandes
 ALTER TABLE showcase_orders ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view their own orders (buyer or provider)" ON showcase_orders;
 CREATE POLICY "Users can view their own orders (buyer or provider)" ON showcase_orders
 FOR SELECT USING (auth.uid() = buyer_id OR auth.uid() = provider_id);
 
+DROP POLICY IF EXISTS "Buyers can create orders" ON showcase_orders;
 CREATE POLICY "Buyers can create orders" ON showcase_orders
 FOR INSERT WITH CHECK (auth.uid() = buyer_id);
 
+DROP POLICY IF EXISTS "Providers can update order status" ON showcase_orders;
 CREATE POLICY "Providers can update order status" ON showcase_orders
 FOR UPDATE USING (auth.uid() = provider_id);
 

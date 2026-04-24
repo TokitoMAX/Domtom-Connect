@@ -16,7 +16,7 @@ const ShowcaseModule = {
                 .from('showcase_items')
                 .select(`
                     *,
-                    profile:user_id (full_name, avatar_url, role)
+                    profile:profiles!user_id (full_name, avatar_url, role)
                 `)
                 .eq('status', 'active')
                 .order('created_at', { ascending: false });
@@ -331,7 +331,7 @@ const ShowcaseModule = {
         try {
             const { data: item, error } = await window._supabase
                 .from('showcase_items')
-                .select('*, profile:user_id(full_name)')
+                .select('*, profile:profiles!user_id(full_name)')
                 .eq('id', itemId)
                 .single();
 
@@ -433,7 +433,7 @@ const ShowcaseModule = {
             const { data: { session } } = await window._supabase.auth.getSession();
             const { data: orders, error } = await window._supabase
                 .from('showcase_orders')
-                .select('*, item:item_id(title), buyer:buyer_id(full_name, email)')
+                .select('*, item:item_id(title), buyer:profiles!buyer_id(full_name, email)')
                 .eq('provider_id', session.user.id)
                 .order('created_at', { ascending: false });
 
