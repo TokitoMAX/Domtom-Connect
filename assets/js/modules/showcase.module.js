@@ -105,7 +105,8 @@ const ShowcaseModule = {
      * Card Template (High-Fidelity)
      */
     renderShowcaseCard(item, isEditable = false) {
-        const priceDisplay = item.price ? `${item.price_prefix || 'À partir de'} ${item.price}€` : 'Sur devis';
+        const unitLabel = item.unit ? ` / ${item.unit}` : '';
+        const priceDisplay = item.price ? `${item.price_prefix || 'À partir de'} ${item.price}€${unitLabel}` : 'Sur devis';
         const profile = item.profile || {};
         
         return `
@@ -157,7 +158,10 @@ const ShowcaseModule = {
      */
     async openItemModal(itemId = null) {
         console.log("[Showcase] Opening Modal for:", itemId || 'New Item');
-        let itemData = { title: '', description: '', price: '', category: 'service', image_url: '', price_prefix: 'À partir de' };
+        let itemData = { 
+            title: '', description: '', price: '', category: 'service', 
+            image_url: '', price_prefix: 'À partir de', unit: '' 
+        };
         
         if (itemId) {
             const { data } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
@@ -186,13 +190,34 @@ const ShowcaseModule = {
                         <div>
                             <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Type</label>
                             <select id="item-category" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-family: inherit; font-weight: 700; background: white;">
-                                <option value="service" ${itemData.category === 'service' ? 'selected' : ''}>Service / Conseil</option>
-                                <option value="product" ${itemData.category === 'product' ? 'selected' : ''}>Produit physique</option>
+                                <option value="service" ${itemData.category === 'service' ? 'selected' : ''}>💡 Service / Conseil</option>
+                                <option value="product" ${itemData.category === 'product' ? 'selected' : ''}>📦 Produit physique</option>
                             </select>
                         </div>
                         <div>
+                            <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Tarification</label>
+                            <select id="item-prefix" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-family: inherit; font-weight: 700; background: white;">
+                                <option value="À partir de" ${itemData.price_prefix === 'À partir de' ? 'selected' : ''}>À partir de</option>
+                                <option value="Prix fixe" ${itemData.price_prefix === 'Prix fixe' ? 'selected' : ''}>Prix fixe</option>
+                                <option value="Sur devis" ${itemData.price_prefix === 'Sur devis' ? 'selected' : ''}>Sur devis</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px;">
+                        <div>
                             <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Prix (€)</label>
                             <input id="item-price" type="number" value="${itemData.price || ''}" placeholder="Ex: 150" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-family: inherit; font-weight: 700; box-sizing: border-box;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Unité</label>
+                            <select id="item-unit" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-family: inherit; font-weight: 700; background: white;">
+                                <option value="" ${!itemData.unit ? 'selected' : ''}>Par défaut</option>
+                                <option value="heure" ${itemData.unit === 'heure' ? 'selected' : ''}>/ Heure</option>
+                                <option value="jour" ${itemData.unit === 'jour' ? 'selected' : ''}>/ Jour</option>
+                                <option value="mois" ${itemData.unit === 'mois' ? 'selected' : ''}>/ Mois</option>
+                                <option value="unité" ${itemData.unit === 'unité' ? 'selected' : ''}>/ Unité</option>
+                            </select>
                         </div>
                     </div>
 
@@ -230,6 +255,8 @@ const ShowcaseModule = {
                 title, description, 
                 price: price ? parseFloat(price) : null,
                 category, image_url,
+                price_prefix: document.getElementById('item-prefix').value,
+                unit: document.getElementById('item-unit').value,
                 status: 'active'
             };
 
