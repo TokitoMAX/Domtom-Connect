@@ -33,6 +33,31 @@ DROP POLICY IF EXISTS "Public can read active items" ON showcase_items;
 CREATE POLICY "Public can read active items" ON showcase_items 
 FOR SELECT USING (status = 'active');
 
+-- Table pour les Commandes (Orders)
+CREATE TABLE IF NOT EXISTS showcase_orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    item_id UUID REFERENCES showcase_items(id) ON DELETE SET NULL,
+    buyer_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    provider_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    status TEXT DEFAULT 'pending', -- 'pending', 'paid', 'fulfilled', 'cancelled'
+    quantity INTEGER DEFAULT 1,
+    total_price NUMERIC,
+    client_notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- RLS pour les commandes
+ALTER TABLE showcase_orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own orders (buyer or provider)" ON showcase_orders
+FOR SELECT USING (auth.uid() = buyer_id OR auth.uid() = provider_id);
+
+CREATE POLICY "Buyers can create orders" ON showcase_orders
+FOR INSERT WITH CHECK (auth.uid() = buyer_id);
+
+CREATE POLICY "Providers can update order status" ON showcase_orders
+FOR UPDATE USING (auth.uid() = provider_id);
+
 -- Seul le propriétaire peut gérer ses articles (All operations)
 DROP POLICY IF EXISTS "Owners can manage their items" ON showcase_items;
 CREATE POLICY "Owners can manage their items" ON showcase_items 
