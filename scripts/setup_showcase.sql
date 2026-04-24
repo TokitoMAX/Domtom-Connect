@@ -13,9 +13,22 @@ CREATE TABLE IF NOT EXISTS showcase_items (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Sécurité : Ajout de la colonne unit si elle n'existe pas déjà (pour les mises à jour)
+-- FORCE UPDATE: Migration des clés étrangères vers profiles si nécessaire
 DO $$ 
 BEGIN 
+    -- Pour showcase_items
+    ALTER TABLE showcase_items DROP CONSTRAINT IF EXISTS showcase_items_user_id_fkey;
+    ALTER TABLE showcase_items ADD CONSTRAINT showcase_items_user_id_fkey FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE;
+
+    -- Pour showcase_orders (buyer)
+    ALTER TABLE showcase_orders DROP CONSTRAINT IF EXISTS showcase_orders_buyer_id_fkey;
+    ALTER TABLE showcase_orders ADD CONSTRAINT showcase_orders_buyer_id_fkey FOREIGN KEY (buyer_id) REFERENCES profiles(id) ON DELETE CASCADE;
+
+    -- Pour showcase_orders (provider)
+    ALTER TABLE showcase_orders DROP CONSTRAINT IF EXISTS showcase_orders_provider_id_fkey;
+    ALTER TABLE showcase_orders ADD CONSTRAINT showcase_orders_provider_id_fkey FOREIGN KEY (provider_id) REFERENCES profiles(id) ON DELETE CASCADE;
+
+    -- Ajout de la colonne unit si manquante
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='showcase_items' AND column_name='unit') THEN
         ALTER TABLE showcase_items ADD COLUMN unit TEXT;
     END IF;

@@ -433,7 +433,7 @@ const ShowcaseModule = {
             const { data: { session } } = await window._supabase.auth.getSession();
             const { data: orders, error } = await window._supabase
                 .from('showcase_orders')
-                .select('*, item:item_id(title), buyer:profiles!buyer_id(full_name, email)')
+                .select('*, item:item_id(title), buyer:profiles!buyer_id(full_name)')
                 .eq('provider_id', session.user.id)
                 .order('created_at', { ascending: false });
 
