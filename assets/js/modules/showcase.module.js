@@ -42,26 +42,40 @@ const ShowcaseModule = {
         container.innerHTML = `<div style="text-align:center;padding:80px;"><span class="loader"></span></div>`;
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
+            
+            // AUTOMATIC SYNC BEFORE RENDERING
+            // This ensures top cards are NEVER disconnected from the journal
+            const stats = await this.recalculateBalance(session.user.id);
+            
             const { data: profile } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
             
             container.innerHTML = `
-                <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
-                        <div style="background: linear-gradient(135deg, #020617 0%, #1e293b 100%); color: white; padding: 32px; border-radius: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
-                            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">Solde Disponible (Net 95%)</div>
-                            <div style="font-size: 2.8rem; font-weight: 950; margin: 12px 0;">${(profile?.balance || 0).toFixed(2)}€</div>
-                            <button onclick="window.ShowcaseModule.requestPayout()" style="background: #10b981; color: white; border: none; padding: 14px; border-radius: 14px; font-weight: 900; width: 100%; cursor:pointer; font-size:1.1rem;">Virement PayPal 🚀</button>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; animation: fadeIn 0.5s ease;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px;">
+                        <!-- SOLDE DISPONIBLE (SYNCED) -->
+                        <div style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: white; padding: 32px; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.12); border: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                                <div style="font-size: 0.7rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">Solde Disponible (Net 95%)</div>
+                                <div style="background:rgba(16,185,129,0.2); color:#10b981; padding:4px 10px; border-radius:8px; font-size:0.65rem; font-weight:900;">ACTUALISÉ ✓</div>
+                            </div>
+                            <div style="font-size: 3.2rem; font-weight: 950; margin: 0 0 24px 0; letter-spacing:-0.04em;">${(profile?.balance || 0).toFixed(2)}€</div>
+                            <button onclick="window.ShowcaseModule.requestPayout()" style="background: #10b981; color: white; border: none; padding: 18px; border-radius: 18px; font-weight: 900; width: 100%; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(16,185,129,0.3); transition:0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Virement vers PayPal 🚀</button>
                         </div>
-                        <div style="background: white; border: 1.5px solid #e2e8f0; padding: 32px; border-radius: 28px;">
-                            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Volume d'affaires HT</div>
-                            <div style="font-size: 2.8rem; font-weight: 950; margin: 12px 0; color: #020617;">${(profile?.total_earnings || 0).toFixed(2)}€</div>
-                            <div style="font-size:0.8rem; color:#64748b; font-weight:700;">Cumul des ventes sur la boutique</div>
+
+                        <!-- VOLUME D'AFFAIRES (SYNCED) -->
+                        <div style="background: white; border: 1.5px solid #e2e8f0; padding: 32px; border-radius: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.02);">
+                            <div style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom:20px;">Volume d'affaires (Brut)</div>
+                            <div style="font-size: 3.2rem; font-weight: 950; margin: 0; color: #020617; letter-spacing:-0.04em;">${(profile?.total_earnings || 0).toFixed(2)}€</div>
+                            <div style="margin-top:24px; display:flex; align-items:center; gap:10px;">
+                                <div style="width:12px; height:12px; background:#4f46e5; border-radius:3px;"></div>
+                                <div style="font-size:0.85rem; color:#64748b; font-weight:700;">Cumul des ventes validées</div>
+                            </div>
                         </div>
                     </div>
                     
                     <div style="display: flex; gap: 32px; border-bottom: 2.5px solid #f1f5f9; margin-bottom: 32px; padding-bottom: 8px;">
-                        <button id="tab-vitrine" onclick="ShowcaseModule.switchTab('vitrine')" style="background:none; border:none; color:#0f172a; font-weight:900; font-size:1.1rem; cursor:pointer; padding-bottom:12px; border-bottom:4px solid #0f172a;">Catalogue</button>
+                        <button id="tab-vitrine" onclick="ShowcaseModule.switchTab('vitrine')" style="background:none; border:none; color:#020617; font-weight:900; font-size:1.1rem; cursor:pointer; padding-bottom:12px; border-bottom:4px solid #020617;">Catalogue</button>
                         <button id="tab-sales" onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Journal Financier ✨</button>
                         <button id="tab-config" onclick="ShowcaseModule.switchTab('config')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Paramètres 🛠️</button>
                     </div>
@@ -433,6 +447,44 @@ const ShowcaseModule = {
         } catch (err) { alert(err.message); }
     },
     
+    async requestPayout() {
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const { data: profile } = await window._supabase.from('profiles').select('balance, paypal_email').eq('id', session.user.id).single();
+            
+            if (!profile.paypal_email || profile.paypal_email.trim() === "") {
+                alert("⚠️ Configuration Requise : Veuillez renseigner votre email PayPal dans l'onglet Paramètres pour recevoir vos fonds.");
+                this.switchTab('config');
+                return;
+            }
+
+            if (profile.balance < 20) {
+                alert(`💰 Seuil de Retrait : Votre solde actuel (${profile.balance.toFixed(2)}€) est inférieur au seuil minimum de 20.00€.`);
+                return;
+            }
+
+            if (!confirm(`🚀 Confirmer la demande de virement ?\n\nMontant : ${profile.balance.toFixed(2)}€\nVers : ${profile.paypal_email}\n\nDélai : 24h à 48h ouvrées.`)) return;
+
+            // Log the payout request
+            const { error } = await window._supabase.from('showcase_payouts').insert({
+                user_id: session.user.id,
+                amount: profile.balance,
+                paypal_email: profile.paypal_email,
+                status: 'pending'
+            });
+
+            if (error) throw error;
+
+            // Reset balance in profile (optional: maybe mark as 'escrow' until admin pays)
+            // For high-fidelity demo, we subtract immediately
+            await window._supabase.from('profiles').update({ balance: 0 }).eq('id', session.user.id);
+            
+            alert("✅ Demande envoyée ! Votre solde a été mis à jour. L'administrateur traitera votre virement sous peu.");
+            this.renderManager(document.getElementById('ecosystem-grid-container'));
+
+        } catch (err) { alert("Erreur Payout: " + err.message); }
+    },
+
     async deleteItem(id) {
         if(confirm("Supprimer l'offre ?")) {
             await window._supabase.from('showcase_items').delete().eq('id', id);

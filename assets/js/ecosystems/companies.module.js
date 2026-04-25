@@ -175,24 +175,13 @@ const CompaniesModule = {
                     </div>
 
                     <div style="background: #f8fafc; border-radius: 24px; border: 1.5px solid #e2e8f0; overflow: hidden;">
-                        <div style="display: flex; background: white; border-bottom: 1.5px solid #e2e8f0;">
-                            <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0f172a; color: #0f172a;">FLUX TRANSACTIONS</button>
-                            <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8;">ABONNEMENTS ACTIFS</button>
+                        <div style="display: flex; background: white; border-bottom: 1.5px solid #e2e8f0; flex-wrap: wrap;">
+                            <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0f172a; color: #0f172a; min-width: 150px;">FLUX TRANSACTIONS</button>
+                            <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">ABONNEMENTS ACTIFS</button>
+                            <button id="admin-view-payouts" onclick="CompaniesModule.switchAdminTab('payouts')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">DEMANDES DE RETRAIT 💰</button>
                         </div>
                         <div id="admin-mkt-table-container">
-                            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                                <thead>
-                                    <tr style="background: white; border-bottom: 2px solid #e2e8f0;">
-                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th>
-                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th>
-                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th>
-                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-mkt-tbody">
-                                    <tr><td colspan="4" style="padding: 60px; text-align: center; color: #94a3b8; font-weight: 700;">Chargement du flux financier...</td></tr>
-                                </tbody>
-                            </table>
+                            <!-- Content injected by switchAdminTab -->
                         </div>
                     </div>
                 </div>
@@ -314,22 +303,57 @@ const CompaniesModule = {
      * Admin Feature: Switch tabs in Control Tower
      */
     async switchAdminTab(view) {
-        const isTrx = view === 'trx';
-        const trxBtn = document.getElementById('admin-view-trx');
-        const subsBtn = document.getElementById('admin-view-subs');
-        if (trxBtn) { trxBtn.style.borderBottom = isTrx ? '3px solid #0f172a' : 'none'; trxBtn.style.color = isTrx ? '#0f172a' : '#94a3b8'; }
-        if (subsBtn) { subsBtn.style.borderBottom = !isTrx ? '3px solid #0f172a' : 'none'; subsBtn.style.color = !isTrx ? '#0f172a' : '#94a3b8'; }
+        ['trx', 'subs', 'payouts'].forEach(v => {
+            const el = document.getElementById(`admin-view-${v}`);
+            if (el) {
+                const active = v === view;
+                el.style.borderBottom = active ? '3px solid #0f172a' : 'none';
+                el.style.color = active ? '#0f172a' : '#94a3b8';
+                el.style.fontWeight = active ? '900' : '800';
+            }
+        });
 
         const container = document.getElementById('admin-mkt-table-container');
         if (!container) return;
 
-        if (isTrx) {
+        if (view === 'trx') {
             container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
             await this.loadMarketplaceStats();
-        } else {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status</th></tr></thead><tbody id="admin-subs-tbody"><tr><td colspan="4" style="padding: 40px; text-align: center;">Analyse des abonnements...</td></tr></tbody></table>`;
+        } else if (view === 'subs') {
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
             await this.loadSubscriptionStats();
+        } else if (view === 'payouts') {
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Expert</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Paypal Email</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Action</th></tr></thead><tbody id="admin-payouts-tbody"></tbody></table>`;
+            await this.loadPayoutRequests();
         }
+    },
+
+    async loadPayoutRequests() {
+        const tbody = document.getElementById('admin-payouts-tbody');
+        if (!tbody) return;
+        try {
+            const { data: payouts, error } = await window._supabase.from('showcase_payouts').select('*, user:profiles(full_name)').order('created_at', { ascending: false });
+            if (error) throw error;
+            if (!payouts || payouts.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucune demande en attente.</td></tr>'; return; }
+            tbody.innerHTML = payouts.map(p => `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 24px;"><div style="font-weight: 900;">${p.user?.full_name}</div><div style="font-size:0.7rem; color:#64748b;">Le ${new Date(p.created_at).toLocaleDateString()}</div></td>
+                    <td style="padding: 24px;"><div style="font-weight: 950; font-size:1.1rem; color:#0f172a;">${p.amount.toFixed(2)}€</div></td>
+                    <td style="padding: 24px;"><div style="font-weight: 700; color:#0070ba;">${p.paypal_email}</div></td>
+                    <td style="padding: 24px;">
+                        ${p.status === 'pending' ? `<button onclick="CompaniesModule.processPayout('${p.id}')" style="background: #10b981; color:white; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:900;">MARQUER PAYÉ ✓</button>` : `<span style="color:#64748b; font-weight:800;">Traitée</span>`}
+                    </td>
+                </tr>`).join('');
+        } catch (err) { console.error(err); }
+    },
+
+    async processPayout(payoutId) {
+        if (!confirm("Marquer ce virement comme effectué (PayPal réalisé) ?")) return;
+        try {
+            await window._supabase.from('showcase_payouts').update({ status: 'completed', processed_at: new Date().toISOString() }).eq('id', payoutId);
+            alert("✓ Statut mis à jour.");
+            this.switchAdminTab('payouts');
+        } catch (err) { alert(err.message); }
     },
 
     async loadMarketplaceStats() {
