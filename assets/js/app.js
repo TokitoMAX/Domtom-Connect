@@ -159,9 +159,10 @@ const App = {
             .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
 
         switch (role) {
+            case 'admin':
+            case 'entreprise': return window.CompaniesModule;
             case 'expert':
             case 'prestataire': return window.ExpertsModule;
-            case 'entreprise': return window.CompaniesModule;
             case 'porteur':
             case 'porteurdeprojet':
             case 'owner': return window.OwnersModule;
