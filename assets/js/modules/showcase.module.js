@@ -151,13 +151,15 @@ const ShowcaseModule = {
     },
 
     async handleHardReset() {
-        if (!confirm("⚠️ RÉINITIALISATION TOTALE (MODE TEST) : Cela va supprimer TOUT votre historique de ventes (DOM-ORDER) pour repartir à 0.00€. Confirmer ?")) return;
+        if (!confirm("⚠️ RÉINITIALISATION TOTALE : Cela va supprimer TOUTES vos ventes pour repartir à 0.00€. Confirmer ?")) return;
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            // Delete ALL orders to ensure a truly clean slate as requested
-            await window._supabase.from('showcase_orders').delete().eq('provider_id', session.user.id);
+            // Total purge for the user to be 100% sure nothing remains
+            const { error } = await window._supabase.from('showcase_orders').delete().eq('provider_id', session.user.id);
+            if (error) throw error;
+            
             await this.recalculateBalance(session.user.id);
-            alert("✓ Historique intégralement purgé ! Vos compteurs sont revenus à 0.00€.");
+            alert("✓ Votre boutique a été remise à zéro. Historique vide.");
             this.renderManager(document.getElementById('ecosystem-grid-container'));
         } catch (err) { alert(err.message); }
     },
@@ -172,13 +174,6 @@ const ShowcaseModule = {
             const finalBalance = Math.max(0, totalNet - totalPaidOut);
             await window._supabase.from('profiles').update({ balance: finalBalance, total_earnings: totalBrut }).eq('id', userId);
         } catch (err) { console.error("Balance Error:", err); }
-    },
-
-    async saveProConfig() {
-        const { data: { session } } = await window._supabase.auth.getSession();
-        const email = document.getElementById('pp-email').value.trim();
-        await window._supabase.from('profiles').update({ paypal_email: email }).eq('id', session.user.id);
-        alert("Configuration PayPal mise à jour !");
     },
 
     async deleteItem(id) {
@@ -202,8 +197,19 @@ const ShowcaseModule = {
                     <input id="item-id" type="hidden" value="${item?.id || ''}">
                     
                     <div class="field-group">
-                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Visuel du Produit (URL)</label>
-                        <input id="item-image" value="${item?.image_url || ''}" placeholder="https://..." style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none;">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Visuel du Produit</label>
+                        <div id="sc-upload-zone" style="border:2px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center; cursor:pointer; background:#f8fafc; transition:0.3s;" onclick="document.getElementById('sc-image-file').click()">
+                            <input id="sc-image-file" type="file" accept="image/*" style="display:none;" onchange="ShowcaseModule.handleUpload(this)">
+                            <div id="sc-preview-container" style="${item?.image_url ? 'display:block' : 'display:none'}">
+                                <img id="sc-preview-img" src="${item?.image_url || ''}" style="width:100%; height:150px; object-fit:cover; border-radius:12px; margin-bottom:12px; border:1px solid #e2e8f0;">
+                                <span style="font-size:0.75rem; font-weight:800; color:#020617;">Cliquez pour changer la photo</span>
+                            </div>
+                            <div id="sc-upload-prompt" style="${item?.image_url ? 'display:none' : 'display:block'}">
+                                <div style="font-size:2rem; margin-bottom:8px;">📸</div>
+                                <p style="margin:0; font-weight:800; color:#020617; font-size:0.9rem;">Choisir une photo</p>
+                            </div>
+                            <input type="hidden" id="item-image" value="${item?.image_url || ''}">
+                        </div>
                     </div>
 
                     <div class="field-group">
@@ -216,20 +222,21 @@ const ShowcaseModule = {
                         <textarea id="item-desc" placeholder="Décrivez la valeur de votre offre..." style="width:100%; min-height:100px; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:600; outline:none; font-family:inherit;">${item?.description || ''}</textarea>
                     </div>
 
-                    <div class="field-group">
-                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Prix de Vente (€)</label>
-                        <input id="item-price" type="number" value="${item?.price || ''}" placeholder="0.00" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:900; font-size:1.2rem; outline:none;">
+                    <div class="field-group" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div>
+                            <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Prix (€)</label>
+                            <input id="item-price" type="number" value="${item?.price || ''}" placeholder="0.00" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:900; font-size:1.2rem; outline:none;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Type</label>
+                            <select id="item-type" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none; background:white;">
+                                <option value="product" ${item?.type === 'product' ? 'selected' : ''}>Digital</option>
+                                <option value="service" ${item?.type === 'service' ? 'selected' : ''}>Service</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="field-group">
-                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Type de Contenu</label>
-                        <select id="item-type" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none; background:white;">
-                            <option value="product" ${item?.type === 'product' ? 'selected' : ''}>📦 Produit Digital</option>
-                            <option value="service" ${item?.type === 'service' ? 'selected' : ''}>🤝 Service / Prestation</option>
-                        </select>
-                    </div>
-
-                    <button onclick="ShowcaseModule.saveItem()" style="background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer; margin-top:10px;">PUBLIER SUR MA BOUTIQUE →</button>
+                    <button id="sc-save-btn" onclick="ShowcaseModule.saveItem()" style="background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer; margin-top:10px;">PUBLIER SUR MA VITRINE →</button>
                     <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:none; border:none; color:#64748b; font-weight:800; cursor:pointer;">Annuler</button>
                 </div>
             </div>
@@ -237,7 +244,34 @@ const ShowcaseModule = {
         overlay.classList.add('open');
     },
 
+    async handleUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const prompt = document.getElementById('sc-upload-prompt');
+        const previewCont = document.getElementById('sc-preview-container');
+        const previewImg = document.getElementById('sc-preview-img');
+        const urlInput = document.getElementById('item-image');
+
+        try {
+            prompt.innerHTML = `<span class="loader"></span><p style="font-size:0.7rem; font-weight:800; margin-top:8px;">Import...</p>`;
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const fileName = `${session.user.id}/showcase_${Date.now()}.${file.name.split('.').pop()}`;
+
+            const { error } = await window._supabase.storage.from('avatars').upload(fileName, file);
+            if (error) throw error;
+
+            const { data: { publicUrl } } = window._supabase.storage.from('avatars').getPublicUrl(fileName);
+            urlInput.value = publicUrl;
+            previewImg.src = publicUrl;
+            prompt.style.display = 'none';
+            previewCont.style.display = 'block';
+        } catch (err) { alert('Upload error: ' + err.message); }
+    },
+
     async saveItem() {
+        const btn = document.getElementById('sc-save-btn');
+        btn.disabled = true;
+        btn.textContent = 'Publication...';
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
             const id = document.getElementById('item-id').value;
@@ -254,7 +288,14 @@ const ShowcaseModule = {
             else await window._supabase.from('showcase_items').insert(payload);
             document.getElementById('details-modal-overlay').classList.remove('open');
             this.switchTab('vitrine');
-        } catch (err) { alert(err.message); }
+        } catch (err) { alert(err.message); btn.disabled = false; btn.textContent = 'PUBLIER SUR MA VITRINE →'; }
+    },
+
+    async saveProConfig() {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        const email = document.getElementById('pp-email').value.trim();
+        await window._supabase.from('profiles').update({ paypal_email: email }).eq('id', session.user.id);
+        alert("Configuration PayPal mise à jour !");
     },
 
     // --- PUBLIC STOREFRONT ---
@@ -270,23 +311,25 @@ const ShowcaseModule = {
             container.innerHTML = `
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; background: #fafbfc; min-height: 100vh; padding: 60px 20px;">
                     <div style="max-width: 500px; margin: 0 auto; text-align: center;">
-                        <div style="width: 100px; height: 100px; background: #020617; color: white; border-radius: 35px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 950; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border:4px solid white;">
-                            ${provider.full_name?.substring(0,1).toUpperCase() || 'E'}
+                        <div style="width: 100px; height: 100px; background: #020617; border-radius: 35px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; overflow:hidden; border:4px solid white; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
+                            ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="font-size:2.5rem; font-weight:950; color:white;">${provider.full_name?.substring(0,1).toUpperCase() || 'E'}</div>`}
                         </div>
                         <h1 style="font-size: 1.8rem; font-weight: 950; color: #020617; margin-bottom: 8px;">${provider.full_name}</h1>
                         <p style="font-size: 1rem; color: #64748b; font-weight: 700; margin-bottom: 50px;">${provider.headline || 'Expert Certifié Domtom Connect'}</p>
 
                         <div style="display: flex; flex-direction: column; gap: 18px;">
                             ${items.map(item => `
-                                <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: white; border-radius: 24px; padding: 24px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; border: 2.5px solid #020617; box-shadow: 6px 6px 0px #020617;">
+                                <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: white; border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; border: 2px solid #020617; box-shadow: 6px 6px 0px #020617;">
                                     <div style="display: flex; align-items: center; gap: 18px;">
-                                        <div style="font-size: 2rem; background: #f8fafc; border-radius:14px; width:52px; height:52px; display:flex; align-items:center; justify-content:center;">${item.type === 'service' ? '🤝' : '📄'}</div>
+                                        <div style="width:64px; height:64px; background: #f8fafc; border-radius:14px; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px solid #e2e8f0;">
+                                            ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : `<span style="font-size:1.5rem;">${item.type === 'service' ? '🤝' : '📄'}</span>`}
+                                        </div>
                                         <div style="text-align: left;">
-                                            <div style="font-weight: 950; font-size: 1.15rem; color: #020617;">${item.title}</div>
-                                            <div style="font-size: 0.8rem; color: #64748b; font-weight: 850; text-transform: uppercase;">Accès Instantané</div>
+                                            <div style="font-weight: 950; font-size: 1.1rem; color: #020617;">${item.title}</div>
+                                            <div style="font-size: 0.75rem; color: #10b981; font-weight: 900; text-transform: uppercase;">Disponible Maintenant</div>
                                         </div>
                                     </div>
-                                    <div style="font-weight: 950; font-size: 1.25rem; color: #020617; background: #f1f5f9; padding: 10px 15px; border-radius: 12px; border:2px solid #020617;">${item.price.toFixed(2)}€</div>
+                                    <div style="font-weight: 950; font-size: 1.2rem; color: #020617;">${item.price.toFixed(2)}€</div>
                                 </div>
                             `).join('')}
                         </div>
