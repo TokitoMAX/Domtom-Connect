@@ -22,6 +22,17 @@ const CompaniesModule = {
                     if (window.BusinessModule) await window.BusinessModule.renderView(bizView);
                 }
                 break;
+            case 'success-engine':
+                if (window.loadMyProjects) {
+                    const engineContainer = document.getElementById('success-engine-view-fixed');
+                    if (engineContainer) {
+                        engineContainer.style.display = 'block';
+                        // If it's an inspection (params.get('inspect')), load specifically that project
+                        const inspectId = params ? params.get('inspect') : null;
+                        window.loadMyProjects(session.user.id, false, inspectId);
+                    }
+                }
+                break;
             case 'profile':
                 if (window.StandardModule) {
                     window.StandardModule.renderProfile(target, profile, session);
@@ -115,8 +126,27 @@ const CompaniesModule = {
                     <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('growth', 'entreprise') : alert('...')" style="width: 100%; padding: 20px; background: #020617; color: white; border: none; border-radius: 16px; font-size: 1.2rem; font-weight: 900; cursor: pointer;">Payer mon Pack</button>
                 </div>
                 ` : `
+                <!-- 4. ADMIN VALIDATION CENTER (Exclusive for Admin) -->
+                <div style="background: white; border: 2px solid #3b82f6; border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 50px rgba(59, 130, 246, 0.08); margin-bottom: 32px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 24px;">
+                        <div>
+                            <h3 style="font-size: 1.8rem; font-weight: 950; color: #020617; margin: 0; letter-spacing: -0.04em;">Centre de Validation</h3>
+                            <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-top: 4px;">Modérez et certifiez les projets de l'écosystème.</p>
+                        </div>
+                        <div id="pending-count-badge" style="background: #eff6ff; color: #3b82f6; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 0.9rem; border: 1.5px solid rgba(59,130,246,0.2);">
+                            Chargement...
+                        </div>
+                    </div>
+                    
+                    <div id="admin-pending-projects" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+                        <div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 24px;">
+                            Recherche de projets en attente...
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ADMIN NOTICE -->
-                <div style="background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 28px; padding: 40px; text-align:center;">
+                <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 28px; padding: 40px; text-align:center;">
                     <div style="font-size: 2.5rem; margin-bottom:16px;">👑</div>
                     <h3 style="margin:0; font-weight:950; color:#065f46; font-size:1.5rem;">STATUT PRIVILÉGIÉ ACTIF</h3>
                     <p style="color:#047857; font-weight:600;">Vous avez accès à l'intégralité des fonctions Business & Showcase en tant qu'administrateur.</p>
@@ -124,6 +154,10 @@ const CompaniesModule = {
                 `}
             </div>
         `;
+
+        if (isAdmin) {
+            setTimeout(() => CompaniesModule.loadPendingProjects(), 200);
+        }
     },
 
     /**
@@ -184,6 +218,68 @@ const CompaniesModule = {
         
         if (window.BusinessModule) {
             window.BusinessModule.renderDashboard(document.getElementById('company-business-mount'));
+        }
+    },
+
+    /**
+     * Admin Feature: Load all projects awaiting validation/inspection
+     */
+    async loadPendingProjects() {
+        const container = document.getElementById('admin-pending-projects');
+        const badge = document.getElementById('pending-count-badge');
+        if (!container) return;
+
+        try {
+            console.log("[Admin] Fetching pending projects...");
+            const { data: projects, error } = await window._supabase
+                .from('projects')
+                .select('*')
+                .eq('verification_status', 'pending')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (badge) badge.textContent = `${projects.length} projet${projects.length > 1 ? 's' : ''} à valider`;
+
+            if (!projects || projects.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 24px;">
+                        Aucun projet en attente de validation pour le moment.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = projects.map(p => `
+                <div class="dash-card" style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; display:flex; flex-direction:column; gap:20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                    <div style="display: flex; align-items: start; justify-content: space-between;">
+                        <div style="width: 50px; height: 50px; background: #0f172a; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
+                            ${p.title ? p.title.substring(0, 1).toUpperCase() : 'P'}
+                        </div>
+                        <span style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid #ffedd5; text-transform: uppercase;">
+                            Modération
+                        </span>
+                    </div>
+                    
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 900; color: #020617; margin: 0 0 8px 0; letter-spacing: -0.03em;">${p.title}</h4>
+                        <p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                            ${p.description || 'Projet soumis sans description détaillée.'}
+                        </p>
+                    </div>
+
+                    <div style="padding-top: 12px; border-top: 1px solid #f1f5f9; margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Soumis le ${new Date(p.created_at).toLocaleDateString()}</span>
+                        <button onclick="window.location.hash = '#success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.2s;">
+                            Inspecter
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+        } catch (err) {
+            console.error("[Admin] Execution Error:", err);
+            container.innerHTML = `<div style="color: #ef4444; padding: 20px; font-weight:700;">Erreur Fatale : ${err.message}</div>`;
         }
     }
 };
