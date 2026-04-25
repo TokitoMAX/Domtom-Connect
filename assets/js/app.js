@@ -59,8 +59,9 @@ const App = {
             this.state.profile = profile;
             this.state.role = profile.role || 'spectateur';
             
-            // Hardened Platform Admin Logic
-            if (session.user.email === 'domtomconnect@gmail.com') {
+            // Hardened Platform Admin Logic: Always elevate the core email to admin
+            const ownerEmail = 'domtomconnect@gmail.com';
+            if (session.user.email?.toLowerCase().trim() === ownerEmail) {
                 this.state.role = 'admin';
                 console.log("[App] Platform Owner detected. Elevating to ADMIN role.");
             }
