@@ -33,7 +33,7 @@ const ShowcaseModule = {
         try {
             const { data: items, error } = await window._supabase
                 .from('showcase_items')
-                .select(`*, profile:profiles!user_id (full_name, avatar_url, role)`)
+                .select(`*, profile:profiles!user_id (full_name, avatar_url, role, showcase_primary_color, showcase_secondary_color)`)
                 .eq('status', 'active')
                 .order('created_at', { ascending: false });
 
@@ -42,19 +42,25 @@ const ShowcaseModule = {
 
             container.innerHTML = `
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: clamp(20px, 4vw, 40px); background: #fafafa; min-height: 100vh;">
-                    <div style="margin-bottom: 48px;">
-                        <span style="color: #0070ba; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px;">Boutique Officielle</span>
-                        <h1 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; color: #020617; margin: 12px 0; letter-spacing: -0.05em;">Solutions Pays</h1>
-                        <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; max-width: 600px;">Soutenez le tissu économique local en un clic.</p>
+                    <div style="margin-bottom: 64px; text-align: center;">
+                        <span style="background: #0070ba; color: white; padding: 6px 16px; border-radius: 99px; font-weight: 850; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Marché Solidaire</span>
+                        <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 950; color: #020617; margin: 16px 0; letter-spacing: -0.06em; line-height: 1;">Solutions Pays</h1>
+                        <p style="color: #64748b; font-size: 1.2rem; font-weight: 600; max-width: 700px; margin: 0 auto;">Accédez aux meilleurs services et produits des experts de nos territoires.</p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;">
-                        ${allItems.map(item => this.renderShowcaseCard(item, false)).join('')}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; max-width: 1400px; margin: 0 auto;">
+                        ${allItems.map(item => {
+                            const colors = { 
+                                primary: item.profile?.showcase_primary_color || '#020617', 
+                                secondary: item.profile?.showcase_secondary_color || '#0070ba' 
+                            };
+                            return this.renderShowcaseCard(item, false, colors);
+                        }).join('')}
                     </div>
                 </div>
             `;
         } catch (err) {
-            container.innerHTML = `<div style="padding:40px; color:#ef4444; text-align:center;">Erreur Marketplace Supabase.</div>`;
+            container.innerHTML = `<div style="padding:40px; color:#ef4444; text-align:center; font-weight:700;">Erreur Marketplace Supabase : ${err.message}</div>`;
         }
     },
 
@@ -110,21 +116,39 @@ const ShowcaseModule = {
         ` : `<div style="text-align:center; padding: 40px;"><button onclick="window.ShowcaseModule.openItemModal()" style="background:#0f172a; color:white; border:none; padding:12px 24px; border-radius:12px; cursor:pointer; font-weight:900;">+ Créer un produit/service</button></div>`;
     },
 
-    renderShowcaseCard(item, isEditable = false) {
+    renderShowcaseCard(item, isEditable = false, brandColors = { primary: '#0f172a', secondary: '#0070ba' }) {
+        const btnColor = isEditable ? '#0f172a' : (brandColors.secondary || '#0070ba');
+        
         return `
-            <div style="background: white; border-radius: 28px; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s;">
-                <div style="height: 180px; background: #f8fafc;">
+            <div style="background: white; border-radius: 28px; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                <div style="height: 180px; background: #f8fafc; position: relative;">
                     <img src="${item.image_url || 'https://via.placeholder.com/600x400'}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <div style="padding: 24px; flex: 1;">
+                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                        <div style="font-weight: 950; color:#020617; font-size:1.1rem;">${item.title}</div>
-                        ${isEditable ? `<button onclick="window.ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; border:none; border-radius:8px; cursor:pointer;">🗑️</button>` : ''}
+                        <div style="font-weight: 950; color:#020617; font-size:1.1rem; letter-spacing: -0.02em;">${item.title}</div>
+                        ${isEditable ? `
+                            <div style="display: flex; gap: 8px;">
+                                <button onclick='window.ShowcaseModule.openItemModal(${JSON.stringify(item).replace(/'/g, "&apos;")})' style="background: #f1f5f9; border:none; padding: 8px; border-radius:10px; cursor:pointer;" title="Modifier">✏️</button>
+                                <button onclick="window.ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; border:none; padding: 8px; border-radius:10px; cursor:pointer;" title="Supprimer">🗑️</button>
+                            </div>
+                        ` : ''}
                     </div>
-                    <p style="font-size: 0.85rem; color:#64748b; font-weight:600; line-height:1.5;">${item.description}</p>
-                    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 950; font-size: 1.4rem; color: #020617;">${item.price}€</span>
-                        ${!isEditable ? `<button onclick="window.ShowcaseModule.openCheckoutModal('${item.id}')" style="background: #0f172a; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 950; cursor: pointer;">Acheter</button>` : ''}
+                    <p style="font-size: 0.85rem; color:#64748b; font-weight:600; line-height:1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description}</p>
+                    
+                    <div style="margin-top: auto; padding-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="font-weight: 950; font-size: 1.4rem; color: ${brandColors.primary || '#020617'};">${item.price}€</span>
+                            <div style="font-size: 0.65rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">Prix Net</div>
+                        </div>
+                        ${!isEditable ? `
+                            <button onclick="window.ShowcaseModule.openCheckoutModal('${item.id}')" 
+                                style="background: ${btnColor}; color: white; border: none; padding: 12px 24px; border-radius: 14px; font-weight: 950; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 15px -3px ${btnColor}44;"
+                                onmouseover="this.style.transform='translateY(-2px)'"
+                                onmouseout="this.style.transform='translateY(0)'">
+                                Commander
+                            </button>
+                        ` : ''}
                     </div>
                 </div>
             </div>
@@ -237,34 +261,71 @@ const ShowcaseModule = {
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id);
             contentArea.innerHTML = this.renderLocalGrid(items);
         } else {
-            const { data: profile } = await window._supabase.from('profiles').select('paypal_email').eq('id', session.user.id).single();
+            const { data: profile } = await window._supabase.from('profiles').select('paypal_email, showcase_primary_color, showcase_secondary_color, showcase_intro_text').eq('id', session.user.id).single();
             const { data: reqs } = await window._supabase.from('payout_requests').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
             
             contentArea.innerHTML = `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                    <div style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 1.5px solid #e2e8f0;">
-                         <h4 style="margin-top:0; font-weight:950;">Paramètres de Retrait</h4>
-                         <input id="paypal-email" type="email" value="${profile?.paypal_email || ''}" placeholder="votre-paypal@email.com" style="width: 100%; padding:14px; border-radius:12px; border:1.5px solid #e2e8f0; margin:16px 0;">
-                         <button onclick="window.ShowcaseModule.savePayPalConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:14px; border-radius:12px; font-weight:900; cursor:pointer;">Enregistrer</button>
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 1.5px solid #e2e8f0;">
+                             <h4 style="margin-top:0; font-weight:950; display:flex; align-items:center; gap:10px;">💳 Config PayPal</h4>
+                             <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Indiquez l'email où vous recevrez vos fonds automatiquement.</p>
+                             <input id="paypal-email" type="email" value="${profile?.paypal_email || ''}" placeholder="votre-paypal@email.com" style="width: 100%; padding:14px; border-radius:12px; border:1.5px solid #e2e8f0; margin-bottom:16px;">
+                             <button onclick="window.ShowcaseModule.savePayoutBrandingConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:14px; border-radius:12px; font-weight:900; cursor:pointer;">Enregistrer Config</button>
+                        </div>
+
+                        <div style="background: white; border-radius: 20px; padding: 32px; border: 1.5px solid #e2e8f0;">
+                             <h4 style="margin-top:0; font-weight:950; display:flex; align-items:center; gap:10px;">✨ Branding Vitrine</h4>
+                             <p style="font-size:0.8rem; color:#64748b; margin-bottom:16px;">Personnalisez l'apparence de votre boutique pour vos clients.</p>
+                             
+                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Couleur Primaire</label>
+                                    <input id="brand-color-1" type="color" value="${profile?.showcase_primary_color || '#0f172a'}" style="width:100%; height:44px; border-radius:8px; border:none; padding:0; cursor:pointer;">
+                                </div>
+                                <div>
+                                    <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Couleur Boutons</label>
+                                    <input id="brand-color-2" type="color" value="${profile?.showcase_secondary_color || '#0070ba'}" style="width:100%; height:44px; border-radius:8px; border:none; padding:0; cursor:pointer;">
+                                </div>
+                             </div>
+
+                             <label style="font-size:0.7rem; font-weight:800; color:#64748b; text-transform:uppercase;">Message d'accueil</label>
+                             <textarea id="brand-intro" placeholder="Ex: Bienvenue dans ma sélection de produits locaux..." style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #e2e8f0; min-height:80px; margin-top:8px;">${profile?.showcase_intro_text || ''}</textarea>
+                             
+                             <button onclick="window.ShowcaseModule.savePayoutBrandingConfig()" style="width:100%; background:#f1f5f9; color:#0f172a; border:none; padding:14px; border-radius:12px; font-weight:900; cursor:pointer; margin-top:16px;">Appliquer les couleurs</button>
+                        </div>
                     </div>
+
                     <div style="background:white; padding:32px; border:1px solid #f1f5f9; border-radius:20px;">
-                        <h4 style="margin-top:0; font-weight:950;">Retraits Demandés</h4>
-                        ${reqs && reqs.map(r => `
-                            <div style="padding:10px 0; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between;">
-                                <span>${r.amount}€</span><span style="font-weight:900; color:#10b981;">${r.status}</span>
-                            </div>
-                        `).join('') || 'Aucun historique.'}
+                        <h4 style="margin-top:0; font-weight:950; display:flex; align-items:center; gap:10px;">📋 Historique des Retraits</h4>
+                        <div style="margin-top:20px;">
+                            ${reqs && reqs.length > 0 ? reqs.map(r => `
+                                <div style="padding:16px; border: 1.5px solid #f1f5f9; border-radius:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                    <div>
+                                        <div style="font-weight:900; font-size:1.1rem;">${r.amount}€</div>
+                                        <div style="font-size:0.75rem; color:#94a3b8;">${new Date(r.created_at).toLocaleDateString()}</div>
+                                    </div>
+                                    <span style="background:${r.status === 'pending' ? '#fef3c7' : '#dcfce7'}; color:${r.status === 'pending' ? '#92400e' : '#166534'}; padding:6px 12px; border-radius:99px; font-weight:900; font-size:0.75rem; text-transform:uppercase;">${r.status}</span>
+                                </div>
+                            `).join('') : '<p style="text-align:center; color:#94a3b8; padding:40px;">Aucune demande effectuée.</p>'}
+                        </div>
                     </div>
                 </div>
             `;
         }
     },
 
-    async savePayPalConfig() {
-        const email = document.getElementById('paypal-email').value.trim();
+    async savePayoutBrandingConfig() {
+        const payload = {
+            paypal_email: document.getElementById('paypal-email').value.trim(),
+            showcase_primary_color: document.getElementById('brand-color-1').value,
+            showcase_secondary_color: document.getElementById('brand-color-2').value,
+            showcase_intro_text: document.getElementById('brand-intro').value.trim()
+        };
         const { data: { session } } = await window._supabase.auth.getSession();
-        await window._supabase.from('profiles').update({ paypal_email: email }).eq('id', session.user.id);
-        alert("Config enregistrée !");
+        const { error } = await window._supabase.from('profiles').update(payload).eq('id', session.user.id);
+        if(error) alert("Erreur : " + error.message);
+        else alert("Branding et Config sauvegardés avec succès !");
     },
     
     async requestPayout() {
@@ -278,17 +339,19 @@ const ShowcaseModule = {
         this.renderManager(document.getElementById('ecosystem-grid-container'));
     },
 
-    async openItemModal() {
+    async openItemModal(item = null) {
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
             <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px;">
-                <h2 style="font-weight: 950; margin-bottom: 24px;">Nouvelle Offre</h2>
+                <h2 style="font-weight: 950; margin-bottom: 24px;">${item ? 'Modifier l\'offre' : 'Nouvelle Offre'}</h2>
                 <div style="display: flex; flex-direction: column; gap: 20px;">
-                    <input id="item-title" placeholder="Titre..." style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
-                    <textarea id="item-desc" placeholder="Description..." style="width: 100%; min-height: 100px; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0;"></textarea>
-                    <input id="item-price" type="number" placeholder="Prix (€)" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
+                    <input id="item-id" type="hidden" value="${item?.id || ''}">
+                    <input id="item-title" value="${item?.title || ''}" placeholder="Titre..." style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
+                    <textarea id="item-desc" placeholder="Description..." style="width: 100%; min-height: 100px; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0;">${item?.description || ''}</textarea>
+                    <input id="item-price" type="number" value="${item?.price || ''}" placeholder="Prix (€)" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
+                    <div style="font-size: 0.8rem; color: #64748b;">Image (laisser vide pour garder l'actuelle) :</div>
                     <input id="item-file" type="file">
-                    <button onclick="window.ShowcaseModule.saveItem()" style="background: #10b981; color: white; border: none; padding: 18px; border-radius: 16px; font-weight: 950; cursor: pointer;">PUBLIER</button>
+                    <button onclick="window.ShowcaseModule.saveItem()" style="background: #0f172a; color: white; border: none; padding: 18px; border-radius: 16px; font-weight: 950; cursor: pointer;">ENREGISTRER</button>
                     <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="color: #64748b; background: none; border: none; cursor: pointer; font-weight: 700;">Annuler</button>
                 </div>
             </div>
@@ -299,6 +362,8 @@ const ShowcaseModule = {
     async saveItem() {
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
+            const itemId = document.getElementById('item-id').value;
+            
             const payload = { 
                 user_id: session.user.id, 
                 title: document.getElementById('item-title').value,
@@ -306,14 +371,21 @@ const ShowcaseModule = {
                 price: parseFloat(document.getElementById('item-price').value),
                 status: 'active'
             };
+
             const fileInput = document.getElementById('item-file');
             if (fileInput.files[0]) {
-                const fn = `showcase/${session.user.id}/${Math.random()}`;
+                const fn = `showcase/${session.user.id}/${Date.now()}`;
                 await window._supabase.storage.from('showcase').upload(fn, fileInput.files[0]);
                 const { data } = window._supabase.storage.from('showcase').getPublicUrl(fn);
                 payload.image_url = data.publicUrl;
             }
-            await window._supabase.from('showcase_items').insert(payload);
+
+            if (itemId) {
+                await window._supabase.from('showcase_items').update(payload).eq('id', itemId);
+            } else {
+                await window._supabase.from('showcase_items').insert(payload);
+            }
+
             document.getElementById('details-modal-overlay').classList.remove('open');
             this.renderManager(document.getElementById('ecosystem-grid-container'));
         } catch (err) { alert(err.message); }
