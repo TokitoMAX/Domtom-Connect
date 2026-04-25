@@ -38,9 +38,6 @@ const ShowcaseModule = {
         } catch (err) { container.innerHTML = `<div style="padding:40px; color:red;">${err.message}</div>`; }
     },
 
-    /**
-     * EXPERT DASHBOARD
-     */
     async renderManager(container) {
         if (!container) return;
         container.innerHTML = `<div style="text-align:center;padding:80px;"><span class="loader"></span></div>`;
@@ -107,9 +104,6 @@ const ShowcaseModule = {
         `;
     },
 
-    /**
-     * EXPRESS CHECKOUT (Zero friction)
-     */
     async openCheckoutModal(itemId) {
         try {
             const { data: item } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
@@ -142,17 +136,25 @@ const ShowcaseModule = {
 
     async executeFinalOrder(itemId, providerId, total, txId = 'DEMO_MODE') {
         const { data: { session } } = await window._supabase.auth.getSession();
+        const invoiceRef = `DOM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
         const orderData = {
             item_id: itemId, buyer_id: session.user.id, provider_id: providerId,
             total_price: total, status: 'paid', transaction_id: txId,
-            invoice_number: `DOM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+            invoice_number: invoiceRef
         };
         await window._supabase.from('showcase_orders').insert(orderData);
         const { data: s } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
         await window._supabase.from('profiles').update({ balance: (s.balance || 0) + (total * 0.95), total_earnings: (s.total_earnings || 0) + total }).eq('id', providerId);
-        alert("ACHAT RÉUSSI ! Accès disponible dans votre tableau de bord.");
+        
+        alert("ACHAT RÉUSSI ! La vente est enregistrée dans votre dashboard.");
         document.getElementById('details-modal-overlay').classList.remove('open');
-        this.renderManager(document.getElementById('ecosystem-grid-container'));
+        
+        // Rafraîchir pour voir la nouvelle commande
+        if (document.getElementById('marketplace-container')) {
+            this.renderMarketplace(document.getElementById('marketplace-container'));
+        } else {
+            window.location.reload();
+        }
     },
 
     async switchTab(tabName) {
@@ -164,6 +166,7 @@ const ShowcaseModule = {
                 const active = t === tabName;
                 el.style.color = active ? '#0f172a' : '#94a3b8';
                 el.style.borderBottom = active ? '3px solid #0f172a' : 'none';
+                el.style.fontWeight = active ? '900' : '700';
             }
         });
         if (tabName === 'vitrine') {
@@ -174,14 +177,14 @@ const ShowcaseModule = {
             contentArea.innerHTML = `
                 <div style="background: white; border-radius: 20px; border: 1px solid #f1f5f9; overflow: hidden;">
                     <table style="width: 100%; border-collapse: collapse; font-size:0.9rem;">
-                        <thead><tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: left;"><th style="padding: 16px;">Client / Commande</th><th style="padding: 16px;">Offre</th><th style="padding: 16px;">Total HT</th><th style="padding: 16px;">Status</th><th style="padding: 16px;">Facture</th></tr></thead>
+                        <thead><tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: left;"><th style="padding: 16px;">Client / Commande</th><th style="padding: 16px;">Offre</th><th style="padding: 16px;">Net Expert</th><th style="padding: 16px;">Status</th><th style="padding: 16px;">Facture</th></tr></thead>
                         <tbody>${(orders || []).length > 0 ? (orders || []).map(o => `
                                 <tr>
-                                    <td style="padding: 16px;"><b>${o.buyer?.full_name}</b><br><span style="font-size:0.7rem; color:#94a3b8;">${o.invoice_number}</span></td>
+                                    <td style="padding: 16px;"><b>${o.buyer?.full_name}</b><br><span style="font-size:0.75rem; color:#94a3b8;">Ref: ${o.invoice_number || 'N/A'}</span></td>
                                     <td style="padding: 16px; font-weight:700;">${o.item?.title}</td>
                                     <td style="padding: 16px; font-weight:950; color:#10b981;">${(o.total_price * 0.95).toFixed(2)}€</td>
                                     <td style="padding: 16px;"><span style="background:#dcfce7; color:#15803d; padding:4px 10px; border-radius:99px; font-weight:900; font-size:0.75rem;">PAYÉ</span></td>
-                                    <td style="padding: 16px;"><button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer;">📄</button></td>
+                                    <td style="padding: 16px;"><button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:12px; border-radius:10px; cursor:pointer;">📄</button></td>
                                 </tr>
                             `).join('') : '<tr><td colspan="5" style="text-align:center; padding:40px; color:#94a3b8;">Aucune vente pour le moment.</td></tr>'}
                         </tbody>
@@ -204,7 +207,7 @@ const ShowcaseModule = {
     async saveProConfig() {
         const { data: { session } } = await window._supabase.auth.getSession();
         await window._supabase.from('profiles').update({ paypal_email: document.getElementById('pp-email').value.trim() }).eq('id', session.user.id);
-        alert("Email PayPal configuré avec succès !");
+        alert("Config Sauvegardée !");
     },
 
     async openItemModal(item = null) {
@@ -267,15 +270,25 @@ const ShowcaseModule = {
     async generateInvoice(orderId) {
         try {
             const { data: o } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(*), buyer:profiles!buyer_id(*), provider:profiles!provider_id(*)`).eq('id', orderId).single();
-            const html = `<html><body style="font-family:sans-serif; padding:40px;">
-                <h1>Preuve de Paiement</h1>
-                <p><b>Réf:</b> ${o.invoice_number}</p>
-                <p><b>Expert:</b> ${o.provider?.full_name}</p>
-                <p><b>Client:</b> ${o.buyer?.full_name}</p>
-                <p><b>Offre:</b> ${o.item?.title}</p>
-                <h2 style="color:#0070ba;">TOTAL: ${o.total_price.toFixed(2)}€</h2>
-                <hr>
-                <p style="font-size:0.8rem; color:#64748b;">Document généré par Domtom Connect. Valeur fiscale de reçu.</p>
+            const html = `<html><body style="font-family:sans-serif; padding:60px; max-width:800px; margin:0 auto; color:#020617; line-height:1.5;">
+                <div style="display:flex; justify-content:space-between; border-bottom:2px solid #f1f5f9; padding-bottom:30px; margin-bottom:40px;">
+                    <div><h2 style="margin:0; color:#0070ba;">DOMTOM CONNECT</h2><p style="font-size:0.8rem; color:#94a3b8;">Showcase Digital Edition</p></div>
+                    <div style="text-align:right;"><h1 style="margin:0; font-size:2.5rem; letter-spacing:-0.04em;">FACTURE</h1><p style="font-weight:900;">Ref: ${o.invoice_number || 'DOM-INV-000'}</p></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:60px;">
+                    <div><h4 style="color:#64748b; text-transform:uppercase; font-size:0.7rem; margin-bottom:10px;">EXPERT</h4><p><b>${o.provider?.full_name}</b><br>${o.provider?.paypal_email || ''}</p></div>
+                    <div style="text-align:right;"><h4 style="color:#64748b; text-transform:uppercase; font-size:0.7rem; margin-bottom:10px;">CLIENT</h4><p><b>${o.buyer?.full_name}</b></p></div>
+                </div>
+                <table style="width:100%; border-collapse:collapse;">
+                    <thead><tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;"><th style="text-align:left; padding:15px;">DÉSIGNATION</th><th style="text-align:right; padding:15px;">TOTAL TTC</th></tr></thead>
+                    <tbody><tr><td style="padding:20px; border-bottom:1px solid #f1f5f9;"><b>${o.item?.title}</b><br><span style="font-size:0.8rem; color:#64748b;">Achat immédiat</span></td><td style="text-align:right; padding:20px; border-bottom:1px solid #f1f5f9; font-weight:950; font-size:1.2rem;">${o.total_price.toFixed(2)}€</td></tr></tbody>
+                </table>
+                <div style="display:flex; justify-content:flex-end; margin-top:40px;">
+                    <div style="background:#020617; color:white; padding:30px; border-radius:24px; min-width:260px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-top:1px solid #334155; padding-top:15px;"><span style="font-size:1.4rem; font-weight:950;">TOTAL</span><span style="font-size:1.4rem; font-weight:950;">${o.total_price.toFixed(2)}€</span></div>
+                    </div>
+                </div>
+                <div style="margin-top:100px; text-align:center; color:#94a3b8; font-size:0.75rem;">Document généré par Domtom Connect. Preuve de transaction sécurisée.</div>
             </body></html>`;
             const win = window.open('','_blank'); 
             win.document.write(html); 
