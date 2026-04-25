@@ -55,9 +55,9 @@ const ShowcaseModule = {
                             ${profile?.full_name?.substring(0,1).toUpperCase() || 'E'}
                         </div>
                         <h2 style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 8px;">Ma Boutique Connect</h2>
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <span style="background: #f1f5f9; color: #64748b; padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 800;">domtomconnect.me/${profile?.full_name?.toLowerCase().replace(/\s/g,'.')}</span>
-                            <button onclick="window.open('/showcase.html?id=${session.user.id}', '_blank')" style="background: #020617; color: white; border: none; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; cursor: pointer;">Copier le lien 🔗</button>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                            <span style="background: #f1f5f9; color: #020617; padding: 10px 20px; border-radius: 100px; font-size: 0.9rem; font-weight: 800; border: 1.5px solid #e2e8f0;">showcase.html?id=${session.user.id}</span>
+                            <button onclick="window.open('showcase.html?id=${session.user.id}', '_blank')" style="background: #020617; color: white; border: none; padding: 12px 24px; border-radius: 16px; font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Ouvrir ma boutique 🔗</button>
                         </div>
                     </div>
 
@@ -89,16 +89,16 @@ const ShowcaseModule = {
                                 </div>
                             ` : items.map(item => `
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; transition: 0.2s;" onmouseover="this.style.borderColor='#020617'" onmouseout="this.style.borderColor='#e2e8f0'">
-                                    <div style="width: 60px; height: 60px; background: #f1f5f9; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
-                                        ${item.type === 'service' ? '🤝' : '📄'}
+                                    <div style="width: 64px; height: 64px; background: #f1f5f9; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 1.5px solid #f1f5f9;">
+                                        ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : (item.type === 'service' ? '🤝' : '📄')}
                                     </div>
                                     <div style="flex: 1;">
-                                        <div style="font-weight: 900; font-size: 1.1rem; color: #020617;">${item.title}</div>
-                                        <div style="font-size: 0.9rem; color: #64748b; font-weight: 700;">${item.price.toFixed(2)}€ • ${item.type === 'service' ? 'Service Digital' : 'Produit (Download)'}</div>
+                                        <div style="font-weight: 900; font-size: 1.15rem; color: #020617;">${item.title}</div>
+                                        <div style="font-size: 0.9rem; color: #64748b; font-weight: 700;">${item.price.toFixed(2)}€ • ${item.type === 'service' ? 'Service' : 'Produit Digital'}</div>
                                     </div>
-                                    <div style="display: flex; gap: 8px;">
-                                        <button onclick="ShowcaseModule.editItem('${item.id}')" style="background: #f1f5f9; border: none; border-radius: 10px; width: 40px; height: 40px; cursor: pointer;">✏️</button>
-                                        <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; color: #ef4444; border: none; border-radius: 10px; width: 40px; height: 40px; cursor: pointer;">🗑️</button>
+                                    <div style="display: flex; gap: 10px;">
+                                        <button onclick="ShowcaseModule.editItem('${item.id}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; font-size: 1rem;">✏️</button>
+                                        <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; border: 1px solid #fecaca; color: #ef4444; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; font-size: 1rem;">🗑️</button>
                                     </div>
                                 </div>
                             `).join('')}
@@ -190,14 +190,23 @@ const ShowcaseModule = {
     },
 
     async recalculateBalance(userId) {
-        const { data: sessionData } = await window._supabase.auth.getSession();
-        const tid = userId || sessionData.session.user.id;
-        const { data: orders } = await window._supabase.from('showcase_orders').select('total_price').eq('provider_id', tid);
-        const totalRev = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
-        const totalNet = totalRev * (1 - this.COMMISSION_RATE);
-        const totalComm = totalRev * this.COMMISSION_RATE;
-        await window._supabase.from('profiles').update({ balance: totalNet, total_earnings: totalRev, total_commissions: totalComm }).eq('id', tid);
-        return { totalRev, totalNet, totalComm };
+        try {
+            const { data: orders } = await window._supabase.from('showcase_orders').select('total_price, commission_amount').eq('provider_id', userId);
+            const { data: payouts } = await window._supabase.from('showcase_payouts').select('amount').eq('user_id', userId);
+            
+            const totalBrut = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
+            const totalNet = (orders || []).reduce((acc, o) => acc + ((o.total_price || 0) - (o.commission_amount || 0)), 0);
+            const totalPaidOut = (payouts || []).reduce((acc, p) => acc + (p.amount || 0), 0);
+            
+            const finalBalance = Math.max(0, totalNet - totalPaidOut);
+            
+            await window._supabase.from('profiles').update({ 
+                balance: finalBalance, 
+                total_earnings: totalBrut 
+            }).eq('id', userId);
+            
+            return { balance: finalBalance, earnings: totalBrut };
+        } catch (err) { console.error("Recalculate Error:", err); return { balance: 0, earnings: 0 }; }
     },
 
     async handleRepair() {
