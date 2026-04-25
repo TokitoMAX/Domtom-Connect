@@ -42,44 +42,69 @@ const ShowcaseModule = {
         container.innerHTML = `<div style="text-align:center;padding:80px;"><span class="loader"></span></div>`;
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            
-            // AUTOMATIC SYNC BEFORE RENDERING
-            // This ensures top cards are NEVER disconnected from the journal
-            const stats = await this.recalculateBalance(session.user.id);
-            
+            await this.recalculateBalance(session.user.id);
             const { data: profile } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
             
             container.innerHTML = `
-                <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; animation: fadeIn 0.5s ease;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 48px;">
-                        <!-- SOLDE DISPONIBLE (SYNCED) -->
-                        <div style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: white; padding: 32px; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.12); border: 1px solid rgba(255,255,255,0.1);">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                                <div style="font-size: 0.7rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">Solde Disponible (Net 95%)</div>
-                                <div style="background:rgba(16,185,129,0.2); color:#10b981; padding:4px 10px; border-radius:8px; font-size:0.65rem; font-weight:900;">ACTUALISÉ ✓</div>
-                            </div>
-                            <div style="font-size: 3.2rem; font-weight: 950; margin: 0 0 24px 0; letter-spacing:-0.04em;">${(profile?.balance || 0).toFixed(2)}€</div>
-                            <button onclick="window.ShowcaseModule.requestPayout()" style="background: #10b981; color: white; border: none; padding: 18px; border-radius: 18px; font-weight: 900; width: 100%; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(16,185,129,0.3); transition:0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Virement vers PayPal 🚀</button>
-                        </div>
-
-                        <!-- VOLUME D'AFFAIRES (SYNCED) -->
-                        <div style="background: white; border: 1.5px solid #e2e8f0; padding: 32px; border-radius: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.02);">
-                            <div style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom:20px;">Volume d'affaires (Brut)</div>
-                            <div style="font-size: 3.2rem; font-weight: 950; margin: 0; color: #020617; letter-spacing:-0.04em;">${(profile?.total_earnings || 0).toFixed(2)}€</div>
-                            <div style="margin-top:24px; display:flex; align-items:center; gap:10px;">
-                                <div style="width:12px; height:12px; background:#4f46e5; border-radius:3px;"></div>
-                                <div style="font-size:0.85rem; color:#64748b; font-weight:700;">Cumul des ventes validées</div>
-                            </div>
-                        </div>
-                    </div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; max-width: 900px; margin: 0 auto; padding: 40px; animation: fadeIn 0.5s ease;">
                     
-                    <div style="display: flex; gap: 32px; border-bottom: 2.5px solid #f1f5f9; margin-bottom: 32px; padding-bottom: 8px;">
-                        <button id="tab-vitrine" onclick="ShowcaseModule.switchTab('vitrine')" style="background:none; border:none; color:#020617; font-weight:900; font-size:1.1rem; cursor:pointer; padding-bottom:12px; border-bottom:4px solid #020617;">Catalogue</button>
-                        <button id="tab-sales" onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Journal Financier ✨</button>
-                        <button id="tab-config" onclick="ShowcaseModule.switchTab('config')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Paramètres 🛠️</button>
+                    <!-- HEADER STYLE LINKTREE -->
+                    <div style="text-align: center; margin-bottom: 60px;">
+                        <div style="width: 100px; height: 100px; background: #020617; color: white; border-radius: 35% 65% 65% 35% / 30% 30% 70% 70%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 900; box-shadow: 0 20px 40px rgba(2,6,23,0.2);">
+                            ${profile?.full_name?.substring(0,1).toUpperCase() || 'E'}
+                        </div>
+                        <h2 style="font-size: 2rem; font-weight: 950; color: #020617; margin-bottom: 8px;">Ma Boutique Connect</h2>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <span style="background: #f1f5f9; color: #64748b; padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 800;">domtomconnect.me/${profile?.full_name?.toLowerCase().replace(/\s/g,'.')}</span>
+                            <button onclick="window.open('/showcase.html?id=${session.user.id}', '_blank')" style="background: #020617; color: white; border: none; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 800; cursor: pointer;">Copier le lien 🔗</button>
+                        </div>
                     </div>
-                    <div id="showcase-content-area">${this.renderLocalGrid(items)}</div>
+
+                    <!-- DASH MINI-STATS -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px;">
+                        <div style="background: white; border: 2px solid #020617; padding: 30px; border-radius: 32px; box-shadow: 10px 10px 0px #020617;">
+                            <div style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Solde Disponible</div>
+                            <div style="font-size: 2.2rem; font-weight: 950; color: #020617;">${(profile?.balance || 0).toFixed(2)}€</div>
+                            <button onclick="ShowcaseModule.requestPayout()" style="margin-top: 15px; background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; width: 100%; cursor: pointer;">Demander un virement 🚀</button>
+                        </div>
+                        <div style="background: #f8fafc; border: 2px solid #e2e8f0; padding: 30px; border-radius: 32px;">
+                            <div style="font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Ventes Totales</div>
+                            <div style="font-size: 2.2rem; font-weight: 950; color: #020617;">${(profile?.total_earnings || 0).toFixed(2)}€</div>
+                            <button onclick="ShowcaseModule.switchTab('sales')" style="margin-top: 15px; background: white; border: 2px solid #e2e8f0; color: #020617; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; width: 100%; cursor: pointer;">Voir l'historique 📜</button>
+                        </div>
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div style="display: flex; gap: 15px; margin-bottom: 30px;">
+                        <button onclick="ShowcaseModule.openItemModal()" style="flex: 2; padding: 24px; background: #020617; color: white; border: none; border-radius: 20px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(2,6,23,0.15);">+ Ajouter un Produit ou Service</button>
+                        <button onclick="ShowcaseModule.switchTab('config')" style="flex: 1; padding: 24px; border: 2px solid #e2e8f0; background: white; border-radius: 20px; font-weight: 900; cursor: pointer;">Réglages Boutique ⚙️</button>
+                    </div>
+
+                    <div id="showcase-content-area">
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            ${items.length === 0 ? `
+                                <div style="padding: 60px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 32px; color: #64748b; font-weight: 700;">
+                                    Ta boutique est vide.<br>Ajoute ton premier produit digital ou service.
+                                </div>
+                            ` : items.map(item => `
+                                <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; transition: 0.2s;" onmouseover="this.style.borderColor='#020617'" onmouseout="this.style.borderColor='#e2e8f0'">
+                                    <div style="width: 60px; height: 60px; background: #f1f5f9; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                                        ${item.type === 'service' ? '🤝' : '📄'}
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 900; font-size: 1.1rem; color: #020617;">${item.title}</div>
+                                        <div style="font-size: 0.9rem; color: #64748b; font-weight: 700;">${item.price.toFixed(2)}€ • ${item.type === 'service' ? 'Service Digital' : 'Produit (Download)'}</div>
+                                    </div>
+                                    <div style="display: flex; gap: 8px;">
+                                        <button onclick="ShowcaseModule.editItem('${item.id}')" style="background: #f1f5f9; border: none; border-radius: 10px; width: 40px; height: 40px; cursor: pointer;">✏️</button>
+                                        <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; color: #ef4444; border: none; border-radius: 10px; width: 40px; height: 40px; cursor: pointer;">🗑️</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
                 </div>
             `;
         } catch (err) { container.innerHTML = `<div style="padding:40px; color:red;">${err.message}</div>`; }
@@ -488,11 +513,125 @@ const ShowcaseModule = {
         } catch (err) { alert("Erreur Payout: " + err.message); }
     },
 
-    async deleteItem(id) {
-        if(confirm("Supprimer l'offre ?")) {
-            await window._supabase.from('showcase_items').delete().eq('id', id);
-            this.renderManager(document.getElementById('ecosystem-grid-container'));
-        }
+    /**
+     * Public View: The Linktree-style digital storefront
+     */
+    async renderPublicShowcase(container, providerId) {
+        if (!container) return;
+        container.innerHTML = `<div style="text-align:center;padding:100px;"><span class="loader"></span></div>`;
+        try {
+            const { data: provider } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
+            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
+
+            if (!provider) { container.innerHTML = "Expert introuvable."; return; }
+
+            const avatarHtml = `
+                <div style="width: 120px; height: 120px; background: #020617; color: white; border-radius: 40px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; font-weight: 950; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: rotate(-1deg);">
+                    ${provider.full_name?.substring(0,1).toUpperCase()}
+                </div>
+            `;
+
+            container.innerHTML = `
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; min-height: 100vh; padding: 80px 20px;">
+                    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                        
+                        ${avatarHtml}
+                        <h1 style="font-size: 2.5rem; font-weight: 950; color: #020617; margin-bottom: 8px; letter-spacing: -0.05em;">${provider.full_name}</h1>
+                        <p style="font-size: 1.1rem; color: #64748b; font-weight: 700; margin-bottom: 50px; opacity: 0.8;">${provider.headline || 'Expert Domtom Connect'}</p>
+
+                        <!-- LINKTREE STYLE RE-INVENTED -->
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            ${items.map(item => `
+                                <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: white; border: 3px solid #020617; border-radius: 24px; padding: 24px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; box-shadow: 10px 10px 0px #020617;" onmouseover="this.style.transform='translate(-3px, -3px)'; this.style.boxShadow='13px 13px 0px #020617'" onmouseout="this.style.transform='none'; this.style.boxShadow='10px 10px 0px #020617'">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <div style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">${item.type === 'service' ? '🤝' : '📄'}</div>
+                                        <div style="text-align: left;">
+                                            <div style="font-weight: 950; font-size: 1.25rem; color: #020617; line-height: 1.1;">${item.title}</div>
+                                            <div style="font-size: 0.8rem; color: #64748b; font-weight: 850; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px;">${item.type === 'service' ? 'Expertise' : 'Digital Product'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 950; font-size: 1.4rem; color: #020617; background: #f1f5f9; padding: 10px 15px; border-radius: 12px; border: 2px solid #020617;">${item.price.toFixed(2)}€</div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- BRANDING -->
+                        <div style="margin-top: 100px; text-align: center;">
+                            <img src="assets/img/logo.png" style="height: 24px; filter: grayscale(1) opacity(0.5); margin-bottom: 12px;">
+                            <div style="font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.2em;">Verified Expert Storefront</div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        } catch (err) { container.innerHTML = `<div style="padding:40px; text-align:center;">Erreur: ${err.message}</div>`; }
+    },
+
+    async openPublicItemModal(itemId) {
+        try {
+            const { data: item } = await window._supabase.from('showcase_items').select('*, profile:profiles(*)').eq('id', itemId).single();
+            const overlay = document.getElementById('details-modal-overlay');
+            
+            overlay.innerHTML = `
+                <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px; border: 3px solid #020617; box-shadow: 20px 20px 0px #020617; position: relative; animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 32px; right: 32px; background: #f1f5f9; border: 2px solid #020617; width: 44px; height: 44px; border-radius: 12px; cursor: pointer; font-size: 1.5rem; font-weight: 900;">×</button>
+                    
+                    <div style="margin-bottom: 32px;">
+                        <span style="background: #10b981; color: white; padding: 6px 14px; border-radius: 100px; font-weight: 900; font-size: 0.75rem;">DISPONIBLE IMMÉDIATEMENT</span>
+                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; margin: 15px 0 10px 0; line-height: 1.1;">${item.title}</h2>
+                        <div style="font-size: 1.1rem; color: #475569; font-weight: 600; line-height: 1.6;">${item.description || 'Profitez d\'une expertise digitale de haut niveau.'}</div>
+                    </div>
+
+                    <div style="background: #f8fafc; padding: 30px; border-radius: 28px; border: 2px solid #020617; margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 900; color: #64748b; font-size: 0.9rem;">Total à payer</span>
+                            <span style="font-size: 2.5rem; font-weight: 950; color: #020617;">${item.price.toFixed(2)}€</span>
+                        </div>
+                    </div>
+
+                    <div id="paypal-button-container-showcase"></div>
+                    <p style="text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 24px; font-weight: 700;">Transaction sécurisée • Accès instantané</p>
+                </div>
+            `;
+            
+            overlay.classList.add('open');
+            this.renderPayPalButton(item.user_id, item.id, item.price);
+        } catch (err) { alert(err.message); }
+    },
+
+    renderPayPalButton(providerId, itemId, price) {
+        if (typeof paypal === 'undefined') return;
+        paypal.Buttons({
+            style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'pay', height: 55 },
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{ amount: { currency_code: 'EUR', value: price.toFixed(2) } }]
+                });
+            },
+            onApprove: (data, actions) => {
+                return actions.order.capture().then(details => {
+                    this.executeFinalOrder({ itemId, providerId, price, paypalId: details.id });
+                });
+            }
+        }).render('#paypal-button-container-showcase');
+    },
+
+    async executeFinalOrder(p) {
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            await window._supabase.from('showcase_orders').insert({
+                item_id: p.itemId,
+                buyer_id: session?.user?.id || null, // Buyer can be guest
+                provider_id: p.providerId,
+                total_price: p.price,
+                commission_amount: p.price * this.COMMISSION_RATE,
+                transaction_id: p.paypalId,
+                invoice_number: `DOM-ME-${Date.now()}`
+            });
+            await this.recalculateBalance(p.providerId);
+            alert("✓ Paiement Validé ! Vous allez recevoir un email avec vos accès.");
+            document.getElementById('details-modal-overlay').classList.remove('open');
+        } catch (err) { alert(err.message); }
     }
 };
 
