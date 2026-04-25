@@ -283,7 +283,7 @@ const CompaniesModule = {
 
                     <div style="padding-top: 12px; border-top: 1px solid #f1f5f9; margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
                         <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Soumis le ${new Date(p.created_at).toLocaleDateString()}</span>
-                        <button onclick="window.location.hash = '#success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.2s;">
+                        <button onclick="window.location.hash = 'success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.2s;">
                             Inspecter
                         </button>
                     </div>

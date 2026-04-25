@@ -64,8 +64,8 @@ function showView(viewId, forceRender = false) {
     // 2. DÉLÉGATION AU MODULE D'ÉCOSYSTÈME
     const activeModule = getActiveModule();
     if (activeModule && typeof activeModule.route === 'function') {
-        console.log(`[Dashboard] Delegating '${baseView}' to active module.`);
-        activeModule.route(baseView, null, window.userProfile, window.currentSession);
+        console.log(`[Dashboard] Delegating '${baseView}' to active module with params:`, params);
+        activeModule.route(baseView, null, window.userProfile, window.currentSession, params);
     }
 
     // 3. Synchronisation UI (Headers, Navbar)
