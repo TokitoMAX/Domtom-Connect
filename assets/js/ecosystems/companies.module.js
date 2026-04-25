@@ -238,14 +238,19 @@ const CompaniesModule = {
         if (!container) return;
 
         try {
-            console.log("[Admin] Fetching pending projects...");
+            console.log("[Admin] Fetching pending projects with broadened criteria...");
+            // Query for projects that are either 'pending' in status OR not yet approved
             const { data: projects, error } = await window._supabase
                 .from('projects')
                 .select('*')
-                .eq('verification_status', 'pending')
+                .or('verification_status.eq.pending,is_approved.eq.false')
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
+            
+            // Audit Count (Debug)
+            const { count: totalCount } = await window._supabase.from('projects').select('*', { count: 'exact', head: true });
+            console.log(`[Admin Audit] Pending found: ${projects?.length || 0}, Total in DB: ${totalCount}`);
 
             if (badge) badge.textContent = `${projects.length} projet${projects.length > 1 ? 's' : ''} à valider`;
 
