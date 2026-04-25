@@ -151,90 +151,125 @@ const ShowcaseModule = {
     },
 
     /**
-     * CHECKOUT MODAL
+     * CHECKOUT MODAL WITH ZONE SELECTION
      */
     async openCheckoutModal(itemId) {
         try {
-            const { data: item } = await window._supabase.from('showcase_items').select('*, profile:profiles!user_id(full_name, tax_rate)').eq('id', itemId).single();
+            const { data: item } = await window._supabase.from('showcase_items').select('*, profile:profiles!user_id(*)').eq('id', itemId).single();
             const overlay = document.getElementById('details-modal-overlay');
             
-            const isProduct = item.category === 'product';
-            const taxRate = item.profile?.tax_rate || 0;
-            const taxAmount = (item.price * taxRate) / 100;
-            const totalTTC = item.price + taxAmount;
+            const p = item.profile || {};
+            const zones = {
+                local: p.shipping_rate_local || 0,
+                national: p.shipping_rate_national || 0,
+                international: p.shipping_rate_int || 0
+            };
 
+            const taxRate = p.tax_rate || 0;
+            
             overlay.innerHTML = `
-                <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px; max-height:90vh; overflow-y:auto;">
-                    <h2 style="font-weight: 950; margin-bottom: 24px; text-align:center;">Finaliser la commande</h2>
-                    <div style="background: #f8fafc; padding: 24px; border-radius: 20px; margin-bottom: 32px; border: 1.5px solid #f1f5f9;">
-                         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:700;"><span>${item.title}</span><span>${item.price.toFixed(2)}€</span></div>
-                         ${taxRate > 0 ? `<div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#64748b;"><span>Taxe (${taxRate}%)</span><span>${taxAmount.toFixed(2)}€</span></div>` : ''}
-                         <div style="display:flex; justify-content:space-between; border-top:1px solid #e2e8f0; margin-top:12px; padding-top:12px; font-weight:950; font-size:1.4rem;"><span>TOTAL</span><span style="color:#0070ba;">${totalTTC.toFixed(2)}€</span></div>
+                <div style="background: white; width: 100%; max-width: 520px; border-radius: 40px; padding: 48px; font-family: 'Plus Jakarta Sans', sans-serif; max-height:90vh; overflow-y:auto;">
+                    <div style="text-align:center; margin-bottom:32px;">
+                        <h2 style="font-weight: 950; margin-bottom: 8px; color: #020617; font-size: 2rem; letter-spacing: -0.06em;">Paiement Sécurisé</h2>
+                        <p style="color:#64748b; font-weight:700;">Finalisez votre achat pour ${item.title}</p>
                     </div>
 
-                    ${isProduct ? `
-                        <div style="margin-bottom:32px;">
-                            <h4 style="margin-bottom:16px; font-weight:950;">Adresse de livraison</h4>
-                            <input id="ship-name" placeholder="Nom Complet" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-bottom:12px;">
-                            <input id="ship-addr" placeholder="Adresse" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-bottom:12px;">
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                                <input id="ship-zip" placeholder="Co Postal" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0;">
-                                <input id="ship-city" placeholder="Ville" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0;">
+                    <div style="background: #f8fafc; padding: 24px; border-radius: 28px; margin-bottom: 32px; border: 1.5px solid #f1f5f9;">
+                         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:800;"><span>Prix de base</span><span>${item.price.toFixed(2)}€</span></div>
+                         
+                         <label style="font-size:0.7rem; font-weight:900; color:#64748b; text-transform:uppercase; display:block; margin-top:20px;">Zone de livraison</label>
+                         <select id="ship-zone" onchange="window.ShowcaseModule.updateCheckoutPrice(${item.price}, ${taxRate})" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; font-weight:800; margin-top:6px;">
+                            <option value="0" data-rate="0">Service dématérialisé (0€)</option>
+                            <option value="local" data-rate="${zones.local}">Livraison Locale Territory (${zones.local}€)</option>
+                            <option value="national" data-rate="${zones.national}">National / Métropole (${zones.national}€)</option>
+                            <option value="international" data-rate="${zones.international}">International / Monde (${zones.international}€)</option>
+                         </select>
+
+                         <div style="border-top:1px dashed #e2e8f0; margin-top:20px; padding-top:20px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.9rem; color:#64748b;">
+                                <span>Livraison</span><span id="txt-shipping">0.00€</span>
                             </div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:0.9rem; color:#64748b;">
+                                <span>Taxes / Octroi (${taxRate}%)</span><span id="txt-tax">0.00€</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-weight:950; font-size:1.8rem; color:#0070ba;">
+                                <span>TOTAL</span><span id="txt-total">${item.price.toFixed(2)}€</span>
+                            </div>
+                         </div>
+                    </div>
+
+                    <div id="address-fields" style="display:none; margin-bottom:32px;">
+                        <h4 style="margin:0 0 16px 0; font-weight:950;">Coordonnées de livraison</h4>
+                        <input id="ship-name" placeholder="Nom complet" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-bottom:12px;">
+                        <input id="ship-addr" placeholder="Adresse de livraison" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-bottom:12px;">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                            <input id="ship-zip" placeholder="Code postal" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0;">
+                            <input id="ship-city" placeholder="Ville" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0;">
                         </div>
-                    ` : ''}
+                    </div>
 
                     <div id="paypal-button-container"></div>
-                    <div id="local-fallback-container" style="display:none; margin-top:10px;">
-                        <button onclick="window.ShowcaseModule.executeFinalOrder('${item.id}', '${item.user_id}', ${totalTTC}, 'DEMO_MODE', ${taxAmount})" style="width:100%; background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">Payer ${totalTTC.toFixed(2)}€ (Démo)</button>
+                    <div id="local-fallback-container" style="display:none;">
+                        <button id="btn-final-pay" onclick="window.ShowcaseModule.executeAutomatedOrder('${item.id}', '${item.user_id}', ${item.price}, ${taxRate})" style="width:100%; background:#10b981; color:white; border:none; padding:20px; border-radius:20px; font-weight:950; cursor:pointer;">Confirmer & Payer</button>
                     </div>
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="width:100%; color:#94a3b8; border:none; background:none; font-weight:750; margin-top:20px; cursor:pointer;">Annuler</button>
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="width:100%; background:none; border:none; color:#94a3b8; font-weight:800; cursor:pointer; margin-top:16px;">Annuler</button>
                 </div>
             `;
             overlay.classList.add('open');
-
-            if (window.paypal) {
+            this.updateCheckoutPrice(item.price, taxRate);
+            
+            if(window.paypal) {
                 window.paypal.Buttons({
-                    createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { currency_code: 'EUR', value: totalTTC.toString() } }] }),
-                    onApprove: async (data, actions) => {
-                        const details = await actions.order.capture();
-                        await this.executeFinalOrder(item.id, item.user_id, totalTTC, details.id, taxAmount);
-                    },
-                    onError: () => { document.getElementById('local-fallback-container').style.display = 'block'; }
-                }).render('#paypal-button-container').catch(() => { document.getElementById('local-fallback-container').style.display = 'block'; });
+                    createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { currency_code: 'EUR', value: document.getElementById('txt-total').innerText.replace('€','') } }] }),
+                    onApprove: (data, actions) => actions.order.capture().then(d => this.executeAutomatedOrder(item.id, item.user_id, item.price, taxRate, d.id)),
+                    onError: () => document.getElementById('local-fallback-container').style.display = 'block'
+                }).render('#paypal-button-container').catch(()=> document.getElementById('local-fallback-container').style.display='block');
             } else {
                 document.getElementById('local-fallback-container').style.display = 'block';
             }
         } catch (err) { alert(err.message); }
     },
 
-    async executeFinalOrder(itemId, providerId, total, txId, taxAmt) {
-        try {
-            const { data: { session } } = await window._supabase.auth.getSession();
-            const netAmount = total * (1 - this.COMMISSION_RATE);
-            const invoiceNum = `DOM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    updateCheckoutPrice(basePrice, taxRate) {
+        const zone = document.getElementById('ship-zone');
+        const shipRate = parseFloat(zone.options[zone.selectedIndex].getAttribute('data-rate') || 0);
+        const taxAmt = (basePrice * taxRate) / 100;
+        const total = basePrice + shipRate + taxAmt;
 
-            const orderData = {
-                item_id: itemId, buyer_id: session.user.id, provider_id: providerId,
-                total_price: total, tax_amount: taxAmt, status: 'paid', transaction_id: txId,
-                invoice_number: invoiceNum
-            };
+        document.getElementById('txt-shipping').innerText = `${shipRate.toFixed(2)}€`;
+        document.getElementById('txt-tax').innerText = `${taxAmt.toFixed(2)}€`;
+        document.getElementById('txt-total').innerText = `${total.toFixed(2)}€`;
+        document.getElementById('address-fields').style.display = zone.value === '0' ? 'none' : 'block';
+    },
 
-            if(document.getElementById('ship-name')) {
-                orderData.shipping_name = document.getElementById('ship-name').value;
-                orderData.shipping_address = document.getElementById('ship-addr').value;
-                orderData.shipping_zip = document.getElementById('ship-zip').value;
-                orderData.shipping_city = document.getElementById('ship-city').value;
-            }
+    async executeAutomatedOrder(itemId, providerId, basePrice, taxRate, txId = 'DEMO_PIPAY') {
+        const zone = document.getElementById('ship-zone');
+        const shipRate = parseFloat(zone.options[zone.selectedIndex].getAttribute('data-rate') || 0);
+        const taxAmt = (basePrice * taxRate) / 100;
+        const total = basePrice + shipRate + taxAmt;
+        const { data: { session } } = await window._supabase.auth.getSession();
 
-            await window._supabase.from('showcase_orders').insert(orderData);
-            const { data: seller } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
-            await window._supabase.from('profiles').update({ balance: (seller.balance || 0) + netAmount, total_earnings: (seller.total_earnings || 0) + total }).eq('id', providerId);
+        const orderData = {
+            item_id: itemId, buyer_id: session.user.id, provider_id: providerId,
+            total_price: total, tax_amount: taxAmt, status: 'paid', transaction_id: txId,
+            shipping_country: zone.value,
+            invoice_number: `DOM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+        };
 
-            alert("COMMANDE RÉUSSIE !");
-            document.getElementById('details-modal-overlay').classList.remove('open');
-            if (window.location.hash.includes('boutique')) this.renderMarketplace(document.getElementById('marketplace-container'));
-        } catch (err) { alert(err.message); }
+        if(zone.value !== '0') {
+            orderData.shipping_name = document.getElementById('ship-name').value;
+            orderData.shipping_address = document.getElementById('ship-addr').value;
+            orderData.shipping_zip = document.getElementById('ship-zip').value;
+            orderData.shipping_city = document.getElementById('ship-city').value;
+        }
+
+        await window._supabase.from('showcase_orders').insert(orderData);
+        const { data: s } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
+        await window._supabase.from('profiles').update({ balance: (s.balance || 0) + (basePrice * 0.95), total_earnings: (s.total_earnings || 0) + basePrice }).eq('id', providerId);
+
+        alert("COMMANDE ENREGISTRÉE !");
+        document.getElementById('details-modal-overlay').classList.remove('open');
+        this.renderManager(document.getElementById('ecosystem-grid-container'));
     },
 
     async switchTab(tabName) {
@@ -258,72 +293,81 @@ const ShowcaseModule = {
             const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
             contentArea.innerHTML = `
                 <div style="background: white; border-radius: 20px; border: 1px solid #f1f5f9; overflow: hidden;">
-                    <table style="width: 100%; border-collapse: collapse;">
+                    <table style="width: 100%; border-collapse: collapse; font-size:0.9rem;">
                         <thead>
                             <tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: left;">
-                                <th style="padding: 16px; font-weight: 800; color: #64748b;">Client</th>
-                                <th style="padding: 16px; font-weight: 800; color: #64748b;">Article</th>
-                                <th style="padding: 16px; font-weight: 800; color: #64748b;">Total</th>
-                                <th style="padding: 16px; font-weight: 800; color: #64748b;">Logistique</th>
-                                <th style="padding: 16px; font-weight: 800; color: #64748b;">Actions</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b;">Client</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b;">Article</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b;">Logistique</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b;">Status</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${(orders || []).map(o => `
+                            ${(orders || []).length > 0 ? (orders || []).map(o => `
                                 <tr style="border-bottom: 1px solid #f1f5f9;">
-                                    <td style="padding: 16px;"><div style="font-weight: 950;">${o.buyer?.full_name}</div><span style="font-size:0.6rem; background:#fef3c7; padding:2px 6px; border-radius:4px; font-weight:900;">${o.status.toUpperCase()}</span></td>
-                                    <td style="padding: 16px; font-weight: 700;">${o.item?.title}</td>
-                                    <td style="padding: 16px; font-weight: 950; color: #10b981;">${o.total_price.toFixed(2)}€</td>
+                                    <td style="padding: 16px;"><div style="font-weight: 950;">${o.buyer?.full_name}</div><div style="font-size:0.7rem; color:#94a3b8;">${o.shipping_city || 'Dématérialisé'}</div></td>
+                                    <td style="padding: 16px;"><div style="font-weight: 700;">${o.item?.title}</div><div style="font-weight:900; color:#10b981;">${o.total_price.toFixed(2)}€</div></td>
                                     <td style="padding: 16px;">
                                         <div style="display:flex; gap:8px;">
-                                            <input id="tr-${o.id}" value="${o.tracking_number || ''}" placeholder="N° Suivi" style="padding:8px; border-radius:8px; border:1px solid #e2e8f0; width:100px;">
+                                            <input id="tr-${o.id}" value="${o.tracking_number || ''}" placeholder="Suivi #" style="padding:8px; border-radius:8px; border:1.5px solid #e2e8f0; width:110px;">
                                             <button onclick="window.ShowcaseModule.updateTracking('${o.id}')" style="background:#0f172a; color:white; border:none; padding:8px; border-radius:8px; cursor:pointer;">OK</button>
                                         </div>
                                     </td>
+                                    <td style="padding: 16px;"><span style="background:${o.status === 'shipped' ? '#dcfce7' : '#fef3c7'}; color:${o.status === 'shipped' ? '#166534' : '#92400e'}; padding:4px 10px; border-radius:99px; font-weight:900; font-size:0.75rem;">${o.status.toUpperCase()}</span></td>
                                     <td style="padding: 16px;"><button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer;">📄</button></td>
                                 </tr>
-                            `).join('')}
+                            `).join('') : '<tr><td colspan="5" style="padding:60px; text-align:center; color:#94a3b8; font-weight:800;">Aucune nouvelle vente.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
             `;
         } else {
-            const { data: p } = await window._supabase.from('profiles').select('paypal_email, showcase_primary_color, showcase_secondary_color, showcase_intro_text, tax_rate').eq('id', session.user.id).single();
+            const { data: p } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
             contentArea.innerHTML = `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                    <div style="background: #f8fafc; border-radius: 20px; padding: 32px; border: 1.5px solid #e2e8f0;">
-                         <h4 style="margin-top:0; font-weight:950;">💳 Config PayPal & Taxes</h4>
-                         <label style="font-size:0.7rem; font-weight:850; color:#64748b; text-transform:uppercase;">Email PayPal</label>
-                         <input id="paypal-email" value="${p?.paypal_email || ''}" style="width: 100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin:8px 0 16px 0;">
-                         <label style="font-size:0.7rem; font-weight:850; color:#64748b; text-transform:uppercase;">Taux de Taxe (%)</label>
-                         <input id="expert-tax" type="number" value="${p?.tax_rate || 0}" style="width: 100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-top:8px;">
-                         <button onclick="window.ShowcaseModule.savePayoutBrandingConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:16px; border-radius:14px; font-weight:950; cursor:pointer; margin-top:24px;">Sauvegarder</button>
-                    </div>
-                    <div style="background: white; border-radius: 20px; padding: 32px; border: 1.5px solid #e2e8f0;">
-                         <h4 style="margin-top:0; font-weight:950;">✨ Thème Boutique</h4>
-                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;">
-                            <div><label style="font-size:0.7rem; font-weight:850;">Primaire</label><input id="brand-color-1" type="color" value="${p?.showcase_primary_color || '#0f172a'}" style="width:100%; height:40px;"></div>
-                            <div><label style="font-size:0.7rem; font-weight:850;">Boutons</label><input id="brand-color-2" type="color" value="${p?.showcase_secondary_color || '#0070ba'}" style="width:100%; height:40px;"></div>
+                    <div style="background: #f8fafc; border-radius: 24px; padding: 32px; border: 1.5px solid #e2e8f0;">
+                         <h4 style="margin-top:0; font-weight:950; margin-bottom:24px;">🔧 Configuration Pro</h4>
+                         <div style="margin-bottom:20px;">
+                            <label style="font-size:0.7rem; font-weight:900; color:#64748b; text-transform:uppercase;">Taux de Taxe / Octroi (%)</label>
+                            <input id="expert-tax" type="number" value="${p?.tax_rate || 0}" style="width: 100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; margin-top:6px;">
                          </div>
-                         <label style="font-size:0.7rem; font-weight:850;">Accroche</label>
-                         <textarea id="brand-intro" style="width:100%; padding:14px; border-radius:12px; border:2px solid #e2e8f0; min-height:80px; margin-top:8px;">${p?.showcase_intro_text || ''}</textarea>
+                         <h5 style="font-weight:950; margin-bottom:12px;">Tarifs de Livraison par Zone</h5>
+                         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px;">
+                            <div><label style="font-size:0.65rem; font-weight:800;">Locale</label><input id="ship-local" type="number" value="${p?.shipping_rate_local || 0}" style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0;"></div>
+                            <div><label style="font-size:0.65rem; font-weight:800;">National</label><input id="ship-nat" type="number" value="${p?.shipping_rate_national || 0}" style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0;"></div>
+                            <div><label style="font-size:0.65rem; font-weight:800;">Monde</label><input id="ship-int" type="number" value="${p?.shipping_rate_int || 0}" style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0;"></div>
+                         </div>
+                         <button onclick="window.ShowcaseModule.saveProConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:16px; border-radius:16px; font-weight:950; cursor:pointer; margin-top:24px;">Sauvegarder la Logistique</button>
+                    </div>
+                    <div style="background: white; border-radius: 24px; padding: 32px; border: 1.5px solid #e2e8f0; position:relative;">
+                         <h4 style="margin-top:0; font-weight:950; margin-bottom:24px;">🔌 Connecteurs Externes</h4>
+                         <div style="padding:20px; background:#f1f5f9; border-radius:16px; margin-bottom:16px;">
+                            <div style="font-weight:900; font-size:0.85rem;">Connecter AfterShip</div>
+                            <div style="font-size:0.75rem; color:#64748b;">Automatisez le suivi en temps réel via API.</div>
+                            <button onclick="alert('Module AfterShip prochainement disponible (Clé API requise)')" style="background:#0f172a; color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:900; font-size:0.75rem; margin-top:12px; cursor:pointer;">Configurer</button>
+                         </div>
+                         <div style="padding:20px; background:#f1f5f9; border-radius:16px;">
+                            <div style="font-weight:900; font-size:0.85rem;">Email PayPal</div>
+                            <input id="pp-email" value="${p?.paypal_email || ''}" placeholder="Paiement@email.com" style="width:100%; padding:12px; border-radius:10px; border:1.5px solid #e2e8f0; margin-top:8px;">
+                         </div>
                     </div>
                 </div>
             `;
         }
     },
 
-    async savePayoutBrandingConfig() {
+    async saveProConfig() {
         const payload = {
-            paypal_email: document.getElementById('paypal-email').value.trim(),
-            showcase_primary_color: document.getElementById('brand-color-1').value,
-            showcase_secondary_color: document.getElementById('brand-color-2').value,
-            showcase_intro_text: document.getElementById('brand-intro').value.trim(),
-            tax_rate: parseFloat(document.getElementById('expert-tax').value || 0)
+            tax_rate: parseFloat(document.getElementById('expert-tax').value || 0),
+            shipping_rate_local: parseFloat(document.getElementById('ship-local').value || 0),
+            shipping_rate_national: parseFloat(document.getElementById('ship-nat').value || 0),
+            shipping_rate_int: parseFloat(document.getElementById('ship-int').value || 0),
+            paypal_email: document.getElementById('pp-email').value.trim()
         };
         const { data: { session } } = await window._supabase.auth.getSession();
         await window._supabase.from('profiles').update(payload).eq('id', session.user.id);
-        alert("Config sauvegardée !");
+        alert("Configuration Logistique & Fiscale OK !");
     },
 
     async updateTracking(orderId) {
