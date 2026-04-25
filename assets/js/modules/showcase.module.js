@@ -110,11 +110,16 @@ const ShowcaseModule = {
     },
 
     renderLocalGrid(items) {
-        return items && items.length > 0 ? `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;">
-                ${items.map(item => this.renderShowcaseCard(item, true)).join('')}
+        return `
+            <div style="margin-bottom: 32px; display: flex; justify-content: flex-end;">
+                <button onclick="window.ShowcaseModule.openItemModal()" style="background:#0f172a; color:white; border:none; padding:14px 28px; border-radius:14px; cursor:pointer; font-weight:900; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">+ Créer un produit/service</button>
             </div>
-        ` : `<div style="text-align:center; padding: 40px;"><button onclick="window.ShowcaseModule.openItemModal()" style="background:#0f172a; color:white; border:none; padding:12px 24px; border-radius:12px; cursor:pointer; font-weight:900;">+ Créer un produit/service</button></div>`;
+            ${items && items.length > 0 ? `
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;">
+                    ${items.map(item => this.renderShowcaseCard(item, true)).join('')}
+                </div>
+            ` : `<div style="text-align:center; padding: 60px; background: #f8fafc; border-radius: 24px; border: 2px dashed #e2e8f0; color: #94a3b8; font-weight: 700;">Vous n'avez pas encore d'offres dans votre catalogue.</div>`}
+        `;
     },
 
     renderShowcaseCard(item, isEditable = false, brandColors = { primary: '#0f172a', secondary: '#0070ba' }) {
@@ -439,7 +444,7 @@ const ShowcaseModule = {
                             <tr>
                                 <td>
                                     <div style="font-weight:900; font-size: 1.1rem;">${order.item?.title}</div>
-                                    <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Commande #${order.transaction_id.substring(0,8)}...</div>
+                                    <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Commande #${(order.transaction_id || 'LOCAL').substring(0,8)}...</div>
                                 </td>
                                 <td style="text-align:right; font-weight:700;">${order.total_price}€</td>
                                 <td style="text-align:right; font-weight:950; font-size: 1.1rem;">${order.total_price}€</td>
@@ -491,17 +496,48 @@ const ShowcaseModule = {
     async openItemModal(item = null) {
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px;">
-                <h2 style="font-weight: 950; margin-bottom: 24px;">${item ? 'Modifier l\'offre' : 'Nouvelle Offre'}</h2>
+            <div style="background: white; width: 100%; max-width: 550px; border-radius: 40px; padding: 48px; max-height: 90vh; overflow-y: auto;">
+                <h2 style="font-weight: 950; margin-bottom: 24px; letter-spacing: -0.04em;">${item ? 'Modifier l\'offre' : 'Nouvelle Offre'}</h2>
                 <div style="display: flex; flex-direction: column; gap: 20px;">
                     <input id="item-id" type="hidden" value="${item?.id || ''}">
-                    <input id="item-title" value="${item?.title || ''}" placeholder="Titre..." style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
-                    <textarea id="item-desc" placeholder="Description..." style="width: 100%; min-height: 100px; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0;">${item?.description || ''}</textarea>
-                    <input id="item-price" type="number" value="${item?.price || ''}" placeholder="Prix (€)" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700;">
-                    <div style="font-size: 0.8rem; color: #64748b;">Image (laisser vide pour garder l'actuelle) :</div>
-                    <input id="item-file" type="file">
-                    <button onclick="window.ShowcaseModule.saveItem()" style="background: #0f172a; color: white; border: none; padding: 18px; border-radius: 16px; font-weight: 950; cursor: pointer;">ENREGISTRER</button>
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="color: #64748b; background: none; border: none; cursor: pointer; font-weight: 700;">Annuler</button>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Catégorie</label>
+                            <select id="item-category" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700; margin-top: 4px;">
+                                <option value="service" ${item?.category === 'service' ? 'selected' : ''}>Service</option>
+                                <option value="product" ${item?.category === 'product' ? 'selected' : ''}>Produit</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Unité (si service)</label>
+                            <input id="item-unit" value="${item?.unit || ''}" placeholder="ex: heure, jour, forfait" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700; margin-top: 4px;">
+                        </div>
+                    </div>
+
+                    <input id="item-title" value="${item?.title || ''}" placeholder="Titre de l'offre..." style="width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-weight: 700; font-size: 1.1rem;">
+                    
+                    <textarea id="item-desc" placeholder="Description détaillée..." style="width: 100%; min-height: 120px; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-family: inherit;">${item?.description || ''}</textarea>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Préfixe Prix</label>
+                            <input id="item-prefix" value="${item?.price_prefix || 'À partir de'}" placeholder="ex: À partir de" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700; margin-top: 4px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Prix (€)</label>
+                            <input id="item-price" type="number" value="${item?.price || ''}" placeholder="ex: 49" style="width: 100%; padding: 14px; border-radius: 12px; border: 2.5px solid #e2e8f0; font-weight: 700; margin-top: 4px;">
+                        </div>
+                    </div>
+
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 16px; border: 1.5px dashed #e2e8f0;">
+                        <label style="font-size: 0.7rem; font-weight: 850; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 12px;">Image de l'offre</label>
+                        <input id="item-file" type="file" style="font-size: 0.85rem;">
+                        <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 8px;">Format suggéré : 800x600px. JPG/PNG autorisé.</div>
+                    </div>
+
+                    <button onclick="window.ShowcaseModule.saveItem()" style="background: #0f172a; color: white; border: none; padding: 20px; border-radius: 18px; font-weight: 950; cursor: pointer; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">ENREGISTRER L'OFFRE</button>
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="color: #64748b; background: none; border: none; cursor: pointer; font-weight: 800;">Annuler</button>
                 </div>
             </div>
         `;
@@ -518,6 +554,9 @@ const ShowcaseModule = {
                 title: document.getElementById('item-title').value,
                 description: document.getElementById('item-desc').value,
                 price: parseFloat(document.getElementById('item-price').value),
+                price_prefix: document.getElementById('item-prefix').value,
+                unit: document.getElementById('item-unit').value,
+                category: document.getElementById('item-category').value,
                 status: 'active'
             };
 
