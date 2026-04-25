@@ -50,21 +50,21 @@ const ShowcaseModule = {
             container.innerHTML = `
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; background: white; border-radius: 32px;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px;">
-                        <div style="background: #020617; color: white; padding: 32px; border-radius: 28px;">
+                        <div style="background: #020617; color: white; padding: 32px; border-radius: 28px; box-shadow: 0 20px 30px rgba(0,0,0,0.1);">
                             <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Revenus Disponibles</div>
                             <div style="font-size: 2.2rem; font-weight: 950; margin: 8px 0;">${profile?.balance || 0}€</div>
                             <button onclick="window.ShowcaseModule.requestPayout()" style="background: #10b981; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 900; width: 100%; cursor:pointer;">Transférer vers PayPal</button>
                         </div>
                         <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 32px; border-radius: 28px;">
-                            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Volume d'affaires HT</div>
+                            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase;">Volume d'affaires Global</div>
                             <div style="font-size: 2.2rem; font-weight: 950; margin: 8px 0; color: #020617;">${profile?.total_earnings || 0}€</div>
                         </div>
                     </div>
                     
                     <div style="display: flex; gap: 24px; border-bottom: 2px solid #f1f5f9; margin-bottom: 32px; padding-bottom: 8px;">
-                        <button id="tab-vitrine" onclick="ShowcaseModule.switchTab('vitrine')" style="background:none; border:none; color:#0f172a; font-weight:900; font-size:1.1rem; cursor:pointer; padding-bottom:12px; border-bottom:3px solid #0f172a;">Mes Offres</button>
-                        <button id="tab-sales" onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Mes Ventes ✨</button>
-                        <button id="tab-config" onclick="ShowcaseModule.switchTab('config')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Réglages 💸</button>
+                        <button id="tab-vitrine" onclick="ShowcaseModule.switchTab('vitrine')" style="background:none; border:none; color:#0f172a; font-weight:900; font-size:1.1rem; cursor:pointer; padding-bottom:12px; border-bottom:3px solid #0f172a;">Mon Catalogue</button>
+                        <button id="tab-sales" onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Journal des Ventes ✨</button>
+                        <button id="tab-config" onclick="ShowcaseModule.switchTab('config')" style="background:none; border:none; color:#94a3b8; font-weight:700; font-size:1.1rem; cursor:pointer; padding-bottom:12px;">Paramètres 💸</button>
                     </div>
                     <div id="showcase-content-area">${this.renderLocalGrid(items)}</div>
                 </div>
@@ -110,17 +110,15 @@ const ShowcaseModule = {
             const overlay = document.getElementById('details-modal-overlay');
             overlay.innerHTML = `
                 <div style="background: white; width: 100%; max-width: 480px; border-radius: 40px; padding: 48px; font-family: 'Plus Jakarta Sans', sans-serif; text-align:center;">
-                    <h2 style="font-weight: 950; margin-bottom: 32px; letter-spacing: -0.06em;">Finaliser l'achat</h2>
+                    <h2 style="font-weight: 950; margin-bottom: 32px; letter-spacing: -0.06em;">Paiement Sécurisé</h2>
                     <div style="background: #f8fafc; padding: 32px; border-radius: 24px; margin-bottom: 32px; border: 1.5px solid #f1f5f9;">
                          <div style="font-weight: 800; font-size:1.1rem; color:#020617; margin-bottom:8px;">${item.title}</div>
                          <div style="font-weight: 950; font-size: 2.2rem; color: #0070ba;">${item.price.toFixed(2)}€</div>
-                         <div style="font-size:0.75rem; color:#94a3b8; font-weight:700; margin-top:8px;">TVA Incluse (Accès immédiat)</div>
                     </div>
                     <div id="paypal-button-container"></div>
                     <div id="local-fallback-container" style="display:none;">
-                        <button onclick="window.ShowcaseModule.executeFinalOrder('${item.id}', '${item.user_id}', ${item.price})" style="width:100%; background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">Confirmer le Paiement (Démo)</button>
+                        <button onclick="window.ShowcaseModule.executeFinalOrder('${item.id}', '${item.user_id}', ${item.price})" style="width:100%; background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">Confirmer (Démo)</button>
                     </div>
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="width:100%; background:none; border:none; color:#94a3b8; font-weight:800; cursor:pointer; margin-top:20px;">Annuler</button>
                 </div>
             `;
             overlay.classList.add('open');
@@ -146,15 +144,9 @@ const ShowcaseModule = {
         const { data: s } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
         await window._supabase.from('profiles').update({ balance: (s.balance || 0) + (total * 0.95), total_earnings: (s.total_earnings || 0) + total }).eq('id', providerId);
         
-        alert("ACHAT RÉUSSI ! La vente est enregistrée dans votre dashboard.");
+        alert("Paiement validé !");
         document.getElementById('details-modal-overlay').classList.remove('open');
-        
-        // Rafraîchir pour voir la nouvelle commande
-        if (document.getElementById('marketplace-container')) {
-            this.renderMarketplace(document.getElementById('marketplace-container'));
-        } else {
-            window.location.reload();
-        }
+        this.switchTab('sales');
     },
 
     async switchTab(tabName) {
@@ -173,20 +165,49 @@ const ShowcaseModule = {
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id);
             contentArea.innerHTML = this.renderLocalGrid(items);
         } else if (tabName === 'sales') {
-            const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
+            const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name, email)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
+            
+            const totalRev = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
+            
             contentArea.innerHTML = `
-                <div style="background: white; border-radius: 20px; border: 1px solid #f1f5f9; overflow: hidden;">
+                <div style="margin-bottom:32px; display:grid; grid-template-columns: repeat(2, 1fr); gap:20px;">
+                    <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1.5px solid #e2e8f0; text-align:center;">
+                        <div style="font-size:0.7rem; font-weight:850; color:#64748b; text-transform:uppercase;">Commandes</div>
+                        <div style="font-size:1.8rem; font-weight:950;">${(orders || []).length}</div>
+                    </div>
+                    <div style="background:#020617; padding:20px; border-radius:20px; text-align:center; color:white;">
+                        <div style="font-size:0.7rem; font-weight:850; color:#94a3b8; text-transform:uppercase;">Total Net Expert</div>
+                        <div style="font-size:1.8rem; font-weight:950;">${(totalRev * 0.95).toFixed(2)}€</div>
+                    </div>
+                </div>
+
+                <div style="background: white; border-radius: 20px; border: 1px solid #f1f5f9; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
                     <table style="width: 100%; border-collapse: collapse; font-size:0.9rem;">
-                        <thead><tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: left;"><th style="padding: 16px;">Client / Commande</th><th style="padding: 16px;">Offre</th><th style="padding: 16px;">Net Expert</th><th style="padding: 16px;">Status</th><th style="padding: 16px;">Facture</th></tr></thead>
-                        <tbody>${(orders || []).length > 0 ? (orders || []).map(o => `
-                                <tr>
-                                    <td style="padding: 16px;"><b>${o.buyer?.full_name}</b><br><span style="font-size:0.75rem; color:#94a3b8;">Ref: ${o.invoice_number || 'N/A'}</span></td>
-                                    <td style="padding: 16px; font-weight:700;">${o.item?.title}</td>
-                                    <td style="padding: 16px; font-weight:950; color:#10b981;">${(o.total_price * 0.95).toFixed(2)}€</td>
-                                    <td style="padding: 16px;"><span style="background:#dcfce7; color:#15803d; padding:4px 10px; border-radius:99px; font-weight:900; font-size:0.75rem;">PAYÉ</span></td>
-                                    <td style="padding: 16px;"><button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:12px; border-radius:10px; cursor:pointer;">📄</button></td>
+                        <thead style="background: #f8fafc; border-bottom: 2px solid #f1f5f9; text-align: left;">
+                            <tr>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Client</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Offre & Ref</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Gain Net</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${(orders || []).length > 0 ? (orders || []).map(o => `
+                                <tr style="border-bottom: 1px solid #f1f5f9;">
+                                    <td style="padding: 16px;">
+                                        <div style="font-weight: 950; color:#020617;">${o.buyer?.full_name || 'Client Direct'}</div>
+                                        <div style="font-size:0.75rem; color:#64748b;">${o.buyer?.email || 'N/A'}</div>
+                                    </td>
+                                    <td style="padding: 16px;">
+                                        <div style="font-weight: 700;">${o.item?.title}</div>
+                                        <div style="font-size:0.7rem; color:#94a3b8; font-weight:900;">${o.invoice_number || 'SANS_REF'}</div>
+                                    </td>
+                                    <td style="padding: 16px; font-weight: 950; color: #10b981;">+${(o.total_price * 0.95).toFixed(2)}€</td>
+                                    <td style="padding: 16px;">
+                                        <button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer; font-weight:900; font-size:0.7rem; color:#0070ba;">VOIR FACTURE</button>
+                                    </td>
                                 </tr>
-                            `).join('') : '<tr><td colspan="5" style="text-align:center; padding:40px; color:#94a3b8;">Aucune vente pour le moment.</td></tr>'}
+                            `).join('') : '<tr><td colspan="4" style="text-align:center; padding:40px; color:#94a3b8;">Aucune vente enregistrée.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -273,27 +294,25 @@ const ShowcaseModule = {
             const html = `<html><body style="font-family:sans-serif; padding:60px; max-width:800px; margin:0 auto; color:#020617; line-height:1.5;">
                 <div style="display:flex; justify-content:space-between; border-bottom:2px solid #f1f5f9; padding-bottom:30px; margin-bottom:40px;">
                     <div><h2 style="margin:0; color:#0070ba;">DOMTOM CONNECT</h2><p style="font-size:0.8rem; color:#94a3b8;">Showcase Digital Edition</p></div>
-                    <div style="text-align:right;"><h1 style="margin:0; font-size:2.5rem; letter-spacing:-0.04em;">FACTURE</h1><p style="font-weight:900;">Ref: ${o.invoice_number || 'DOM-INV-000'}</p></div>
+                    <div style="text-align:right;"><h1 style="margin:0; font-size:2.5rem; letter-spacing:-0.04em;">FACTURE</h1><p style="font-weight:900;">Ref: ${o.invoice_number || 'DOM-INV-001'}</p></div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:60px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px;">
                     <div><h4 style="color:#64748b; text-transform:uppercase; font-size:0.7rem; margin-bottom:10px;">EXPERT</h4><p><b>${o.provider?.full_name}</b><br>${o.provider?.paypal_email || ''}</p></div>
                     <div style="text-align:right;"><h4 style="color:#64748b; text-transform:uppercase; font-size:0.7rem; margin-bottom:10px;">CLIENT</h4><p><b>${o.buyer?.full_name}</b></p></div>
                 </div>
                 <table style="width:100%; border-collapse:collapse;">
-                    <thead><tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;"><th style="text-align:left; padding:15px;">DÉSIGNATION</th><th style="text-align:right; padding:15px;">TOTAL TTC</th></tr></thead>
-                    <tbody><tr><td style="padding:20px; border-bottom:1px solid #f1f5f9;"><b>${o.item?.title}</b><br><span style="font-size:0.8rem; color:#64748b;">Achat immédiat</span></td><td style="text-align:right; padding:20px; border-bottom:1px solid #f1f5f9; font-weight:950; font-size:1.2rem;">${o.total_price.toFixed(2)}€</td></tr></tbody>
+                    <thead><tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;"><th style="text-align:left; padding:15px; font-size:0.7rem; color:#64748b;">DÉSIGNATION</th><th style="text-align:right; padding:15px; font-size:0.7rem; color:#64748b;">MONTANT TTC</th></tr></thead>
+                    <tbody><tr><td style="padding:20px; border-bottom:1px solid #f1f5f9;"><b>${o.item?.title}</b><br><span style="font-size:0.8rem; color:#64748b;">Service Digital - Achat immédiat</span></td><td style="text-align:right; padding:20px; border-bottom:1px solid #f1f5f9; font-weight:950; font-size:1.3rem;">${o.total_price.toFixed(2)}€</td></tr></tbody>
                 </table>
                 <div style="display:flex; justify-content:flex-end; margin-top:40px;">
-                    <div style="background:#020617; color:white; padding:30px; border-radius:24px; min-width:260px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-top:1px solid #334155; padding-top:15px;"><span style="font-size:1.4rem; font-weight:950;">TOTAL</span><span style="font-size:1.4rem; font-weight:950;">${o.total_price.toFixed(2)}€</span></div>
-                    </div>
+                     <div style="background:#020617; color:white; padding:30px; border-radius:24px; min-width:240px; text-align:right;">
+                        <span style="font-size:0.75rem; color:#94a3b8; font-weight:800; text-transform:uppercase;">Total Payé</span>
+                        <div style="font-size:2rem; font-weight:950;">${o.total_price.toFixed(2)}€</div>
+                     </div>
                 </div>
-                <div style="margin-top:100px; text-align:center; color:#94a3b8; font-size:0.75rem;">Document généré par Domtom Connect. Preuve de transaction sécurisée.</div>
+                <div style="margin-top:80px; text-align:center; color:#94a3b8; font-size:0.75rem;">Document généré par Domtom Connect. Valeur légale de reçu.</div>
             </body></html>`;
-            const win = window.open('','_blank'); 
-            win.document.write(html); 
-            win.document.close(); 
-            setTimeout(()=>win.print(),800);
+            const win = window.open('','_blank'); win.document.write(html); win.document.close(); setTimeout(()=>win.print(),800);
         } catch (err) { alert(err.message); }
     }
 };
