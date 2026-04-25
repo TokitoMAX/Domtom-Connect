@@ -162,7 +162,20 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                 `;
                 engineView.innerHTML = listHTML;
                 engineView.style.display = 'block';
+                console.log("[SuccessEngine] List rendered. Container visibility:", engineView.style.display);
+
+                // AUTO-OPEN COCKPIT FOR INSPECTION
+                if (inspectId) {
+                    console.log("[SuccessEngine] Auto-opening cockpit for inspection:", inspectId);
+                    setTimeout(() => {
+                        window.openProjectCockpit(inspectId);
+                    }, 100);
+                }
+            } else {
+                console.log("[SuccessEngine] No render needed for current hash/state.");
             }
+        } else {
+            console.warn("[SuccessEngine] Container 'success-engine-view-fixed' NOT FOUND in DOM.");
         }
 
         // --- 3. RENDU DE LA BARRE LATÉRALE (OwnersModule) ---

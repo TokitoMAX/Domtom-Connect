@@ -23,6 +23,7 @@ const CompaniesModule = {
                 }
                 break;
             case 'success-engine':
+                console.log(`[CompaniesModule] Routing to Success Engine. InspectId: ${params ? params.get('inspect') : 'None'}`);
                 if (window.loadMyProjects) {
                     const engineContainer = document.getElementById('success-engine-view-fixed');
                     if (engineContainer) {
