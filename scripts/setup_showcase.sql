@@ -33,12 +33,15 @@ BEGIN
         ALTER TABLE showcase_items ADD COLUMN unit TEXT;
     END IF;
 
-    -- Ajout des champs Shopify
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='shopify_domain') THEN
-        ALTER TABLE profiles ADD COLUMN shopify_domain TEXT;
+    -- Ajout des champs PayPal et Balance
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='paypal_email') THEN
+        ALTER TABLE profiles ADD COLUMN paypal_email TEXT;
     END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='shopify_access_token') THEN
-        ALTER TABLE profiles ADD COLUMN shopify_access_token TEXT;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='balance') THEN
+        ALTER TABLE profiles ADD COLUMN balance DECIMAL(10,2) DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='profiles' AND column_name='total_earnings') THEN
+        ALTER TABLE profiles ADD COLUMN total_earnings DECIMAL(10,2) DEFAULT 0;
     END IF;
 END $$;
 
