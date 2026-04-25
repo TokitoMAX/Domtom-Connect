@@ -75,10 +75,12 @@ const CompaniesModule = {
         const userEmail = (session?.user?.email || window.currentSession?.user?.email || "").toLowerCase().trim();
         const isAdmin = window.activeRole === 'admin' || userEmail === 'domtomconnect@gmail.com';
         
-        console.log(`[CompaniesModule] Rendering Dashboard. Role: ${window.activeRole}, Email: ${userEmail}, isAdmin: ${isAdmin}`);
-
         const badgeText = isAdmin ? 'ADMINISTRATION' : 'Espace Entreprise';
         const badgeColor = isAdmin ? '#3b82f6' : '#10b981';
+
+        // Hardened Role Checks
+        const isPro = ['entreprise', 'expert', 'prestataire', 'admin'].includes(profile.role) || isAdmin;
+        const isProjectOwner = ['porteur', 'owner', 'porteurdeprojet'].includes(profile.role);
 
         container.innerHTML = `
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
@@ -89,7 +91,7 @@ const CompaniesModule = {
                         <div>
                             <span style="background: rgba(255,255,255,0.1); border: 1px solid ${badgeColor}; color: ${badgeColor}; padding: 4px 14px; border-radius: 99px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase;">${badgeText}</span>
                             <h1 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; margin: 16px 0 8px 0; letter-spacing:-0.05em;">${profile.company_name || profile.full_name || 'Domtom Connect'}</h1>
-                            <p style="color: rgba(255,255,255,0.6); font-size: 1.1rem; font-weight:600; margin: 0;">${isAdmin ? 'Outils de Supervision Institutional' : 'Centre de commandement pour vos talents et missions.'}</p>
+                            <p style="color: rgba(255,255,255,0.6); font-size: 1.1rem; font-weight:600; margin: 0;">${isAdmin ? 'Outils de Supervision Institutionnelle' : (isProjectOwner ? 'Centre de pilotage de vos épopées territoriales.' : 'Centre de commandement pour vos talents et missions.')}</p>
                         </div>
                         ${isAdmin ? `
                         <div style="text-align: right; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; min-width: 200px; border: 1px solid rgba(255,255,255,0.1);">
@@ -102,23 +104,27 @@ const CompaniesModule = {
 
                 <!-- CARDS GRID -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    ${isPro ? `
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Gestion Pro</h4>
                         <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Business Pilotage</div>
                         <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 14px; background: #f8fafc; color: #020617; border: 1.5px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Accéder</button>
                     </div>
+                    ` : ''}
 
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
-                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Talents Hub</h4>
-                        <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Annuaire Experts</div>
-                        <button onclick="window.location.href='marketplace/talents.html'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Explorer</button>
+                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">${isProjectOwner ? 'Mon Épopée' : 'Talents Hub'}</h4>
+                        <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">${isProjectOwner ? 'Missions Suite' : 'Annuaire Experts'}</div>
+                        <button onclick="window.location.hash = '${isProjectOwner ? 'success-engine' : 'marketplace'}'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
                     </div>
 
+                    ${isPro ? `
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Showcase Manager</h4>
                         <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Ma Vitrine Digitale</div>
                         <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 14px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Piloter</button>
                     </div>
+                    ` : ''}
                 </div>
 
                 ${!isAdmin ? `

@@ -71,8 +71,8 @@ const ShowcaseModule = {
                     <div style="padding: 60px; text-align: center; border: 2.5px dashed #cbd5e1; border-radius: 32px; color: #94a3b8; font-weight: 800;">Boutique vide. Publiez votre première offre.</div>
                 ` : items.map(item => `
                     <div style="background: white; border: 2px solid #e2e8f0; border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px;">
-                        <div style="width: 60px; height: 60px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                            ${item.type === 'service' ? '🤝' : '📄'}
+                        <div style="width: 60px; height: 60px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; overflow:hidden; border: 1.5px solid #f1f5f9;">
+                            ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : (item.type === 'service' ? '🤝' : '📄')}
                         </div>
                         <div style="flex: 1;">
                             <div style="font-weight: 950; font-size: 1.2rem; color: #020617;">${item.title}</div>
@@ -106,17 +106,19 @@ const ShowcaseModule = {
                                 <tr style="border-bottom:2px solid #f1f5f9; text-align:left;">
                                     <th style="padding:20px; font-size:0.75rem; color:#64748b; font-weight:900;">REÇU</th>
                                     <th style="padding:20px; font-size:0.75rem; color:#64748b; font-weight:900;">BRUT</th>
+                                    <th style="padding:20px; font-size:0.75rem; color:#64748b; font-weight:900;">COM. (5%)</th>
                                     <th style="padding:20px; font-size:0.75rem; color:#64748b; font-weight:900;">GAIN NET</th>
                                     <th style="padding:20px; font-size:0.75rem; color:#64748b; font-weight:900;">STATS</th>
                                 </tr>
-                                ${orders.map(o => `
+                                ${(orders || []).length === 0 ? `<tr><td colspan="5" style="padding:40px; text-align:center; color:#64748b; font-weight:700;">Aucune vente enregistrée.</td></tr>` : orders.map(o => `
                                     <tr style="border-bottom:1px solid #f1f5f9;">
                                         <td style="padding:20px;">
                                             <div style="font-weight:950;">${o.invoice_number || 'DOM-ORDER'}</div>
                                             <div style="font-size:0.75rem; color:#94a3b8; font-weight:700;">${new Date(o.created_at).toLocaleDateString()}</div>
                                         </td>
                                         <td style="padding:20px; font-weight:900;">${o.total_price.toFixed(2)}€</td>
-                                        <td style="padding:20px; color:#10b981; font-weight:950;">+${(o.total_price * 0.95).toFixed(2)}€</td>
+                                        <td style="padding:20px; color:#ef4444; font-weight:800;">-${(o.commission_amount || (o.total_price * 0.05)).toFixed(2)}€</td>
+                                        <td style="padding:20px; color:#10b981; font-weight:950;">+${(o.total_price - (o.commission_amount || (o.total_price * 0.05))).toFixed(2)}€</td>
                                         <td style="padding:20px;"><div style="background:#f0fdf4; color:#10b981; padding:6px 12px; border-radius:99px; font-size:0.7rem; font-weight:950; display:inline-block;">Payé ✓</div></td>
                                     </tr>
                                 `).join('')}
