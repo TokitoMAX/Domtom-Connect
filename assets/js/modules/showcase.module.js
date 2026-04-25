@@ -219,41 +219,44 @@ const ShowcaseModule = {
                         <div style="font-size:1.6rem; font-weight:950;">${(totalRev * 0.05).toFixed(2)}€</div>
                     </div>
                 </div>
-                <div style="background: white; border-radius: 24px; border: 1.5px solid #f1f5f9; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
-                    <div style="padding:15px 24px; background:#f8fafc; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
-                        <h4 style="margin:0; font-weight:950; font-size:0.9rem;">RELEVÉ DES TRANSACTIONS</h4>
-                        <button onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#0070ba; font-weight:900; cursor:pointer; font-size:0.75rem;">🔄 RAFFRAICHIR</button>
+                <div style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; overflow:hidden; animation: fadeIn 0.4s ease;">
+                    <div style="padding: 24px 32px; border-bottom: 1.5px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center; background: #f8fafc;">
+                        <h3 style="margin:0; font-weight:900; font-size:1.1rem; color:#020617;">Relevé des Transactions</h3>
+                        <button onclick="ShowcaseModule.switchTab('sales')" style="background:#020617; color:white; border:none; padding:8px 16px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer;">🔄 Actualiser</button>
                     </div>
-                    <table style="width: 100%; border-collapse: collapse; font-size:0.9rem;">
-                        <thead style="background: #ffffff; text-align: left; border-bottom: 2px solid #f1f5f9;">
-                            <tr>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Client & Date</th>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Détails Vente</th>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Ventilation (Net/Com)</th>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${(orders || []).map(o => `
-                                <tr style="border-bottom: 1px solid #f1f5f9;">
-                                    <td style="padding: 20px;">
-                                        <div style="font-weight: 950; color:#020617; font-size:1rem;">${o.buyer?.full_name || 'Client Direct'}</div>
-                                        <div style="font-size:0.75rem; color:#94a3b8; font-weight:700; margin-top:4px;">${new Date(o.created_at).toLocaleDateString()} à ${new Date(o.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%; border-collapse:collapse; text-align:left;">
+                            <thead>
+                                <tr style="background:#fff; border-bottom:1.5px solid #f1f5f9;">
+                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Détails & Facture</th>
+                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Volume (Brut)</th>
+                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Com. (5%)</th>
+                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Gain Net</th>
+                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${orders.map(o => `
+                                <tr style="border-bottom:1px solid #f1f5f9; transition:0.2s;" onmouseover="this.style.background='#fcfcfd'" onmouseout="this.style.background='transparent'">
+                                    <td style="padding:24px 32px;">
+                                        <div style="font-weight:900; color:#020617;">${o.invoice_number || 'DOM-ORDER'}</div>
+                                        <div style="font-size:0.75rem; color:#64748b; font-weight:600;">Client: ${o.buyer?.full_name || 'Client'} • ${new Date(o.created_at).toLocaleDateString()}</div>
                                     </td>
-                                    <td style="padding: 20px;">
-                                        <div style="font-weight: 700;">${o.item?.title}</div>
-                                        <div style="font-size:0.75rem; color:#64748b; font-weight:800;">${o.total_price.toFixed(2)}€ Payés</div>
-                                    </td>
-                                    <td style="padding: 20px;">
-                                        <div style="font-weight: 950; color: #10b981;">+${(o.total_price * 0.95).toFixed(2)}€ Gain</div>
-                                        <div style="font-size:0.7rem; color:#ef4444; font-weight:900;">-${(o.total_price * 0.05).toFixed(2)}€ Com.</div>
-                                    </td>
-                                    <td style="padding: 20px;">
-                                        <button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#0f172a; color:white; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:950; font-size:0.75rem;">Voir Facture</button>
+                                    <td style="padding:24px 32px; font-weight:800; color:#020617;">${(o.total_price || 0).toFixed(2)}€</td>
+                                    <td style="padding:24px 32px; color:#ef4444; font-weight:700;">-${(o.commission_amount || 0).toFixed(2)}€</td>
+                                    <td style="padding:24px 32px; color:#10b981; font-weight:900; font-size:1.1rem;">+${((o.total_price || 0) - (o.commission_amount || 0)).toFixed(2)}€</td>
+                                    <td style="padding:24px 32px;">
+                                        <div style="display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#10b981; padding:6px 12px; border-radius:99px; font-size:0.65rem; font-weight:900; border: 1px solid #d1fae5;">
+                                            <span style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span> PAYÉ
+                                        </div>
+                                        <div style="margin-top:8px;">
+                                            <button onclick="ShowcaseModule.generateInvoice('${o.id}')" style="background:none; border:none; color:#4f46e5; font-size:0.7rem; font-weight:800; cursor:pointer; text-decoration:underline;">Voir le Reçu 📄</button>
+                                        </div>
                                     </td>
                                 </tr>`).join('')}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `;
         } else {
