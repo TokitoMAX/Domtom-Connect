@@ -155,6 +155,48 @@ const CompaniesModule = {
                     </div>
                 </div>
 
+                <!-- 5. MARKETPLACE CONTROL TOWER (360 View) -->
+                <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 32px; padding: clamp(24px, 5vw, 48px); margin-bottom: 32px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 24px;">
+                        <div>
+                            <h2 style="font-size: 2.2rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em;">Tour de Contrôle Digitale</h2>
+                            <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-top: 8px;">Supervision globale des transactions et commissions marketplace (5%).</p>
+                        </div>
+                        <div style="display: flex; gap: 12px;">
+                            <div style="background: #0f172a; color: white; padding: 20px 32px; border-radius: 20px; text-align: center;">
+                                <div style="font-size: 0.65rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Volume Global</div>
+                                <div id="admin-mkt-total" style="font-size: 1.8rem; font-weight: 950;">0.00€</div>
+                            </div>
+                            <div style="background: #10b981; color: white; padding: 20px 32px; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(16,185,129,0.15);">
+                                <div style="font-size: 0.65rem; font-weight: 850; color: rgba(255,255,255,0.85); text-transform: uppercase; margin-bottom: 8px;">Commissions (5%)</div>
+                                <div id="admin-mkt-comm" style="font-size: 1.8rem; font-weight: 950;">0.00€</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f8fafc; border-radius: 24px; border: 1.5px solid #e2e8f0; overflow: hidden;">
+                        <div style="display: flex; background: white; border-bottom: 1.5px solid #e2e8f0;">
+                            <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0f172a; color: #0f172a;">FLUX TRANSACTIONS</button>
+                            <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8;">ABONNEMENTS ACTIFS</button>
+                        </div>
+                        <div id="admin-mkt-table-container">
+                            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                                <thead>
+                                    <tr style="background: white; border-bottom: 2px solid #e2e8f0;">
+                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th>
+                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th>
+                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th>
+                                        <th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-mkt-tbody">
+                                    <tr><td colspan="4" style="padding: 60px; text-align: center; color: #94a3b8; font-weight: 700;">Chargement du flux financier...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ADMIN NOTICE -->
                 <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 28px; padding: 40px; text-align:center;">
                     <div style="font-size: 2.5rem; margin-bottom:16px;">👑</div>
@@ -166,7 +208,10 @@ const CompaniesModule = {
         `;
 
         if (isAdmin) {
-            setTimeout(() => CompaniesModule.loadPendingProjects(), 200);
+            setTimeout(() => {
+                CompaniesModule.loadPendingProjects();
+                CompaniesModule.loadMarketplaceStats();
+            }, 200);
         }
     },
 
@@ -238,64 +283,89 @@ const CompaniesModule = {
         const container = document.getElementById('admin-pending-projects');
         const badge = document.getElementById('pending-count-badge');
         if (!container) return;
-
         try {
-            console.log("[Admin] Fetching pending projects with broadened criteria...");
-            // Query for projects that are either 'pending' in status OR not yet approved
             const { data: projects, error } = await window._supabase
                 .from('projects')
                 .select('*')
                 .or('verification_status.eq.pending,is_approved.eq.false')
                 .order('created_at', { ascending: false });
-
             if (error) throw error;
-            
-            // Audit Count (Debug)
-            const { count: totalCount } = await window._supabase.from('projects').select('*', { count: 'exact', head: true });
-            console.log(`[Admin Audit] Pending found: ${projects?.length || 0}, Total in DB: ${totalCount}`);
-
             if (badge) badge.textContent = `${projects.length} projet${projects.length > 1 ? 's' : ''} à valider`;
-
             if (!projects || projects.length === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 24px;">
-                        Aucun projet en attente de validation pour le moment.
-                    </div>
-                `;
+                container.innerHTML = `<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 24px;">Aucun projet en attente.</div>`;
                 return;
             }
-
             container.innerHTML = projects.map(p => `
-                <div class="dash-card" style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; display:flex; flex-direction:column; gap:20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                <div style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; display:flex; flex-direction:column; gap:20px;">
                     <div style="display: flex; align-items: start; justify-content: space-between;">
-                        <div style="width: 50px; height: 50px; background: #0f172a; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
-                            ${p.title ? p.title.substring(0, 1).toUpperCase() : 'P'}
-                        </div>
-                        <span style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid #ffedd5; text-transform: uppercase;">
-                            Modération
-                        </span>
+                        <div style="width: 50px; height: 50px; background: #0f172a; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">${p.title?.substring(0, 1).toUpperCase()}</div>
+                        <span style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid #ffedd5; text-transform: uppercase;">Modération</span>
                     </div>
-                    
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: 900; color: #020617; margin: 0 0 8px 0; letter-spacing: -0.03em;">${p.title}</h4>
-                        <p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                            ${p.description || 'Projet soumis sans description détaillée.'}
-                        </p>
-                    </div>
-
+                    <div><h4 style="font-size: 1.25rem; font-weight: 900; color: #020617; margin: 0 0 8px 0;">${p.title}</h4><p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; margin: 0;">${p.description || 'Sans description.'}</p></div>
                     <div style="padding-top: 12px; border-top: 1px solid #f1f5f9; margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
                         <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Soumis le ${new Date(p.created_at).toLocaleDateString()}</span>
-                        <button onclick="window.location.hash = 'success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.2s;">
-                            Inspecter
-                        </button>
+                        <button onclick="window.location.hash = 'success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer;">Inspecter</button>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
+        } catch (err) { console.error(err); }
+    },
 
-        } catch (err) {
-            console.error("[Admin] Execution Error:", err);
-            container.innerHTML = `<div style="color: #ef4444; padding: 20px; font-weight:700;">Erreur Fatale : ${err.message}</div>`;
+    /**
+     * Admin Feature: Switch tabs in Control Tower
+     */
+    async switchAdminTab(view) {
+        const isTrx = view === 'trx';
+        const trxBtn = document.getElementById('admin-view-trx');
+        const subsBtn = document.getElementById('admin-view-subs');
+        if (trxBtn) { trxBtn.style.borderBottom = isTrx ? '3px solid #0f172a' : 'none'; trxBtn.style.color = isTrx ? '#0f172a' : '#94a3b8'; }
+        if (subsBtn) { subsBtn.style.borderBottom = !isTrx ? '3px solid #0f172a' : 'none'; subsBtn.style.color = !isTrx ? '#0f172a' : '#94a3b8'; }
+
+        const container = document.getElementById('admin-mkt-table-container');
+        if (!container) return;
+
+        if (isTrx) {
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
+            await this.loadMarketplaceStats();
+        } else {
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status</th></tr></thead><tbody id="admin-subs-tbody"><tr><td colspan="4" style="padding: 40px; text-align: center;">Analyse des abonnements...</td></tr></tbody></table>`;
+            await this.loadSubscriptionStats();
         }
+    },
+
+    async loadMarketplaceStats() {
+        const tbody = document.getElementById('admin-mkt-tbody');
+        const vTotal = document.getElementById('admin-mkt-total');
+        const vComm = document.getElementById('admin-mkt-comm');
+        if (!tbody) return;
+        try {
+            const { data: orders, error } = await window._supabase.from('showcase_orders').select('*, item:showcase_items(title), provider:profiles!provider_id(full_name), buyer:profiles!buyer_id(full_name)').order('created_at', { ascending: false });
+            if (error) throw error;
+            if (!orders || orders.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucune transaction.</td></tr>'; return; }
+            let totalVolume = 0; let totalComm = 0;
+            tbody.innerHTML = orders.map(o => {
+                totalVolume += (o.total_price || 0); totalComm += (o.commission_amount || 0);
+                return `<tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 24px;"><div style="font-weight: 900;">${o.invoice_number}</div><div style="font-size: 0.75rem; color: #64748b;">${new Date(o.created_at).toLocaleDateString()}</div></td><td style="padding: 24px;">${o.provider?.full_name}</td><td style="padding: 24px;">${o.buyer?.full_name || 'Client'}</td><td style="padding: 24px;"><div style="font-weight: 900; color: #10b981;">${o.total_price.toFixed(2)}€</div><div style="font-size: 0.7rem; color: #ef4444; font-weight: 900;">Com: ${o.commission_amount.toFixed(2)}€</div></td></tr>`;
+            }).join('');
+            if (vTotal) vTotal.textContent = `${totalVolume.toFixed(2)}€`;
+            if (vComm) vComm.textContent = `${totalComm.toFixed(2)}€`;
+        } catch (err) { console.error(err); }
+    },
+
+    async loadSubscriptionStats() {
+        const tbody = document.getElementById('admin-subs-tbody');
+        if (!tbody) return;
+        try {
+            const { data: subs, error } = await window._supabase.from('profiles').select('*').not('subscription_tier', 'is', null).order('last_payment_date', { ascending: false });
+            if (error) throw error;
+            if (!subs || subs.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucun abonnement actif.</td></tr>'; return; }
+            tbody.innerHTML = subs.map(s => `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 24px;"><div style="font-weight: 900;">${s.full_name}</div></td>
+                    <td style="padding: 24px;"><span style="background: #f0fdf4; color: #10b981; padding: 4px 10px; border-radius: 99px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;">${s.subscription_tier}</span></td>
+                    <td style="padding: 24px;">${s.last_payment_date ? new Date(s.last_payment_date).toLocaleDateString() : 'N/A'}</td>
+                    <td style="padding: 24px; color: #10b981; font-weight: 900; font-size: 0.75rem;">ACTIF</td>
+                </tr>`).join('');
+        } catch (err) { console.error(err); }
     }
 };
 

@@ -271,17 +271,47 @@ const ShowcaseModule = {
     async openItemModal(item = null) {
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 540px; border-radius: 40px; padding: 48px;">
-                <h2 style="font-weight: 950; margin-bottom: 24px; font-size:2rem; letter-spacing:-0.05em;">${item ? 'Modifier l\'offre' : 'Nouvelle Offre Digitale'}</h2>
+            <div style="background: white; width: 100%; max-width: 540px; border-radius: 40px; padding: 48px; position: relative; animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 32px; right: 32px; background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #64748b; transition: 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">×</button>
+                
+                <h2 style="font-weight: 950; margin-bottom: 8px; font-size:2rem; letter-spacing:-0.05em; color:#020617;">${item ? 'Modifier l\'offre' : 'Nouvelle Offre Digitale'}</h2>
+                <p style="color:#64748b; font-weight:600; font-size:0.95rem; margin-bottom:32px;">Configurez votre produit digital pour la marketplace.</p>
+
                 <div style="display: flex; flex-direction: column; gap: 24px;">
                     <input id="item-id" type="hidden" value="${item?.id || ''}">
-                    <input id="item-title" value="${item?.title || ''}" placeholder="Titre de l'offre (ex: Pack de 5 visuels)" style="width: 100%; padding: 18px; border-radius: 16px; border: 2.5px solid #e2e8f0; font-weight: 700; font-size:1.1rem;">
-                    <textarea id="item-desc" placeholder="Détails de l'expertise (Ce que le client reçoit...)" style="width: 100%; min-height: 140px; padding: 18px; border-radius: 16px; border: 2.5px solid #e2e8f0; font-family: inherit;">${item?.description || ''}</textarea>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                        <div><label style="font-size:0.75rem; font-weight:900; color:#64748b; text-transform:uppercase;">PRIX NET (€)</label><input id="item-price" type="number" value="${item?.price || ''}" style="width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-weight: 950; font-size:1.2rem;"></div>
-                        <div><label style="font-size:0.75rem; font-weight:900; color:#64748b; text-transform:uppercase;">VISUEL PRO</label><input id="item-file" type="file" style="margin-top:6px;"></div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-size:0.75rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:0.05em;">NOM DU SERVICE PRO</label>
+                        <input id="item-title" value="${item?.title || ''}" placeholder="Ex: Audit Digital Strategic Pack" style="width: 100%; padding: 18px; border-radius: 16px; border: 2.5px solid #e2e8f0; font-weight: 700; font-size:1.1rem; outline:none; transition:0.2s;" onfocus="this.style.borderColor='#0070ba'">
                     </div>
-                    <button onclick="window.ShowcaseModule.saveItem()" style="width: 100%; background: #0f172a; color: white; border: none; padding: 22px; border-radius: 20px; font-weight: 950; cursor: pointer; font-size:1.2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">PUBLIER MAINTENANT</button>
+
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-size:0.75rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:0.05em;">DESCRIPTION DE L'EXPERTISE</label>
+                        <textarea id="item-desc" placeholder="Détails de ce que recevra le client..." style="width: 100%; min-height: 120px; padding: 18px; border-radius: 16px; border: 2.5px solid #e2e8f0; font-family: inherit; font-size:1rem; font-weight:600; outline:none; transition:0.2s;" onfocus="this.style.borderColor='#0070ba'">${item?.description || ''}</textarea>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-size:0.75rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:0.05em;">PRIX PUBLIC (€)</label>
+                            <input id="item-price" type="number" value="${item?.price || ''}" style="width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-weight: 950; font-size:1.4rem; outline:none; transition:0.2s;" onfocus="this.style.borderColor='#10b981'">
+                            <span style="font-size:0.65rem; color:#10b981; font-weight:800;">Note : 95% versés sur votre solde net.</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-size:0.75rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:0.05em;">IMAGE ILLUSTRATIVE</label>
+                            <div style="background:#f8fafc; border:2px dashed #cbd5e1; padding:12px; border-radius:14px; text-align:center;">
+                                <input id="item-file" type="file" style="width:100%; font-size:0.7rem; font-weight:700;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff7ed; padding: 20px; border-radius: 18px; border: 1.5px solid #ffedd5; display: flex; gap: 16px; align-items: flex-start;">
+                        <span style="font-size: 1.5rem;">💡</span>
+                        <div style="font-size: 0.8rem; color: #9a3412; font-weight: 600; line-height: 1.5;">
+                            <b>Transparence Plateforme</b> : Domtom Connect prélève une commission de 5% par vente pour couvrir les frais de service et PayPal.
+                        </div>
+                    </div>
+
+                    <button onclick="window.ShowcaseModule.saveItem()" style="width: 100%; background: #0f172a; color: white; border: none; padding: 22px; border-radius: 20px; font-weight: 950; cursor: pointer; font-size:1.2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition:0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">PUBLIER MAINTENANT</button>
                 </div>
             </div>
         `;
@@ -309,28 +339,96 @@ const ShowcaseModule = {
     async generateInvoice(orderId) {
         try {
             const { data: o } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(*), buyer:profiles!buyer_id(*), provider:profiles!provider_id(*)`).eq('id', orderId).single();
-            const html = `<html><body style="font-family:sans-serif; padding:40px; max-width:900px; margin:0 auto; color:#020617; line-height:1.5;">
-                <div style="border-bottom:3px solid #0070ba; padding-bottom:30px; margin-bottom:40px; display:flex; justify-content:space-between; align-items:center;">
-                    <div><h2 style="margin:0; color:#0070ba;">DOMTOM CONNECT</h2><p style="margin:5px 0; color:#64748b; font-weight:700;">Reçu de transaction digitale</p></div>
-                    <div style="text-align:right;"><h1 style="margin:0; font-size:3rem; letter-spacing:-0.05em;">FACTURE</h1><p style="font-weight:950; font-size:1.2rem;">${o.invoice_number || 'DOM-INV-PRO'}</p></div>
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-bottom:60px;">
-                    <div><h4 style="color:#64748b; text-transform:uppercase; font-size:0.75rem; margin-bottom:12px;">ÉMETTEUR (EXPERT)</h4><p style="font-size:1.1rem;"><b>${o.provider?.full_name}</b><br>${o.provider?.paypal_email || ''}</p></div>
-                    <div style="text-align:right;"><h4 style="color:#64748b; text-transform:uppercase; font-size:0.75rem; margin-bottom:12px;">CLIENT</h4><p style="font-size:1.1rem;"><b>${o.buyer?.full_name || 'Client Direct'}</b></p></div>
-                </div>
-                <table style="width:100%; border-collapse:collapse; margin-bottom:60px;">
-                    <thead><tr style="background:#f8fafc; border-bottom:2px solid #e2e8f0;"><th style="text-align:left; padding:20px; font-weight:900;">DÉSIGNATION</th><th style="text-align:right; padding:20px; font-weight:900;">MONTANT TTC</th></tr></thead>
-                    <tbody><tr><td style="padding:30px; border-bottom:1px solid #f1f5f9; font-size:1.1rem;"><b>${o.item?.title}</b><br><span style="font-size:0.85rem; color:#64748b;">Achat immédiat - Support Digital 24/7</span></td><td style="text-align:right; padding:30px; border-bottom:1px solid #f1f5f9; font-weight:950; font-size:1.6rem;">${o.total_price.toFixed(2)}€</td></tr></tbody>
-                </table>
-                <div style="display:flex; justify-content:flex-end;">
-                    <div style="background:#020617; color:white; padding:40px; border-radius:30px; min-width:300px; text-align:right;">
-                        <span style="font-size:0.85rem; font-weight:850; color:#94a3b8; text-transform:uppercase;">Montant Total Payé</span>
-                        <div style="font-size:2.8rem; font-weight:950; margin-top:10px;">${o.total_price.toFixed(2)}€</div>
-                        <div style="font-size:0.8rem; color:#10b981; font-weight:800; margin-top:20px;">✓ Paiement Sécurisé PayPal</div>
+            const html = `
+            <html>
+            <head>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+                <style>
+                    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #020617; padding: 60px; line-height: 1.4; background: #fdfdfd; }
+                    .header { border-bottom: 4px solid #0070ba; padding-bottom: 40px; margin-bottom: 50px; display: flex; justify-content: space-between; align-items: center; }
+                    .badge { background: #0070ba; color: white; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+                    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 60px; }
+                    .label { color: #64748b; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
+                    .value { font-size: 1.05rem; font-weight: 600; }
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 50px; }
+                    th { text-align: left; background: #f8fafc; padding: 20px; font-weight: 800; font-size: 0.8rem; border-bottom: 2px solid #e2e8f0; }
+                    td { padding: 30px 20px; border-bottom: 1px solid #f1f5f9; }
+                    .total-box { background: #020617; color: white; padding: 40px; border-radius: 32px; min-width: 320px; text-align: right; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+                    .footer { margin-top: 100px; text-align: center; color: #94a3b8; font-size: 0.75rem; border-top: 1px solid #f1f5f9; padding-top: 40px; }
+                    @media print { body { padding: 0; } .total-box { box-shadow: none; } }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <div>
+                        <img src="https://domtomconnect.com/assets/img/logo.png" style="height: 40px; margin-bottom: 15px; filter: grayscale(1) brightness(0);">
+                        <div class="badge">Transaction Certifiée</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <h1 style="margin: 0; font-size: 3.5rem; font-weight: 800; letter-spacing: -0.05em;">REÇU</h1>
+                        <div style="font-weight: 800; font-size: 1.2rem; color: #64748b;">N° ${o.invoice_number || 'DOM-TRX'}</div>
                     </div>
                 </div>
-                <div style="margin-top:120px; text-align:center; color:#94a3b8; font-size:0.8rem; border-top:1px solid #f1f5f9; padding-top:40px;">Domtom Connect est une plateforme de mise en relation. Ce document est une preuve légale d'achat.</div>
-            </body></html>`;
+
+                <div class="grid">
+                    <div>
+                        <div class="label">ÉMETTEUR (EXPERT)</div>
+                        <div class="value">
+                            <strong style="font-size: 1.2rem;">${o.provider?.full_name}</strong><br>
+                            ${o.provider?.paypal_email || 'Partenaire Domtom Connect'}
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="label">CLIENT</div>
+                        <div class="value">
+                            <strong style="font-size: 1.2rem;">${o.buyer?.full_name || 'Acheteur Marketplace'}</strong><br>
+                            Transaction ID: ${o.transaction_id}
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION DU SERVICE DIGITAL</th>
+                            <th style="text-align: right;">MONTANT UNITAIRE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 5px;">${o.item?.title}</div>
+                                <div style="color: #64748b; font-size: 0.9rem;">Réf: SHOWCASE-${o.item?.id.substring(0, 8).toUpperCase()}</div>
+                            </td>
+                            <td style="text-align: right; font-weight: 800; font-size: 1.4rem;">${o.total_price.toFixed(2)}€</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: flex-end; align-items: flex-start; gap: 40px;">
+                    <div style="text-align: right; padding-top: 20px;">
+                        <div class="label">DÉTAIL FINANCIER</div>
+                        <div style="font-size: 0.9rem; font-weight: 600; color: #64748b;">
+                            Prix HT : ${o.total_price.toFixed(2)}€<br>
+                            TVA : 0.00€ (Régime Micro/SaaS)
+                        </div>
+                    </div>
+                    <div class="total-box">
+                        <div class="label" style="color: #94a3b8;">Total Payé (EUR)</div>
+                        <div style="font-size: 3.5rem; font-weight: 800; margin: 10px 0;">${o.total_price.toFixed(2)}€</div>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: #10b981; color: white; padding: 6px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 800;">
+                            <span>✓</span> PAIEMENT VALIDÉ
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <strong>Domtom Connect Marketplace</strong><br>
+                    Ce document est une preuve de transaction électronique générée automatiquement.<br>
+                    Il sert de reçu d'achat pour les services digitaux fournis par l'expert cité ci-dessus.
+                </div>
+            </body>
+            </html>`;
             const win = window.open('','_blank'); win.document.write(html); win.document.close(); setTimeout(()=>win.print(),800);
         } catch (err) { alert(err.message); }
     },
