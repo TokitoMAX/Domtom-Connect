@@ -22,10 +22,7 @@
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-        window._supabase = createClient(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:54321' : 'https://your-supabase-url.supabase.co', 'your-anon-key');
-        
-        // Note: Real keys should be in a config, using global for now to match platform.
-        // If app.js is already present, we should use it.
+        window._supabase = createClient('https://vlpzmxddgdjjtrpbtksd.supabase.co', 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF');
     </script>
     
     <script src="assets/js/modules/showcase.module.js"></script>

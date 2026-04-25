@@ -167,26 +167,87 @@ const ShowcaseModule = {
         } catch (err) { alert(err.message); }
     },
 
-    async executeFinalOrder(itemId, providerId, total, txId = 'DEMO_MODE') {
+    async executeFinalOrder(params) {
+        // Handle both (itemId, providerId, total, txId) and (object) signatures
+        const p = typeof params === 'object' && params.itemId ? params : {
+            itemId: arguments[0],
+            providerId: arguments[1],
+            price: arguments[2],
+            paypalId: arguments[3] || 'DEMO_MODE'
+        };
+
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            const comAmt = total * this.COMMISSION_RATE;
-            const netAmt = total - comAmt;
-            const invoiceRef = `DOM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+            const price = p.price || p.total;
+            const comAmt = price * this.COMMISSION_RATE;
+            const invoiceRef = `DOM-ME-${Date.now()}`;
             
-            const orderData = {
-                item_id: itemId, buyer_id: session.user.id, provider_id: providerId,
-                total_price: total, commission_amount: comAmt, status: 'paid', 
-                transaction_id: txId, invoice_number: invoiceRef
-            };
+            await window._supabase.from('showcase_orders').insert({
+                item_id: p.itemId,
+                buyer_id: session?.user?.id || null,
+                provider_id: p.providerId,
+                total_price: price,
+                commission_amount: comAmt,
+                transaction_id: p.paypalId,
+                invoice_number: invoiceRef,
+                status: 'paid'
+            });
+
+            await this.recalculateBalance(p.providerId);
             
-            await window._supabase.from('showcase_orders').insert(orderData);
-            await this.recalculateBalance(providerId);
-            
-            alert("✅ TRANSACTION RÉUSSIE\n\nL'expert reçoit : " + netAmt.toFixed(2) + "€ (95%)\nDomtom Connect reçoit : " + comAmt.toFixed(2) + "€ (5%)");
-            document.getElementById('details-modal-overlay').classList.remove('open');
+            alert("✓ Paiement Validé ! Vous allez recevoir un email avec vos accès.");
+            if (document.getElementById('details-modal-overlay')) {
+                document.getElementById('details-modal-overlay').classList.remove('open');
+            }
+            if (document.getElementById('ecosystem-grid-container')) {
+                this.renderManager(document.getElementById('ecosystem-grid-container'));
+            }
+        } catch (error) { alert("Erreur Paiement : " + error.message); }
+    },
+
+    renderLocalGrid(items) {
+        return `
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                ${items.length === 0 ? `
+                    <div style="padding: 60px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 32px; color: #64748b; font-weight: 700;">
+                        Ta boutique est vide.<br>Ajoute ton premier produit digital ou service.
+                    </div>
+                ` : items.map(item => `
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; transition: 0.2s;" onmouseover="this.style.borderColor='#020617'" onmouseout="this.style.borderColor='#e2e8f0'">
+                        <div style="width: 64px; height: 64px; background: #f1f5f9; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 1.5px solid #f1f5f9;">
+                            ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : (item.type === 'service' ? '🤝' : '📄')}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 900; font-size: 1.15rem; color: #020617;">${item.title}</div>
+                            <div style="font-size: 0.9rem; color: #64748b; font-weight: 700;">${item.price.toFixed(2)}€ • ${item.type === 'service' ? 'Service' : 'Produit Digital'}</div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button onclick="ShowcaseModule.editItem('${item.id}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; font-size: 1rem;">✏️</button>
+                            <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; border: 1px solid #fecaca; color: #ef4444; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; font-size: 1rem;">🗑️</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    },
+
+    async handleHardReset() {
+        if (!confirm("⚠️ ATTENTION : Cela va supprimer TOUT votre historique de ventes, vos commissions et vos demandes de retrait. C'est irréversible. Continuer ?")) return;
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            await window._supabase.from('showcase_orders').delete().eq('provider_id', session.user.id);
+            await window._supabase.from('showcase_payouts').delete().eq('user_id', session.user.id);
+            await this.recalculateBalance(session.user.id);
+            alert("✓ Compte réinitialisé. Toutes les données de test ont été effacées.");
             this.renderManager(document.getElementById('ecosystem-grid-container'));
-        } catch (error) { alert("Erreur : " + error.message); }
+        } catch (err) { alert(err.message); }
+    },
+
+    async handleRepair() {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        await this.recalculateBalance(session.user.id);
+        alert("✓ Solde synchronisé.");
+        this.renderManager(document.getElementById('ecosystem-grid-container'));
     },
 
     async recalculateBalance(userId) {
@@ -209,108 +270,90 @@ const ShowcaseModule = {
         } catch (err) { console.error("Recalculate Error:", err); return { balance: 0, earnings: 0 }; }
     },
 
-    async handleRepair() {
-        const btn = document.getElementById('btn-repair');
-        btn.innerText = "Synchronisation...";
-        btn.disabled = true;
-        try {
-            const stats = await this.recalculateBalance();
-            alert("Récupération terminée !\n\nCommandes analysées : " + stats.totalRev.toFixed(2) + "€\nVotre solde net est à jour.");
-            this.renderManager(document.getElementById('ecosystem-grid-container'));
-        } catch (e) { alert(e.message); btn.innerText = "Réessayer"; btn.disabled = false; }
-    },
-
     async switchTab(tabName) {
         const contentArea = document.getElementById('showcase-content-area');
-        const { data: { session } } = await window._supabase.auth.getSession();
-        ['vitrine', 'sales', 'config'].forEach(t => {
-            const el = document.getElementById(`tab-${t}`);
-            if (el) {
-                const active = t === tabName;
-                el.style.color = active ? '#0f172a' : '#94a3b8';
-                el.style.borderBottom = active ? '4px solid #0f172a' : 'none';
-                el.style.fontWeight = active ? '950' : '700';
+        if (!contentArea) return;
+        
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            
+            if (tabName === 'sales') {
+                const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
+                const totalRev = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
+                contentArea.innerHTML = `
+                    <div style="margin-bottom:32px; display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
+                        <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1px solid #e2e8f0; text-align:center;">
+                            <span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Volume (Brut)</span>
+                            <div style="font-size:1.6rem; font-weight:950; color:#020617;">${totalRev.toFixed(2)}€</div>
+                        </div>
+                        <div style="background:#020617; color:white; padding:20px; border-radius:20px; text-align:center;">
+                            <span style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Mon Gain Net (95%)</span>
+                            <div style="font-size:1.6rem; font-weight:950;">${(totalRev * 0.95).toFixed(2)}€</div>
+                        </div>
+                        <div style="background:#f1f5f9; color:#475569; padding:20px; border-radius:20px; border:1px solid #e2e8f0; text-align:center;">
+                            <span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Com. Plateforme (5%)</span>
+                            <div style="font-size:1.6rem; font-weight:950;">${(totalRev * 0.05).toFixed(2)}€</div>
+                        </div>
+                    </div>
+                    <div style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; overflow:hidden; animation: fadeIn 0.4s ease;">
+                        <div style="padding: 24px 32px; border-bottom: 1.5px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center; background: #f8fafc;">
+                            <h3 style="margin:0; font-weight:900; font-size:1.1rem; color:#020617;">Relevé des Transactions</h3>
+                            <button onclick="ShowcaseModule.switchTab('sales')" style="background:#020617; color:white; border:none; padding:8px 16px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer;">🔄 Actualiser</button>
+                        </div>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                                <thead>
+                                    <tr style="background:#fff; border-bottom:1.5px solid #f1f5f9;">
+                                        <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Détails & Facture</th>
+                                        <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Volume (Brut)</th>
+                                        <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Com. (5%)</th>
+                                        <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Gain Net</th>
+                                        <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${orders.map(o => `
+                                    <tr style="border-bottom:1px solid #f1f5f9; transition:0.2s;" onmouseover="this.style.background='#fcfcfd'" onmouseout="this.style.background='transparent'">
+                                        <td style="padding:24px 32px;">
+                                            <div style="font-weight:900; color:#020617;">${o.invoice_number || 'DOM-ORDER'}</div>
+                                            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">Client: ${o.buyer?.full_name || 'Client'} • ${new Date(o.created_at).toLocaleDateString()}</div>
+                                        </td>
+                                        <td style="padding:24px 32px; font-weight:800; color:#020617;">${(o.total_price || 0).toFixed(2)}€</td>
+                                        <td style="padding:24px 32px; color:#ef4444; font-weight:700;">-${(o.commission_amount || 0).toFixed(2)}€</td>
+                                        <td style="padding:24px 32px; color:#10b981; font-weight:900; font-size:1.1rem;">+${((o.total_price || 0) - (o.commission_amount || 0)).toFixed(2)}€</td>
+                                        <td style="padding:24px 32px;">
+                                            <div style="display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#10b981; padding:6px 12px; border-radius:99px; font-size:0.65rem; font-weight:900; border: 1px solid #d1fae5;">
+                                                <span style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span> PAYÉ
+                                            </div>
+                                            <div style="margin-top:8px;">
+                                                <button onclick="ShowcaseModule.generateInvoice('${o.id}')" style="background:none; border:none; color:#4f46e5; font-size:0.7rem; font-weight:800; cursor:pointer; text-decoration:underline;">Voir le Reçu 📄</button>
+                                            </div>
+                                        </td>
+                                    </tr>`).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } else if (tabName === 'config') {
+                const { data: p } = await window._supabase.from('profiles').select('paypal_email').eq('id', session.user.id).single();
+                contentArea.innerHTML = `
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
+                        <div style="background:#f8fafc; padding:32px; border-radius:28px; border:1.5px solid #e2e8f0;">
+                            <h4 style="margin-top:0; font-weight:950; font-size:1.1rem; color:#020617;">Email de Retrait PayPal</h4>
+                            <p style="font-size:0.85rem; color:#64748b; margin-bottom:24px;">L'adresse où nous enverrons vos revenus (95% des ventes).</p>
+                            <input id="pp-email" value="${p?.paypal_email || ''}" style="width:100%; padding:16px; border-radius:14px; border:2.5px solid #e2e8f0; font-weight:700; font-size:1rem;">
+                            <button onclick="window.ShowcaseModule.saveProConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:18px; border-radius:16px; margin-top:20px; font-weight:950; cursor:pointer;">Mettre à jour ma config</button>
+                        </div>
+                        <div style="background:#fff7ed; padding:32px; border-radius:30px; border:1.5px solid #ffedd5; box-shadow: 0 20px 40px -10px rgba(255,237,213,0.5);">
+                            <h4 style="margin-top:0; color:#fb923c; font-weight:950; font-size:1.1rem;">Zone Dangereuse ⚠️</h4>
+                            <p style="font-size:0.85rem; color:#9a3412; font-weight:600; line-height:1.6; margin-bottom:24px;">Effacez tout l'historique financier et les transactions de test pour repartir sur une base propre.</p>
+                            <button id="btn-purge" onclick="window.ShowcaseModule.handleHardReset()" style="width:100%; background:#ef4444; color:white; border:none; padding:18px; border-radius:16px; font-weight:950; cursor:pointer;">🗑️ RÉINITIALISER MON COMPTE (TESTS)</button>
+                        </div>
+                    </div>
+                `;
             }
-        });
-        if (tabName === 'vitrine') {
-            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id);
-            contentArea.innerHTML = this.renderLocalGrid(items);
-        } else if (tabName === 'sales') {
-            const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
-            const totalRev = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
-            contentArea.innerHTML = `
-                <div style="margin-bottom:32px; display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
-                    <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1px solid #e2e8f0; text-align:center;">
-                        <span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Volume (Brut)</span>
-                        <div style="font-size:1.6rem; font-weight:950; color:#020617;">${totalRev.toFixed(2)}€</div>
-                    </div>
-                    <div style="background:#020617; color:white; padding:20px; border-radius:20px; text-align:center;">
-                        <span style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Mon Gain Net (95%)</span>
-                        <div style="font-size:1.6rem; font-weight:950;">${(totalRev * 0.95).toFixed(2)}€</div>
-                    </div>
-                    <div style="background:#f1f5f9; color:#475569; padding:20px; border-radius:20px; border:1px solid #e2e8f0; text-align:center;">
-                        <span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Com. Plateforme (5%)</span>
-                        <div style="font-size:1.6rem; font-weight:950;">${(totalRev * 0.05).toFixed(2)}€</div>
-                    </div>
-                </div>
-                <div style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; overflow:hidden; animation: fadeIn 0.4s ease;">
-                    <div style="padding: 24px 32px; border-bottom: 1.5px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center; background: #f8fafc;">
-                        <h3 style="margin:0; font-weight:900; font-size:1.1rem; color:#020617;">Relevé des Transactions</h3>
-                        <button onclick="ShowcaseModule.switchTab('sales')" style="background:#020617; color:white; border:none; padding:8px 16px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer;">🔄 Actualiser</button>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%; border-collapse:collapse; text-align:left;">
-                            <thead>
-                                <tr style="background:#fff; border-bottom:1.5px solid #f1f5f9;">
-                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Détails & Facture</th>
-                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Volume (Brut)</th>
-                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Com. (5%)</th>
-                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Gain Net</th>
-                                    <th style="padding:20px 32px; font-size:0.75rem; color:#64748b; font-weight:850; text-transform:uppercase;">Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${orders.map(o => `
-                                <tr style="border-bottom:1px solid #f1f5f9; transition:0.2s;" onmouseover="this.style.background='#fcfcfd'" onmouseout="this.style.background='transparent'">
-                                    <td style="padding:24px 32px;">
-                                        <div style="font-weight:900; color:#020617;">${o.invoice_number || 'DOM-ORDER'}</div>
-                                        <div style="font-size:0.75rem; color:#64748b; font-weight:600;">Client: ${o.buyer?.full_name || 'Client'} • ${new Date(o.created_at).toLocaleDateString()}</div>
-                                    </td>
-                                    <td style="padding:24px 32px; font-weight:800; color:#020617;">${(o.total_price || 0).toFixed(2)}€</td>
-                                    <td style="padding:24px 32px; color:#ef4444; font-weight:700;">-${(o.commission_amount || 0).toFixed(2)}€</td>
-                                    <td style="padding:24px 32px; color:#10b981; font-weight:900; font-size:1.1rem;">+${((o.total_price || 0) - (o.commission_amount || 0)).toFixed(2)}€</td>
-                                    <td style="padding:24px 32px;">
-                                        <div style="display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; color:#10b981; padding:6px 12px; border-radius:99px; font-size:0.65rem; font-weight:900; border: 1px solid #d1fae5;">
-                                            <span style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span> PAYÉ
-                                        </div>
-                                        <div style="margin-top:8px;">
-                                            <button onclick="ShowcaseModule.generateInvoice('${o.id}')" style="background:none; border:none; color:#4f46e5; font-size:0.7rem; font-weight:800; cursor:pointer; text-decoration:underline;">Voir le Reçu 📄</button>
-                                        </div>
-                                    </td>
-                                </tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        } else {
-            const { data: p } = await window._supabase.from('profiles').select('paypal_email').eq('id', session.user.id).single();
-            contentArea.innerHTML = `
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px;">
-                    <div style="background:#f8fafc; padding:32px; border-radius:28px; border:1.5px solid #e2e8f0;">
-                        <h4 style="margin-top:0; font-weight:950; font-size:1.1rem; color:#020617;">Email de Retrait PayPal</h4>
-                        <p style="font-size:0.85rem; color:#64748b; margin-bottom:24px;">L'adresse où nous enverrons vos revenus (95% des ventes).</p>
-                        <input id="pp-email" value="${p?.paypal_email || ''}" style="width:100%; padding:16px; border-radius:14px; border:2.5px solid #e2e8f0; font-weight:700; font-size:1rem;">
-                        <button onclick="window.ShowcaseModule.saveProConfig()" style="width:100%; background:#0f172a; color:white; border:none; padding:18px; border-radius:16px; margin-top:20px; font-weight:950; cursor:pointer;">Mettre à jour ma config</button>
-                    </div>
-                    <div style="background:#fff7ed; padding:32px; border-radius:30px; border:1.5px solid #ffedd5; box-shadow: 0 20px 40px -10px rgba(255,237,213,0.5);">
-                        <h4 style="margin-top:0; color:#9a3412; font-weight:950; font-size:1.1rem;">Centre de Synchronisation 🛠️</h4>
-                        <p style="font-size:0.85rem; color:#9a3412; font-weight:600; line-height:1.6; margin-bottom:24px;">Si vos statistiques et votre solde ne correspondent pas à vos ventes réelles, lancez une resynchronisation complète de votre compte expert.</p>
-                        <button id="btn-repair" onclick="window.ShowcaseModule.handleRepair()" style="width:100%; background:#9a3412; color:white; border:none; padding:18px; border-radius:16px; font-weight:950; cursor:pointer;">🔥 Recalculer mon Solde (95/5)</button>
-                    </div>
-                </div>
-            `;
-        }
+        } catch (err) { alert(err.message); }
     },
 
     async saveProConfig() {
@@ -625,23 +668,6 @@ const ShowcaseModule = {
         }).render('#paypal-button-container-showcase');
     },
 
-    async executeFinalOrder(p) {
-        try {
-            const { data: { session } } = await window._supabase.auth.getSession();
-            await window._supabase.from('showcase_orders').insert({
-                item_id: p.itemId,
-                buyer_id: session?.user?.id || null, // Buyer can be guest
-                provider_id: p.providerId,
-                total_price: p.price,
-                commission_amount: p.price * this.COMMISSION_RATE,
-                transaction_id: p.paypalId,
-                invoice_number: `DOM-ME-${Date.now()}`
-            });
-            await this.recalculateBalance(p.providerId);
-            alert("✓ Paiement Validé ! Vous allez recevoir un email avec vos accès.");
-            document.getElementById('details-modal-overlay').classList.remove('open');
-        } catch (err) { alert(err.message); }
-    }
 };
 
 window.ShowcaseModule = ShowcaseModule;
