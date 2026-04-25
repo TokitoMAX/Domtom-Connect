@@ -97,9 +97,9 @@ function showView(viewId, forceRender = false) {
 function getActiveModule() {
     const role = window.activeRole || (window.userProfile && window.userProfile.role) || 'user';
     switch (role) {
-        case 'admin':
         case 'expert':
         case 'prestataire': return window.ExpertsModule;
+        case 'admin':
         case 'entreprise': return window.CompaniesModule;
         case 'porteur':
         case 'owner': return window.OwnersModule;
