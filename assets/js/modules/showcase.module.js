@@ -151,12 +151,13 @@ const ShowcaseModule = {
     },
 
     async handleHardReset() {
-        if (!confirm("⚠️ RÉINITIALISATION TOTALE (MODE TEST) : Cela va supprimer TOUT votre historique fantôme (DOM-ORDER) pour repartir à 0.00€. Confirmer ?")) return;
+        if (!confirm("⚠️ RÉINITIALISATION TOTALE (MODE TEST) : Cela va supprimer TOUT votre historique de ventes (DOM-ORDER) pour repartir à 0.00€. Confirmer ?")) return;
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            await window._supabase.from('showcase_orders').delete().ilike('invoice_number', 'DOM-%').eq('provider_id', session.user.id);
+            // Delete ALL orders to ensure a truly clean slate as requested
+            await window._supabase.from('showcase_orders').delete().eq('provider_id', session.user.id);
             await this.recalculateBalance(session.user.id);
-            alert("✓ Historique purgé ! Vos compteurs sont revenus à 0.00€.");
+            alert("✓ Historique intégralement purgé ! Vos compteurs sont revenus à 0.00€.");
             this.renderManager(document.getElementById('ecosystem-grid-container'));
         } catch (err) { alert(err.message); }
     },
@@ -195,14 +196,40 @@ const ShowcaseModule = {
     async openItemModal(item = null) {
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px; border: 3px solid #020617; box-shadow: 15px 15px 0px #020617; animation: slideUp 0.3s ease;">
-                <h2 style="font-weight: 950; margin: 0 0 24px 0; font-size: 1.8rem;">${item ? 'Editer' : 'Nouvelle Offre'}</h2>
+            <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 48px; border: 3px solid #020617; box-shadow: 15px 15px 0px #020617; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto;">
+                <h2 style="font-weight: 950; margin: 0 0 24px 0; font-size: 1.8rem;">${item ? 'Éditer' : 'Nouvelle Offre'}</h2>
                 <div style="display:flex; flex-direction:column; gap:20px;">
                     <input id="item-id" type="hidden" value="${item?.id || ''}">
-                    <input id="item-title" value="${item?.title || ''}" placeholder="Titre du produit" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none;">
-                    <textarea id="item-desc" placeholder="Description..." style="width:100%; min-height:100px; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:600; outline:none;">${item?.description || ''}</textarea>
-                    <input id="item-price" type="number" value="${item?.price || ''}" placeholder="Prix (€)" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:900; font-size:1.2rem; outline:none;">
-                    <button onclick="ShowcaseModule.saveItem()" style="background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">PUBLIER</button>
+                    
+                    <div class="field-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Visuel du Produit (URL)</label>
+                        <input id="item-image" value="${item?.image_url || ''}" placeholder="https://..." style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none;">
+                    </div>
+
+                    <div class="field-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Titre de l'Offre</label>
+                        <input id="item-title" value="${item?.title || ''}" placeholder="Ebook, Coaching, Template..." style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none;">
+                    </div>
+
+                    <div class="field-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Description</label>
+                        <textarea id="item-desc" placeholder="Décrivez la valeur de votre offre..." style="width:100%; min-height:100px; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:600; outline:none; font-family:inherit;">${item?.description || ''}</textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Prix de Vente (€)</label>
+                        <input id="item-price" type="number" value="${item?.price || ''}" placeholder="0.00" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:900; font-size:1.2rem; outline:none;">
+                    </div>
+
+                    <div class="field-group">
+                        <label style="display:block; font-size:0.7rem; font-weight:900; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Type de Contenu</label>
+                        <select id="item-type" style="width:100%; padding:16px; border:2.5px solid #020617; border-radius:14px; font-weight:700; outline:none; background:white;">
+                            <option value="product" ${item?.type === 'product' ? 'selected' : ''}>📦 Produit Digital</option>
+                            <option value="service" ${item?.type === 'service' ? 'selected' : ''}>🤝 Service / Prestation</option>
+                        </select>
+                    </div>
+
+                    <button onclick="ShowcaseModule.saveItem()" style="background:#10b981; color:white; border:none; padding:18px; border-radius:18px; font-weight:950; cursor:pointer; margin-top:10px;">PUBLIER SUR MA BOUTIQUE →</button>
                     <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:none; border:none; color:#64748b; font-weight:800; cursor:pointer;">Annuler</button>
                 </div>
             </div>
@@ -218,7 +245,9 @@ const ShowcaseModule = {
                 user_id: session.user.id, 
                 title: document.getElementById('item-title').value, 
                 description: document.getElementById('item-desc').value, 
-                price: parseFloat(document.getElementById('item-price').value), 
+                price: parseFloat(document.getElementById('item-price').value),
+                image_url: document.getElementById('item-image').value,
+                type: document.getElementById('item-type').value,
                 status: 'active' 
             };
             if (id) await window._supabase.from('showcase_items').update(payload).eq('id', id);

@@ -326,7 +326,7 @@ const CompaniesModule = {
             container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
             await this.loadMarketplaceStats();
         } else if (view === 'subs') {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur & Mail</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Type Profil</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
             await this.loadSubscriptionStats();
         } else if (view === 'payouts') {
             container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Expert</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Paypal Email</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Action</th></tr></thead><tbody id="admin-payouts-tbody"></tbody></table>`;
@@ -388,13 +388,23 @@ const CompaniesModule = {
             const { data: subs, error } = await window._supabase.from('profiles').select('*').not('subscription_tier', 'is', null).order('last_payment_date', { ascending: false });
             if (error) throw error;
             if (!subs || subs.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucun abonnement actif.</td></tr>'; return; }
-            tbody.innerHTML = subs.map(s => `
+            tbody.innerHTML = subs.map(s => {
+                const roleBadge = s.role === 'admin' ? '#3b82f6' : (s.role === 'entreprise' ? '#8b5cf6' : (s.role === 'expert' ? '#10b981' : '#64748b'));
+                return `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 24px;"><div style="font-weight: 900;">${s.full_name}</div></td>
-                    <td style="padding: 24px;"><span style="background: #f0fdf4; color: #10b981; padding: 4px 10px; border-radius: 99px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;">${s.subscription_tier}</span></td>
+                    <td style="padding: 24px;">
+                        <div style="font-weight: 900;">${s.full_name}</div>
+                        <div style="font-size:0.7rem; color:#64748b;">${s.email || 'N/A'}</div>
+                    </td>
+                    <td style="padding: 24px;">
+                        <span style="background: ${roleBadge}15; color: ${roleBadge}; padding: 4px 10px; border-radius: 99px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; border: 1px solid ${roleBadge}30;">${s.role || 'SPECTATEUR'}</span>
+                    </td>
+                    <td style="padding: 24px;">
+                        <span style="background: #f0fdf4; color: #10b981; padding: 4px 10px; border-radius: 99px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;">${s.subscription_tier}</span>
+                    </td>
                     <td style="padding: 24px;">${s.last_payment_date ? new Date(s.last_payment_date).toLocaleDateString() : 'N/A'}</td>
-                    <td style="padding: 24px; color: #10b981; font-weight: 900; font-size: 0.75rem;">ACTIF</td>
-                </tr>`).join('');
+                </tr>`;
+            }).join('');
         } catch (err) { console.error(err); }
     }
 };
