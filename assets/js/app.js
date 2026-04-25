@@ -58,6 +58,13 @@ const App = {
 
             this.state.profile = profile;
             this.state.role = profile.role || 'spectateur';
+            
+            // Hardened Platform Admin Logic
+            if (session.user.email === 'domtomconnect@gmail.com') {
+                this.state.role = 'admin';
+                console.log("[App] Platform Owner detected. Elevating to ADMIN role.");
+            }
+            
             console.log(`[App] Session ready: ${profile.full_name} (${this.state.role})`);
 
             // 4. Initialize UI & Routing
@@ -109,15 +116,16 @@ const App = {
         const billetterie = document.getElementById('billetterie-view');
         
         // Role Isolation: Strictly enforce view permissions
-        const isOwner = ['porteur', 'owner', 'admin', 'admin'].includes(this.state.role);
+        const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
+        const isAdmin = this.state.role === 'admin' || (this.state.session?.user?.email === 'domtomconnect@gmail.com');
         
-        if (viewId === 'success-engine' && !isOwner) {
+        if (viewId === 'success-engine' && !(isOwner || isAdmin)) {
             console.warn(`[App] Unauthorized access attempt to success-engine by role: ${this.state.role}. Redirecting...`);
             this.showView('overview', true);
             return;
         }
 
-        if (successEngine) successEngine.style.display = (viewId === 'success-engine' && isOwner) ? 'block' : 'none';
+        if (successEngine) successEngine.style.display = (viewId === 'success-engine' && (isOwner || isAdmin)) ? 'block' : 'none';
 
         // Select Module based on role
         const activeModule = this.getActiveModule();
