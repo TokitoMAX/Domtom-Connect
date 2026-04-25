@@ -30,6 +30,7 @@ const CompaniesModule = {
                         engineContainer.style.display = 'block';
                         // If it's an inspection (params.get('inspect')), load specifically that project
                         const inspectId = params ? params.get('inspect') : null;
+                        window.isAdminInspection = !!inspectId;
                         window.loadMyProjects(session.user.id, false, inspectId);
                     }
                 }

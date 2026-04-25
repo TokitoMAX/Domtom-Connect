@@ -303,7 +303,10 @@ function renderCockpitWithStep(p, step, score) {
                     </button>
                     
                     ${window.isAdminInspection ? `
-                        <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">APPROUVER L'ÉPOPÉE ✓</button>
+                        <div style="display: flex; gap: 16px; flex: 2;">
+                            <button onclick="approveProjectFromInspection('${p.id}')" class="cta-button primary" style="flex: 1; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">APPROUVER L'ÉPOPÉE ✓</button>
+                            <button onclick="rejectProjectFromInspection('${p.id}')" class="cta-button secondary" style="flex: 1; justify-content: center; background: white; color: #ef4444; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: 2px solid #ef4444; cursor: pointer;">REJETER ✕</button>
+                        </div>
                     ` : `
                         <button onclick="saveProjectStep('${p.id}', ${step})" 
                                 class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">
@@ -1151,18 +1154,51 @@ async function approveProjectFromInspection(projectId) {
     try {
         const { error } = await window._supabase
             .from('projects')
-            .update({ status: 'approved', is_listed: true })
+            .update({ 
+                status: 'approved', 
+                verification_status: 'approved',
+                is_listed: true 
+            })
             .eq('id', projectId);
             
         if (error) throw error;
         
         alert("✅ Épopée Approuvée !");
+        window.location.hash = 'overview'; // Return to admin dashboard
         window.location.reload();
         
     } catch (err) {
         alert("Erreur: " + err.message);
     }
 }
+
+async function rejectProjectFromInspection(projectId) {
+    const reason = prompt("Indiquez la raison du rejet (sera visible par le porteur) :");
+    if (reason === null) return;
+    
+    try {
+        const { error } = await window._supabase
+            .from('projects')
+            .update({ 
+                status: 'rejected',
+                verification_status: 'rejected',
+                is_listed: false,
+                rejection_reason: reason 
+            })
+            .eq('id', projectId);
+            
+        if (error) throw error;
+        
+        alert("✕ Épopée Rejetée.");
+        window.location.hash = 'overview';
+        window.location.reload();
+        
+    } catch (err) {
+        alert("Erreur: " + err.message);
+    }
+}
+
+window.rejectProjectFromInspection = rejectProjectFromInspection;
 
 window.viewProjectContributions = async (projectId) => {
     let modal = document.getElementById('contributions-modal');
