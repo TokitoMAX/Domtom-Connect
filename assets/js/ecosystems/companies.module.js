@@ -68,7 +68,13 @@ const CompaniesModule = {
      */
     renderDashboard: (container, profile, session) => {
         if (!container) return;
-        const isAdmin = window.activeRole === 'admin';
+        
+        // Hardened Admin Check (Email or Role)
+        const userEmail = (session?.user?.email || window.currentSession?.user?.email || "").toLowerCase().trim();
+        const isAdmin = window.activeRole === 'admin' || userEmail === 'domtomconnect@gmail.com';
+        
+        console.log(`[CompaniesModule] Rendering Dashboard. Role: ${window.activeRole}, Email: ${userEmail}, isAdmin: ${isAdmin}`);
+
         const badgeText = isAdmin ? 'ADMINISTRATION' : 'Espace Entreprise';
         const badgeColor = isAdmin ? '#3b82f6' : '#10b981';
 
@@ -83,10 +89,12 @@ const CompaniesModule = {
                             <h1 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; margin: 16px 0 8px 0; letter-spacing:-0.05em;">${profile.company_name || profile.full_name || 'Domtom Connect'}</h1>
                             <p style="color: rgba(255,255,255,0.6); font-size: 1.1rem; font-weight:600; margin: 0;">${isAdmin ? 'Outils de Supervision Institutional' : 'Centre de commandement pour vos talents et missions.'}</p>
                         </div>
+                        ${isAdmin ? `
                         <div style="text-align: right; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; min-width: 200px; border: 1px solid rgba(255,255,255,0.1);">
                             <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">STAFF ID</div>
                             <div style="font-size: 1.1rem; color: white; font-weight: 700;">ADMIN-MODE</div>
                         </div>
+                        ` : ''}
                     </div>
                 </div>
 
