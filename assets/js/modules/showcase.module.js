@@ -1,7 +1,7 @@
 /**
  * Showcase Module - Domtom Connect
  * Digital-First Edition: Services & Digital Products only.
- * Hardened version with Error Reporting.
+ * Final Stability Patch.
  */
 const ShowcaseModule = {
     COMMISSION_RATE: 0.05,
@@ -147,18 +147,16 @@ const ShowcaseModule = {
             };
             
             const { error: errIns } = await window._supabase.from('showcase_orders').insert(orderData);
-            if (errIns) throw new Error("Erreur Base de Données (Commandes) : " + errIns.message);
+            if (errIns) throw new Error("Base de données : " + errIns.message);
 
-            const { data: s, error: errProf } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
-            if (errProf) throw new Error("Erreur Profil Expert : " + errProf.message);
-
+            const { data: s } = await window._supabase.from('profiles').select('balance, total_earnings').eq('id', providerId).single();
             await window._supabase.from('profiles').update({ balance: (s.balance || 0) + (total * 0.95), total_earnings: (s.total_earnings || 0) + total }).eq('id', providerId);
             
-            alert("Paiement validé et enregistré !");
+            alert("Paiement validé !");
             document.getElementById('details-modal-overlay').classList.remove('open');
             this.switchTab('sales');
         } catch (error) {
-            alert("❌ Erreur Critique : " + error.message + "\n\nVérifiez que vous avez bien lancé le script SQL dans Supabase.");
+            alert("❌ Erreur : " + error.message);
         }
     },
 
@@ -178,35 +176,35 @@ const ShowcaseModule = {
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id);
             contentArea.innerHTML = this.renderLocalGrid(items);
         } else if (tabName === 'sales') {
-            const { data: orders, error } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name, email)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
+            // FIX: On ne demande plus la colonne 'email' qui n'existe pas dans la table profiles
+            const { data: orders, error } = await window._supabase.from('showcase_orders')
+                .select(`*, item:showcase_items(title), buyer:profiles!buyer_id(full_name)`)
+                .eq('provider_id', session.user.id)
+                .order('created_at', { ascending: false });
             
-            if (error) { contentArea.innerHTML = `<div style="padding:40px; color:red;">Erreur de lecture : ${error.message}</div>`; return; }
+            if (error) { contentArea.innerHTML = `<div style="padding:40px; color:red;">Erreur : ${error.message}</div>`; return; }
 
             const totalRev = (orders || []).reduce((acc, o) => acc + (o.total_price || 0), 0);
             
             contentArea.innerHTML = `
                 <div style="margin-bottom:32px; display:grid; grid-template-columns: repeat(2, 1fr); gap:20px;">
                     <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1.5px solid #e2e8f0; text-align:center;">
-                        <div style="font-size:0.7rem; font-weight:850; color:#64748b; text-transform:uppercase;">Commandes Validées</div>
+                        <div style="font-size:0.7rem; font-weight:850; color:#64748b; text-transform:uppercase;">Ventes</div>
                         <div style="font-size:1.8rem; font-weight:950;">${(orders || []).length}</div>
                     </div>
                     <div style="background:#020617; padding:20px; border-radius:20px; text-align:center; color:white;">
-                        <div style="font-size:0.75rem; font-weight:850; color:#94a3b8; text-transform:uppercase;">Gain Net Total (95%)</div>
+                        <div style="font-size:0.7rem; font-weight:850; color:#94a3b8; text-transform:uppercase;">Net Expert</div>
                         <div style="font-size:1.8rem; font-weight:950;">${(totalRev * 0.95).toFixed(2)}€</div>
                     </div>
                 </div>
 
                 <div style="background: white; border-radius: 20px; border: 1px solid #f1f5f9; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
-                    <div style="padding:15px; background:#f8fafc; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:0.7rem; font-weight:900; color:#64748b; text-transform:uppercase;">Journal des Transactions</span>
-                        <button onclick="ShowcaseModule.switchTab('sales')" style="background:none; border:none; color:#0070ba; font-weight:800; cursor:pointer;">🔄 Actualiser</button>
-                    </div>
                     <table style="width: 100%; border-collapse: collapse; font-size:0.9rem;">
-                        <thead style="background: #ffffff; border-bottom: 2px solid #f1f5f9; text-align: left;">
+                        <thead style="background: #f8fafc; border-bottom: 2px solid #f1f5f9; text-align: left;">
                             <tr>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Date & Client</th>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Détails Offre</th>
-                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Net Expert</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Client / Date</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Offre</th>
+                                <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Gain Net</th>
                                 <th style="padding: 16px; font-weight: 850; color: #64748b; text-transform:uppercase; font-size:0.65rem;">Action</th>
                             </tr>
                         </thead>
@@ -219,14 +217,14 @@ const ShowcaseModule = {
                                     </td>
                                     <td style="padding: 16px;">
                                         <div style="font-weight: 700;">${o.item?.title}</div>
-                                        <div style="font-size:0.7rem; color:#94a3b8; font-weight:900;">${o.invoice_number || 'SANS_REF'}</div>
+                                        <div style="font-size:0.7rem; color:#94a3b8; font-weight:900;">${o.invoice_number || 'DOM-TEST'}</div>
                                     </td>
                                     <td style="padding: 16px; font-weight: 950; color: #10b981;">+${(o.total_price * 0.95).toFixed(2)}€</td>
                                     <td style="padding: 16px;">
                                         <button onclick="window.ShowcaseModule.generateInvoice('${o.id}')" style="background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer; font-weight:900; font-size:0.7rem; color:#0070ba;">FACTURE</button>
                                     </td>
                                 </tr>
-                            `).join('') : '<tr><td colspan="4" style="text-align:center; padding:60px; color:#94a3b8; font-weight:700;">Aucune vente enregistrée. Lancez un test d\'achat !</td></tr>'}
+                            `).join('') : '<tr><td colspan="4" style="text-align:center; padding:40px; color:#94a3b8;">Aucune vente enregistrée.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -258,7 +256,7 @@ const ShowcaseModule = {
                 <div style="display: flex; flex-direction: column; gap: 20px;">
                     <input id="item-id" type="hidden" value="${item?.id || ''}">
                     <input id="item-title" value="${item?.title || ''}" placeholder="Titre de l'offre..." style="width: 100%; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-weight: 700; font-size:1.1rem;">
-                    <textarea id="item-desc" placeholder="Que vendez-vous ? (Détails de l'expertise...)" style="width: 100%; min-height: 120px; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-family: inherit;">${item?.description || ''}</textarea>
+                    <textarea id="item-desc" placeholder="Que vendez-vous ?" style="width: 100%; min-height: 120px; padding: 16px; border-radius: 14px; border: 2.5px solid #e2e8f0; font-family: inherit;">${item?.description || ''}</textarea>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                         <div>
                             <label style="font-size:0.75rem; font-weight:800; color:#64748b;">PRIX NET (€)</label>
@@ -329,7 +327,6 @@ const ShowcaseModule = {
                         <div style="font-size:2rem; font-weight:950;">${o.total_price.toFixed(2)}€</div>
                      </div>
                 </div>
-                <div style="margin-top:80px; text-align:center; color:#94a3b8; font-size:0.75rem;">Document généré par Domtom Connect. Valeur légale de reçu.</div>
             </body></html>`;
             const win = window.open('','_blank'); win.document.write(html); win.document.close(); setTimeout(()=>win.print(),800);
         } catch (err) { alert(err.message); }
