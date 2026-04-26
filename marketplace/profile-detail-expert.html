@@ -163,6 +163,19 @@
             <aside class="profile-sidebar">
                 <div class="profile-card" style="padding: 32px;">
                     <a href="#" id="contact-link" class="contact-btn"><i class="fas fa-paper-plane" style="margin-right:10px;"></i> Contacter l'Expert</a>
+
+                    <!-- NEW SHOWCASE LINK BLOCK -->
+                    <div id="showcase-block" style="display:none; margin-top: 24px; padding: 24px; background: #0f172a; border-radius: 20px; color: white; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.2)'; this.style.borderColor='var(--primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='rgba(255,255,255,0.1)';" onclick="window.location.href=`../showcase.html?id=${new URLSearchParams(window.location.search).get('id')}`">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 44px; height: 44px; min-width: 44px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem;">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1rem; font-weight: 900; letter-spacing: -0.01em;">Solutions & Offres</h3>
+                                <p style="margin: 4px 0 0; color: #94a3b8; font-size: 0.8rem; font-weight: 600;">Voir les services du catalogue</p>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- SOCIAL LINKS (EXPANDED GRID) -->
                     <div id="social-grid" class="social-grid" style="display:none;">
@@ -407,6 +420,13 @@
                 
                 const contactBtn = document.getElementById('contact-link');
                 if (contactBtn) contactBtn.href = `/messages?to=${p.id}`;
+
+                // --- SHOWCASE GUARD: Only show if items exist ---
+                const { count: showcaseCount } = await sb.from('showcase_items').select('*', { count: 'exact', head: true }).eq('user_id', id);
+                if (showcaseCount > 0) {
+                    const showcaseBlock = document.getElementById('showcase-block');
+                    if (showcaseBlock) showcaseBlock.style.display = 'block';
+                }
 
             } catch (e) { 
                 console.error(e); 
