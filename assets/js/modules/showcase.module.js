@@ -296,40 +296,62 @@ const ShowcaseModule = {
             const { data: item } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             const overlay = document.getElementById('details-modal-overlay');
             
+            const styleId = 'showcase-modal-styles';
+            if (!document.getElementById(styleId)) {
+                const style = document.createElement('style');
+                style.id = styleId;
+                style.innerHTML = `
+                    .showcase-modal-container {
+                        display: flex; flex-direction: row; gap: 40px; 
+                        background: #fff; width: 100%; max-width: 950px; 
+                        border-radius: 60px; border: 4px solid #000; 
+                        box-shadow: 25px 25px 0px #000; position: relative; 
+                        margin: 20px; overflow: hidden; padding: 40px;
+                    }
+                    .showcase-left { flex: 1.1; }
+                    .showcase-right { flex: 0.9; display: flex; flex-direction: column; justify-content: center; }
+                    @media (max-width: 850px) {
+                        .showcase-modal-container { flex-direction: column; max-width: 500px; padding: 30px; gap: 25px; border-radius: 40px; }
+                        .showcase-left, .showcase-right { width: 100%; flex: none; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
             overlay.innerHTML = `
-                <div style="background: white; width: 100%; max-width: 480px; border-radius: 50px; padding: 40px; border: 4px solid #000; box-shadow: 20px 20px 0px #000; position: relative; margin: 20px;">
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: -15px; right: -15px; background: #fff; border: 3.5px solid #000; border-radius: 100px; width: 45px; height: 45px; cursor: pointer; font-size: 1.5rem; font-weight: 950; display:flex; align-items:center; justify-content:center; box-shadow: 5px 5px 0px #000; z-index:20;">×</button>
+                <div class="showcase-modal-container">
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 25px; right: 25px; background: #fff; border: 3px solid #000; border-radius: 100px; width: 40px; height: 40px; cursor: pointer; font-size: 1.4rem; font-weight: 950; display:flex; align-items:center; justify-content:center; z-index:20; box-shadow: 4px 4px 0px #000;">×</button>
                     
-                    <div style="text-align:center; margin-bottom:30px;">
-                        <span style="background: #10b981; color: white; padding: 8px 20px; border-radius: 100px; font-weight: 950; font-size: 0.75rem; letter-spacing:0.05em; border:2.5px solid #000; box-shadow: 4px 4px 0pt rgba(16, 185, 129, 0.2);">🔒 PAIEMENT SECURISE</span>
+                    <div class="showcase-left">
+                        ${item.image_url ? `
+                            <div style="width:100%; aspect-ratio:1; border-radius:35px; overflow:hidden; border:3.5px solid #000; background:#f8fafc; box-shadow: 10px 10px 0px #f1f5f9;">
+                                <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
+                            </div>
+                        ` : `
+                            <div style="width:100%; aspect-ratio:1; border-radius:35px; border:3.5px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; background:#f8fafc;">
+                                <span style="font-size:4rem; opacity:0.1;">📸</span>
+                            </div>
+                        `}
                     </div>
 
-                    ${item.image_url ? `
-                        <div style="width:100%; aspect-ratio:1; border-radius:30px; overflow:hidden; border:3.5px solid #000; margin-bottom:25px; background:#f8fafc;">
-                            <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
+                    <div class="showcase-right">
+                        <div style="margin-bottom:20px;">
+                            <span style="background: #10b981; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🔒 PAIEMENT SECURISE</span>
+                            <h2 style="font-size: 2.8rem; font-weight: 950; color: #000; margin: 0 0 10px 0; letter-spacing:-0.06em; line-height:0.9;">${item.title}</h2>
+                            <p style="font-size: 1rem; color: #64748b; font-weight: 750; margin:0;">Propulsé par Domtom Connect Marketplace.</p>
                         </div>
-                    ` : `
-                        <div style="width:100%; height:150px; border-radius:30px; border:3.5px dashed #cbd5e1; margin-bottom:25px; display:flex; align-items:center; justify-content:center; background:#f8fafc;">
-                            <span style="font-size:3rem; opacity:0.2;">📄</span>
+                        
+                        <div style="background: #000; padding: 25px; border-radius: 30px; margin-bottom: 25px; text-align: center; color:#fff;">
+                            <span style="font-size: 3.2rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
                         </div>
-                    `}
 
-                    <div style="margin-bottom: 30px; text-align:center;">
-                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #000; margin: 0 0 8px 0; letter-spacing:-0.05em; line-height:1;">${item.title}</h2>
-                        <div style="font-size: 1.1rem; color: #64748b; font-weight: 750;">Règlement via PayPal ou Carte</div>
+                        <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:15px;"></div>
+
+                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline; width:fit-content; margin:0 auto;">Annuler l'opération</button>
                     </div>
-                    
-                    <div style="background: #000; padding: 25px; border-radius: 30px; margin-bottom: 35px; text-align: center; color:#fff;">
-                        <span style="font-size: 3rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
-                    </div>
-
-                    <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:20px;"></div>
-
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="width:100%; background:transparent; color:#94a3b8; border:none; padding:15px; font-weight:900; cursor:pointer; font-size:1rem; text-decoration:underline;">Annuler et revenir à la liste</button>
                 </div>
             `;
             
-            // Permettre de fermer en cliquant sur l'overlay (fond)
             overlay.onclick = (e) => {
                 if (e.target === overlay) overlay.classList.remove('open');
             };
