@@ -262,25 +262,25 @@ const ShowcaseModule = {
             const { data: provider } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
             container.innerHTML = `
-                <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
-                    <div style="text-align: center; margin-bottom: 60px; max-width: 450px;">
-                        <div style="width: 120px; height: 120px; background: #000; border-radius: 50%; margin: 0 auto 30px; border: 5px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.12); overflow:hidden; position:relative;">
-                            ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3.8rem; font-weight:950; line-height:120px;">${provider.full_name?.charAt(0)}</div>`}
+                <div style="font-family: 'Inter', sans-serif; background: #fdfdfd; min-height: 100vh; padding: 40px 15px; display: flex; flex-direction: column; align-items: center;">
+                    <div style="text-align: center; margin-bottom: 40px; max-width: 450px;">
+                        <div style="width: 100px; height: 100px; background: #fff; border-radius: 50%; margin: 0 auto 20px; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow:hidden; position:relative; display:flex; align-items:center; justify-content:center;">
+                            ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="background:#000; color:#fff; width:100%; height:100%; font-size:3rem; font-weight:950; line-height:100px;">${provider.full_name?.charAt(0)}</div>`}
                         </div>
-                        <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.06em;">${provider.full_name}</h1>
-                        <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">${provider.headline || 'Digital Creator pro'}</p>
+                        <h1 style="font-size: 1.8rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.04em;">${provider.full_name}</h1>
+                        <p style="font-size: 1rem; color: #64748b; font-weight: 700; margin: 8px 0 0 0;">${provider.headline || 'Solution Domtom Connect'}</p>
                     </div>
-                    <div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 25px;">
+                    <div style="width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 15px;">
                         ${items.map(item => `
-                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 3px solid #000; border-radius: 30px; padding: 20px 25px; cursor: pointer; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; display: flex; align-items: center; gap: 20px; box-shadow: 0 8px 0px #000;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 0px #000';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0px #000';">
-                                <div style="width:60px; height:60px; border-radius:15px; border:3px solid #000; overflow:hidden; background:#f1f5f9; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
-                                    ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.8rem;">📄</span>'}
+                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 1.5px solid #eef2f6; border-radius: 24px; padding: 15px 20px; cursor: pointer; transition: 0.2s ease-out; position: relative; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.06)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.03)';">
+                                <div style="width:50px; height:50px; border-radius:12px; overflow:hidden; background:#f8fafc; flex-shrink:0; display:flex; align-items:center; justify-content:center; border:1px solid #f1f5f9;">
+                                    ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.4rem;">📄</span>'}
                                 </div>
                                 <div style="flex-grow:1; text-align:left;">
-                                    <div style="font-weight: 950; font-size: 1.25rem; color: #000; letter-spacing:-0.03em;">${item.title}</div>
-                                    <div style="font-size: 1rem; color: #64748b; font-weight: 750;">Détails & Achat</div>
+                                    <div style="font-weight: 850; font-size: 1.05rem; color: #000; letter-spacing:-0.02em;">${item.title}</div>
+                                    <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">Consulter & Acheter</div>
                                 </div>
-                                <div style="font-weight: 950; font-size: 1.2rem; color:#10b981;">${item.price.toFixed(2)}€</div>
+                                <div style="font-weight: 950; font-size: 1.05rem; color:#10b981; background:#f0fdf4; padding:6px 12px; border-radius:12px;">${item.price.toFixed(2)}€</div>
                             </div>
                         `).join('')}
                     </div>
@@ -302,16 +302,16 @@ const ShowcaseModule = {
                 style.id = styleId;
                 style.innerHTML = `
                     .showcase-modal-container {
-                        display: flex; flex-direction: row; gap: 40px; 
-                        background: #fff; width: 100%; max-width: 950px; 
-                        border-radius: 60px; border: 4px solid #000; 
-                        box-shadow: 25px 25px 0px #000; position: relative; 
-                        margin: 20px; overflow: hidden; padding: 40px;
+                        display: flex; flex-direction: row; gap: 30px; 
+                        background: #fff; width: 100%; max-width: 880px; 
+                        border-radius: 40px; border: 1.5px solid #eef2f6; 
+                        box-shadow: 0 25px 60px rgba(0,0,0,0.1); position: relative; 
+                        margin: 20px; overflow: hidden; padding: 30px;
                     }
-                    .showcase-left { flex: 1.1; }
-                    .showcase-right { flex: 0.9; display: flex; flex-direction: column; justify-content: center; }
+                    .showcase-left { flex: 1; }
+                    .showcase-right { flex: 1; display: flex; flex-direction: column; justify-content: center; }
                     @media (max-width: 850px) {
-                        .showcase-modal-container { flex-direction: column; max-width: 500px; padding: 30px; gap: 25px; border-radius: 40px; }
+                        .showcase-modal-container { flex-direction: column; max-width: 420px; padding: 25px; gap: 20px; border-radius: 32px; margin: 15px; }
                         .showcase-left, .showcase-right { width: 100%; flex: none; }
                     }
                 `;
@@ -320,34 +320,34 @@ const ShowcaseModule = {
 
             overlay.innerHTML = `
                 <div class="showcase-modal-container">
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 25px; right: 25px; background: #fff; border: 3px solid #000; border-radius: 100px; width: 40px; height: 40px; cursor: pointer; font-size: 1.4rem; font-weight: 950; display:flex; align-items:center; justify-content:center; z-index:20; box-shadow: 4px 4px 0px #000;">×</button>
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 20px; right: 20px; background: #fff; border: 2px solid #e2e8f0; border-radius: 100px; width: 36px; height: 36px; cursor: pointer; font-size: 1.2rem; font-weight: 950; display:flex; align-items:center; justify-content:center; z-index:20; color:#64748b;">×</button>
                     
                     <div class="showcase-left">
                         ${item.image_url ? `
-                            <div style="width:100%; aspect-ratio:1; border-radius:35px; overflow:hidden; border:3.5px solid #000; background:#f8fafc; box-shadow: 10px 10px 0px #f1f5f9;">
+                            <div style="width:100%; aspect-ratio:1; border-radius:24px; overflow:hidden; border:1px solid #e2e8f0; background:#f8fafc;">
                                 <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
                             </div>
                         ` : `
-                            <div style="width:100%; aspect-ratio:1; border-radius:35px; border:3.5px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; background:#f8fafc;">
-                                <span style="font-size:4rem; opacity:0.1;">📸</span>
+                            <div style="width:100%; aspect-ratio:1; border-radius:24px; border:1.5px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; background:#f8fafc;">
+                                <span style="font-size:3rem; opacity:0.1;">📸</span>
                             </div>
                         `}
                     </div>
 
                     <div class="showcase-right">
-                        <div style="margin-bottom:20px;">
-                            <span style="background: #10b981; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🔒 PAIEMENT SECURISE</span>
-                            <h2 style="font-size: 2.8rem; font-weight: 950; color: #000; margin: 0 0 10px 0; letter-spacing:-0.06em; line-height:0.9;">${item.title}</h2>
-                            <p style="font-size: 1rem; color: #64748b; font-weight: 750; margin:0;">Propulsé par Domtom Connect Marketplace.</p>
+                        <div style="margin-bottom:15px; text-align:center;">
+                            <span style="background: #10b981; color: white; padding: 6px 14px; border-radius: 100px; font-weight: 950; font-size: 0.65rem; letter-spacing:0.05em; display:inline-block; margin-bottom:15px;">🔒 PAIEMENT SECURISE</span>
+                            <h2 style="font-size: 2rem; font-weight: 950; color: #000; margin: 0 0 5px 0; letter-spacing:-0.04em; line-height:1;">${item.title}</h2>
+                            <p style="font-size: 0.9rem; color: #64748b; font-weight: 700; margin:0;">Transaction opérée par PayPal.</p>
                         </div>
                         
-                        <div style="background: #000; padding: 25px; border-radius: 30px; margin-bottom: 25px; text-align: center; color:#fff;">
-                            <span style="font-size: 3.2rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 20px; border: 1.5px solid #eef2f6; margin-bottom: 25px; text-align: center; color:#000;">
+                            <span style="font-size: 2.5rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
                         </div>
 
-                        <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:15px;"></div>
+                        <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:10px;"></div>
 
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline; width:fit-content; margin:0 auto;">Annuler l'opération</button>
+                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:800; cursor:pointer; font-size:0.85rem; text-decoration:underline; width:fit-content; margin:0 auto;">Retour à la liste</button>
                     </div>
                 </div>
             `;
