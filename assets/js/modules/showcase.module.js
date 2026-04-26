@@ -306,6 +306,10 @@ const ShowcaseModule = {
             await this.init();
             const { data: item } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             const overlay = document.getElementById('details-modal-overlay');
+            if (!overlay) return;
+
+            const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
+            const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
             
             const styleId = 'showcase-modal-styles';
             if (!document.getElementById(styleId)) {
@@ -357,8 +361,14 @@ const ShowcaseModule = {
                             <span style="font-size: 2rem; font-weight: 950;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</span>
                         </div>
 
-                        <div style="display:flex; flex-direction:column; gap:12px;">
-                            <button onclick="window.location.href='messages.html?to=${item.user_id}'" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
+                         <div style="display:flex; flex-direction:column; gap:12px;">
+                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#000; color:#fff; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
+                            
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                                <button onclick="window.location.href='${prefix}marketplace/profile-detail-expert.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
+                                <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
+                            </div>
+
                             <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
                         </div>
                     </div>

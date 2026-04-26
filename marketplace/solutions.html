@@ -216,7 +216,7 @@
                             <p class="solution-desc">${item.description || 'Expertise dédiée à l\'accélération de vos projets territoriaux.'}</p>
                             
                             <div class="solution-footer">
-                                <div class="expert-info">
+                                <div class="expert-info" onclick="event.stopPropagation(); window.location.href='profile-detail-expert.html?id=${item.user_id}'" title="Voir le profil de l'expert">
                                     <div class="expert-avatar">
                                         ${expert.avatar_url ? `<img src="${expert.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (expert.full_name?.charAt(0) || 'E')}
                                     </div>
