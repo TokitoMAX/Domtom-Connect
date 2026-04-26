@@ -288,7 +288,7 @@ const ShowcaseModule = {
 
     renderPayPalButton(providerId, itemId, price) {
         paypal.Buttons({
-            style: { layout: 'vertical', color: 'black', shape: 'pill', label: 'pay', height: 60 },
+            style: { layout: 'vertical', color: 'black', shape: 'pill', label: 'pay', height: 55 },
             createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { currency_code: 'EUR', value: price.toFixed(2) } }] }),
             onApprove: (data, actions) => actions.order.capture().then(d => this.executeFinalOrder({ itemId, providerId, price, paypalId: d.id }))
         }).render('#paypal-button-container-showcase');
