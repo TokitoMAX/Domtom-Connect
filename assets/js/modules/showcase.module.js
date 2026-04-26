@@ -35,8 +35,8 @@ const ShowcaseModule = {
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
                         <div>
-                            <h2 style="font-size: 2.4rem; font-weight: 950; letter-spacing: -0.06em; margin: 0;">Ma Vitrine Expert</h2>
-                            <p style="color: #64748b; font-weight: 750; margin-top:5px;">Pilotage Domtom Connect Marketplace.</p>
+                            <h2 style="font-size: 2.4rem; font-weight: 950; letter-spacing: -0.06em; margin: 0;">Mes Solutions & Offres</h2>
+                            <p style="color: #64748b; font-weight: 750; margin-top:5px;">Décrivez vos expertises pour attirer de nouveaux clients.</p>
                         </div>
                         <div style="display: flex; gap: 10px;">
                             <button onclick="ShowcaseModule.openSettings()" style="background:transparent; border:2.5px solid #000; padding:12px; border-radius:15px; cursor:pointer; font-size:1.1rem;">⚙️</button>
@@ -44,27 +44,26 @@ const ShowcaseModule = {
                         </div>
                     </div>
 
-                    <!-- DASHBOARD FINANCIER -->
+                    <!-- DASHBOARD PROSPECTION (Ex-Financier) -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 50px;">
                         <div style="background: #f0fdf4; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #166534; position:relative;">
-                            <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Argent disponible</div>
+                            <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Commandes Payées</div>
                             <div style="font-size: 2.3rem; font-weight: 950; color: #166534;">${(profile?.balance || 0).toFixed(2)}€</div>
                             <button id="payout-btn" onclick="ShowcaseModule.requestPayout()" 
                                 ${hasPending ? 'disabled' : ''} 
                                 style="margin-top:15px; width:100%; padding:14px; border-radius:100px; border:none; background:${hasPending ? '#94edab' : '#000'}; color:${hasPending ? '#166534' : '#fff'}; font-weight:950; cursor:${hasPending ? 'not-allowed' : 'pointer'}; transition:0.2s;">
-                                ${hasPending ? '⌛ Virement en cours...' : 'Demander un virement'}
+                                ${hasPending ? '⌛ Virement en cours...' : 'Récupérer mes gains'}
                             </button>
-                            <div style="margin-top:10px; font-size:0.6rem; font-weight:900; color:#15803d; text-align:center;">Email PayPal: ${profile?.paypal_email || 'Non configuré'}</div>
                         </div>
                         <div style="background: #fff; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #000;">
-                            <div style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase;">Total Vendu (Brut)</div>
-                            <div style="font-size: 2.3rem; font-weight: 950; color:#000;">${(profile?.total_earnings || 0).toFixed(2)}€</div>
-                            <div style="margin-top:15px; font-size:0.7rem; font-weight:900; color:#94a3b8; text-align:center;">Frais plateforme (5%) déjà déduits.</div>
+                            <div style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase;">Visibilité Solutions</div>
+                            <div style="font-size: 2.3rem; font-weight: 950; color:#000;">${items?.length || 0} Offres</div>
+                            <div style="margin-top:15px; font-size:0.7rem; font-weight:900; color:#94a3b8; text-align:center;">Vos services sont visibles sur votre vitrine publique.</div>
                         </div>
                     </div>
 
                     <!-- SECTION CATALOGUE -->
-                    <h3 style="font-weight:950; font-size:1.4rem; margin-bottom:25px; color:#000;">Mes Blocs Boutique</h3>
+                    <h3 style="font-weight:950; font-size:1.4rem; margin-bottom:25px; color:#000;">Mes Piliers de Service</h3>
                     <div id="showcase-items-list" style="display: flex; flex-direction: column; gap: 18px;">
                         ${(!items || items.length === 0) ? `<div style="text-align:center; padding:50px; color:#94a3b8; font-weight:800; font-style:italic; background:#f8fafc; border-radius:30px;">Aucune offre active pour le moment.</div>` : 
                         items.map(item => `
@@ -166,33 +165,43 @@ const ShowcaseModule = {
     },
 
     async openItemModal(itemId = null) {
-        let item = { title: '', price: 0, image_url: '' };
+        let item = { title: '', price: 0, image_url: '', description: '', price_prefix: 'À partir de' };
         if (itemId) {
             const { data } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             item = data;
         }
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 450px; border-radius: 50px; padding: 50px; border: 4px solid #000; box-shadow: 25px 25px 0px #000;">
-                <h3 style="margin:0 0 35px 0; font-weight:950; font-size:1.9rem; letter-spacing:-0.05em; text-align:center; color:#000;">${itemId ? 'Editer votre offre' : 'Nouveau bloc'}</h3>
+            <div style="background: white; width: 100%; max-width: 500px; border-radius: 50px; padding: 40px; border: 4px solid #000; box-shadow: 25px 25px 0px #000;">
+                <h3 style="margin:0 0 30px 0; font-weight:950; font-size:1.9rem; letter-spacing:-0.05em; text-align:center; color:#000;">${itemId ? 'Éditer ma solution' : 'Nouvelle solution'}</h3>
                 
-                <div style="display:flex; flex-direction:column; gap:30px;">
+                <div style="display:flex; flex-direction:column; gap:20px;">
                     <div style="text-align:center;">
-                        <div id="image-preview" style="width:140px; height:140px; background:#f8fafc; border:3px dashed #e2e8f0; border-radius:30px; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                        <div id="image-preview" style="width:120px; height:120px; background:#f8fafc; border:3px dashed #e2e8f0; border-radius:30px; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                             ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:2.5rem; opacity:0.3;">📸</span>'}
                         </div>
-                        <label style="background:#000; color:#fff; padding:12px 25px; border-radius:100px; font-size:0.85rem; font-weight:950; cursor:pointer; display:inline-block;">
-                            Choisir une photo pro
+                        <label style="background:#000; color:#fff; padding:10px 20px; border-radius:100px; font-size:0.8rem; font-weight:950; cursor:pointer; display:inline-block;">
+                            Photo d'illustration
                             <input type="file" id="modal-item-file" style="display:none;" accept="image/*" onchange="ShowcaseModule.handleImagePreview(this)">
                         </label>
                     </div>
 
-                    <input id="modal-item-title" type="text" value="${item.title}" placeholder="Nom du produit / service" style="width:100%; padding:20px; border-radius:20px; border:3.5px solid #000; font-weight:950; font-size:1.1rem; text-align:center; font-family:'Inter';">
-                    <input id="modal-item-price" type="number" value="${item.price}" placeholder="Prix public (€)" style="width:100%; padding:20px; border-radius:20px; border:3.5px solid #000; font-weight:950; font-size:1.1rem; text-align:center; font-family:'Inter';">
+                    <input id="modal-item-title" type="text" value="${item.title}" placeholder="Titre de la solution" style="width:100%; padding:15px; border-radius:15px; border:3px solid #000; font-weight:950; font-size:1rem; font-family:'Inter';">
                     
-                    <div style="display:flex; flex-direction:column; gap:12px;">
-                        <button id="save-item-btn" onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background:#000; color:#fff; border:none; padding:25px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Mettre à jour la boutique</button>
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer; font-size:1rem;">Retour</button>
+                    <textarea id="modal-item-description" placeholder="Décrivez votre offre, la valeur ajoutée et le problème que vous résolvez..." style="width:100%; height:100px; padding:15px; border-radius:15px; border:3px solid #000; font-weight:750; font-size:0.9rem; font-family:'Inter'; resize:none;">${item.description || ''}</textarea>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <select id="modal-item-prefix" style="padding:15px; border-radius:15px; border:3px solid #000; font-weight:950; font-family:'Inter'; background:#fff;">
+                            <option value="À partir de" ${item.price_prefix === 'À partir de' ? 'selected' : ''}>À partir de</option>
+                            <option value="Forfait fixe" ${item.price_prefix === 'Forfait fixe' ? 'selected' : ''}>Forfait fixe</option>
+                            <option value="Sur devis" ${item.price_prefix === 'Sur devis' ? 'selected' : ''}>Sur devis</option>
+                        </select>
+                        <input id="modal-item-price" type="number" value="${item.price}" placeholder="Prix (€)" style="width:100%; padding:15px; border-radius:15px; border:3px solid #000; font-weight:950; font-size:1rem; font-family:'Inter';">
+                    </div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button id="save-item-btn" onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem;">Valider la solution</button>
+                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer; font-size:1rem;">Plus tard</button>
                     </div>
                 </div>
             </div>
@@ -216,6 +225,8 @@ const ShowcaseModule = {
         btn.innerText = "Téléchargement..."; btn.disabled = true;
 
         const title = document.getElementById('modal-item-title').value;
+        const description = document.getElementById('modal-item-description').value;
+        const price_prefix = document.getElementById('modal-item-prefix').value;
         const price = parseFloat(document.getElementById('modal-item-price').value);
         const fileInput = document.getElementById('modal-item-file');
         const { data: { session } } = await window._supabase.auth.getSession();
@@ -233,7 +244,7 @@ const ShowcaseModule = {
             }
         }
         try {
-            const updateData = { title, price };
+            const updateData = { title, description, price, price_prefix };
             if (image_url) updateData.image_url = image_url;
             if (itemId) await window._supabase.from('showcase_items').update(updateData).eq('id', itemId);
             else await window._supabase.from('showcase_items').insert({ ...updateData, user_id: session.user.id });
@@ -268,7 +279,7 @@ const ShowcaseModule = {
                             ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3.8rem; font-weight:950; line-height:120px;">${provider.full_name?.charAt(0)}</div>`}
                         </div>
                         <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.06em;">${provider.full_name}</h1>
-                        <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">${provider.headline || 'Digital Creator pro'}</p>
+                        <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">Découvrez mes solutions & expertises</p>
                     </div>
                     <div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 25px;">
                         ${items.map(item => `
@@ -278,9 +289,9 @@ const ShowcaseModule = {
                                 </div>
                                 <div style="flex-grow:1; text-align:left;">
                                     <div style="font-weight: 950; font-size: 1.25rem; color: #000; letter-spacing:-0.03em;">${item.title}</div>
-                                    <div style="font-size: 1rem; color: #64748b; font-weight: 750;">Détails & Achat</div>
+                                    <div style="font-size: 1rem; color: #64748b; font-weight: 750;">Découvrir l'offre</div>
                                 </div>
-                                <div style="font-weight: 950; font-size: 1.2rem; color:#10b981;">${item.price.toFixed(2)}€</div>
+                                <div style="font-weight: 950; font-size: 1.2rem; color:#10b981;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</div>
                             </div>
                         `).join('')}
                     </div>
@@ -336,18 +347,20 @@ const ShowcaseModule = {
 
                     <div class="showcase-right">
                         <div style="margin-bottom:20px;">
-                            <span style="background: #10b981; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🔒 PAIEMENT SECURISE</span>
-                            <h2 style="font-size: 2.8rem; font-weight: 950; color: #000; margin: 0 0 10px 0; letter-spacing:-0.06em; line-height:0.9;">${item.title}</h2>
-                            <p style="font-size: 1rem; color: #64748b; font-weight: 750; margin:0;">Propulsé par Domtom Connect Marketplace.</p>
+                            <span style="background: #000; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🚀 SOLUTION D'EXPERT</span>
+                            <h2 style="font-size: 2.4rem; font-weight: 950; color: #000; margin: 0 0 15px 0; letter-spacing:-0.06em; line-height:1;">${item.title}</h2>
+                            <p style="font-size: 1rem; color: #475569; font-weight: 750; line-height:1.5;">${item.description || 'Expertise dédiée à votre projet.'}</p>
                         </div>
                         
-                        <div style="background: #000; padding: 25px; border-radius: 30px; margin-bottom: 25px; text-align: center; color:#fff;">
-                            <span style="font-size: 3.2rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
+                        <div style="background: #f0fdf4; padding: 20px; border-radius: 20px; border:3px solid #000; margin-bottom: 25px; text-align: center; color:#166534; box-shadow: 6px 6px 0px #166534;">
+                            <span style="font-size: 0.8rem; font-weight: 950; display:block; text-transform:uppercase;">Investissement</span>
+                            <span style="font-size: 2rem; font-weight: 950;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</span>
                         </div>
 
-                        <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:15px;"></div>
-
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline; width:fit-content; margin:0 auto;">Annuler l'opération</button>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <button onclick="window.location.href='messages.html?to=${item.user_id}'" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
+                            <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
+                        </div>
                     </div>
                 </div>
             `;
