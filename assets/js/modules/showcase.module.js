@@ -331,7 +331,7 @@ const ShowcaseModule = {
 
             overlay.innerHTML = `
                 <div class="showcase-modal-container">
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 25px; right: 25px; background: #fff; border: 3px solid #000; border-radius: 100px; width: 40px; height: 40px; cursor: pointer; font-size: 1.4rem; font-weight: 950; display:flex; align-items:center; justify-content:center; z-index:20; box-shadow: 4px 4px 0px #000;">×</button>
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" class="showcase-modal-close">&times;</button>
                     
                     <div class="showcase-left">
                         ${item.image_url ? `
@@ -370,7 +370,6 @@ const ShowcaseModule = {
             };
 
             overlay.classList.add('open');
-            this.renderPayPalButton(item.user_id, item.id, item.price);
         } catch (err) { alert(err.message); }
     },
 

@@ -1,0 +1,106 @@
+/* Brutalist Showcase Styles - Domtom Connect */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.open { display: flex; }
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.showcase-modal-container {
+    background: white;
+    border: 4px solid #000;
+    border-radius: 45px;
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 24px 24px 0px #000;
+    animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.showcase-left { 
+    padding: 50px; 
+    background: #fff; 
+    border-right: 4px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.showcase-right { 
+    padding: 60px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    background: #fdfdfd; 
+}
+
+.showcase-modal-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: #fff;
+    border: 3.5px solid #000;
+    border-radius: 100px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.2s;
+}
+
+.showcase-modal-close:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000;
+}
+
+.showcase-modal-close:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+@media (max-width: 900px) {
+    .showcase-modal-container { 
+        grid-template-columns: 1fr; 
+        max-height: 95vh; 
+        overflow-y: auto;
+        border-radius: 35px;
+        box-shadow: 12px 12px 0px #000;
+    }
+    .showcase-left { 
+        border-right: none; 
+        border-bottom: 4px solid #000; 
+        padding: 30px; 
+    }
+    .showcase-right { 
+        padding: 40px 30px; 
+    }
+}

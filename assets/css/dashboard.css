@@ -2606,18 +2606,29 @@ html, body {
     }
 
     .nav-market-links {
-        padding: 2px !important;
-        gap: 4px !important;
+        padding: 8px 16px !important;
+        gap: 6px !important;
         max-width: 100% !important;
-        border-radius: 0 !important;
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
+        border-radius: 100px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: #0f172a !important; /* Force visibility */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+        margin: 5px auto !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
     }
 
     .nav-market-link {
-        padding: 6px 12px !important;
-        font-size: 0.7rem !important;
+        padding: 6px 14px !important;
+        font-size: 0.75rem !important;
+        background: rgba(255,255,255,0.05) !important;
+        border-radius: 100px !important;
+    }
+
+    .nav-market-link.active {
+        background: #10b981 !important;
+        color: white !important;
     }
 
     /* 4. Banner Optimization (Success Path) */

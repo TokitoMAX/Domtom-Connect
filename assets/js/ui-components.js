@@ -36,7 +36,7 @@ const UIComponents = {
             { label: 'Projets', icon: 'M13 10V3L4 14h7v7l9-11h-7z', path: 'marketplace/projects.html' },
             { label: 'Événements', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', path: 'marketplace/evenements.html' },
             { label: 'Entreprises', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', path: 'marketplace/companies.html' },
-            { label: 'Solutions & Offres', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', path: 'mon-espace.html#marketplace' }
+            { label: 'Solutions & Offres', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', path: 'marketplace/solutions.html' }
         ];
 
         let sidebarHtml = `
@@ -131,6 +131,7 @@ const UIComponents = {
                     <div class="nav-links">
                         <a href="${adjust('marketplace/directory.html')}">Talents</a>
                         <a href="${adjust('marketplace/jobs.html')}">Missions</a>
+                        <a href="${adjust('marketplace/solutions.html')}">Solutions</a>
                         <a href="${adjust('marketplace/projects.html')}">Projets</a>
                         <a href="${adjust('marketplace/evenements.html')}">Événements</a>
                         <a href="${adjust('marketplace/companies.html')}">Entreprises</a>
