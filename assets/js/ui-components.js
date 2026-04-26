@@ -86,8 +86,16 @@ const UIComponents = {
     },
 
     async renderTopNav() {
-        const navContainer = document.querySelector('.navbar .container');
-        if (!navContainer) return;
+        let nav = document.querySelector('.navbar');
+        if (!nav) return;
+        
+        // Ensure container exists for injection
+        let navContainer = nav.querySelector('.container');
+        if (!navContainer) {
+            navContainer = document.createElement('div');
+            navContainer.className = 'container';
+            nav.appendChild(navContainer);
+        }
 
         const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
         const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
@@ -132,6 +140,11 @@ const UIComponents = {
                 </div>
             </div>
         `;
+
+        // Force visibility
+        nav.style.backgroundColor = 'white';
+        nav.style.borderBottom = '1px solid #e2e8f0';
+        nav.style.display = 'flex';
 
         // Update Auth Actions
         let session = null;
