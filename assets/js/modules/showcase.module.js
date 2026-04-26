@@ -27,6 +27,8 @@ const ShowcaseModule = {
             const { data: { session } } = await window._supabase.auth.getSession();
             const { data: profile } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+            const { data: pendingPayouts } = await window._supabase.from('payout_requests').select('*').eq('user_id', session.user.id).eq('status', 'pending');
+            const hasPending = pendingPayouts && pendingPayouts.length > 0;
             
             container.innerHTML = `
                 <div style="font-family: 'Inter', sans-serif; max-width: 800px; margin: 0 auto; color: #000; padding: 40px;">
@@ -47,7 +49,11 @@ const ShowcaseModule = {
                         <div style="background: #f0fdf4; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #166534; position:relative;">
                             <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Argent disponible</div>
                             <div style="font-size: 2.3rem; font-weight: 950; color: #166534;">${(profile?.balance || 0).toFixed(2)}€</div>
-                            <button onclick="ShowcaseModule.requestPayout()" style="margin-top:15px; width:100%; padding:14px; border-radius:100px; border:none; background:#000; color:#fff; font-weight:950; cursor:pointer;">Demander un virement</button>
+                            <button id="payout-btn" onclick="ShowcaseModule.requestPayout()" 
+                                ${hasPending ? 'disabled' : ''} 
+                                style="margin-top:15px; width:100%; padding:14px; border-radius:100px; border:none; background:${hasPending ? '#94edab' : '#000'}; color:${hasPending ? '#166534' : '#fff'}; font-weight:950; cursor:${hasPending ? 'not-allowed' : 'pointer'}; transition:0.2s;">
+                                ${hasPending ? '⌛ Virement en cours...' : 'Demander un virement'}
+                            </button>
                             <div style="margin-top:10px; font-size:0.6rem; font-weight:900; color:#15803d; text-align:center;">Email PayPal: ${profile?.paypal_email || 'Non configuré'}</div>
                         </div>
                         <div style="background: #fff; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #000;">
@@ -90,13 +96,38 @@ const ShowcaseModule = {
     },
 
     async requestPayout() {
-        const { data: { session } } = await window._supabase.auth.getSession();
-        const { data: profile } = await window._supabase.from('profiles').select('balance, paypal_email').eq('id', session.user.id).single();
-        if (!profile?.paypal_email) return alert("Veuillez d'abord configurer votre Email PayPal dans les réglages (⚙️).");
-        if ((profile?.balance || 0) <= 0) return alert("Votre solde disponible est de 0.00€.");
-        
-        if (confirm(`Souhaitez-vous demander le virement de ${profile.balance.toFixed(2)}€ vers ${profile.paypal_email} ?`)) {
-            alert("✓ Votre demande a été transmise à Domtom Connect. Le virement sera effectué sous 48h ouvrées.");
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const { data: profile } = await window._supabase.from('profiles').select('balance, paypal_email').eq('id', session.user.id).single();
+            
+            if (!profile?.paypal_email) return alert("Veuillez d'abord configurer votre Email PayPal dans les réglages (⚙️).");
+            if ((profile?.balance || 0) <= 0) return alert("Votre solde disponible est de 0.00€.");
+            
+            const amountToPay = profile.balance;
+            if (confirm(`Souhaitez-vous demander le virement de ${amountToPay.toFixed(2)}€ vers ${profile.paypal_email} ?`)) {
+                // Bloquer le bouton
+                const btn = document.getElementById('payout-btn');
+                if (btn) { btn.innerText = "Traitement..."; btn.disabled = true; }
+
+                // 1. Créer la demande
+                const { error } = await window._supabase.from('payout_requests').insert({
+                    user_id: session.user.id,
+                    amount: amountToPay,
+                    paypal_email: profile.paypal_email,
+                    status: 'pending'
+                });
+
+                if (error) throw error;
+
+                alert("✓ Votre demande a été enregistrée. Le virement PayPal sera effectué sous 48h ouvrées. Votre solde a été mis à jour.");
+                
+                // 2. Rafraîchir l'interface
+                this.renderManager(document.getElementById('ecosystem-grid-container'));
+            }
+        } catch (err) { 
+            alert("Erreur lors de la demande : " + err.message); 
+            const btn = document.getElementById('payout-btn');
+            if (btn) { btn.innerText = "Demander un virement"; btn.disabled = false; }
         }
     },
 
