@@ -381,26 +381,6 @@ const ShowcaseModule = {
 
             overlay.classList.add('open');
         } catch (err) { alert(err.message); }
-    },
-
-    renderPayPalButton(providerId, itemId, price) {
-        paypal.Buttons({
-            style: { layout: 'vertical', color: 'black', shape: 'pill', label: 'pay', height: 55 },
-            createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { currency_code: 'EUR', value: price.toFixed(2) } }] }),
-            onApprove: (data, actions) => actions.order.capture().then(d => this.executeFinalOrder({ itemId, providerId, price, paypalId: d.id }))
-        }).render('#paypal-button-container-showcase');
-    },
-
-    async executeFinalOrder(p) {
-        try {
-            await window._supabase.from('showcase_orders').insert({
-                item_id: p.itemId, provider_id: p.providerId,
-                total_price: p.price, commission_amount: p.price * this.COMMISSION_RATE,
-                transaction_id: p.paypalId, status: 'paid'
-            });
-            alert("✓ Achat réussi ! Votre produit est disponible.");
-            window.location.reload();
-        } catch (err) { alert(err.message); }
     }
 };
 

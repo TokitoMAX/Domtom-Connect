@@ -199,34 +199,14 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <!-- Navigation -->
-    <nav class="navbar" style="height: 80px; border-bottom: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.95);">
-        <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
-            <a href="index.html" class="nav-brand" id="logo-home" title="Accueil Domtom Connect" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" style="width: 40px; height: 40px;">
-                <span class="nav-brand-name" style="font-size: 1.4rem; font-weight: 850; background: linear-gradient(135deg, #059669 0%, #064e3b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em;">Domtom Connect</span>
-            </a>
-            
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            
-            <div class="nav-content" id="primary-navigation" style="display: flex; align-items: center; gap: 40px;">
-                <div class="nav-links" style="display: flex; align-items: center; gap: 4px; background: #fff; padding: 6px; border-radius: 100px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
-                    <a href="marketplace/directory.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Talents</a>
-                    <a href="marketplace/jobs.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Missions</a>
-                    <a href="marketplace/solutions.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Solutions</a>
-                    <a href="marketplace/projects.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Projets</a>
-                    <a href="marketplace/evenements.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Événements</a>
-                    <a href="marketplace/companies.html" style="padding: 10px 20px; border-radius: 100px; font-weight: 700; color: #475569; text-decoration: none; font-size: 0.95rem; transition: 0.2s;">Entreprises</a>
-                </div>
-                
-                <div class="nav-actions" id="nav-auth-actions" style="display: flex; align-items: center; gap: 24px;">
-                    <a href="login.html" class="nav-login" style="color: #6366f1; text-decoration: underline; font-weight: 700; font-size: 0.95rem; text-underline-offset: 4px;">Démarrer</a>
-                    <a href="register-choice.html" class="cta-button primary" style="background: #0f172a; color: white !important; padding: 14px 28px; border-radius: 14px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 10px 20px rgba(15,23,42,0.1); border: none;">Rejoindre / Explorer</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <nav class="navbar"></nav>
+
+    <script src="assets/js/ui-components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadGlobalNavbar) window.loadGlobalNavbar();
+        });
+    </script>
 
     <!-- Hero Section -->
     <header class="hero-section bg-light light-section" style="padding: 100px 0 60px;">

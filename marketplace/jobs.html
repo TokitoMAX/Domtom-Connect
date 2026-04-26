@@ -144,154 +144,47 @@
             .section-header p { font-size: 1rem !important; }
             .search-bar-v3 { flex-direction: column; padding: 16px; margin: 0 auto; gap: 8px; border-radius: 16px; }
             .search-bar-v3 input, .search-bar-v3 select { width: 100% !important; padding: 12px !important; }
-            
             .directory-grid {
                 grid-template-columns: 1fr !important;
                 gap: 12px !important;
-                padding: 20px 0 120px !important; /* Espace pour la barre mobile-nav */
+                padding: 20px 0 120px !important;
             }
-            
-            /* Déblocage du scroll mobile */
-            body, html {
-                overflow-x: hidden !important;
-                overflow-y: auto !important;
-                height: auto !important;
-            }
-            .premium-card { 
-                padding: 20px !important; 
-                border-radius: 20px !important;
-                border-bottom-width: 3px !important;
-            }
+            .premium-card { padding: 20px !important; border-radius: 20px !important; border-bottom-width: 3px !important; }
             .premium-card-header { gap: 12px !important; margin-bottom: 20px !important; }
             .company-logo-box { width: 50px !important; height: 50px !important; font-size: 1.2rem !important; }
             .job-title-line h3 { font-size: 1.2rem !important; }
-            
             .highlights-grid { gap: 8px !important; margin-bottom: 20px !important; }
             .h-pill { padding: 8px 12px !important; font-size: 0.75rem !important; }
-            
             .job-content-preview { padding-left: 12px !important; margin-bottom: 20px !important; }
             .job-snippet { font-size: 0.85rem !important; -webkit-line-clamp: 2 !important; }
-            
             .premium-footer { padding-top: 16px !important; }
             .btn-premium { padding: 12px !important; font-size: 0.9rem !important; border-radius: 12px !important; }
         }
 
-        /* Forms & Inputs Premium (Linear Style) */
-        .form-group { margin-bottom: 24px; }
-        .form-group label { 
-            display: block; 
-            font-size: 0.75rem; 
-            font-weight: 950; 
-            color: #94a3b8; 
-            margin-bottom: 12px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em;
-            padding-left: 4px;
-        }
-        .form-input, .form-select, .form-textarea { 
-            width: 100%; 
-            padding: 16px 20px; 
-            border: 2px solid #f1f5f9; 
-            border-radius: 18px; 
-            font-size: 1rem; 
-            font-weight: 700;
-            background: #f8fafc; 
-            color: #0f172a;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            outline: none;
-        }
-        .form-input:focus, .form-select:focus, .form-textarea:focus { 
-            border-color: #10b981; 
-            background: white;
-            box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.1);
-            transform: translateY(-1px);
-        }
+        .btn-postuler-premium { background: #0f172a; color: white; border: none; padding: 20px; border-radius: 18px; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2); width: 100%; display: block; }
+        .btn-postuler-premium:hover { background: #1e293b; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(15, 23, 42, 0.3); }
 
-        .btn-postuler-premium { 
-            background: #0f172a; 
-            color: white; 
-            border: none; 
-            padding: 20px; 
-            border-radius: 18px; 
-            font-size: 1.1rem; 
-            font-weight: 900; 
-            cursor: pointer; 
-            transition: all 0.3s;
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
-            letter-spacing: -0.01em;
-            width: 100%;
-            display: block;
-        }
-        .btn-postuler-premium:hover { 
-            background: #1e293b; 
-            transform: translateY(-3px); 
-            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.3);
-        }
-
-        /* Modal Redesign */
-        .modal-overlay { 
-            position: fixed; 
-            inset: 0; 
-            background: rgba(15, 23, 42, 0.9); 
-            z-index: 10000; 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 24px; 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .modal-overlay.open { display: flex; }
-        .modal { 
-            background: white; 
-            border-radius: 32px; 
-            padding: 48px; 
-            width: 100%; 
-            max-width: 650px; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-            position: relative; 
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-        }
+        .modal { background: white; border-radius: 32px; padding: 48px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; position: relative; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.4); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
         .modal-header h2 { font-size: 2rem; font-weight: 950; letter-spacing: -0.04em; color: #0f172a; margin: 0; }
-        .modal-close { 
-            background: #f1f5f9; 
-            border: none; 
-            width: 44px; 
-            height: 44px; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-size: 1.5rem; 
-            font-weight: 700;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
+        .modal-close { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 12px; cursor: pointer; font-size: 1.5rem; font-weight: 700; color: #64748b; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .modal-close:hover { background: #e2e8f0; color: #0f172a; transform: rotate(90deg); }
-        
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 950; color: #94a3b8; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; padding-left: 4px; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 16px 20px; border: 2px solid #f1f5f9; border-radius: 18px; font-size: 1rem; font-weight: 700; background: #f8fafc; color: #0f172a; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); outline: none; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #10b981; background: white; box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.1); transform: translateY(-1px); }
 
         @media (max-width: 768px) { .modal { padding: 32px; } .form-row { grid-template-columns: 1fr; } }
-        
-        /* PREMIUM SWAL OVERRIDES */
-        .premium-swal-popup { border-radius: 32px !important; padding: 40px !important; box-shadow: 0 40px 100px rgba(0,0,0,0.1) !important; }
-        .premium-swal-confirm { border-radius: 14px !important; padding: 16px 32px !important; font-weight: 800 !important; font-size: 1rem !important; }
     </style>
-    <!-- CORE PLATFORM SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/ui-components.js?v=11.1"></script>
+    <script src="../assets/js/ui-components.js"></script>
 </head>
 <body style="background: white;">
-    <nav class="navbar">
-        <div class="container">
-            <!-- Navbar content will be rendered by loadGlobalNavbar() -->
-        </div>
-    </nav>
+    <nav class="navbar"></nav>
 
     <header class="directory-header">
         <div class="container">
@@ -340,22 +233,18 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label style="font-weight: 800; color: #0f172a; margin-bottom: 12px; display: block;">Lettre de motivation & Approche</label>
-                    <textarea id="apply-note" class="form-textarea" placeholder="Détaillez votre expertise pour ce projet..." style="min-height: 180px; width: 100%; box-sizing: border-box;"></textarea>
+                    <label>Lettre de motivation & Approche</label>
+                    <textarea id="apply-note" class="form-textarea" placeholder="Détaillez votre expertise pour ce projet..." style="min-height: 180px;"></textarea>
                 </div>
-                <div class="form-group" style="margin-top: 24px;">
-                    <label style="font-weight: 800; color: #0f172a; margin-bottom: 12px; display: block;">Votre CV / Portfolio (PDF)</label>
-                    <div style="border: 2px dashed #e2e8f0; padding: 40px; border-radius: 20px; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.3s;" onclick="document.getElementById('apply-cv').click()" id="cv-dropzone">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #10b981; margin-bottom: 16px;"></i>
-                        <p id="cv-filename" style="margin: 0; font-weight: 700; color: #475569;">Cliquez pour charger votre PDF</p>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 8px;">Format PDF uniquement (Max 10Mo)</p>
+                <div class="form-group">
+                    <label>Votre CV / Portfolio (PDF)</label>
+                    <div style="border: 2px dashed #e2e8f0; padding: 40px; border-radius: 20px; text-align: center; background: #f8fafc; cursor: pointer;" onclick="document.getElementById('apply-cv').click()" id="cv-dropzone">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #10b981; margin-bottom: 16px;"></i>
+                        <p id="cv-filename" style="margin: 0; font-weight: 700;">Cliquez pour charger votre PDF</p>
                         <input type="file" id="apply-cv" accept=".pdf" style="display: none;" onchange="handleCVSelect(event)">
                     </div>
                 </div>
-                <div style="margin-top: 32px;">
-                    <button class="btn-postuler-premium" id="btn-confirm-apply" onclick="confirmApply()" style="width: 100%;">Envoyer ma candidature sécurisée</button>
-                    <p style="text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 16px;"><i class="fas fa-lock"></i> Vos données sont protégées par chiffrement</p>
-                </div>
+                <button class="btn-postuler-premium" id="btn-confirm-apply" onclick="confirmApply()">Envoyer ma candidature sécurisée</button>
             </div>
         </div>
     </div>
@@ -368,379 +257,109 @@
                 <button class="modal-close" onclick="closeJobModal()">&times;</button>
             </div>
             <form onsubmit="saveJob(event)">
-                <div class="form-group">
-                    <label>Titre du poste</label>
-                    <input type="text" id="j-title" class="form-input" placeholder="Ex: Directeur Marketing Freelance" required>
-                </div>
+                <div class="form-group"><label>Titre</label><input type="text" id="j-title" class="form-input" required></div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Type</label>
-                        <select id="j-type" class="form-select">
-                            <option value="Freelance">Freelance</option>
-                            <option value="CDI">CDI</option>
-                            <option value="CDD">CDD</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Zone</label>
-                        <select id="j-territory" class="form-select">
-                            <option value="Martinique">Martinique</option>
-                            <option value="Guadeloupe">Guadeloupe</option>
-                            <option value="Guyane">Guyane</option>
-                            <option value="Saint-Martin">Saint-Martin</option>
-                            <option value="Réunion">Réunion</option>
-                            <option value="Mayotte">Mayotte</option>
-                            <option value="France Hexagonale">France Hexagonale (Diaspora)</option>
-                            <option value="International">International (Diaspora)</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Type</label><select id="j-type" class="form-select"><option value="Freelance">Freelance</option><option value="CDI">CDI</option></select></div>
+                    <div class="form-group"><label>Zone</label><select id="j-territory" class="form-select"><option value="Martinique">Martinique</option><option value="France Hexagonale">France</option></select></div>
                 </div>
-                <div class="form-group">
-                    <label>Missions</label>
-                    <textarea id="j-missions" class="form-textarea" placeholder="Détaillez les objectifs clés..." style="min-height: 120px;" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Profil Recherché</label>
-                    <textarea id="j-profil" class="form-textarea" placeholder="Compétences, expérience requise..." style="min-height: 120px;" required></textarea>
-                </div>
-                <button type="submit" class="btn-postuler-premium" id="modal-save-btn" style="width:100%;">Publier l'annonce</button>
+                <div class="form-group"><label>Missions</label><textarea id="j-missions" class="form-textarea" required></textarea></div>
+                <div class="form-group"><label>Profil</label><textarea id="j-profil" class="form-textarea" required></textarea></div>
+                <button type="submit" class="btn-postuler-premium" id="modal-save-btn">Publier l'annonce</button>
             </form>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <footer class="footer" style="padding: 60px 0; border-top: 1px solid #e2e8f0; background: white; margin-top: 100px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; opacity: 0.6;">
+                <p style="font-size: 0.85rem; color: #64748b;">&copy; 2026 Domtom Connect.</p>
+                <a href="../support.html" style="color: #64748b; font-weight: 700; text-decoration: none;">Support & Aide</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
         let currentUserId = null, currentUserRole = null, cachedProfiles = {}, currentSubscriptionTier = 'free', userApplications = [], allJobs = [], currentEditJobId = null;
 
         async function init() {
+            if (window.loadGlobalNavbar) await window.loadGlobalNavbar();
             const session = await getSession();
-            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
-            
-            // --- INITIALIZE MOBILE NAV ---
-            if (session && typeof renderMobileNav === 'function') {
-                const role = session.user.user_metadata?.role || 'user';
-                renderMobileNav(role);
-            }
-
             if (session) {
                 currentUserId = session.user.id;
                 const { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUserId).single();
-                
                 if (profile) {
                     currentSubscriptionTier = profile.subscription_tier || 'free';
-                }
-                
-                // --- DÉTECTION DU RÔLE (Profil ou Métadonnées) ---
-                const meta = session.user.user_metadata || {};
-                const fromProfile = (profile && profile.role) || null;
-                currentUserRole = fromProfile || meta.role || null;
-                
-                const isAdmin = currentUserRole === 'admin';
-                const canManageJobs = ['entreprise', 'company', 'admin'].includes(currentUserRole);
-                
-                // Forcer la bannière pour l'admin ou si le profil entreprise est valide
-                if (canManageJobs && ((profile && profile.company_name) || isAdmin)) {
-                    const banner = document.getElementById('company-banner');
-                    if (banner) banner.style.display = 'flex';
-                }
-                const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
-                if (apps) userApplications = apps.map(a => a.job_id);
-
-                // --- GESTION DE LA MODIFICATION ---
-                const urlParams = new URLSearchParams(window.location.search);
-                const editId = urlParams.get('edit');
-                if (editId) {
-                    const { data: job, error } = await _supabase.from('job_offers').select('*').eq('id', editId).single();
-                    const isAdmin = currentUserRole === 'admin';
-                    if (job && (job.company_id === currentUserId || isAdmin)) {
-                        currentEditJobId = editId;
-                        document.getElementById('j-title').value = job.title;
-                        document.getElementById('j-territory').value = job.territory;
-                        document.getElementById('j-type').value = job.mission_type;
-                        
-                        // Split description back to missions and profil
-                        if (job.description) {
-                            const parts = job.description.split('### PROFIL');
-                            document.getElementById('j-missions').value = parts[0].replace('### MISSIONS\n', '').trim();
-                            if (parts[1]) document.getElementById('j-profil').value = parts[1].trim();
-                        }
-                        
-                        document.getElementById('job-modal-title').textContent = "Modifier la mission";
-                        const saveBtn = document.getElementById('modal-save-btn');
-                        if (saveBtn) saveBtn.textContent = "Mettre à jour la mission";
-                        openJobModal();
-                    } else if (error) {
-                        console.error("Edit Job Error:", error);
-                    }
+                    currentUserRole = profile.role || 'user';
+                    if (['entreprise', 'company', 'admin'].includes(currentUserRole)) document.getElementById('company-banner').style.display = 'flex';
+                    const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
+                    if (apps) userApplications = apps.map(a => a.job_id);
                 }
             }
-            await loadGlobalNavbar();
             await loadJobs();
         }
 
         async function loadJobs() {
-            const db = window._supabase || _supabase || initSupabase();
-            if (!db) {
-                console.warn("Supabase not initialized yet. Retrying in 100ms...");
-                setTimeout(loadJobs, 100);
-                return;
-            }
-
-            const isAdmin = currentUserRole === 'admin';
-            let query = db.from('job_offers').select('*');
-            
-            // Si on n'est pas admin, on ne voit que les jobs actifs (ou non-explicitement désactivés)
-            if (!isAdmin) {
-                query = query.not('is_active', 'is', false);
-            }
-            
-            const { data: jobs, error } = await query.order('created_at', { ascending: false });
-            if (error) {
-                console.error("Load Jobs Error:", error);
-                return;
-            }
-            
+            const { data: jobs } = await _supabase.from('job_offers').select('*').order('created_at', { ascending: false });
             allJobs = jobs || [];
             if (allJobs.length > 0) {
-                const companyIds = [...new Set(allJobs.map(j => j.company_id))];
-                const { data: profiles } = await _supabase.from('profiles').select('id, full_name, avatar_url').in('id', companyIds);
-                profiles.forEach(p => cachedProfiles[p.id] = p);
+                const ids = [...new Set(allJobs.map(j => j.company_id))];
+                const { data: profiles } = await _supabase.from('profiles').select('id, full_name, avatar_url').in('id', ids);
+                profiles?.forEach(p => cachedProfiles[p.id] = p);
             }
             renderJobs();
         }
 
-        function parseMarkdown(text) {
-            if (!text) return "";
-            return text
-                .replace(/### (.*)/g, '<h4 style="margin: 16px 0 8px 0; color: #0f172a; font-size: 1rem;">$1</h4>')
-                .replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>');
-        }
-
         function renderJobs() {
             const container = document.getElementById('jobs-container');
-            container.innerHTML = allJobs.map(renderJobCard).join('');
-        }
-
-        function renderJobCard(job) {
-            const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise' };
-            const logo = company.avatar_url ? `<img src="${company.avatar_url}">` : company.full_name.slice(0, 2).toUpperCase();
-            const isAdmin = currentUserRole === 'admin';
-            const isPremium = ['authority', 'influence', 'business', 'enterprise'].includes(currentSubscriptionTier);
-            const isOwner = currentUserId === job.company_id;
-            const canSee = isPremium || isOwner || isAdmin || currentUserRole === 'basique';
-            
-            // Refined snippet logic: Get the first part (Missions), remove technical tags, and keep it clean
-            let snippet = (job.description || "").split('### PROFIL')[0]
-                .replace('### MISSIONS', '')
-                .replace(/###/g, '')
-                .replace(/\*\*/g, '')
-                .trim();
-            
-            // Limit snippet and add ellipsis if needed
-            if (snippet.length > 160) snippet = snippet.substring(0, 157) + '...';
-
-            const typeClass = job.mission_type.toLowerCase().includes('freelance') ? 'type-freelance' : 
-                             job.mission_type.toLowerCase().includes('cdi') ? 'type-cdi' : 'type-cdd';
-
-            return `
+            container.innerHTML = allJobs.map(job => {
+                const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise' };
+                const logo = company.avatar_url ? `<img src="${company.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : company.full_name.slice(0, 2).toUpperCase();
+                return `
                 <div class="premium-card">
                     <div class="premium-card-header">
                         <div class="company-logo-box">${logo}</div>
                         <div class="job-title-line">
-                            <a href="#" class="company-name-link">${canSee ? company.full_name : 'Confidentiel'}</a>
+                            <span class="company-name-link">${company.full_name}</span>
                             <h3>${job.title}</h3>
                         </div>
                     </div>
-
                     <div class="highlights-grid">
-                        <div class="h-pill ${typeClass}"><i class="fas fa-file-contract"></i> ${job.mission_type}</div>
-                        <div class="h-pill geo-pill"><i class="fas fa-map-marker-alt"></i> ${job.territory}</div>
+                        <div class="h-pill type-freelance">${job.mission_type}</div>
+                        <div class="h-pill geo-pill">${job.territory}</div>
                     </div>
-
-                    <div class="lock-container">
-                        ${!canSee ? '<div class="lock-overlay"><i class="fas fa-lock" style="margin-right:10px;"></i> Accès Premium requis</div>' : ''}
-                        <div class="job-content-preview ${!canSee ? 'locked-data' : ''}">
-                            <div class="job-label">Aperçu Mission</div>
-                            <div class="job-snippet" style="font-size: 0.95rem; line-height: 1.6; color: #475569;">${snippet}</div>
-                        </div>
+                    <div class="job-content-preview">
+                        <div class="job-snippet">${job.description?.split('### PROFIL')[0].replace('### MISSIONS', '').trim().substring(0, 150)}...</div>
                     </div>
-
                     <div class="premium-footer">
-                        ${isOwner ? '<button class="btn-premium btn-sent" style="background:#f8fafc; color:#94a3b8; border:1px solid #e2e8f0; box-shadow:none;" disabled><i class="fas fa-user-tie"></i> Votre offre</button>' : 
-                          ['user', 'porteur', 'basique'].includes(currentUserRole) ? `
-                            <div style="flex: 1; text-align: center;">
-                                <p style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Accès réservé aux Experts</p>
-                                <a href="../marketplace/directory.html" class="btn-premium" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; text-decoration: none; display: block; font-size: 0.9rem; padding: 14px;">Trouver un Expert</a>
-                            </div>` :
-                          userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled><i class="fas fa-check-circle"></i> Postulé</button>' :
-                          canSee ? `<button onclick="openApplyModal('${job.id}','${job.title}')" class="btn-premium btn-apply">Postuler maintenant</button>` :
-                          `<button onclick="window.location.href='/#pricing'" class="btn-premium" style="background:#10b981; color:white;">Débloquer le Pack</button>`}
+                        ${userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled>Postulé</button>' : `<button onclick="openApplyModal('${job.id}','${job.title}')" class="btn-premium btn-apply">Postuler</button>`}
                     </div>
                 </div>`;
+            }).join('');
         }
+
+        function openApplyModal(id, title) { currentApplyJobId = id; document.getElementById('apply-modal-job-title').textContent = title; document.getElementById('apply-modal').classList.add('open'); }
+        function closeApplyModal() { document.getElementById('apply-modal').classList.remove('open'); }
+        function handleCVSelect(e) { const file = e.target.files[0]; if (file) document.getElementById('cv-filename').textContent = file.name; }
+
+        async function confirmApply() {
+            const note = document.getElementById('apply-note').value;
+            if (!note) return alert("Note requise");
+            const { error } = await _supabase.from('job_applications').insert([{ job_id: currentApplyJobId, candidate_id: currentUserId, motivation_note: note, status: 'pending' }]);
+            if (error) alert(error.message); else location.reload();
+        }
+
+        function openJobModal() { document.getElementById('job-modal').classList.add('open'); }
+        function closeJobModal() { document.getElementById('job-modal').classList.remove('open'); }
 
         async function saveJob(e) {
             e.preventDefault();
-            
-            try {
-                // 1. Vérification du statut d'approbation (Admin Bypass)
-                const isSuperAdmin = currentUserId && (currentUserRole === 'admin');
-                if (!isSuperAdmin) {
-                    // Note: Le contrôle de validation entreprise est désactivé le temps que la colonne soit créée.
-                }
-
-                const data = {
-                    company_id: currentUserId,
-                    title: document.getElementById('j-title').value,
-                    description: `### MISSIONS\n${document.getElementById('j-missions').value}\n\n### PROFIL\n${document.getElementById('j-profil').value}`,
-                    mission_type: document.getElementById('j-type').value,
-                    territory: document.getElementById('j-territory').value,
-                    is_active: true
-                };
-                
-                let resultError;
-                if (currentEditJobId) {
-                    const { error } = await _supabase.from('job_offers').update(data).eq('id', currentEditJobId);
-                    resultError = error;
-                } else {
-                    const { error } = await _supabase.from('job_offers').insert([data]);
-                    resultError = error;
-                }
-                
-                if (resultError) throw resultError;
-
-                Swal.fire({
-                    icon: 'success',
-                    title: currentEditJobId ? 'Mission mise à jour !' : 'Mission publiée !',
-                    text: currentEditJobId ? 'Les modifications ont été enregistrées.' : 'Votre offre est désormais accessible aux experts.',
-                    confirmButtonColor: '#10b981'
-                }).then(() => {
-                    if (currentEditJobId) {
-                        window.location.href = '/mon-espace#overview'; // Retour au dashboard
-                    } else {
-                        location.reload();
-                    }
-                });
-
-            } catch (err) {
-                console.error("Save Job Error:", err);
-                alert("Erreur: " + err.message);
-            }
+            const data = { company_id: currentUserId, title: document.getElementById('j-title').value, description: `### MISSIONS\n${document.getElementById('j-missions').value}\n\n### PROFIL\n${document.getElementById('j-profil').value}`, mission_type: document.getElementById('j-type').value, territory: document.getElementById('j-territory').value };
+            const { error } = await _supabase.from('job_offers').insert([data]);
+            if (error) alert(error.message); else location.reload();
         }
-
-        async function openJobModal() { 
-            const canManage = ['entreprise', 'company', 'admin'].includes(currentUserRole);
-            if (!canManage) return;
-            
-            const isAdmin = currentUserRole === 'admin';
-            if (!isAdmin) {
-                // Pour les entreprises classiques, on pourrait vérifier un statut ici.
-                // Mais la colonne verification_status n'existe pas encore dans 'profiles'.
-            }
-            
-            document.getElementById('job-modal').classList.add('open'); 
-        }
-        function closeJobModal() { document.getElementById('job-modal').classList.remove('open'); }
-        let currentApplyJobId = null;
-
-        function openApplyModal(id, title) { 
-            currentApplyJobId = id;
-            document.getElementById('apply-modal-job-title').textContent = title; 
-            document.getElementById('apply-modal').classList.add('open'); 
-        }
-
-        async function confirmApply() {
-            if (!currentUserId) { alert("Veuillez vous connecter pour postuler."); return; }
-            
-            const note = document.getElementById('apply-note').value;
-            const cvFile = document.getElementById('apply-cv').files[0];
-            const btn = document.getElementById('btn-confirm-apply');
-            
-            if (!note || note.length < 20) { alert("Veuillez rédiger une note de motivation plus détaillée (min 20 caractères)."); return; }
-            
-            btn.disabled = true;
-            btn.textContent = "Téléchargement du CV...";
-
-            let cvUrl = null;
-            if (cvFile) {
-                const fileExt = cvFile.name.split('.').pop();
-                const fileName = `${currentUserId}_${Date.now()}.${fileExt}`;
-                const { data: uploadData, error: uploadError } = await _supabase.storage
-                    .from('applications-docs')
-                    .upload(`cvs/${fileName}`, cvFile);
-
-                if (uploadError) {
-                    alert("Erreur lors de l'envoi du CV : " + uploadError.message);
-                    btn.disabled = false;
-                    btn.textContent = "Envoyer ma candidature sécurisée";
-                    return;
-                }
-                const { data: { publicUrl } } = _supabase.storage.from('applications-docs').getPublicUrl(`cvs/${fileName}`);
-                cvUrl = publicUrl;
-            }
-
-            btn.textContent = "Finalisation de l'envoi...";
-
-            const { error } = await _supabase.from('job_applications').insert([{
-                job_id: currentApplyJobId,
-                candidate_id: currentUserId,
-                motivation_note: note,
-                cv_url: cvUrl,
-                status: 'pending'
-            }]);
-
-            if (error) {
-                alert("Erreur : " + error.message);
-                btn.disabled = false;
-                btn.textContent = "Envoyer ma candidature sécurisée";
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Candidature envoyée !',
-                    text: 'Votre expertise a bien été transmise à l\'entreprise.',
-                    confirmButtonColor: '#10b981'
-                }).then(() => {
-                    location.reload();
-                });
-            }
-        }
-
-        function handleCVSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.type !== 'application/pdf') {
-                    alert("Seuls les fichiers PDF sont acceptés.");
-                    event.target.value = '';
-                    return;
-                }
-                document.getElementById('cv-filename').textContent = file.name;
-                document.getElementById('cv-dropzone').style.borderColor = '#10b981';
-                document.getElementById('cv-dropzone').style.background = '#f0fdf4';
-            }
-        }
-
-        function closeApplyModal() { document.getElementById('apply-modal').classList.remove('open'); }
 
         init();
     </script>
-    <footer class="footer" style="padding: 60px 0 40px; border-top: 1px solid #e2e8f0; background: white; margin-top: 100px;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires.</p>
-                </div>
-                <div style="display: flex; gap: 32px;">
-
-                    <a href="../support.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    <script src="../assets/js/app.js?v=11.1"></script>
-    <script src="../assets/js/script.js?v=11.1"></script>
-    <script src="../assets/js/mobile-nav.js?v=11.1"></script>
 </body>
 </html>
