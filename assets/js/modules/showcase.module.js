@@ -31,7 +31,8 @@ const ShowcaseModule = {
             const { data: orders } = await window._supabase.from('showcase_orders').select('id').eq('provider_id', session.user.id);
             
             const totalViews = profile?.showcase_views || 0;
-            const conv = totalViews > 0 ? (((orders?.length || 0) / totalViews) * 100).toFixed(1) : 0;
+            const totalOrders = orders?.length || 0;
+            const conv = totalViews > 0 ? ((totalOrders / totalViews) * 100).toFixed(1) : 0;
             
             container.innerHTML = `
                 <div style="font-family: 'Inter', sans-serif; max-width: 900px; margin: 0 auto; color: #0f172a; padding: 20px;">
@@ -58,23 +59,23 @@ const ShowcaseModule = {
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;">
                         <div style="background: #fff; border: 1px solid #f1f5f9; padding: 25px; border-radius: 24px; text-align: center;">
                             <div style="font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase;">Solde Net (Wallet)</div>
-                            <div style="font-size: 2.2rem; font-weight: 950; color: #10b981;">${(profile?.balance || 0).toFixed(2)}€</div>
+                            <div style="font-size: 2.22rem; font-weight: 950; color: #10b981;">${(profile?.balance || 0).toFixed(2)}€</div>
                             <button onclick="ShowcaseModule.requestPayout()" style="margin-top: 12px; width:100%; border:none; background:#10b98115; color:#10b981; padding:8px; border-radius:8px; font-weight:950; font-size:0.75rem; cursor:pointer;">Virer l'argent</button>
                         </div>
                         <div style="background: #fff; border: 1px solid #f1f5f9; padding: 25px; border-radius: 24px; text-align: center;">
                             <div style="font-size: 0.7rem; font-weight: 900; color: #94a3b8; text-transform: uppercase;">Vues Boutique</div>
-                            <div style="font-size: 2.2rem; font-weight: 950;">${totalViews}</div>
+                            <div style="font-size: 2.22rem; font-weight: 950;">${totalViews}</div>
                         </div>
                         <div style="background: #0f172a; padding: 25px; border-radius: 24px; text-align: center; color: white;">
                             <div style="font-size: 0.7rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Conversion</div>
-                            <div style="font-size: 2.2rem; font-weight: 950; color: #3b82f6;">${conv}%</div>
+                            <div style="font-size: 2.22rem; font-weight: 950; color: #3b82f6;">${conv}%</div>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px; margin-bottom: 30px;">
-                        <button onclick="ShowcaseModule.switchTab('vitrine')" style="background: #eee; border:none; padding:10px 24px; border-radius:10px; font-weight:800; cursor:pointer;">Blocs Actifs</button>
-                        <button onclick="ShowcaseModule.switchTab('sales')" style="background: transparent; border:none; padding:10px 24px; border-radius:10px; font-weight:800; cursor:pointer; color:#64748b;">Historique</button>
-                        <button onclick="ShowcaseModule.switchTab('config')" style="background: transparent; border:none; padding:10px 24px; border-radius:10px; font-weight:800; cursor:pointer; color:#64748b;">Aide & Reset</button>
+                    <div style="display: flex; gap: 10px; margin-bottom: 32px; background: #f8fafc; padding: 6px; border-radius: 14px; width: fit-content;">
+                        <button onclick="ShowcaseModule.switchTab('vitrine')" id="tab-vitrine" style="padding: 10px 24px; border: none; background: white; color: #0f172a; border-radius: 10px; font-size: 0.85rem; font-weight: 850; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">Mes Offres</button>
+                        <button onclick="ShowcaseModule.switchTab('sales')" id="tab-sales" style="padding: 10px 24px; border: none; background: transparent; color: #64748b; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer;">Historique</button>
+                        <button onclick="ShowcaseModule.switchTab('config')" id="tab-config" style="padding: 10px 24px; border: none; background: transparent; color: #64748b; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer;">Aide & Reset ⚙️</button>
                     </div>
 
                     <div id="showcase-content-area">${this.renderLocalGrid(items)}</div>
@@ -105,50 +106,6 @@ const ShowcaseModule = {
         </div>`;
     },
 
-    /**
-     * VITRINE PUBLIQUE - Vrai Style LINKTREE / STAN
-     */
-    async renderPublicShowcase(container, providerId) {
-        if (!container) return;
-        container.innerHTML = `<div style="text-align:center;padding:100px;background:#fff;"><span class="loader"></span></div>`;
-        
-        try {
-            await this.incrementShowcaseView(providerId);
-            const { data: provider } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
-            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
-            
-            container.innerHTML = `
-                <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
-                    
-                    <!-- BRANDING CENTERED (LINKTREE STYLE) -->
-                    <div style="text-align: center; margin-bottom: 40px; max-width: 450px;">
-                        <div style="width: 100px; height: 100px; background: #000; border-radius: 50%; margin: 0 auto 20px; border: 3px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow:hidden;">
-                            ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3rem; font-weight:900; line-height:100px;">${provider.full_name?.charAt(0)}</div>`}
-                        </div>
-                        <h1 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #000;">${provider.full_name}</h1>
-                        <p style="font-size: 1rem; color: #64748b; font-weight: 700; margin: 8px 0 0 0;">${provider.headline || 'Expert Coach & Digital Creator'}</p>
-                    </div>
-
-                    <!-- BUTTON LIST (LINKTREE STYLE) -->
-                    <div style="width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 16px;">
-                        ${items.map(item => `
-                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 2px solid #000; border-radius: 100px; padding: 18px 24px; cursor: pointer; transition: 0.2s; position: relative; text-align: center; box-shadow: 0 4px 0px #000;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 0px #000';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 0px #000';">
-                                <div style="font-weight: 950; font-size: 1.1rem; color: #000; letter-spacing: -0.02em;">${item.title}</div>
-                                <div style="position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-weight: 900; font-size: 0.9rem;">${item.price.toFixed(2)}€</div>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div style="margin-top: 80px; text-align: center; opacity: 0.5;">
-                        <img src="assets/images/logo-domtomconnect.png" style="height: 25px; filter: grayscale(1);">
-                        <p style="font-size: 0.6rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3em; margin-top:10px;">Powered by Domtom Connect</p>
-                    </div>
-
-                </div>
-            `;
-        } catch (err) { alert(err.message); }
-    },
-
     async incrementShowcaseView(providerId) {
         try {
             const { data } = await window._supabase.from('profiles').select('showcase_views').eq('id', providerId).single();
@@ -161,6 +118,35 @@ const ShowcaseModule = {
             const { data } = await window._supabase.from('showcase_items').select('views').eq('id', itemId).single();
             await window._supabase.from('showcase_items').update({ views: (data?.views || 0) + 1 }).eq('id', itemId);
         } catch (err) { }
+    },
+
+    async renderPublicShowcase(container, providerId) {
+        if (!container) return;
+        container.innerHTML = `<div style="text-align:center;padding:100px;background:#fff;"><span class="loader"></span></div>`;
+        try {
+            await this.incrementShowcaseView(providerId);
+            const { data: provider } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
+            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
+            container.innerHTML = `
+                <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
+                    <div style="text-align: center; margin-bottom: 40px; max-width: 450px;">
+                        <div style="width: 100px; height: 100px; background: #000; border-radius: 50%; margin: 0 auto 20px; border: 3px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow:hidden;">
+                            ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3rem; font-weight:900; line-height:100px;">${provider.full_name?.charAt(0)}</div>`}
+                        </div>
+                        <h1 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #000;">${provider.full_name}</h1>
+                        <p style="font-size: 1rem; color: #64748b; font-weight: 700; margin: 8px 0 0 0;">${provider.headline || 'Expert Coach & Digital Creator'}</p>
+                    </div>
+                    <div style="width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 16px;">
+                        ${items.map(item => `
+                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 2px solid #000; border-radius: 100px; padding: 18px 24px; cursor: pointer; transition: 0.2s; position: relative; text-align: center; box-shadow: 0 4px 0px #000;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';" onmouseout="this.style.boxShadow='0 4px 0px #000';">
+                                <div style="font-weight: 950; font-size: 1.1rem; color: #000;">${item.title}</div>
+                                <div style="position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-weight: 900; font-size: 0.9rem;">${item.price.toFixed(2)}€</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        } catch (err) { alert(err.message); }
     },
 
     async openPublicItemModal(itemId) {
@@ -209,12 +195,13 @@ const ShowcaseModule = {
     },
 
     async handleHardReset() {
-        if (!confirm("⚠️ RÉINITIALISATION TOTALE : Cela va supprimer TOUTES vos ventes pour repartir à 0.00€. Confirmer ?")) return;
+        if (!confirm("⚠️ RÉINITIALISATION TOTALE : Cela va tout effacer (Historique + Compteurs). Confirmer ?")) return;
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
             await window._supabase.from('showcase_orders').delete().eq('provider_id', session.user.id);
+            await window._supabase.from('showcase_orders').delete().eq('user_id', session.user.id);
             await window._supabase.from('profiles').update({ balance: 0, total_earnings: 0, showcase_views: 0 }).eq('id', session.user.id);
-            alert("✓ Votre boutique a été remise à zéro. Historique vide.");
+            alert("✓ Hub nettoyé avec succès.");
             window.location.reload();
         } catch (err) { alert(err.message); }
     },
@@ -232,31 +219,37 @@ const ShowcaseModule = {
         const contentArea = document.getElementById('showcase-content-area');
         if (!contentArea) return;
         const { data: { session } } = await window._supabase.auth.getSession();
+        
+        ['tab-vitrine', 'tab-sales', 'tab-config'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.background = 'transparent', el.style.color = '#64748b', el.style.boxShadow = 'none';
+        });
+        const activeTab = document.getElementById(`tab-${tabName}`);
+        if(activeTab) activeTab.style.background = 'white', activeTab.style.color = '#0f172a', activeTab.style.boxShadow = '0 4px 10px rgba(0,0,0,0.05)';
 
         if (tabName === 'sales') {
             const { data: orders } = await window._supabase.from('showcase_orders').select(`*, item:showcase_items(title)`).eq('provider_id', session.user.id).order('created_at', { ascending: false });
             contentArea.innerHTML = `
-                <div style="background:#fff; border: 1px solid #f1f5f9; border-radius: 20px; padding: 24px;">
-                    <div style="padding-bottom: 20px; border-bottom: 1.5px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+                <div style="background:#fff; border: 1px solid #f1f5f9; border-radius: 20px; overflow:hidden;">
+                    <div style="padding: 24px; border-bottom: 1.5px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
                         <h3 style="margin:0; font-weight:950;">Historique des Ventes</h3>
                         <button onclick="ShowcaseModule.handleHardReset()" style="background:#fff1f2; color:#ef4444; border:none; padding:10px 20px; border-radius:10px; font-weight:900; cursor:pointer;">Vider l'historique 🗑️</button>
                     </div>
-                    <div style="margin-top:20px;">
-                        ${(orders || []).map(o => `
-                            <div style="padding:15px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between;">
-                                <div><div style="font-weight:900;">${o.invoice_number}</div><div style="font-size:0.8rem; color:#94a3b8;">${new Date(o.created_at).toLocaleDateString()}</div></div>
-                                <div style="font-weight:950; color:#10b981;">+${(o.total_price * 0.95).toFixed(2)}€ (Net)</div>
-                            </div>
-                        `).join('')}
+                    <div>
+                        ${(!orders || orders.length === 0) ? `<div style="padding:40px; text-align:center; color:#94a3b8; font-weight:700;">Aucune transaction.</div>` : 
+                        orders.map(o => `<div style="padding:20px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+                            <div><div style="font-weight:950;">${o.item?.title || 'Vente Directe #' + o.id.substring(0,6)}</div><div style="font-size:0.8rem; color:#94a3b8;">${new Date(o.created_at).toLocaleDateString()}</div></div>
+                            <div style="font-weight:950; color:#10b981;">+${(o.total_price * 0.95).toFixed(2)}€ (Net)</div>
+                        </div>`).join('')}
                     </div>
                 </div>
             `;
         } else if (tabName === 'config') {
             contentArea.innerHTML = `
                 <div style="background:#fff; border: 1px solid #f1f5f9; border-radius: 24px; padding: 40px; max-width: 500px;">
-                    <h3 style="margin:0 0 10px 0; font-weight:950;">Réglages & Reset</h3>
-                    <p style="color:#64748b; font-weight:600; margin-bottom:30px;">Supprimez tout l'historique pour repartir sur une base propre.</p>
-                    <button onclick="ShowcaseModule.handleHardReset()" style="width:100%; border:none; background:#ef4444; color:white; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">⚠️ RÉINITIALISER LE COMPTE LIA</button>
+                    <h3 style="margin:0 0 10px 0; font-weight:950;">Réglages Expert</h3>
+                    <p style="color:#64748b; font-weight:600; margin-bottom:30px;">Remettez tout votre compte Lia à zéro pour vos tests finaux.</p>
+                    <button onclick="ShowcaseModule.handleHardReset()" style="width:100%; border:none; background:#ef4444; color:white; padding:18px; border-radius:18px; font-weight:950; cursor:pointer;">🗑️ RÉINITIALISER MON COMPTE LIA</button>
                 </div>
             `;
         } else {
