@@ -270,11 +270,17 @@ const ShowcaseModule = {
                         <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.06em;">${provider.full_name}</h1>
                         <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">${provider.headline || 'Digital Creator pro'}</p>
                     </div>
-                    <div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 22px;">
+                    <div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 25px;">
                         ${items.map(item => `
-                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 3.5px solid #000; border-radius: 100px; padding: 25px 35px; cursor: pointer; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; text-align: center; box-shadow: 0 10px 0px #000;" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 16px 0px #000';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 0px #000';">
-                                <div style="font-weight: 950; font-size: 1.25rem; color: #000; letter-spacing:-0.03em;">${item.title}</div>
-                                <div style="position: absolute; right: 35px; top: 50%; transform: translateY(-50%); font-weight: 950; font-size: 1.1rem; color:#10b981;">${item.price.toFixed(2)}€</div>
+                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: #fff; border: 3px solid #000; border-radius: 30px; padding: 20px 25px; cursor: pointer; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; display: flex; align-items: center; gap: 20px; box-shadow: 0 8px 0px #000;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 0px #000';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 0px #000';">
+                                <div style="width:60px; height:60px; border-radius:15px; border:3px solid #000; overflow:hidden; background:#f1f5f9; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                    ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.8rem;">📄</span>'}
+                                </div>
+                                <div style="flex-grow:1; text-align:left;">
+                                    <div style="font-weight: 950; font-size: 1.25rem; color: #000; letter-spacing:-0.03em;">${item.title}</div>
+                                    <div style="font-size: 1rem; color: #64748b; font-weight: 750;">Détails & Achat</div>
+                                </div>
+                                <div style="font-weight: 950; font-size: 1.2rem; color:#10b981;">${item.price.toFixed(2)}€</div>
                             </div>
                         `).join('')}
                     </div>
@@ -289,29 +295,45 @@ const ShowcaseModule = {
             await this.init();
             const { data: item } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             const overlay = document.getElementById('details-modal-overlay');
+            
             overlay.innerHTML = `
-                <div style="background: white; width: 100%; max-width: 500px; border-radius: 60px; padding: 60px; border: 5px solid #000; box-shadow: 35px 35px 0px #000; position: relative;">
-                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: 40px; right: 40px; background: #eee; border: 4px solid #000; border-radius: 20px; width: 50px; height: 50px; cursor: pointer; font-size: 1.8rem; font-weight: 950; z-index:10;">×</button>
+                <div style="background: white; width: 100%; max-width: 480px; border-radius: 50px; padding: 40px; border: 4px solid #000; box-shadow: 20px 20px 0px #000; position: relative; margin: 20px;">
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="position: absolute; top: -15px; right: -15px; background: #fff; border: 3.5px solid #000; border-radius: 100px; width: 45px; height: 45px; cursor: pointer; font-size: 1.5rem; font-weight: 950; display:flex; align-items:center; justify-content:center; box-shadow: 5px 5px 0px #000; z-index:20;">×</button>
                     
+                    <div style="text-align:center; margin-bottom:30px;">
+                        <span style="background: #10b981; color: white; padding: 8px 20px; border-radius: 100px; font-weight: 950; font-size: 0.75rem; letter-spacing:0.05em; border:2.5px solid #000; box-shadow: 4px 4px 0pt rgba(16, 185, 129, 0.2);">🔒 PAIEMENT SECURISE</span>
+                    </div>
+
                     ${item.image_url ? `
-                        <div style="width:100%; aspect-ratio:16/9; border-radius:35px; overflow:hidden; border:4px solid #000; margin-bottom:30px; box-shadow: 10px 10px 0px #f1f5f9;">
+                        <div style="width:100%; aspect-ratio:1; border-radius:30px; overflow:hidden; border:3.5px solid #000; margin-bottom:25px; background:#f8fafc;">
                             <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
                         </div>
-                    ` : ''}
+                    ` : `
+                        <div style="width:100%; height:150px; border-radius:30px; border:3.5px dashed #cbd5e1; margin-bottom:25px; display:flex; align-items:center; justify-content:center; background:#f8fafc;">
+                            <span style="font-size:3rem; opacity:0.2;">📄</span>
+                        </div>
+                    `}
 
-                    <div style="margin-bottom: 45px; text-align:center;">
-                        <span style="background: #10b981; color: white; padding: 10px 22px; border-radius: 100px; font-weight: 950; font-size: 0.9rem; letter-spacing:0.05em; border:3px solid #000;">PAIEMENT SECURISE</span>
-                        <h2 style="font-size: 2.8rem; font-weight: 950; color: #000; margin: 30px 0 12px 0; letter-spacing:-0.06em;">${item.title}</h2>
-                        <div style="font-size: 1.2rem; color: #64748b; font-weight: 750;">Validation immédiate après règlement.</div>
+                    <div style="margin-bottom: 30px; text-align:center;">
+                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #000; margin: 0 0 8px 0; letter-spacing:-0.05em; line-height:1;">${item.title}</h2>
+                        <div style="font-size: 1.1rem; color: #64748b; font-weight: 750;">Règlement via PayPal ou Carte</div>
                     </div>
                     
-                    <div style="background: #f8fafc; padding: 45px; border-radius: 35px; border: 4px solid #000; margin-bottom: 45px; text-align: center; box-shadow: inset 5px 5px 15px rgba(0,0,0,0.05);">
-                        <span style="font-size: 3.5rem; font-weight: 950; color: #000;">${item.price.toFixed(2)}€</span>
+                    <div style="background: #000; padding: 25px; border-radius: 30px; margin-bottom: 35px; text-align: center; color:#fff;">
+                        <span style="font-size: 3rem; font-weight: 950;">${item.price.toFixed(2)}€</span>
                     </div>
 
-                    <div id="paypal-button-container-showcase" style="min-height:150px;"></div>
+                    <div id="paypal-button-container-showcase" style="min-height:150px; margin-bottom:20px;"></div>
+
+                    <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="width:100%; background:transparent; color:#94a3b8; border:none; padding:15px; font-weight:900; cursor:pointer; font-size:1rem; text-decoration:underline;">Annuler et revenir à la liste</button>
                 </div>
             `;
+            
+            // Permettre de fermer en cliquant sur l'overlay (fond)
+            overlay.onclick = (e) => {
+                if (e.target === overlay) overlay.classList.remove('open');
+            };
+
             overlay.classList.add('open');
             this.renderPayPalButton(item.user_id, item.id, item.price);
         } catch (err) { alert(err.message); }
