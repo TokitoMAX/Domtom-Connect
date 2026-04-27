@@ -6,17 +6,8 @@ const ShowcaseModule = {
     COMMISSION_RATE: 0.05,
     PAYPAL_CLIENT_ID: 'sb',
 
-    async init() {
-        if (!window.paypal) {
-            return new Promise((resolve) => {
-                const script = document.createElement('script');
-                const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W"; // Client ID Production
-                script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR&intent=capture`;
-                script.onload = resolve;
-                document.head.appendChild(script);
-            });
-        }
-    },
+    // Initialisation du SDK PayPal déplacée plus bas pour plus de robustesse.
+
 
     /**
      * DASHBOARD EXPERT - Hub Financier & Catalogue
@@ -303,33 +294,43 @@ const ShowcaseModule = {
         } catch (err) { alert(err.message); }
     },
 
+    async init() {
+        if (window.paypal) return;
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR&intent=capture`;
+            script.onload = resolve;
+            script.onerror = () => {
+                console.warn("[PayPal] Échec du chargement du SDK. Utilisation du mode dégradé.");
+                resolve(); // On résout quand même pour ne pas bloquer l'UI
+            };
+            document.head.appendChild(script);
+        });
+    },
+
     async openPublicItemModal(itemId) {
-        if (!itemId || itemId === 'undefined') {
-            console.error("[Showcase] itemId invalide :", itemId);
-            return;
-        }
+        if (!itemId || itemId === 'undefined') return;
         try {
-            await this.init();
-            // Requête simplifiée pour éviter l'erreur 400 (Bad Request)
+            // 1. On lance le chargement de PayPal en arrière-plan sans attendre
+            this.init(); 
+
+            // 2. On récupère les données de l'offre
             const { data: item, error } = await window._supabase
                 .from('showcase_items')
                 .select('*, profiles:user_id(role)')
                 .eq('id', itemId)
                 .single();
 
-            if (error) {
-                console.error("[Showcase] Erreur chargement offre (ID:", itemId, "):", error);
-                // Fallback si la jointure échoue
-                const { data: simpleItem } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
-                if (!simpleItem) return;
-                this.renderModalWithItem(simpleItem, false);
-                return;
-            }
+            if (error || !item) throw error || new Error("Offre introuvable");
 
             const isCompany = (item.profiles?.role === 'entreprise');
+            
+            // 3. On affiche la modale IMMÉDIATEMENT
             this.renderModalWithItem(item, isCompany);
         } catch (err) { 
-            console.error("[Showcase] Erreur critique :", err);
+            console.error("[Showcase] Erreur :", err);
+            alert("Impossible d'ouvrir l'offre. Vérifiez votre connexion.");
         }
     },
 
