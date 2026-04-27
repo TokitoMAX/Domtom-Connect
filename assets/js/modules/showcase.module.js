@@ -295,13 +295,22 @@ const ShowcaseModule = {
     },
 
     async init() {
-        if (window.paypal) return;
+        if (window.paypal) return Promise.resolve();
         return new Promise((resolve) => {
-            const script = document.createElement('script');
             const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
-            script.onload = resolve;
-            script.onerror = resolve;
+            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&components=buttons`;
+            console.log("[PayPal] Chargement du SDK :", url);
+            
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = () => {
+                console.log("[PayPal] SDK chargé avec succès.");
+                resolve();
+            };
+            script.onerror = (err) => {
+                console.error("[PayPal] Échec critique du script :", err);
+                resolve();
+            };
             document.head.appendChild(script);
         });
     },
