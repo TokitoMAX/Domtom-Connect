@@ -306,7 +306,8 @@ const ShowcaseModule = {
     async openPublicItemModal(itemId) {
         try {
             await this.init();
-            const { data: item } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
+            const { data: item } = await window._supabase.from('showcase_items').select('*, profiles(role)').eq('id', itemId).single();
+            const isCompany = item.profiles?.role === 'entreprise';
             const overlay = document.getElementById('details-modal-overlay');
             if (!overlay) return;
 
@@ -353,28 +354,26 @@ const ShowcaseModule = {
 
                     <div class="showcase-right">
                         <div style="margin-bottom:20px;">
-                            <span style="background: #000; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🚀 SOLUTION D'EXPERT</span>
+                            <span style="background: #000; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-block; margin-bottom:20px;">🚀 ${isCompany ? 'SÉLECTION ENTREPRISE' : 'SOLUTION D\'EXPERT'}</span>
                             <h2 style="font-size: 2.4rem; font-weight: 950; color: #000; margin: 0 0 15px 0; letter-spacing:-0.06em; line-height:1;">${item.title}</h2>
                             <p style="font-size: 1rem; color: #475569; font-weight: 750; line-height:1.5;">${item.description || 'Expertise dédiée à votre projet.'}</p>
                         </div>
                         
                         <div style="background: #f0fdf4; padding: 20px; border-radius: 20px; border:3px solid #000; margin-bottom: 25px; text-align: center; color:#166534; box-shadow: 6px 6px 0px #166534;">
-                            <span style="font-size: 0.8rem; font-weight: 950; display:block; text-transform:uppercase;">Investissement</span>
                             <span style="font-size: 2rem; font-weight: 950;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</span>
                         </div>
 
-                             <div style="display:flex; flex-direction:column; gap:12px;">
-                                <div id="paypal-buy-container" style="min-height:50px;"></div>
-                                
-                                <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
-                                
-                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                                    <button onclick="window.location.href='${prefix}marketplace/profile-detail-expert.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
-                                    <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
-                                </div>
-
-                                <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <div id="paypal-buy-container" style="min-height:50px;"></div>
+                            
+                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter ${isCompany ? "l'Entreprise" : "l'Expert"}</button>
+                            
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                                <button onclick="window.location.href='${prefix}marketplace/profile-detail-${isCompany ? 'company' : 'expert'}.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
+                                <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
                             </div>
+
+                            <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
                         </div>
                     </div>
                 </div>
