@@ -81,9 +81,13 @@ const Router = {
      * Resolve the current URL and trigger view display
      */
     handleCurrentRoute() {
-        // 1. Try to match clean path first (History API)
+        const path = window.location.pathname;
+        const hash = window.location.hash.replace('#', '');
+        let viewId = 'overview';
+
+        // 1. Try to match clean path first
         const cleanPath = path.replace('/mon-espace/', '').replace('/dashboard/', '').replace('/', '');
-        if (this.routes[cleanPath]) {
+        if (cleanPath && this.routes[cleanPath]) {
             viewId = this.routes[cleanPath];
         }
 
@@ -98,7 +102,7 @@ const Router = {
         // 3. Last fallback: loop
         if (!viewId || viewId === 'overview') {
             for (const [route, id] of Object.entries(this.routes)) {
-                if (path.includes(route)) {
+                if (path.includes(route) || hash.includes(route)) {
                     viewId = id;
                     break;
                 }
@@ -108,10 +112,9 @@ const Router = {
         const params = new URLSearchParams(window.location.search || (window.location.hash.includes('?') ? window.location.hash.split('?')[1] : ''));
 
         console.log(`[Router] Route matched: ${path} (Hash: ${hash}) -> ${viewId}`);
-        
-        // Call global showView (proxied to App.showView)
-        if (typeof window.showView === 'function') {
-            window.showView(viewId, true, params);
+
+        if (window.App && window.App.showView) {
+            window.App.showView(viewId, params);
         }
     }
 };
