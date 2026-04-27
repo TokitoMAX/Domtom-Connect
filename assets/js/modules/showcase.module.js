@@ -296,15 +296,12 @@ const ShowcaseModule = {
 
     async init() {
         if (window.paypal) return;
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const script = document.createElement('script');
-            const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR&intent=capture`;
+            const clientId = "sb"; // MODE DIAGNOSTIC
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR`;
             script.onload = resolve;
-            script.onerror = () => {
-                console.warn("[PayPal] Échec du chargement du SDK. Utilisation du mode dégradé.");
-                resolve(); // On résout quand même pour ne pas bloquer l'UI
-            };
+            script.onerror = resolve;
             document.head.appendChild(script);
         });
     },
