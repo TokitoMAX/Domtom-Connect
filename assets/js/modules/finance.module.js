@@ -102,12 +102,23 @@ const FinanceModule = {
     async payExpert(userId, email, amount) {
         if (!email) return alert("Cet expert n'a pas configuré d'email PayPal.");
 
+        // Génération du lien de virement direct PayPal
+        const paypalLink = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(email)}&amount=${amount}&currency_code=EUR&item_name=${encodeURIComponent('Reversement Domtom Connect Showcase')}`;
+
         const confirm = await Swal.fire({
-            title: 'Confirmer le reversement ?',
-            text: `Vous allez marquer un virement de ${amount}€ pour ${email}. Assurez-vous d'avoir fait le virement PayPal avant.`,
-            icon: 'warning',
+            title: 'Effectuer le reversement ?',
+            html: `
+                <p>Montant à verser : <strong>${amount} €</strong></p>
+                <p>Expert : <strong>${email}</strong></p>
+                <div style="margin:20px 0;">
+                    <a href="${paypalLink}" target="_blank" class="btn-payout" style="background:#0070ba; text-decoration:none; display:inline-block;">1. Faire le virement sur PayPal</a>
+                </div>
+                <p style="font-size:0.8rem; color:#64748b;">Une fois le virement fait, cliquez ci-dessous pour valider la balance.</p>
+            `,
+            icon: 'info',
             showCancelButton: true,
-            confirmButtonText: 'Oui, marqué comme payé'
+            confirmButtonText: '2. Confirmer la mise à jour du solde',
+            cancelButtonText: 'Annuler'
         });
 
         if (!confirm.isConfirmed) return;
