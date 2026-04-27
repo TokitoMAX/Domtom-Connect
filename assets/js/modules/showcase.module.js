@@ -298,10 +298,13 @@ const ShowcaseModule = {
         if (window.paypal) return;
         return new Promise((resolve) => {
             const script = document.createElement('script');
-            const clientId = "sb"; // MODE DIAGNOSTIC
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR`;
+            const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR&intent=capture`;
             script.onload = resolve;
-            script.onerror = resolve;
+            script.onerror = () => {
+                console.warn("[PayPal] Erreur SDK");
+                resolve();
+            };
             document.head.appendChild(script);
         });
     },
@@ -309,8 +312,8 @@ const ShowcaseModule = {
     async openPublicItemModal(itemId) {
         if (!itemId || itemId === 'undefined') return;
         try {
-            // 1. On lance le chargement de PayPal en arrière-plan sans attendre
-            this.init(); 
+            // 1. On attend que PayPal soit prêt
+            await this.init(); 
 
             // 2. On récupère les données de l'offre
             const { data: item, error } = await window._supabase
@@ -322,12 +325,10 @@ const ShowcaseModule = {
             if (error || !item) throw error || new Error("Offre introuvable");
 
             const isCompany = (item.profiles?.role === 'entreprise');
-            
-            // 3. On affiche la modale IMMÉDIATEMENT
             this.renderModalWithItem(item, isCompany);
         } catch (err) { 
             console.error("[Showcase] Erreur :", err);
-            alert("Impossible d'ouvrir l'offre. Vérifiez votre connexion.");
+            alert("Erreur : " + err.message);
         }
     },
 
