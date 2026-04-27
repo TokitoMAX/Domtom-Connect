@@ -297,8 +297,8 @@ const ShowcaseModule = {
     async init() {
         if (window.paypal) return Promise.resolve();
         return new Promise((resolve) => {
-            const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
-            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+            const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
+            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
             
             const script = document.createElement('script');
             script.src = url;
