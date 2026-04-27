@@ -11,7 +11,7 @@ const ShowcaseModule = {
             return new Promise((resolve) => {
                 const script = document.createElement('script');
                 const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W"; // Client ID Production
-                script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
+                script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&locale=fr_FR&intent=capture`;
                 script.onload = resolve;
                 document.head.appendChild(script);
             });
