@@ -298,19 +298,12 @@ const ShowcaseModule = {
         if (window.paypal) return Promise.resolve();
         return new Promise((resolve) => {
             const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W";
-            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR&components=buttons`;
-            console.log("[PayPal] Chargement du SDK :", url);
+            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
             
             const script = document.createElement('script');
             script.src = url;
-            script.onload = () => {
-                console.log("[PayPal] SDK chargé avec succès.");
-                resolve();
-            };
-            script.onerror = (err) => {
-                console.error("[PayPal] Échec critique du script :", err);
-                resolve();
-            };
+            script.onload = resolve;
+            script.onerror = resolve;
             document.head.appendChild(script);
         });
     },
