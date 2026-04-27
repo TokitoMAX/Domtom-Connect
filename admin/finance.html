@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direction Financière | Domtom Connect Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        :root { --admin-dark: #020617; }
+        body { background: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .finance-header { background: var(--admin-dark); color: white; padding: 60px 20px; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: -40px auto 40px; padding: 0 20px; }
+        .stat-card { background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .payout-list { max-width: 1200px; margin: 0 auto; background: white; border-radius: 30px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 15px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #f1f5f9; }
+        td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; }
+        .btn-payout { background: #000; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-payout:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .status-badge { padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; }
+        .status-pending { background: #fff7ed; color: #c2410c; }
+        .status-paid { background: #f0fdf4; color: #15803d; }
+    </style>
+</head>
+<body>
+    <div class="finance-header">
+        <h1 style="font-size: 3rem; font-weight: 900; letter-spacing: -0.05em;">Tour de Contrôle Financière</h1>
+        <p style="opacity: 0.7; font-weight: 600;">Gérez les flux Amazon-style de Domtom Connect</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Encaissement Total (100%)</span>
+            <h2 id="total-revenue" style="font-size: 2.5rem; margin: 10px 0 0 0; font-weight: 900;">0,00 €</h2>
+        </div>
+        <div class="stat-card">
+            <span style="font-size: 0.75rem; color: #16a34a; font-weight: 700; text-transform: uppercase;">Commissions Domtom Connect (5%)</span>
+            <h2 id="platform-fees" style="font-size: 2.5rem; margin: 10px 0 0 0; color: #16a34a; font-weight: 900;">0,00 €</h2>
+        </div>
+        <div class="stat-card">
+            <span style="font-size: 0.75rem; color: #2563eb; font-weight: 700; text-transform: uppercase;">Solde Experts à Reverser (95%)</span>
+            <h2 id="pending-payouts-total" style="font-size: 2.5rem; margin: 10px 0 0 0; color: #2563eb; font-weight: 900;">0,00 €</h2>
+        </div>
+    </div>
+
+    <div class="payout-list">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h3 style="font-size: 1.5rem; font-weight: 900;">Experts en attente de reversement</h3>
+            <button onclick="FinanceModule.blastPayouts()" class="btn-payout" style="background: #2563eb;">🚀 Reversement Groupé (Batch)</button>
+        </div>
+        <div id="payouts-table-container">
+            <p style="text-align:center; padding:40px; color:#64748b;">Chargement des données financières...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/modules/finance.module.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.FinanceModule) window.FinanceModule.init();
+        });
+    </script>
+</body>
+</html>

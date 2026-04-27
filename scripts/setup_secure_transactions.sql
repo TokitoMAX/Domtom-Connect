@@ -52,4 +52,45 @@ CREATE TRIGGER tr_secure_payment_validation
 AFTER UPDATE OF status ON public.showcase_orders
 FOR EACH ROW EXECUTE FUNCTION public.confirm_secure_payment();
 
-COMMENT ON TABLE public.transaction_logs IS 'Journal d''audit pour toutes les transactions financières de la vitrine.';
+-- 6. Système de Reversement Automatisé (Style Marketplace / Amazon)
+CREATE TABLE IF NOT EXISTS public.payout_batches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    processed_by UUID REFERENCES profiles(id),
+    total_amount DECIMAL(10,2),
+    items_count INTEGER,
+    status TEXT DEFAULT 'processing', -- 'processing', 'completed', 'failed'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Historique détaillé des reversements
+CREATE TABLE IF NOT EXISTS public.payout_history (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    batch_id UUID REFERENCES public.payout_batches(id),
+    user_id UUID REFERENCES profiles(id),
+    amount DECIMAL(10,2),
+    paypal_email TEXT,
+    transaction_id TEXT, -- ID PayPal du reversement
+    status TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Fonction pour automatiser la déduction du solde lors d'un reversement groupé
+CREATE OR REPLACE FUNCTION public.record_automated_payout()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Déduction immédiate du solde de l'expert
+    UPDATE public.profiles
+    SET balance = balance - NEW.amount
+    WHERE id = NEW.user_id;
+
+    -- Ajout au journal d'audit
+    INSERT INTO public.transaction_logs (user_id, amount, type, status)
+    VALUES (NEW.user_id, NEW.amount, 'debit', 'automated_payout');
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER tr_automated_payout_sync
+AFTER INSERT ON public.payout_history
+FOR EACH ROW EXECUTE FUNCTION public.record_automated_payout();

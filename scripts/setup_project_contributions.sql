@@ -26,32 +26,50 @@ CREATE INDEX IF NOT EXISTS idx_contributions_project_id ON public.contributions(
 -- Ajout d'une colonne pour suivre le financement total dans la table projects
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS total_raised DECIMAL(12, 2) DEFAULT 0;
 
--- Fonction Trigger pour mettre à jour dynamiquement le total_raised d'un projet
+-- Fonction Trigger pour mettre à jour dynamiquement le total_raised et le solde financier du porteur
 CREATE OR REPLACE FUNCTION public.handle_contribution_update()
 RETURNS TRIGGER AS $$
+DECLARE
+    project_owner_id UUID;
+    net_val DECIMAL(12,2);
 BEGIN
+    -- Récupérer l'ID du porteur de projet
+    SELECT owner_id INTO project_owner_id FROM public.projects WHERE id = NEW.project_id;
+
     -- Si nouvelle contribution complétée
-    IF (TG_OP = 'INSERT' AND NEW.status = 'completed') THEN
-        UPDATE public.projects 
-        SET total_raised = total_raised + NEW.amount
-        WHERE id = NEW.project_id;
-    
-    -- Si mise à jour vers statut complété
-    ELSIF (TG_OP = 'UPDATE' AND NEW.status = 'completed' AND OLD.status != 'completed') THEN
-        UPDATE public.projects 
-        SET total_raised = total_raised + NEW.amount
-        WHERE id = NEW.project_id;
+    IF (NEW.status = 'completed' AND (OLD.status IS NULL OR OLD.status != 'completed')) THEN
         
-    -- Si annulation ou remboursement
-    ELSIF (TG_OP = 'UPDATE' AND NEW.status IN ('failed', 'refunded') AND OLD.status = 'completed') THEN
+        -- 1. Mise à jour du compteur public de la levée de fonds
+        UPDATE public.projects 
+        SET total_raised = COALESCE(total_raised, 0) + NEW.amount
+        WHERE id = NEW.project_id;
+
+        -- 2. Calcul financier (95% porteur / 5% Domtom Connect)
+        net_val := NEW.amount * 0.95;
+
+        -- 3. Crédit du solde de l'expert/propriétaire
+        UPDATE public.profiles
+        SET 
+            balance = COALESCE(balance, 0) + net_val,
+            total_earnings = COALESCE(total_earnings, 0) + NEW.amount
+        WHERE id = project_owner_id;
+
+        -- 4. Audit Trail
+        INSERT INTO public.transaction_logs (provider_id, amount, type, status)
+        VALUES (project_owner_id, net_val, 'credit', 'crowdfunding_contribution');
+    
+    -- Gestion des remboursements (optionnel pour l'instant)
+    ELSIF (NEW.status IN ('failed', 'refunded') AND OLD.status = 'completed') THEN
         UPDATE public.projects 
         SET total_raised = total_raised - OLD.amount
         WHERE id = NEW.project_id;
+        
+        -- Note: Le retrait du solde en cas de remboursement doit être géré avec prudence pour éviter les soldes négatifs.
     END IF;
     
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Trigger
 DROP TRIGGER IF EXISTS tr_contribution_update ON public.contributions;

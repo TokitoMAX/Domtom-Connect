@@ -10,7 +10,7 @@ const ShowcaseModule = {
         if (!window.paypal) {
             return new Promise((resolve) => {
                 const script = document.createElement('script');
-                const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825"; // Client ID réel
+                const clientId = "Ad3MfH8XNwNl5UneZ7pwH5uNeNwXrjZSCNHQuHtoTBC_ds491pQMo3J5BBpDw7hbgdfzGLI5hbu8W"; // Client ID Production
                 script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
                 script.onload = resolve;
                 document.head.appendChild(script);
@@ -49,12 +49,13 @@ const ShowcaseModule = {
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 50px;">
                         <div style="background: #f0fdf4; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #166534; position:relative;">
                             <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Commandes Payées</div>
-                            <div style="font-size: 2.3rem; font-weight: 950; color: #166534;">${(profile?.balance || 0).toFixed(2)}€</div>
-                            <button id="payout-btn" onclick="ShowcaseModule.requestPayout()" 
-                                ${hasPending ? 'disabled' : ''} 
-                                style="margin-top:15px; width:100%; padding:14px; border-radius:100px; border:none; background:${hasPending ? '#94edab' : '#000'}; color:${hasPending ? '#166534' : '#fff'}; font-weight:950; cursor:${hasPending ? 'not-allowed' : 'pointer'}; transition:0.2s;">
-                                ${hasPending ? '⌛ Virement en cours...' : 'Récupérer mes gains'}
-                            </button>
+                            <h3 style="font-size: 2.8rem; font-weight: 950; margin: 15px 0 5px 0;">${(profile.balance || 0).toLocaleString()} €</h3>
+                            <div style="background: rgba(16, 185, 129, 0.1); color: #166534; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; justify-content: center;">
+                                <span style="font-size: 1.2rem;">⏱️</span> Reversement automatique vers votre PayPal
+                            </div>
+                            <p style="font-size: 0.75rem; color: #166534; font-weight: 700; margin-top: 10px; opacity: 0.8;">
+                                Prochain virement : Le 1er et le 15 de chaque mois
+                            </p>
                         </div>
                         <div style="background: #fff; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #000;">
                             <div style="font-size: 0.75rem; font-weight: 950; color: #94a3b8; text-transform: uppercase;">Visibilité Solutions</div>
@@ -453,6 +454,45 @@ const ShowcaseModule = {
         } catch (err) {
             console.error("Order Record Error:", err);
             alert("Erreur lors de l'enregistrement de la commande : " + err.message);
+        }
+    },
+
+    /**
+     * Request a Payout
+     */
+    async requestPayout(currentBalance) {
+        if (currentBalance < 50) return alert("Le solde minimum pour un retrait est de 50 €.");
+        
+        const { value: paypalEmail } = await Swal.fire({
+            title: 'Demande de Retrait',
+            input: 'email',
+            inputLabel: 'Votre adresse PayPal pour le virement',
+            inputPlaceholder: 'exemple@gmail.com',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmer la demande',
+            confirmButtonColor: '#000'
+        });
+
+        if (!paypalEmail) return;
+
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const { error } = await window._supabase.from('payout_requests').insert({
+                user_id: session.user.id,
+                amount: currentBalance,
+                paypal_email: paypalEmail,
+                status: 'pending'
+            });
+
+            if (error) throw error;
+
+            Swal.fire('Succès', 'Votre demande de retrait a été envoyée. Elle sera traitée sous 48h.', 'success');
+            
+            // Refresh view
+            const container = document.getElementById('vitrine-view');
+            this.renderManager(container);
+        } catch (err) {
+            alert(err.message);
         }
     }
 };
