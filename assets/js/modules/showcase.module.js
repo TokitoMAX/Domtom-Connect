@@ -10,7 +10,8 @@ const ShowcaseModule = {
         if (!window.paypal) {
             return new Promise((resolve) => {
                 const script = document.createElement('script');
-                script.src = `https://www.paypal.com/sdk/js?client-id=${this.PAYPAL_CLIENT_ID}&currency=EUR`;
+                const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825"; // Client ID réel
+                script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
                 script.onload = resolve;
                 document.head.appendChild(script);
             });
@@ -361,26 +362,98 @@ const ShowcaseModule = {
                             <span style="font-size: 2rem; font-weight: 950;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</span>
                         </div>
 
-                         <div style="display:flex; flex-direction:column; gap:12px;">
-                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#000; color:#fff; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
-                            
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                                <button onclick="window.location.href='${prefix}marketplace/profile-detail-expert.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
-                                <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
-                            </div>
+                             <div style="display:flex; flex-direction:column; gap:12px;">
+                                <div id="paypal-buy-container" style="min-height:50px;"></div>
+                                
+                                <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter l'Expert</button>
+                                
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                                    <button onclick="window.location.href='${prefix}marketplace/profile-detail-expert.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
+                                    <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
+                                </div>
 
-                            <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
+                                <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
             
+            // Render PayPal Buttons
+            setTimeout(() => this.renderPaypalBuyButton(item), 100);
+
             overlay.onclick = (e) => {
                 if (e.target === overlay) overlay.classList.remove('open');
             };
 
             overlay.classList.add('open');
         } catch (err) { alert(err.message); }
+    },
+
+    /**
+     * Render the Purchase Button for a specific item
+     */
+    async renderPaypalBuyButton(item) {
+        if (!window.paypal) return;
+        
+        paypal.Buttons({
+            style: { layout: 'vertical', color: 'black', shape: 'rect', label: 'buynow', height: 50 },
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: item.price.toString(), currency_code: 'EUR' },
+                        description: `Service: ${item.title}`
+                    }]
+                });
+            },
+            onApprove: async (data, actions) => {
+                const details = await actions.order.capture();
+                await this.handlePurchaseSuccess(item, details);
+            },
+            onError: (err) => {
+                console.error('PayPal Error:', err);
+                alert("Erreur lors du paiement. Veuillez réessayer.");
+            }
+        }).render('#paypal-buy-container');
+    },
+
+    /**
+     * Handle Purchase Success - Secure DB Update
+     */
+    async handlePurchaseSuccess(item, details) {
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) return alert("Veuillez vous connecter pour valider votre commande.");
+
+            // 1. Create the Order in Supabase
+            const { error: orderError } = await window._supabase.from('showcase_orders').insert({
+                item_id: item.id,
+                buyer_id: session.user.id,
+                provider_id: item.user_id,
+                total_price: item.price,
+                status: 'paid', // Mark as paid ONLY after PayPal success
+                paypal_order_id: details.id
+            });
+
+            if (orderError) throw orderError;
+
+            // 2. Notify User
+            if (window.Swal) {
+                Swal.fire({
+                    title: 'FÉLICITATIONS !',
+                    text: 'Votre commande a été validée. L\'expert a été notifié.',
+                    icon: 'success',
+                    confirmButtonText: 'Accéder à mes commandes'
+                });
+            } else {
+                alert("✅ Commande validée avec succès !");
+            }
+
+            document.getElementById('details-modal-overlay').classList.remove('open');
+        } catch (err) {
+            console.error("Order Record Error:", err);
+            alert("Erreur lors de l'enregistrement de la commande : " + err.message);
+        }
     }
 };
 

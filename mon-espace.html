@@ -67,13 +67,13 @@
                 <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
             </div>
             <div class="mobile-menu-links">
-                <a href="#overview" onclick="toggleMobileMenu()">Dashboard</a>
+                <a href="/mon-espace/overview" onclick="toggleMobileMenu()">Dashboard</a>
                 <a href="marketplace/directory.html">Annuaire Talents</a>
                 <a href="marketplace/jobs.html">Missions / Jobs</a>
                 <a href="marketplace/evenements.html">Événements</a>
                 <a href="messages.html">Messagerie</a>
                 <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
-                <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
+                <a href="/mon-espace/profile" onclick="toggleMobileMenu()">Mon Profil</a>
                 <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444;">Déconnexion</a>
             </div>
         </div>
@@ -110,7 +110,7 @@
 
     <!-- MOBILE NAVIGATION (HARDCODED) -->
     <nav class="mobile-nav">
-        <a href="#overview" class="mobile-nav-link active">
+        <a href="/mon-espace/overview" class="mobile-nav-link active">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Dashboard
         </a>
@@ -122,7 +122,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
             Missions
         </a>
-        <a href="#profile" class="mobile-nav-link">
+        <a href="/mon-espace/profile" class="mobile-nav-link">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             Profil
         </a>
@@ -130,13 +130,14 @@
     <script>
         // --- 1. Dashboard Navigation Sync ---
         function syncNavActiveState() {
+            const path = window.location.pathname;
             const hash = window.location.hash || '#overview';
-            const cleanHash = hash.split('?')[0];
+            const cleanPath = path.replace('/mon-espace/', '').replace('/dashboard/', '');
             
             // Mobile Bottom Nav
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 const href = link.getAttribute('href');
-                if (href.includes(cleanHash) || (cleanHash === '#overview' && href === 'mon-espace.html')) {
+                if (href.includes(cleanPath) || (path === '/mon-espace' && href.includes('overview')) || href === hash) {
                     link.classList.add('active');
                 } else {
                     link.classList.remove('active');

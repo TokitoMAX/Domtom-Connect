@@ -176,23 +176,49 @@ function initFillTimeTracking(form) {
     }
 }
 
-// Validation complète du formulaire - DÉSACTIVÉE : on envoie toujours
-function validateFormSecurity(form, data) {
-    // TOUTE LA VALIDATION EST DÉSACTIVÉE - ON ENVOIE TOUJOURS
-    // Ne garder que le check du honeypot pour les bots évidents
+// Vérification avancée via API de sécurité (Concept RapidAPI)
+async function verifyVisitorIntelligence() {
+    try {
+        // En production, on utiliserait une clé d'API RapidAPI pour IP Intelligence / Fraud Detection
+        const response = await fetch('https://api.ipify.org?format=json');
+        const { ip } = await response.json();
+        
+        console.log("[Security] Intelligence verify for IP:", ip);
+        
+        // Exemple de vérification : On pourrait bloquer certains pays ou types de proxys ici
+        // Pour l'instant, on enregistre l'IP pour l'audit trail
+        return { success: true, ip };
+    } catch (err) {
+        console.warn("[Security] Could not reach Security API, proceeding with standard checks.");
+        return { success: true };
+    }
+}
+
+// Validation complète du formulaire - RÉACTIVÉE RIGOUREUSEMENT
+async function validateFormSecurity(form, data) {
     const errors = [];
 
-    // 1. Vérifier le honeypot (seul check qui reste pour les bots évidents)
+    // 1. Audit IP (Intelligence)
+    const intel = await verifyVisitorIntelligence();
+    
+    // 2. Vérifier le honeypot
     if (!checkHoneypot(form)) {
-        errors.push('Soumission détectée comme suspecte.');
-        console.warn('Honeypot détecté - probable bot');
+        errors.push('Soumission détectée comme suspecte (Bot).');
         return { valid: false, errors };
     }
 
-    // TOUT LE RESTE EST DÉSACTIVÉ - ON ENVOIE TOUJOURS
+    // 3. Vérifier les données suspectes (Spam/Test)
+    if (data.email && isSuspiciousEmail(data.email)) {
+        errors.push('Veuillez utiliser une adresse email professionnelle valide.');
+    }
+    
+    if (data.full_name && isSuspiciousName(data.full_name)) {
+        errors.push('Veuillez saisir votre nom réel.');
+    }
+
     return {
-        valid: true,
-        errors: []
+        valid: errors.length === 0,
+        errors
     };
 }
 

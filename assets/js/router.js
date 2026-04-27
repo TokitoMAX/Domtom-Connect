@@ -34,7 +34,7 @@ const Router = {
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             const href = link ? link.getAttribute('href') : null;
-            if (href && (href.includes('#') || href.startsWith('/dashboard'))) {
+            if (href && (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace'))) {
                 // If it's a cross-page link (e.g. marketplace), don't intercept here
                 if (href.includes('.html') && !window.location.pathname.includes(href.split('#')[0])) {
                     return; 
@@ -48,23 +48,24 @@ const Router = {
     },
 
     /**
-     * Navigate to a path
+     * Navigate to a path (Supports clean URLs and Hash fallback)
      */
     navigate(path, params = null) {
-        const hashPart = path.includes('#') ? path.split('#')[1] : null;
-        
-        // Prevent redundant navigation if already on this hash
-        if (hashPart && window.location.hash.replace('#', '') === hashPart) {
-            console.log("[Router] Already on hash:", hashPart);
+        let viewId = path.replace('#', '').replace('/mon-espace/', '').replace('/dashboard/', '');
+        viewId = viewId.split('?')[0];
+
+        // Ensure path is formatted correctly for History API
+        const cleanPath = path.startsWith('#') ? `/mon-espace/${path.substring(1)}` : path;
+
+        console.log("[Router] Navigating to:", cleanPath, "Matched view:", viewId);
+
+        // Fallback for local file protocol: Use Hash
+        if (window.location.protocol === 'file:') {
+            window.location.hash = viewId;
             return;
         }
 
-        console.log("[Router] Navigating to:", path);
-        if (hashPart) {
-            window.location.hash = hashPart;
-            return;
-        }
-        window.history.pushState(params, '', path);
+        window.history.pushState(params, '', cleanPath);
         this.handleCurrentRoute();
     },
 
@@ -80,11 +81,13 @@ const Router = {
      * Resolve the current URL and trigger view display
      */
     handleCurrentRoute() {
-        const path = window.location.pathname;
-        const hash = window.location.hash.replace('#', '');
-        let viewId = 'overview';
+        // 1. Try to match clean path first (History API)
+        const cleanPath = path.replace('/mon-espace/', '').replace('/dashboard/', '').replace('/', '');
+        if (this.routes[cleanPath]) {
+            viewId = this.routes[cleanPath];
+        }
 
-        // 1. Try to match hash first (Preferred for file protocol)
+        // 2. Fallback to hash matching
         if (hash) {
             const cleanHash = hash.split('?')[0];
             if (this.routes[cleanHash]) {
@@ -92,7 +95,7 @@ const Router = {
             }
         } 
         
-        // 2. Fallback to path matching
+        // 3. Last fallback: loop
         if (!viewId || viewId === 'overview') {
             for (const [route, id] of Object.entries(this.routes)) {
                 if (path.includes(route)) {

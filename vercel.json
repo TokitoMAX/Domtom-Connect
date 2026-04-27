@@ -24,6 +24,10 @@
         {
             "source": "/dashboard/:path*",
             "destination": "/mon-espace"
+        },
+        {
+            "source": "/mon-espace/:path*",
+            "destination": "/mon-espace"
         }
     ],
     "redirects": [
