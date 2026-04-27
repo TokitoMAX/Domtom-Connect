@@ -304,13 +304,40 @@ const ShowcaseModule = {
     },
 
     async openPublicItemModal(itemId) {
+        if (!itemId || itemId === 'undefined') {
+            console.error("[Showcase] itemId invalide :", itemId);
+            return;
+        }
         try {
             await this.init();
-            const { data: item } = await window._supabase.from('showcase_items').select('*, profiles(role)').eq('id', itemId).single();
-            const isCompany = item.profiles?.role === 'entreprise';
-            const overlay = document.getElementById('details-modal-overlay');
-            if (!overlay) return;
+            // Requête simplifiée pour éviter l'erreur 400 (Bad Request)
+            const { data: item, error } = await window._supabase
+                .from('showcase_items')
+                .select('*, profiles:user_id(role)')
+                .eq('id', itemId)
+                .single();
 
+            if (error) {
+                console.error("[Showcase] Erreur chargement offre (ID:", itemId, "):", error);
+                // Fallback si la jointure échoue
+                const { data: simpleItem } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
+                if (!simpleItem) return;
+                this.renderModalWithItem(simpleItem, false);
+                return;
+            }
+
+            const isCompany = (item.profiles?.role === 'entreprise');
+            this.renderModalWithItem(item, isCompany);
+        } catch (err) { 
+            console.error("[Showcase] Erreur critique :", err);
+        }
+    },
+
+    renderModalWithItem(item, isCompany) {
+        const overlay = document.getElementById('details-modal-overlay');
+        if (!overlay) return;
+
+        try {
             const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
             const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
             
