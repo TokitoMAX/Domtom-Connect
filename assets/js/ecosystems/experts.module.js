@@ -136,12 +136,25 @@ const ExpertsModule = {
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
                     <div style="background: white; padding: clamp(24px, 4vw, 40px); border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 16px 0;">Revenus Générés</h4>
-                         <div style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #020617;">0,00 €</div>
+                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 16px 0;">Solde Disponible</h4>
+                         <div style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #020617;">${(profile.balance || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
                     </div>
-                    <div style="background: white; padding: clamp(24px, 4vw, 40px); border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                         <h4 style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 16px 0;">Missions Terminées</h4>
-                         <div style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #10b981;">0</div>
+                    
+                    <div style="background: ${profile.stripe_connect_id ? '#f8fafc' : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'}; padding: 32px; border-radius: 20px; color: ${profile.stripe_connect_id ? '#020617' : 'white'}; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
+                        ${!profile.stripe_connect_id ? `
+                            <div style="position:relative; z-index:2;">
+                                <h4 style="font-size: 0.7rem; font-weight: 900; opacity: 0.9; text-transform: uppercase; margin-bottom: 8px;">CONFIGURATION REQUISE</h4>
+                                <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Recevez vos paiements automatiquement</div>
+                                <button id="connect-stripe-btn" style="padding: 12px 20px; background: white; color: #4f46e5; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                    <span>💳 Activer Stripe Connect</span>
+                                </button>
+                            </div>
+                            <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform: rotate(-15deg);">💳</div>
+                        ` : `
+                            <h4 style="font-size: 0.7rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">COMPTE CONNECTÉ ✅</h4>
+                            <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Paiements Automatisés Actifs</div>
+                            <button onclick="window.open('https://dashboard.stripe.com/', '_blank')" style="padding: 12px 20px; background: #020617; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer;">Accéder à mon Dashboard Stripe</button>
+                        `}
                     </div>
                 </div>
 
@@ -156,8 +169,33 @@ const ExpertsModule = {
             </div>
         `;
         
-        // Add listener for the button
+        // Add listener for the buttons
         setTimeout(() => {
+            const connectBtn = document.getElementById('connect-stripe-btn');
+            if (connectBtn) {
+                connectBtn.onclick = async () => {
+                    connectBtn.disabled = true;
+                    connectBtn.innerHTML = '<span>⏳ Préparation...</span>';
+                    try {
+                        const { data: { session } } = await window._supabase.auth.getSession();
+                        const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-connect-onboarding', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${session?.access_token || ''}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const data = await response.json();
+                        if (data.url) window.location.href = data.url;
+                        else throw new Error(data.error);
+                    } catch (err) {
+                        alert("Erreur: " + err.message);
+                        connectBtn.disabled = false;
+                        connectBtn.innerHTML = '<span>💳 Activer Stripe Connect</span>';
+                    }
+                };
+            }
+
             const btn = document.getElementById('load-billing-engine-btn');
             if (btn && window.BusinessModule) {
                 btn.onclick = () => {

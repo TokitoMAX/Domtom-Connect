@@ -33,6 +33,12 @@ Deno.serve(async (req) => {
       plan_id // For subscriptions: Stripe Price ID
     } = body;
 
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
     console.log(`[create-checkout] Type: ${type}, Item: ${item_id}, Price: ${item_price}`);
 
     let sessionConfig: any = {
@@ -53,14 +59,38 @@ Deno.serve(async (req) => {
       sessionConfig.mode = 'subscription';
       sessionConfig.line_items = [
         {
-          price: plan_id, // Stripe Price ID (e.g., price_H5gg...)
+          price: plan_id,
           quantity: 1,
         },
       ];
-      // For subscriptions, buyer_id is the user being upgraded
       sessionConfig.client_reference_id = buyer_id;
     } else {
+      const amount = Math.round(item_price * 100);
+      let paymentData: any = {};
+
+      if ((type === 'showcase' || type === 'quote') && provider_id) {
+        const { data: expert } = await supabaseClient
+          .from('profiles')
+          .select('stripe_connect_id')
+          .eq('id', provider_id)
+          .single();
+
+        if (expert?.stripe_connect_id) {
+          // Commission : 5% pour Showcase, 12.5% pour Quotes
+          const feePercent = type === 'quote' ? 0.125 : 0.05;
+          const fee = Math.round(amount * feePercent);
+          
+          paymentData = {
+            application_fee_amount: fee,
+            transfer_data: {
+              destination: expert.stripe_connect_id,
+            },
+          };
+        }
+      }
+
       sessionConfig.mode = 'payment';
+      sessionConfig.payment_intent_data = paymentData;
       sessionConfig.line_items = [
         {
           price_data: {
@@ -69,7 +99,7 @@ Deno.serve(async (req) => {
               name: item_title || (type === 'quote' ? 'Règlement Devis' : 'Service Expert'),
               description: type === 'quote' ? 'Domtom Connect — Paiement Sécurisé de Devis' : 'Domtom Connect — Solution Expert',
             },
-            unit_amount: Math.round(item_price * 100),
+            unit_amount: amount,
           },
           quantity: 1,
         },
