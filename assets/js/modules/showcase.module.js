@@ -294,27 +294,54 @@ const ShowcaseModule = {
         } catch (err) { alert(err.message); }
     },
 
-    async init() {
-        if (window.paypal) return Promise.resolve();
-        return new Promise((resolve) => {
-            const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
-            const url = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
+    STRIPE_PK: 'pk_live_51S7DgQAXxC1DBrN4X8cFROt9jCStxExXYMKKgGees4Cpbm7KCncjuV4RSSqK2mV5En2i0XWXkY1Hr8oCYOF9F9dR00HMmrxPYQ',
+    SUPABASE_FUNCTIONS_URL: 'https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1',
+
+    /**
+     * Lance le paiement Stripe via Edge Function
+     * Redirige vers Stripe Checkout (page sécurisée hébergée par Stripe)
+     */
+    async buyWithStripe(item) {
+        const btn = document.getElementById('stripe-buy-btn');
+        if (btn) { btn.textContent = 'Redirection...'; btn.disabled = true; }
+
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
             
-            const script = document.createElement('script');
-            script.src = url;
-            script.onload = resolve;
-            script.onerror = resolve;
-            document.head.appendChild(script);
-        });
+            const response = await fetch(`${this.SUPABASE_FUNCTIONS_URL}/create-checkout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session?.access_token || ''}`,
+                },
+                body: JSON.stringify({
+                    item_id: item.id,
+                    item_title: item.title,
+                    item_price: item.price,
+                    provider_id: item.user_id,
+                    buyer_id: session?.user?.id || null,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.url) {
+                throw new Error(data.error || 'Impossible de créer la session de paiement.');
+            }
+
+            // Redirection vers Stripe Checkout
+            window.location.href = data.url;
+
+        } catch (err) {
+            console.error('[Stripe] Erreur:', err);
+            if (btn) { btn.textContent = '💳 Acheter maintenant'; btn.disabled = false; }
+            alert('Erreur : ' + err.message);
+        }
     },
 
     async openPublicItemModal(itemId) {
         if (!itemId || itemId === 'undefined') return;
         try {
-            // 1. On attend que PayPal soit prêt
-            await this.init(); 
-
-            // 2. On récupère les données de l'offre
             const { data: item, error } = await window._supabase
                 .from('showcase_items')
                 .select('*, profiles:user_id(role)')
@@ -389,9 +416,11 @@ const ShowcaseModule = {
                         </div>
 
                         <div style="display:flex; flex-direction:column; gap:12px;">
-                            <div id="paypal-buy-container" style="min-height:50px;"></div>
                             
-                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">Contacter ${isCompany ? "l'Entreprise" : "l'Expert"}</button>
+                            <button id="stripe-buy-btn" onclick="ShowcaseModule.buyWithStripe(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 6px 6px 0px #475569; transition: transform 0.2s;"
+                                onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">💳 Acheter maintenant — ${item.price.toFixed(2)} €</button>
+
+                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1rem;">Contacter ${isCompany ? "l'Entreprise" : "l'Expert"}</button>
                             
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                                 <button onclick="window.location.href='${prefix}marketplace/profile-detail-${isCompany ? 'company' : 'expert'}.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
@@ -404,9 +433,6 @@ const ShowcaseModule = {
                 </div>
             `;
             
-            // Render PayPal Buttons
-            setTimeout(() => this.renderPaypalBuyButton(item), 100);
-
             overlay.onclick = (e) => {
                 if (e.target === overlay) overlay.classList.remove('open');
             };

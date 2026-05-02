@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Confirmé | Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900;950&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 40px;
+            border: 4px solid #000;
+            box-shadow: 20px 20px 0px #000;
+            padding: 60px 50px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .icon {
+            width: 80px;
+            height: 80px;
+            background: #f0fdf4;
+            border: 3px solid #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 30px;
+            box-shadow: 5px 5px 0px #000;
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 950;
+            letter-spacing: -0.06em;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .amount-box {
+            background: #f0fdf4;
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 5px 5px 0px #166534;
+        }
+        .amount-box .label {
+            font-size: 0.75rem;
+            font-weight: 950;
+            text-transform: uppercase;
+            color: #166534;
+            letter-spacing: 0.05em;
+        }
+        .amount-box .value {
+            font-size: 2rem;
+            font-weight: 950;
+            color: #000;
+            margin-top: 5px;
+        }
+        .btn {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 100px;
+            font-weight: 950;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            box-shadow: 5px 5px 0px #475569;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-secondary {
+            background: transparent;
+            color: #64748b;
+            border: none;
+            font-weight: 900;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            display: block;
+            margin-top: 15px;
+        }
+        .confetti {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">✅</div>
+        <h1>PAIEMENT CONFIRMÉ !</h1>
+        <p>Votre achat a été validé avec succès.</p>
+        <p>L'expert a été notifié et vous contactera très prochainement.</p>
+
+        <div class="amount-box">
+            <div class="label">Montant payé</div>
+            <div class="value" id="amount-display">Chargement...</div>
+        </div>
+
+        <p style="font-size:0.8rem; margin-top:5px;">
+            Un e-mail de confirmation vous a été envoyé.
+        </p>
+
+        <a href="/mon-espace.html" class="btn">Accéder à mon espace</a>
+        <a href="/marketplace/solutions.html" class="btn-secondary">Retour aux offres</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        // Récupérer les infos de session depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+
+        if (sessionId) {
+            // Appeler Supabase pour récupérer les détails de la commande
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    const { data: order } = await window._supabase
+                        .from('showcase_orders')
+                        .select('total_price, created_at')
+                        .eq('stripe_session_id', sessionId)
+                        .single();
+
+                    if (order) {
+                        document.getElementById('amount-display').textContent = 
+                            `${order.total_price.toFixed(2)} €`;
+                    } else {
+                        document.getElementById('amount-display').textContent = 'Paiement validé';
+                    }
+                } catch (e) {
+                    document.getElementById('amount-display').textContent = 'Paiement validé ✓';
+                }
+            });
+        } else {
+            document.getElementById('amount-display').textContent = 'Paiement validé ✓';
+        }
+
+        // Auto-redirect après 10 secondes
+        setTimeout(() => {
+            window.location.href = '/mon-espace.html';
+        }, 10000);
+    </script>
+</body>
+</html>
