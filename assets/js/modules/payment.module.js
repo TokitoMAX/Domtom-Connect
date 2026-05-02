@@ -40,8 +40,8 @@ const PaymentModule = {
             setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        // 5. Render PayPal Button
-        await this.renderPayPalButton();
+        // 5. Render Stripe Button
+        await this.renderStripeButton();
     },
 
     /**
@@ -112,7 +112,7 @@ const PaymentModule = {
             .benefits-list { list-style: none; padding: 0; margin: 0 0 40px 0; display: grid; gap: 16px; }
             .benefits-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: #475569; line-height: 1.4; }
             .benefits-list svg { width: 20px; height: 20px; color: #10b981; flex-shrink: 0; margin-top: 2px; }
-            #paypal-button-container-dynamic { min-height: 150px; }
+            #stripe-button-container-dynamic { min-height: 80px; }
         `;
         document.head.appendChild(style);
     },
@@ -140,8 +140,8 @@ const PaymentModule = {
                     <!-- Benefits injected here -->
                 </ul>
 
-                <div id="paypal-button-container-dynamic"></div>
-                <p style="text-align:center; font-size:0.7rem; color:#94a3b8; margin-top:24px;">Paiement sécurisé via PayPal. Annulation possible à tout moment.</p>
+                <div id="stripe-button-container-dynamic"></div>
+                <p style="text-align:center; font-size:0.7rem; color:#94a3b8; margin-top:24px;">Paiement sécurisé via Stripe. Annulation possible à tout moment.</p>
             </div>
         `;
         document.body.appendChild(modal);
@@ -183,111 +183,105 @@ const PaymentModule = {
     },
 
     /**
-     * Render the PayPal Button
+     * Render the Stripe Checkout Button
      */
-    async renderPayPalButton() {
-        const container = document.getElementById('paypal-button-container-dynamic');
+    async renderStripeButton() {
+        const container = document.getElementById('stripe-button-container-dynamic');
         if (!container) return;
 
-        try {
-            const zoneId = (this.currentProfile && this.currentProfile.territory) || 'OM_FR';
-            await this.loadPayPalSDK(zoneId);
-
-            if (typeof paypal === 'undefined') {
-                container.innerHTML = '<p style="color:#ef4444; font-size:0.8rem;">Erreur de chargement PayPal. Vérifiez votre connexion.</p>';
-                return;
-            }
-
-            // Plan IDs
-            const planId = (this.currentTier === 'authority' || this.currentRole === 'expert') 
-                ? 'P-3DX69524C1114072WNG2AOZQ' 
-                : 'P-6JG84131PK915684CNG3VDSQ';
-            
-            const color = this.currentRole === 'expert' ? 'black' : 'blue';
-
-            paypal.Buttons({
-                style: { layout: 'vertical', color: color, shape: 'rect', label: 'subscribe', height: 50 },
-                createSubscription: (data, actions) => {
-                    return actions.subscription.create({ 'plan_id': planId });
-                },
-                onApprove: (data, actions) => {
-                    this.handleSubscriptionSuccess(data.subscriptionID);
-                },
-                onError: (err) => {
-                    console.error('PayPal Error:', err);
-                    container.innerHTML = `<p style="color:#ef4444; font-size:0.8rem;">Erreur PayPal. Veuillez réessayer.</p>`;
+        container.innerHTML = `
+            <button id="stripe-checkout-btn" class="stripe-pay-button">
+                <span>💳 S'abonner avec Stripe</span>
+            </button>
+            <style>
+                .stripe-pay-button {
+                    width: 100%;
+                    padding: 16px;
+                    background: #0f172a;
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    font-weight: 900;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    transition: all 0.2s;
+                    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
                 }
-            }).render('#paypal-button-container-dynamic');
+                .stripe-pay-button:hover {
+                    background: #1e293b;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 15px rgba(15, 23, 42, 0.2);
+                }
+                .stripe-pay-button:active { transform: translateY(0); }
+                .stripe-pay-button:disabled { opacity: 0.7; cursor: not-allowed; }
+            </style>
+        `;
 
-        } catch (err) {
-            console.error("Payment SDK Load Fail:", err);
-            container.innerHTML = '<p style="color:#ef4444; font-size:0.8rem;">Initialisation impossible.</p>';
-        }
-    },
-
-    /**
-     * Load PayPal SDK with Zone Config
-     */
-    loadPayPalSDK(zoneId) {
-        return new Promise((resolve, reject) => {
-            if (window.paypal) { resolve(window.paypal); return; }
+        const btn = document.getElementById('stripe-checkout-btn');
+        btn.onclick = async () => {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader-small"></span> Redirection...';
             
-            const currency = 'EUR'; // Standard for Domtom
-            const locale = 'fr_FR';
-            const clientId = "AcBmagCWJpj_JUQpRivjdlrowAA48XOvpD_B022bRdhQqQzYIHR6LgAKLdFadgLKHUa4BPqpYwstW825";
-            
-            const sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currency}&locale=${locale}&vault=true&intent=subscription`;
-            
-            const script = document.createElement('script');
-            script.src = sdkUrl;
-            script.onload = () => resolve(window.paypal);
-            script.onerror = () => reject("SDK Fail");
-            document.head.appendChild(script);
-        });
-    },
+            try {
+                const { data: { session } } = await window._supabase.auth.getSession();
+                
+                // Stripe Price IDs from Dashboard
+                const planId = (this.currentTier === 'authority' || this.currentRole === 'expert') 
+                    ? 'price_1S7DgQAXxC1DBrN4X8cFROt9' // Placeholder, replace with real price_id
+                    : 'price_1S7DhSAXxC1DBrN4X8cFROt0';
 
-    /**
-     * Handle Success
-     */
-    async handleSubscriptionSuccess(subscriptionId) {
-        try {
-            const { error: authError } = await window._supabase.auth.updateUser({ 
-                data: { role: this.currentRole, onboarding_done: true } 
-            });
-            if (authError) throw authError;
-
-            const { error: dbError } = await window._supabase
-                .from('profiles')
-                .update({
-                    subscription_tier: this.currentTier,
-                    subscription_id: subscriptionId,
-                    last_payment_date: new Date().toISOString(),
-                    role: this.currentRole,
-                    listed: true
-                })
-                .eq('id', this.currentProfile.id);
-
-            if (dbError) throw dbError;
-
-            // Show Success Notification
-            if (window.Swal) {
-                await Swal.fire({
-                    title: 'FÉLICITATIONS !',
-                    text: 'Votre pack est maintenant actif. Bienvenue dans l\'élite territoriale.',
-                    icon: 'success',
-                    confirmButtonText: 'Accéder à mes privilèges',
-                    confirmButtonColor: '#10b981'
+                const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session?.access_token || ''}`,
+                    },
+                    body: JSON.stringify({
+                        type: 'subscription',
+                        tier: this.currentTier,
+                        plan_id: planId,
+                        buyer_id: session?.user?.id
+                    }),
                 });
-            } else {
-                alert("✅ Pack activé avec succès ! Bienvenue.");
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || 'Erreur Stripe');
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Erreur: " + err.message);
+                btn.disabled = false;
+                btn.innerHTML = '<span>💳 S\'abonner avec Stripe</span>';
             }
+        };
+    },
 
-            // Reload or refresh UI
-            window.location.reload();
+    /**
+     * Handle Success (Client side redirect back)
+     * Note: Most logic is now in the Webhook. This is just for UI feedback.
+     */
+    async handleSubscriptionSuccess(sessionId) {
+        // This is called when returning from Stripe with ?session_id=...
+        try {
+            Swal.fire({
+                title: 'VÉRIFICATION...',
+                text: 'Nous finalisons l\'activation de votre pack.',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
 
+            // Wait a bit for webhook to process
+            await new Promise(r => setTimeout(r, 2000));
+            window.location.href = '/mon-espace';
         } catch (err) {
             console.error("Subscription Sync Error:", err);
-            alert("Erreur de synchronisation du compte : " + err.message);
         }
     },
 

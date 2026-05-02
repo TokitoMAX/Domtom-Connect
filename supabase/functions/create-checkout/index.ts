@@ -1,6 +1,8 @@
 // Supabase Edge Function : create-checkout
-// Crée une session Stripe Checkout pour un article de la vitrine
-// Deploy : Supabase Dashboard > Edge Functions > New Function > "create-checkout"
+// Crée une session Stripe Checkout pour :
+// 1. Showcase (Produits/Services Marketplace)
+// 2. Business Quotes (Devis)
+// 3. Subscriptions (Packs Authority/Growth)
 
 import Stripe from 'https://esm.sh/stripe@14?target=deno';
 
@@ -19,44 +21,62 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { item_id, item_title, item_price, provider_id, buyer_id } = await req.json();
+    const body = await req.json();
+    const { 
+      type = 'showcase', // showcase, quote, subscription
+      item_id, 
+      item_title, 
+      item_price, 
+      provider_id, 
+      buyer_id,
+      tier, // For subscriptions: 'authority' or 'growth'
+      plan_id // For subscriptions: Stripe Price ID
+    } = body;
 
-    if (!item_id || !item_price || !provider_id) {
-      return new Response(JSON.stringify({ error: 'Paramètres manquants' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
+    console.log(`[create-checkout] Type: ${type}, Item: ${item_id}, Price: ${item_price}`);
 
-    // Création de la session Stripe Checkout
-    const session = await stripe.checkout.sessions.create({
+    let sessionConfig: any = {
       payment_method_types: ['card'],
-      mode: 'payment',
-      line_items: [
+      success_url: `${req.headers.get('origin') || 'https://domtomconnect.com'}/payment-success.html?session_id={CHECKOUT_SESSION_ID}&type=${type}`,
+      cancel_url: `${req.headers.get('origin') || 'https://domtomconnect.com'}/mon-espace`,
+      locale: 'fr',
+      metadata: {
+        type,
+        item_id: item_id || '',
+        provider_id: provider_id || '',
+        buyer_id: buyer_id || '',
+        tier: tier || '',
+      },
+    };
+
+    if (type === 'subscription') {
+      sessionConfig.mode = 'subscription';
+      sessionConfig.line_items = [
+        {
+          price: plan_id, // Stripe Price ID (e.g., price_H5gg...)
+          quantity: 1,
+        },
+      ];
+      // For subscriptions, buyer_id is the user being upgraded
+      sessionConfig.client_reference_id = buyer_id;
+    } else {
+      sessionConfig.mode = 'payment';
+      sessionConfig.line_items = [
         {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: item_title || 'Service Expert',
-              description: 'Domtom Connect — Solution Expert',
+              name: item_title || (type === 'quote' ? 'Règlement Devis' : 'Service Expert'),
+              description: type === 'quote' ? 'Domtom Connect — Paiement Sécurisé de Devis' : 'Domtom Connect — Solution Expert',
             },
-            unit_amount: Math.round(item_price * 100), // Stripe travaille en centimes
+            unit_amount: Math.round(item_price * 100),
           },
           quantity: 1,
         },
-      ],
-      // Métadonnées pour identifier la commande lors du webhook
-      metadata: {
-        item_id,
-        provider_id,
-        buyer_id: buyer_id || '',
-        platform: 'domtom_connect_showcase',
-      },
-      // Redirection après paiement
-      success_url: `https://domtomconnect.com/payment-success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://domtomconnect.com/marketplace/solutions.html`,
-      locale: 'fr',
-    });
+      ];
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return new Response(JSON.stringify({ url: session.url, session_id: session.id }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

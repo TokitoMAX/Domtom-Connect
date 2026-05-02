@@ -12,54 +12,63 @@
     <style>
         /* MOBILE LIST OPTIMIZATION */
         @media (max-width: 768px) {
-            .directory-hero { padding: 40px 0; text-align: left; }
-            .hero-title { font-size: 1.8rem !important; line-height: 1.2; }
-            .hero-subtitle { font-size: 1rem !important; margin-bottom: 24px; }
+            .directory-hero { padding: 60px 0 40px; text-align: left; background: #f8fafc; }
+            .hero-title { font-size: 2.2rem !important; line-height: 1.1; font-weight: 900; letter-spacing: -0.05em; }
+            .hero-subtitle { font-size: 1.1rem !important; margin-bottom: 32px; opacity: 0.8; }
             
             .search-filter-bar { 
                 flex-direction: column; 
-                gap: 12px; 
-                background: white; 
-                padding: 16px; 
-                border-radius: 20px; 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                gap: 16px; 
+                background: rgba(255, 255, 255, 0.8); 
+                backdrop-filter: blur(20px);
+                padding: 24px; 
+                border-radius: 24px; 
+                border: 1px solid rgba(0,0,0,0.05);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.05);
             }
             .search-group input, .filter-group select { 
                 width: 100%; 
-                font-size: 0.9rem; 
-                padding: 14px; 
-                border-radius: 12px;
+                font-size: 1rem; 
+                padding: 16px; 
+                border-radius: 14px;
+                border: 1px solid #e2e8f0;
+                background: white;
             }
             
             .directory-grid {
-                display: flex !important;
-                flex-direction: column;
-                gap: 16px;
-                padding: 0 !important;
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                padding: 20px 0 !important;
             }
             
-            /* Compact Talent Card for Mobile */
             .profile-card {
                 display: flex !important;
-                flex-direction: row !important;
+                flex-direction: column !important;
                 align-items: center !important;
-                gap: 16px !important;
-                padding: 16px !important;
-                border-radius: 18px !important;
+                text-align: center !important;
+                padding: 32px !important;
+                border-radius: 24px !important;
+                background: white !important;
                 border: 1px solid #f1f5f9 !important;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
-                text-align: left !important;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.02) !important;
             }
-            .profile-avatar-container {
-                width: 60px !important;
-                height: 60px !important;
-                flex-shrink: 0;
+            .profile-avatar {
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 2rem !important;
+                margin: 0 0 20px 0 !important;
             }
-            .profile-info { flex: 1; min-width: 0; }
-            .profile-name { font-size: 1rem !important; margin-bottom: 2px !important; }
-            .profile-title { font-size: 0.8rem !important; margin-bottom: 8px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .profile-tags { display: none !important; } /* Hide tags on very small lists to save space */
-            .profile-cta { margin-top: 0 !important; font-size: 0.75rem !important; padding: 8px 12px !important; width: auto !important; }
+            .profile-name { font-size: 1.3rem !important; font-weight: 900 !important; }
+            .profile-role { font-size: 1rem !important; margin-bottom: 12px !important; }
+            .profile-territory { font-size: 0.85rem !important; padding: 4px 12px !important; }
+            .profile-stats { margin-top: 16px !important; width: 100% !important; justify-content: center !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .directory-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 24px !important;
+            }
         }
     </style>
 

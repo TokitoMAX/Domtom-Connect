@@ -392,24 +392,45 @@ const BusinessModule = {
             footer: '<span style="font-size:0.7rem; color:#94a3b8;">La commission Domtom Connect sera déduite automatiquement du versement.</span>'
         });
 
-        // choice is true for confirm (acompte), undefined/false for cancel/close (but here cancel is used for Full Amount)
-        // Let's refine the logic for clearer choice
         if (choice === undefined) return; 
 
         const amount = choice ? deposit : total;
-        const type = choice ? 'Acompte' : 'Solde';
+        const typeLabel = choice ? 'Acompte' : 'Solde';
 
         Swal.fire({
-            title: 'Demande envoyée !',
-            text: `Votre client a reçu un lien pour régler l'${type} (${amount} €).`,
-            icon: 'success',
-            timer: 3000,
-            showConfirmButton: false
+            title: 'Redirection Stripe...',
+            text: `Préparation du paiement pour l'${typeLabel} (${amount} €).`,
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
         });
 
-        // Simulate update in DB
-        await window._supabase.from('business_docs').update({ status: 'sent' }).eq('id', id);
-        this.switchTab(this.activeTab);
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session?.access_token || ''}`,
+                },
+                body: JSON.stringify({
+                    type: 'quote',
+                    item_id: id,
+                    item_title: `${typeLabel} - Devis #${id.slice(0,8).toUpperCase()}`,
+                    item_price: amount,
+                    provider_id: session.user.id
+                }),
+            });
+
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error(data.error || 'Erreur Stripe');
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire('Erreur', err.message, 'error');
+        }
     },
 
     requestPayout: async function(balance) {

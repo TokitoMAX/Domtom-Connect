@@ -111,59 +111,80 @@
 </head>
 <body>
     <div class="card">
-        <div class="icon">✅</div>
-        <h1>PAIEMENT CONFIRMÉ !</h1>
-        <p>Votre achat a été validé avec succès.</p>
-        <p>L'expert a été notifié et vous contactera très prochainement.</p>
+        <div class="icon" id="success-icon">✅</div>
+        <h1 id="success-title">PAIEMENT CONFIRMÉ !</h1>
+        <p id="success-msg">Votre achat a été validé avec succès.</p>
+        <p id="sub-msg">L'expert a été notifié et vous contactera très prochainement.</p>
 
         <div class="amount-box">
-            <div class="label">Montant payé</div>
+            <div class="label" id="amount-label">Montant payé</div>
             <div class="value" id="amount-display">Chargement...</div>
         </div>
 
-        <p style="font-size:0.8rem; margin-top:5px;">
+        <p style="font-size:0.8rem; margin-top:5px;" id="email-notif">
             Un e-mail de confirmation vous a été envoyé.
         </p>
 
-        <a href="/mon-espace.html" class="btn">Accéder à mon espace</a>
-        <a href="/marketplace/solutions.html" class="btn-secondary">Retour aux offres</a>
+        <a href="/mon-espace" class="btn">Accéder à mon espace</a>
+        <a href="/" class="btn-secondary">Retour à l'accueil</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/auth.js"></script>
     <script>
-        // Récupérer les infos de session depuis l'URL
         const params = new URLSearchParams(window.location.search);
         const sessionId = params.get('session_id');
+        const type = params.get('type') || 'showcase';
 
-        if (sessionId) {
-            // Appeler Supabase pour récupérer les détails de la commande
-            document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            const title = document.getElementById('success-title');
+            const msg = document.getElementById('success-msg');
+            const subMsg = document.getElementById('sub-msg');
+            const icon = document.getElementById('success-icon');
+            const amountDisplay = document.getElementById('amount-display');
+
+            // 1. UI Adjustments based on type
+            if (type === 'subscription') {
+                title.textContent = 'PACK ACTIVÉ !';
+                msg.textContent = 'Votre abonnement est désormais actif.';
+                subMsg.textContent = 'Vous avez maintenant accès à tous vos privilèges territoriaux.';
+                icon.textContent = '🚀';
+                document.getElementById('amount-label').textContent = 'Statut';
+                amountDisplay.textContent = 'ACTIF';
+            } else if (type === 'quote') {
+                title.textContent = 'DEVIS RÉGLÉ !';
+                msg.textContent = 'Le paiement de votre devis a été reçu.';
+                subMsg.textContent = 'La mission peut désormais débuter officiellement.';
+                icon.textContent = '📄';
+            }
+
+            // 2. Data Fetching
+            if (sessionId && type !== 'subscription') {
                 try {
+                    const table = type === 'showcase' ? 'showcase_orders' : 'business_docs';
                     const { data: order } = await window._supabase
-                        .from('showcase_orders')
-                        .select('total_price, created_at')
+                        .from(table)
+                        .select(type === 'showcase' ? 'total_price' : 'total_amount')
                         .eq('stripe_session_id', sessionId)
                         .single();
 
                     if (order) {
-                        document.getElementById('amount-display').textContent = 
-                            `${order.total_price.toFixed(2)} €`;
+                        const amount = order.total_price || order.total_amount;
+                        amountDisplay.textContent = `${amount.toFixed(2)} €`;
                     } else {
-                        document.getElementById('amount-display').textContent = 'Paiement validé';
+                        amountDisplay.textContent = 'Validé ✓';
                     }
                 } catch (e) {
-                    document.getElementById('amount-display').textContent = 'Paiement validé ✓';
+                    console.warn("Retry fetching order...");
+                    setTimeout(() => window.location.reload(), 2000);
                 }
-            });
-        } else {
-            document.getElementById('amount-display').textContent = 'Paiement validé ✓';
-        }
+            }
+        });
 
-        // Auto-redirect après 10 secondes
+        // Auto-redirect
         setTimeout(() => {
-            window.location.href = '/mon-espace.html';
-        }, 10000);
+            window.location.href = '/mon-espace';
+        }, 15000);
     </script>
 </body>
 </html>
