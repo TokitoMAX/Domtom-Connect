@@ -230,7 +230,7 @@ const PaymentModule = {
                 const { data: { session } } = await window._supabase.auth.getSession();
                 
                 // Stripe Price IDs from Dashboard
-                const planId = (this.currentTier === 'authority' || this.currentRole === 'expert') 
+                const planId = (this.currentTier === 'growth') 
                     ? 'price_1TSlsZAXxC1DBrN4BFAMApAa' 
                     : 'price_1TSlopAXxC1DBrN47utQYjMH';
 
