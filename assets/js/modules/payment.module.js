@@ -231,8 +231,8 @@ const PaymentModule = {
                 
                 // Stripe Price IDs from Dashboard
                 const planId = (this.currentTier === 'authority' || this.currentRole === 'expert') 
-                    ? 'price_1S7DgQAXxC1DBrN4X8cFROt9' // Placeholder, replace with real price_id
-                    : 'price_1S7DhSAXxC1DBrN4X8cFROt0';
+                    ? 'price_1TSlsZAXxC1DBrN4BFAMApAa' 
+                    : 'price_1TSlopAXxC1DBrN47utQYjMH';
 
                 const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
                     method: 'POST',
