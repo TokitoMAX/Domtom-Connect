@@ -403,7 +403,7 @@
     </div>
 
     <!-- Modal Support -->
-    <div id="support-modal" style="display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.98); z-index:10000; display:none; align-items:center; justify-content:center; padding:20px;">
+    <div id="support-modal" style="display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.98); z-index:10000; align-items:center; justify-content:center; padding:20px;">
         <div class="glass-card" style="width:100%; max-width:500px; padding:40px; margin:0;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                 <h2 style="font-weight:900; font-size:1.8rem; margin:0;">Soutenir l'Épopée</h2>
@@ -428,6 +428,10 @@
         let selectedAmount = 15;
 
         async function initProject() {
+            // Ensure Supabase is ready
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) return setTimeout(initProject, 100);
+
             // Fix Auth State in Nav
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
 
@@ -436,7 +440,7 @@
             if (!projectId) return window.location.href = 'projects.html';
 
             try {
-                const { data: project, error } = await _supabase.from('projects').select('*, profiles(full_name, avatar_url)').eq('id', projectId).single();
+                const { data: project, error } = await db.from('projects').select('*, profiles(full_name, avatar_url)').eq('id', projectId).single();
                 if (error || !project) throw error;
                 currentProject = project;
 
@@ -497,16 +501,21 @@
             // Load extra data
             loadSubData(p.id);
 
-            document.getElementById('loading-overlay').style.fadeOut = '0.3s';
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.transition = 'opacity 0.5s ease-out';
+            overlay.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('loading-overlay').style.display = 'none';
+                overlay.style.display = 'none';
                 document.getElementById('project-main').style.display = 'block';
-            }, 300);
+            }, 500);
         }
 
         async function loadSubData(projectId) {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) return;
+
             // Milestones
-            const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
+            const { data: milestones } = await db.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
             if (milestones) {
                 document.getElementById('milestones-list').innerHTML = milestones.map(m => `
                     <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
@@ -520,7 +529,7 @@
             }
 
             // Rewards
-            const { data: rewards } = await _supabase.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
+            const { data: rewards } = await db.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
             if (rewards) {
                 document.getElementById('rewards-list').innerHTML = rewards.map(r => `
                     <div style="background:rgba(16,185,129,0.05); padding:24px; border-radius:24px; border:1px solid rgba(16,185,129,0.1); cursor:pointer;" onclick="selectContribution(${r.amount}, null)">
@@ -534,7 +543,7 @@
             }
 
             // Supporters
-            const { data: contribs } = await _supabase.from('contributions').select('donor_name').eq('project_id', projectId).eq('status', 'completed');
+            const { data: contribs } = await db.from('contributions').select('donor_name').eq('project_id', projectId).eq('status', 'completed');
             if (contribs) {
                 document.getElementById('backers-display').innerText = `${contribs.length} Supporters`;
                 document.getElementById('supporters-wall').innerHTML = contribs.map(c => `
@@ -574,7 +583,6 @@
             const container = document.getElementById('paypal-button-container');
             container.innerHTML = '';
             
-            // On simulate PayPal or load real SDK if needed
             if (window.paypal) {
                 paypal.Buttons({
                     style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' },
@@ -589,11 +597,13 @@
         }
 
         async function handleSuccess(details) {
-            const session = await _supabase.auth.getSession();
-            await _supabase.from('contributions').insert({
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) return;
+            const { data: { session } } = await db.auth.getSession();
+            await db.from('contributions').insert({
                 project_id: currentProject.id,
                 amount: selectedAmount,
-                donor_id: session.data.session?.user.id || null,
+                donor_id: session?.user.id || null,
                 status: 'completed'
             });
             alert("Merci pour votre soutien ! L'épopée avance grâce à vous.");
