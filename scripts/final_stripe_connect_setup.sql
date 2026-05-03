@@ -18,7 +18,9 @@ ADD COLUMN IF NOT EXISTS stripe_session_id TEXT,
 ADD COLUMN IF NOT EXISTS payment_intent_id TEXT;
 
 ALTER TABLE public.contributions 
-ADD COLUMN IF NOT EXISTS stripe_session_id TEXT;
+ADD COLUMN IF NOT EXISTS stripe_session_id TEXT,
+ADD COLUMN IF NOT EXISTS payout_status TEXT DEFAULT 'held', -- 'held', 'paid_to_expert'
+ADD COLUMN IF NOT EXISTS stripe_transfer_id TEXT;
 
 -- 3. Désactivation des anciens triggers de balance manuelle pour éviter le double comptage
 -- Le webhook Stripe s'occupe désormais de créditer la balance (display) et Stripe gère le transfert réel.
