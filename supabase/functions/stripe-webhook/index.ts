@@ -102,6 +102,34 @@ Deno.serve(async (req) => {
           p_total_price: total_price,
         });
 
+      } else if (type === 'crowdfunding') {
+        const { item_id: project_id, provider_id, buyer_id } = metadata;
+        const commission_rate = 0.05;
+        const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
+
+        // 1. Enregistrer la contribution
+        const { error: contribError } = await supabase
+          .from('contributions')
+          .insert({
+            project_id,
+            donor_id: buyer_id || null,
+            amount: total_price,
+            status: 'completed',
+            stripe_session_id: session.id,
+          });
+
+        if (contribError) throw contribError;
+
+        // 2. Mettre à jour le total levé du projet
+        await supabase.rpc('increment_project_raised', {
+          p_project_id: project_id,
+          p_amount: total_price
+        });
+
+        // Note : Le crédit du solde de l'expert (balance) se fera manuellement ou à la fin de la campagne
+        // une fois que l'admin valide le transfert final sur Stripe.
+      }
+
       } else if (type === 'subscription') {
         const { buyer_id: user_id, tier } = metadata;
         
