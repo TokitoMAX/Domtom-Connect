@@ -8,33 +8,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #020617;
             --primary: #10b981;
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
+            --bg-dark: #020617;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: white;
             margin: 0;
             padding: 0;
-            color: white;
+            color: var(--text-main);
+        }
+
+        /* Top Black Bar */
+        .black-header {
+            background-color: var(--bg-dark);
+            height: 350px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Top Navigation */
         .top-nav {
-            padding: 20px 5%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
+            padding: 30px 0;
         }
 
         .btn-back {
@@ -44,73 +52,72 @@
             background: white;
             color: black;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 100px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
+            font-weight: 800;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
 
-        .btn-back:hover { transform: translateX(-5px); }
-
-        /* Hero Section */
-        .hero-section {
-            padding: 100px 0 60px;
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            min-height: 400px;
+        /* Layout Grid */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 50px;
+            padding-top: 20px;
         }
 
-        .hero-left {
-            flex: 0 0 350px;
+        /* Flyer Card (Mockup style) */
+        .flyer-wrapper {
+            grid-row: span 2;
         }
 
-        .event-flyer-card {
+        .flyer-card {
             width: 100%;
-            border-radius: 24px;
+            border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
+            background: #1e293b;
         }
 
-        .event-flyer-card img {
+        .flyer-card img {
             width: 100%;
             display: block;
         }
 
-        .hero-right {
-            flex: 1;
+        /* Hero Content */
+        .hero-info {
+            padding-top: 150px;
         }
 
         .badge-live {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--primary);
-            padding: 8px 16px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 16px;
             border-radius: 100px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
             display: inline-block;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .event-title {
-            font-size: 4rem;
-            font-weight: 900;
-            margin: 0 0 24px 0;
-            line-height: 1.1;
+            font-size: 5rem;
+            font-weight: 950;
+            margin: 0 0 25px 0;
+            color: var(--text-main);
+            letter-spacing: -2px;
         }
 
         .event-meta {
             display: flex;
-            gap: 32px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
+            gap: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
         }
 
         .meta-item {
@@ -123,237 +130,208 @@
             color: var(--primary);
         }
 
-        /* Content Area */
-        .main-content {
-            background: #f8fafc;
-            padding: 60px 0 100px;
-            color: var(--text-main);
-        }
-
-        .content-grid {
+        /* White Cards Section */
+        .cards-section {
             display: grid;
-            grid-template-columns: 1.6fr 1fr;
+            grid-template-columns: 1.5fr 1fr;
             gap: 32px;
-            margin-top: -120px; /* Overlap with hero */
+            padding: 60px 0 100px;
         }
 
         .white-card {
             background: white;
-            border-radius: 32px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            margin-bottom: 32px;
+            border-radius: 35px;
+            padding: 45px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.04);
+            margin-bottom: 30px;
+            border: 1px solid #f1f5f9;
         }
 
         .card-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 24px;
-        }
-
-        .card-header svg {
-            color: #6366f1;
+            margin-bottom: 30px;
         }
 
         .card-header h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-size: 1.6rem;
+            font-weight: 900;
             margin: 0;
             letter-spacing: -0.5px;
         }
 
-        .desc-text {
-            color: #475569;
+        .card-header svg { color: #6366f1; }
+
+        .desc-content {
+            color: var(--text-muted);
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
-        /* Organizer & Tickets */
-        .organizer-info {
+        /* Organizer Box */
+        .organizer-box {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        .avatar-box {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+        .avatar-circle {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
             background: #e11d48;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
             font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
             overflow: hidden;
         }
 
-        .avatar-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 
-        .org-details span {
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-        }
+        .org-text span { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+        .org-text strong { font-size: 1.1rem; font-weight: 800; display: block; }
 
-        .org-details strong {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        /* Tickets Section */
-        .ticket-icon { color: var(--primary) !important; }
-        
-        .manager-box {
+        /* Billetterie */
+        .manage-card {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
             border-radius: 20px;
-            padding: 24px;
+            padding: 25px;
             text-align: center;
-            margin-top: 20px;
         }
 
-        .btn-manage {
+        .btn-manage-event {
             display: block;
             background: #0f172a;
             color: white;
-            padding: 14px;
+            padding: 15px;
             border-radius: 12px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 800;
             margin-top: 20px;
-            transition: transform 0.2s;
         }
 
-        .btn-manage:hover { transform: translateY(-2px); }
-
-        .btn-share {
+        .btn-share-event {
+            width: 100%;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 800;
+            margin-top: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            width: 100%;
-            background: white;
-            border: 1px solid #e2e8f0;
-            padding: 14px;
-            border-radius: 12px;
-            color: var(--text-muted);
-            font-weight: 700;
             cursor: pointer;
-            margin-top: 16px;
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
-            .hero-section { flex-direction: column; text-align: center; gap: 40px; padding-top: 140px; }
-            .hero-left { flex: 0 0 auto; width: 280px; }
-            .content-grid { grid-template-columns: 1fr; margin-top: 40px; }
-            .event-meta { justify-content: center; flex-wrap: wrap; }
-            .event-title { font-size: 2.5rem; }
+            .layout-grid { grid-template-columns: 1fr; text-align: center; }
+            .flyer-wrapper { margin: 0 auto; width: 280px; }
+            .hero-info { padding-top: 50px; }
+            .event-title { font-size: 3rem; }
+            .event-meta { justify-content: center; }
+            .cards-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <a href="evenements.html" class="btn-back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Retour au Marché
-        </a>
+    <div class="black-header"></div>
+
+    <div class="container">
+        <div class="top-nav">
+            <a href="evenements.html" class="btn-back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Retour au Marché
+            </a>
+        </div>
+
+        <div class="layout-grid">
+            <div class="flyer-wrapper">
+                <div class="flyer-card">
+                    <img id="event-flyer" src="" alt="Flyer">
+                </div>
+            </div>
+
+            <div class="hero-info">
+                <div class="badge-live">Événement Live</div>
+                <h1 class="event-title" id="event-title">---</h1>
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span id="event-date">---</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span id="event-location">---</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-placeholder"></div> <!-- Spacing for grid -->
+
+            <div class="cards-section">
+                <div class="left-col">
+                    <div class="white-card">
+                        <div class="card-header">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <h2>À propos de l'événement</h2>
+                        </div>
+                        <div class="desc-content" id="event-desc">
+                            Chargement de la description...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-col">
+                    <div class="white-card">
+                        <div class="organizer-box">
+                            <div class="avatar-circle" id="avatar-container">??</div>
+                            <div class="org-text">
+                                <span>Organisé par</span>
+                                <strong id="host-name">---</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="white-card">
+                        <div class="card-header">
+                            <svg style="color:#10b981;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
+                            <h2>Billetterie</h2>
+                        </div>
+
+                        <div id="tiers-container"></div>
+
+                        <div id="owner-panel" style="display: none;">
+                            <div class="manage-card">
+                                <strong style="color: #166534;">Organisateur</strong>
+                                <p style="font-size: 0.85rem; color: #166534; margin-top: 10px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
+                                <a href="../mon-espace#evenements" class="btn-manage-event">Gérer l'événement →</a>
+                            </div>
+                        </div>
+
+                        <button class="btn-share-event">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            Partager l'événement
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <section class="hero-section container">
-        <div class="hero-left">
-            <div class="event-flyer-card">
-                <img id="event-flyer" src="" alt="Flyer Event">
-            </div>
-        </div>
-        <div class="hero-right">
-            <div class="badge-live">Évènement Live</div>
-            <h1 class="event-title" id="event-title">---</h1>
-            <div class="event-meta">
-                <div class="meta-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    <span id="event-date">---</span>
-                </div>
-                <div class="meta-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span id="event-location">---</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <main class="main-content">
-        <div class="container content-grid">
-            <div class="left-col">
-                <div class="white-card">
-                    <div class="card-header">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        <h2>À propos de l'événement</h2>
-                    </div>
-                    <div class="desc-text" id="event-desc">
-                        Chargement de la description...
-                    </div>
-                </div>
-            </div>
-
-            <div class="right-col">
-                <div class="white-card">
-                    <div class="organizer-info">
-                        <div class="avatar-box" id="avatar-container">
-                            <span id="initials-placeholder">??</span>
-                        </div>
-                        <div class="org-details">
-                            <span>Organisé par</span>
-                            <strong id="host-name">---</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="white-card">
-                    <div class="card-header">
-                        <svg class="ticket-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
-                        <h2>Billetterie</h2>
-                    </div>
-                    
-                    <div id="tiers-container">
-                        <!-- Tiers injected here -->
-                    </div>
-
-                    <div id="owner-actions" style="display: none;">
-                        <div class="manager-box">
-                            <strong style="color: #166534;">Organisateur</strong>
-                            <p style="font-size: 0.85rem; color: #166534; margin-top: 8px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
-                            <a href="../mon-espace#evenements" class="btn-manage">Gérer l'événement →</a>
-                        </div>
-                    </div>
-
-                    <button class="btn-share">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                        Partager l'événement
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
-        let currentEvent = null;
-
         async function init() {
             const urlParams = new URLSearchParams(window.location.search);
             const eventId = urlParams.get('id');
@@ -367,16 +345,15 @@
                     .single();
 
                 if (error) throw error;
-                currentEvent = event;
 
-                // Render Data
+                // Basic Data
                 document.getElementById('event-title').innerText = event.title;
                 document.getElementById('event-date').innerText = event.event_date;
                 document.getElementById('event-location').innerText = event.location;
-                document.getElementById('event-desc').innerText = event.description || 'Pas de description.';
+                document.getElementById('event-desc').innerText = event.description || 'Aucune description.';
                 document.getElementById('event-flyer').src = event.image_url;
 
-                // Load Host
+                // Host Info
                 const { data: profile } = await _supabase
                     .from('profiles')
                     .select('full_name, avatar_url')
@@ -385,19 +362,18 @@
 
                 if (profile) {
                     document.getElementById('host-name').innerText = profile.full_name;
-                    const avatarContainer = document.getElementById('avatar-container');
+                    const av = document.getElementById('avatar-container');
                     if (profile.avatar_url) {
-                        avatarContainer.innerHTML = `<img src="${profile.avatar_url}" alt="${profile.full_name}">`;
+                        av.innerHTML = `<img src="${profile.avatar_url}" alt="">`;
                     } else {
-                        document.getElementById('initials-placeholder').innerText = profile.full_name.slice(0,2).toUpperCase();
+                        av.innerText = profile.full_name.slice(0,2).toUpperCase();
                     }
                 }
 
-                // Check Ownership
+                // Check Role
                 const session = await getSession();
                 if (session && session.user.id === event.user_id) {
-                    document.getElementById('owner-actions').style.display = 'block';
-                    document.getElementById('tiers-container').style.display = 'none';
+                    document.getElementById('owner-panel').style.display = 'block';
                 } else {
                     renderTiers(event);
                 }
@@ -416,17 +392,17 @@
             }
 
             if (tiers.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Aucun billet disponible.</p>';
+                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Pas de billets disponibles.</p>';
                 return;
             }
 
             container.innerHTML = tiers.map(t => `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid #f1f5f9;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid #f1f5f9;">
                     <div>
-                        <div style="font-weight:700; color:var(--text-main);">${t.name}</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
+                        <div style="font-weight:800; color:var(--text-main);">${t.name}</div>
+                        <div style="font-size:0.9rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
                     </div>
-                    <button style="background:var(--primary); color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="alert('Redirection vers paiement...')">Réserver</button>
+                    <button style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer;" onclick="alert('Réservation...')">Réserver</button>
                 </div>
             `).join('');
         }
