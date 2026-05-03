@@ -139,137 +139,60 @@
             box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
         }
 
-        /* TABS */
-        .tabs-header {
-            display: flex;
-            gap: 32px;
-            margin-bottom: 40px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: sticky;
-            top: 90px;
-            z-index: 100;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        .tabs-header::-webkit-scrollbar { display: none; }
-
-        .tab-trigger {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 0.85rem;
-            font-weight: 800;
-            padding: 14px 24px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        /* TITLES & TEXT LEGIBILITY */
+        .glass-card h2, .glass-card h3 {
+            color: white !important;
+            opacity: 1 !important;
+            letter-spacing: -0.02em;
         }
 
-        .tab-trigger.active {
-            background: var(--primary);
-            color: #064e3b;
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+        .manifesto-text {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.1rem;
         }
 
-        .tab-content { display: none; animation: slideUp 0.5s ease-out; }
-        .tab-content.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* SIDEBAR STICKY */
-        .sidebar-inner {
-            position: sticky;
-            top: 100px;
-        }
-
-        .funding-card {
-            background: linear-gradient(145deg, rgba(16, 185, 129, 0.15), rgba(15, 23, 42, 0.5));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 40px;
-            padding: 40px;
-            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
-        }
-
-        .amount-raised {
-            font-size: 4rem;
-            font-weight: 950;
-            color: white;
-            letter-spacing: -0.04em;
-            margin: 10px 0;
-            line-height: 1;
-        }
-
-        .progress-track {
-            height: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 100px;
-            margin: 32px 0 12px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #ffffff);
-            border-radius: 100px;
-            transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .propulsion-btn {
-            width: 100%;
-            padding: 24px;
-            background: #ffffff;
-            color: #020617;
-            border: none;
-            border-radius: 20px;
-            font-size: 1.2rem;
+        .field-label {
+            font-size: 0.7rem;
             font-weight: 900;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 40px;
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .propulsion-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 30px 60px rgba(255, 255, 255, 0.2);
+        /* GRID LAYOUT IMPROVEMENTS */
+        .project-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 120px;
         }
 
-        /* MOBILE BOTTOM BAR */
-        .mobile-cta {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: rgba(2, 6, 23, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 24px 32px;
-            display: none;
-            z-index: 1000;
-            justify-content: space-between;
-            align-items: center;
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 1200px) {
+            .project-layout { gap: 40px; grid-template-columns: 1fr 350px; }
         }
 
         @media (max-width: 1024px) {
-            .project-layout { grid-template-columns: 1fr; gap: 40px; }
+            .project-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 0; }
+            .hero-project { padding: 120px 0 60px; min-height: auto; }
             .sidebar-inner { position: static; }
+            .tabs-header { top: 0; margin: 0 -24px 32px; border-radius: 0; border-left: none; border-right: none; }
         }
 
         @media (max-width: 768px) {
-            .hero-project { padding: 100px 0 60px; }
-            .project-title { font-size: 2.8rem; }
-            .project-layout { margin-top: 0; }
-            .glass-card { padding: 32px; border-radius: 32px; }
+            .project-title { font-size: 2.5rem; margin-bottom: 20px; }
+            .project-pitch { font-size: 1.1rem; }
+            .glass-card { padding: 24px; border-radius: 24px; }
             .mobile-cta { display: flex; }
             body { padding-bottom: 100px; }
+            .tabs-header { padding: 4px; }
+            .tab-trigger { padding: 12px 16px; font-size: 0.75rem; }
         }
     </style>
 
@@ -300,10 +223,10 @@
                 <h1 class="project-title" id="project-title-display">...</h1>
                 <p class="project-pitch" id="project-pitch-display">...</p>
                 <div style="margin-top:48px; display:flex; align-items:center; gap:20px;">
-                    <div id="owner-avatar" style="width:48px; height:48px; border-radius:50%; background:#1e293b; border:2px solid var(--primary); overflow:hidden;"></div>
+                    <div id="owner-avatar" style="width:56px; height:56px; border-radius:18px; background:#1e293b; border:2px solid var(--primary); overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
                     <div>
-                        <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">Porteur de l'Épopée</div>
-                        <div style="font-weight:900; font-size:1.1rem;" id="owner-name-display">...</div>
+                        <div style="font-size:0.7rem; color:#64748b; font-weight:900; text-transform:uppercase; letter-spacing:0.1em;">Porteur de l'Épopée</div>
+                        <div style="font-weight:950; font-size:1.3rem; color:white; letter-spacing:-0.02em;" id="owner-name-display">...</div>
                     </div>
                 </div>
             </div>
@@ -321,32 +244,41 @@
 
                     <div id="tab-manifesto" class="tab-content active">
                         <div class="glass-card">
-                            <h2 style="font-size:2rem; font-weight:900; margin-bottom:32px; letter-spacing:-0.03em;">L'Impact Territorial</h2>
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;" id="manifesto-grid">
+                            <h2 style="font-size:2rem; font-weight:950; margin-bottom:40px; border-left:4px solid var(--primary); padding-left:24px;">L'Impact Territorial</h2>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:40px;" id="manifesto-grid">
                                 <!-- Dynamic Manifesto Items -->
                             </div>
                         </div>
                         <div class="glass-card" id="description-card" style="display:none;">
-                            <h3 style="font-size:1.5rem; font-weight:900; margin-bottom:24px;">L'Épopée en Détails</h3>
-                            <div class="manifesto-text" id="project-description-display" style="white-space:pre-wrap; color:#94a3b8; line-height:1.8;"></div>
+                            <h3 style="font-size:1.5rem; font-weight:950; margin-bottom:24px; color:white;">L'Épopée en Détails</h3>
+                            <div class="manifesto-text" id="project-description-display" style="white-space:pre-wrap; font-size:1.05rem;"></div>
                         </div>
                     </div>
 
                     <div id="tab-strategy" class="tab-content">
                         <div class="glass-card" id="innovation-card">
-                            <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:24px;">Innovation & Différenciation</h2>
+                            <h2 style="font-size:1.8rem; font-weight:950; margin-bottom:24px; border-left:4px solid var(--primary); padding-left:24px;">Innovation & Différenciation</h2>
                             <div id="innovation-display" class="manifesto-text"></div>
+                            <div id="innovation-tier-container" style="margin-top:24px; padding:16px; background:rgba(16,185,129,0.05); border-radius:12px; display:none;">
+                                <span class="field-label">Niveau d'Innovation</span>
+                                <span id="innovation-tier-display" style="font-weight:800; color:white;"></span>
+                            </div>
                         </div>
                         <div class="glass-card" id="market-card">
-                            <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:24px;">Cœur de Marché</h2>
+                            <h2 style="font-size:1.8rem; font-weight:950; margin-bottom:24px; border-left:4px solid var(--primary); padding-left:24px;">Cœur de Marché</h2>
                             <div id="market-display" class="manifesto-text"></div>
                         </div>
                     </div>
 
                     <div id="tab-impact" class="tab-content">
                         <div class="glass-card">
-                            <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:24px;">L'Équipe & l'Engagement</h2>
+                            <h2 style="font-size:1.8rem; font-weight:950; margin-bottom:24px; border-left:4px solid var(--primary); padding-left:24px;">L'Équipe & l'Engagement</h2>
                             <div id="team-display" class="manifesto-text"></div>
+                        </div>
+                        <div class="glass-card" id="jobs-card" style="display:none;">
+                            <h3 style="font-size:1.5rem; font-weight:950; margin-bottom:16px; color:white;">Impact Emploi</h3>
+                            <div style="font-size:2rem; font-weight:950; color:var(--primary);" id="jobs-display"></div>
+                            <p style="color:#64748b; font-weight:600;">Emplois directs créés par cette épopée.</p>
                         </div>
                     </div>
 
@@ -502,8 +434,8 @@
             ];
             grid.innerHTML = items.filter(i => i.text).map(i => `
                 <div>
-                    <h4 style="font-size:0.7rem; font-weight:900; color:#64748b; text-transform:uppercase; margin-bottom:8px;">${i.label}</h4>
-                    <p style="font-size:1.05rem; font-weight:600; color:white; line-height:1.4;">${i.text}</p>
+                    <h4 style="font-size:0.75rem; font-weight:900; color:var(--primary); text-transform:uppercase; margin-bottom:8px; letter-spacing:0.05em;">${i.label}</h4>
+                    <p style="font-size:1.15rem; font-weight:600; color:white; line-height:1.5;">${i.text}</p>
                 </div>
             `).join('');
 
@@ -513,9 +445,19 @@
             }
 
             // Strategy & Team (Fixed missing rendering)
-            document.getElementById('innovation-display').innerText = p.innovation || p.innovation_tier || "Détails de l'innovation non renseignés.";
-            document.getElementById('market-display').innerText = p.marche || p.sector || "Détails du marché non renseignés.";
+            document.getElementById('innovation-display').innerText = p.innovation || "Détails de l'innovation non renseignés.";
+            document.getElementById('market-display').innerText = p.marche || "Détails du marché non renseignés.";
             document.getElementById('team-display').innerText = p.equipe || "Présentation de l'équipe non renseignée.";
+
+            if (p.innovation_tier) {
+                document.getElementById('innovation-tier-container').style.display = 'block';
+                document.getElementById('innovation-tier-display').innerText = p.innovation_tier;
+            }
+
+            if (p.emplois) {
+                document.getElementById('jobs-card').style.display = 'block';
+                document.getElementById('jobs-display').innerText = `${p.emplois} ETP`;
+            }
 
             // Stats
             const raised = parseFloat(p.total_raised) || 0;
