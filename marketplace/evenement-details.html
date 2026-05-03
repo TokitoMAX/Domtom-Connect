@@ -329,146 +329,201 @@
                         <div class="manage-container">
                             <strong style="color: #166534; font-size: 1.1rem;">Organisateur</strong>
                             <p style="font-size: 0.9rem; color: #166534; margin-top: 10px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
-                            <a href="../mon-espace#evenements" class="btn-manage">Gérer l'événement →</a>
-                        </div>
-                    </div>
+    <!-- BACK NAVIGATION -->
+    <div class="back-nav">
+        <a href="evenements.html" class="back-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            RETOUR AU MARCHÉ
+        </a>
+    </div>
 
-                    <button class="btn-share">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                        Partager l'événement
-                    </button>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div id="hero-blur" class="hero-bg-blur"></div>
+        <div class="hero-content">
+            <div class="flyer-wrapper">
+                <img id="event-flyer" src="" alt="Affiche" class="flyer-main">
+            </div>
+            <div>
+                <span class="event-badge">Événement Live</span>
+                <h1 id="event-title" class="event-title">Chargement...</h1>
+                <div class="hero-info-grid">
+                    <div class="hero-info-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span id="event-date">...</span>
+                    </div>
+                    <div class="hero-info-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span id="event-location">...</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- SCRIPTS -->
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+        <!-- LEFT: Description -->
+        <div class="content-card">
+            <div class="card-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                À propos de l'événement
+            </div>
+            <p id="event-desc" class="description-text">...</p>
+            
+            <div id="owner-actions" style="display:none; margin-top:40px; padding-top:40px; border-top:1px solid #f1f5f9;">
+                <button onclick="window.location.href='../mon-espace.html#billetterie?action=manage&id=' + new URLSearchParams(window.location.search).get('id')" class="btn-reserve" style="background:var(--primary); width:100%;">GÉRER MON ÉVÉNEMENT (CONSOLE)</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: Sidebar -->
+        <div class="side-stack">
+            <!-- Billetterie Card -->
+            <div class="side-card">
+                <div class="card-label">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
+                    Billetterie
+                </div>
+                <div id="tiers-container">
+                    <!-- Dynamic Tiers -->
+                </div>
+                <button id="add-to-calendar" class="btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Ajouter au calendrier
+                </button>
+            </div>
+
+            <!-- Organizer Card -->
+            <div class="side-card">
+                <div class="card-label">Organisé par</div>
+                <div class="organizer-info">
+                    <div id="avatar-container" class="host-avatar">..</div>
+                    <div>
+                        <div id="host-name" style="font-weight:900; font-size:1.1rem; color:var(--text-dark);">...</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Hôte certifié DTC</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Card -->
+            <div class="side-card" style="text-align:center;">
+                <div style="font-weight:900; margin-bottom:16px;">Partager l'événement</div>
+                <div style="display:flex; justify-content:center; gap:12px;">
+                    <button onclick="share('copy')" class="btn-secondary" style="margin:0; width:auto; padding:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                    <button onclick="share('wa')" class="btn-secondary" style="margin:0; width:auto; padding:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L22 2l-2.1 4.7a8.38 8.38 0 0 1 .9 3.8z"/></svg></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/auth.js"></script>
     <script>
+        async function getSession() {
+            const { data } = await window._supabase.auth.getSession();
+            return data.session;
+        }
+
         async function init() {
             const urlParams = new URLSearchParams(window.location.search);
             const eventId = urlParams.get('id');
             if (!eventId) { window.location.href = 'evenements.html'; return; }
 
             try {
-                const { data: event, error } = await _supabase
-                    .from('events')
-                    .select('*')
-                    .eq('id', eventId)
-                    .single();
-
+                const { data: event, error } = await _supabase.from('events').select('*').eq('id', eventId).single();
                 if (error) throw error;
 
-                // Core Data
+                // UI Fill
                 document.getElementById('event-title').innerText = event.title;
-                document.getElementById('event-date').innerText = event.event_date;
+                document.getElementById('event-date').innerText = new Date(event.event_date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
                 document.getElementById('event-location').innerText = event.location;
-                document.getElementById('event-desc').innerText = event.description || 'Aucun détail disponible.';
+                document.getElementById('event-desc').innerText = event.description || 'Aucune description détaillée fournie.';
                 document.getElementById('event-flyer').src = event.image_url;
+                document.getElementById('hero-blur').style.backgroundImage = `url('${event.image_url}')`;
 
-                // Profile
-                const { data: profile } = await _supabase
-                    .from('profiles')
-                    .select('full_name, avatar_url')
-                    .eq('id', event.user_id)
-                    .single();
-
+                // Host
+                const { data: profile } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', event.user_id).single();
                 if (profile) {
                     document.getElementById('host-name').innerText = profile.full_name;
                     const av = document.getElementById('avatar-container');
-                    if (profile.avatar_url) {
-                        av.innerHTML = `<img src="${profile.avatar_url}" alt="">`;
-                    } else {
-                        av.innerText = profile.full_name.slice(0,2).toUpperCase();
-                    }
+                    if (profile.avatar_url) av.innerHTML = `<img src="${profile.avatar_url}">`;
+                    else av.innerText = profile.full_name.slice(0,2).toUpperCase();
                 }
 
-                // Ownership
+                // Security & Ownership
                 const session = await getSession();
                 if (session && session.user.id === event.user_id) {
                     document.getElementById('owner-actions').style.display = 'block';
-                } else {
-                    renderTiers(event);
                 }
+                
+                renderTiers(event);
+                setupCalendar(event);
 
-            } catch (err) {
-                console.error(err);
-                window.location.href = 'evenements.html';
-            }
+            } catch (err) { console.error(err); }
         }
 
         function renderTiers(ev) {
             const container = document.getElementById('tiers-container');
             let tiers = ev.ticket_tiers || [];
-            if (tiers.length === 0 && ev.price !== null) {
-                tiers = [{ name: 'Billet Standard', price: ev.price }];
-            }
+            if (tiers.length === 0 && ev.price !== null) tiers = [{ name: 'Billet Standard', price: ev.price }];
 
             if (tiers.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.95rem; padding: 10px 0;">Aucun billet disponible.</p>';
+                container.innerHTML = '<p style="color:var(--text-muted); font-weight:600; padding:10px 0;">Billetterie fermée.</p>';
                 return;
             }
 
             container.innerHTML = tiers.map(t => `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #f1f5f9;">
-                    <div>
-                        <div style="font-weight:900; color:var(--text-dark);">${t.name}</div>
-                        <div style="font-size:0.95rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
+                <div class="ticket-item">
+                    <div class="ticket-info">
+                        <h4>${t.name}</h4>
+                        <div class="ticket-price">${parseFloat(t.price).toFixed(2)} €</div>
                     </div>
-                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">Réserver</button>
+                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">RÉSERVER</button>
                 </div>
             `).join('');
         }
 
         async function buyTicket(event, eventId, tierName, price, hostId) {
+            const btn = event.target;
             try {
                 const session = await getSession();
                 if (!session) {
-                    alert("Veuillez vous connecter pour réserver votre place.");
+                    alert("Connexion requise pour réserver.");
                     window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href);
                     return;
                 }
+                btn.disabled = true; btn.innerText = "PATIENTEZ...";
 
-                const btn = event.target;
-                const originalText = btn.innerText;
-                btn.disabled = true;
-                btn.innerText = "Chargement...";
-
-                const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
+                const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${session.access_token}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
                     body: JSON.stringify({
-                        type: 'event',
-                        item_id: eventId,
+                        type: 'event', item_id: eventId,
                         item_title: `Billet : ${document.getElementById('event-title').innerText}`,
-                        item_description: `Accès à l'événement le ${document.getElementById('event-date').innerText} (${tierName})`,
-                        item_price: price,
-                        provider_id: hostId,
-                        metadata: {
-                            event_id: eventId,
-                            tier_name: tierName,
-                            event_date: document.getElementById('event-date').innerText
-                        }
-                    }),
+                        item_description: `${tierName} - ${document.getElementById('event-date').innerText}`,
+                        item_price: price, provider_id: hostId
+                    })
                 });
+                const data = await res.json();
+                if (data.url) window.location.href = data.url;
+                else throw new Error(data.error);
+            } catch (err) { alert(err.message); btn.disabled = false; btn.innerText = "RÉSERVER"; }
+        }
 
-                const data = await response.json();
-                if (data.url) {
-                    window.location.href = data.url;
-                } else {
-                    throw new Error(data.error || "Erreur lors de la création de la session de paiement.");
-                }
+        function setupCalendar(ev) {
+            document.getElementById('add-to-calendar').onclick = () => {
+                const start = new Date(ev.event_date).toISOString().replace(/-|:|\.\d+/g, "");
+                const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.title)}&dates=${start}/${start}&details=${encodeURIComponent(ev.description || '')}&location=${encodeURIComponent(ev.location)}`;
+                window.open(url, '_blank');
+            };
+        }
 
-            } catch (err) {
-                console.error(err);
-                alert("Erreur : " + err.message);
-                const btn = event.target;
-                btn.disabled = false;
-                btn.innerText = "Réserver";
+        function share(type) {
+            const url = window.location.href;
+            if (type === 'copy') {
+                navigator.clipboard.writeText(url);
+                alert("Lien copié !");
+            } else if (type === 'wa') {
+                window.open(`https://wa.me/?text=${encodeURIComponent("Regarde cet événement sur Domtom Connect : " + url)}`, '_blank');
             }
         }
 
