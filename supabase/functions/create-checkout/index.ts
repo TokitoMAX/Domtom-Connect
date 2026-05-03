@@ -76,6 +76,12 @@ Deno.serve(async (req) => {
           .single();
 
         if (expert?.stripe_connect_id) {
+          // Verify if the destination account can receive transfers
+          const account = await stripe.accounts.retrieve(expert.stripe_connect_id);
+          if (account.capabilities?.transfers !== 'active') {
+            throw new Error('Le compte de paiement de cet expert n\'est pas encore entièrement configuré pour recevoir des fonds. Veuillez réessayer plus tard.');
+          }
+
           // Commission : 5% pour Showcase, 12.5% pour Quotes
           const feePercent = type === 'quote' ? 0.125 : 0.05;
           const fee = Math.round(amount * feePercent);
