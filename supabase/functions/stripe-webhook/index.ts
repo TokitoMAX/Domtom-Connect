@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Supabase Edge Function : stripe-webhook
 // Reçoit les événements Stripe et met à jour la base de données
 // Deploy : Supabase Dashboard > Edge Functions > New Function > "stripe-webhook"

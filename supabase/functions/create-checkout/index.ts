@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Supabase Edge Function : create-checkout
 // Crée une session Stripe Checkout pour :
 // 1. Showcase (Produits/Services Marketplace)
