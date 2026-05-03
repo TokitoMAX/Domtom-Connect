@@ -293,16 +293,15 @@ const TicketingModule = {
                                     <input id="ev-location" type="text" value="${ev.location || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                 </div>
                             </div>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                                <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Prix Billet (€)</label>
-                                    <input id="ev-price" type="number" value="${ev.price || 0}" step="0.01" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                            
+                            <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
+                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
+                                <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+                                    <!-- Tiers dynamically injected -->
                                 </div>
-                                <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Capacité Max</label>
-                                    <input id="ev-capacity" type="number" value="${ev.total_tickets || ''}" placeholder="Illimité" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
-                                </div>
+                                <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter un type de billet</button>
                             </div>
+
                             <div>
                                 <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
                                 <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:12px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onclick="document.getElementById('ev-image-file').click()">
@@ -322,6 +321,9 @@ const TicketingModule = {
                         </div>
                     </div>
                 </div>`;
+            
+            this._currentTiers = ev.ticket_tiers || [{ name: 'Billet Standard', price: ev.price || 0, capacity: ev.total_tickets || 100 }];
+            this.renderTierLines();
             
             setTimeout(() => this.setupUploadListeners(), 100);
         } catch (err) {
@@ -357,16 +359,14 @@ const TicketingModule = {
                                 <input id="ev-location" type="text" placeholder="Paris 8e / En ligne" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
                             </div>
                         </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                            <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Prix Billet (€)</label>
-                                <input id="ev-price" type="number" value="0" step="0.01" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                        <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
+                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
+                            <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+                                <!-- Tiers dynamically injected -->
                             </div>
-                            <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Capacité Max</label>
-                                <input id="ev-capacity" type="number" placeholder="Illimité" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
-                            </div>
+                            <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter un type de billet (ex: VIP)</button>
                         </div>
+
                         <div>
                             <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
                             <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onmouseover="this.style.borderColor='#0f172a';this.style.background='#fff';" onmouseout="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';" onclick="document.getElementById('ev-image-file').click()">
@@ -388,7 +388,32 @@ const TicketingModule = {
                 </div>
             </div>`;
         
+        this._currentTiers = [{ name: 'Billet Standard', price: 0, capacity: 100 }];
+        this.renderTierLines();
         setTimeout(() => this.setupUploadListeners(), 100);
+    },
+
+    _currentTiers: [],
+    addTierLine() {
+        this._currentTiers.push({ name: '', price: 0, capacity: 100 });
+        this.renderTierLines();
+    },
+    removeTierLine(index) {
+        if (this._currentTiers.length <= 1) return;
+        this._currentTiers.splice(index, 1);
+        this.renderTierLines();
+    },
+    renderTierLines() {
+        const list = document.getElementById('tiers-list');
+        if (!list) return;
+        list.innerHTML = this._currentTiers.map((t, i) => `
+            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr 40px; gap:10px; align-items:center;">
+                <input type="text" value="${t.name}" placeholder="Nom (ex: Place VIP)" onchange="TicketingModule._currentTiers[${i}].name=this.value" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
+                <input type="number" value="${t.price}" placeholder="Prix €" onchange="TicketingModule._currentTiers[${i}].price=parseFloat(this.value)" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
+                <input type="number" value="${t.capacity}" placeholder="Quota" onchange="TicketingModule._currentTiers[${i}].capacity=parseInt(this.value)" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
+                <button type="button" onclick="TicketingModule.removeTierLine(${i})" style="border:none; background:none; color:#ef4444; font-weight:900; cursor:pointer;">×</button>
+            </div>
+        `).join('');
     },
 
     setupUploadListeners() {
@@ -506,8 +531,9 @@ const TicketingModule = {
                 title,
                 event_date: date,
                 location,
-                price: parseFloat(document.getElementById('ev-price')?.value) || 0,
-                total_tickets: parseInt(document.getElementById('ev-capacity')?.value) || null,
+                ticket_tiers: this._currentTiers,
+                price: this._currentTiers[0]?.price || 0,
+                total_tickets: this._currentTiers.reduce((sum, t) => sum + (parseInt(t.capacity) || 0), 0),
                 image_url: imageUrl || 'https://via.placeholder.com/800x400?text=Événement'
             };
 

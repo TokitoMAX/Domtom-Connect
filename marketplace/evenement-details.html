@@ -444,11 +444,14 @@
                     body: JSON.stringify({
                         type: 'event',
                         item_id: eventId,
-                        item_title: `Billet : ${tierName}`,
+                        item_title: `Billet : ${document.getElementById('event-title').innerText}`,
+                        item_description: `Accès à l'événement le ${document.getElementById('event-date').innerText} (${tierName})`,
                         item_price: price,
                         provider_id: hostId,
                         metadata: {
-                            tier_name: tierName
+                            event_id: eventId,
+                            tier_name: tierName,
+                            event_date: document.getElementById('event-date').innerText
                         }
                     }),
                 });
