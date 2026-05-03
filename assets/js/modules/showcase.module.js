@@ -354,8 +354,13 @@ const ShowcaseModule = {
 
         } catch (err) {
             console.error('[Stripe] Erreur:', err);
-            if (btn) { btn.textContent = '💳 Acheter maintenant'; btn.disabled = false; }
-            alert('Erreur : ' + err.message);
+            if (btn) { btn.textContent = 'Sécuriser cette offre'; btn.disabled = false; }
+            
+            if (err.message.includes('transfers, crypto_transfers, or legacy_payments') || err.message.includes('stripe_balance.stripe_transfers capability enabled')) {
+                alert("⚠️ Ce produit ne peut pas être acheté pour le moment. L'expert n'a pas finalisé la configuration de son compte de paiement (Onboarding Stripe inachevé).");
+            } else {
+                alert('Erreur : ' + err.message);
+            }
         }
     },
 
