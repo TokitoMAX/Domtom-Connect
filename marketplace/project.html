@@ -512,6 +512,11 @@
                 document.getElementById('project-description-display').innerText = p.description || p.pitch_texte || '';
             }
 
+            // Strategy & Team (Fixed missing rendering)
+            document.getElementById('innovation-display').innerText = p.innovation || p.innovation_tier || "Détails de l'innovation non renseignés.";
+            document.getElementById('market-display').innerText = p.marche || p.sector || "Détails du marché non renseignés.";
+            document.getElementById('team-display').innerText = p.equipe || "Présentation de l'équipe non renseignée.";
+
             // Stats
             const raised = parseFloat(p.total_raised) || 0;
             const goal = parseFloat(p.funding_goal || p.goal_amount) || 1000;
@@ -596,7 +601,10 @@
         }
 
         function selectContribution(amt, btn) {
-            selectedAmount = parseFloat(amt);
+            const val = parseFloat(amt);
+            if (isNaN(val) || val <= 0) return;
+            
+            selectedAmount = val;
             if (btn) {
                 document.querySelectorAll('#support-modal .tab-trigger').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -618,22 +626,32 @@
                     onApprove: (data, actions) => actions.order.capture().then(details => handleSuccess(details))
                 }).render('#paypal-button-container');
             } else {
-                container.innerHTML = `<button onclick="handleSuccess({id:'SIM_123'})" style="width:100%; padding:20px; background:#0070ba; color:white; border:none; border-radius:100px; font-weight:900; cursor:pointer;">Confirmer le soutien de ${selectedAmount} €</button>`;
+                container.innerHTML = `<button onclick="handleSuccess({id:'SIM_123'})" style="width:100%; padding:22px; background:linear-gradient(135deg, #0070ba 0%, #005ea6 100%); color:white; border:none; border-radius:100px; font-weight:900; cursor:pointer; font-size:1.1rem; box-shadow:0 10px 25px rgba(0, 112, 186, 0.3);">Confirmer le soutien de ${selectedAmount} €</button>`;
             }
         }
 
         async function handleSuccess(details) {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             if (!db) return;
-            const { data: { session } } = await db.auth.getSession();
-            await db.from('contributions').insert({
-                project_id: currentProject.id,
-                amount: selectedAmount,
-                donor_id: session?.user.id || null,
-                status: 'completed'
-            });
-            alert("Merci pour votre soutien ! L'épopée avance grâce à vous.");
-            location.reload();
+            
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                const { error } = await db.from('contributions').insert({
+                    project_id: currentProject.id,
+                    amount: selectedAmount,
+                    donor_id: session?.user.id || null,
+                    donor_name: session?.user.user_metadata?.full_name || 'Anonyme',
+                    status: 'completed'
+                });
+                
+                if (error) throw error;
+
+                alert("Merci pour votre soutien ! L'épopée avance grâce à vous.");
+                location.reload();
+            } catch (err) {
+                console.error("Payment sync error:", err);
+                alert("Erreur lors de l'enregistrement du soutien.");
+            }
         }
 
         document.addEventListener('DOMContentLoaded', initProject);
@@ -642,5 +660,4 @@
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/script.js?v=2.2"></script>
 </body>
-
 </html>
