@@ -465,9 +465,6 @@ const ShowcaseModule = {
                         </div>
                     </div>
                 </div>
-            `;                      </div>
-                    </div>
-                </div>
             `;
             
             overlay.onclick = (e) => {
