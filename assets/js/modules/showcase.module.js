@@ -384,7 +384,9 @@ const ShowcaseModule = {
 
         try {
             const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-            const prefix = window            const styleId = 'showcase-modal-styles';
+            const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
+            
+            const styleId = 'showcase-modal-styles';
             if (!document.getElementById(styleId)) {
                 const style = document.createElement('style');
                 style.id = styleId;
