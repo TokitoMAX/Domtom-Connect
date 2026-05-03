@@ -384,24 +384,28 @@ const ShowcaseModule = {
 
         try {
             const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-            const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
-            
-            const styleId = 'showcase-modal-styles';
+            const prefix = window            const styleId = 'showcase-modal-styles';
             if (!document.getElementById(styleId)) {
                 const style = document.createElement('style');
                 style.id = styleId;
                 style.innerHTML = `
                     .showcase-modal-container {
-                        display: flex; flex-direction: row; gap: 40px; 
-                        background: #fff; width: 100%; max-width: 950px; 
-                        border-radius: 60px; border: 4px solid #000; 
-                        box-shadow: 25px 25px 0px #000; position: relative; 
-                        margin: 20px; overflow: hidden; padding: 40px;
+                        display: flex; flex-direction: row; gap: 48px; 
+                        background: #ffffff; width: 100%; max-width: 1000px; 
+                        border-radius: 32px; border: 1px solid rgba(0,0,0,0.05); 
+                        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; 
+                        margin: auto; padding: 48px;
                     }
-                    .showcase-left { flex: 1.1; }
-                    .showcase-right { flex: 0.9; display: flex; flex-direction: column; justify-content: center; }
+                    .showcase-left { flex: 1; }
+                    .showcase-right { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
+                    .showcase-action-btn {
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+                    .showcase-action-btn:hover {
+                        transform: translateY(-2px);
+                    }
                     @media (max-width: 850px) {
-                        .showcase-modal-container { flex-direction: column; max-width: 500px; padding: 30px; gap: 25px; border-radius: 40px; }
+                        .showcase-modal-container { flex-direction: column; max-width: 500px; padding: 32px; gap: 32px; border-radius: 24px; }
                         .showcase-left, .showcase-right { width: 100%; flex: none; }
                     }
                 `;
@@ -414,44 +418,52 @@ const ShowcaseModule = {
                     
                     <div class="showcase-left">
                         ${item.image_url ? `
-                            <div style="width:100%; aspect-ratio:1; border-radius:35px; overflow:hidden; border:3.5px solid #000; background:#f8fafc; box-shadow: 10px 10px 0px #f1f5f9;">
+                            <div style="width:100%; aspect-ratio:1; border-radius:24px; overflow:hidden; border:1px solid #e2e8f0; background:#f8fafc; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                                 <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
                             </div>
                         ` : `
-                            <div style="width:100%; aspect-ratio:1; border-radius:35px; border:3.5px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; background:#f8fafc; color: #cbd5e1;">
+                            <div style="width:100%; aspect-ratio:1; border-radius:24px; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; background:#f8fafc; color: #cbd5e1;">
                                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                             </div>
                         `}
                     </div>
 
                     <div class="showcase-right">
-                        <div style="margin-bottom:20px;">
-                            <span style="background: #000; color: white; padding: 6px 18px; border-radius: 100px; font-weight: 950; font-size: 0.7rem; letter-spacing:0.05em; border:2.5px solid #000; display:inline-flex; align-items:center; gap:8px; margin-bottom:20px;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                ${isCompany ? 'SÉLECTION ENTREPRISE' : 'SOLUTION D\'EXPERT'}
+                        <div style="margin-bottom:24px;">
+                            <span style="background: rgba(16, 185, 129, 0.1); color: #059669; padding: 6px 16px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:8px; margin-bottom:20px; text-transform:uppercase;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                ${isCompany ? 'Solution Entreprise' : 'Service Expert'}
                             </span>
-                            <h2 style="font-size: 2.4rem; font-weight: 950; color: #000; margin: 0 0 15px 0; letter-spacing:-0.06em; line-height:1;">${item.title}</h2>
-                            <p style="font-size: 1rem; color: #475569; font-weight: 750; line-height:1.5;">${item.description || 'Expertise dédiée à votre projet.'}</p>
+                            <h2 style="font-size: 2.2rem; font-weight: 800; color: #111827; margin: 0 0 16px 0; letter-spacing:-0.03em; line-height:1.1;">${item.title}</h2>
+                            <p style="font-size: 1.05rem; color: #4b5563; font-weight: 500; line-height:1.6;">${item.description || 'Expertise dédiée à votre projet.'}</p>
                         </div>
                         
-                        <div style="background: #f0fdf4; padding: 20px; border-radius: 20px; border:3px solid #000; margin-bottom: 25px; text-align: center; color:#166534; box-shadow: 6px 6px 0px #166534;">
-                            <span style="font-size: 2rem; font-weight: 950;">${item.price_prefix || ''} ${item.price.toFixed(2)}€</span>
+                        <div style="background: #f8fafc; padding: 24px; border-radius: 20px; border:1px solid #e2e8f0; margin-bottom: 32px; display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size: 0.95rem; font-weight: 700; color:#64748b; text-transform:uppercase; letter-spacing:0.05em;">Investissement</span>
+                            <span style="font-size: 2.2rem; font-weight: 900; color:#10b981;">${item.price_prefix || ''} ${item.price.toFixed(0)}€</span>
                         </div>
 
-                        <div style="display:flex; flex-direction:column; gap:12px;">
-                            
-                            <button id="stripe-buy-btn" onclick="ShowcaseModule.buyWithStripe(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem; box-shadow: 6px 6px 0px #475569; transition: transform 0.2s;"
-                                onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">💳 Acheter maintenant — ${item.price.toFixed(2)} €</button>
+                        <div style="display:flex; flex-direction:column; gap:16px;">
+                            <button id="stripe-buy-btn" onclick="ShowcaseModule.buyWithStripe(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="showcase-action-btn" style="background:#10b981; color:#fff; border:none; padding:20px; border-radius:16px; font-weight:800; cursor:pointer; font-size:1.15rem; box-shadow: 0 10px 25px rgba(16,185,129,0.3);">
+                                Sécuriser cette offre (${item.price.toFixed(0)}€)
+                            </button>
 
-                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" style="background:#f1f5f9; color:#0f172a; border:none; padding:18px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1rem;">Contacter ${isCompany ? "l'Entreprise" : "l'Expert"}</button>
+                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" class="showcase-action-btn" style="background:#f1f5f9; color:#334155; border:none; padding:18px; border-radius:16px; font-weight:700; cursor:pointer; font-size:1rem;">
+                                Poser une question à ${isCompany ? "l'entreprise" : "l'expert"}
+                            </button>
                             
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                                <button onclick="window.location.href='${prefix}marketplace/profile-detail-${isCompany ? 'company' : 'expert'}.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Voir le Profil</button>
-                                <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" style="background:#fff; color:#000; border:3px solid #000; padding:12px; border-radius:100px; font-weight:900; cursor:pointer; font-size:0.85rem; box-shadow: 4px 4px 0px #000;">Sa Vitrine</button>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                                <button onclick="window.location.href='${prefix}marketplace/profile-detail-${isCompany ? 'company' : 'expert'}.html?id=${item.user_id}'" class="showcase-action-btn" style="background:#fff; color:#0f172a; border:1px solid #cbd5e1; padding:14px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.9rem;">
+                                    Voir le Profil
+                                </button>
+                                <button onclick="window.location.href='${prefix}showcase.html?id=${item.user_id}'" class="showcase-action-btn" style="background:#fff; color:#0f172a; border:1px solid #cbd5e1; padding:14px; border-radius:12px; font-weight:700; cursor:pointer; font-size:0.9rem;">
+                                    Vitrine Complète
+                                </button>
                             </div>
-
-                            <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#94a3b8; border:none; padding:10px; font-weight:900; cursor:pointer; font-size:0.9rem; text-decoration:underline;">Retour aux offres</button>
                         </div>
+                    </div>
+                </div>
+            `;                      </div>
                     </div>
                 </div>
             `;
