@@ -15,7 +15,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-Deno.serve(async (req) => {
+Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
-  } catch (err) {
+  } catch (err: any) {
     console.error('[create-checkout] Erreur:', err);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,

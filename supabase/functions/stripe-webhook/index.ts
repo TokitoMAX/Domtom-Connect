@@ -128,8 +128,6 @@ Deno.serve(async (req) => {
 
         // Note : Le crédit du solde de l'expert (balance) se fera manuellement ou à la fin de la campagne
         // une fois que l'admin valide le transfert final sur Stripe.
-      }
-
       } else if (type === 'subscription') {
         const { buyer_id: user_id, tier } = metadata;
         
