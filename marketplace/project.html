@@ -624,22 +624,21 @@
                 document.getElementById('milestones-list').innerHTML = milestones.map((m, idx) => {
                     const threshold = parseFloat(m.amount_threshold) || 0;
                     const isReached = raised >= threshold;
-                    const isNext = !isReached && (idx === 0 || raised >= milestones[idx-1].amount_threshold);
                     
                     return `
-                        <div style="background:${isReached ? 'rgba(16,185,129,0.05)' : 'rgba(255,255,255,0.02)'}; padding:24px; border-radius:24px; border:1px solid ${isReached ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.05)'}; position:relative; overflow:hidden;">
-                            ${isReached ? '<div style="position:absolute; top:0; right:0; padding:4px 12px; background:var(--primary); color:#064e3b; font-size:0.65rem; font-weight:900; border-radius:0 0 0 12px; text-transform:uppercase;">Atteint</div>' : ''}
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                        <div style="background:${isReached ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.02)'}; padding:28px; border-radius:32px; border:1px solid ${isReached ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.08)'}; position:relative; overflow:hidden; margin-bottom:12px;">
+                            ${isReached ? '<div style="position:absolute; top:0; right:0; padding:6px 16px; background:var(--primary); color:#064e3b; font-size:0.7rem; font-weight:950; border-radius:0 0 0 16px; text-transform:uppercase;">Impact Validé</div>' : ''}
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
                                 <div style="flex:1;">
-                                    <div style="font-weight:950; color:white; font-size:1.1rem; margin-bottom:4px;">${m.title}</div>
-                                    <div style="font-size:0.85rem; color:#94a3b8; line-height:1.4;">${m.description || ''}</div>
+                                    <div style="font-weight:950; color:white; font-size:1.2rem; margin-bottom:8px; letter-spacing:-0.02em;">${m.title}</div>
+                                    <div style="font-size:0.95rem; color:#cbd5e1; line-height:1.6;">${m.description || ''}</div>
                                 </div>
-                                <div style="text-align:right; margin-left:20px;">
-                                    <div style="font-weight:950; color:${isReached ? 'var(--primary)' : 'white'}; font-size:1.4rem;">${threshold.toLocaleString()} €</div>
+                                <div style="text-align:right; margin-left:24px;">
+                                    <div style="font-weight:950; color:${isReached ? 'var(--primary)' : 'white'}; font-size:1.6rem; letter-spacing:-0.03em;">${threshold.toLocaleString()} €</div>
                                 </div>
                             </div>
-                            <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:100px; overflow:hidden;">
-                                <div style="height:100%; width:${Math.min(100, (raised / threshold) * 100)}%; background:${isReached ? 'var(--primary)' : 'rgba(255,255,255,0.2)'}; border-radius:100px; transition: width 1s;"></div>
+                            <div style="height:8px; background:rgba(255,255,255,0.05); border-radius:100px; overflow:hidden; border:1px solid rgba(255,255,255,0.05);">
+                                <div style="height:100%; width:${Math.min(100, (raised / threshold) * 100)}%; background:linear-gradient(90deg, var(--primary), #6ee7b7); border-radius:100px; transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);"></div>
                             </div>
                         </div>
                     `;
@@ -650,32 +649,52 @@
             const { data: rewards } = await db.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
             if (rewards) {
                 document.getElementById('rewards-list').innerHTML = rewards.map(r => `
-                    <div style="background:rgba(255,255,255,0.03); padding:28px; border-radius:28px; border:1px solid rgba(255,255,255,0.08); cursor:pointer; transition:all 0.3s;" 
-                         onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-4px)';" 
-                         onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='translateY(0)';"
+                    <div style="background:rgba(255,255,255,0.03); padding:32px; border-radius:36px; border:1px solid rgba(255,255,255,0.1); cursor:pointer; transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);" 
+                         onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(16,185,129,0.1)';" 
+                         onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
                          onclick="selectContribution(${r.amount}, null)">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                            <span style="font-weight:950; color:white; font-size:1.3rem;">${r.title}</span>
-                            <span style="padding:8px 16px; background:rgba(16,185,129,0.1); color:var(--primary); border-radius:12px; font-weight:950; font-size:1.1rem;">${(r.amount || 0).toLocaleString()} €</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <span style="font-weight:950; color:white; font-size:1.4rem; letter-spacing:-0.02em;">${r.title}</span>
+                            <span style="padding:10px 20px; background:rgba(16,185,129,0.15); color:var(--primary); border-radius:16px; font-weight:950; font-size:1.2rem; border:1px solid rgba(16,185,129,0.2);">${(r.amount || 0).toLocaleString()} €</span>
                         </div>
-                        <p style="font-size:0.95rem; color:#cbd5e1; margin:0; line-height:1.6;">${r.description || ''}</p>
-                        <button style="width:100%; margin-top:24px; padding:12px; background:transparent; border:2px solid rgba(16,185,129,0.3); color:var(--primary); border-radius:12px; font-weight:900; font-size:0.85rem; cursor:pointer; transition:all 0.3s;"
-                                onmouseover="this.style.background='var(--primary)'; this.style.color='#064e3b';">
-                            CHOISIR CE PACK
+                        <p style="font-size:1rem; color:#cbd5e1; margin:0; line-height:1.7; opacity:0.9;">${r.description || ''}</p>
+                        <button onclick="selectContribution(${r.amount}, null)" style="width:100%; margin-top:32px; padding:18px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:#064e3b; border:none; border-radius:18px; font-weight:950; font-size:0.95rem; cursor:pointer; transition:all 0.3s; text-transform:uppercase; letter-spacing:0.05em; box-shadow:0 10px 20px rgba(16,185,129,0.2);">
+                            CHOISIR CE PACK IMPACT
                         </button>
                     </div>
                 `).join('');
             }
 
+            // Next Milestone in Sidebar
+            const nextMilestone = milestones?.find(m => raised < m.amount_threshold);
+            if (nextMilestone) {
+                const sidebarFunding = document.querySelector('.funding-card');
+                const nextStepHtml = `
+                    <div style="margin-top:32px; padding:20px; background:rgba(255,255,255,0.03); border-radius:24px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-size:0.65rem; font-weight:950; color:var(--primary); text-transform:uppercase; margin-bottom:8px;">Prochaine Étape</div>
+                        <div style="font-weight:900; color:white; font-size:1rem; margin-bottom:4px;">${nextMilestone.title}</div>
+                        <div style="font-size:0.8rem; color:#94a3b8;">Encore ${(nextMilestone.amount_threshold - raised).toLocaleString()} € pour débloquer cet impact.</div>
+                    </div>
+                `;
+                const existingNext = document.getElementById('next-step-indicator');
+                if (existingNext) existingNext.remove();
+                const div = document.createElement('div');
+                div.id = 'next-step-indicator';
+                div.innerHTML = nextStepHtml;
+                sidebarFunding.insertBefore(div, sidebarFunding.querySelector('button').nextSibling);
+            }
+
             // Supporters
             const { data: contribs } = await db.from('contributions').select('donor_name').eq('project_id', projectId).eq('status', 'completed');
-            if (contribs) {
+            if (contribs && contribs.length > 0) {
                 document.getElementById('backers-display').innerText = `${contribs.length} Supporters`;
                 document.getElementById('supporters-wall').innerHTML = contribs.map(c => `
-                    <div style="width:32px; height:32px; border-radius:8px; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:900; color:white;" title="${c.donor_name || 'Anonyme'}">
+                    <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:950; color:white;" title="${c.donor_name || 'Anonyme'}">
                         ${(c.donor_name || 'A').charAt(0)}
                     </div>
                 `).join('');
+            } else {
+                document.getElementById('supporters-wall').innerHTML = '<p style="font-size:0.8rem; color:#64748b; font-style:italic;">Soyez le premier à propulser cette épopée !</p>';
             }
         }
 
