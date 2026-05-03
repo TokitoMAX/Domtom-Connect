@@ -565,19 +565,19 @@
                                 </span>` : ''}
                             </span>
                         </h3>
-                        <div class="project-location" style="color: #64748b; font-weight: 700; margin-bottom: 16px;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
+                        <div class="project-location" style="color: #64748b; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #10b981;">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
                             </svg>
-                            <span style="color: #334155;">${p.territory || 'International'}</span>
+                            <span style="color: #0f172a; font-size: 0.9rem;">${p.territory || 'International'}</span>
                         </div>
                     </div>
 
                     <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Une nouvelle vision en cours de déploiement sur le territoire.'}</p>
                     
-                    <div class="project-tags">
-                        ${p.total_raised ? `<span class="tag-need" style="background:rgba(2, 132, 199,0.1); color:#0369a1; border-color: #bae6fd;">${p.total_raised}€ récoltés</span>` : ''}
-                        <span class="tag-need" style="background:rgba(255,255,255,0.05); color:#64748b;">${p.category || 'Innovation'}</span>
+                    <div class="project-tags" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
+                        ${p.total_raised ? `<span class="tag-need" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;">${p.total_raised.toLocaleString()}€ récoltés</span>` : ''}
+                        <span class="tag-need" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;">${p.category || 'Innovation'}</span>
                     </div>
 
                     <div class="project-actions">

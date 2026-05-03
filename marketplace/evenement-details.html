@@ -417,7 +417,10 @@
                 </div>
                 
                 <div id="cta-confirm-step">
-                    <button onclick="preparePayment()" style="width:100%; border:none; padding:18px; border-radius:16px; background:#10b981; color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(16,185,129,0.2); transition: all 0.2s;">🎟️ Passer au paiement</button>
+                    <button onclick="preparePayment()" style="width:100%; border:none; padding:18px; border-radius:16px; background:#10b981; color:white; font-size:1.1rem; font-weight:800; cursor:pointer; box-shadow: 0 10px 20px rgba(16,185,129,0.2); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
+                        Passer au paiement
+                    </button>
                 </div>
 
 
@@ -437,7 +440,9 @@
             </button>
 
             <div id="success-view" style="display: none; text-align: center; padding: 10px 0;">
-                <div style="font-size: 3.5rem; margin-bottom: 15px;">✨</div>
+                <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; color: #10b981;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </div>
                 <h2 style="font-weight: 800; color: #10b981; margin-bottom: 8px;">Billet Réservé !</h2>
                 <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;">Votre accès est prêt. Présentez ce QR Code à l'entrée de l'événement.</p>
                 
@@ -508,7 +513,10 @@
                 <div style="font-size: 0.9rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Billet(s) <span id="bar-qty-total" class="qty-badge">0</span></div>
                 <div id="bar-total-amount" style="font-size: 1.8rem; font-weight: 900; color: #0f172a;">0.00 €</div>
             </div>
-            <button onclick="preparePayment()" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">Réserver maintenant</button>
+            <button onclick="preparePayment()" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2); display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
+                Réserver maintenant
+            </button>
         </div>
     </div>
 

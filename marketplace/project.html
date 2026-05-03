@@ -20,7 +20,7 @@
         :root {
             --primary: #10b981;
             --primary-dark: #059669;
-            --secondary: #3b82f6;
+            --secondary: #1e293b;
             --slate-900: #0f172a;
             --slate-800: #1e293b;
             --slate-700: #334155;
@@ -43,7 +43,7 @@
             padding: 120px 0 80px;
             overflow: hidden;
             background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+                        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
         }
 
         .hero-cover {
@@ -243,9 +243,9 @@
         }
 
         .roadmap-step.reached .roadmap-dot {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            background: #10b981;
+            border-color: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         .roadmap-dot::after {
@@ -348,7 +348,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(to right, #10b981, #3b82f6);
+            background: linear-gradient(to right, #10b981, #ffffff);
             border-radius: 100px;
             transition: width 1s ease-out;
         }
@@ -475,7 +475,9 @@
     </div>
 
     <div id="error-state" style="display: none; height: 80vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #94a3b8;">
-        <span style="font-size: 4rem; opacity: 0.2;">🗙</span>
+        <div style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 32px; color: #64748b;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+        </div>
         <h2 style="font-weight: 900; margin-top: 24px; color: white;">Épopée Introuvable</h2>
         <p>Le projet que vous cherchez a peut-être été scellé par son auteur.</p>
         <a href="../marketplace/projects.html" style="margin-top: 32px; color: #10b981; font-weight: 800; text-decoration: none;">← Retour Marketplace</a>
@@ -580,7 +582,7 @@
 
                 list.innerHTML = backers.map(b => {
                     const name = b.donor_name || b.profiles?.full_name || 'Anonyme';
-                    const rewardText = b.project_rewards?.title ? `<div style="font-size:0.55rem; color:#3b82f6; font-weight:900; text-transform:uppercase; margin-top:6px; letter-spacing:0.05em;">${b.project_rewards.title}</div>` : '';
+                    const rewardText = b.project_rewards?.title ? `<div style="font-size:0.55rem; color:#10b981; font-weight:900; text-transform:uppercase; margin-top:6px; letter-spacing:0.05em;">${b.project_rewards.title}</div>` : '';
                     return `
                         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; transition: all 0.3s ease;">
                             <div style="width:44px; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; margin: 0 auto 12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:1.1rem; letter-spacing:-0.02em;">
@@ -798,7 +800,7 @@
                     ${project.description ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">L'Épopée en Détails</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.description}</div>
@@ -811,7 +813,7 @@
                     ${project.innovation ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#fbbf24; box-shadow: 0 0 12px #fbbf24;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">Innovation & Différenciation</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.innovation}</div>
@@ -821,7 +823,7 @@
                     ${project.motivation ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#8b5cf6; box-shadow: 0 0 12px #8b5cf6;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">Pourquoi ce Projet ?</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.motivation}</div>
@@ -831,7 +833,7 @@
                     ${project.marche ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#14b8a6; box-shadow: 0 0 12px #14b8a6;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">Notre Marché</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.marche}</div>
@@ -844,7 +846,7 @@
                     ${project.equipe ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#ec4899; box-shadow: 0 0 12px #ec4899;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">L'Équipe du Projet</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.equipe}</div>
@@ -854,13 +856,13 @@
                     ${project.impact_local ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#3b82f6; box-shadow: 0 0 12px #3b82f6;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">Impact pour le Territoire</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.impact_local}</div>
                         ${project.emplois ? `
-                        <div style="margin-top:24px; padding:16px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:12px;">
-                            <span style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:#3b82f6; display:block; margin-bottom:4px;">Emplois créés / prévus</span>
+                        <div style="margin-top:24px; padding:16px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); border-radius:12px;">
+                            <span style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:#10b981; display:block; margin-bottom:4px;">Emplois créés / prévus</span>
                             <span style="font-size:1.1rem; font-weight:800; color:white;">${project.emplois}</span>
                         </div>
                         ` : ''}
@@ -883,7 +885,7 @@
                     ${project.needs ? `
                     <div class="glass-card">
                         <div class="section-header">
-                            <div class="section-dot" style="background:#f59e0b; box-shadow: 0 0 12px #f59e0b;"></div>
+                            <div class="section-dot" style="background:#10b981; box-shadow: 0 0 12px #10b981;"></div>
                             <span class="section-title">Nos Besoins Techniques</span>
                         </div>
                         <div class="manifesto-text" style="white-space: pre-wrap;">${project.needs}</div>
@@ -910,7 +912,7 @@
                     </div>
 
                     <div class="cagnotte-amount">${totalRaised.toLocaleString('fr-FR')} €</div>
-                    <div style="color: #3b82f6; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
+                    <div style="color: #ffffff; font-weight: 800; font-size: 0.9rem; margin-bottom: 32px; opacity: 0.6;">Objectif Impact : ${effectiveGoal.toLocaleString('fr-FR')} €</div>
 
                     <div class="progress-container">
                         <div class="progress-bar" style="width: ${progressPercent}%"></div>
@@ -924,10 +926,12 @@
                         ${canFund ? `
                             <button onclick="handleContribution()" class="amount-btn active" style="width: 100%; padding: 20px; font-size: 1.1rem; margin-bottom: 12px;">Propulser l'Épopée</button>
                         ` : `
-                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16, 185, 129, 0.2); padding: 24px; border-radius: 20px; text-align: center; color: white; font-size: 0.85rem; font-weight: 600;">
-                                <div style="font-size:1.5rem; margin-bottom:8px;">🔒</div>
-                                <div style="font-weight:800; margin-bottom:4px;">Certification Domtom Connect Recommandée</div>
-                                <p style="font-size:0.75rem; color:#64748b; margin:0; line-height:1.4;">
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16, 185, 129, 0.4); padding: 24px; border-radius: 24px; text-align: center; color: white; font-size: 0.85rem; font-weight: 600;">
+                                <div style="width:48px; height:48px; background:rgba(16,185,129,0.1); border-radius:12px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; color:#10b981;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                </div>
+                                <div style="font-weight:900; margin-bottom:4px; letter-spacing:-0.01em;">Certification en cours</div>
+                                <p style="font-size:0.75rem; color:#94a3b8; margin:0; line-height:1.4; font-weight:500;">
                                     Ce projet est en cours de revue. La collecte de fonds sera activée après validation par nos équipes.
                                 </p>
                             </div>
@@ -1016,7 +1020,7 @@
             if (selectedRewardId) {
                 const reward = currentRewards.find(r => r.id === selectedRewardId);
                 if (reward) {
-                    items.push(`<div style="font-size:0.75rem; color:#3b82f6; font-weight:800;">RANG : ${reward.title} <span style="font-weight:400; opacity:0.8;">(Contrepartie de rang)</span></div>`);
+                    items.push(`<div style="font-size:0.75rem; color:#10b981; font-weight:800;">RANG : ${reward.title} <span style="font-weight:400; opacity:0.8;">(Contrepartie de rang)</span></div>`);
                 }
             }
 
@@ -1068,7 +1072,7 @@
                         }]
                     }),
                     onApprove: (data, actions) => actions.order.capture().then(details => confirmContribution(details.id, selectedContributionAmount)),
-                    style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' }
+                    style: { layout: 'vertical', color: 'black', shape: 'pill', label: 'pay' }
                 }).render('#paypal-button-container');
             } catch (err) {
                 console.error("PayPal Loader Error:", err);
