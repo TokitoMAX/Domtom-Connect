@@ -152,13 +152,19 @@ const BusinessModule = {
             </div>
         </div>
         <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:32px;">
-            <h4 style="margin:0 0 16px 0; font-weight:950; font-size:1.1rem; color:#020617;">Reversements & Portefeuille</h4>
+            <h4 style="margin:0 0 16px 0; font-weight:950; font-size:1.1rem; color:#020617;">Reversements Stripe Connect ✅</h4>
             <p style="color:#64748b; font-size:0.9rem; line-height:1.6; margin-bottom:24px;">
-                Dès qu'un client paye une facture ou un acompte, les fonds sont sécurisés par Domtom Connect. Votre part est automatiquement créditée sur votre portefeuille après déduction des frais de service.
+                Domtom Connect utilise <strong>Stripe Connect</strong> pour sécuriser vos revenus. 
+                Dès qu'un client paye un devis ou une solution, votre part (87.5%) est créditée instantanément et transférée vers votre compte bancaire selon votre calendrier Stripe.
             </p>
-            <button onclick="BusinessModule.requestPayout(${totalNet})" style="width:100%; padding:20px; border-radius:12px; border:2px dashed #10b981; background:#f0fdf4; text-align:center; cursor:pointer; font-family:inherit; transition:all 0.2s;" onmouseenter="this.style.background='#dcfce7'" onmouseleave="this.style.background='#f0fdf4'">
-                <span style="font-size:0.85rem; font-weight:800; color:#16a34a;">Demander un virement sur mon compte bancaire (Vers l'International ou Local) →</span>
-            </button>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button onclick="window.open('https://dashboard.stripe.com/', '_blank')" style="flex: 1; min-width: 200px; padding:20px; border-radius:12px; border:none; background:#020617; color: white; text-align:center; cursor:pointer; font-family:inherit; font-weight: 800; transition:all 0.2s;">
+                    Accéder à mon Dashboard Stripe
+                </button>
+                <button onclick="BusinessModule.requestPayout(${totalNet})" style="flex: 1; min-width: 200px; padding:20px; border-radius:12px; border:1px solid #e2e8f0; background:white; color:#64748b; text-align:center; cursor:pointer; font-family:inherit; font-weight: 700;">
+                    Assistance Payout Manuel
+                </button>
+            </div>
         </div>
         `;
     },

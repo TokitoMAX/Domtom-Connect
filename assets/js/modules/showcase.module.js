@@ -36,16 +36,16 @@ const ShowcaseModule = {
                         </div>
                     </div>
 
-                    <!-- DASHBOARD PROSPECTION (Ex-Financier) -->
+                    <!-- DASHBOARD FINANCIER (Stripe Connect) -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 50px;">
                         <div style="background: #f0fdf4; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #166534; position:relative;">
-                            <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Commandes Payées</div>
+                            <div style="font-size: 0.75rem; font-weight: 950; color: #166534; text-transform: uppercase;">Chiffre d'Affaires Net</div>
                             <h3 style="font-size: 2.8rem; font-weight: 950; margin: 15px 0 5px 0;">${(profile.balance || 0).toLocaleString()} €</h3>
                             <div style="background: rgba(16, 185, 129, 0.1); color: #166534; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; justify-content: center;">
-                                <span style="font-size: 1.2rem;">⏱️</span> Reversement automatique vers votre PayPal
+                                <span style="font-size: 1.2rem;">⚡</span> Reversement automatique Stripe Connect
                             </div>
                             <p style="font-size: 0.75rem; color: #166534; font-weight: 700; margin-top: 10px; opacity: 0.8;">
-                                Prochain virement : Le 1er et le 15 de chaque mois
+                                Vos fonds sont transférés instantanément après chaque vente.
                             </p>
                         </div>
                         <div style="background: #fff; border: 3px solid #000; padding: 30px; border-radius: 35px; box-shadow: 8px 8px 0px #000;">
@@ -125,36 +125,29 @@ const ShowcaseModule = {
 
     async openSettings() {
         const { data: { session } } = await window._supabase.auth.getSession();
-        const { data: profile } = await window._supabase.from('profiles').select('paypal_email').eq('id', session.user.id).single();
+        const { data: profile } = await window._supabase.from('profiles').select('stripe_connect_id').eq('id', session.user.id).single();
         const overlay = document.getElementById('details-modal-overlay');
         overlay.innerHTML = `
             <div style="background: white; width: 100%; max-width: 420px; border-radius: 40px; padding: 45px; border: 4px solid #000; box-shadow: 20px 20px 0px #000;">
-                <h3 style="margin:0 0 25px 0; font-weight:950; font-size:1.8rem; letter-spacing:-0.05em; color:#000;">Réglages de Paiement</h3>
-                <p style="font-size:0.95rem; color:#64748b; font-weight:700; margin-bottom:30px; line-height:1.5;">Où devons-nous virer vos commissions nettes ?</p>
+                <h3 style="margin:0 0 25px 0; font-weight:950; font-size:1.8rem; letter-spacing:-0.05em; color:#000;">Status du Compte</h3>
+                <p style="font-size:0.95rem; color:#64748b; font-weight:700; margin-bottom:30px; line-height:1.5;">Votre boutique utilise Stripe Connect pour les paiements sécurisés.</p>
                 <div style="display:flex; flex-direction:column; gap:25px;">
-                    <div>
-                        <label style="display:block; font-size:0.75rem; font-weight:950; text-transform:uppercase; color:#94a3b8; margin-bottom:12px;">Votre Email PayPal</label>
-                        <input id="modal-paypal-email" type="email" value="${profile?.paypal_email || ''}" placeholder="nom@exemple.com" style="width:100%; padding:18px; border-radius:15px; border:3px solid #000; font-weight:900; font-family:'Inter'; text-align:center;">
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 20px; border: 2.5px solid #000; text-align: center;">
+                        <div style="font-weight: 950; color: ${profile?.stripe_connect_id ? '#10b981' : '#f59e0b'}">
+                            ${profile?.stripe_connect_id ? '✅ STRIPE CONNECTÉ' : '⚠️ STRIPE NON CONNECTÉ'}
+                        </div>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:12px;">
-                        <button onclick="ShowcaseModule.saveSettings()" style="background:#000; color:#fff; border:none; padding:22px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem;">Enregistrer ces infos</button>
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="padding:15px; background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer;">Fermer sans changer</button>
+                        ${profile?.stripe_connect_id ? 
+                            `<button onclick="window.open('https://dashboard.stripe.com/', '_blank')" style="background:#000; color:#fff; border:none; padding:22px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem;">Gérer mes fonds sur Stripe</button>` :
+                            `<button onclick="window.location.hash = 'business'" style="background:#6366f1; color:#fff; border:none; padding:22px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem;">Activer Stripe Connect</button>`
+                        }
+                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="padding:15px; background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer;">Fermer</button>
                     </div>
                 </div>
             </div>
         `;
         overlay.classList.add('open');
-    },
-
-    async saveSettings() {
-        const paypal_email = document.getElementById('modal-paypal-email').value;
-        const { data: { session } } = await window._supabase.auth.getSession();
-        try {
-            await window._supabase.from('profiles').update({ paypal_email }).eq('id', session.user.id);
-            alert("✓ Vos coordonnées PayPal ont été enregistrées avec succès.");
-            document.getElementById('details-modal-overlay').classList.remove('open');
-            this.renderManager(document.getElementById('ecosystem-grid-container'));
-        } catch (err) { alert(err.message); }
     },
 
     async openItemModal(itemId = null) {
