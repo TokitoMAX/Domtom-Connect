@@ -323,98 +323,123 @@
                         <h2>Billetterie</h2>
                     </div>
 
-                    <div id="tiers-container"></div>
-
-                    <div id="owner-actions" style="display: none;">
-                        <div class="manage-container">
-                            <strong style="color: #166534; font-size: 1.1rem;">Organisateur</strong>
-                            <p style="font-size: 0.9rem; color: #166534; margin-top: 10px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
-    <!-- BACK NAVIGATION -->
-    <div class="back-nav">
-        <a href="evenements.html" class="back-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            RETOUR AU MARCHÉ
-        </a>
     </div>
 
     <!-- HERO SECTION -->
-    <section class="hero-section">
-        <div id="hero-blur" class="hero-bg-blur"></div>
-        <div class="hero-content">
-            <div class="flyer-wrapper">
-                <img id="event-flyer" src="" alt="Affiche" class="flyer-main">
-            </div>
-            <div>
-                <span class="event-badge">Événement Live</span>
-                <h1 id="event-title" class="event-title">Chargement...</h1>
-                <div class="hero-info-grid">
-                    <div class="hero-info-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        <span id="event-date">...</span>
+    <header class="event-hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="flyer-showcase">
+                    <img id="event-flyer" src="" alt="Affiche">
+                </div>
+                <div class="hero-info">
+                    <span class="badge" id="event-status">Événement Confirmé</span>
+                    <h1 id="event-title" class="event-title">Chargement...</h1>
+                    
+                    <div class="meta-list">
+                        <div class="meta-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span id="event-date">...</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span id="event-location">...</span>
+                        </div>
                     </div>
-                    <div class="hero-info-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <span id="event-location">...</span>
+
+                    <div class="countdown-container" id="countdown">
+                        <div class="count-box"><span class="count-val" id="count-days">00</span><span class="count-lbl">Jours</span></div>
+                        <div class="count-box"><span class="count-val" id="count-hours">00</span><span class="count-lbl">Heures</span></div>
+                        <div class="count-box"><span class="count-val" id="count-mins">00</span><span class="count-lbl">Mins</span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-container">
-        <!-- LEFT: Description -->
-        <div class="content-card">
-            <div class="card-label">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                À propos de l'événement
-            </div>
-            <p id="event-desc" class="description-text">...</p>
-            
-            <div id="owner-actions" style="display:none; margin-top:40px; padding-top:40px; border-top:1px solid #f1f5f9;">
-                <button onclick="window.location.href='../mon-espace.html#billetterie?action=manage&id=' + new URLSearchParams(window.location.search).get('id')" class="btn-reserve" style="background:var(--primary); width:100%;">GÉRER MON ÉVÉNEMENT (CONSOLE)</button>
-            </div>
-        </div>
+    <div class="container">
+        <div class="layout-grid">
+            <!-- Main Column -->
+            <div class="main-content">
+                <section class="section-card">
+                    <h3 class="section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        Description
+                    </h3>
+                    <p id="event-desc" style="font-size: 1.1rem; color: #475569; white-space: pre-wrap;">...</p>
+                </section>
 
-        <!-- RIGHT: Sidebar -->
-        <div class="side-stack">
-            <!-- Billetterie Card -->
-            <div class="side-card">
-                <div class="card-label">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
-                    Billetterie
-                </div>
-                <div id="tiers-container">
-                    <!-- Dynamic Tiers -->
-                </div>
-                <button id="add-to-calendar" class="btn-secondary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Ajouter au calendrier
-                </button>
+                <section class="section-card">
+                    <h3 class="section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Le Programme
+                    </h3>
+                    <div id="agenda-list">
+                        <div class="agenda-item">
+                            <div class="agenda-time">18:00</div>
+                            <div class="agenda-content">
+                                <h5>Ouverture des portes</h5>
+                                <p>Accueil des participants et remise des badges.</p>
+                            </div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-time">19:30</div>
+                            <div class="agenda-content">
+                                <h5>Lancement officiel</h5>
+                                <p>Présentation de l'événement et introduction des speakers.</p>
+                            </div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-time">21:00</div>
+                            <div class="agenda-content">
+                                <h5>Networking & Cocktail</h5>
+                                <p>Échange libre entre les professionnels de l'écosystème.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card">
+                    <h3 class="section-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Lieu de l'événement
+                    </h3>
+                    <div id="map-container" style="height: 300px; border-radius: 16px; background: #e2e8f0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: 800;">
+                        Carte interactive en cours de chargement...
+                    </div>
+                </section>
             </div>
 
-            <!-- Organizer Card -->
-            <div class="side-card">
-                <div class="card-label">Organisé par</div>
-                <div class="organizer-info">
-                    <div id="avatar-container" class="host-avatar">..</div>
-                    <div>
-                        <div id="host-name" style="font-weight:900; font-size:1.1rem; color:var(--text-dark);">...</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Hôte certifié DTC</div>
+            <!-- Sidebar Column -->
+            <aside class="sidebar">
+                <div class="sidebar-inner">
+                    <div class="ticket-card">
+                        <h3 style="margin:0 0 24px 0; font-weight:900; font-size:1.4rem;">Billetterie</h3>
+                        <div id="tiers-container">
+                            <!-- Dynamic Tiers -->
+                        </div>
+                        
+                        <div class="trust-badges">
+                            <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Paiement 100% Sécure</div>
+                            <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Billet Digital</div>
+                        </div>
+                    </div>
+
+                    <div class="section-card" style="margin-top:24px; padding:24px;">
+                        <h4 style="margin:0 0 16px 0; font-weight:900; font-size:0.9rem; text-transform:uppercase; color:var(--text-muted);">Organisateur</h4>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div id="avatar-container" style="width:40px; height:40px; border-radius:10px; background:var(--primary); color:white; display:flex; align-items:center; justify-content:center; font-weight:900; overflow:hidden;">..</div>
+                            <div>
+                                <div id="host-name" style="font-weight:900; font-size:1rem;">---</div>
+                                <div style="font-size:0.75rem; color:var(--accent); font-weight:800;">VÉRIFIÉ ✓</div>
+                            </div>
+                        </div>
+                        <button onclick="share()" style="width:100%; background:none; border:1px solid var(--border); padding:10px; border-radius:10px; margin-top:20px; font-weight:800; cursor:pointer;">Partager l'événement</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Social Card -->
-            <div class="side-card" style="text-align:center;">
-                <div style="font-weight:900; margin-bottom:16px;">Partager l'événement</div>
-                <div style="display:flex; justify-content:center; gap:12px;">
-                    <button onclick="share('copy')" class="btn-secondary" style="margin:0; width:auto; padding:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-                    <button onclick="share('wa')" class="btn-secondary" style="margin:0; width:auto; padding:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L22 2l-2.1 4.7a8.38 8.38 0 0 1 .9 3.8z"/></svg></button>
-                </div>
-            </div>
+            </aside>
         </div>
-    </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -439,29 +464,26 @@
 
                 // UI Fill
                 document.getElementById('event-title').innerText = event.title;
-                document.getElementById('event-date').innerText = new Date(event.event_date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                document.title = `${event.title} | Domtom Connect`;
+                
+                const evDate = new Date(event.event_date);
+                document.getElementById('event-date').innerText = evDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
                 document.getElementById('event-location').innerText = event.location;
                 document.getElementById('event-desc').innerText = event.description || 'Aucune description détaillée fournie.';
                 document.getElementById('event-flyer').src = event.image_url;
-                document.getElementById('hero-blur').style.backgroundImage = `url('${event.image_url}')`;
 
                 // Host
                 const { data: profile } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', event.user_id).single();
                 if (profile) {
                     document.getElementById('host-name').innerText = profile.full_name;
                     const av = document.getElementById('avatar-container');
-                    if (profile.avatar_url) av.innerHTML = `<img src="${profile.avatar_url}">`;
+                    if (profile.avatar_url) av.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
                     else av.innerText = profile.full_name.slice(0,2).toUpperCase();
                 }
 
-                // Security & Ownership
-                const session = await getSession();
-                if (session && session.user.id === event.user_id) {
-                    document.getElementById('owner-actions').style.display = 'block';
-                }
-                
                 renderTiers(event);
-                setupCalendar(event);
+                startCountdown(event.event_date);
+                initMap(event.location);
 
             } catch (err) { 
                 console.error(err);
@@ -472,20 +494,20 @@
         function renderTiers(ev) {
             const container = document.getElementById('tiers-container');
             let tiers = ev.ticket_tiers || [];
-            if (tiers.length === 0 && ev.price !== null) tiers = [{ name: 'Billet Standard', price: ev.price }];
+            if (tiers.length === 0 && ev.price !== null) tiers = [{ name: 'Accès Standard', price: ev.price }];
 
             if (tiers.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-weight:600; padding:10px 0;">Billetterie fermée.</p>';
+                container.innerHTML = '<p style="color:var(--text-muted); font-weight:700; text-align:center;">Billetterie indisponible.</p>';
                 return;
             }
 
             container.innerHTML = tiers.map(t => `
-                <div class="ticket-item">
-                    <div class="ticket-info">
-                        <h4>${t.name}</h4>
-                        <div class="ticket-price">${parseFloat(t.price).toFixed(2)} €</div>
+                <div class="ticket-row">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:850; font-size:1rem;">${t.name}</span>
+                        <span style="font-weight:900; color:var(--primary); font-size:1.1rem;">${parseFloat(t.price).toFixed(2)} €</span>
                     </div>
-                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">RÉSERVER</button>
+                    <button class="btn-buy" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">RÉSERVER MA PLACE</button>
                 </div>
             `).join('');
         }
@@ -495,11 +517,11 @@
             try {
                 const session = await getSession();
                 if (!session) {
-                    alert("Connexion requise pour réserver.");
+                    alert("Veuillez vous connecter pour réserver.");
                     window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href);
                     return;
                 }
-                btn.disabled = true; btn.innerText = "PATIENTEZ...";
+                btn.disabled = true; btn.innerText = "SÉCURISATION...";
 
                 const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
                     method: 'POST',
@@ -514,24 +536,34 @@
                 const data = await res.json();
                 if (data.url) window.location.href = data.url;
                 else throw new Error(data.error);
-            } catch (err) { alert(err.message); btn.disabled = false; btn.innerText = "RÉSERVER"; }
+            } catch (err) { alert(err.message); btn.disabled = false; btn.innerText = "RÉSERVER MA PLACE"; }
         }
 
-        function setupCalendar(ev) {
-            document.getElementById('add-to-calendar').onclick = () => {
-                const start = new Date(ev.event_date).toISOString().replace(/-|:|\.\d+/g, "");
-                const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.title)}&dates=${start}/${start}&details=${encodeURIComponent(ev.description || '')}&location=${encodeURIComponent(ev.location)}`;
-                window.open(url, '_blank');
-            };
+        function startCountdown(dateStr) {
+            const target = new Date(dateStr).getTime();
+            const timer = setInterval(() => {
+                const now = new Date().getTime();
+                const diff = target - now;
+                if (diff < 0) { clearInterval(timer); document.getElementById('countdown').style.display = 'none'; return; }
+                
+                document.getElementById('count-days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById('count-hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById('count-mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            }, 1000);
         }
 
-        function share(type) {
-            const url = window.location.href;
-            if (type === 'copy') {
-                navigator.clipboard.writeText(url);
-                alert("Lien copié !");
-            } else if (type === 'wa') {
-                window.open(`https://wa.me/?text=${encodeURIComponent("Regarde cet événement sur Domtom Connect : " + url)}`, '_blank');
+        function initMap(location) {
+            const map = document.getElementById('map-container');
+            const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`;
+            map.innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="${embedUrl}" allowfullscreen></iframe>`;
+        }
+
+        function share() {
+            if (navigator.share) {
+                navigator.share({ title: document.title, url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Lien copié dans le presse-papier !");
             }
         }
 
