@@ -294,6 +294,14 @@ const TicketingModule = {
                                 </div>
                             </div>
                             
+                            <div id="agenda-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
+                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
+                                <div id="agenda-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+                                    <!-- Agenda dynamically injected -->
+                                </div>
+                                <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter une étape</button>
+                            </div>
+
                             <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
                                 <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
                                 <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
@@ -317,13 +325,15 @@ const TicketingModule = {
                                     <input type="hidden" id="ev-image-url" value="${ev.image_url || ''}">
                                 </div>
                             </div>
-                            <button id="ev-save-btn" onclick="TicketingModule.saveEvent('${eventId}')" style="background:#0f172a;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">ENREGISTRER LES MODIFICATIONS</button>
+                            <button id="ev-save-btn" onclick="TicketingModule.saveEvent('${eventId}')" style="background:#10b981;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">ENREGISTRER LES MODIFICATIONS</button>
                         </div>
                     </div>
                 </div>`;
             
             this._currentTiers = ev.ticket_tiers || [{ name: 'Billet Standard', price: ev.price || 0, capacity: ev.total_tickets || 100 }];
+            this._currentAgenda = ev.agenda || [{ time: '18:00', label: 'Ouverture' }];
             this.renderTierLines();
+            this.renderAgendaLines();
             
             setTimeout(() => this.setupUploadListeners(), 100);
         } catch (err) {
@@ -359,6 +369,14 @@ const TicketingModule = {
                                 <input id="ev-location" type="text" placeholder="Paris 8e / En ligne" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
                             </div>
                         </div>
+                        <div id="agenda-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
+                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
+                            <div id="agenda-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+                                <!-- Agenda dynamically injected -->
+                            </div>
+                            <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter une étape au programme</button>
+                        </div>
+
                         <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
                             <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
                             <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
@@ -369,7 +387,7 @@ const TicketingModule = {
 
                         <div>
                             <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
-                            <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onmouseover="this.style.borderColor='#0f172a';this.style.background='#fff';" onmouseout="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';" onclick="document.getElementById('ev-image-file').click()">
+                            <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onmouseover="this.style.borderColor='#10b981';this.style.background='#fff';" onmouseout="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';" onclick="document.getElementById('ev-image-file').click()">
                                 <input id="ev-image-file" type="file" accept="image/*" style="display:none;" onchange="TicketingModule.handleUpload(this)">
                                 <div id="ev-preview-container" style="display:none;">
                                     <div id="ev-preview-img" style="width:100%;height:200px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:12px;"></div>
@@ -383,17 +401,21 @@ const TicketingModule = {
                                 <input type="hidden" id="ev-image-url">
                             </div>
                         </div>
-                        <button id="ev-save-btn" onclick="TicketingModule.saveEvent()" style="background:#0f172a;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">CRÉER L'ÉVÉNEMENT</button>
+                        <button id="ev-save-btn" onclick="TicketingModule.saveEvent()" style="background:#10b981;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">CRÉER L'ÉVÉNEMENT</button>
                     </div>
                 </div>
             </div>`;
         
         this._currentTiers = [{ name: 'Billet Standard', price: 0, capacity: 100 }];
+        this._currentAgenda = [{ time: '18:00', label: 'Ouverture' }];
         this.renderTierLines();
+        this.renderAgendaLines();
         setTimeout(() => this.setupUploadListeners(), 100);
     },
 
     _currentTiers: [],
+    _currentAgenda: [],
+
     addTierLine() {
         this._currentTiers.push({ name: '', price: 0, capacity: 100 });
         this.renderTierLines();
@@ -412,6 +434,27 @@ const TicketingModule = {
                 <input type="number" value="${t.price}" placeholder="Prix €" onchange="TicketingModule._currentTiers[${i}].price=parseFloat(this.value)" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
                 <input type="number" value="${t.capacity}" placeholder="Quota" onchange="TicketingModule._currentTiers[${i}].capacity=parseInt(this.value)" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
                 <button type="button" onclick="TicketingModule.removeTierLine(${i})" style="border:none; background:none; color:#ef4444; font-weight:900; cursor:pointer;">×</button>
+            </div>
+        `).join('');
+    },
+
+    addAgendaLine() {
+        this._currentAgenda.push({ time: '', label: '' });
+        this.renderAgendaLines();
+    },
+    removeAgendaLine(index) {
+        if (this._currentAgenda.length <= 1) return;
+        this._currentAgenda.splice(index, 1);
+        this.renderAgendaLines();
+    },
+    renderAgendaLines() {
+        const list = document.getElementById('agenda-list');
+        if (!list) return;
+        list.innerHTML = this._currentAgenda.map((a, i) => `
+            <div style="display:grid; grid-template-columns: 80px 1fr 40px; gap:10px; align-items:center;">
+                <input type="text" value="${a.time}" placeholder="18:00" onchange="TicketingModule._currentAgenda[${i}].time=this.value" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
+                <input type="text" value="${a.label}" placeholder="Titre de l'étape" onchange="TicketingModule._currentAgenda[${i}].label=this.value" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
+                <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" style="border:none; background:none; color:#ef4444; font-weight:900; cursor:pointer;">×</button>
             </div>
         `).join('');
     },
@@ -532,6 +575,7 @@ const TicketingModule = {
                 event_date: date,
                 location,
                 ticket_tiers: this._currentTiers,
+                agenda: this._currentAgenda,
                 price: this._currentTiers[0]?.price || 0,
                 total_tickets: this._currentTiers.reduce((sum, t) => sum + (parseInt(t.capacity) || 0), 0),
                 image_url: imageUrl || 'https://via.placeholder.com/800x400?text=Événement'

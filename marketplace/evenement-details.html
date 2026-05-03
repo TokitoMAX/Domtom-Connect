@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;950&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-light: #eef2ff;
-            --accent: #10b981;
+            --primary: #10b981;
+            --primary-light: #ecfdf5;
+            --accent: #059669;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --bg-body: #f8fafc;
@@ -339,18 +339,7 @@
                         Programme
                     </h3>
                     <div id="agenda-ui">
-                        <div class="agenda-row">
-                            <div class="time-tag">18:00</div>
-                            <div class="event-info"><h5>Accueil & Badges</h5><p>Ouverture des portes et cocktail de bienvenue.</p></div>
-                        </div>
-                        <div class="agenda-row">
-                            <div class="time-tag">19:30</div>
-                            <div class="event-info"><h5>Début du Show</h5><p>Lancement de l'événement et prises de parole.</p></div>
-                        </div>
-                        <div class="agenda-row">
-                            <div class="time-tag">21:00</div>
-                            <div class="event-info"><h5>Networking Pro</h5><p>Échanges libres et buffet dinatoire.</p></div>
-                        </div>
+                        <!-- Agenda dynamically injected -->
                     </div>
                 </section>
 
@@ -424,10 +413,26 @@
                 }
 
                 renderTiers(ev);
+                renderAgenda(ev);
                 startTimer(ev.event_date);
                 document.getElementById('map-ui').innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps?q=${encodeURIComponent(ev.location)}&output=embed" allowfullscreen></iframe>`;
 
             } catch (e) { console.error(e); }
+        }
+
+        function renderAgenda(ev) {
+            const ui = document.getElementById('agenda-ui');
+            const agenda = ev.agenda || [];
+            if (agenda.length === 0) {
+                ui.innerHTML = '<p style="color:var(--text-muted); font-weight:600;">Aucun programme détaillé pour le moment.</p>';
+                return;
+            }
+            ui.innerHTML = agenda.map(a => `
+                <div class="agenda-row" style="display:grid; grid-template-columns: 100px 1fr; gap:32px; padding:20px 0; border-bottom:1px solid var(--border);">
+                    <div style="font-weight:950; color:var(--primary); font-size:1.1rem;">${a.time}</div>
+                    <div style="font-weight:850; font-size:1.2rem;">${a.label}</div>
+                </div>
+            `).join('');
         }
 
         function renderTiers(ev) {
