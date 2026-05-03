@@ -418,8 +418,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Supabase Initialization
+        const _supabase = window.supabase.createClient('https://vlpzmxddgdjjtrpbtksd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscHpteGRkZ2RqanRycGJ0a3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM3OTMxNjQsImV4cCI6MjAyOTM2OTE2NH0.p7S-M6_C-E-zG6YQ-zG6YQ-zG6YQ-zG6YQ');
+
         async function getSession() {
-            const { data } = await window._supabase.auth.getSession();
+            const { data } = await _supabase.auth.getSession();
             return data.session;
         }
 
@@ -430,7 +433,7 @@
 
             try {
                 const { data: event, error } = await _supabase.from('events').select('*').eq('id', eventId).single();
-                if (error) throw error;
+                if (error || !event) throw error || new Error("Event not found");
 
                 // UI Fill
                 document.getElementById('event-title').innerText = event.title;
@@ -458,7 +461,10 @@
                 renderTiers(event);
                 setupCalendar(event);
 
-            } catch (err) { console.error(err); }
+            } catch (err) { 
+                console.error(err);
+                document.getElementById('event-title').innerText = "Événement introuvable";
+            }
         }
 
         function renderTiers(ev) {
