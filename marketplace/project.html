@@ -723,7 +723,9 @@
                 document.querySelectorAll('#support-modal .tab-trigger').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             }
-            renderPaypal();
+            
+            // Auto-open modal when selecting a specific pack
+            openSupportModal();
         }
 
         async function renderPaypal() {
