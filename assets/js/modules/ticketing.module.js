@@ -562,7 +562,7 @@ const TicketingModule = {
             nextTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         }
         this._currentAgenda.push({ time: nextTime, label: '' });
-        this.sortAgenda();
+        // No auto-sort here to avoid jumping if user is mid-edit
         this.renderAgendaLines();
     },
     removeAgendaLine(index) {
@@ -575,17 +575,42 @@ const TicketingModule = {
     },
     sortAgenda() {
         this._currentAgenda.sort((a, b) => (a.time || '00:00').localeCompare(b.time || '00:00'));
+        this.renderAgendaLines();
     },
     renderAgendaLines() {
         const list = document.getElementById('agenda-list');
         if (!list) return;
-        list.innerHTML = this._currentAgenda.map((a, i) => `
-            <div style="display:grid; grid-template-columns: 120px 1fr 40px; gap:10px; align-items:center; background:white; padding:10px; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:4px;">
-                <input type="time" value="${a.time || '18:00'}" onchange="TicketingModule._currentAgenda[${i}].time=this.value; TicketingModule.sortAgenda(); TicketingModule.renderAgendaLines();" style="padding:8px; border-radius:8px; border:1.5px solid #f1f5f9; font-weight:700; font-family:inherit; cursor:pointer;">
-                <input type="text" value="${a.label}" placeholder="Ex: Masterclass, Cocktail..." onchange="TicketingModule._currentAgenda[${i}].label=this.value" style="padding:10px; border-radius:8px; border:none; font-weight:700; font-family:inherit; outline:none;">
-                <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" style="border:none; background:#fee2e2; color:#dc2626; width:30px; height:30px; border-radius:8px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center;">×</button>
+        
+        // Build the HTML without full re-render if possible or just make it cleaner
+        list.innerHTML = `
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                ${this._currentAgenda.map((a, i) => `
+                    <div style="display:flex; gap:16px; align-items:center; background:white; padding:16px; border-radius:16px; border:1px solid #e2e8f0; position:relative;">
+                        <div style="width:2px; height:20px; background:#e2e8f0; position:absolute; left:75px; top:-16px; display:${i === 0 ? 'none' : 'block'};"></div>
+                        <div style="width:100px; flex-shrink:0;">
+                            <input type="time" value="${a.time || '18:00'}" 
+                                onchange="TicketingModule._currentAgenda[${i}].time=this.value" 
+                                style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #f1f5f9; font-weight:800; font-family:inherit; cursor:pointer; background:#f8fafc; color:#0f172a; text-align:center;">
+                        </div>
+                        <div style="flex-grow:1;">
+                            <input type="text" value="${a.label}" placeholder="Titre de l'étape (ex: Accueil des invités)" 
+                                oninput="TicketingModule._currentAgenda[${i}].label=this.value" 
+                                style="width:100%; padding:12px; border:none; font-weight:700; font-family:inherit; outline:none; font-size:1rem; color:#1e293b;">
+                        </div>
+                        <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" 
+                            style="border:none; background:#fee2e2; color:#dc2626; width:36px; height:36px; border-radius:10px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;"
+                            onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                `).join('')}
+                ${this._currentAgenda.length > 1 ? `
+                    <div style="text-align:right;">
+                        <button type="button" onclick="TicketingModule.sortAgenda()" style="background:none; border:none; color:#10b981; font-weight:800; cursor:pointer; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">⚡ Trier par heure</button>
+                    </div>
+                ` : ''}
             </div>
-        `).join('');
+        `;
     },
 
     setupUploadListeners() {

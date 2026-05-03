@@ -321,12 +321,41 @@ const ShowcaseModule = {
      * Lance le paiement Stripe via Edge Function
      * Redirige vers Stripe Checkout (page sécurisée hébergée par Stripe)
      */
+    /**
+     * Lance le paiement Stripe via Edge Function
+     * Redirige vers Stripe Checkout (page sécurisée hébergée par Stripe)
+     */
     async buyWithStripe(item) {
         const btn = document.getElementById('stripe-buy-btn');
-        if (btn) { btn.textContent = 'Redirection...'; btn.disabled = true; }
+        if (btn) {
+            btn.dataset.original = btn.innerHTML;
+            btn.innerHTML = `
+                <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+                    <div style="width:18px; height:18px; border:2px solid rgba(255,255,255,0.3); border-top-color:white; border-radius:50%; animation:spin 0.6s linear infinite;"></div>
+                    Vérification...
+                </div>
+            `;
+            btn.disabled = true;
+        }
 
         try {
+            // 1. Vérifier si l'expert a configuré son compte Stripe
+            const { data: provider, error: pError } = await window._supabase
+                .from('profiles')
+                .select('stripe_connect_id, stripe_payouts_enabled, full_name')
+                .eq('id', item.user_id)
+                .single();
+
+            if (pError || !provider?.stripe_connect_id || !provider?.stripe_payouts_enabled) {
+                if (btn) { btn.innerHTML = btn.dataset.original; btn.disabled = false; }
+                return alert(`⚠️ Paiement indisponible : ${provider?.full_name || "L'expert"} n'a pas encore finalisé la configuration de son compte de paiement Stripe.`);
+            }
+
             const { data: { session } } = await window._supabase.auth.getSession();
+            if (!session) {
+                if (btn) { btn.innerHTML = btn.dataset.original; btn.disabled = false; }
+                return alert("Veuillez vous connecter pour procéder au paiement.");
+            }
             
             const response = await fetch(`${this.SUPABASE_FUNCTIONS_URL}/create-checkout`, {
                 method: 'POST',
@@ -354,7 +383,7 @@ const ShowcaseModule = {
 
         } catch (err) {
             console.error('[Stripe] Erreur:', err);
-            if (btn) { btn.textContent = 'Sécuriser cette offre'; btn.disabled = false; }
+            if (btn) { btn.innerHTML = btn.dataset.original; btn.disabled = false; }
             
             if (err.message.includes('transfers, crypto_transfers, or legacy_payments') || err.message.includes('stripe_balance.stripe_transfers capability enabled')) {
                 alert("⚠️ Ce produit ne peut pas être acheté pour le moment. L'expert n'a pas finalisé la configuration de son compte de paiement (Onboarding Stripe inachevé).");

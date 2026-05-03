@@ -3,72 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solutions & Offres d'Experts - Domtom Connect</title>
+    <title>Solutions d'Experts – Domtom Connect</title>
     <link rel="stylesheet" href="../assets/css/style.css?v=11.1">
-    <link rel="stylesheet" href="../assets/css/directory.css?v=1.1">
     <style>
+        :root {
+            --primary: #10b981;
+            --slate-950: #020617;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--slate-950);
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .hero-solutions {
+            padding: 140px 0 100px;
+            background: radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 1000px; height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .badge-premium {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 100px;
+            color: #34d399;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 32px;
+        }
+
+        .title-hero {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 950;
+            letter-spacing: -0.05em;
+            margin: 0 0 24px 0;
+            line-height: 1;
+        }
+
+        .subtitle-hero {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* GRID */
         .solutions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 32px;
-            padding: 40px 0 80px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            padding: 80px 0 120px;
         }
 
-        .solution-card {
-            background: #ffffff;
-            border: 1px solid #f1f5f9;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .card-solution {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 32px;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .solution-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-            border-color: #10b981;
+        .card-solution:hover {
+            transform: translateY(-10px);
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .solution-image {
+        .card-image {
             width: 100%;
-            height: 200px;
-            border-radius: 16px;
+            height: 220px;
+            border-radius: 20px;
             object-fit: cover;
-            background: #f8fafc;
+            background: #0f172a;
         }
 
-        .solution-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .solution-category {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
-            padding: 6px 12px;
+        .card-category {
+            position: absolute;
+            top: 48px; left: 48px;
+            background: rgba(16, 185, 129, 0.9);
+            color: #064e3b;
+            padding: 6px 14px;
             border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 800;
+            font-size: 0.7rem;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .solution-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #111827;
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: white;
             margin: 0;
             letter-spacing: -0.02em;
         }
 
-        .solution-desc {
+        .card-desc {
             font-size: 0.95rem;
-            color: #4b5563;
+            color: #94a3b8;
             line-height: 1.6;
             font-weight: 500;
             display: -webkit-box;
@@ -78,152 +143,95 @@
             overflow: hidden;
         }
 
-        .solution-footer {
+        .card-footer {
             margin-top: auto;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 20px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .expert-info {
+        .card-expert {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .expert-avatar {
-            width: 36px;
-            height: 36px;
+        .card-avatar {
+            width: 40px; height: 40px;
             border-radius: 50%;
-            background: #f1f5f9;
-            color: #10b981;
+            background: var(--primary);
+            color: #064e3b;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; justify-content: center;
+            font-weight: 900;
             font-size: 0.9rem;
-            font-weight: 800;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .investment-tag {
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: #10b981;
-        }
-
-        /* Hero */
-        .solutions-hero {
-            background: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, rgba(17, 24, 39, 0.03) 0px, transparent 50%),
-                        #ffffff;
-            padding: 120px 0 80px;
-            text-align: center;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: #1e293b;
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .hero-title-main {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            color: #111827;
-            margin: 0 0 16px 0;
+        .card-price {
+            font-weight: 950;
+            font-size: 1.4rem;
+            color: var(--primary);
         }
 
         @media (max-width: 768px) {
-            .solutions-hero { padding: 80px 0 40px; }
-            .solutions-grid { grid-template-columns: 1fr; padding: 24px; gap: 24px; }
-            body, html { overflow-x: hidden !important; }
-        }
-
-        /* Modal Overlay - Institutional */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: none; align-items: flex-start; justify-content: center;
-            z-index: 10000;
-            overflow-y: auto;
-            padding: 40px 20px;
-        }
-        .modal-overlay.open { display: flex; }
-        .showcase-modal-close {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(15, 23, 42, 0.1); color: #0f172a; border: none;
-            width: 40px; height: 40px; border-radius: 50%;
-            font-size: 1.5rem; cursor: pointer; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-        .showcase-modal-close:hover {
-            background: #0f172a; color: white;
+            .hero-solutions { padding: 100px 0 60px; }
+            .solutions-grid { grid-template-columns: 1fr; padding: 24px; }
+            .card-solution { padding: 24px; }
         }
     </style>
 
-    <!-- CORE PLATFORM SCRIPTS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/ui-components.js?v=11.1"></script>
     <script src="../assets/js/modules/showcase.module.js?v=11.1"></script>
 </head>
-<body style="background: #fdfdfd;">
-    <nav class="navbar">
-        <div class="container"></div>
-    </nav>
+<body>
+    <nav class="navbar" style="background:transparent; border:none;"></nav>
 
-    <header class="solutions-hero">
+    <header class="hero-solutions">
+        <div class="hero-glow"></div>
         <div class="container">
-            <span class="hero-badge">Offres & Services</span>
-            <h1 class="hero-title-main">Les Solutions d'Experts</h1>
-            <p style="font-size: 1.2rem; color: #64748b; font-weight: 750; max-width: 600px; margin: 0 auto;">Découvrez les services exclusifs et l'accompagnement sur-mesure de notre écosystème territorial.</p>
+            <div class="badge-premium">Marketplace d'Excellence</div>
+            <h1 class="title-hero">Les Solutions d'Experts</h1>
+            <p class="subtitle-hero">Propulsez vos projets avec les meilleurs services de l'écosystème territorial. Expertises certifiées et accompagnement sur-mesure.</p>
         </div>
     </header>
 
     <main class="container">
         <div id="solutions-list" class="solutions-grid">
-            <!-- Shimmer / Loader -->
-             <div style="grid-column: 1/-1; text-align: center; padding: 80px;">
-                <div class="loader" style="width:50px; height:50px; border:4px solid #000; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div>
-             </div>
+            <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
+                <div style="width:40px; height:40px; border:3px solid rgba(16, 185, 129, 0.1); border-top-color:var(--primary); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div>
+                <p style="margin-top:20px; color:#64748b; font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Récupération des offres...</p>
+            </div>
         </div>
     </main>
-
-    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
     <div id="details-modal-overlay" class="modal-overlay"></div>
 
     <script>
+        async function init() {
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            await loadSolutions();
+        }
+
         async function loadSolutions() {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (!db) return setTimeout(loadSolutions, 500);
-
             const container = document.getElementById('solutions-list');
             try {
                 const { data, error } = await db
                     .from('showcase_items')
-                    .select('*, profiles(full_name, avatar_url, territory)')
+                    .select('*, profiles(full_name, avatar_url, role)')
                     .eq('status', 'active')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 80px;"><h2 style="font-weight:950;">Aucune solution publiée pour le moment.</h2></div>';
+                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 100px;"><h2 style="font-weight:950; color:#64748b;">Aucune solution disponible pour le moment.</h2></div>';
                     return;
                 }
 
@@ -233,50 +241,33 @@
                     const profileLink = isCompany ? `profile-detail-company.html?id=${item.user_id}` : `profile-detail-expert.html?id=${item.user_id}`;
                     
                     return `
-                        <div class="solution-card" onclick="ShowcaseModule.openPublicItemModal('${item.id}')">
-                            <div style="position:relative;">
-                                ${item.image_url ? `<img src="${item.image_url}" class="solution-image">` : `<div class="solution-image" style="display:flex; align-items:center; justify-content:center; font-size:3rem; opacity:0.1;">🚀</div>`}
-                                <div style="position:absolute; bottom:15px; left:15px;" class="solution-category">${isCompany ? 'Entreprise' : 'Expert'}</div>
-                            </div>
-                            <div class="solution-header">
-                                <h3 class="solution-title">${item.title}</h3>
-                            </div>
-                            <p class="solution-desc">${item.description || 'Expertise dédiée à l\'accélération de vos projets territoriaux.'}</p>
-                            
-                            <div class="solution-footer">
-                                <div class="expert-info" onclick="event.stopPropagation(); window.location.href='${profileLink}'" title="Voir le profil">
-                                    <div class="expert-avatar">
+                        <div class="card-solution" onclick="ShowcaseModule.openPublicItemModal('${item.id}')">
+                            <div class="card-category">${isCompany ? 'Entreprise' : 'Expert'}</div>
+                            ${item.image_url ? `<img src="${item.image_url}" class="card-image">` : `<div class="card-image" style="display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.1;">🚀</div>`}
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-desc">${item.description || 'Expertise dédiée au développement territorial.'}</p>
+                            <div class="card-footer">
+                                <div class="card-expert" onclick="event.stopPropagation(); window.location.href='${profileLink}'">
+                                    <div class="card-avatar">
                                         ${expert.avatar_url ? `<img src="${expert.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (expert.full_name?.charAt(0) || 'E')}
                                     </div>
-                                    <span style="font-size:0.85rem; font-weight:900; color:#000;">${expert.full_name}</span>
+                                    <span style="font-size:0.9rem; font-weight:800; color:white;">${expert.full_name}</span>
                                 </div>
-                                <div class="investment-tag">${item.price_prefix || 'À partir de'} ${item.price.toFixed(0)}€</div>
+                                <div class="card-price">${item.price.toFixed(0)}€</div>
                             </div>
                         </div>
                     `;
                 }).join('');
 
             } catch (err) {
-                console.error("Load Solutions Error:", err);
-                container.innerHTML = '<p>Erreur lors du chargement des solutions.</p>';
+                console.error(err);
+                container.innerHTML = '<p style="text-align:center; padding:100px;">Erreur de chargement.</p>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof loadGlobalNavbar === 'function') loadGlobalNavbar();
-            loadSolutions();
-        });
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 
-    <footer style="background: #fff; border-top: 3.5px solid #000; padding: 60px 0; margin-top: 80px;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); border: 2px solid #000; border-radius: 5px; padding: 2px;">
-                    <p style="font-size: 0.85rem; color: #000; font-weight: 900;">&copy; 2026 Domtom Connect. Propulser l'Excellence.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <style>@keyframes spin { to { transform: rotate(360deg); } } </style>
 </body>
 </html>
