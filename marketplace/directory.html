@@ -48,10 +48,16 @@
                 align-items: center !important;
                 text-align: center !important;
                 padding: 32px !important;
-                border-radius: 24px !important;
+                border-radius: 28px !important;
                 background: white !important;
                 border: 1px solid #f1f5f9 !important;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.02) !important;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.03) !important;
+                transition: all 0.3s ease !important;
+            }
+            .profile-card:hover {
+                transform: translateY(-8px) !important;
+                box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1) !important;
+                border-color: #10b981 !important;
             }
             .profile-avatar {
                 width: 80px !important;
@@ -124,6 +130,13 @@
                 <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
                 <p style="margin-top:20px; color:#64748b;">Initialisation du réseau...</p>
              </div>
+        </div>
+
+        <!-- Conversion Banner for Spectators -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 60px; border-radius: 32px; text-align: center; color: white; margin-top: 40px; border: 1px solid rgba(255,255,255,0.1);">
+            <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 16px; color: white !important;">Vous êtes un Expert ?</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 32px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">Rejoignez l'élite des talents ultramarins et accédez aux meilleures missions stratégiques.</p>
+            <a href="../register-choice.html?role=expert" class="cta-button primary" style="background: #10b981; padding: 18px 48px; font-size: 1.1rem; border-radius: 14px;">Créer ma Vitrine (Gratuit)</a>
         </div>
     </main>
 
