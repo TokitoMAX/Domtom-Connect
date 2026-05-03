@@ -416,9 +416,57 @@
                         <div style="font-weight:900; color:var(--text-dark);">${t.name}</div>
                         <div style="font-size:0.95rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
                     </div>
-                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="alert('Réservation...')">Réserver</button>
+                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="buyTicket('${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">Réserver</button>
                 </div>
             `).join('');
+        }
+
+        async function buyTicket(eventId, tierName, price, hostId) {
+            try {
+                const session = await getSession();
+                if (!session) {
+                    alert("Veuillez vous connecter pour réserver votre place.");
+                    window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href);
+                    return;
+                }
+
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.disabled = true;
+                btn.innerText = "Chargement...";
+
+                const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({
+                        type: 'event',
+                        item_id: eventId,
+                        item_title: `Billet : ${tierName}`,
+                        item_price: price,
+                        provider_id: hostId,
+                        metadata: {
+                            tier_name: tierName
+                        }
+                    }),
+                });
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error(data.error || "Erreur lors de la création de la session de paiement.");
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert("Erreur : " + err.message);
+                const btn = event.target;
+                btn.disabled = false;
+                btn.innerText = "Réserver";
+            }
         }
 
         init();
