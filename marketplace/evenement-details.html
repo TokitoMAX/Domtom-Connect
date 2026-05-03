@@ -437,6 +437,10 @@
                 const d = new Date(ev.event_date);
                 document.getElementById('event-date').innerText = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
+                // Check if viewer is the organizer
+                const { data: { session } } = await _supabase.auth.getSession();
+                const isOrganizer = session && session.user.id === ev.user_id;
+
                 // Host
                 const { data: host } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', ev.user_id).single();
                 if (host) {
@@ -446,7 +450,7 @@
                     else av.innerText = host.full_name.slice(0,2).toUpperCase();
                 }
 
-                renderTiers(ev);
+                renderTiers(ev, isOrganizer);
                 renderAgenda(ev);
                 startTimer(ev.event_date);
                 document.getElementById('map-ui').innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps?q=${encodeURIComponent(ev.location)}&output=embed" allowfullscreen></iframe>`;
@@ -483,23 +487,35 @@
             `;
         }
 
-        function renderTiers(ev) {
+        function renderTiers(ev, isOrganizer) {
             const ui = document.getElementById('tiers-ui');
             let t = ev.ticket_tiers || [];
             if (t.length === 0 && ev.price !== null) t = [{ name: 'Billet Standard', price: ev.price }];
 
             if (t.length === 0) { ui.innerHTML = '<p style="text-align:center;font-weight:700;color:var(--text-muted);">Complet</p>'; return; }
 
-            ui.innerHTML = `
-                <div style="margin-bottom:20px; padding:15px; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0;">
-                    <label style="display:block; font-size:0.7rem; font-weight:950; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
-                    <div style="display:flex; gap:8px;">
-                        <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0; font-family:inherit; font-weight:700;">
-                        <button onclick="applyPromo('${ev.id}')" style="background:#0f172a; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
+            let html = '';
+            if (isOrganizer) {
+                html = `
+                    <div style="background:var(--primary-light); padding:20px; border-radius:20px; border:1px solid var(--primary); text-align:center; margin-bottom:20px;">
+                        <p style="font-weight:900; color:var(--accent); margin-bottom:12px;">C'est VOTRE événement !</p>
+                        <a href="../mon-espace.html#billetterie?action=manage&id=${ev.id}" class="btn-reserve" style="text-decoration:none; display:inline-block; background:var(--text-main);">PILOTER L'ÉVÉNEMENT</a>
                     </div>
-                    <div id="promo-msg" style="margin-top:8px; font-size:0.75rem; font-weight:800; display:none;"></div>
-                </div>
-            ` + t.map(tk => `
+                `;
+            } else {
+                html = `
+                    <div style="margin-bottom:20px; padding:15px; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0;">
+                        <label style="display:block; font-size:0.7rem; font-weight:950; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
+                        <div style="display:flex; gap:8px;">
+                            <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0; font-family:inherit; font-weight:700;">
+                            <button onclick="applyPromo('${ev.id}')" style="background:#0f172a; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
+                        </div>
+                        <div id="promo-msg" style="margin-top:8px; font-size:0.75rem; font-weight:800; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            ui.innerHTML = html + t.map(tk => `
                 <div class="ticket-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span style="font-weight:850; font-size:1.05rem;">${tk.name}</span>
@@ -508,7 +524,7 @@
                             <span id="price-${tk.name.replace(/\s+/g, '')}" class="ticket-price" data-original="${tk.price}" style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
                         </div>
                     </div>
-                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', '${ev.user_id}')">RÉSERVER MA PLACE</button>
+                    ${!isOrganizer ? `<button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', '${ev.user_id}')">RÉSERVER MA PLACE</button>` : ''}
                 </div>
             `).join('');
         }
