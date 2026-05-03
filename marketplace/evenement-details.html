@@ -419,7 +419,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Supabase Initialization
-        const _supabase = window.supabase.createClient('https://vlpzmxddgdjjtrpbtksd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscHpteGRkZ2RqanRycGJ0a3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM3OTMxNjQsImV4cCI6MjAyOTM2OTE2NH0.p7S-M6_C-E-zG6YQ-zG6YQ-zG6YQ-zG6YQ');
+        const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function getSession() {
             const { data } = await _supabase.auth.getSession();
