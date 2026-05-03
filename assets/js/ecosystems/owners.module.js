@@ -144,9 +144,12 @@ const OwnersModule = {
 
                 <!-- 4. ACTION CENTER (Professional Hubs) -->
                 <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                    <h4 style="font-size: 0.65rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Ventes & Billetterie</h4>
-                    <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Gestion des Évènements</div>
-                    <button onclick="window.location.hash = 'billetterie'" style="width: 100%; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Ouvrir la Billetterie</button>
+                    <h4 style="font-size: 0.65rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Gestion Évènementielle</h4>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Billetterie & Accès</div>
+                    <div style="display: flex; gap: 12px;">
+                        <button onclick="window.Router.navigate('#billetterie?action=create')" style="flex: 1; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">+ Créer</button>
+                        <button onclick="window.Router.navigate('#billetterie')" style="flex: 1; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Gérer mes Évènements</button>
+                    </div>
                 </div>
 
                 <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">

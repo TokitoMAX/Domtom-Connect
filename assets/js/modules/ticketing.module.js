@@ -263,21 +263,74 @@ const TicketingModule = {
     },
 
     // =============================================
-    // 5. EDIT MODAL (Prix/Quota)
+    // 5. MODIFIER UN ÉVÉNEMENT (Full Edit)
     // =============================================
-    editEventModal(eventId, currentCapacity, currentPrice) {
-        const cap = prompt(`Quota de billets (actuel: ${currentCapacity || 'illimité'}):`, currentCapacity || '');
-        if (cap === null) return;
-        const price = prompt(`Prix unitaire en € (actuel: ${currentPrice || 0} €):`, currentPrice || 0);
-        if (price === null) return;
+    async renderEditForm(eventId) {
+        const view = document.getElementById('billetterie-view');
+        view.innerHTML = `<div style="text-align:center;padding:80px;"><span class="loader"></span></div>`;
 
-        window._supabase.from('events').update({
-            total_tickets: cap ? parseInt(cap) : null,
-            price: parseFloat(price) || 0
-        }).eq('id', eventId).then(({ error }) => {
-            if (error) alert('Erreur: ' + error.message);
-            else this.renderOrganizerHub(eventId);
-        });
+        try {
+            const { data: ev, error } = await window._supabase.from('events').select('*').eq('id', eventId).single();
+            if (error) throw error;
+
+            view.innerHTML = `
+                <div style="padding:clamp(20px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;">
+                    <button onclick="window.Router.navigate('#billetterie?action=manage&id=${eventId}')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;font-family:inherit;">← Annuler</button>
+                    <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;padding:40px;max-width:700px;margin:0 auto;">
+                        <h2 style="font-weight:950;margin-bottom:32px;font-size:1.8rem;">Modifier l'Événement</h2>
+                        <div style="display:flex;flex-direction:column;gap:20px;">
+                            <div>
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Titre *</label>
+                                <input id="ev-title" type="text" value="${ev.title || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Date *</label>
+                                    <input id="ev-date" type="date" value="${ev.event_date || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Lieu *</label>
+                                    <input id="ev-location" type="text" value="${ev.location || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Prix Billet (€)</label>
+                                    <input id="ev-price" type="number" value="${ev.price || 0}" step="0.01" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Capacité Max</label>
+                                    <input id="ev-capacity" type="number" value="${ev.total_tickets || ''}" placeholder="Illimité" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
+                                <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:12px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onclick="document.getElementById('ev-image-file').click()">
+                                    <input id="ev-image-file" type="file" accept="image/*" style="display:none;" onchange="TicketingModule.handleUpload(this)">
+                                    <div id="ev-preview-container">
+                                        <div id="ev-preview-img" style="width:100%;height:200px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:12px;background-image:url('${ev.image_url || ''}')"></div>
+                                        <span style="font-size:0.75rem;font-weight:800;color:#0f172a;">Cliquer pour changer l'image</span>
+                                    </div>
+                                    <div id="ev-upload-prompt" style="display:none;">
+                                        <div style="font-size:2.5rem;margin-bottom:12px;">🖼️</div>
+                                        <p style="margin:0;font-weight:800;color:#0f172a;">Sélectionnez une affiche</p>
+                                    </div>
+                                    <input type="hidden" id="ev-image-url" value="${ev.image_url || ''}">
+                                </div>
+                            </div>
+                            <button id="ev-save-btn" onclick="TicketingModule.saveEvent('${eventId}')" style="background:#0f172a;color:white;border:none;padding:16px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1rem;margin-top:8px;">ENREGISTRER LES MODIFICATIONS</button>
+                        </div>
+                    </div>
+                </div>`;
+            
+            setTimeout(() => this.setupUploadListeners(), 100);
+        } catch (err) {
+            view.innerHTML = `<div style="padding:40px;color:#dc2626;font-weight:800;">Erreur: ${err.message}</div>`;
+        }
+    },
+
+    editEventModal(eventId) {
+        this.renderEditForm(eventId);
     },
 
     // =============================================
@@ -433,7 +486,7 @@ const TicketingModule = {
         }
     },
 
-    async saveEvent() {
+    async saveEvent(eventId = null) {
         const btn = document.getElementById('ev-save-btn');
         const title = document.getElementById('ev-title')?.value?.trim();
         const date = document.getElementById('ev-date')?.value;
@@ -443,28 +496,42 @@ const TicketingModule = {
         if (!title || !date || !location) { alert('Remplissez les champs obligatoires (titre, date, lieu).'); return; }
 
         btn.disabled = true;
-        btn.textContent = 'Création...';
+        btn.textContent = eventId ? 'Mise à jour...' : 'Création...';
 
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) throw new Error("Non connecté");
 
-            const { error } = await window._supabase.from('events').insert({
-                user_id: session.user.id,
+            const payload = {
                 title,
                 event_date: date,
                 location,
                 price: parseFloat(document.getElementById('ev-price')?.value) || 0,
                 total_tickets: parseInt(document.getElementById('ev-capacity')?.value) || null,
                 image_url: imageUrl || 'https://via.placeholder.com/800x400?text=Événement'
-            });
+            };
 
-            if (error) throw error;
-            window.Router.navigate('#billetterie');
+            let res;
+            if (eventId) {
+                res = await window._supabase.from('events').update(payload).eq('id', eventId);
+            } else {
+                res = await window._supabase.from('events').insert({
+                    ...payload,
+                    user_id: session.user.id
+                });
+            }
+
+            if (res.error) throw res.error;
+            
+            if (eventId) {
+                window.Router.navigate(`#billetterie?action=manage&id=${eventId}`);
+            } else {
+                window.Router.navigate('#billetterie');
+            }
         } catch (err) {
             alert('Erreur: ' + err.message);
             btn.disabled = false;
-            btn.textContent = 'CRÉER L\'ÉVÉNEMENT';
+            btn.textContent = eventId ? 'ENREGISTRER LES MODIFICATIONS' : 'CRÉER L\'ÉVÉNEMENT';
         }
     },
 
