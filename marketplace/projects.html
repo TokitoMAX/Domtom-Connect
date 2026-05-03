@@ -29,155 +29,318 @@
     <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
 
     <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-main: #0B0F19;
+            --bg-card: #131B2F;
+            --bg-card-hover: #1A243D;
+            --primary: #00D586;
+            --text-main: #FFFFFF;
+            --text-muted: #9CA3AF;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(0, 213, 134, 0.3);
+            --gradient-accent: linear-gradient(135deg, #00D586 0%, #009660 100%);
         }
 
-        /* Alphabet Filter - Sticky & Premium */
-        .alphabet-filter-container {
-            position: sticky;
-            top: 70px;
-            z-index: 50;
-            background: rgba(248, 250, 252, 0.9);
-            backdrop-filter: blur(8px);
-            padding: 12px 16px;
-            margin: 24px 0 32px 0;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
+        /* Hero Section */
+        .directory-header {
+            position: relative;
+            padding: 120px 0 80px;
+            text-align: center;
+            overflow: hidden;
+            background: var(--bg-main);
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,213,134,0.1) 0%, rgba(11,15,25,0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Search & Filter Bar */
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            padding: 0 5%;
+        }
+
+        .search-bar-premium {
+            background: rgba(19, 27, 47, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-field {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-field:focus {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .select-field {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .select-field:focus {
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .btn-filter {
+            background: var(--gradient-accent);
+            border: none;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,213,134,0.2);
+        }
+
+        .btn-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(0,213,134,0.3);
+        }
+
+        /* Alphabet Filter */
         .alphabet-filter {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
             justify-content: center;
+            margin-bottom: 30px;
+            padding: 0 5%;
         }
 
         .letter-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
             font-weight: 700;
-            color: #64748b;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid transparent;
-            background: transparent;
         }
 
-        .letter-btn:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
-
-        .letter-btn.active {
-            background: #0f172a;
-            color: white;
-            border-color: #0f172a;
+        .letter-btn:hover, .letter-btn.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .letter-btn.all {
             width: auto;
-            padding: 0 12px;
+            padding: 0 16px;
         }
 
-        /* Projet Cards - Aligné sur Experts/Entreprises */
+        /* Grid & Cards */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .project-card {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 20px;
-            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            height: 100%;
+            cursor: pointer;
         }
 
         .project-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            border-color: #10b981;
+            transform: translateY(-10px);
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Card Featured */
         .project-card.featured {
-            border: 2px solid #10b981;
-            background: linear-gradient(135deg, white 0%, #f0fdf4 100%);
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #131B2F 0%, #0F172A 100%);
+        }
+
+        .project-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100px; height: 100px;
+            background: radial-gradient(circle at top right, rgba(0,213,134,0.15), transparent 70%);
+            pointer-events: none;
         }
 
         .featured-badge {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            background: #10b981;
-            color: white;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: #000;
             font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 10px;
+            font-weight: 900;
+            padding: 6px 12px;
             border-radius: 100px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            letter-spacing: 1px;
             z-index: 10;
         }
 
-        .project-card-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .project-card-image {
+            height: 200px;
+            width: 100%;
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
             margin-bottom: 24px;
+            position: relative;
+            background-color: #1A243D;
+            overflow: hidden;
         }
 
-        .project-image-placeholder {
-            width: 72px;
-            height: 72px;
-            border-radius: 16px;
-            background: #f0fdf4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #10b981;
+        .project-card-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 100%;
+            background: linear-gradient(to top, rgba(11,15,25,0.6), transparent);
+        }
+
+        .project-card-initials {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.05);
+            letter-spacing: -2px;
+        }
+
+        .maturity-indicator {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
             font-weight: 800;
-            border: 2px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            flex-shrink: 0;
+            border: 1px solid rgba(0, 213, 134, 0.3);
+            z-index: 10;
         }
 
         .project-info h3 {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            color: #0f172a;
-            margin: 0 0 6px 0;
+            color: white;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verified-badge {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
         }
 
         .project-location {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-top: 6px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             font-weight: 600;
         }
 
         .project-desc {
             font-size: 0.95rem;
-            color: #475569;
+            color: var(--text-muted);
             line-height: 1.6;
-            margin: 0 0 24px 0;
-            flex-grow: 1;
+            margin-bottom: 24px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             line-clamp: 3;
@@ -189,263 +352,227 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
-        .tag-need {
-            background: #f1f5f9;
-            color: #475569;
+        .tag-pill {
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
         }
 
-        .project-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: auto;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 24px;
+        .tag-accent {
+            background: rgba(0, 213, 134, 0.1);
+            color: var(--primary);
+            border-color: rgba(0, 213, 134, 0.2);
         }
 
         .btn-view {
-            background: #0f172a;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
             color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 0;
-            font-size: 0.9rem;
-            font-weight: 700;
-            flex: 1;
-            cursor: pointer;
-            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: 800;
             text-align: center;
             text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .maturity-indicator {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            backdrop-filter: blur(4px);
-            z-index: 10;
+        .project-card:hover .btn-view {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
         }
 
-        .project-card-image {
-            height: 180px;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            border-radius: 16px;
-            margin-bottom: 24px;
+        /* Banner CTA */
+        .project-cta-banner {
+            max-width: 1300px;
+            margin: 0 auto 60px;
+            padding: 0 5%;
+        }
+
+        .banner-card {
+            background: linear-gradient(135deg, #131B2F 0%, #0B0F19 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
-            background-color: #f1f5f9;
             overflow: hidden;
         }
 
-        .project-card-image::after {
+        .banner-card::before {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; right: 0; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0,213,134,0.1) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        .project-card-initials {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2.5rem;
+        .banner-text h2 {
+            font-size: 1.8rem;
             font-weight: 900;
-            color: rgba(16, 185, 129, 0.2);
-            letter-spacing: -0.05em;
+            margin-bottom: 8px;
         }
 
-        /* Social Icons */
-        .social-links-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
+        .banner-text p {
+            color: var(--text-muted);
+            font-size: 1rem;
         }
 
-        .social-icon-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: all 0.2s;
+        .btn-banner {
+            background: white;
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-weight: 800;
             text-decoration: none;
+            transition: all 0.3s;
+            white-space: nowrap;
         }
 
-        .social-icon-btn.linkedin { background: #0077b5; }
-        .social-icon-btn.facebook { background: #1877f2; }
-        .social-icon-btn.instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .social-icon-btn.youtube { background: #ff0000; }
-        .social-icon-btn.tiktok { background: #000000; }
-        .social-icon-btn.spotify { background: #1DB954; }
-
-        .social-icon-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .btn-banner:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
         }
 
-        /* Verified Badge */
-        .verified-badge-inline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #10b981; /* Green for projects */
-            margin-left: 6px;
-            vertical-align: middle;
-            background: rgba(16, 185, 129, 0.1);
-            padding: 2px;
-            border-radius: 50%;
-            cursor: help;
+        @media (max-width: 900px) {
+            .search-bar-premium {
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn-filter {
+                grid-column: span 2;
+            }
+            .banner-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .search-bar-premium {
+                grid-template-columns: 1fr;
+            }
+            .btn-filter {
+                grid-column: span 1;
+            }
         }
     </style>
-    <!-- CORE PLATFORM SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/ui-components.js?v=10.1"></script>
 </head>
 
-<body style="background: #f8fafc; color: #0f172a;">
+<body>
     <nav class="navbar">
-        <div class="container">
-            <!-- Navbar content will be rendered by loadGlobalNavbar() -->
-        </div>
+        <div class="container"></div>
     </nav>
 
-    <header class="directory-header" style="background: white; border-bottom: 1px solid var(--gray-200); padding: 80px 0 60px;">
-        <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-                <h1 style="color: #0f172a; font-size: 3rem; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.02em;">
-                    L'Épopée des Antilles</h1>
-                <p style="color: #64748b; font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
-                    Découvrez et soutenez les projets qui transforment nos territoires.
-                </p>
+    <header class="directory-header">
+        <div class="hero-bg-glow"></div>
+        <div class="header-content">
+            <div class="container">
+                <h1>L'Épopée des Antilles</h1>
+                <p>Découvrez et soutenez les visions qui transforment nos territoires au travers de l'innovation et de l'impact.</p>
             </div>
+        </div>
 
-            <div class="alphabet-filter-container">
-                <div class="alphabet-filter" id="letter-filter-container">
-                    <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
-                </div>
-            </div>
+        <div class="search-container">
+            <div class="search-bar-premium">
+                <input type="text" id="search-input" class="search-field" placeholder="Rechercher une épopée, une vision..." oninput="loadProjects()">
+                
+                <select id="territory-filter" class="select-field" onchange="loadProjects()">
+                    <option value="">Territoires</option>
+                    <optgroup label="Antilles & Guyane">
+                        <option value="Guadeloupe">Guadeloupe</option>
+                        <option value="Martinique">Martinique</option>
+                        <option value="Guyane">Guyane</option>
+                        <option value="Saint-Martin">Saint-Martin</option>
+                        <option value="Saint-Barthélemy">Saint-Barthélemy</option>
+                    </optgroup>
+                    <option value="International">International</option>
+                </select>
 
-            <div class="search-bar-v3" style="max-width: 900px; margin: 0 auto; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid var(--gray-200); padding: 8px; border-radius: 16px; display: flex; gap: 8px;">
-                <div class="search-input-wrapper" style="flex: 2;">
-                    <input type="text" id="search-input" placeholder="Rechercher une épopée, une vision..." 
-                           style="width: 100%; padding: 14px 20px; border: none; outline: none; font-size: 1rem;" 
-                           oninput="loadProjects()">
-                </div>
-                <div class="search-select-wrapper" style="flex: 1; border-left: 1px solid var(--gray-100);">
-                    <select id="territory-filter" 
-                            style="width: 100%; padding: 14px 20px; border: none; outline: none; background: transparent; cursor: pointer; color: #475569; font-weight: 600;" 
-                            onchange="loadProjects()">
-                        <option value="">Tous les territoires</option>
-                        <optgroup label="Antilles & Guyane">
-                            <option value="Guadeloupe">Guadeloupe</option>
-                            <option value="Martinique">Martinique</option>
-                            <option value="Guyane">Guyane</option>
-                            <option value="Saint-Martin">Saint-Martin</option>
-                            <option value="Saint-Barthélemy">Saint-Barthélemy</option>
-                            <option value="Antilles">Toutes les Antilles</option>
-                        </optgroup>
-                        <optgroup label="Océan Indien">
-                            <option value="Réunion">La Réunion</option>
-                            <option value="Mayotte">Mayotte</option>
-                        </optgroup>
-                        <optgroup label="Pacifique & Autres">
-                            <option value="Polynésie Française">Polynésie Française</option>
-                            <option value="Nouvelle-Calédonie">Nouvelle-Calédonie</option>
-                            <option value="Wallis-et-Futuna">Wallis-et-Futuna</option>
-                            <option value="Saint-Pierre-et-Miquelon">Saint-Pierre-et-Miquelon</option>
-                        </optgroup>
-                        <optgroup label="Caraïbes & Diaspora">
-                            <option value="Haiti">Haïti</option>
-                            <option value="Dominique">Dominique</option>
-                            <option value="Sainte-Lucie">Sainte-Lucie</option>
-                            <option value="France Hexagone">France Hexagone</option>
-                            <option value="Diaspora">Diaspora (Monde)</option>
-                        </optgroup>
-                        <option value="International">International</option>
-                    </select>
-                </div>
-                <div class="search-select-wrapper" style="flex: 1; border-left: 1px solid var(--gray-100);">
-                    <select id="zone-filter" 
-                            style="width: 100%; padding: 14px 20px; border: none; outline: none; background: transparent; cursor: pointer; color: #475569; font-weight: 600;" 
-                            onchange="loadProjects()">
-                        <option value="">Toutes les zones</option>
-                        <optgroup label="Martinique">
-                            <option value="Nord">Nord</option>
-                            <option value="Centre">Centre</option>
-                            <option value="Sud">Sud</option>
-                        </optgroup>
-                        <optgroup label="Guadeloupe">
-                            <option value="Basse-Terre">Basse-Terre</option>
-                            <option value="Grande-Terre">Grande-Terre</option>
-                        </optgroup>
-                        <optgroup label="Réunion">
-                            <option value="Nord-Run">Nord</option>
-                            <option value="Sud-Run">Sud</option>
-                            <option value="Est-Run">Est</option>
-                            <option value="Ouest-Run">Ouest</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <button class="cta-button primary" style="padding: 14px 28px; background: #10b981; border: none; color: white; border-radius: 12px; font-weight: 800; cursor: pointer;" onclick="loadProjects()">Filtrer</button>
+                <select id="zone-filter" class="select-field" onchange="loadProjects()">
+                    <option value="">Zones</option>
+                    <option value="Nord">Nord</option>
+                    <option value="Centre">Centre</option>
+                    <option value="Sud">Sud</option>
+                </select>
+
+                <button class="btn-filter" onclick="loadProjects()">FILTRER</button>
             </div>
         </div>
     </header>
 
-    <main class="container" style="padding-top: 32px;">
-        <div class="project-cta-banner" id="project-banner" style="display:none; background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); color: white; padding: 24px; border-radius: 16px; margin-bottom: 40px; justify-content: space-between; align-items: center;">
-            <div>
-                <p><strong>Vous avez une idée ou un projet ?</strong></p>
-                <p style="color: #d1fae5; font-size: 0.85rem; margin-top: 4px;">Rejoignez le programme d'accompagnement pour propulser votre initiative.</p>
+    <div class="alphabet-filter" id="letter-filter-container">
+        <button class="letter-btn all active" onclick="filterByLetter('')">TOUS</button>
+    </div>
+
+    <main>
+        <div class="project-cta-banner" id="project-banner" style="display:none;">
+            <div class="banner-card">
+                <div class="banner-text">
+                    <h2>Vous portez une vision ?</h2>
+                    <p>Rejoignez le programme d'accompagnement pour propulser votre épopée.</p>
+                </div>
+                <a href="../mon-espace#success-engine" class="btn-banner">Propulser mon projet</a>
             </div>
-            <a href="../mon-espace#success-engine" class="cta-button primary" style="background:white; color:#065f46; border:none; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none;">Propulser mon projet</a>
         </div>
 
-        <div class="directory-grid" id="projects-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; padding-bottom: 80px;"></div>
+        <div class="directory-grid" id="projects-container"></div>
 
-        <div id="empty-state" style="display: none; text-align: center; padding: 80px 0;">
-            <p style="font-size: 1.2rem; color: var(--text-secondary);">Aucun projet n'est encore affiché pour cette recherche.</p>
+        <div id="empty-state" style="display: none; text-align: center; padding: 100px 5%;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom: 20px; opacity: 0.5;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            <p style="font-size: 1.2rem; color: var(--text-muted);">Aucune épopée ne correspond à votre recherche pour le moment.</p>
         </div>
     </main>
 
+    <footer style="background: #0B0F19; border-top: 1px solid var(--border-color); padding: 80px 0 40px; margin-top: 100px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="../assets/images/logo-domtomconnect.png" style="height: 35px; filter: brightness(0) invert(1); opacity: 0.5;">
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">&copy; 2026 Domtom Connect. L'expertise au service des territoires.</p>
+                </div>
+                <div style="display: flex; gap: 40px;">
+                    <a href="../support.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 700; transition: 0.3s;">Support & Aide</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 700; transition: 0.3s;">Confidentialité</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/ui-components.js?v=10.1"></script>
     <script>
-        let currentUserId = null;
-        let currentUserRole = null;
         let currentLetter = '';
 
         async function init() {
-            const session = await getSession();
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
-
+            
+            const session = await getSession();
             if (session) {
-                currentUserId = session.user.id;
-                currentUserRole = session.user.user_metadata?.role || null;
-                
-                if (currentUserRole === 'project_owner' || currentUserRole === 'porteur_projet' || currentUserRole === 'porteur') {
-                    const banner = document.getElementById('project-banner');
-                    if (banner) banner.style.display = 'flex';
+                const role = session.user.user_metadata?.role;
+                if (role === 'project_owner' || role === 'porteur_projet' || role === 'porteur') {
+                    document.getElementById('project-banner').style.display = 'block';
                 }
             }
+            
             generateAlphabet();
             await loadProjects();
         }
@@ -474,18 +601,13 @@
         async function loadProjects() {
             const container = document.getElementById('projects-container');
             const emptyState = document.getElementById('empty-state');
+            
             try {
-                const db = window._supabase || _supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-                if (!db) {
-                    console.warn("Retrying project load in 200ms...");
-                    setTimeout(loadProjects, 200);
-                    return;
-                }
-
                 const searchTxt = document.getElementById('search-input').value.toLowerCase();
                 const territoryFilter = document.getElementById('territory-filter').value;
+                const zoneFilter = document.getElementById('zone-filter').value;
 
-                let query = db
+                let query = _supabase
                     .from('projects')
                     .select('*')
                     .eq('is_listed', true)
@@ -493,36 +615,25 @@
                     .order('created_at', { ascending: false });
 
                 if (territoryFilter) query = query.eq('territory', territoryFilter);
-                const zoneFilter = document.getElementById('zone-filter').value;
                 if (zoneFilter) query = query.eq('zone', zoneFilter);
 
                 const { data: projects, error } = await query;
                 if (error) throw error;
 
-                let filteredProjects = projects || [];
+                let filtered = projects || [];
 
                 if (currentLetter) {
-                    filteredProjects = filteredProjects.filter(p => {
-                        const title = (p.title || "").toUpperCase();
-                        return title.startsWith(currentLetter);
-                    });
+                    filtered = filtered.filter(p => (p.title || "").toUpperCase().startsWith(currentLetter));
                 }
 
                 if (searchTxt) {
-                    filteredProjects = filteredProjects.filter(p =>
+                    filtered = filtered.filter(p =>
                         (p.title || "").toLowerCase().includes(searchTxt) ||
                         (p.description || "").toLowerCase().includes(searchTxt)
                     );
                 }
 
-                // Sorting A-Z
-                filteredProjects.sort((a, b) => {
-                    const nameA = (a.title || "").toUpperCase();
-                    const nameB = (b.title || "").toUpperCase();
-                    return nameA.localeCompare(nameB);
-                });
-
-                if (!filteredProjects || !filteredProjects.length) {
+                if (!filtered.length) {
                     emptyState.style.display = 'block';
                     container.style.display = 'none';
                     return;
@@ -530,10 +641,10 @@
 
                 emptyState.style.display = 'none';
                 container.style.display = 'grid';
-                container.innerHTML = filteredProjects.map(renderProjectCard).join('');
+                container.innerHTML = filtered.map(renderProjectCard).join('');
             } catch (err) {
-                console.error('Erreur chargement projets :', err);
-                if (emptyState) emptyState.style.display = 'block';
+                console.error('Error:', err);
+                emptyState.style.display = 'block';
             }
         }
 
@@ -543,51 +654,40 @@
             const coverUrl = p.cover_url || '';
 
             return `
-                <div class="project-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='../marketplace/project?id=${p.id}'" style="cursor: pointer;">
-                    ${isFeatured ? '<div class="featured-badge">Épopée à la Une</div>' : ''}
+                <div class="project-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='../marketplace/project?id=${p.id}'">
+                    ${isFeatured ? '<div class="featured-badge">À la Une</div>' : ''}
                     
                     <div class="project-card-image" style="${coverUrl ? `background-image: url('${coverUrl}');` : ''}">
                         ${!coverUrl ? `<div class="project-card-initials">${initials}</div>` : ''}
                         <div class="maturity-indicator">
-                            ${p.status || 'Épopée active'}
+                            ${p.status || 'Active'}
                         </div>
                     </div>
 
                     <div class="project-info">
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px;">
-                            <span style="display: flex; align-items: center; gap: 8px;">
-                                ${p.title}
-                                ${p.is_approved ? `
-                                <span class="verified-badge-inline" title="Projet Validé & Certifié">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                    </svg>
-                                </span>` : ''}
-                            </span>
+                        <h3>
+                            ${p.title}
+                            ${p.is_approved ? `
+                            <span class="verified-badge" title="Validé">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            </span>` : ''}
                         </h3>
-                        <div class="project-location" style="color: #64748b; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #10b981;">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            <span style="color: #0f172a; font-size: 0.9rem;">${p.territory || 'International'}</span>
+                        <div class="project-location">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            ${p.territory || 'Territoire'}
                         </div>
                     </div>
 
-                    <p class="project-desc">${p.short_description || (p.description || '').replace(/\[\[VISION\]\]|\[\[MISSION\]\]|\[\[PROBLEM\]\]/g, '').trim() || 'Une nouvelle vision en cours de déploiement sur le territoire.'}</p>
+                    <p class="project-desc">${p.short_description || 'Une nouvelle vision en cours de déploiement sur le territoire.'}</p>
                     
-                    <div class="project-tags" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-                        ${p.total_raised ? `<span class="tag-need" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;">${p.total_raised.toLocaleString()}€ récoltés</span>` : ''}
-                        <span class="tag-need" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;">${p.category || 'Innovation'}</span>
+                    <div class="project-tags">
+                        ${p.total_raised ? `<span class="tag-pill tag-accent">${p.total_raised.toLocaleString()}€ récoltés</span>` : ''}
+                        <span class="tag-pill">${p.category || 'Innovation'}</span>
                     </div>
 
-                    <div class="project-actions">
-                        <a href="../marketplace/project?id=${p.id}" class="btn-view" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            Découvrir l'Épopée
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
+                    <div class="btn-view">
+                        Découvrir l'Épopée
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </div>
                 </div>
             `;
@@ -595,19 +695,5 @@
 
         init();
     </script>
-    <footer style="background: #fff; border-top: 1px solid var(--gray-200); padding: 40px 0; margin-top: 60px;">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires.</p>
-                </div>
-                <div style="display: flex; gap: 32px;">
-
-                    <a href="../support.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
