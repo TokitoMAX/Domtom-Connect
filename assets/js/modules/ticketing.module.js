@@ -108,6 +108,7 @@ const TicketingModule = {
                             <p style="color:#64748b;font-weight:600;margin-top:6px;">📍 ${ev.location} · 📅 ${ev.event_date}</p>
                         </div>
                         <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <button onclick="TicketingModule.renderPromoCodesHub('${ev.id}')" style="border:1.5px solid #0f172a;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Codes Promos 🏷️</button>
                             <button onclick="TicketingModule.editEventModal('${ev.id}', ${ev.total_tickets || 0}, ${ev.price || 0})" style="border:1.5px solid #e2e8f0;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Modifier Prix/Quota</button>
                             <button onclick="TicketingModule.renderScanView('${ev.id}')" style="background:#10b981;color:white;border:none;padding:12px 24px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;">Scanner Live 📷</button>
                         </div>
@@ -175,6 +176,112 @@ const TicketingModule = {
         } catch (err) {
             view.innerHTML = `<div style="padding:40px;color:#dc2626;font-weight:800;">Erreur: ${err.message}</div>`;
         }
+    },
+
+    // =============================================
+    // 3. GESTION DES CODES PROMOS
+    // =============================================
+    async renderPromoCodesHub(eventId) {
+        const view = document.getElementById('billetterie-view');
+        view.innerHTML = `<div style="text-align:center;padding:80px;"><span class="loader"></span></div>`;
+
+        try {
+            const { data: codes, error } = await window._supabase.from('event_promo_codes').select('*').eq('event_id', eventId);
+            if (error) throw error;
+
+            view.innerHTML = `
+                <div style="padding:clamp(20px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;">
+                    <button onclick="TicketingModule.renderOrganizerHub('${eventId}')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:8px;font-family:inherit;">← Retour au pilotage</button>
+                    
+                    <div style="display:grid;grid-template-columns: 1fr 1.5fr; gap:40px; align-items:start;">
+                        <!-- Formulaire -->
+                        <div style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <h3 style="margin:0 0 24px; font-weight:950;">Nouveau Code Promo</h3>
+                            <div style="display:flex; flex-direction:column; gap:16px;">
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Code (ex: DTC20)</label>
+                                    <input id="promo-code" type="text" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                                    <div>
+                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Type</label>
+                                        <select id="promo-type" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;">
+                                            <option value="percent">Pourcentage (%)</option>
+                                            <option value="amount">Montant fixe (€)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Valeur</label>
+                                        <input id="promo-value" type="number" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Utilisations max (0 = illimité)</label>
+                                    <input id="promo-max" type="number" value="0" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                </div>
+                                <button onclick="TicketingModule.addPromoCode('${eventId}')" style="background:#0f172a;color:white;border:none;padding:14px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;margin-top:8px;">CRÉER LE CODE</button>
+                            </div>
+                        </div>
+
+                        <!-- Liste -->
+                        <div style="background:white; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <h3 style="margin:0 0 24px; font-weight:950;">Codes Actifs (${codes.length})</h3>
+                            ${codes.length === 0 ? '<p style="color:#94a3b8;font-weight:600;">Aucun code promo créé.</p>' : `
+                            <table style="width:100%; border-collapse:collapse;">
+                                <thead>
+                                    <tr style="border-bottom:1px solid #f1f5f9; text-align:left;">
+                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Code</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Réduction</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Usages</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${codes.map(c => `
+                                    <tr style="border-bottom:1px solid #f8fafc;">
+                                        <td style="padding:14px 12px;font-weight:900;color:#0f172a;">${c.code}</td>
+                                        <td style="padding:14px 12px;font-weight:800;color:#10b981;">${c.discount_value}${c.discount_type === 'percent' ? '%' : '€'}</td>
+                                        <td style="padding:14px 12px;font-weight:700;color:#64748b;">${c.used_count}${c.max_uses > 0 ? ' / ' + c.max_uses : ''}</td>
+                                        <td style="padding:14px 12px;text-align:right;">
+                                            <button onclick="TicketingModule.deletePromoCode('${c.id}', '${eventId}')" style="background:none;border:none;color:#ef4444;font-weight:900;cursor:pointer;">×</button>
+                                        </td>
+                                    </tr>`).join('')}
+                                </tbody>
+                            </table>`}
+                        </div>
+                    </div>
+                </div>`;
+        } catch (err) { alert('Erreur: ' + err.message); }
+    },
+
+    async addPromoCode(eventId) {
+        const code = document.getElementById('promo-code').value.trim().toUpperCase();
+        const type = document.getElementById('promo-type').value;
+        const value = parseFloat(document.getElementById('promo-value').value);
+        const max = parseInt(document.getElementById('promo-max').value);
+
+        if (!code || isNaN(value)) { alert('Code et valeur obligatoires.'); return; }
+
+        try {
+            const { error } = await window._supabase.from('event_promo_codes').insert({
+                event_id: eventId,
+                code,
+                discount_type: type,
+                discount_value: value,
+                max_uses: max
+            });
+            if (error) throw error;
+            this.renderPromoCodesHub(eventId);
+        } catch (err) { alert('Erreur: ' + err.message); }
+    },
+
+    async deletePromoCode(codeId, eventId) {
+        if (!confirm('Supprimer ce code promo ?')) return;
+        try {
+            const { error } = await window._supabase.from('event_promo_codes').delete().eq('id', codeId);
+            if (error) throw error;
+            this.renderPromoCodesHub(eventId);
+        } catch (err) { alert('Erreur: ' + err.message); }
     },
 
     filterSearch() {
@@ -331,7 +438,14 @@ const TicketingModule = {
                 </div>`;
             
             this._currentTiers = ev.ticket_tiers || [{ name: 'Billet Standard', price: ev.price || 0, capacity: ev.total_tickets || 100 }];
-            this._currentAgenda = ev.agenda || [{ time: '18:00', label: 'Ouverture' }];
+            
+            // Format legacy times (e.g. "20" -> "20:00") for the <input type="time">
+            const agenda = ev.agenda || [{ time: '18:00', label: 'Ouverture' }];
+            this._currentAgenda = agenda.map(a => ({
+                ...a,
+                time: (a.time && !a.time.includes(':') && !isNaN(a.time)) ? a.time.padStart(2, '0') + ':00' : (a.time || '18:00')
+            }));
+            
             this.renderTierLines();
             this.renderAgendaLines();
             
@@ -439,22 +553,37 @@ const TicketingModule = {
     },
 
     addAgendaLine() {
-        this._currentAgenda.push({ time: '', label: '' });
+        const lastEntry = this._currentAgenda[this._currentAgenda.length - 1];
+        let nextTime = '19:00';
+        if (lastEntry && lastEntry.time) {
+            const [h, m] = lastEntry.time.split(':');
+            const date = new Date();
+            date.setHours(parseInt(h), parseInt(m) + 30);
+            nextTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+        this._currentAgenda.push({ time: nextTime, label: '' });
+        this.sortAgenda();
         this.renderAgendaLines();
     },
     removeAgendaLine(index) {
-        if (this._currentAgenda.length <= 1) return;
-        this._currentAgenda.splice(index, 1);
+        if (this._currentAgenda.length <= 1) {
+            this._currentAgenda = [{ time: '18:00', label: 'Ouverture' }];
+        } else {
+            this._currentAgenda.splice(index, 1);
+        }
         this.renderAgendaLines();
+    },
+    sortAgenda() {
+        this._currentAgenda.sort((a, b) => (a.time || '00:00').localeCompare(b.time || '00:00'));
     },
     renderAgendaLines() {
         const list = document.getElementById('agenda-list');
         if (!list) return;
         list.innerHTML = this._currentAgenda.map((a, i) => `
-            <div style="display:grid; grid-template-columns: 80px 1fr 40px; gap:10px; align-items:center;">
-                <input type="text" value="${a.time}" placeholder="18:00" onchange="TicketingModule._currentAgenda[${i}].time=this.value" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
-                <input type="text" value="${a.label}" placeholder="Titre de l'étape" onchange="TicketingModule._currentAgenda[${i}].label=this.value" style="padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700;">
-                <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" style="border:none; background:none; color:#ef4444; font-weight:900; cursor:pointer;">×</button>
+            <div style="display:grid; grid-template-columns: 120px 1fr 40px; gap:10px; align-items:center; background:white; padding:10px; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:4px;">
+                <input type="time" value="${a.time || '18:00'}" onchange="TicketingModule._currentAgenda[${i}].time=this.value; TicketingModule.sortAgenda(); TicketingModule.renderAgendaLines();" style="padding:8px; border-radius:8px; border:1.5px solid #f1f5f9; font-weight:700; font-family:inherit; cursor:pointer;">
+                <input type="text" value="${a.label}" placeholder="Ex: Masterclass, Cocktail..." onchange="TicketingModule._currentAgenda[${i}].label=this.value" style="padding:10px; border-radius:8px; border:none; font-weight:700; font-family:inherit; outline:none;">
+                <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" style="border:none; background:#fee2e2; color:#dc2626; width:30px; height:30px; border-radius:8px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center;">×</button>
             </div>
         `).join('');
     },

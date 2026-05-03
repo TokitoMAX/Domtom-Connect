@@ -126,10 +126,19 @@
         </p>
 
         <a href="/mon-espace" class="btn">Accéder à mon espace</a>
+        
+        <div id="event-actions" style="display:none; margin-top:20px; flex-direction:column; gap:12px; align-items:center;">
+            <button onclick="downloadPDF()" class="btn" style="background:#10b981; box-shadow:5px 5px 0px #065f46; width:100%;">📥 TÉLÉCHARGER MON BILLET (PDF)</button>
+            <a id="calendar-link" href="#" target="_blank" class="btn-secondary" style="text-decoration:none; display:flex; align-items:center; gap:8px; justify-content:center;">
+                📅 Ajouter à Google Calendar
+            </a>
+        </div>
+
         <a href="/" class="btn-secondary">Retour à l'accueil</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="/assets/js/auth.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -159,18 +168,23 @@
             }
 
             // 2. Data Fetching
-            if (sessionId && type !== 'subscription') {
+            if (sessionId) {
                 try {
-                    const table = type === 'showcase' ? 'showcase_orders' : 'business_docs';
+                    const table = type === 'showcase' ? 'showcase_orders' : (type === 'event' ? 'tickets' : 'business_docs');
                     const { data: order } = await window._supabase
                         .from(table)
-                        .select(type === 'showcase' ? 'total_price' : 'total_amount')
+                        .select('*')
                         .eq('stripe_session_id', sessionId)
                         .single();
 
                     if (order) {
-                        const amount = order.total_price || order.total_amount;
+                        const amount = order.total_price || order.total_amount || order.amount_paid;
                         amountDisplay.textContent = `${amount.toFixed(2)} €`;
+
+                        if (type === 'event') {
+                            document.getElementById('event-actions').style.display = 'flex';
+                            prepareEventActions(order);
+                        }
                     } else {
                         amountDisplay.textContent = 'Validé ✓';
                     }
@@ -180,6 +194,68 @@
                 }
             }
         });
+
+        let eventData = null;
+        let ticketData = null;
+
+        async function prepareEventActions(ticket) {
+            ticketData = ticket;
+            const { data: ev } = await window._supabase.from('events').select('*').eq('id', ticket.event_id).single();
+            if (ev) {
+                eventData = ev;
+                // Google Calendar Link
+                const start = ev.event_date.replace(/-/g, '') + 'T180000Z'; // Dummy time if missing
+                const end = ev.event_date.replace(/-/g, '') + 'T220000Z';
+                const calUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.title)}&details=${encodeURIComponent(ev.description || '')}&location=${encodeURIComponent(ev.location)}&dates=${start}/${end}`;
+                document.getElementById('calendar-link').href = calUrl;
+            }
+        }
+
+        async function downloadPDF() {
+            if (!eventData || !ticketData) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Style
+            doc.setFillColor(15, 23, 42); // Navy
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.text('DOMTOM CONNECT', 20, 25);
+            doc.setFontSize(10);
+            doc.text('VOTRE BILLET OFFICIEL', 150, 25);
+
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(28);
+            doc.text(eventData.title.toUpperCase(), 20, 70);
+
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`DATE : ${eventData.event_date}`, 20, 85);
+            doc.text(`LIEU : ${eventData.location}`, 20, 95);
+            
+            doc.setDrawColor(226, 232, 240);
+            doc.line(20, 110, 190, 110);
+
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text('INFOS ACHETEUR', 20, 130);
+            doc.setFontSize(11);
+            doc.text(`Email : ${ticketData.buyer_email}`, 20, 140);
+            doc.text(`Montant : ${ticketData.amount_paid.toFixed(2)} €`, 20, 150);
+
+            // QR Code (Placeholder image or API)
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticketData.qr_token}`;
+            doc.addImage(qrUrl, 'PNG', 140, 120, 50, 50);
+
+            doc.setFontSize(9);
+            doc.setTextColor(150, 150, 150);
+            doc.text(`ID Billet : ${ticketData.id}`, 20, 280);
+            doc.text('Présentez ce QR Code à l\'entrée de l\'événement.', 20, 285);
+
+            doc.save(`Billet_${eventData.title.replace(/\s+/g, '_')}.pdf`);
+        }
 
         // Auto-redirect
         setTimeout(() => {

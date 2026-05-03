@@ -186,19 +186,53 @@
 
         .section-header svg { color: var(--primary); }
 
-        /* Agenda */
+        /* Agenda Timeline */
+        .agenda-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary-light);
+            margin-left: 10px;
+        }
+
         .agenda-row {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 32px;
-            padding: 24px 0;
+            position: relative;
+            padding: 24px 0 24px 30px;
             border-bottom: 1px solid var(--border);
         }
 
         .agenda-row:last-child { border-bottom: none; }
-        .time-tag { font-weight: 950; color: var(--primary); font-size: 1.1rem; }
-        .event-info h5 { margin: 0 0 6px 0; font-size: 1.2rem; font-weight: 850; }
-        .event-info p { margin: 0; color: var(--text-muted); font-size: 1rem; }
+
+        .agenda-row::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 30px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .time-tag { 
+            font-weight: 950; 
+            color: var(--primary); 
+            font-size: 1.1rem; 
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+        
+        .event-info h5 { 
+            margin: 0; 
+            font-size: 1.25rem; 
+            font-weight: 850; 
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
 
         /* --- SIDEBAR --- */
         .sidebar-sticky {
@@ -427,12 +461,26 @@
                 ui.innerHTML = '<p style="color:var(--text-muted); font-weight:600;">Aucun programme détaillé pour le moment.</p>';
                 return;
             }
-            ui.innerHTML = agenda.map(a => `
-                <div class="agenda-row" style="display:grid; grid-template-columns: 100px 1fr; gap:32px; padding:20px 0; border-bottom:1px solid var(--border);">
-                    <div style="font-weight:950; color:var(--primary); font-size:1.1rem;">${a.time}</div>
-                    <div style="font-weight:850; font-size:1.2rem;">${a.label}</div>
+
+            // Simple formatting for legacy data (e.g. "20" -> "20:00")
+            const formatTime = (t) => {
+                if (!t) return '--:--';
+                if (!t.includes(':') && !isNaN(t)) return t.padStart(2, '0') + ':00';
+                return t;
+            };
+
+            ui.innerHTML = `
+                <div class="agenda-container">
+                    ${agenda.map(a => `
+                        <div class="agenda-row">
+                            <span class="time-tag">${formatTime(a.time)}</span>
+                            <div class="event-info">
+                                <h5>${a.label}</h5>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
         }
 
         function renderTiers(ev) {
@@ -442,19 +490,74 @@
 
             if (t.length === 0) { ui.innerHTML = '<p style="text-align:center;font-weight:700;color:var(--text-muted);">Complet</p>'; return; }
 
-            ui.innerHTML = t.map(tk => `
+            ui.innerHTML = `
+                <div style="margin-bottom:20px; padding:15px; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0;">
+                    <label style="display:block; font-size:0.7rem; font-weight:950; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
+                    <div style="display:flex; gap:8px;">
+                        <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0; font-family:inherit; font-weight:700;">
+                        <button onclick="applyPromo('${ev.id}')" style="background:#0f172a; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
+                    </div>
+                    <div id="promo-msg" style="margin-top:8px; font-size:0.75rem; font-weight:800; display:none;"></div>
+                </div>
+            ` + t.map(tk => `
                 <div class="ticket-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span style="font-weight:850; font-size:1.05rem;">${tk.name}</span>
-                        <span style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
+                        <div>
+                            <span id="price-old-${tk.name.replace(/\s+/g, '')}" style="font-weight:700; color:#94a3b8; text-decoration:line-through; font-size:0.9rem; display:none; margin-right:8px;"></span>
+                            <span id="price-${tk.name.replace(/\s+/g, '')}" class="ticket-price" data-original="${tk.price}" style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
+                        </div>
                     </div>
-                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', ${tk.price}, '${ev.user_id}')">RÉSERVER MA PLACE</button>
+                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', '${ev.user_id}')">RÉSERVER MA PLACE</button>
                 </div>
             `).join('');
         }
 
-        async function buyTicket(e, id, name, price, hostId) {
+        let activePromo = null;
+
+        async function applyPromo(eventId) {
+            const code = document.getElementById('promo-input').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-msg');
+            if (!code) return;
+
+            try {
+                const { data, error } = await _supabase.from('event_promo_codes').select('*').eq('event_id', eventId).eq('code', code).single();
+                if (error || !data) throw new Error("Code invalide");
+                
+                if (data.max_uses > 0 && data.used_count >= data.max_uses) throw new Error("Code expiré");
+
+                activePromo = data;
+                msg.style.display = 'block';
+                msg.style.color = '#10b981';
+                msg.innerText = `Code ${code} appliqué !`;
+
+                document.querySelectorAll('.ticket-price').forEach(el => {
+                    const original = parseFloat(el.dataset.original);
+                    let final = original;
+                    if (data.discount_type === 'percent') final = original * (1 - data.discount_value / 100);
+                    else final = Math.max(0, original - data.discount_value);
+
+                    el.innerText = `${final.toFixed(2)}€`;
+                    const old = document.getElementById('price-old-' + el.id.replace('price-', ''));
+                    if (old) {
+                        old.style.display = 'inline';
+                        old.innerText = `${original.toFixed(2)}€`;
+                    }
+                });
+            } catch (err) {
+                msg.style.display = 'block';
+                msg.style.color = '#ef4444';
+                msg.innerText = err.message;
+                activePromo = null;
+            }
+        }
+
+        async function buyTicket(e, id, name, hostId) {
             const btn = e.target;
+            // Get current displayed price for this tier
+            const priceEl = document.getElementById('price-' + name.replace(/\s+/g, ''));
+            const finalPrice = parseFloat(priceEl.innerText);
+
             try {
                 const { data: { session } } = await _supabase.auth.getSession();
                 if (!session) { alert("Connectez-vous pour réserver."); window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href); return; }
@@ -463,7 +566,15 @@
                 const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                    body: JSON.stringify({ type: 'event', item_id: id, item_title: `Billet : ${document.getElementById('event-title').innerText}`, item_description: `${name} - ${document.getElementById('event-date').innerText}`, item_price: price, provider_id: hostId })
+                    body: JSON.stringify({ 
+                        type: 'event', 
+                        item_id: id, 
+                        item_title: `Billet : ${document.getElementById('event-title').innerText}`, 
+                        item_description: `${name} - ${document.getElementById('event-date').innerText}`, 
+                        item_price: finalPrice, 
+                        provider_id: hostId,
+                        promo_id: activePromo ? activePromo.id : null // Pass promo info if applied
+                    })
                 });
                 const data = await res.json();
                 if (data.url) window.location.href = data.url;
