@@ -628,6 +628,10 @@ html, body {
 
 .nav-toggle {
     z-index: 10006 !important;
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .cards-grid {
