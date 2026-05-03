@@ -440,27 +440,52 @@
             if (!projectId) return window.location.href = 'projects.html';
 
             try {
-                const { data: project, error } = await db.from('projects').select('*, profiles(full_name, avatar_url)').eq('id', projectId).single();
-                if (error || !project) throw error;
+                // 1. Fetch Project Core Data
+                const { data: project, error } = await db.from('projects').select('*').eq('id', projectId).single();
+                
+                if (error) {
+                    console.error("[Project] Fetch error:", error);
+                    if (error.code === 'PGRST116') {
+                        throw new Error("Cette épopée n'existe pas ou n'est pas encore publique. Si c'est la vôtre, assurez-vous d'être connecté.");
+                    }
+                    throw error;
+                }
+                
+                if (!project) throw new Error("Projet introuvable");
                 currentProject = project;
 
-                renderProjectUI(project);
+                // 2. Fetch Owner Profile separately to avoid join ambiguity
+                const { data: profile } = await db.from('profiles').select('full_name, avatar_url').eq('id', project.owner_id).single();
+                if (profile) {
+                    currentProject.profiles = profile;
+                }
+
+                renderProjectUI(currentProject);
             } catch (err) {
-                console.error(err);
-                alert("Erreur lors du chargement de l'épopée.");
+                console.error("[Project] Critical Error:", err);
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.innerHTML = `
+                        <div style="text-align:center; padding:40px; color:#94a3b8;">
+                            <h2 style="color:white; margin-bottom:20px;">Désolé...</h2>
+                            <p>${err.message || "Erreur lors du chargement de l'épopée."}</p>
+                            <a href="projects.html" style="display:inline-block; margin-top:20px; color:var(--primary); font-weight:900; text-decoration:none;">&larr; Retour à la Marketplace</a>
+                        </div>
+                    `;
+                }
             }
         }
 
         function renderProjectUI(p) {
             document.title = `${p.title} – Domtom Connect`;
-            document.getElementById('project-title-display').innerText = p.title;
+            document.getElementById('project-title-display').innerText = p.title || 'Sans titre';
             document.getElementById('project-pitch-display').innerText = p.short_description || '';
-            document.getElementById('owner-name-display').innerText = p.profiles?.full_name || 'Anonyme';
+            document.getElementById('owner-name-display').innerText = p.profiles?.full_name || 'Porteur Anonyme';
             
             if (p.profiles?.avatar_url) {
                 document.getElementById('owner-avatar').innerHTML = `<img src="${p.profiles.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
             } else {
-                document.getElementById('owner-avatar').innerHTML = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-weight:900;">${p.profiles?.full_name?.charAt(0) || 'P'}</div>`;
+                document.getElementById('owner-avatar').innerHTML = `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-weight:900; background:#1e293b;">${(p.profiles?.full_name || 'P').charAt(0)}</div>`;
             }
 
             if (p.cover_url) {
@@ -482,14 +507,14 @@
                 </div>
             `).join('');
 
-            if (p.description) {
+            if (p.description || p.pitch_texte) {
                 document.getElementById('description-card').style.display = 'block';
-                document.getElementById('project-description-display').innerText = p.description;
+                document.getElementById('project-description-display').innerText = p.description || p.pitch_texte || '';
             }
 
             // Stats
-            const raised = p.total_raised || 0;
-            const goal = p.goal_amount || 5000;
+            const raised = parseFloat(p.total_raised) || 0;
+            const goal = parseFloat(p.funding_goal || p.goal_amount) || 1000;
             const percent = Math.min(100, Math.round((raised / goal) * 100));
             
             document.getElementById('raised-display').innerText = `${raised.toLocaleString()} €`;
@@ -523,7 +548,7 @@
                             <div style="font-weight:900; color:white;">${m.title}</div>
                             <div style="font-size:0.8rem; color:#64748b;">${m.description || ''}</div>
                         </div>
-                        <div style="font-weight:950; color:var(--primary); font-size:1.2rem;">${m.amount_threshold.toLocaleString()} €</div>
+                        <div style="font-weight:950; color:var(--primary); font-size:1.2rem;">${(m.amount_threshold || 0).toLocaleString()} €</div>
                     </div>
                 `).join('');
             }
@@ -535,7 +560,7 @@
                     <div style="background:rgba(16,185,129,0.05); padding:24px; border-radius:24px; border:1px solid rgba(16,185,129,0.1); cursor:pointer;" onclick="selectContribution(${r.amount}, null)">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                             <span style="font-weight:900; color:white; font-size:1.2rem;">${r.title}</span>
-                            <span style="font-weight:950; color:var(--primary); font-size:1.2rem;">${r.amount} €</span>
+                            <span style="font-weight:950; color:var(--primary); font-size:1.2rem;">${(r.amount || 0).toLocaleString()} €</span>
                         </div>
                         <p style="font-size:0.9rem; color:#94a3b8; margin:0;">${r.description || ''}</p>
                     </div>
@@ -581,6 +606,7 @@
 
         async function renderPaypal() {
             const container = document.getElementById('paypal-button-container');
+            if (!container) return;
             container.innerHTML = '';
             
             if (window.paypal) {
