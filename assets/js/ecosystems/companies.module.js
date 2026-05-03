@@ -323,7 +323,7 @@ const CompaniesModule = {
         if (!container) return;
 
         if (view === 'trx') {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Vendeur (Expert)</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Acheteur</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Type</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status Payout</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
             await this.loadMarketplaceStats();
         } else if (view === 'subs') {
             container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur & Mail</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Type Profil</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
@@ -368,14 +368,41 @@ const CompaniesModule = {
         const vComm = document.getElementById('admin-mkt-comm');
         if (!tbody) return;
         try {
-            const { data: orders, error } = await window._supabase.from('showcase_orders').select('*, item:showcase_items(title), provider:profiles!provider_id(full_name), buyer:profiles!buyer_id(full_name)').order('created_at', { ascending: false });
+            const { data: txs, error } = await window._supabase
+                .from('platform_transactions')
+                .select('*, provider:profiles!provider_id(full_name)')
+                .order('created_at', { ascending: false });
+            
             if (error) throw error;
-            if (!orders || orders.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucune transaction.</td></tr>'; return; }
+            if (!txs || txs.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucune transaction.</td></tr>'; return; }
+            
             let totalVolume = 0; let totalComm = 0;
-            tbody.innerHTML = orders.map(o => {
-                totalVolume += (o.total_price || 0); totalComm += (o.commission_amount || 0);
-                return `<tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 24px;"><div style="font-weight: 900;">${o.invoice_number}</div><div style="font-size: 0.75rem; color: #64748b;">${new Date(o.created_at).toLocaleDateString()}</div></td><td style="padding: 24px;">${o.provider?.full_name}</td><td style="padding: 24px;">${o.buyer?.full_name || 'Client'}</td><td style="padding: 24px;"><div style="font-weight: 900; color: #10b981;">${o.total_price.toFixed(2)}€</div><div style="font-size: 0.7rem; color: #ef4444; font-weight: 900;">Com: ${o.commission_amount.toFixed(2)}€</div></td></tr>`;
+            tbody.innerHTML = txs.map(t => {
+                totalVolume += (t.gross_amount || 0); totalComm += (t.fee_amount || 0);
+                const isPending = t.payout_status === 'pending';
+                const statusColor = isPending ? '#ea580c' : '#10b981';
+                const releaseText = t.payout_release_date ? `<div style="font-size:0.6rem; color:#94a3b8;">Libération le ${new Date(t.payout_release_date).toLocaleDateString()}</div>` : '';
+                
+                return `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 24px;">
+                        <div style="font-weight: 900; font-size: 0.8rem; color: #0f172a;">#${t.id.substring(0, 8)}</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">${new Date(t.created_at).toLocaleDateString()}</div>
+                    </td>
+                    <td style="padding: 24px;">
+                        <span style="font-weight: 800; text-transform: uppercase; font-size: 0.7rem; color: #64748b;">${t.type}</span>
+                    </td>
+                    <td style="padding: 24px;">
+                        <div style="color: ${statusColor}; font-weight: 900; font-size: 0.8rem;">${t.payout_status === 'released' ? 'DÉBLOQUÉ' : 'EN ATTENTE'}</div>
+                        ${releaseText}
+                    </td>
+                    <td style="padding: 24px;">
+                        <div style="font-weight: 900; color: #020617;">${t.gross_amount.toFixed(2)}€</div>
+                        <div style="font-size: 0.7rem; color: #ef4444; font-weight: 900;">Com DTC: ${t.fee_amount.toFixed(2)}€</div>
+                    </td>
+                </tr>`;
             }).join('');
+            
             if (vTotal) vTotal.textContent = `${totalVolume.toFixed(2)}€`;
             if (vComm) vComm.textContent = `${totalComm.toFixed(2)}€`;
         } catch (err) { console.error(err); }

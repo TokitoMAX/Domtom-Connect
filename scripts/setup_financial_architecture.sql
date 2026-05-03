@@ -25,3 +25,7 @@ CREATE POLICY "Les utilisateurs voient leurs propres transactions" ON public.pla
 
 -- Migration du webhook pour supporter le type 'event'
 -- Note : Ce script prépare la structure, le code JS des fonctions suit.
+
+-- Ajout du statut de reversement pour la Phase 2
+ALTER TABLE public.platform_transactions ADD COLUMN IF NOT EXISTS payout_status text DEFAULT 'released';
+ALTER TABLE public.platform_transactions ADD COLUMN IF NOT EXISTS payout_release_date timestamp with time zone;

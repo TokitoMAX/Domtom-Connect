@@ -58,6 +58,24 @@ Deno.serve(async (req) => {
       const fee_amount = parseFloat((total_price * commission_rate).toFixed(2));
       const { provider_id, buyer_id, item_id } = metadata;
 
+      let payout_status = 'released';
+      let payout_release_date = null;
+
+      // --- LOGIQUE DE RETENUE (PHASE PRO) ---
+      if (type === 'event') {
+        payout_status = 'pending';
+        // Chercher la date de l'événement pour libérer le lendemain
+        const { data: eventData } = await supabase.from('events').select('date').eq('id', item_id).single();
+        if (eventData?.date) {
+            const releaseDate = new Date(eventData.date);
+            releaseDate.setDate(releaseDate.getDate() + 1);
+            payout_release_date = releaseDate.toISOString();
+        }
+      } else if (type === 'crowdfunding') {
+        payout_status = 'pending';
+        // Crowdfunding : Libéré seulement quand l'objectif est atteint (logique manuelle ou automatique ultérieure)
+      }
+
       // --- LOG UNIFIÉ POUR TOUTES LES TRANSACTIONS ---
       await supabase.from('platform_transactions').insert({
         type,
@@ -66,7 +84,9 @@ Deno.serve(async (req) => {
         net_amount: net_amount,
         provider_id: provider_id || null,
         buyer_id: buyer_id || null,
-        stripe_session_id: session.id
+        stripe_session_id: session.id,
+        payout_status,
+        payout_release_date
       });
 
       if (type === 'showcase') {
@@ -85,7 +105,7 @@ Deno.serve(async (req) => {
 
         if (orderError) throw orderError;
 
-        // 2. Créditer l'expert
+        // 2. Créditer l'expert immédiatement
         await supabase.rpc('credit_expert_balance', {
           p_provider_id: provider_id,
           p_net_amount: net_amount,
@@ -105,7 +125,7 @@ Deno.serve(async (req) => {
 
         if (quoteError) throw quoteError;
 
-        // 2. Créditer l'expert
+        // 2. Créditer l'expert immédiatement
         await supabase.rpc('credit_expert_balance', {
           p_provider_id: provider_id,
           p_net_amount: net_amount,
@@ -127,12 +147,8 @@ Deno.serve(async (req) => {
 
         if (ticketError) throw ticketError;
 
-        // 2. Créditer l'organisateur
-        await supabase.rpc('credit_expert_balance', {
-          p_provider_id: provider_id,
-          p_net_amount: net_amount,
-          p_total_price: total_price,
-        });
+        // NOTE : On ne crédite PAS l'organisateur immédiatement. 
+        // L'argent est en "payout_status: pending" dans platform_transactions.
 
         // 3. Increment Promo Use if applicable
         if (metadata.promo_id) {
@@ -158,6 +174,8 @@ Deno.serve(async (req) => {
           p_project_id: item_id,
           p_amount: total_price
         });
+        
+        // NOTE : L'argent reste "pending" jusqu'à validation de la campagne.
 
       } else if (type === 'subscription') {
         const { buyer_id: user_id, tier } = metadata;

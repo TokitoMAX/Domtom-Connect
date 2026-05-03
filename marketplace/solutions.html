@@ -229,11 +229,14 @@
 
                 container.innerHTML = data.map(item => {
                     const expert = item.profiles || {};
+                    const isCompany = expert.role === 'entreprise';
+                    const profileLink = isCompany ? `profile-detail-company.html?id=${item.user_id}` : `profile-detail-expert.html?id=${item.user_id}`;
+                    
                     return `
                         <div class="solution-card" onclick="ShowcaseModule.openPublicItemModal('${item.id}')">
                             <div style="position:relative;">
                                 ${item.image_url ? `<img src="${item.image_url}" class="solution-image">` : `<div class="solution-image" style="display:flex; align-items:center; justify-content:center; font-size:3rem; opacity:0.1;">🚀</div>`}
-                                <div style="position:absolute; bottom:15px; left:15px;" class="solution-category">Solution</div>
+                                <div style="position:absolute; bottom:15px; left:15px;" class="solution-category">${isCompany ? 'Entreprise' : 'Expert'}</div>
                             </div>
                             <div class="solution-header">
                                 <h3 class="solution-title">${item.title}</h3>
@@ -241,7 +244,7 @@
                             <p class="solution-desc">${item.description || 'Expertise dédiée à l\'accélération de vos projets territoriaux.'}</p>
                             
                             <div class="solution-footer">
-                                <div class="expert-info" onclick="event.stopPropagation(); window.location.href='profile-detail-expert.html?id=${item.user_id}'" title="Voir le profil de l'expert">
+                                <div class="expert-info" onclick="event.stopPropagation(); window.location.href='${profileLink}'" title="Voir le profil">
                                     <div class="expert-avatar">
                                         ${expert.avatar_url ? `<img src="${expert.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">` : (expert.full_name?.charAt(0) || 'E')}
                                     </div>
