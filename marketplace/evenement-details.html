@@ -4,44 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails de l'Épopée – Domtom Connect</title>
-    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #10b981;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
             --bg-dark: #020617;
+            --primary: #10b981;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
         }
 
+        * { box-sizing: border-box; }
         body {
             font-family: 'Outfit', sans-serif;
             background-color: white;
             margin: 0;
             padding: 0;
-            color: var(--text-main);
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
-        /* Top Black Bar */
+        /* Black Banner at the top */
         .black-header {
             background-color: var(--bg-dark);
-            height: 350px;
+            height: 380px;
             width: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 0;
+            z-index: 1;
         }
 
-        .container {
+        .main-wrapper {
+            position: relative;
+            z-index: 10;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            position: relative;
-            z-index: 10;
         }
 
-        .top-nav {
+        /* Top Bar */
+        .top-bar {
             padding: 30px 0;
         }
 
@@ -52,98 +54,96 @@
             background: white;
             color: black;
             text-decoration: none;
-            padding: 10px 24px;
+            padding: 12px 25px;
             border-radius: 100px;
             font-weight: 800;
             font-size: 0.85rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: 0.3s;
         }
 
-        /* Layout Grid */
-        .layout-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 50px;
-            padding-top: 20px;
+        /* Hero Area */
+        .hero-container {
+            display: flex;
+            gap: 60px;
+            align-items: flex-end;
+            margin-top: 20px;
+            padding-bottom: 60px;
         }
 
-        /* Flyer Card (Mockup style) */
-        .flyer-wrapper {
-            grid-row: span 2;
+        .flyer-side {
+            flex: 0 0 350px;
         }
 
-        .flyer-card {
+        .flyer-mockup {
             width: 100%;
-            border-radius: 32px;
+            border-radius: 35px;
             overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
             background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .flyer-card img {
+        .flyer-mockup img {
             width: 100%;
             display: block;
         }
 
-        /* Hero Content */
-        .hero-info {
-            padding-top: 150px;
+        .info-side {
+            flex: 1;
+            padding-bottom: 40px;
         }
 
         .badge-live {
             background: #dcfce7;
             color: #166534;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 100px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .event-title {
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 950;
             margin: 0 0 25px 0;
-            color: var(--text-main);
-            letter-spacing: -2px;
+            letter-spacing: -3px;
+            line-height: 1;
         }
 
         .event-meta {
             display: flex;
-            gap: 30px;
-            font-size: 1rem;
+            gap: 40px;
+            font-size: 1.1rem;
             font-weight: 700;
-            color: var(--text-main);
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .meta-item svg {
             color: var(--primary);
         }
 
-        /* White Cards Section */
-        .cards-section {
+        /* Content Grid */
+        .content-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 32px;
-            padding: 60px 0 100px;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 40px;
+            padding: 40px 0 100px;
         }
 
         .white-card {
             background: white;
             border-radius: 35px;
             padding: 45px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.04);
-            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+            margin-bottom: 35px;
             border: 1px solid #f1f5f9;
         }
 
@@ -155,90 +155,107 @@
         }
 
         .card-header h2 {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 900;
             margin: 0;
             letter-spacing: -0.5px;
         }
 
-        .card-header svg { color: #6366f1; }
+        .card-header svg {
+            color: #6366f1;
+        }
 
-        .desc-content {
+        .desc-text {
             color: var(--text-muted);
             line-height: 1.8;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
         }
 
-        /* Organizer Box */
-        .organizer-box {
+        /* Organizer & Tickets */
+        .organizer-card {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .avatar-circle {
-            width: 54px;
-            height: 54px;
-            border-radius: 14px;
+        .avatar-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
             background: #e11d48;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            font-size: 1.4rem;
+            font-weight: 900;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .org-text span { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        .org-text strong { font-size: 1.1rem; font-weight: 800; display: block; }
+        .org-info span {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
 
-        /* Billetterie */
-        .manage-card {
+        .org-info strong {
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        /* Billetterie Manager View */
+        .manage-container {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 25px;
+            padding: 30px;
             text-align: center;
-        }
-
-        .btn-manage-event {
-            display: block;
-            background: #0f172a;
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 800;
             margin-top: 20px;
         }
 
-        .btn-share-event {
+        .btn-manage {
+            display: block;
+            background: #0f172a;
+            color: white;
+            padding: 16px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 800;
+            margin-top: 25px;
+            font-size: 1rem;
+        }
+
+        .btn-share {
             width: 100%;
             background: white;
             border: 1px solid #e2e8f0;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 16px;
+            border-radius: 15px;
             color: var(--text-muted);
             font-weight: 800;
-            margin-top: 15px;
+            margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
+            font-size: 0.95rem;
         }
 
         @media (max-width: 1024px) {
-            .layout-grid { grid-template-columns: 1fr; text-align: center; }
-            .flyer-wrapper { margin: 0 auto; width: 280px; }
-            .hero-info { padding-top: 50px; }
-            .event-title { font-size: 3rem; }
-            .event-meta { justify-content: center; }
-            .cards-section { grid-template-columns: 1fr; }
+            .black-header { height: 300px; }
+            .hero-container { flex-direction: column; align-items: center; text-align: center; padding-top: 100px; }
+            .flyer-side { width: 280px; }
+            .event-title { font-size: 3.5rem; }
+            .event-meta { justify-content: center; flex-wrap: wrap; }
+            .content-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -246,83 +263,80 @@
 
     <div class="black-header"></div>
 
-    <div class="container">
-        <div class="top-nav">
+    <div class="main-wrapper">
+        <div class="top-bar">
             <a href="evenements.html" class="btn-back">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                 Retour au Marché
             </a>
         </div>
 
-        <div class="layout-grid">
-            <div class="flyer-wrapper">
-                <div class="flyer-card">
+        <div class="hero-container">
+            <div class="flyer-side">
+                <div class="flyer-mockup">
                     <img id="event-flyer" src="" alt="Flyer">
                 </div>
             </div>
-
-            <div class="hero-info">
+            <div class="info-side">
                 <div class="badge-live">Événement Live</div>
                 <h1 class="event-title" id="event-title">---</h1>
                 <div class="event-meta">
                     <div class="meta-item">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         <span id="event-date">---</span>
                     </div>
                     <div class="meta-item">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         <span id="event-location">---</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="content-placeholder"></div> <!-- Spacing for grid -->
+        <div class="content-grid">
+            <div class="left-col">
+                <div class="white-card">
+                    <div class="card-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <h2>À propos de l'événement</h2>
+                    </div>
+                    <div class="desc-text" id="event-desc">
+                        Chargement de la description...
+                    </div>
+                </div>
+            </div>
 
-            <div class="cards-section">
-                <div class="left-col">
-                    <div class="white-card">
-                        <div class="card-header">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                            <h2>À propos de l'événement</h2>
-                        </div>
-                        <div class="desc-content" id="event-desc">
-                            Chargement de la description...
+            <div class="right-col">
+                <div class="white-card">
+                    <div class="organizer-card">
+                        <div class="avatar-box" id="avatar-container">??</div>
+                        <div class="org-info">
+                            <span>Organisé par</span>
+                            <strong id="host-name">---</strong>
                         </div>
                     </div>
                 </div>
 
-                <div class="right-col">
-                    <div class="white-card">
-                        <div class="organizer-box">
-                            <div class="avatar-circle" id="avatar-container">??</div>
-                            <div class="org-text">
-                                <span>Organisé par</span>
-                                <strong id="host-name">---</strong>
-                            </div>
+                <div class="white-card">
+                    <div class="card-header">
+                        <svg style="color:var(--primary);" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
+                        <h2>Billetterie</h2>
+                    </div>
+
+                    <div id="tiers-container"></div>
+
+                    <div id="owner-actions" style="display: none;">
+                        <div class="manage-container">
+                            <strong style="color: #166534; font-size: 1.1rem;">Organisateur</strong>
+                            <p style="font-size: 0.9rem; color: #166534; margin-top: 10px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
+                            <a href="../mon-espace#evenements" class="btn-manage">Gérer l'événement →</a>
                         </div>
                     </div>
 
-                    <div class="white-card">
-                        <div class="card-header">
-                            <svg style="color:#10b981;" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
-                            <h2>Billetterie</h2>
-                        </div>
-
-                        <div id="tiers-container"></div>
-
-                        <div id="owner-panel" style="display: none;">
-                            <div class="manage-card">
-                                <strong style="color: #166534;">Organisateur</strong>
-                                <p style="font-size: 0.85rem; color: #166534; margin-top: 10px;">Vous gérez cet événement. La billetterie est désactivée pour vous.</p>
-                                <a href="../mon-espace#evenements" class="btn-manage-event">Gérer l'événement →</a>
-                            </div>
-                        </div>
-
-                        <button class="btn-share-event">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                            Partager l'événement
-                        </button>
-                    </div>
+                    <button class="btn-share">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                        Partager l'événement
+                    </button>
                 </div>
             </div>
         </div>
@@ -346,14 +360,14 @@
 
                 if (error) throw error;
 
-                // Basic Data
+                // Core Data
                 document.getElementById('event-title').innerText = event.title;
                 document.getElementById('event-date').innerText = event.event_date;
                 document.getElementById('event-location').innerText = event.location;
-                document.getElementById('event-desc').innerText = event.description || 'Aucune description.';
+                document.getElementById('event-desc').innerText = event.description || 'Aucun détail disponible.';
                 document.getElementById('event-flyer').src = event.image_url;
 
-                // Host Info
+                // Profile
                 const { data: profile } = await _supabase
                     .from('profiles')
                     .select('full_name, avatar_url')
@@ -370,10 +384,10 @@
                     }
                 }
 
-                // Check Role
+                // Ownership
                 const session = await getSession();
                 if (session && session.user.id === event.user_id) {
-                    document.getElementById('owner-panel').style.display = 'block';
+                    document.getElementById('owner-actions').style.display = 'block';
                 } else {
                     renderTiers(event);
                 }
@@ -392,17 +406,17 @@
             }
 
             if (tiers.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Pas de billets disponibles.</p>';
+                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.95rem; padding: 10px 0;">Aucun billet disponible.</p>';
                 return;
             }
 
             container.innerHTML = tiers.map(t => `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid #f1f5f9;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #f1f5f9;">
                     <div>
-                        <div style="font-weight:800; color:var(--text-main);">${t.name}</div>
-                        <div style="font-size:0.9rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
+                        <div style="font-weight:900; color:var(--text-dark);">${t.name}</div>
+                        <div style="font-size:0.95rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
                     </div>
-                    <button style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer;" onclick="alert('Réservation...')">Réserver</button>
+                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="alert('Réservation...')">Réserver</button>
                 </div>
             `).join('');
         }
