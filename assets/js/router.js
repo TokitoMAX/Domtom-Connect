@@ -114,7 +114,7 @@ const Router = {
         console.log(`[Router] Route matched: ${path} (Hash: ${hash}) -> ${viewId}`);
 
         if (window.App && window.App.showView) {
-            window.App.showView(viewId, params);
+            window.App.showView(viewId, false, params);
         }
     }
 };
