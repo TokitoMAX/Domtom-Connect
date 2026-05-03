@@ -69,7 +69,7 @@ Deno.serve(async (req: Request) => {
       const amount = Math.round(item_price * 100);
       let paymentData: any = {};
 
-      if ((type === 'showcase' || type === 'quote') && provider_id) {
+      if ((type === 'showcase' || type === 'quote' || type === 'event') && provider_id) {
         const { data: expert } = await supabaseClient
           .from('profiles')
           .select('stripe_connect_id')
@@ -77,14 +77,11 @@ Deno.serve(async (req: Request) => {
           .single();
 
         if (expert?.stripe_connect_id) {
-          // Verify if the destination account can receive transfers
-          const account = await stripe.accounts.retrieve(expert.stripe_connect_id);
-          if (account.capabilities?.transfers !== 'active') {
-            throw new Error('Le compte de paiement de cet expert n\'est pas encore entièrement configuré pour recevoir des fonds. Veuillez réessayer plus tard.');
-          }
-
-          // Commission : 5% pour Showcase, 12.5% pour Quotes
-          const feePercent = type === 'quote' ? 0.125 : 0.05;
+          // Commission : 5% pour Showcase, 12.5% pour Quotes, 15% pour Events
+          let feePercent = 0.05;
+          if (type === 'quote') feePercent = 0.125;
+          if (type === 'event') feePercent = 0.15;
+          
           const fee = Math.round(amount * feePercent);
           
           paymentData = {

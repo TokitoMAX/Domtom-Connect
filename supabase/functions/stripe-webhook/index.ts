@@ -50,13 +50,28 @@ Deno.serve(async (req) => {
     console.log(`[stripe-webhook] Session terminée: ${type} | Montant: ${total_price}€`);
 
     try {
-      if (type === 'showcase') {
-        const { item_id, provider_id, buyer_id } = metadata;
-        const commission_rate = 0.05;
-        const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
+      let commission_rate = 0.05;
+      if (type === 'quote') commission_rate = 0.125;
+      if (type === 'event') commission_rate = 0.15;
+      
+      const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
+      const fee_amount = parseFloat((total_price * commission_rate).toFixed(2));
+      const { provider_id, buyer_id, item_id } = metadata;
 
+      // --- LOG UNIFIÉ POUR TOUTES LES TRANSACTIONS ---
+      await supabase.from('platform_transactions').insert({
+        type,
+        gross_amount: total_price,
+        fee_amount: fee_amount,
+        net_amount: net_amount,
+        provider_id: provider_id || null,
+        buyer_id: buyer_id || null,
+        stripe_session_id: session.id
+      });
+
+      if (type === 'showcase') {
         // 1. Enregistrer la commande
-        const { data: order, error: orderError } = await supabase
+        const { error: orderError } = await supabase
           .from('showcase_orders')
           .insert({
             item_id,
@@ -66,9 +81,7 @@ Deno.serve(async (req) => {
             status: 'paid',
             stripe_session_id: session.id,
             payment_intent_id: session.payment_intent as string,
-          })
-          .select()
-          .single();
+          });
 
         if (orderError) throw orderError;
 
@@ -80,10 +93,6 @@ Deno.serve(async (req) => {
         });
 
       } else if (type === 'quote') {
-        const { item_id: quote_id, provider_id } = metadata;
-        const commission_rate = 0.125;
-        const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
-
         // 1. Update quote status
         const { error: quoteError } = await supabase
           .from('business_docs')
@@ -92,27 +101,50 @@ Deno.serve(async (req) => {
             stripe_session_id: session.id,
             payment_intent_id: session.payment_intent as string,
           })
-          .eq('id', quote_id);
+          .eq('id', item_id);
 
         if (quoteError) throw quoteError;
 
-        // 2. Créditer l'expert (87.5%)
+        // 2. Créditer l'expert
         await supabase.rpc('credit_expert_balance', {
           p_provider_id: provider_id,
           p_net_amount: net_amount,
           p_total_price: total_price,
         });
 
-      } else if (type === 'crowdfunding') {
-        const { item_id: project_id, provider_id, buyer_id } = metadata;
-        const commission_rate = 0.05;
-        const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
+      } else if (type === 'event') {
+        // 1. Créer le billet
+        const { error: ticketError } = await supabase
+          .from('tickets')
+          .insert({
+            event_id: item_id,
+            buyer_id: buyer_id || null,
+            buyer_email: session.customer_details?.email || 'inconnu@dtc.com',
+            amount_paid: total_price,
+            stripe_session_id: session.id,
+            status: 'valide'
+          });
 
+        if (ticketError) throw ticketError;
+
+        // 2. Créditer l'organisateur
+        await supabase.rpc('credit_expert_balance', {
+          p_provider_id: provider_id,
+          p_net_amount: net_amount,
+          p_total_price: total_price,
+        });
+
+        // 3. Increment Promo Use if applicable
+        if (metadata.promo_id) {
+            await supabase.rpc('increment_promo_usage', { p_promo_id: metadata.promo_id });
+        }
+
+      } else if (type === 'crowdfunding') {
         // 1. Enregistrer la contribution
         const { error: contribError } = await supabase
           .from('contributions')
           .insert({
-            project_id,
+            project_id: item_id,
             donor_id: buyer_id || null,
             amount: total_price,
             status: 'completed',
@@ -123,12 +155,10 @@ Deno.serve(async (req) => {
 
         // 2. Mettre à jour le total levé du projet
         await supabase.rpc('increment_project_raised', {
-          p_project_id: project_id,
+          p_project_id: item_id,
           p_amount: total_price
         });
 
-        // Note : Le crédit du solde de l'expert (balance) se fera manuellement ou à la fin de la campagne
-        // une fois que l'admin valide le transfert final sur Stripe.
       } else if (type === 'subscription') {
         const { buyer_id: user_id, tier } = metadata;
         
