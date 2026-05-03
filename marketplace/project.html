@@ -616,30 +616,53 @@
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             if (!db) return;
 
+            const raised = parseFloat(currentProject.total_raised) || 0;
+
             // Milestones
             const { data: milestones } = await db.from('project_milestones').select('*').eq('project_id', projectId).order('amount_threshold', { ascending: true });
             if (milestones) {
-                document.getElementById('milestones-list').innerHTML = milestones.map(m => `
-                    <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:900; color:white;">${m.title}</div>
-                            <div style="font-size:0.8rem; color:#64748b;">${m.description || ''}</div>
+                document.getElementById('milestones-list').innerHTML = milestones.map((m, idx) => {
+                    const threshold = parseFloat(m.amount_threshold) || 0;
+                    const isReached = raised >= threshold;
+                    const isNext = !isReached && (idx === 0 || raised >= milestones[idx-1].amount_threshold);
+                    
+                    return `
+                        <div style="background:${isReached ? 'rgba(16,185,129,0.05)' : 'rgba(255,255,255,0.02)'}; padding:24px; border-radius:24px; border:1px solid ${isReached ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.05)'}; position:relative; overflow:hidden;">
+                            ${isReached ? '<div style="position:absolute; top:0; right:0; padding:4px 12px; background:var(--primary); color:#064e3b; font-size:0.65rem; font-weight:900; border-radius:0 0 0 12px; text-transform:uppercase;">Atteint</div>' : ''}
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                                <div style="flex:1;">
+                                    <div style="font-weight:950; color:white; font-size:1.1rem; margin-bottom:4px;">${m.title}</div>
+                                    <div style="font-size:0.85rem; color:#94a3b8; line-height:1.4;">${m.description || ''}</div>
+                                </div>
+                                <div style="text-align:right; margin-left:20px;">
+                                    <div style="font-weight:950; color:${isReached ? 'var(--primary)' : 'white'}; font-size:1.4rem;">${threshold.toLocaleString()} €</div>
+                                </div>
+                            </div>
+                            <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:100px; overflow:hidden;">
+                                <div style="height:100%; width:${Math.min(100, (raised / threshold) * 100)}%; background:${isReached ? 'var(--primary)' : 'rgba(255,255,255,0.2)'}; border-radius:100px; transition: width 1s;"></div>
+                            </div>
                         </div>
-                        <div style="font-weight:950; color:var(--primary); font-size:1.2rem;">${(m.amount_threshold || 0).toLocaleString()} €</div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
 
             // Rewards
             const { data: rewards } = await db.from('project_rewards').select('*').eq('project_id', projectId).order('amount', { ascending: true });
             if (rewards) {
                 document.getElementById('rewards-list').innerHTML = rewards.map(r => `
-                    <div style="background:rgba(16,185,129,0.05); padding:24px; border-radius:24px; border:1px solid rgba(16,185,129,0.1); cursor:pointer;" onclick="selectContribution(${r.amount}, null)">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <span style="font-weight:900; color:white; font-size:1.2rem;">${r.title}</span>
-                            <span style="font-weight:950; color:var(--primary); font-size:1.2rem;">${(r.amount || 0).toLocaleString()} €</span>
+                    <div style="background:rgba(255,255,255,0.03); padding:28px; border-radius:28px; border:1px solid rgba(255,255,255,0.08); cursor:pointer; transition:all 0.3s;" 
+                         onmouseover="this.style.borderColor='var(--primary)'; this.style.transform='translateY(-4px)';" 
+                         onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='translateY(0)';"
+                         onclick="selectContribution(${r.amount}, null)">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                            <span style="font-weight:950; color:white; font-size:1.3rem;">${r.title}</span>
+                            <span style="padding:8px 16px; background:rgba(16,185,129,0.1); color:var(--primary); border-radius:12px; font-weight:950; font-size:1.1rem;">${(r.amount || 0).toLocaleString()} €</span>
                         </div>
-                        <p style="font-size:0.9rem; color:#94a3b8; margin:0;">${r.description || ''}</p>
+                        <p style="font-size:0.95rem; color:#cbd5e1; margin:0; line-height:1.6;">${r.description || ''}</p>
+                        <button style="width:100%; margin-top:24px; padding:12px; background:transparent; border:2px solid rgba(16,185,129,0.3); color:var(--primary); border-radius:12px; font-weight:900; font-size:0.85rem; cursor:pointer; transition:all 0.3s;"
+                                onmouseover="this.style.background='var(--primary)'; this.style.color='#064e3b';">
+                            CHOISIR CE PACK
+                        </button>
                     </div>
                 `).join('');
             }
