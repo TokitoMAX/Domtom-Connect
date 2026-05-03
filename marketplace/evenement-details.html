@@ -3,535 +3,462 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de l'Épopée – Domtom Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Détails de l'Événement | Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;950&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #020617;
-            --primary: #10b981;
-            --text-dark: #0f172a;
+            --primary: #6366f1;
+            --primary-light: #eef2ff;
+            --accent: #10b981;
+            --text-main: #0f172a;
             --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --card-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+            --border: #e2e8f0;
         }
 
-        * { box-sizing: border-box; }
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             margin: 0;
-            padding: 0;
-            color: var(--text-dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Black Banner at the top */
-        .black-header {
-            background-color: var(--bg-dark);
-            height: 380px;
-            width: 100%;
-            position: absolute;
+        /* --- TOP NAVIGATION --- */
+        .top-bar {
+            background: var(--text-main);
+            padding: 14px 0;
+            color: white;
+            position: sticky;
             top: 0;
-            left: 0;
-            z-index: 1;
+            z-index: 1000;
         }
 
-        .main-wrapper {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
+        .container {
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Top Bar */
-        .top-bar {
-            padding: 30px 0;
-        }
-
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            color: black;
+        .back-link {
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
-            padding: 12px 25px;
-            border-radius: 100px;
             font-weight: 800;
             font-size: 0.85rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        /* Hero Area */
-        .hero-container {
             display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .back-link:hover { color: white; }
+
+        /* --- HERO SECTION --- */
+        .event-hero {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 80px 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
-            align-items: flex-end;
-            margin-top: 20px;
-            padding-bottom: 60px;
+            align-items: center;
         }
 
-        .flyer-side {
-            flex: 0 0 350px;
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
         }
 
-        .flyer-mockup {
-            width: 100%;
-            border-radius: 35px;
+        .flyer-frame {
+            position: relative;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-            background: #1e293b;
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.25);
+            aspect-ratio: 4/5;
+            background: #000;
         }
 
-        .flyer-mockup img {
+        .flyer-frame img {
             width: 100%;
-            display: block;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .info-side {
-            flex: 1;
-            padding-bottom: 40px;
-        }
-
-        .badge-live {
-            background: #dcfce7;
-            color: #166534;
-            padding: 8px 18px;
+        .badge-confirmed {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
             border-radius: 100px;
             font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 25px;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .event-title {
-            font-size: 5.5rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 950;
-            margin: 0 0 25px 0;
-            letter-spacing: -3px;
-            line-height: 1;
+            line-height: 1.05;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.05em;
+            color: var(--text-main);
         }
 
-        .event-meta {
+        .meta-stack {
             display: flex;
-            gap: 40px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .meta-item svg {
-            color: var(--primary);
-        }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 40px;
-            padding: 40px 0 100px;
-        }
-
-        .white-card {
-            background: white;
-            border-radius: 35px;
-            padding: 45px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.04);
-            margin-bottom: 35px;
-            border: 1px solid #f1f5f9;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .card-header h2 {
-            font-size: 1.7rem;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
-
-        .card-header svg {
-            color: #6366f1;
-        }
-
-        .desc-text {
-            color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 1.2rem;
-        }
-
-        /* Organizer & Tickets */
-        .organizer-card {
-            display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 20px;
         }
 
-        .avatar-box {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            background: #e11d48;
-            color: white;
+        .meta-pill {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            font-weight: 900;
-            overflow: hidden;
+            gap: 16px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .meta-pill svg {
+            color: var(--primary);
             flex-shrink: 0;
         }
 
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .org-info span {
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+        /* Countdown */
+        .countdown-wrap {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
         }
 
-        .org-info strong {
-            font-size: 1.25rem;
-            font-weight: 900;
-        }
-
-        /* Billetterie Manager View */
-        .manage-container {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 25px;
-            padding: 30px;
+        .timer-box {
+            background: var(--bg-body);
+            padding: 16px;
+            border-radius: 18px;
             text-align: center;
-            margin-top: 20px;
+            min-width: 80px;
+            border: 1px solid var(--border);
         }
 
-        .btn-manage {
-            display: block;
-            background: #0f172a;
-            color: white;
-            padding: 16px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 800;
-            margin-top: 25px;
-            font-size: 1rem;
+        .timer-val { font-size: 1.8rem; font-weight: 950; color: var(--primary); display: block; line-height: 1; margin-bottom: 4px; }
+        .timer-lbl { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; }
+
+        /* --- LAYOUT GRID --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 48px;
+            margin-top: 48px;
+            padding-bottom: 100px;
         }
 
-        .btn-share {
-            width: 100%;
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+
+        .content-section {
             background: white;
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 15px;
-            color: var(--text-muted);
+            border-radius: 28px;
+            padding: clamp(24px, 5vw, 48px);
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            font-size: 1.6rem;
+            font-weight: 950;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header svg { color: var(--primary); }
+
+        /* Agenda */
+        .agenda-row {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 32px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .agenda-row:last-child { border-bottom: none; }
+        .time-tag { font-weight: 950; color: var(--primary); font-size: 1.1rem; }
+        .event-info h5 { margin: 0 0 6px 0; font-size: 1.2rem; font-weight: 850; }
+        .event-info p { margin: 0; color: var(--text-muted); font-size: 1rem; }
+
+        /* --- SIDEBAR --- */
+        .sidebar-sticky {
+            position: sticky;
+            top: 100px;
+        }
+
+        .checkout-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+            margin-bottom: 24px;
+        }
+
+        .ticket-box {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ticket-box:last-child { border-bottom: none; }
+
+        .btn-reserve {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.15rem;
+            font-weight: 950;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 16px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            letter-spacing: -0.01em;
+        }
+
+        .btn-reserve:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
+            background: #4f46e5;
+        }
+
+        .trust-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
             font-weight: 800;
+            color: var(--accent);
             margin-top: 20px;
+            justify-content: center;
+        }
+
+        .host-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .host-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        @media (max-width: 1024px) {
-            .black-header { height: 300px; }
-            .hero-container { flex-direction: column; align-items: center; text-align: center; padding-top: 100px; }
-            .flyer-side { width: 280px; }
-            .event-title { font-size: 3.5rem; }
-            .event-meta { justify-content: center; flex-wrap: wrap; }
-            .content-grid { grid-template-columns: 1fr; }
+            font-weight: 950;
+            font-size: 1.2rem;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
 
-    <div class="black-header"></div>
-
-    <div class="main-wrapper">
-        <div class="top-bar">
-            <a href="evenements.html" class="btn-back">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Retour au Marché
+    <nav class="top-bar">
+        <div class="container">
+            <a href="evenements.html" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                RETOUR AU MARCHÉ
             </a>
         </div>
+    </nav>
 
-        <div class="hero-container">
-            <div class="flyer-side">
-                <div class="flyer-mockup">
-                    <img id="event-flyer" src="" alt="Flyer">
-                </div>
-            </div>
-            <div class="info-side">
-                <div class="badge-live">Événement Live</div>
-                <h1 class="event-title" id="event-title">---</h1>
-                <div class="event-meta">
-                    <div class="meta-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        <span id="event-date">---</span>
-                    </div>
-                    <div class="meta-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <span id="event-location">---</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-grid">
-            <div class="left-col">
-                <div class="white-card">
-                    <div class="card-header">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        <h2>À propos de l'événement</h2>
-                    </div>
-                    <div class="desc-text" id="event-desc">
-                        Chargement de la description...
-                    </div>
-                </div>
-            </div>
-
-            <div class="right-col">
-                <div class="white-card">
-                    <div class="organizer-card">
-                        <div class="avatar-box" id="avatar-container">??</div>
-                        <div class="org-info">
-                            <span>Organisé par</span>
-                            <strong id="host-name">---</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="white-card">
-                    <div class="card-header">
-                        <svg style="color:var(--primary);" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V9z"/><path d="M2 9s3 6 4.5 9M22 9s-3 6-4.5 9"/></svg>
-                        <h2>Billetterie</h2>
-                    </div>
-
-    </div>
-
-    <!-- HERO SECTION -->
     <header class="event-hero">
         <div class="container">
             <div class="hero-grid">
-                <div class="flyer-showcase">
-                    <img id="event-flyer" src="" alt="Affiche">
+                <div class="flyer-frame">
+                    <img id="event-flyer" src="" alt="Flyer">
                 </div>
-                <div class="hero-info">
-                    <span class="badge" id="event-status">Événement Confirmé</span>
+                <div class="event-core">
+                    <span class="badge-confirmed">✓ Événement Confirmé</span>
                     <h1 id="event-title" class="event-title">Chargement...</h1>
                     
-                    <div class="meta-list">
-                        <div class="meta-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <div class="meta-stack">
+                        <div class="meta-pill">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             <span id="event-date">...</span>
                         </div>
-                        <div class="meta-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div class="meta-pill">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             <span id="event-location">...</span>
                         </div>
                     </div>
 
-                    <div class="countdown-container" id="countdown">
-                        <div class="count-box"><span class="count-val" id="count-days">00</span><span class="count-lbl">Jours</span></div>
-                        <div class="count-box"><span class="count-val" id="count-hours">00</span><span class="count-lbl">Heures</span></div>
-                        <div class="count-box"><span class="count-val" id="count-mins">00</span><span class="count-lbl">Mins</span></div>
+                    <div class="countdown-wrap" id="timer-ui">
+                        <div class="timer-box"><span class="timer-val" id="d-val">00</span><span class="timer-lbl">Jours</span></div>
+                        <div class="timer-box"><span class="timer-val" id="h-val">00</span><span class="timer-lbl">Heures</span></div>
+                        <div class="timer-box"><span class="timer-val" id="m-val">00</span><span class="timer-lbl">Mins</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="layout-grid">
-            <!-- Main Column -->
-            <div class="main-content">
-                <section class="section-card">
-                    <h3 class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        Description
+    <main class="container">
+        <div class="main-layout">
+            <div class="content-col">
+                <section class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        À propos
                     </h3>
-                    <p id="event-desc" style="font-size: 1.1rem; color: #475569; white-space: pre-wrap;">...</p>
+                    <p id="event-desc" style="font-size: 1.2rem; color: #475569; white-space: pre-wrap; font-weight: 500;">...</p>
                 </section>
 
-                <section class="section-card">
-                    <h3 class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        Le Programme
+                <section class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Programme
                     </h3>
-                    <div id="agenda-list">
-                        <div class="agenda-item">
-                            <div class="agenda-time">18:00</div>
-                            <div class="agenda-content">
-                                <h5>Ouverture des portes</h5>
-                                <p>Accueil des participants et remise des badges.</p>
-                            </div>
+                    <div id="agenda-ui">
+                        <div class="agenda-row">
+                            <div class="time-tag">18:00</div>
+                            <div class="event-info"><h5>Accueil & Badges</h5><p>Ouverture des portes et cocktail de bienvenue.</p></div>
                         </div>
-                        <div class="agenda-item">
-                            <div class="agenda-time">19:30</div>
-                            <div class="agenda-content">
-                                <h5>Lancement officiel</h5>
-                                <p>Présentation de l'événement et introduction des speakers.</p>
-                            </div>
+                        <div class="agenda-row">
+                            <div class="time-tag">19:30</div>
+                            <div class="event-info"><h5>Début du Show</h5><p>Lancement de l'événement et prises de parole.</p></div>
                         </div>
-                        <div class="agenda-item">
-                            <div class="agenda-time">21:00</div>
-                            <div class="agenda-content">
-                                <h5>Networking & Cocktail</h5>
-                                <p>Échange libre entre les professionnels de l'écosystème.</p>
-                            </div>
+                        <div class="agenda-row">
+                            <div class="time-tag">21:00</div>
+                            <div class="event-info"><h5>Networking Pro</h5><p>Échanges libres et buffet dinatoire.</p></div>
                         </div>
                     </div>
                 </section>
 
-                <section class="section-card">
-                    <h3 class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Lieu de l'événement
+                <section class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Localisation
                     </h3>
-                    <div id="map-container" style="height: 300px; border-radius: 16px; background: #e2e8f0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: 800;">
-                        Carte interactive en cours de chargement...
+                    <div id="map-ui" style="height: 350px; border-radius: 20px; background: #f1f5f9; overflow: hidden;">
+                        <!-- Map iframe injected by JS -->
                     </div>
                 </section>
             </div>
 
-            <!-- Sidebar Column -->
-            <aside class="sidebar">
-                <div class="sidebar-inner">
-                    <div class="ticket-card">
-                        <h3 style="margin:0 0 24px 0; font-weight:900; font-size:1.4rem;">Billetterie</h3>
-                        <div id="tiers-container">
+            <aside class="sidebar-col">
+                <div class="sidebar-sticky">
+                    <div class="checkout-card">
+                        <h3 style="margin:0 0 24px 0; font-weight:950; font-size:1.6rem; letter-spacing:-0.03em;">Billetterie</h3>
+                        <div id="tiers-ui">
                             <!-- Dynamic Tiers -->
                         </div>
-                        
-                        <div class="trust-badges">
-                            <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Paiement 100% Sécure</div>
-                            <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Billet Digital</div>
+                        <div class="trust-line">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            PAIEMENT 100% SÉCURISÉ
                         </div>
                     </div>
 
-                    <div class="section-card" style="margin-top:24px; padding:24px;">
-                        <h4 style="margin:0 0 16px 0; font-weight:900; font-size:0.9rem; text-transform:uppercase; color:var(--text-muted);">Organisateur</h4>
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div id="avatar-container" style="width:40px; height:40px; border-radius:10px; background:var(--primary); color:white; display:flex; align-items:center; justify-content:center; font-weight:900; overflow:hidden;">..</div>
-                            <div>
-                                <div id="host-name" style="font-weight:900; font-size:1rem;">---</div>
-                                <div style="font-size:0.75rem; color:var(--accent); font-weight:800;">VÉRIFIÉ ✓</div>
-                            </div>
+                    <div class="host-card">
+                        <div id="host-av" class="host-avatar">..</div>
+                        <div>
+                            <div id="host-name" style="font-weight:900; font-size:1.1rem;">Organisateur</div>
+                            <div style="font-size:0.75rem; color:var(--accent); font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">Vérifié par DTC ✓</div>
                         </div>
-                        <button onclick="share()" style="width:100%; background:none; border:1px solid var(--border); padding:10px; border-radius:10px; margin-top:20px; font-weight:800; cursor:pointer;">Partager l'événement</button>
                     </div>
+                    
+                    <button onclick="share()" style="width:100%; background:white; border:1px solid var(--border); padding:14px; border-radius:16px; margin-top:16px; font-weight:800; cursor:pointer; color:var(--text-muted); transition:0.2s;" onmouseover="this.style.color='var(--text-main)';this.style.borderColor='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">Partager l'événement</button>
                 </div>
             </aside>
         </div>
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Initialization
         const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
         const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function getSession() {
-            const { data } = await _supabase.auth.getSession();
-            return data.session;
-        }
-
         async function init() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const eventId = urlParams.get('id');
-            if (!eventId) { window.location.href = 'evenements.html'; return; }
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (!id) { window.location.href = 'evenements.html'; return; }
 
             try {
-                const { data: event, error } = await _supabase.from('events').select('*').eq('id', eventId).single();
-                if (error || !event) throw error || new Error("Event not found");
+                const { data: ev, error } = await _supabase.from('events').select('*').eq('id', id).single();
+                if (error || !ev) throw error || new Error("Event not found");
 
-                // UI Fill
-                document.getElementById('event-title').innerText = event.title;
-                document.title = `${event.title} | Domtom Connect`;
+                document.getElementById('event-title').innerText = ev.title;
+                document.getElementById('event-flyer').src = ev.image_url;
+                document.getElementById('event-desc').innerText = ev.description || 'Bienvenue à cet événement exceptionnel !';
+                document.getElementById('event-location').innerText = ev.location;
                 
-                const evDate = new Date(event.event_date);
-                document.getElementById('event-date').innerText = evDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-                document.getElementById('event-location').innerText = event.location;
-                document.getElementById('event-desc').innerText = event.description || 'Aucune description détaillée fournie.';
-                document.getElementById('event-flyer').src = event.image_url;
+                const d = new Date(ev.event_date);
+                document.getElementById('event-date').innerText = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
                 // Host
-                const { data: profile } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', event.user_id).single();
-                if (profile) {
-                    document.getElementById('host-name').innerText = profile.full_name;
-                    const av = document.getElementById('avatar-container');
-                    if (profile.avatar_url) av.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
-                    else av.innerText = profile.full_name.slice(0,2).toUpperCase();
+                const { data: host } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', ev.user_id).single();
+                if (host) {
+                    document.getElementById('host-name').innerText = host.full_name;
+                    const av = document.getElementById('host-av');
+                    if (host.avatar_url) av.innerHTML = `<img src="${host.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
+                    else av.innerText = host.full_name.slice(0,2).toUpperCase();
                 }
 
-                renderTiers(event);
-                startCountdown(event.event_date);
-                initMap(event.location);
+                renderTiers(ev);
+                startTimer(ev.event_date);
+                document.getElementById('map-ui').innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps?q=${encodeURIComponent(ev.location)}&output=embed" allowfullscreen></iframe>`;
 
-            } catch (err) { 
-                console.error(err);
-                document.getElementById('event-title').innerText = "Événement introuvable";
-            }
+            } catch (e) { console.error(e); }
         }
 
         function renderTiers(ev) {
-            const container = document.getElementById('tiers-container');
-            let tiers = ev.ticket_tiers || [];
-            if (tiers.length === 0 && ev.price !== null) tiers = [{ name: 'Accès Standard', price: ev.price }];
+            const ui = document.getElementById('tiers-ui');
+            let t = ev.ticket_tiers || [];
+            if (t.length === 0 && ev.price !== null) t = [{ name: 'Billet Standard', price: ev.price }];
 
-            if (tiers.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-weight:700; text-align:center;">Billetterie indisponible.</p>';
-                return;
-            }
+            if (t.length === 0) { ui.innerHTML = '<p style="text-align:center;font-weight:700;color:var(--text-muted);">Complet</p>'; return; }
 
-            container.innerHTML = tiers.map(t => `
-                <div class="ticket-row">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-weight:850; font-size:1rem;">${t.name}</span>
-                        <span style="font-weight:900; color:var(--primary); font-size:1.1rem;">${parseFloat(t.price).toFixed(2)} €</span>
+            ui.innerHTML = t.map(tk => `
+                <div class="ticket-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <span style="font-weight:850; font-size:1.05rem;">${tk.name}</span>
+                        <span style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
                     </div>
-                    <button class="btn-buy" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">RÉSERVER MA PLACE</button>
+                    <button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', ${tk.price}, '${ev.user_id}')">RÉSERVER MA PLACE</button>
                 </div>
             `).join('');
         }
 
-        async function buyTicket(event, eventId, tierName, price, hostId) {
-            const btn = event.target;
+        async function buyTicket(e, id, name, price, hostId) {
+            const btn = e.target;
             try {
-                const session = await getSession();
-                if (!session) {
-                    alert("Veuillez vous connecter pour réserver.");
-                    window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href);
-                    return;
-                }
-                btn.disabled = true; btn.innerText = "SÉCURISATION...";
-
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (!session) { alert("Connectez-vous pour réserver."); window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href); return; }
+                
+                btn.disabled = true; btn.innerText = "PRÉPARATION...";
                 const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                    body: JSON.stringify({
-                        type: 'event', item_id: eventId,
-                        item_title: `Billet : ${document.getElementById('event-title').innerText}`,
-                        item_description: `${tierName} - ${document.getElementById('event-date').innerText}`,
-                        item_price: price, provider_id: hostId
-                    })
+                    body: JSON.stringify({ type: 'event', item_id: id, item_title: `Billet : ${document.getElementById('event-title').innerText}`, item_description: `${name} - ${document.getElementById('event-date').innerText}`, item_price: price, provider_id: hostId })
                 });
                 const data = await res.json();
                 if (data.url) window.location.href = data.url;
@@ -539,32 +466,20 @@
             } catch (err) { alert(err.message); btn.disabled = false; btn.innerText = "RÉSERVER MA PLACE"; }
         }
 
-        function startCountdown(dateStr) {
-            const target = new Date(dateStr).getTime();
-            const timer = setInterval(() => {
-                const now = new Date().getTime();
-                const diff = target - now;
-                if (diff < 0) { clearInterval(timer); document.getElementById('countdown').style.display = 'none'; return; }
-                
-                document.getElementById('count-days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-                document.getElementById('count-hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-                document.getElementById('count-mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        function startTimer(date) {
+            const target = new Date(date).getTime();
+            setInterval(() => {
+                const diff = target - new Date().getTime();
+                if (diff < 0) { document.getElementById('timer-ui').style.display = 'none'; return; }
+                document.getElementById('d-val').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
+                document.getElementById('h-val').innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
+                document.getElementById('m-val').innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
             }, 1000);
         }
 
-        function initMap(location) {
-            const map = document.getElementById('map-container');
-            const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`;
-            map.innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="${embedUrl}" allowfullscreen></iframe>`;
-        }
-
         function share() {
-            if (navigator.share) {
-                navigator.share({ title: document.title, url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Lien copié dans le presse-papier !");
-            }
+            if (navigator.share) navigator.share({ title: document.getElementById('event-title').innerText, url: window.location.href });
+            else { navigator.clipboard.writeText(window.location.href); alert("Lien copié !"); }
         }
 
         init();
