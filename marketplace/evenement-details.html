@@ -416,12 +416,12 @@
                         <div style="font-weight:900; color:var(--text-dark);">${t.name}</div>
                         <div style="font-size:0.95rem; color:var(--text-muted);">${parseFloat(t.price).toFixed(2)} €</div>
                     </div>
-                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="buyTicket('${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">Réserver</button>
+                    <button style="background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:900; cursor:pointer;" onclick="buyTicket(event, '${ev.id}', '${t.name}', ${t.price}, '${ev.user_id}')">Réserver</button>
                 </div>
             `).join('');
         }
 
-        async function buyTicket(eventId, tierName, price, hostId) {
+        async function buyTicket(event, eventId, tierName, price, hostId) {
             try {
                 const session = await getSession();
                 if (!session) {
