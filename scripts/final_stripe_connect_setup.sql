@@ -1,9 +1,11 @@
 -- SCRIPT : Finalisation Intégration Stripe Connect
 -- Ce script ajoute les colonnes manquantes, aligne les commissions et nettoie les anciens triggers PayPal/Manuels.
 
--- 1. Ajout de stripe_connect_id aux profils (CRITIQUE pour l'onboarding)
+-- 1. Ajout des colonnes Stripe aux profils
 ALTER TABLE public.profiles 
-ADD COLUMN IF NOT EXISTS stripe_connect_id TEXT;
+ADD COLUMN IF NOT EXISTS stripe_connect_id TEXT,
+ADD COLUMN IF NOT EXISTS stripe_payouts_enabled BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS stripe_account_status TEXT DEFAULT 'pending'; -- 'pending', 'restricted', 'active'
 
 -- 2. Ajout des colonnes de session Stripe aux tables de commandes si manquantes
 -- (Déjà présent dans certains scripts mais on s'assure de l'uniformité)

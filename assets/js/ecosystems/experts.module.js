@@ -140,7 +140,7 @@ const ExpertsModule = {
                          <div style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #020617;">${(profile.balance || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
                     </div>
                     
-                    <div style="background: ${profile.stripe_connect_id ? '#f8fafc' : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'}; padding: 32px; border-radius: 20px; color: ${profile.stripe_connect_id ? '#020617' : 'white'}; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
+                    <div style="background: ${profile.stripe_connect_id ? (profile.stripe_payouts_enabled ? '#f8fafc' : '#fff7ed') : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'}; padding: 32px; border-radius: 20px; color: ${profile.stripe_connect_id ? '#020617' : 'white'}; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
                         ${!profile.stripe_connect_id ? `
                             <div style="position:relative; z-index:2;">
                                 <h4 style="font-size: 0.7rem; font-weight: 900; opacity: 0.9; text-transform: uppercase; margin-bottom: 8px;">CONFIGURATION REQUISE</h4>
@@ -150,11 +150,19 @@ const ExpertsModule = {
                                 </button>
                             </div>
                             <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform: rotate(-15deg);">💳</div>
-                        ` : `
-                            <h4 style="font-size: 0.7rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">COMPTE CONNECTÉ ✅</h4>
-                            <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Paiements Automatisés Actifs</div>
+                        ` : (profile.stripe_payouts_enabled ? `
+                            <h4 style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">COMPTE OPÉRATIONNEL ✅</h4>
+                            <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Virements Automatiques Actifs</div>
                             <button onclick="window.open('https://dashboard.stripe.com/', '_blank')" style="padding: 12px 20px; background: #020617; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer;">Accéder à mon Dashboard Stripe</button>
-                        `}
+                        ` : `
+                            <div style="position:relative; z-index:2;">
+                                <h4 style="font-size: 0.7rem; font-weight: 900; color: #ea580c; text-transform: uppercase; margin-bottom: 8px;">COMPTE LIMITÉ ⚠️</h4>
+                                <div style="font-size: 1.1rem; font-weight: 950; margin-bottom: 16px; color: #9a3412;">Informations manquantes sur Stripe</div>
+                                <button id="connect-stripe-btn" style="padding: 12px 20px; background: #ea580c; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                    <span>🔧 Finaliser la configuration</span>
+                                </button>
+                            </div>
+                        `)}
                     </div>
                 </div>
 

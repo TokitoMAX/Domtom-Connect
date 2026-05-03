@@ -125,6 +125,31 @@ Deno.serve(async (req) => {
       console.error('[stripe-webhook] Erreur DB:', dbErr);
       return new Response(JSON.stringify({ error: dbErr.message }), { status: 500 });
     }
+  } else if (event.type === 'account.updated') {
+    const account = event.data.object as Stripe.Account;
+    const payoutsEnabled = account.payouts_enabled;
+    const detailsSubmitted = account.details_submitted;
+    
+    let status = 'pending';
+    if (payoutsEnabled && detailsSubmitted) status = 'active';
+    else if (detailsSubmitted && !payoutsEnabled) status = 'restricted';
+
+    console.log(`[stripe-webhook] Mise à jour compte Connect: ${account.id} | Status: ${status} | Payouts: ${payoutsEnabled}`);
+
+    try {
+      const { error: accError } = await supabase
+        .from('profiles')
+        .update({
+          stripe_payouts_enabled: payoutsEnabled,
+          stripe_account_status: status
+        })
+        .eq('stripe_connect_id', account.id);
+
+      if (accError) throw accError;
+      console.log(`[stripe-webhook] ✅ Sync Compte Connect réussi pour ${account.id}`);
+    } catch (dbErr) {
+      console.error('[stripe-webhook] Erreur DB Sync Compte:', dbErr);
+    }
   }
 
   return new Response(JSON.stringify({ received: true }), {

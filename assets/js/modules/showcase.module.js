@@ -125,16 +125,33 @@ const ShowcaseModule = {
 
     async openSettings() {
         const { data: { session } } = await window._supabase.auth.getSession();
-        const { data: profile } = await window._supabase.from('profiles').select('stripe_connect_id').eq('id', session.user.id).single();
+        const { data: profile } = await window._supabase.from('profiles').select('stripe_connect_id, stripe_account_status, stripe_payouts_enabled').eq('id', session.user.id).single();
         const overlay = document.getElementById('details-modal-overlay');
+        
+        let statusText = '⚠️ STRIPE NON CONNECTÉ';
+        let statusColor = '#f59e0b';
+        let statusDesc = 'Votre boutique ne peut pas encore recevoir de paiements.';
+        
+        if (profile?.stripe_connect_id) {
+            if (profile.stripe_payouts_enabled) {
+                statusText = '✅ STRIPE OPÉRATIONNEL';
+                statusColor = '#10b981';
+                statusDesc = 'Votre compte est prêt à recevoir des paiements et virements.';
+            } else {
+                statusText = '⚠️ COMPTE LIMITÉ';
+                statusColor = '#ea580c';
+                statusDesc = 'Des informations sont manquantes sur votre compte Stripe.';
+            }
+        }
+
         overlay.innerHTML = `
             <div style="background: white; width: 100%; max-width: 420px; border-radius: 40px; padding: 45px; border: 4px solid #000; box-shadow: 20px 20px 0px #000;">
                 <h3 style="margin:0 0 25px 0; font-weight:950; font-size:1.8rem; letter-spacing:-0.05em; color:#000;">Status du Compte</h3>
-                <p style="font-size:0.95rem; color:#64748b; font-weight:700; margin-bottom:30px; line-height:1.5;">Votre boutique utilise Stripe Connect pour les paiements sécurisés.</p>
+                <p style="font-size:0.95rem; color:#64748b; font-weight:700; margin-bottom:30px; line-height:1.5;">${statusDesc}</p>
                 <div style="display:flex; flex-direction:column; gap:25px;">
                     <div style="background: #f8fafc; padding: 20px; border-radius: 20px; border: 2.5px solid #000; text-align: center;">
-                        <div style="font-weight: 950; color: ${profile?.stripe_connect_id ? '#10b981' : '#f59e0b'}">
-                            ${profile?.stripe_connect_id ? '✅ STRIPE CONNECTÉ' : '⚠️ STRIPE NON CONNECTÉ'}
+                        <div style="font-weight: 950; color: ${statusColor}">
+                            ${statusText}
                         </div>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:12px;">
