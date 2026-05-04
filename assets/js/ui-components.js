@@ -160,8 +160,12 @@ const UIComponents = {
             const authActions = document.getElementById('nav-auth-actions');
             if (authActions) {
                 authActions.innerHTML = `
-                    <a href="${adjust('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
-                    <a href="${adjust('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <a href="${adjust('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
+                        <a href="javascript:void(0)" onclick="signOut()" class="nav-logout-top" title="Déconnexion">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </a>
+                    </div>
                 `;
             }
         }
