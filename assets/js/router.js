@@ -38,8 +38,8 @@ const Router = {
             const href = link.getAttribute('href');
             if (!href || href.startsWith('javascript:') || href === 'void(0)') return;
 
-            // CRITICAL: Never intercept real file navigation (.html)
-            if (href.includes('.html')) return;
+            // CRITICAL: Never intercept real file navigation or marketplace links
+            if (href.includes('.html') || href.includes('marketplace/')) return;
 
             if (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace')) {
                 e.preventDefault();

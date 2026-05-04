@@ -165,15 +165,36 @@
     
     <!-- Local Logic -->
     <script>
-        async function loadProfiles() {
+        async function init() {
+            console.log("[Directory] Initializing...");
+            
+            // 1. Robust Supabase Check
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             if (!db) {
-                console.warn("Retrying profile load in 500ms...");
-                setTimeout(loadProfiles, 500);
-                return;
+                console.warn("[Directory] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
             }
 
+            // 2. Load Navbar
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            
+            // 3. Load Data
+            await loadProfiles();
+        }
+
+        async function loadProfiles() {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             const container = document.getElementById('profiles-container');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                    <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
+                    <p style="margin-top:20px; color:#64748b; font-weight:800; text-transform:uppercase; font-size:0.75rem;">Chargement des talents...</p>
+                </div>
+            `;
+
             const search = document.getElementById('search-name').value.toLowerCase();
             const territory = document.getElementById('filter-territory').value;
 
@@ -189,7 +210,15 @@
                     return;
                 }
 
-                container.innerHTML = data.map(p => `
+                let filtered = data;
+                if (search) {
+                    filtered = data.filter(p => 
+                        (p.full_name || "").toLowerCase().includes(search) || 
+                        (p.expertise || "").toLowerCase().includes(search)
+                    );
+                }
+
+                container.innerHTML = filtered.map(p => `
                     <div class="profile-card" onclick="window.location.href='profile-detail-expert.html?id=${p.id}'" style="cursor:pointer;">
                         <div class="profile-avatar">${p.full_name ? p.full_name.charAt(0) : 'E'}</div>
                         <h3 class="profile-name">${p.full_name}</h3>
@@ -202,20 +231,12 @@
                 `).join('');
 
             } catch (err) {
-                console.error("Load Profiles Error:", err);
+                console.error("[Directory] Load Profiles Error:", err);
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color:#ef4444; font-weight:700;">Erreur lors du chargement des talents.</div>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof loadGlobalNavbar === 'function') loadGlobalNavbar();
-            
-            let checkApp = setInterval(() => {
-                if (window._supabase) {
-                    clearInterval(checkApp);
-                    loadProfiles();
-                }
-            }, 500);
-        });
+        init();
     </script>
 </body>
 </html>
