@@ -33,12 +33,15 @@ const Router = {
         // Intercept clicks
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
-            const href = link ? link.getAttribute('href') : null;
-            if (href && (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace'))) {
-                // If it's a cross-page link (e.g. marketplace), don't intercept here
-                if (href.includes('.html') && !window.location.pathname.includes(href.split('#')[0])) {
-                    return; 
-                }
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('javascript:') || href === 'void(0)') return;
+
+            // CRITICAL: Never intercept real file navigation (.html)
+            if (href.includes('.html')) return;
+
+            if (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace')) {
                 e.preventDefault();
                 this.navigate(href);
             }

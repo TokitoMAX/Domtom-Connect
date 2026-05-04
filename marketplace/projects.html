@@ -563,14 +563,30 @@
         let currentLetter = '';
 
         async function init() {
+            console.log("[Projects] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Projects] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
+            }
+
+            // 2. Load Navbar
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
             
-            const session = await getSession();
-            if (session) {
-                const role = session.user.user_metadata?.role;
-                if (role === 'project_owner' || role === 'porteur_projet' || role === 'porteur') {
-                    document.getElementById('project-banner').style.display = 'block';
+            // 3. Get Session
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    const role = session.user.user_metadata?.role;
+                    if (role === 'project_owner' || role === 'porteur_projet' || role === 'porteur') {
+                        const banner = document.getElementById('project-banner');
+                        if (banner) banner.style.display = 'block';
+                    }
                 }
+            } catch (e) {
+                console.error("[Projects] Auth error:", e);
             }
             
             generateAlphabet();
@@ -579,6 +595,7 @@
 
         function generateAlphabet() {
             const container = document.getElementById('letter-filter-container');
+            if (!container) return;
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
             alphabet.forEach(letter => {
                 const btn = document.createElement('button');
@@ -601,13 +618,18 @@
         async function loadProjects() {
             const container = document.getElementById('projects-container');
             const emptyState = document.getElementById('empty-state');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:100px;"><i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:var(--primary);"></i><p style="margin-top:20px; font-weight:700; color:var(--text-muted);">Chargement des épopées...</p></div>';
             
             try {
+                const db = window._supabase || initSupabase();
                 const searchTxt = document.getElementById('search-input').value.toLowerCase();
                 const territoryFilter = document.getElementById('territory-filter').value;
                 const zoneFilter = document.getElementById('zone-filter').value;
 
-                let query = _supabase
+                let query = db
                     .from('projects')
                     .select('*')
                     .eq('is_listed', true)
@@ -643,8 +665,9 @@
                 container.style.display = 'grid';
                 container.innerHTML = filtered.map(renderProjectCard).join('');
             } catch (err) {
-                console.error('Error:', err);
+                console.error('[Projects] Error:', err);
                 emptyState.style.display = 'block';
+                if (container) container.style.display = 'none';
             }
         }
 

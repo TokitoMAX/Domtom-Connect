@@ -285,28 +285,60 @@
         let currentUserId = null, currentUserRole = null, cachedProfiles = {}, currentSubscriptionTier = 'free', userApplications = [], allJobs = [], currentEditJobId = null;
 
         async function init() {
-            if (window.loadGlobalNavbar) await window.loadGlobalNavbar();
-            const session = await getSession();
-            if (session) {
-                currentUserId = session.user.id;
-                const { data: profile } = await _supabase.from('profiles').select('*').eq('id', currentUserId).single();
-                if (profile) {
-                    currentSubscriptionTier = profile.subscription_tier || 'free';
-                    currentUserRole = profile.role || 'user';
-                    if (['entreprise', 'company', 'admin'].includes(currentUserRole)) document.getElementById('company-banner').style.display = 'flex';
-                    const { data: apps } = await _supabase.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
-                    if (apps) userApplications = apps.map(a => a.job_id);
-                }
+            console.log("[Jobs] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Jobs] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
             }
+
+            // 2. Load Navbar
+            if (window.loadGlobalNavbar) await window.loadGlobalNavbar();
+            
+            // 3. Get Session
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUserId = session.user.id;
+                    const { data: profile } = await db.from('profiles').select('*').eq('id', currentUserId).single();
+                    if (profile) {
+                        currentSubscriptionTier = profile.subscription_tier || 'free';
+                        currentUserRole = profile.role || 'user';
+                        if (['entreprise', 'company', 'admin'].includes(currentUserRole)) {
+                            const banner = document.getElementById('company-banner');
+                            if (banner) banner.style.display = 'flex';
+                        }
+                        const { data: apps } = await db.from('job_applications').select('job_id').eq('candidate_id', currentUserId);
+                        if (apps) userApplications = apps.map(a => a.job_id);
+                    }
+                }
+            } catch (e) {
+                console.error("[Jobs] Auth error:", e);
+            }
+
+            // 4. Load Data
             await loadJobs();
         }
 
         async function loadJobs() {
-            const { data: jobs } = await _supabase.from('job_offers').select('*').order('created_at', { ascending: false });
+            const container = document.getElementById('jobs-container');
+            if (container) container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px;"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem; color:var(--primary);"></i><p style="margin-top:16px; font-weight:700; color:#64748b;">Chargement des missions...</p></div>';
+
+            const db = window._supabase || initSupabase();
+            const { data: jobs, error } = await db.from('job_offers').select('*').order('created_at', { ascending: false });
+            
+            if (error) {
+                console.error("[Jobs] Fetch error:", error);
+                if (container) container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#ef4444; font-weight:700;">Erreur lors du chargement des missions.</div>';
+                return;
+            }
+
             allJobs = jobs || [];
             if (allJobs.length > 0) {
                 const ids = [...new Set(allJobs.map(j => j.company_id))];
-                const { data: profiles } = await _supabase.from('profiles').select('id, full_name, avatar_url').in('id', ids);
+                const { data: profiles } = await db.from('profiles').select('id, full_name, avatar_url').in('id', ids);
                 profiles?.forEach(p => cachedProfiles[p.id] = p);
             }
             renderJobs();

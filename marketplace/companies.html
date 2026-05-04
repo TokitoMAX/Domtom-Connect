@@ -529,21 +529,43 @@
         let currentLetter = '';
 
         async function init() {
-            const session = await getSession();
-            if (session) {
-                currentUserId = session.user.id;
-                currentUserRole = session.user.user_metadata?.role || null;
-                if (currentUserRole === 'entreprise') {
-                    document.getElementById('company-banner').style.display = 'flex';
-                }
+            console.log("[Companies] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Companies] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
             }
+
+            // 2. Load Navbar
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            
+            // 3. Get Session & Profile
+            try {
+                const { data: { session } } = await db.auth.getSession();
+                if (session) {
+                    currentUserId = session.user.id;
+                    const { data: profile } = await db.from('profiles').select('role').eq('id', currentUserId).single();
+                    if (profile) {
+                        currentUserRole = profile.role;
+                        if (currentUserRole === 'entreprise' || currentUserRole === 'company') {
+                            const banner = document.getElementById('company-banner');
+                            if (banner) banner.style.display = 'flex';
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("[Companies] Auth error:", e);
+            }
+            
             generateAlphabet();
             await loadCompanies();
         }
 
         function generateAlphabet() {
             const container = document.getElementById('letter-filter-container');
+            if (!container) return;
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
             alphabet.forEach(letter => {
                 const btn = document.createElement('button');
@@ -566,18 +588,17 @@
         async function loadCompanies() {
             const container = document.getElementById('companies-container');
             const emptyState = document.getElementById('empty-state');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:100px;"><i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:#0369a1;"></i><p style="margin-top:20px; font-weight:700; color:#64748b;">Chargement des entreprises...</p></div>';
+            
             try {
+                const db = window._supabase || initSupabase();
                 const search = document.getElementById('search-input').value.toLowerCase().trim();
                 const territory = document.getElementById('territory-filter').value;
                 const zone = document.getElementById('zone-filter').value;
                 const sector = document.getElementById('sector-filter').value;
-
-                const db = window._supabase || _supabase || initSupabase();
-                if (!db) {
-                    console.warn("Supabase not initialized yet. Retrying in 100ms...");
-                    setTimeout(loadCompanies, 100);
-                    return;
-                }
 
                 let query = db
                     .from('profiles')
@@ -606,6 +627,7 @@
                     if (rankA !== rankB) return rankB - rankA;
                     return (a.company || "").localeCompare(b.company || "");
                 });
+                
                 if (currentLetter) {
                     filtered = filtered.filter(c => (c.company || c.full_name || "").toUpperCase().startsWith(currentLetter));
                 }
@@ -616,16 +638,18 @@
                     );
                 }
 
-                filtered.sort((a, b) => (a.company || a.full_name || "").localeCompare(b.company || b.full_name || ""));
-
                 if (!filtered.length) {
                     emptyState.style.display = 'block';
                     container.innerHTML = '';
                     return;
                 }
+                
                 emptyState.style.display = 'none';
                 container.innerHTML = filtered.map(renderCompanyCard).join('');
-            } catch (err) { console.error(err); }
+            } catch (err) { 
+                console.error('[Companies] Error:', err); 
+                if (container) container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:100px; color:#ef4444; font-weight:700;">Erreur lors du chargement des entreprises.</p>';
+            }
         }
 
         function renderCompanyCard(company) {

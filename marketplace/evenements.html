@@ -415,18 +415,35 @@
     <script src="../assets/js/ui-components.js?v=10.1"></script>
     <script>
         async function init() {
+            console.log("[Events] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Events] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
+            }
+
+            // 2. Load Navbar
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            
+            // 3. Load Data
             await loadEvents();
         }
 
         async function loadEvents() {
             const container = document.getElementById('events-container');
             const emptyState = document.getElementById('empty-state');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:100px;"><i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:var(--primary);"></i><p style="margin-top:20px; font-weight:700; color:var(--text-muted);">Récupération des événements...</p></div>';
             
             try {
+                const db = window._supabase || initSupabase();
                 const search = document.getElementById('search-input').value.toLowerCase().trim();
 
-                const { data: events, error } = await _supabase
+                const { data: events, error } = await db
                     .from('events')
                     .select('*')
                     .order('created_at', { ascending: false });
@@ -441,7 +458,7 @@
 
                 // Fetch profiles for authors
                 const userIds = [...new Set(events.map(e => e.user_id))];
-                const { data: profilesData } = await _supabase
+                const { data: profilesData } = await db
                     .from('profiles')
                     .select('id, full_name, avatar_url')
                     .in('id', userIds);
@@ -471,8 +488,9 @@
                 container.style.display = 'grid';
                 container.innerHTML = filtered.map(renderEventCard).join('');
             } catch (err) {
-                console.error('Error:', err);
+                console.error('[Events] Error:', err);
                 emptyState.style.display = 'block';
+                if (container) container.style.display = 'none';
             }
         }
 

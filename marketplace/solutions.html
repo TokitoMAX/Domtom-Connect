@@ -214,13 +214,35 @@
 
     <script>
         async function init() {
+            console.log("[Solutions] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Solutions] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
+            }
+
+            // 2. Load Navbar
             if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            
+            // 3. Load Data
             await loadSolutions();
         }
 
         async function loadSolutions() {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
             const container = document.getElementById('solutions-list');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
+                    <div style="width:40px; height:40px; border:3px solid rgba(16, 185, 129, 0.1); border-top-color:var(--primary); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div>
+                    <p style="margin-top:20px; color:#64748b; font-weight:800; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Récupération des offres...</p>
+                </div>
+            `;
+
             try {
                 const { data, error } = await db
                     .from('showcase_items')
@@ -253,19 +275,19 @@
                                     </div>
                                     <span style="font-size:0.9rem; font-weight:800; color:white;">${expert.full_name}</span>
                                 </div>
-                                <div class="card-price">${item.price.toFixed(0)}€</div>
+                                <div class="card-price">${item.price ? item.price.toFixed(0) : '0'}€</div>
                             </div>
                         </div>
                     `;
                 }).join('');
 
             } catch (err) {
-                console.error(err);
-                container.innerHTML = '<p style="text-align:center; padding:100px;">Erreur de chargement.</p>';
+                console.error('[Solutions] Error:', err);
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:100px; font-weight:700; color:#ef4444;">Erreur de chargement des solutions.</p>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        init();
     </script>
 
     <style>@keyframes spin { to { transform: rotate(360deg); } } </style>
