@@ -33,14 +33,12 @@ const Router = {
         // Intercept clicks
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
-            if (!link) return;
-
-            const href = link.getAttribute('href');
-            const isLocalHash = href && href.startsWith('#');
-            const isDashboardRoute = href && (href.startsWith('/dashboard') || href.startsWith('/mon-espace'));
-            
-            // Only intercept if it's a dashboard view and NOT a separate .html page
-            if ((isLocalHash || isDashboardRoute) && !href.includes('.html')) {
+            const href = link ? link.getAttribute('href') : null;
+            if (href && (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace'))) {
+                // If it's a cross-page link (e.g. marketplace), don't intercept here
+                if (href.includes('.html') && !window.location.pathname.includes(href.split('#')[0])) {
+                    return; 
+                }
                 e.preventDefault();
                 this.navigate(href);
             }

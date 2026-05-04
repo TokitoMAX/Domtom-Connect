@@ -18,25 +18,45 @@
         <aside class="sidebar"></aside>
 
         <main class="main-content">
-    <header class="top-nav">
-        <button class="nav-toggle" id="mobile-menu-toggle" type="button" aria-label="Menu" onclick="toggleMobileMenu()">
-            <span></span><span></span><span></span>
-        </button>
-        <div id="nav-links-container" class="desktop-only">
-            <div class="nav-market-links">
-                <a href="marketplace/directory.html" class="nav-market-link">Talents</a>
-                <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
-                <a href="marketplace/solutions.html" class="nav-market-link">Solutions</a>
-                <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
-                <a href="marketplace/evenements.html" class="nav-market-link">Événements</a>
-                <a href="marketplace/companies.html" class="nav-market-link">Entreprises</a>
-            </div>
-        </div>
-    </header>
+            <header class="top-nav">
+                <button class="nav-toggle" id="mobile-menu-toggle" type="button" aria-label="Menu" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+                <div id="nav-links-container">
+                    <div class="nav-market-links">
+                        <a href="marketplace/directory.html" class="nav-market-link">Talents</a>
+                        <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
+                        <a href="marketplace/solutions.html" class="nav-market-link">Solutions</a>
+                        <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
+                        <a href="marketplace/evenements.html" class="nav-market-link">Événements</a>
+                        <a href="marketplace/companies.html" class="nav-market-link">Entreprises</a>
+                    </div>
+                </div>
+            </header>
 
-    <div class="content-wrapper">
-        <!-- Dashboard Views -->
-        ...
+            <div class="content-wrapper">
+                <!-- 1. Overview (Unified Dashboard) -->
+                <div id="overview-view" class="view-section">
+                    <div id="ecosystem-grid-container"></div>
+                </div>
+
+                <!-- 2. SUCCESS ENGINE (Pilotage de Projet - Management Hub) -->
+                <div id="success-engine-view-fixed" class="view-section" style="display:none;">
+                    <!-- Orchestrated by dashboard-success-engine.js -->
+                </div>
+
+                <!-- 3. Specialized Ecosystem Views -->
+                <div id="missions-view" class="view-section" style="display:none;"></div>
+                <div id="billetterie-view" class="view-section" style="display:none;">
+                    <div id="my-tickets-list" class="dashboard-grid"></div>
+                </div>
+                <div id="business-view" class="view-section" style="display:none;"></div>
+                <div id="collaboration-view" class="view-section" style="display:none;"></div>
+                <div id="profile-view" class="view-section" style="display:none;"></div>
+                <div id="vitrine-view" class="view-section" style="display:none;"></div>
+                <div id="marketplace-view" class="view-section" style="display:none;"></div>
+            </div>
+        </main>
     </div>
 
     <!-- Full Screen Mobile Menu Overlay (Native Look) -->
@@ -46,50 +66,63 @@
                 <div class="mobile-logo">Domtom Connect</div>
                 <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
             </div>
-            
-            <div class="mobile-menu-sections">
-                <div class="menu-section">
-                    <span class="menu-section-label">Commandement</span>
-                    <div class="mobile-menu-links">
-                        <a href="#overview" onclick="toggleMobileMenu()">Tableau de Bord</a>
-                        <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
-                        <a href="messages.html">Messagerie</a>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <span class="menu-section-label">Écosystème</span>
-                    <div class="mobile-menu-links">
-                        <a href="marketplace/directory.html">Annuaire Talents</a>
-                        <a href="marketplace/jobs.html">Missions / Jobs</a>
-                        <a href="marketplace/solutions.html">Solutions</a>
-                        <a href="marketplace/projects.html">Projets d'Impact</a>
-                        <a href="marketplace/evenements.html">Événements</a>
-                        <a href="marketplace/companies.html">Entreprises</a>
-                    </div>
-                </div>
-
-                <div class="menu-section" style="margin-top:auto; padding-top:40px;">
-                    <a href="javascript:void(0)" onclick="signOut()" class="logout-btn-mobile">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-                        Déconnexion
-                    </a>
-                </div>
+            <div class="mobile-menu-links">
+                <a href="/mon-espace/overview" onclick="toggleMobileMenu()">Dashboard</a>
+                <a href="marketplace/directory.html">Annuaire Talents</a>
+                <a href="marketplace/jobs.html">Missions / Jobs</a>
+                <a href="marketplace/evenements.html">Événements</a>
+                <a href="messages.html">Messagerie</a>
+                <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
+                <a href="/mon-espace/profile" onclick="toggleMobileMenu()">Mon Profil</a>
+                <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444;">Déconnexion</a>
             </div>
         </div>
     </div>
 
-    <!-- Mobile Bottom Navigation (Simplified) -->
+    <!-- Mobile Navigation -->
+    
+
+    <!-- PLATFORM ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./assets/js/territory_config.js?v=11.1"></script>
+    <script src="./assets/js/auth.js?v=11.1"></script>
+    
+    <!-- Ecosystem Modules -->
+    <script src="./assets/js/ecosystems/standard.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/collaboration.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/owners.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/experts.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/companies.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/spectators.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/ticketing.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/business.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/showcase.module.js?v=11.1"></script>
+    <script src="./assets/js/dashboard-success-engine.js?v=11.1"></script>
+
+    <!-- Platform Orchestrator -->
+    <script src="./assets/js/ui-components.js?v=11.1"></script>
+    <script src="./assets/js/router.js?v=11.1"></script>
+    <script src="./assets/js/modules/payment.module.js?v=11.1"></script>
+    <script src="./assets/js/app.js?v=11.1"></script>
+
+    <!-- Modals Layer -->
+    <div id="details-modal-overlay" class="modal-overlay"></div>
+
+    <!-- MOBILE NAVIGATION (HARDCODED) -->
     <nav class="mobile-nav">
-        <a href="#overview" class="mobile-nav-link active">
+        <a href="/mon-espace/overview" class="mobile-nav-link active">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Accueil
+            Dashboard
         </a>
-        <a href="javascript:void(0)" onclick="toggleMobileMenu()" class="mobile-nav-link">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            Menu
+        <a href="marketplace/directory.html" class="mobile-nav-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+            Talents
         </a>
-        <a href="#profile" class="mobile-nav-link">
+        <a href="marketplace/jobs.html" class="mobile-nav-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            Missions
+        </a>
+        <a href="/mon-espace/profile" class="mobile-nav-link">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             Profil
         </a>
