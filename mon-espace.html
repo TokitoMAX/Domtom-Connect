@@ -14,16 +14,17 @@
         .mobile-menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 9999;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 10001;
             display: none;
-            padding: 40px 24px;
             flex-direction: column;
+            padding: 60px 32px;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
         }
-
         .mobile-menu-overlay.active {
             display: flex;
             opacity: 1;
@@ -40,14 +41,19 @@
             font-size: 1.5rem;
             font-weight: 800;
             color: #00D586;
-            letter-spacing: -1px;
         }
 
         .close-menu {
-            background: none;
-            border: none;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            font-size: 2.5rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
 
@@ -55,35 +61,37 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            overflow-y: auto;
         }
 
         .mobile-menu-links a {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 800;
             color: white;
             text-decoration: none;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .mobile-menu-links a:hover {
+        .mobile-menu-links a:active {
             color: #00D586;
-            padding-left: 10px;
+            transform: translateX(5px);
         }
 
         /* Nav Toggle Animation */
         .nav-toggle span {
             display: block;
             width: 24px;
-            height: 2px;
-            background: white;
+            height: 2.5px;
+            background: #0f172a;
             margin: 5px 0;
-            transition: 0.4s;
+            transition: 0.3s;
+            border-radius: 4px;
         }
-        .nav-toggle.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+        .nav-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
         .nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .nav-toggle.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+        .nav-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
     </style>
 </head>
 
@@ -97,9 +105,11 @@
                 <button class="nav-toggle" id="mobile-menu-toggle" type="button" aria-label="Menu" onclick="toggleMobileMenu()">
                     <span></span><span></span><span></span>
                 </button>
+                <div class="top-nav-logo mobile-only" style="margin-left: 15px;">
+                    <img src="./assets/images/logo-domtomconnect.png" alt="Logo" style="height: 30px;">
+                </div>
                 <div id="nav-links-container">
                     <div class="nav-market-links">
-                        <a href="marketplace/directory.html" class="nav-market-link">Talents</a>
                         <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
                         <a href="marketplace/solutions.html" class="nav-market-link">Solutions</a>
                         <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
@@ -112,13 +122,17 @@
             <div class="content-wrapper">
                 <!-- 1. Overview (Unified Dashboard) -->
                 <div id="overview-view" class="view-section">
-                    <div id="ecosystem-grid-container"></div>
+                    <div id="ecosystem-grid-container">
+                        <!-- Loading State -->
+                        <div style="padding: 100px 20px; text-align: center;">
+                            <div class="splash-loader" style="margin: 0 auto;"></div>
+                            <p style="margin-top: 20px; color: #64748b; font-weight: 600;">Chargement de votre espace...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 2. SUCCESS ENGINE (Pilotage de Projet - Management Hub) -->
-                <div id="success-engine-view-fixed" class="view-section" style="display:none;">
-                    <!-- Orchestrated by dashboard-success-engine.js -->
-                </div>
+                <!-- 2. SUCCESS ENGINE (Pilotage de Projet) -->
+                <div id="success-engine-view-fixed" class="view-section" style="display:none;"></div>
 
                 <!-- 3. Specialized Ecosystem Views -->
                 <div id="missions-view" class="view-section" style="display:none;"></div>
@@ -128,62 +142,32 @@
                 <div id="business-view" class="view-section" style="display:none;"></div>
                 <div id="collaboration-view" class="view-section" style="display:none;"></div>
                 <div id="profile-view" class="view-section" style="display:none;"></div>
-                <div id="vitrine-view" class="view-section" style="display:none;"></div>
-                <div id="marketplace-view" class="view-section" style="display:none;"></div>
             </div>
         </main>
     </div>
 
-    <!-- Full Screen Mobile Menu Overlay (Native Look) -->
+    <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay" class="mobile-menu-overlay">
-        <div class="mobile-menu-content">
-            <div class="mobile-menu-header">
-                <div class="mobile-logo">Domtom Connect</div>
-                <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
-            </div>
-            <div class="mobile-menu-links">
-                <a href="#overview" onclick="toggleMobileMenu()">Tableau de Bord</a>
-                <a href="marketplace/directory.html">Annuaire Talents</a>
-                <a href="marketplace/jobs.html">Missions / Jobs</a>
-                <a href="marketplace/solutions.html">Solutions</a>
-                <a href="marketplace/projects.html">Projets d'Impact</a>
-                <a href="marketplace/evenements.html">Événements</a>
-                <a href="marketplace/companies.html">Entreprises</a>
-                <a href="messages.html">Messagerie</a>
-                <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
-                <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
-                <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444;">Déconnexion</a>
-            </div>
+        <div class="mobile-menu-header">
+            <div class="mobile-logo">Domtom Connect</div>
+            <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#overview" onclick="toggleMobileMenu()">Tableau de Bord</a>
+            <a href="marketplace/directory.html">Annuaire Talents</a>
+            <a href="marketplace/jobs.html">Missions / Jobs</a>
+            <a href="marketplace/solutions.html">Solutions</a>
+            <a href="marketplace/projects.html">Projets d'Impact</a>
+            <a href="marketplace/evenements.html">Événements</a>
+            <a href="marketplace/companies.html">Entreprises</a>
+            <a href="messages.html">Messagerie</a>
+            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
+            <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
+            <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444;">Déconnexion</a>
         </div>
     </div>
 
-    <!-- PLATFORM ENGINE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./assets/js/territory_config.js?v=11.1"></script>
-    <script src="./assets/js/auth.js?v=11.1"></script>
-    
-    <!-- Ecosystem Modules -->
-    <script src="./assets/js/ecosystems/standard.module.js?v=11.1"></script>
-    <script src="./assets/js/ecosystems/collaboration.module.js?v=11.1"></script>
-    <script src="./assets/js/ecosystems/owners.module.js?v=11.1"></script>
-    <script src="./assets/js/ecosystems/experts.module.js?v=11.1"></script>
-    <script src="./assets/js/ecosystems/companies.module.js?v=11.1"></script>
-    <script src="./assets/js/ecosystems/spectators.module.js?v=11.1"></script>
-    <script src="./assets/js/modules/ticketing.module.js?v=11.1"></script>
-    <script src="./assets/js/modules/business.module.js?v=11.1"></script>
-    <script src="./assets/js/modules/showcase.module.js?v=11.1"></script>
-    <script src="./assets/js/dashboard-success-engine.js?v=11.1"></script>
-
-    <!-- Platform Orchestrator -->
-    <script src="./assets/js/ui-components.js?v=11.1"></script>
-    <script src="./assets/js/router.js?v=11.1"></script>
-    <script src="./assets/js/modules/payment.module.js?v=11.1"></script>
-    <script src="./assets/js/app.js?v=11.1"></script>
-
-    <!-- Modals Layer -->
-    <div id="details-modal-overlay" class="modal-overlay"></div>
-
-    <!-- Mobile Navigation -->
+    <!-- Mobile Navigation Bar (Bottom) -->
     <nav class="mobile-nav">
         <a href="#overview" class="mobile-nav-link active">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -202,35 +186,32 @@
             Profil
         </a>
     </nav>
+
+    <!-- CORE SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./assets/js/territory_config.js?v=11.1"></script>
+    <script src="./assets/js/auth.js?v=11.1"></script>
+    
+    <!-- Modules -->
+    <script src="./assets/js/ecosystems/standard.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/collaboration.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/owners.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/experts.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/companies.module.js?v=11.1"></script>
+    <script src="./assets/js/ecosystems/spectators.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/ticketing.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/business.module.js?v=11.1"></script>
+    <script src="./assets/js/modules/showcase.module.js?v=11.1"></script>
+    <script src="./assets/js/dashboard-success-engine.js?v=11.1"></script>
+
+    <!-- Orchestration -->
+    <script src="./assets/js/ui-components.js?v=11.1"></script>
+    <script src="./assets/js/router.js?v=11.1"></script>
+    <script src="./assets/js/modules/payment.module.js?v=11.1"></script>
+    <script src="./assets/js/app.js?v=11.1"></script>
+
     <script>
-        // --- 1. Dashboard Navigation Sync ---
-        function syncNavActiveState() {
-            const path = window.location.pathname;
-            const hash = window.location.hash || '#overview';
-            const cleanPath = path.replace('/mon-espace/', '').replace('/dashboard/', '');
-            
-            // Mobile Bottom Nav
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href.includes(cleanPath) || (path === '/mon-espace' && href.includes('overview')) || href === hash) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-
-            // Top Nav Market Links
-            document.querySelectorAll('.nav-market-link').forEach(link => {
-                const href = link.getAttribute('href');
-                if (window.location.pathname.includes(href)) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        }
-
-        // --- 2. Mobile Menu Toggle ---
+        // Inline UI Helpers
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu-overlay');
             const btn = document.getElementById('mobile-menu-toggle');
@@ -240,136 +221,22 @@
             }
         }
 
-        // --- 3. Event Listeners ---
-        window.addEventListener('hashchange', syncNavActiveState);
-        window.addEventListener('load', () => {
-            syncNavActiveState();
-            
-            // Close mobile menu on hash change (navigation)
-            window.addEventListener('hashchange', () => {
-                const menu = document.getElementById('mobile-menu-overlay');
-                if (menu) menu.classList.remove('active');
-                const btn = document.getElementById('mobile-menu-toggle');
-                if (btn) btn.classList.remove('active');
+        function syncNavActiveState() {
+            const hash = window.location.hash || '#overview';
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === hash);
             });
+        }
+
+        window.addEventListener('hashchange', () => {
+            syncNavActiveState();
+            const menu = document.getElementById('mobile-menu-overlay');
+            if (menu) menu.classList.remove('active');
+            const btn = document.getElementById('mobile-menu-toggle');
+            if (btn) btn.classList.remove('active');
         });
+
+        document.addEventListener('DOMContentLoaded', syncNavActiveState);
     </script>
-
-
-    <!-- Platform Orchestrator (Script section follows) -->
-
-    <style>
-        .mobile-menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: #0f172a; 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            z-index: 10001;
-            display: none; 
-            visibility: hidden;
-            pointer-events: none;
-            opacity: 0;
-            transform: scale(1.1);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            color: white;
-            padding: 60px 32px;
-            flex-direction: column;
-        }
-        .mobile-menu-overlay.active {
-            display: flex;
-            visibility: visible;
-            pointer-events: auto;
-            opacity: 1;
-            transform: scale(1);
-        }
-        .mobile-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-        .mobile-logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            color: white;
-        }
-        .close-menu {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .mobile-menu-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        .menu-section-label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 950;
-            color: #10b981;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 20px;
-        }
-        .mobile-menu-links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .mobile-menu-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 850;
-            letter-spacing: -0.03em;
-            transition: all 0.2s;
-        }
-        .mobile-menu-links a:active { opacity: 0.6; transform: translateX(5px); }
-        
-        .logout-btn-mobile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444 !important;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-weight: 950;
-            text-decoration: none;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            font-size: 1.1rem;
-        }
-
-        .desktop-only { display: block; }
-        @media (max-width: 1024px) {
-            .desktop-only { display: none !important; }
-        }
-
-        .nav-toggle span {
-            display: block;
-            width: 24px;
-            height: 2.5px;
-            background: #0f172a; 
-            margin: 5px 0;
-            transition: 0.3s;
-            border-radius: 4px;
-        }
-        .nav-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-        .nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .nav-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-    </style>
 </body>
 </html>

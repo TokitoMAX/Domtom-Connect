@@ -73,10 +73,10 @@ const OwnersModule = {
         if (profile.current_funding > 0) maturity += 20;
 
         container.innerHTML = `
-            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif; display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- 1. COMPACT HERO BANNER -->
-                <div class="epic-hero" style="grid-column: span 12; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); min-height: 280px; display: flex; align-items: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+                <div class="epic-hero" style="grid-column: 1 / -1; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); min-height: 280px; display: flex; align-items: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
                     <div style="position: relative; z-index: 10; max-width: 800px;">
                         <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2);">Cockpit de Commandement</div>
                         <h1 style="font-size: 3rem; font-weight: 950; color: white; margin: 0; letter-spacing: -0.05em; line-height: 1;">${profile.project_name || 'Ma Nouvelle Épopée'}</h1>

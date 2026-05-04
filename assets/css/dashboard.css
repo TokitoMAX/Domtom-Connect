@@ -353,10 +353,14 @@ html, body {
 
 @media (max-width: 1024px) {
     .dash-grid-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .dash-grid-layout > div {
+        grid-column: 1 / -1 !important;
     }
     .dash-main-col, .dash-side-col {
-        grid-column: 1 / -1;
+        grid-column: 1 / -1 !important;
     }
 }
 

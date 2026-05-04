@@ -107,14 +107,14 @@ const App = {
         console.log(`[App] Switching view to: ${viewId} with params:`, params);
         this.state.activeView = viewId;
 
-        // Hide all views (SPA Strategy)
+        // 1. Hide all views (SPA Strategy)
         const containers = document.querySelectorAll('.view-section');
         containers.forEach(c => c.style.display = 'none');
         
-        // Modules and specialized views
+        // 2. Resolve target view and container
         const overview = document.getElementById('overview-view');
-        const successEngine = document.getElementById('success-engine-view-fixed');
-        const billetterie = document.getElementById('billetterie-view');
+        const targetViewId = `${viewId}-view`;
+        const targetView = document.getElementById(targetViewId);
         
         // Role Isolation: Strictly enforce view permissions
         const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
@@ -126,29 +126,49 @@ const App = {
             return;
         }
 
-        if (successEngine) successEngine.style.display = (viewId === 'success-engine' && (isOwner || isAdmin)) ? 'block' : 'none';
+        // Show the active view container
+        if (viewId === 'overview' && overview) {
+            overview.style.display = 'block';
+        } else if (targetView) {
+            targetView.style.display = 'block';
+        }
 
-        // Select Module based on role
-        const activeModule = this.getActiveModule();
+        // 3. Select Module based on role
+        let activeModule = this.getActiveModule();
         
-        if (activeModule) {
-            // View Orchestration
-            const targetViewId = `${viewId}-view`;
-            const targetView = document.getElementById(targetViewId);
-            
-            if (viewId === 'overview' && overview) {
-                overview.style.display = 'block';
-            } else if (targetView) {
-                targetView.style.display = 'block';
+        // Robust Wait for Module to Load (Mobile/Slow network support)
+        if (!activeModule) {
+            console.warn(`[App] Module for role ${this.state.role} not found. Retrying...`);
+            let retry = 0;
+            while (!activeModule && retry < 20) {
+                await new Promise(r => setTimeout(r, 200));
+                activeModule = this.getActiveModule();
+                retry++;
             }
+        }
 
-            const gridContainer = document.getElementById('ecosystem-grid-container');
-            const targetContainer = targetView || gridContainer;
+        // 4. Render Module Content
+        const gridContainer = document.getElementById('ecosystem-grid-container');
+        const targetContainer = targetView || gridContainer;
+
+        if (activeModule) {
+            console.log(`[App] Executing ${activeModule.role || 'standard'} module router for view: ${viewId}`);
             
-            // SECURITY CHECK: Always clear target before injecting a new module view
-            if (targetContainer) targetContainer.innerHTML = '';
+            // SECURITY CHECK: Clear target before injecting new module content
+            if (targetContainer) {
+                // Keep some height to avoid "jumpy" UI
+                targetContainer.innerHTML = '<div style="min-height:400px; display:flex; align-items:center; justify-content:center;"><div class="splash-loader"></div></div>';
+            }
             
-            await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
+            try {
+                await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
+            } catch (err) {
+                console.error("[App] Module Route Error:", err);
+                if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;
+            }
+        } else {
+            console.error(`[App] Critical: Active module not found for role: ${this.state.role}`);
+            if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Module ${this.state.role} introuvable. Veuillez recharger la page.</div>`;
         }
     },
 
