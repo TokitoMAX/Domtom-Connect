@@ -178,7 +178,7 @@ const UIComponents = {
         } catch(e) {}
 
         const items = containerElement.children;
-        if (items.length <= 1) return; // not enough to wall
+        if (items.length === 0) return; // not enough to wall
 
         for (let i = 0; i < items.length; i++) {
             if (i >= 2) {
