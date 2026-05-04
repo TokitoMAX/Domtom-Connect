@@ -10,6 +10,74 @@ const ShowcaseModule = {
 
 
     /**
+     * GLOBAL MARKETPLACE - Discovery Hub (Cross-Expert Solutions)
+     */
+    async renderMarketplace(container) {
+        if (!container) return;
+        container.innerHTML = `<div style="text-align:center;padding:100px;"><div class="splash-loader" style="margin:0 auto;"></div><p style="margin-top:20px; font-weight:700; color:#64748b;">Exploration du Marketplace...</p></div>`;
+        
+        try {
+            // 1. Fetch all listed showcase items with their provider profiles
+            const { data: items, error } = await window._supabase
+                .from('showcase_items')
+                .select('*, profiles:user_id(full_name, avatar_url, territory, role)')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:100px; color:#94a3b8; font-weight:800;">Aucune solution digitale disponible pour le moment.</div>`;
+                return;
+            }
+
+            // 2. Render Premium Gallery
+            container.innerHTML = `
+                <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                    
+                    <div style="margin-bottom: 40px;">
+                        <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; letter-spacing: -0.06em; margin: 0; color: #0f172a;">Catalogue de Solutions</h2>
+                        <p style="color: #64748b; font-weight: 700; font-size: 1.1rem; margin-top: 8px;">Explorez les expertises digitales de notre écosystème.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px;">
+                        ${items.map(item => `
+                            <div onclick="ShowcaseModule.openPublicItemModal('${item.id}')" style="background: white; border: 1.5px solid #e2e8f0; border-radius: 28px; padding: 24px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; gap: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='#10b981'; this.style.boxShadow='0 20px 40px -10px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.02)';">
+                                
+                                <div style="width: 100%; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; background: #f8fafc; border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">
+                                    ${item.image_url ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'}
+                                </div>
+
+                                <div style="flex-grow: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                        <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -0.02em;">${item.title}</h3>
+                                        <div style="font-weight: 950; color: #10b981; font-size: 1.1rem;">${item.price.toFixed(0)}€</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: #64748b; line-height: 1.5; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description || 'Solution experte pour votre épopée territoriale.'}</p>
+                                </div>
+
+                                <div style="display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1.5px solid #f1f5f9;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 900;">
+                                        ${item.profiles?.avatar_url ? `<img src="${item.profiles.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : (item.profiles?.full_name?.charAt(0) || 'D')}
+                                    </div>
+                                    <div style="flex-grow: 1;">
+                                        <div style="font-size: 0.8rem; font-weight: 800; color: #0f172a;">${item.profiles?.full_name || 'Expert'}</div>
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; text-transform: uppercase;">${item.profiles?.territory || 'Antilles'}</div>
+                                    </div>
+                                    <button style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">Détails</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+        } catch (err) {
+            console.error("[ShowcaseModule] Marketplace Render Error:", err);
+            container.innerHTML = `<div style="padding:40px; text-align:center; color:#ef4444; font-weight:700;">Erreur lors du chargement du catalogue.</div>`;
+        }
+    },
+
+    /**
      * DASHBOARD EXPERT - Hub Financier & Catalogue
      */
     async renderManager(container) {
