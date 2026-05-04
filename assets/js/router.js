@@ -28,22 +28,6 @@ const Router = {
         window.addEventListener('popstate', (event) => this.handleCurrentRoute());
         window.addEventListener('hashchange', () => this.handleCurrentRoute());
 
-        // Intercept clicks
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (!link) return;
-
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('javascript:') || href === 'void(0)') return;
-
-            // CRITICAL: Only intercept hash links for SPA navigation
-            // Any real file link (with .html or a different path) must be handled by the browser
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                this.navigate(href);
-            }
-        });
-
         this.handleCurrentRoute();
     },
 

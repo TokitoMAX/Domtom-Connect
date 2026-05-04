@@ -199,9 +199,10 @@ window.showView = (id, force, params) => App.showView(id, force, params);
 
 // Auto-boot if on the correct page
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.includes('/mon-espace') || 
-        window.location.pathname.includes('/dashboard') || 
-        document.getElementById('nav-links-container')) {
+    if (window.location.pathname.includes('mon-espace') || 
+        window.location.pathname.includes('dashboard') || 
+        document.querySelector('.sidebar') || 
+        document.querySelector('.main-content')) {
         App.init();
     }
 });

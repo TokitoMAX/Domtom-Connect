@@ -40,9 +40,6 @@ const ExpertsModule = {
                     ShowcaseModule.renderManager(target);
                 }
                 break;
-            case 'missions':
-                window.location.href = 'marketplace/jobs.html';
-                break;
             case 'overview':
             default:
                 if (container) container.style.display = 'block';

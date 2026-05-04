@@ -12,13 +12,12 @@ const UIComponents = {
         if (!sidebar) return;
 
         // --- PATH LOGIC (Robust local file support) ---
-        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-        const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
+        const prefix = isSubFolder ? '../' : '';
         const adjust = (p) => {
             if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
             let clean = p.startsWith('/') ? p.slice(1) : p;
+            // Never add .html to hashes
             if (!clean.includes('.') && !clean.includes('#')) {
-                // Ensure events and companies have .html if they are being served as files
                 if (clean === 'marketplace/evenements' || clean === 'marketplace/companies') clean += '.html';
                 else if (!clean.endsWith('/')) clean += '.html';
             }
@@ -98,7 +97,7 @@ const UIComponents = {
         }
 
         const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-        const prefix = window.location.protocol === 'file:' ? (isSubFolder ? '../' : '') : '/';
+        const prefix = isSubFolder ? '../' : '';
         const adjust = (p) => {
             if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
             let clean = p.startsWith('/') ? p.slice(1) : p;
@@ -131,7 +130,10 @@ const UIComponents = {
             
             <div class="nav-content" id="primary-navigation">
                 <div class="nav-links">
-                    ${Object.values(config).map(item => `<a href="${adjust(item.path)}">${item.label}</a>`).join('')}
+                    ${Object.values(config).map(item => {
+                        const active = window.location.pathname.includes(item.path.split('/').pop()) ? 'class="active"' : '';
+                        return `<a href="${adjust(item.path)}" ${active}>${item.label}</a>`;
+                    }).join('')}
                 </div>
                 
                 <div class="nav-actions" id="nav-auth-actions">
