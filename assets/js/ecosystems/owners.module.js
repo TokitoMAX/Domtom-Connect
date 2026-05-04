@@ -41,9 +41,6 @@ const OwnersModule = {
                     window.BusinessModule.renderView(bizView);
                 }
                 break;
-            case 'marketplace':
-                window.location.href = 'marketplace/directory.html';
-                break;
             case 'overview':
             default:
                 OwnersModule.renderDashboard(target, profile, session);

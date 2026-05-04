@@ -52,12 +52,6 @@ const CompaniesModule = {
                     ShowcaseModule.renderManager(target);
                 }
                 break;
-            case 'marketplace':
-                window.location.href = 'marketplace/directory.html';
-                break;
-            case 'missions':
-                window.location.href = 'marketplace/missions.html';
-                break;
             case 'overview':
             default:
                 if (container) container.style.display = 'block';

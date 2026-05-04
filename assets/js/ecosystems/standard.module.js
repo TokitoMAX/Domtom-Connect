@@ -25,9 +25,6 @@ const StandardModule = {
             case 'profile':
                 await StandardModule.renderProfile(target, profile, session);
                 break;
-            case 'marketplace':
-                window.location.href = 'marketplace/directory.html';
-                break;
             case 'overview':
             default:
                 await StandardModule.renderDashboard(target, profile, session);

@@ -12,12 +12,10 @@ const Router = {
         'success-engine': 'success-engine',
         'billetterie': 'billetterie',
         'mes-billets': 'mes-billets',
-        'missions': 'missions',
         'business': 'business',
         'collaboration': 'collaboration',
         'profile': 'profile',
-        'vitrine': 'vitrine',
-        'marketplace': 'marketplace'
+        'vitrine': 'vitrine'
     },
 
     /**
@@ -38,10 +36,9 @@ const Router = {
             const href = link.getAttribute('href');
             if (!href || href.startsWith('javascript:') || href === 'void(0)') return;
 
-            // CRITICAL: Never intercept real file navigation or marketplace links
-            if (href.includes('.html') || href.includes('marketplace/')) return;
-
-            if (href.startsWith('#') || href.startsWith('/dashboard') || href.startsWith('/mon-espace')) {
+            // CRITICAL: Only intercept hash links for SPA navigation
+            // Any real file link (with .html or a different path) must be handled by the browser
+            if (href.startsWith('#')) {
                 e.preventDefault();
                 this.navigate(href);
             }
