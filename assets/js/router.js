@@ -102,12 +102,14 @@ const Router = {
             }
         } 
         
-        // 3. Last fallback: loop
+        // 3. Last fallback: loop (But never match real HTML files)
         if (!viewId || viewId === 'overview') {
-            for (const [route, id] of Object.entries(this.routes)) {
-                if (path.includes(route) || hash.includes(route)) {
-                    viewId = id;
-                    break;
+            if (!path.includes('.html')) {
+                for (const [route, id] of Object.entries(this.routes)) {
+                    if (path.includes(route) || hash.includes(route)) {
+                        viewId = id;
+                        break;
+                    }
                 }
             }
         }

@@ -19,11 +19,7 @@ const SpectatorsModule = {
                 }
                 break;
             case 'marketplace':
-                if (window.ShowcaseModule) {
-                    ShowcaseModule.renderMarketplace(target);
-                } else {
-                    window.location.href = 'marketplace/directory.html';
-                }
+                window.location.href = 'marketplace/directory.html';
                 break;
             case 'billetterie':
                 const ticketingView = document.getElementById('billetterie-view');

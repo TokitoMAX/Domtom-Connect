@@ -53,9 +53,10 @@ const CompaniesModule = {
                 }
                 break;
             case 'marketplace':
-                if (window.ShowcaseModule) {
-                    ShowcaseModule.renderMarketplace(target);
-                }
+                window.location.href = 'marketplace/directory.html';
+                break;
+            case 'missions':
+                window.location.href = 'marketplace/missions.html';
                 break;
             case 'overview':
             default:
@@ -115,7 +116,7 @@ const CompaniesModule = {
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">${isProjectOwner ? 'Mon Épopée' : 'Talents Hub'}</h4>
                         <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">${isProjectOwner ? 'Missions Suite' : 'Annuaire Experts'}</div>
-                        <button onclick="window.location.hash = '${isProjectOwner ? 'success-engine' : 'marketplace'}'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
+                        <button onclick="window.location.href = '${isProjectOwner ? 'mon-espace.html#success-engine' : 'marketplace/directory.html'}'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
                     </div>
 
                     ${isPro ? `

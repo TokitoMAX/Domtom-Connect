@@ -26,9 +26,7 @@ const StandardModule = {
                 await StandardModule.renderProfile(target, profile, session);
                 break;
             case 'marketplace':
-                if (window.ShowcaseModule) {
-                    ShowcaseModule.renderMarketplace(target);
-                }
+                window.location.href = 'marketplace/directory.html';
                 break;
             case 'overview':
             default:

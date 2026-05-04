@@ -41,9 +41,7 @@ const ExpertsModule = {
                 }
                 break;
             case 'marketplace':
-                if (window.ShowcaseModule) {
-                    ShowcaseModule.renderMarketplace(target);
-                }
+                window.location.href = 'marketplace/directory.html';
                 break;
             case 'missions':
                 window.location.href = 'marketplace/jobs.html';
