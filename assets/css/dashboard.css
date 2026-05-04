@@ -2630,25 +2630,11 @@ html, body {
     }
 
     .nav-market-links {
-        padding: 12px !important;
-        gap: 8px !important;
-        max-width: 100% !important;
-        border-radius: 20px !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        background: #0f172a !important; 
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-        margin: 10px !important;
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
+        display: none !important;
     }
 
     .nav-market-link {
-        padding: 12px 8px !important;
-        font-size: 0.8rem !important;
-        background: rgba(255,255,255,0.05) !important;
-        border-radius: 12px !important;
-        text-align: center !important;
-        justify-content: center !important;
+        display: none !important;
     }
 
     .nav-market-link.active {
