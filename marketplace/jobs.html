@@ -370,6 +370,10 @@
                     </div>
                 </div>`;
             }).join('');
+            
+            if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                window.UIComponents.applyAuthWall(container, 'missions');
+            }
         }
 
         function openApplyModal(id, title) { currentApplyJobId = id; document.getElementById('apply-modal-job-title').textContent = title; document.getElementById('apply-modal').classList.add('open'); }

@@ -664,6 +664,10 @@
                 emptyState.style.display = 'none';
                 container.style.display = 'grid';
                 container.innerHTML = filtered.map(renderProjectCard).join('');
+                
+                if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                    window.UIComponents.applyAuthWall(container, 'épopées');
+                }
             } catch (err) {
                 console.error('[Projects] Error:', err);
                 emptyState.style.display = 'block';

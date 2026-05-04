@@ -165,6 +165,71 @@ const UIComponents = {
                 `;
             }
         }
+    },
+
+    async applyAuthWall(containerElement, typeName) {
+        if (!containerElement) return;
+        const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+        if (!db) return;
+
+        try {
+            const { data } = await db.auth.getSession();
+            if (data?.session) return; // logged in
+        } catch(e) {}
+
+        const items = containerElement.children;
+        if (items.length <= 1) return; // not enough to wall
+
+        for (let i = 0; i < items.length; i++) {
+            if (i >= 2) {
+                items[i].style.filter = 'blur(6px)';
+                items[i].style.pointerEvents = 'none';
+                items[i].style.userSelect = 'none';
+                items[i].style.opacity = '0.7';
+            }
+        }
+
+        containerElement.style.position = 'relative';
+        
+        const isDark = document.body.style.background.includes('var(--bg-main)') || window.location.pathname.includes('projects');
+        const boxBg = isDark ? '#131B2F' : 'white';
+        const textColor = isDark ? 'white' : '#0f172a';
+        const textMuted = isDark ? '#9CA3AF' : '#64748b';
+        const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#e2e8f0';
+        const prefix = this.getPathPrefix();
+
+        let overlay = containerElement.querySelector('.auth-wall-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'auth-wall-overlay';
+            containerElement.appendChild(overlay);
+        }
+
+        overlay.style.position = 'absolute';
+        overlay.style.bottom = '-10px';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '60%';
+        overlay.style.display = 'flex';
+        overlay.style.flexDirection = 'column';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'flex-end';
+        overlay.style.paddingBottom = '40px';
+        overlay.style.zIndex = '10';
+
+        overlay.innerHTML = `
+            <div style="background: ${boxBg}; padding: 40px; border-radius: 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid ${borderColor}; max-width: 500px; margin: 0 auto; width: 90%;">
+                <div style="width: 56px; height: 56px; background: rgba(16, 185, 129, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #10b981;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 16px; color: ${textColor}; line-height: 1.3;">Inscrivez-vous pour voir tous les ${typeName}</h3>
+                <p style="color: ${textMuted}; margin-bottom: 32px; line-height: 1.6; font-size: 0.95rem;">L'accès complet à cet espace est réservé aux membres.</p>
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="${this.adjustPath('login.html', prefix)}" class="cta-button secondary" style="padding: 12px 24px; border: 1px solid ${borderColor}; border-radius: 12px; font-weight: 700; color: ${textColor}; text-decoration: none; background: transparent;">Se connecter</a>
+                    <a href="${this.adjustPath('register-choice.html', prefix)}" class="cta-button primary" style="background: #10b981; color: white !important; padding: 12px 24px; border-radius: 12px; font-weight: 700; text-decoration: none; border: none; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">S'inscrire (Gratuit)</a>
+                </div>
+            </div>
+        `;
     }
 };
 

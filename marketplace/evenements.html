@@ -487,6 +487,10 @@
                 emptyState.style.display = 'none';
                 container.style.display = 'grid';
                 container.innerHTML = filtered.map(renderEventCard).join('');
+                
+                if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                    window.UIComponents.applyAuthWall(container, 'événements');
+                }
             } catch (err) {
                 console.error('[Events] Error:', err);
                 emptyState.style.display = 'block';

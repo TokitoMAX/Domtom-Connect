@@ -646,6 +646,10 @@
                 
                 emptyState.style.display = 'none';
                 container.innerHTML = filtered.map(renderCompanyCard).join('');
+                
+                if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                    window.UIComponents.applyAuthWall(container, 'entreprises');
+                }
             } catch (err) { 
                 console.error('[Companies] Error:', err); 
                 if (container) container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:100px; color:#ef4444; font-weight:700;">Erreur lors du chargement des entreprises.</p>';

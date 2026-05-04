@@ -228,6 +228,10 @@
                         </div>
                     </div>
                 `).join('');
+                
+                if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                    window.UIComponents.applyAuthWall(container, 'talents');
+                }
 
             } catch (err) {
                 console.error("[Directory] Load Profiles Error:", err);
