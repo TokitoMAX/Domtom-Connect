@@ -2642,7 +2642,7 @@ html, body {
         -webkit-backdrop-filter: blur(10px);
         display: flex !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: center !important;
         z-index: 1000;
         border-bottom: 1px solid var(--gray-100);
         pointer-events: auto !important;
