@@ -5,24 +5,35 @@
 
 const UIComponents = {
     /**
+     * Helper: Detect if we are in a subfolder and return path prefix
+     */
+    getPathPrefix() {
+        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
+        return isSubFolder ? '../' : '';
+    },
+
+    /**
+     * Helper: Adjust paths for universal loading
+     */
+    adjustPath(p, prefix) {
+        if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
+        let clean = p.startsWith('/') ? p.slice(1) : p;
+        if (!clean.includes('.') && !clean.includes('#')) {
+            if (clean === 'marketplace/evenements' || clean === 'marketplace/companies') clean += '.html';
+            else if (!clean.endsWith('/')) clean += '.html';
+        }
+        return prefix + clean;
+    },
+
+    /**
      * Render the Sidebar
      */
     renderSidebar(role, territory) {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
-        // --- PATH LOGIC (Robust local file support) ---
-        const prefix = isSubFolder ? '../' : '';
-        const adjust = (p) => {
-            if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
-            let clean = p.startsWith('/') ? p.slice(1) : p;
-            // Never add .html to hashes
-            if (!clean.includes('.') && !clean.includes('#')) {
-                if (clean === 'marketplace/evenements' || clean === 'marketplace/companies') clean += '.html';
-                else if (!clean.endsWith('/')) clean += '.html';
-            }
-            return prefix + clean;
-        };
+        const prefix = this.getPathPrefix();
+        const adjust = (p) => this.adjustPath(p, prefix);
 
         const config = {
             talents: { label: 'Talents', path: 'marketplace/directory.html', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-10a4 4 0 11-8 0 4 4 0 018 0zm6 3l2 2m0 0l2-2m-2 2v-6' },
@@ -88,7 +99,6 @@ const UIComponents = {
         let nav = document.querySelector('.navbar');
         if (!nav) return;
         
-        // Ensure container exists for injection
         let navContainer = nav.querySelector('.container');
         if (!navContainer) {
             navContainer = document.createElement('div');
@@ -96,17 +106,8 @@ const UIComponents = {
             nav.appendChild(navContainer);
         }
 
-        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
-        const prefix = isSubFolder ? '../' : '';
-        const adjust = (p) => {
-            if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
-            let clean = p.startsWith('/') ? p.slice(1) : p;
-            if (!clean.includes('.') && !clean.includes('#')) {
-                if (clean === 'marketplace/evenements' || clean === 'marketplace/companies') clean += '.html';
-                else if (!clean.endsWith('/')) clean += '.html';
-            }
-            return prefix + clean;
-        };
+        const prefix = this.getPathPrefix();
+        const adjust = (p) => this.adjustPath(p, prefix);
 
         const config = {
             talents: { label: 'Talents', path: 'marketplace/directory.html' },
@@ -117,7 +118,6 @@ const UIComponents = {
             companies: { label: 'Entreprises', path: 'marketplace/companies.html' }
         };
 
-        // Always Clean Nav Structure
         navContainer.innerHTML = `
             <a href="${adjust('index.html')}" class="nav-brand">
                 <img src="${adjust('assets/images/logo-domtomconnect.png')}" alt="Domtom Connect" class="nav-logo">
@@ -143,12 +143,10 @@ const UIComponents = {
             </div>
         `;
 
-        // Force visibility
         nav.style.backgroundColor = 'white';
         nav.style.borderBottom = '1px solid #e2e8f0';
         nav.style.display = 'flex';
 
-        // Update Auth Actions
         let session = null;
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
