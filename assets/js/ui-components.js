@@ -136,9 +136,9 @@ const UIComponents = {
                     }).join('')}
                 </div>
                 
-                <div class="nav-actions" id="nav-auth-actions">
-                    <a href="${adjust('login.html')}" class="nav-login">Démarrer</a>
-                    <a href="${adjust('register-choice.html')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Rejoindre / Explorer</a>
+                <div class="nav-actions" id="nav-auth-actions" style="display: flex; align-items: center; gap: 16px;">
+                    <a href="${adjust('login.html')}" style="color: #0f172a; font-weight: 700; text-decoration: none;">Se connecter</a>
+                    <a href="${adjust('register-choice.html')}" class="cta-button primary" style="background:#10b981; color: white !important; border: none; padding: 10px 24px; border-radius: 12px;">S'inscrire</a>
                 </div>
             </div>
         `;
