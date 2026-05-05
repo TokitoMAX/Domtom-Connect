@@ -278,13 +278,23 @@
             syncNavActiveState();
             fixNavigationLinks();
             
-            // Global Interceptor to force external navigation
+            // Global Interceptor to force clean SPA navigation or external redirects
             document.addEventListener('click', (e) => {
-                const link = e.target.closest('.nav-market-link, .top-nav-logo');
+                const link = e.target.closest('.nav-market-link, .top-nav-logo, .sidebar-link, .mobile-nav-link, .mobile-menu-links a');
                 if (link) {
                     const href = link.getAttribute('href');
-                    if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.includes('mailto:')) {
-                        console.log("[NavFix] Forcing navigation to:", link.href);
+                    if (!href || href.startsWith('javascript:') || href.includes('mailto:')) return;
+
+                    // If it's an internal dashboard link, use the Router
+                    if (href.includes('mon-espace') || href.startsWith('#') || !href.includes('.html')) {
+                        console.log("[NavFix] SPA Navigation for:", href);
+                        if (window.Router) {
+                            e.preventDefault();
+                            window.Router.navigate(href);
+                        }
+                    } else {
+                        // External or other module navigation
+                        console.log("[NavFix] Forcing external navigation to:", link.href);
                         e.preventDefault();
                         window.location.href = link.href;
                     }
