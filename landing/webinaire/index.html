@@ -1001,9 +1001,10 @@ https://domtomconnect.com`;
         // Si l'utilisateur est connecté, le logo ramène au mon-espace
         async function checkConnection() {
             try {
-                // Initialize Supabase if needed (assuming global availability)
-                if (window.supabase) {
-                   const { data: webinars, error } = await window.supabase
+                // Initialize Supabase if needed
+                const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+                if (db) {
+                   const { data: webinars, error } = await db
                         .from('webinars')
                         .select('title, scheduled_at')
                         .gte('scheduled_at', new Date().toISOString())

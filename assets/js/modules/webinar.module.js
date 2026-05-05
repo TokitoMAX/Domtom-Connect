@@ -96,10 +96,18 @@ const WebinarModule = {
             listContainer.innerHTML = webinars.map(w => WebinarModule.renderWebinarCard(w)).join('');
         } catch (err) {
             console.error("Error loading webinars:", err);
+            let errorMessage = "Impossible de charger les webinaires. Vérifiez votre connexion.";
+            
+            if (err.code === 'PGRST116' || err.message?.includes('not found')) {
+                errorMessage = "La table 'webinars' n'existe pas encore dans votre base de données Supabase.";
+            }
+
             listContainer.innerHTML = `
-                <div style="grid-column: 1 / -1; padding: 40px; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 20px; text-align: center;">
-                    <p style="color: #b91c1c; font-weight: 700;">Impossible de charger les webinaires. Vérifiez votre connexion.</p>
-                    <button onclick="WebinarModule.loadWebinars()" style="margin-top: 12px; background: #b91c1c; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Réessayer</button>
+                <div style="grid-column: 1 / -1; padding: 60px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 32px; text-align: center; animation: fadeIn 0.5s ease;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">⚠️</div>
+                    <p style="color: #991b1b; font-weight: 800; font-size: 1.1rem; margin-bottom: 8px;">${errorMessage}</p>
+                    <p style="color: #b91c1c; font-size: 0.9rem; margin-bottom: 24px;">${err.message || ''}</p>
+                    <button onclick="WebinarModule.loadWebinars()" style="background: #e11d48; color: white; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.3s;">Réessayer la synchronisation</button>
                 </div>
             `;
         }
@@ -196,7 +204,10 @@ const WebinarModule = {
         `;
 
         try {
-            const { data: webinar, error } = await window._supabase
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) throw new Error("Supabase client non initialisé");
+
+            const { data: webinar, error } = await db
                 .from('webinars')
                 .select('*, profiles(full_name, avatar_url)')
                 .eq('id', webinarId)
