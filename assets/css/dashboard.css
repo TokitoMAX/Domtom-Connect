@@ -159,10 +159,14 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: 20000;
     width: 100%;
     padding: 0 40px;
-    pointer-events: none;
+    pointer-events: none !important;
+}
+
+.nav-market-links {
+    pointer-events: auto !important;
 }
 
 .top-nav-logo {
