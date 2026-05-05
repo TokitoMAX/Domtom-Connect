@@ -105,25 +105,25 @@
         <aside class="sidebar"></aside>
 
         <main class="main-content">
-            <header class="top-nav navbar" style="pointer-events: none; z-index: 20000;">
-        <a href="index.html" class="top-nav-logo mobile-only" style="pointer-events: auto;">
-            <img src="./assets/images/logo-domtomconnect.png" alt="Domtom Connect">
-        </a>
-        
-        <div id="nav-links-container" style="pointer-events: auto;">
-            <div class="nav-market-links" style="background: white; padding: 6px 20px; border-radius: 100px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; gap: 10px; border: 1px solid #e2e8f0;">
-                <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
-                <a href="marketplace/solutions.html" class="nav-market-link">Solutions</a>
-                <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
-                <a href="marketplace/evenements.html" class="nav-market-link">Événements</a>
-                <a href="marketplace/companies.html" class="nav-market-link">Entreprises</a>
-            </div>
-        </div>
-        
-        <button class="nav-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()" style="pointer-events: auto;">
-            <span></span><span></span><span></span>
-        </button>
-    </header>
+            <header class="top-nav" style="pointer-events: none; z-index: 20000; position: sticky; top: 20px; width: 100%; height: 60px; display: flex; align-items: center; justify-content: center;">
+                <a href="index.html" class="top-nav-logo mobile-only" style="pointer-events: auto; position: absolute; left: 40px;">
+                    <img src="./assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 35px;">
+                </a>
+                
+                <div id="nav-links-container" style="pointer-events: auto; display: flex; justify-content: center;">
+                    <div class="nav-market-links" style="background: white; padding: 6px 20px; border-radius: 100px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; gap: 10px; border: 1px solid #e2e8f0;">
+                        <a href="marketplace/jobs.html" class="nav-market-link">Missions</a>
+                        <a href="marketplace/solutions.html" class="nav-market-link">Solutions</a>
+                        <a href="marketplace/projects.html" class="nav-market-link">Projets</a>
+                        <a href="marketplace/evenements.html" class="nav-market-link">Événements</a>
+                        <a href="marketplace/companies.html" class="nav-market-link">Entreprises</a>
+                    </div>
+                </div>
+                
+                <button class="nav-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()" style="pointer-events: auto; position: absolute; right: 40px;">
+                    <span></span><span></span><span></span>
+                </button>
+            </header>
 
             <div class="content-wrapper">
                 <!-- 1. Overview (Unified Dashboard) -->
