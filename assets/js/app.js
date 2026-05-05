@@ -135,6 +135,11 @@ const App = {
 
         // 3. Select Module based on role
         let activeModule = this.getActiveModule();
+
+        // --- NEW: Global Module Overrides ---
+        if (viewId === 'webinars' && window.WebinarModule) {
+            activeModule = window.WebinarModule;
+        }
         
         // Robust Wait for Module to Load (Mobile/Slow network support)
         if (!activeModule) {

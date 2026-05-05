@@ -57,7 +57,29 @@ const SpectatorsModule = {
                     </div>
                 </div>
 
-                <!-- The 3 ACTIVE PATHS (The Transformation) -->
+                <!-- WEBINARS: The Live Connection -->
+                <div style="grid-column: 1 / -1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 60px 40px; border-radius: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
+                    <div>
+                        <span style="color: #10b981; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 0.75rem;">Événements Stratégiques</span>
+                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #0f172a; margin: 16px 0;">Assistez à nos Webinaires en Direct</h2>
+                        <p style="color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 32px;">
+                            Apprenez des meilleurs, découvrez les coulisses de l'écosystème et posez vos questions en temps réel lors de nos sessions hebdomadaires.
+                        </p>
+                        <button onclick="window.Router.navigate('#webinars')" class="cta-button primary" style="padding: 16px 32px; background: #0f172a; color: white; border: none; border-radius: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                            Voir le Programme 
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                    <div style="background: white; padding: 32px; border-radius: 32px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                        <div id="upcoming-webinar-mini" style="text-align: center; padding: 20px;">
+                            <div style="font-size: 2.5rem; margin-bottom: 16px;">🎥</div>
+                            <h4 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Prochaine Session Live</h4>
+                            <p style="color: #64748b; font-size: 0.9rem;">Consultez l'agenda complet pour vous inscrire.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIONS IMMÉDIATES (The Support Engine) -->
                 <div style="grid-column: 1 / -1;">
                     <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 40px; text-align: center;">Choisissez votre Épopée</h2>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
