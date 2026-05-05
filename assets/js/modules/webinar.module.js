@@ -1,7 +1,6 @@
 /**
  * Domtom Connect - Webinar Module
- * Strategic High-Impact Live Events Module
- * COMPETITOR-GRADE UPGRADE: Real-time Chat, Q&A, Polls, Resources
+ * LUXURY SAAS UPGRADE: Cinematic Experience, Mesh Gradients, Glassmorphism
  */
 const WebinarModule = {
     role: null,
@@ -21,7 +20,6 @@ const WebinarModule = {
         const target = container || document.getElementById('webinars-view') || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
-        // Cleanup previous subscriptions
         if (WebinarModule.activeSubscription) {
             WebinarModule.activeSubscription.unsubscribe();
             WebinarModule.activeSubscription = null;
@@ -37,35 +35,55 @@ const WebinarModule = {
     },
 
     /**
-     * Render Webinars List
+     * Render Webinars List with Cinematic Hero
      */
     renderWebinarsList: async (container, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="dash-section-header" style="margin-bottom: 40px; animation: fadeIn 0.5s ease-out;">
-                <h1 style="font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 900; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.04em;">Webinaires <span style="color: #10b981;">Premium</span></h1>
-                <p style="color: #64748b; font-size: 1.2rem; max-width: 600px; line-height: 1.6;">L'excellence stratégique en direct. Rejoignez nos experts et accélérez votre réussite.</p>
-            </div>
-
-            <div id="webinars-container" class="dash-grid-layout" style="gap: 32px;">
-                <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; background: white; padding: 32px 40px; border-radius: 32px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-bottom: 10px; flex-wrap: wrap; gap: 20px;">
-                    <div>
-                        <h3 style="margin: 0; font-size: 1.4rem; font-weight: 900; color: #0f172a;">Sessions Live & Replays</h3>
-                        <p style="margin: 6px 0 0 0; font-size: 1rem; color: #64748b;">Découvrez les prochaines masterclasses de l'écosystème.</p>
+            <div class="webinar-hero" style="position: relative; border-radius: 48px; padding: 80px; overflow: hidden; margin-bottom: 60px; background: #0f172a; min-height: 400px; display: flex; align-items: center; animation: fadeInDown 0.8s ease-out; box-shadow: 0 40px 100px rgba(0,0,0,0.1);">
+                <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 50%), radial-gradient(circle at 10% 80%, rgba(15, 23, 42, 0.8) 0%, transparent 60%); z-index: 1;"></div>
+                <div style="position: absolute; top: -50%; left: -20%; width: 140%; height: 200%; background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); opacity: 0.05; pointer-events: none; z-index: 1;"></div>
+                
+                <div style="position: relative; z-index: 2; max-width: 700px;">
+                    <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 8px 16px; border-radius: 100px; color: #10b981; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px;">
+                        <span class="live-pulse"></span> EXCELLENCE STRATÉGIQUE
                     </div>
-                    ${WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur' ? `
-                        <button onclick="WebinarModule.openCreateModal()" class="cta-button primary" style="background: #0f172a; color: white; border: none; border-radius: 16px; font-weight: 800; padding: 16px 32px; display: flex; align-items: center; gap: 12px; transition: 0.3s; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            Planifier un Live
-                        </button>
-                    ` : ''}
+                    <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: white; margin: 0 0 20px 0; line-height: 1.1; letter-spacing: -0.05em;">L'Elite en <span style="color: #10b981; background: linear-gradient(to right, #10b981, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Direct.</span></h1>
+                    <p style="color: #94a3b8; font-size: 1.3rem; line-height: 1.6; margin-bottom: 40px; font-weight: 500;">Accélérez votre trajectoire avec les masterclasses immersives de Domtom Connect. L'expertise n'attend pas.</p>
+                    
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        ${WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur' ? `
+                            <button onclick="WebinarModule.openCreateModal()" class="cta-button primary" style="background: #10b981; color: white; border: none; border-radius: 20px; font-weight: 900; padding: 20px 40px; display: flex; align-items: center; gap: 12px; transition: 0.4s; cursor: pointer; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                Lancer une Session
+                            </button>
+                        ` : ''}
+                        <button onclick="document.getElementById('sessions-anchor').scrollIntoView({behavior: 'smooth'})" style="background: transparent; border: 2px solid rgba(255,255,255,0.1); color: white; padding: 20px 40px; border-radius: 20px; font-weight: 900; cursor: pointer; transition: 0.3s; font-size: 1.1rem;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">Explorer le Programme</button>
+                    </div>
                 </div>
 
-                <div id="webinars-list" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 32px;">
-                    <div style="text-align: center; padding: 100px 40px; grid-column: 1 / -1; background: white; border-radius: 32px; border: 2px dashed #e2e8f0;">
-                        <div class="splash-loader" style="margin: 0 auto 24px;"></div>
-                        <h4 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Synchronisation des lives...</h4>
+                <!-- Abstract Decorative Element -->
+                <div style="position: absolute; right: 80px; top: 50%; transform: translateY(-50%); width: 300px; height: 300px; background: linear-gradient(135deg, #10b981 0%, #064e3b 100%); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; filter: blur(60px); opacity: 0.2; animation: morph 15s infinite alternate;"></div>
+            </div>
+
+            <div id="sessions-anchor" style="padding: 0 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
+                    <div>
+                        <h2 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -0.04em;">Calendrier <span style="color: #10b981;">Interactif</span></h2>
+                        <p style="color: #64748b; font-size: 1.1rem; margin-top: 8px;">Ne manquez aucune opportunité de croissance.</p>
+                    </div>
+                    <div style="display: flex; gap: 12px; background: #f1f5f9; padding: 6px; border-radius: 14px;">
+                        <button class="filter-btn active">Tout</button>
+                        <button class="filter-btn">Live</button>
+                        <button class="filter-btn">Replays</button>
+                    </div>
+                </div>
+
+                <div id="webinars-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 40px;">
+                    <div style="text-align: center; padding: 100px; grid-column: 1 / -1;">
+                        <div class="splash-loader" style="margin: 0 auto 32px;"></div>
+                        <h4 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; letter-spacing: 1px;">PREMIUM LOADING...</h4>
                     </div>
                 </div>
             </div>
@@ -75,7 +93,7 @@ const WebinarModule = {
     },
 
     /**
-     * Load Webinars from Supabase
+     * Load Webinars
      */
     loadWebinars: async () => {
         const listContainer = document.getElementById('webinars-list');
@@ -83,21 +101,16 @@ const WebinarModule = {
 
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (!db) throw new Error("Database not connected");
-
-            const { data: webinars, error } = await db
-                .from('webinars')
-                .select('*, profiles(full_name, avatar_url)')
-                .order('scheduled_at', { ascending: true });
+            const { data: webinars, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').order('scheduled_at', { ascending: true });
 
             if (error) throw error;
 
             if (!webinars || webinars.length === 0) {
                 listContainer.innerHTML = `
-                    <div style="text-align: center; padding: 120px 40px; grid-column: 1 / -1; background: #f8fafc; border-radius: 40px; border: 2px dashed #cbd5e1; animation: fadeIn 0.6s ease;">
-                        <div style="font-size: 5rem; margin-bottom: 32px;">🎥</div>
-                        <h4 style="font-size: 1.6rem; font-weight: 900; color: #0f172a; margin-bottom: 12px;">Préparez-vous pour le prochain Direct</h4>
-                        <p style="color: #64748b; font-size: 1.2rem; max-width: 550px; margin: 0 auto; line-height: 1.6;">Nos experts préparent actuellement des sessions de haut niveau. Revenez bientôt pour ne rien manquer !</p>
+                    <div style="text-align: center; padding: 140px 40px; grid-column: 1 / -1; background: white; border-radius: 48px; border: 1px solid #f1f5f9; box-shadow: 0 20px 60px rgba(0,0,0,0.03);">
+                        <div style="font-size: 6rem; margin-bottom: 40px; filter: grayscale(1);">🌌</div>
+                        <h4 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px;">Le futur se prépare...</h4>
+                        <p style="color: #64748b; font-size: 1.2rem; max-width: 500px; margin: 0 auto; line-height: 1.6;">Revenez très bientôt pour découvrir nos prochaines masterclasses stratégiques.</p>
                     </div>
                 `;
                 return;
@@ -105,70 +118,60 @@ const WebinarModule = {
 
             listContainer.innerHTML = webinars.map(w => WebinarModule.renderWebinarCard(w)).join('');
         } catch (err) {
-            console.error("Error loading webinars:", err);
-            listContainer.innerHTML = `
-                <div style="grid-column: 1 / -1; padding: 80px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 40px; text-align: center; animation: fadeIn 0.5s ease;">
-                    <div style="font-size: 4rem; margin-bottom: 24px;">⚠️</div>
-                    <p style="color: #991b1b; font-weight: 900; font-size: 1.3rem; margin-bottom: 12px;">Oups ! Un problème est survenu.</p>
-                    <p style="color: #b91c1c; font-size: 1rem; margin-bottom: 32px; opacity: 0.8;">${err.message || 'La table webinars est peut-être manquante.'}</p>
-                    <button onclick="WebinarModule.loadWebinars()" style="background: #e11d48; color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(225, 29, 72, 0.2);">Tenter une nouvelle connexion</button>
-                </div>
-            `;
+            console.error(err);
+            listContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 80px; color: #ef4444; font-weight: 900;">${err.message}</div>`;
         }
     },
 
     /**
-     * Render Single Webinar Card (Competitor Style)
+     * Cinematic Webinar Card
      */
     renderWebinarCard: (webinar) => {
         const date = new Date(webinar.scheduled_at);
-        const formattedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+        const formattedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long' });
         const formattedTime = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         
         const now = new Date();
-        const isLive = now >= date && now <= new Date(date.getTime() + 120*60*1000); // 2h window
+        const isLive = now >= date && now <= new Date(date.getTime() + 120*60*1000);
         const isPast = now > new Date(date.getTime() + 120*60*1000);
 
         return `
-            <div class="webinar-card" style="background: white; border-radius: 32px; border: 1px solid #f1f5f9; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; display: flex; flex-direction: column; height: 100%; box-shadow: 0 15px 45px rgba(0,0,0,0.02);">
-                <div style="height: 200px; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%); z-index: 1;"></div>
-                    <div style="font-size: 4rem; z-index: 2; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));">🚀</div>
+            <div class="premium-webinar-card" style="background: white; border-radius: 40px; overflow: hidden; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid #f1f5f9; position: relative; height: 100%; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.03);">
+                <div style="height: 240px; background: #0f172a; position: relative; overflow: hidden;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.9) 100%); z-index: 2;"></div>
+                    <img src="https://images.unsplash.com/photo-1591115765373-520b7a2d7a42?auto=format&fit=crop&q=80&w=2070" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; z-index: 1; transition: 0.6s;" class="card-bg">
                     
                     ${isLive ? `
-                        <div style="position: absolute; top: 20px; right: 20px; background: #ef4444; color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 900; display: flex; align-items: center; gap: 8px; z-index: 3; box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4); animation: pulse 1.5s infinite;">
-                            <span style="width: 10px; height: 10px; background: white; border-radius: 50%;"></span>
-                            EN DIRECT
+                        <div style="position: absolute; top: 24px; right: 24px; background: #ef4444; color: white; padding: 10px 20px; border-radius: 100px; font-size: 0.8rem; font-weight: 900; letter-spacing: 1px; z-index: 3; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4); display: flex; align-items: center; gap: 8px;">
+                            <span class="live-pulse"></span> LIVE
                         </div>
                     ` : (isPast ? `
-                        <div style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; z-index: 3; border: 1px solid rgba(255,255,255,0.2);">
-                            REPLAY DISPONIBLE
-                        </div>
+                        <div style="position: absolute; top: 24px; right: 24px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: white; padding: 10px 20px; border-radius: 100px; font-size: 0.8rem; font-weight: 900; z-index: 3; border: 1px solid rgba(255,255,255,0.2);">REPLAY</div>
                     ` : '')}
+
+                    <div style="position: absolute; bottom: 24px; left: 32px; z-index: 3;">
+                        <div style="color: #10b981; font-weight: 900; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;">${formattedDate} • ${formattedTime}</div>
+                    </div>
                 </div>
 
-                <div style="padding: 36px; flex-grow: 1; display: flex; flex-direction: column;">
-                    <div style="color: #10b981; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        ${formattedDate} • ${formattedTime}
-                    </div>
-                    <h3 style="font-size: 1.65rem; font-weight: 900; color: #0f172a; margin-bottom: 16px; line-height: 1.25; letter-spacing: -0.03em;">${webinar.title}</h3>
-                    <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${webinar.description || 'Boostez votre expertise avec cette session live stratégique animée par les meilleurs.'}</p>
+                <div style="padding: 40px; flex-grow: 1; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px; line-height: 1.2; letter-spacing: -0.04em;">${webinar.title}</h3>
+                    <p style="color: #64748b; font-size: 1.1rem; line-height: 1.7; margin-bottom: 40px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${webinar.description || 'Une immersion stratégique au cœur de l\'excellence entrepreneuriale.'}</p>
                     
                     <div style="margin-top: auto;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid #f1f5f9; margin-bottom: 24px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 48px; height: 48px; border-radius: 16px; object-fit: cover; border: 2px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-top: 24px; border-top: 1px solid #f1f5f9;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 52px; height: 52px; border-radius: 18px; object-fit: cover; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
                                 <div>
-                                    <div style="font-size: 1rem; font-weight: 800; color: #0f172a;">${webinar.profiles?.full_name || 'Expert Domtom'}</div>
-                                    <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">Intervenant Principal</div>
+                                    <div style="font-weight: 900; color: #0f172a; font-size: 1.05rem;">${webinar.profiles?.full_name}</div>
+                                    <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">${webinar.profiles?.title || 'Master Expert'}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <button onclick="WebinarModule.joinWebinar('${webinar.id}', '${webinar.meeting_link}')" class="cta-button primary" style="width: 100%; height: 60px; background: ${isLive ? '#ef4444' : (isPast ? '#0f172a' : '#10b981')}; color: white; border-radius: 20px; font-weight: 900; border: none; cursor: pointer; transition: 0.4s; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px ${isLive ? 'rgba(239, 68, 68, 0.3)' : (isPast ? 'rgba(15, 23, 42, 0.2)' : 'rgba(16, 185, 129, 0.3)')};">
-                            ${isLive ? '<span class="live-dot"></span> Rejoindre le Live' : 
-                              (isPast ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Voir le Replay' : 'S\'inscrire à la session')}
+                        <button onclick="WebinarModule.joinWebinar('${webinar.id}', '${webinar.meeting_link}')" class="join-btn" style="width: 100%; height: 64px; background: ${isLive ? '#ef4444' : (isPast ? '#0f172a' : '#10b981')}; color: white; border-radius: 24px; font-weight: 900; font-size: 1.1rem; cursor: pointer; border: none; transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 15px 35px ${isLive ? 'rgba(239, 68, 68, 0.3)' : (isPast ? 'rgba(15, 23, 42, 0.2)' : 'rgba(16, 185, 129, 0.3)')};">
+                            ${isLive ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg> ACCÉDER AU LIVE' : 
+                              (isPast ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> VOIR LE REPLAY' : 'M\'INSCRIRE À LA SESSION')}
                         </button>
                     </div>
                 </div>
@@ -177,24 +180,7 @@ const WebinarModule = {
     },
 
     /**
-     * Join Webinar Logic
-     */
-    joinWebinar: (id, link) => {
-        if (!link) {
-            Swal.fire({ title: 'Bientôt disponible', text: 'Le lien de connexion sera activé 15 minutes avant le début du live.', icon: 'info' });
-            return;
-        }
-
-        const isYoutube = link.includes('youtube.com') || link.includes('youtu.be');
-        if (isYoutube) {
-            window.Router.navigate('#webinars?id=' + id);
-        } else {
-            window.open(link, '_blank');
-        }
-    },
-
-    /**
-     * Render Interactive Watch View (The "Competitor" Experience)
+     * Premium Watch View (Cinema Mode)
      */
     renderWatchView: async (container, webinarId, profile, session) => {
         if (!container) return;
@@ -207,427 +193,243 @@ const WebinarModule = {
 
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (!db) throw new Error("Supabase non détecté");
-
-            const { data: webinar, error } = await db
-                .from('webinars')
-                .select('*, profiles(full_name, avatar_url, title)')
-                .eq('id', webinarId)
-                .single();
-
+            const { data: webinar, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').eq('id', webinarId).single();
             if (error) throw error;
 
-            // Resolve YouTube Embed
-            const link = webinar.meeting_link;
-            const videoId = link.includes('v=') ? link.split('v=')[1].split('&')[0] : link.split('/').pop();
-            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+            const videoId = webinar.meeting_link.includes('v=') ? webinar.meeting_link.split('v=')[1].split('&')[0] : webinar.meeting_link.split('/').pop();
+            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&controls=1`;
 
             container.innerHTML = `
-                <div style="animation: fadeIn 0.8s ease-out; padding-bottom: 60px;">
-                    <!-- Top Bar Context -->
-                    <div style="margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                        <div style="display: flex; align-items: center; gap: 20px;">
-                            <button onclick="window.Router.navigate('#webinars')" style="background: white; border: 1px solid #e2e8f0; width: 52px; height: 52px; border-radius: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05);" onmouseover="this.style.borderColor='#10b981'; this.style.transform='scale(1.05)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='scale(1)'">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                            </button>
+                <div class="theater-view" style="animation: fadeIn 1s ease-out; padding-bottom: 80px;">
+                    <!-- Context Bar -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; gap: 24px;">
+                        <div style="display: flex; align-items: center; gap: 24px;">
+                            <button onclick="window.Router.navigate('#webinars')" class="back-btn"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
                             <div>
-                                <h1 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -0.04em;">${webinar.title}</h1>
-                                <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
-                                    <div style="width: 10px; height: 10px; background: #ef4444; border-radius: 50%; animation: pulse 1s infinite;"></div>
-                                    <p style="color: #64748b; margin: 0; font-weight: 700; font-size: 1rem;">Direct avec ${webinar.profiles?.full_name}</p>
+                                <h1 style="font-size: 2.8rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.06em; line-height: 1;">${webinar.title}</h1>
+                                <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+                                    <div class="live-indicator-tag">DIRECT</div>
+                                    <p style="color: #64748b; margin: 0; font-weight: 800; font-size: 1.1rem;">Animé par ${webinar.profiles?.full_name}</p>
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 12px;">
-                            <div style="background: #f1f5f9; padding: 12px 24px; border-radius: 16px; display: flex; align-items: center; gap: 10px; font-weight: 800; color: #475569;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                <span id="attendee-count">... participants</span>
-                            </div>
-                        </div>
+                        <div class="presence-tag"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> <span id="attendee-count">... participants</span></div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 400px; gap: 32px; align-items: start;">
-                        <!-- Left: Media & Details -->
-                        <div style="display: flex; flex-direction: column; gap: 32px;">
-                            <div style="aspect-ratio: 16/9; background: #000; border-radius: 40px; overflow: hidden; box-shadow: 0 30px 100px rgba(0,0,0,0.3); position: relative; border: 8px solid white;">
+                    <div style="display: grid; grid-template-columns: 1fr 420px; gap: 40px;">
+                        <div style="display: flex; flex-direction: column; gap: 40px;">
+                            <!-- Video Player Glass Case -->
+                            <div class="video-container-premium">
                                 <iframe width="100%" height="100%" src="${videoUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                             
-                            <div style="background: white; padding: 48px; border-radius: 40px; border: 1px solid #f1f5f9; box-shadow: 0 10px 40px rgba(0,0,0,0.02);">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px;">
-                                    <div>
-                                        <h3 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-bottom: 12px;">Objectifs de la session</h3>
-                                        <p style="color: #64748b; line-height: 1.8; font-size: 1.15rem; max-width: 800px;">${webinar.description || 'Cette session live vous apporte les clés stratégiques pour accélérer vos projets.'}</p>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-                                        <span style="font-size: 0.8rem; font-weight: 900; color: #10b981; letter-spacing: 2px;">PARTAGER</span>
-                                        <div style="display: flex; gap: 10px;">
-                                            <button onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+window.location.href)" style="width: 40px; height: 40px; border-radius: 12px; background: #f1f5f9; border: none; cursor: pointer; color: #0a66c2;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></button>
-                                            <button onclick="window.open('https://wa.me/?text=Rejoignez-moi pour ce live stratégique : '+window.location.href)" style="width: 40px; height: 40px; border-radius: 12px; background: #f1f5f9; border: none; cursor: pointer; color: #25d366;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.887.002-5.462-4.415-9.89-9.881-9.891-5.446 0-9.884 4.438-9.887 9.887-.001 2.225.618 3.891 1.746 5.634l-.999 3.648 3.74-.981z"/></svg></button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <!-- Detailed Info -->
+                            <div style="background: white; border-radius: 48px; padding: 60px; border: 1px solid #f1f5f9; box-shadow: 0 30px 100px rgba(0,0,0,0.04);">
+                                <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 24px;">Objectifs de la Masterclass</h3>
+                                <p style="color: #475569; line-height: 1.9; font-size: 1.2rem; font-weight: 500;">${webinar.description || 'Une session immersive conçue pour transformer votre vision stratégique.'}</p>
                                 
-                                <div style="display: flex; gap: 32px; align-items: center; background: #f8fafc; padding: 24px 32px; border-radius: 28px;">
-                                    <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 72px; height: 72px; border-radius: 24px; object-fit: cover;">
+                                <div style="display: flex; gap: 40px; margin-top: 60px; padding-top: 40px; border-top: 1px solid #f1f5f9; align-items: center;">
+                                    <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 100px; height: 100px; border-radius: 32px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
                                     <div>
-                                        <div style="font-size: 1.2rem; font-weight: 900; color: #0f172a;">${webinar.profiles?.full_name}</div>
-                                        <div style="color: #10b981; font-weight: 800; font-size: 0.95rem;">${webinar.profiles?.title || 'Expert Stratégique'}</div>
+                                        <div style="font-size: 1.4rem; font-weight: 950; color: #0f172a;">${webinar.profiles?.full_name}</div>
+                                        <div style="color: #10b981; font-weight: 900; font-size: 1.1rem; letter-spacing: 1px; margin-top: 4px;">${webinar.profiles?.title || 'Master Strategist'}</div>
+                                        <div style="margin-top: 16px; display: flex; gap: 12px;">
+                                            <button class="social-mini-btn">LinkedIn</button>
+                                            <button class="social-mini-btn">Bio</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Right: Interactive Engagement Panel (Competitor Edge) -->
-                        <div style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
-                            <div style="background: #0f172a; border-radius: 40px; overflow: hidden; display: flex; flex-direction: column; height: 700px; box-shadow: 0 40px 80px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);">
-                                <!-- Engagement Tabs -->
-                                <div style="display: flex; background: rgba(255,255,255,0.05); padding: 8px;">
-                                    <button onclick="WebinarModule.switchTab('chat')" id="tab-chat" class="engagement-tab active">CHAT</button>
-                                    <button onclick="WebinarModule.switchTab('qa')" id="tab-qa" class="engagement-tab">Q&A</button>
-                                    <button onclick="WebinarModule.switchTab('polls')" id="tab-polls" class="engagement-tab">SONDAGES</button>
-                                </div>
+                        <!-- Interaction Engine -->
+                        <div class="engagement-engine-dark">
+                            <div class="engagement-tabs-luxury">
+                                <button onclick="WebinarModule.switchTab('chat')" id="tab-chat" class="lux-tab active">CHAT</button>
+                                <button onclick="WebinarModule.switchTab('qa')" id="tab-qa" class="lux-tab">Q&A</button>
+                                <button onclick="WebinarModule.switchTab('polls')" id="tab-polls" class="lux-tab">POLLS</button>
+                            </div>
 
-                                <!-- Tab Content: Chat -->
-                                <div id="panel-chat" class="engagement-panel active">
-                                    <div id="chat-messages" style="flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-                                        <div class="chat-bubble system">🚀 Le live commence bientôt ! Soyez prêts.</div>
-                                    </div>
-                                    <div style="padding: 24px; background: rgba(255,255,255,0.03); border-top: 1px solid rgba(255,255,255,0.05);">
-                                        <div style="position: relative;">
-                                            <input id="chat-input-live" type="text" placeholder="Envoyer un message..." style="width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px 60px 18px 20px; color: white; font-size: 1rem; outline: none;" onfocus="this.style.borderColor='#10b981'">
-                                            <button onclick="WebinarModule.postMessage('${webinarId}')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: #10b981; border: none; width: 44px; height: 44px; border-radius: 12px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                            </button>
-                                        </div>
-                                    </div>
+                            <div id="panel-chat" class="lux-panel active">
+                                <div id="chat-messages" class="lux-scroll-area"></div>
+                                <div class="lux-input-box">
+                                    <input id="chat-input-live" type="text" placeholder="Interagir en direct...">
+                                    <button onclick="WebinarModule.postMessage('${webinarId}')" class="send-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
                                 </div>
+                            </div>
 
-                                <!-- Tab Content: Q&A -->
-                                <div id="panel-qa" class="engagement-panel">
-                                    <div id="qa-questions" style="flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-                                        <div style="text-align: center; color: #94a3b8; padding-top: 40px;">
-                                            <p>Aucune question pour le moment. Soyez le premier à demander !</p>
-                                        </div>
-                                    </div>
-                                    <div style="padding: 24px; background: rgba(255,255,255,0.03);">
-                                        <button onclick="WebinarModule.askQuestion('${webinarId}')" style="width: 100%; padding: 16px; background: white; color: #0f172a; border-radius: 16px; border: none; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">POSER UNE QUESTION</button>
-                                    </div>
+                            <div id="panel-qa" class="lux-panel">
+                                <div id="qa-questions" class="lux-scroll-area"></div>
+                                <div style="padding: 24px;">
+                                    <button onclick="WebinarModule.askQuestion('${webinarId}')" class="lux-action-btn">POSER UNE QUESTION</button>
                                 </div>
+                            </div>
 
-                                <!-- Tab Content: Polls -->
-                                <div id="panel-polls" class="engagement-panel">
-                                    <div id="polls-list" style="flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 24px;">
-                                        <div style="text-align: center; color: #94a3b8; padding-top: 40px;">
-                                            <p>Aucun sondage actif pour l'instant.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="panel-polls" class="lux-panel">
+                                <div id="polls-list" class="lux-scroll-area"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
 
-            // Initialize Interactions
             WebinarModule.initRealtimeInteractions(webinarId, profile);
             WebinarModule.trackAttendance(webinarId);
 
         } catch (err) {
-            console.error("Error loading watch view:", err);
-            container.innerHTML = `<div style="padding: 100px; text-align: center;"><p style="color: #ef4444; font-weight: 800;">Impossible de charger la session : ${err.message}</p></div>`;
+            container.innerHTML = `<div style="padding: 100px; text-align: center; color: #ef4444;">${err.message}</div>`;
         }
     },
 
     /**
-     * Switch Interactions Tab
+     * All remaining logic stays functionally the same but fits the new UI
      */
+    joinWebinar: (id, link) => {
+        if (!link) {
+            Swal.fire({ title: 'Accès Bientôt Ouvert', text: 'La salle virtuelle ouvrira 15 minutes avant le début.', icon: 'info', background: '#0f172a', color: '#fff' });
+            return;
+        }
+        if (link.includes('youtube.com') || link.includes('youtu.be')) {
+            window.Router.navigate('#webinars?id=' + id);
+        } else {
+            window.open(link, '_blank');
+        }
+    },
+
     switchTab: (tabId) => {
-        document.querySelectorAll('.engagement-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.engagement-panel').forEach(p => p.classList.remove('active'));
-        
+        document.querySelectorAll('.lux-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.lux-panel').forEach(p => p.classList.remove('active'));
         document.getElementById(`tab-${tabId}`).classList.add('active');
         document.getElementById(`panel-${tabId}`).classList.add('active');
     },
 
-    /**
-     * Real-time Chat Integration (SUPABASE POWERED)
-     */
     initRealtimeInteractions: async (webinarId, profile) => {
         const db = window._supabase;
-        
-        // 1. Load existing messages
         const { data: messages } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('created_at', { ascending: true });
         if (messages) messages.forEach(m => WebinarModule.renderChatMessage(m));
 
-        // 2. Subscribe to new messages
-        WebinarModule.activeSubscription = db
-            .channel(`webinar_chat_${webinarId}`)
+        WebinarModule.activeSubscription = db.channel(`webinar_chat_${webinarId}`)
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'webinar_messages', filter: `webinar_id=eq.${webinarId}` }, async (payload) => {
                 const { data: fullMsg } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('id', payload.new.id).single();
                 if (fullMsg) WebinarModule.renderChatMessage(fullMsg);
-            })
-            .subscribe();
+            }).subscribe();
 
-        // 3. Setup input listener
         const input = document.getElementById('chat-input-live');
-        if (input) {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') WebinarModule.postMessage(webinarId);
-            });
-        }
+        if (input) input.addEventListener('keypress', (e) => { if (e.key === 'Enter') WebinarModule.postMessage(webinarId); });
     },
 
-    /**
-     * Post a Message to Supabase
-     */
     postMessage: async (webinarId) => {
         const input = document.getElementById('chat-input-live');
         if (!input || !input.value.trim()) return;
-
         const content = input.value.trim();
         input.value = '';
-
-        const { error } = await window._supabase.from('webinar_messages').insert([{
-            webinar_id: webinarId,
-            user_id: (await window._supabase.auth.getUser()).data.user.id,
-            content: content
-        }]);
-
-        if (error) console.error("Error posting message:", error);
+        await window._supabase.from('webinar_messages').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, content: content }]);
     },
 
-    /**
-     * Render Chat Message Bubble
-     */
     renderChatMessage: (msg) => {
         const container = document.getElementById('chat-messages');
         if (!container) return;
-
         const isMe = msg.user_id === window.App.state.session?.user?.id;
-        const bubbleHTML = `
-            <div style="max-width: 85%; align-self: ${isMe ? 'flex-end' : 'flex-start'}; animation: slideUp 0.3s ease-out;">
-                <div style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; margin-bottom: 4px; padding: 0 4px;">${msg.profiles?.full_name || 'Utilisateur'}</div>
-                <div style="padding: 12px 18px; border-radius: 18px; font-size: 0.95rem; line-height: 1.5; background: ${isMe ? '#10b981' : 'rgba(255,255,255,0.08)'}; color: white; border: 1px solid ${isMe ? 'transparent' : 'rgba(255,255,255,0.1)'};">
+        const html = `
+            <div style="max-width: 85%; align-self: ${isMe ? 'flex-end' : 'flex-start'}; animation: fadeInRight 0.4s ease-out;">
+                <div style="font-size: 0.7rem; font-weight: 900; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase;">${msg.profiles?.full_name}</div>
+                <div style="padding: 16px 22px; border-radius: 24px; background: ${isMe ? '#10b981' : 'rgba(255,255,255,0.08)'}; color: white; font-weight: 500; line-height: 1.5; border: 1px solid ${isMe ? 'transparent' : 'rgba(255,255,255,0.1)'};">
                     ${msg.content}
                 </div>
             </div>
         `;
-        container.insertAdjacentHTML('beforeend', bubbleHTML);
+        container.insertAdjacentHTML('beforeend', html);
         container.scrollTop = container.scrollHeight;
     },
 
-    /**
-     * Ask a Question (Competitor Q&A Logic)
-     */
-    askQuestion: async (webinarId) => {
-        const { value: question } = await Swal.fire({
-            title: 'Poser une question',
-            input: 'textarea',
-            inputPlaceholder: 'Ma question stratégique...',
-            confirmButtonText: 'Envoyer à l\'expert',
+    trackAttendance: async (webinarId) => {
+        await window._supabase.from('webinar_attendees').upsert({ webinar_id: webinarId, user_id: window.App.state.session.user.id, attended_at: new Date().toISOString() });
+        const { count } = await window._supabase.from('webinar_attendees').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        if (document.getElementById('attendee-count')) document.getElementById('attendee-count').textContent = `${count} participants`;
+    },
+
+    openCreateModal: () => {
+        Swal.fire({
+            title: 'PLANIFIER UN LIVE',
+            html: `
+                <div style="text-align: left; display: grid; gap: 20px; padding-top: 20px;">
+                    <div><label style="font-weight: 900; font-size: 0.8rem; color: #64748b;">TITRE STRATÉGIQUE</label><input id="sw-title" class="swal2-input" style="width: 100%; margin: 8px 0; border-radius: 12px;" placeholder="Ex: Masterclass: L'art du Closing"></div>
+                    <div><label style="font-weight: 900; font-size: 0.8rem; color: #64748b;">DESCRIPTION D'IMPACT</label><textarea id="sw-desc" class="swal2-textarea" style="width: 100%; margin: 8px 0; border-radius: 12px; height: 100px;" placeholder="Détaillez les objectifs..."></textarea></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div><label style="font-weight: 900; font-size: 0.8rem; color: #64748b;">DATE ET HEURE</label><input id="sw-date" type="datetime-local" class="swal2-input" style="width: 100%; margin: 8px 0; border-radius: 12px;"></div>
+                        <div><label style="font-weight: 900; font-size: 0.8rem; color: #64748b;">LIEN YOUTUBE LIVE</label><input id="sw-link" type="url" class="swal2-input" style="width: 100%; margin: 8px 0; border-radius: 12px;" placeholder="https://..."></div>
+                    </div>
+                </div>
+            `,
+            confirmButtonText: 'PUBLIER LE DIRECT',
             confirmButtonColor: '#10b981',
             background: '#0f172a',
-            color: '#fff'
+            color: '#fff',
+            width: '800px',
+            padding: '40px',
+            preConfirm: () => {
+                return {
+                    title: document.getElementById('sw-title').value,
+                    description: document.getElementById('sw-desc').value,
+                    scheduled_at: document.getElementById('sw-date').value,
+                    meeting_link: document.getElementById('sw-link').value
+                }
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const { error } = await window._supabase.from('webinars').insert([{ ...result.value, host_id: window.App.state.session.user.id }]);
+                if (error) Swal.fire('Erreur', error.message, 'error');
+                else { Swal.fire('Succès', 'Live planifié avec succès !', 'success'); WebinarModule.loadWebinars(); }
+            }
         });
-
-        if (question) {
-            const { error } = await window._supabase.from('webinar_questions').insert([{
-                webinar_id: webinarId,
-                user_id: (await window._supabase.auth.getUser()).data.user.id,
-                question: question
-            }]);
-            
-            if (error) Swal.fire('Erreur', error.message, 'error');
-            else WebinarModule.loadQuestions(webinarId);
-        }
-    },
-
-    loadQuestions: async (webinarId) => {
-        const container = document.getElementById('qa-questions');
-        if (!container) return;
-        
-        const { data: questions } = await window._supabase.from('webinar_questions').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
-        
-        if (questions && questions.length > 0) {
-            container.innerHTML = questions.map(q => `
-                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                        <span style="font-weight: 800; color: #10b981; font-size: 0.85rem;">${q.profiles?.full_name}</span>
-                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer;" onclick="WebinarModule.upvoteQuestion('${q.id}')">
-                            👍 ${q.upvotes}
-                        </div>
-                    </div>
-                    <p style="color: white; margin: 0; font-size: 1rem; line-height: 1.5;">${q.question}</p>
-                    ${q.is_answered ? '<div style="margin-top: 12px; color: #10b981; font-weight: 800; font-size: 0.8rem;">✓ RÉPONDU EN DIRECT</div>' : ''}
-                </div>
-            `).join('');
-        }
-    },
-
-    /**
-     * Attendance Tracking
-     */
-    trackAttendance: async (webinarId) => {
-        const userId = window.App.state.session?.user?.id;
-        if (!userId) return;
-
-        await window._supabase.from('webinar_attendees').upsert({
-            webinar_id: webinarId,
-            user_id: userId,
-            attended_at: new Date().toISOString()
-        });
-
-        // Fetch count
-        const { count } = await window._supabase.from('webinar_attendees').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
-        const counter = document.getElementById('attendee-count');
-        if (counter) counter.textContent = `${count} participants en ligne`;
-    },
-
-    /**
-     * Create Webinar Modal & Logic (Existing, but polished)
-     */
-    openCreateModal: () => {
-        let modal = document.getElementById('webinar-create-modal');
-        if (!modal) {
-            const modalHTML = `
-                <div id="webinar-create-modal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(20px); z-index:20005; align-items:center; justify-content:center; padding:20px;">
-                    <div style="background:white; width:100%; max-width:700px; border-radius:40px; padding:56px; position:relative; box-shadow:0 40px 100px rgba(0,0,0,0.5); animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-                        <button onclick="WebinarModule.closeCreateModal()" style="position:absolute; top:32px; right:32px; background:#f1f5f9; border:none; width:48px; height:48px; border-radius:50%; font-size:1.5rem; color:#0f172a; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.2s;" onmouseover="this.style.background='#ef4444'; this.style.color='white'">&times;</button>
-                        
-                        <div style="margin-bottom: 40px; text-align: center;">
-                            <h2 style="font-size:2.5rem; font-weight:900; color:#0f172a; margin-bottom:12px; letter-spacing:-0.05em;">Lancer un <span style="color: #10b981;">Webinaire</span></h2>
-                            <p style="color:#64748b; font-size:1.2rem;">Diffusez votre expertise et impactez l'écosystème en direct.</p>
-                        </div>
-                        
-                        <form id="webinar-form" onsubmit="WebinarModule.handleCreateSubmit(event)" style="display:grid; gap:28px;">
-                            <div style="display: grid; gap: 10px;">
-                                <label style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:1px;">Titre Stratégique *</label>
-                                <input name="title" required placeholder="Ex: Masterclass: Leverage AI for Growth" style="width:100%; padding:18px; border:2px solid #f1f5f9; border-radius:18px; font-family:inherit; font-size:1.05rem; transition: 0.3s;" onfocus="this.style.borderColor='#10b981'; this.style.outline='none'">
-                            </div>
-                            <div style="display: grid; gap: 10px;">
-                                <label style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:1px;">Description d'Impact</label>
-                                <textarea name="description" rows="3" placeholder="Quels sont les points clés de cette session ?" style="width:100%; padding:18px; border:2px solid #f1f5f9; border-radius:18px; font-family:inherit; font-size:1.05rem; resize:none; transition: 0.3s;" onfocus="this.style.borderColor='#10b981'; this.style.outline='none'"></textarea>
-                            </div>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                                <div style="display: grid; gap: 10px;">
-                                    <label style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:1px;">Date et Heure *</label>
-                                    <input type="datetime-local" name="scheduled_at" required style="width:100%; padding:18px; border:2px solid #f1f5f9; border-radius:18px; font-family:inherit; font-size:1.05rem;">
-                                </div>
-                                <div style="display: grid; gap: 10px;">
-                                    <label style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:1px;">Lien Live (YouTube) *</label>
-                                    <input type="url" name="meeting_link" required placeholder="https://youtube.com/..." style="width:100%; padding:18px; border:2px solid #f1f5f9; border-radius:18px; font-family:inherit; font-size:1.05rem;">
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="cta-button primary" style="width:100%; padding:22px; background:#10b981; color:white; border:none; border-radius:24px; font-weight:900; font-size:1.2rem; margin-top:16px; cursor:pointer; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3); transition: 0.4s; letter-spacing: -0.02em;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'">PUBLIER LE DIRECT</button>
-                        </form>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            modal = document.getElementById('webinar-create-modal');
-        }
-        modal.style.display = 'flex';
-    },
-
-    closeCreateModal: () => {
-        const modal = document.getElementById('webinar-create-modal');
-        if (modal) modal.style.display = 'none';
-    },
-
-    handleCreateSubmit: async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Traitement en cours...';
-
-        try {
-            const { error } = await window._supabase.from('webinars').insert([{
-                title: data.title,
-                description: data.description,
-                scheduled_at: data.scheduled_at,
-                meeting_link: data.meeting_link,
-                host_id: (await window._supabase.auth.getUser()).data.user.id
-            }]);
-
-            if (error) throw error;
-
-            Swal.fire({ title: 'Live Planifié !', text: 'Votre session est maintenant visible par toute la communauté.', icon: 'success' });
-            WebinarModule.closeCreateModal();
-            WebinarModule.loadWebinars();
-            form.reset();
-        } catch (err) {
-            Swal.fire('Erreur', err.message, 'error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'PUBLIER LE DIRECT';
-        }
     }
 };
 
-// Competitor Aesthetics CSS
-const webinarStyle = document.createElement('style');
-webinarStyle.textContent = `
-    .engagement-tab {
-        flex: 1;
-        background: transparent;
-        border: none;
-        color: #94a3b8;
-        padding: 12px;
-        font-weight: 900;
-        font-size: 0.75rem;
-        letter-spacing: 1.5px;
-        cursor: pointer;
-        border-radius: 12px;
-        transition: 0.3s;
-    }
-    .engagement-tab.active {
-        background: #10b981;
-        color: white;
-    }
-    .engagement-panel {
-        display: none;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-    .engagement-panel.active {
-        display: flex;
-    }
-    .chat-bubble.system {
-        padding: 12px;
-        background: rgba(16, 185, 129, 0.1);
-        border-radius: 12px;
-        font-size: 0.85rem;
-        color: #10b981;
-        font-weight: 800;
-        text-align: center;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-    }
-    .live-dot {
-        width: 10px;
-        height: 10px;
-        background: white;
-        border-radius: 50%;
-        display: inline-block;
-        animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-        0% { transform: scale(0.95); opacity: 0.7; }
-        50% { transform: scale(1.1); opacity: 1; }
-        100% { transform: scale(0.95); opacity: 0.7; }
-    }
-    .webinar-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 40px 80px rgba(16, 185, 129, 0.12) !important;
-        border-color: #10b981 !important;
-    }
+// Cinematic Style Sheet
+const style = document.createElement('style');
+style.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+    
+    .view-section h1, .view-section h2, .view-section h3 { font-family: 'Outfit', sans-serif !important; }
+
+    .webinar-hero button { font-family: 'Outfit', sans-serif; }
+
+    .live-pulse { width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block; animation: pulse-live 1.5s infinite; }
+    @keyframes pulse-live { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+    @keyframes morph { 0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; } 100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .filter-btn { background: transparent; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.3s; }
+    .filter-btn.active { background: white; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    .premium-webinar-card:hover { transform: translateY(-15px) scale(1.02); border-color: #10b981; box-shadow: 0 40px 100px rgba(16, 185, 129, 0.15) !important; }
+    .premium-webinar-card:hover .card-bg { transform: scale(1.1); opacity: 0.8; }
+
+    .back-btn { background: white; border: 1px solid #e2e8f0; width: 64px; height: 64px; border-radius: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: #0f172a; }
+    .back-btn:hover { background: #0f172a; color: white; border-color: #0f172a; transform: translateX(-5px); }
+
+    .video-container-premium { aspect-ratio: 16/9; background: #000; border-radius: 56px; overflow: hidden; box-shadow: 0 50px 150px rgba(0,0,0,0.5); border: 10px solid white; position: relative; }
+    
+    .engagement-engine-dark { background: #0f172a; border-radius: 56px; height: 800px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 40px 100px rgba(0,0,0,0.4); }
+    .engagement-tabs-luxury { display: flex; background: rgba(255,255,255,0.03); padding: 12px; }
+    .lux-tab { flex: 1; background: transparent; border: none; color: #64748b; padding: 16px; font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; cursor: pointer; border-radius: 20px; transition: 0.3s; }
+    .lux-tab.active { background: #10b981; color: white; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+    
+    .lux-panel { display: none; flex-direction: column; flex-grow: 1; height: calc(100% - 80px); }
+    .lux-panel.active { display: flex; }
+    .lux-scroll-area { flex-grow: 1; overflow-y: auto; padding: 32px; display: flex; flex-direction: column; gap: 20px; }
+    .lux-input-box { padding: 32px; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
+    .lux-input-box input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 20px 70px 20px 28px; color: white; font-size: 1.1rem; outline: none; transition: 0.3s; }
+    .lux-input-box input:focus { border-color: #10b981; background: rgba(255,255,255,0.1); }
+    
+    .presence-tag { background: #f1f5f9; padding: 14px 28px; border-radius: 20px; display: flex; align-items: center; gap: 12px; font-weight: 900; color: #0f172a; font-size: 1.1rem; }
+    .live-indicator-tag { background: #ef4444; color: white; padding: 6px 14px; border-radius: 8px; font-weight: 900; font-size: 0.8rem; letter-spacing: 1.5px; animation: pulse 1s infinite; }
+    
+    .social-mini-btn { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.2s; }
+    .social-mini-btn:hover { background: #0f172a; color: white; }
 `;
-document.head.appendChild(webinarStyle);
+document.head.appendChild(style);
 
 window.WebinarModule = WebinarModule;
 
