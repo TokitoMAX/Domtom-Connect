@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/dashboard.css?v=11.2">
+    <link rel="stylesheet" href="./assets/css/dashboard.css?v=11.4">
     <link rel="icon" type="image/png" href="./assets/images/logo-domtomconnect.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -195,26 +195,26 @@
 
     <!-- CORE SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./assets/js/territory_config.js?v=11.2"></script>
-    <script src="./assets/js/auth.js?v=11.2"></script>
+    <script src="./assets/js/territory_config.js?v=11.4"></script>
+    <script src="./assets/js/auth.js?v=11.4"></script>
     
     <!-- Modules -->
-    <script src="./assets/js/ecosystems/standard.module.js?v=11.2"></script>
-    <script src="./assets/js/ecosystems/collaboration.module.js?v=11.2"></script>
-    <script src="./assets/js/ecosystems/owners.module.js?v=11.2"></script>
-    <script src="./assets/js/ecosystems/experts.module.js?v=11.2"></script>
-    <script src="./assets/js/ecosystems/companies.module.js?v=11.2"></script>
-    <script src="./assets/js/ecosystems/spectators.module.js?v=11.2"></script>
-    <script src="./assets/js/modules/ticketing.module.js?v=11.2"></script>
-    <script src="./assets/js/modules/business.module.js?v=11.2"></script>
-    <script src="./assets/js/modules/showcase.module.js?v=11.2"></script>
-    <script src="./assets/js/dashboard-success-engine.js?v=11.2"></script>
+    <script src="./assets/js/ecosystems/standard.module.js?v=11.4"></script>
+    <script src="./assets/js/ecosystems/collaboration.module.js?v=11.4"></script>
+    <script src="./assets/js/ecosystems/owners.module.js?v=11.4"></script>
+    <script src="./assets/js/ecosystems/experts.module.js?v=11.4"></script>
+    <script src="./assets/js/ecosystems/companies.module.js?v=11.4"></script>
+    <script src="./assets/js/ecosystems/spectators.module.js?v=11.4"></script>
+    <script src="./assets/js/modules/ticketing.module.js?v=11.4"></script>
+    <script src="./assets/js/modules/business.module.js?v=11.4"></script>
+    <script src="./assets/js/modules/showcase.module.js?v=11.4"></script>
+    <script src="./assets/js/dashboard-success-engine.js?v=11.4"></script>
 
     <!-- Orchestration -->
-    <script src="./assets/js/ui-components.js?v=11.2"></script>
-    <script src="./assets/js/router.js?v=11.2"></script>
-    <script src="./assets/js/modules/payment.module.js?v=11.2"></script>
-    <script src="./assets/js/app.js?v=11.2"></script>
+    <script src="./assets/js/ui-components.js?v=11.4"></script>
+    <script src="./assets/js/router.js?v=11.4"></script>
+    <script src="./assets/js/modules/payment.module.js?v=11.4"></script>
+    <script src="./assets/js/app.js?v=11.4"></script>
 
     <script>
         // Inline UI Helpers (Restored for Dashboard context)
@@ -246,14 +246,17 @@
             const prefix = UIComponents.getPathPrefix();
             
             document.querySelectorAll('.nav-market-link, .mobile-nav-link, .mobile-menu-links a, .top-nav-logo').forEach(link => {
-                // Store original href to allow multiple adjustments without doubling prefixes
                 if (!link.dataset.originalHref) {
                     link.dataset.originalHref = link.getAttribute('href');
                 }
                 
                 const href = link.dataset.originalHref;
                 if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.startsWith('http')) {
-                    link.href = UIComponents.adjustPath(href, prefix);
+                    // Force absolute URL resolution
+                    const adjusted = UIComponents.adjustPath(href, prefix);
+                    const absoluteUrl = new URL(adjusted, window.location.origin + window.location.pathname).href;
+                    link.href = absoluteUrl;
+                    console.log(`[NavFix] Adjusted ${href} -> ${absoluteUrl}`);
                 }
             });
         }
@@ -265,6 +268,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             syncNavActiveState();
             fixNavigationLinks();
+            
+            // Global Interceptor to force external navigation
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('.nav-market-link, .top-nav-logo');
+                if (link) {
+                    const href = link.getAttribute('href');
+                    if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.includes('mailto:')) {
+                        console.log("[NavFix] Forcing navigation to:", link.href);
+                        e.preventDefault();
+                        window.location.href = link.href;
+                    }
+                }
+            });
         });
     </script>
 </body>
