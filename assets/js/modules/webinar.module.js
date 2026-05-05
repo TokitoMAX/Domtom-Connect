@@ -1,11 +1,12 @@
 /**
  * Domtom Connect - Webinar Module
- * Clean Professional SaaS Interface - Fully Functional
+ * TRUE SAAS REALITY: Native Video Engine (Jitsi Meet Integration)
  */
 const WebinarModule = {
     role: null,
     activeSubscription: null,
     activeQASubscription: null,
+    jitsiApi: null,
 
     /**
      * Initialize Module
@@ -15,12 +16,10 @@ const WebinarModule = {
     },
 
     /**
-     * Get Supabase Client Safely
+     * Get Supabase Client
      */
     getDb: () => {
-        if (window._supabase) return window._supabase;
-        if (typeof initSupabase === 'function') return initSupabase();
-        return null;
+        return window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
     },
 
     /**
@@ -30,15 +29,10 @@ const WebinarModule = {
         const target = container || document.getElementById('webinars-view') || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
-        // Cleanup previous subscriptions
-        if (WebinarModule.activeSubscription) { 
-            WebinarModule.activeSubscription.unsubscribe(); 
-            WebinarModule.activeSubscription = null; 
-        }
-        if (WebinarModule.activeQASubscription) { 
-            WebinarModule.activeQASubscription.unsubscribe(); 
-            WebinarModule.activeQASubscription = null; 
-        }
+        // Cleanup previous state
+        if (WebinarModule.jitsiApi) { WebinarModule.jitsiApi.dispose(); WebinarModule.jitsiApi = null; }
+        if (WebinarModule.activeSubscription) { WebinarModule.activeSubscription.unsubscribe(); WebinarModule.activeSubscription = null; }
+        if (WebinarModule.activeQASubscription) { WebinarModule.activeQASubscription.unsubscribe(); WebinarModule.activeQASubscription = null; }
 
         const watchId = params ? params.get('id') : null;
 
@@ -60,13 +54,13 @@ const WebinarModule = {
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 32px;">
                     <div>
                         <h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.02em;">Webinaires <span style="color: #10b981;">Direct</span></h1>
-                        <p style="color: #64748b; font-size: 1.1rem; margin-top: 8px; font-weight: 500;">Apprenez des meilleurs experts de l'écosystème en temps réel.</p>
+                        <p style="color: #64748b; font-size: 1.1rem; margin-top: 8px; font-weight: 500;">La réalité du direct : Caméra, Micro et Interaction sans limites.</p>
                     </div>
                     <div>
                         ${WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur' ? `
                             <button onclick="WebinarModule.openCreateModal()" class="btn-primary-clean">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                Planifier une session
+                                Lancer une Masterclass
                             </button>
                         ` : ''}
                     </div>
@@ -84,7 +78,7 @@ const WebinarModule = {
     },
 
     /**
-     * Load Webinars from Database
+     * Load Webinars
      */
     loadWebinars: async () => {
         const listContainer = document.getElementById('webinars-list');
@@ -92,8 +86,6 @@ const WebinarModule = {
 
         try {
             const db = WebinarModule.getDb();
-            if (!db) throw new Error("Base de données non initialisée.");
-
             const { data: webinars, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').order('scheduled_at', { ascending: true });
 
             if (error) throw error;
@@ -104,8 +96,8 @@ const WebinarModule = {
                         <div class="icon-box-clean">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                         </div>
-                        <h3>Aucune session pour le moment</h3>
-                        <p>Les experts préparent les prochaines masterclasses. Revenez bientôt !</p>
+                        <h3>Prêt pour votre prochain direct ?</h3>
+                        <p>Planifiez une session pour engager votre audience avec une vraie technologie de conférence.</p>
                     </div>
                 `;
                 return;
@@ -113,14 +105,10 @@ const WebinarModule = {
 
             listContainer.innerHTML = webinars.map(w => WebinarModule.renderWebinarCard(w)).join('');
         } catch (err) {
-            console.error("[Webinar] Load Error:", err);
             listContainer.innerHTML = `<div class="error-box-clean">${err.message}</div>`;
         }
     },
 
-    /**
-     * Render Webinar Card
-     */
     renderWebinarCard: (webinar) => {
         const date = new Date(webinar.scheduled_at);
         const formattedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
@@ -129,22 +117,20 @@ const WebinarModule = {
         const isLive = now >= date && now <= new Date(date.getTime() + 120*60*1000);
 
         return `
-            <div class="webinar-card-clean" onclick="WebinarModule.joinWebinar('${webinar.id}', '${webinar.meeting_link}')">
+            <div class="webinar-card-clean" onclick="WebinarModule.joinWebinar('${webinar.id}')">
                 <div class="card-thumb" style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; height: 180px; position: relative; display: flex; align-items: center; justify-content: center;">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                    <div style="text-align: center; color: #cbd5e1;">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15.633 12.067L12.5 14.884V18a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v6.116l-5.367-2.049z"></path><path d="M22 13.5L12 19L2 13.5"></path></svg>
+                        <div style="font-size: 0.75rem; font-weight: 800; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;">Native Video Engine</div>
+                    </div>
                     ${isLive ? `<div class="badge-live">EN DIRECT</div>` : ''}
                 </div>
                 <div class="card-body-clean">
                     <div class="card-meta">${formattedDate} • ${formattedTime}</div>
                     <h3 class="card-title-clean">${webinar.title}</h3>
                     <div class="card-footer-clean">
-                        <div class="host-info">
-                            <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" class="host-avatar">
-                            <span>${webinar.profiles?.full_name}</span>
-                        </div>
-                        <div class="action-arrow">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </div>
+                        <div class="host-info"><img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" class="host-avatar"><span>${webinar.profiles?.full_name}</span></div>
+                        <div class="action-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
                     </div>
                 </div>
             </div>
@@ -152,38 +138,41 @@ const WebinarModule = {
     },
 
     /**
-     * Render Watch View (Theater Mode)
+     * Join Webinar View
+     */
+    joinWebinar: (id) => {
+        window.Router.navigate('#webinars?id=' + id);
+    },
+
+    /**
+     * Render Watch View (Native Video Room)
      */
     renderWatchView: async (container, webinarId, profile, session) => {
         if (!container) return;
 
         try {
             const db = WebinarModule.getDb();
-            if (!db) throw new Error("Base de données non initialisée.");
-
             const { data: webinar, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').eq('id', webinarId).single();
             if (error) throw error;
 
-            const videoId = webinar.meeting_link.includes('v=') ? webinar.meeting_link.split('v=')[1].split('&')[0] : webinar.meeting_link.split('/').pop();
-            const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+            const isHost = webinar.host_id === session.user.id;
 
             container.innerHTML = `
                 <div class="watch-container-clean">
                     <div class="watch-header">
-                        <button onclick="window.Router.navigate('#webinars')" class="btn-back">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        </button>
+                        <button onclick="window.Router.navigate('#webinars')" class="btn-back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
                         <h1 class="watch-title">${webinar.title}</h1>
+                        ${isHost ? `<div style="background: #10b981; color: white; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 0.75rem; letter-spacing: 1px;">MODE ORGANISATEUR</div>` : ''}
                     </div>
 
                     <div class="watch-layout">
                         <div class="main-player-area">
-                            <div class="video-wrapper-clean">
-                                <iframe src="${videoUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
+                            <!-- Native Video Room Container -->
+                            <div id="jitsi-container" class="video-wrapper-clean" style="background: #0f172a; border: 4px solid #0f172a;"></div>
+                            
                             <div class="webinar-details-clean">
-                                <h2>À propos de cette session</h2>
-                                <p>${webinar.description || 'Pas de description disponible.'}</p>
+                                <h2>À propos de cette masterclass</h2>
+                                <p>${webinar.description || 'Session en direct animée par un expert certifié.'}</p>
                             </div>
                         </div>
 
@@ -195,16 +184,14 @@ const WebinarModule = {
                             <div id="panel-chat" class="panel-content active">
                                 <div id="chat-messages" class="chat-list-clean"></div>
                                 <div class="chat-input-clean">
-                                    <input id="chat-input-live" type="text" placeholder="Envoyer un message...">
-                                    <button onclick="WebinarModule.postMessage('${webinarId}')">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                    </button>
+                                    <input id="chat-input-live" type="text" placeholder="Réagir en direct...">
+                                    <button onclick="WebinarModule.postMessage('${webinarId}')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
                                 </div>
                             </div>
                             <div id="panel-qa" class="panel-content">
                                 <div id="qa-questions" class="chat-list-clean"></div>
                                 <div style="padding: 20px; border-top: 1px solid #f1f5f9;">
-                                    <button onclick="WebinarModule.askQuestion('${webinarId}')" class="btn-primary-clean" style="width: 100%; justify-content: center;">Poser une question</button>
+                                    <button onclick="WebinarModule.askQuestion('${webinarId}')" class="btn-primary-clean" style="width: 100%; justify-content: center;">Envoyer une question</button>
                                 </div>
                             </div>
                         </div>
@@ -212,6 +199,10 @@ const WebinarModule = {
                 </div>
             `;
 
+            // Initialize Jitsi Meet
+            WebinarModule.initJitsiRoom(webinarId, profile, isHost);
+            
+            // Initialize Ecosystem Interactions
             WebinarModule.initRealtimeInteractions(webinarId, profile);
             WebinarModule.loadQuestions(webinarId);
             WebinarModule.trackAttendance(webinarId);
@@ -221,11 +212,47 @@ const WebinarModule = {
         }
     },
 
-    joinWebinar: (id, link) => {
-        if (link.includes('youtube.com') || link.includes('youtu.be')) {
-            window.Router.navigate('#webinars?id=' + id);
+    /**
+     * Native Video Room Initialization (Jitsi)
+     */
+    initJitsiRoom: (id, profile, isHost) => {
+        const domain = "meet.jit.si";
+        const options = {
+            roomName: "DomtomConnect_" + id.replace(/-/g, '_'),
+            width: "100%",
+            height: "100%",
+            parentNode: document.querySelector('#jitsi-container'),
+            userInfo: {
+                displayName: profile.full_name
+            },
+            configOverwrite: {
+                prejoinPageEnabled: false,
+                disableDeepLinking: true,
+                startWithAudioMuted: !isHost,
+                startWithVideoMuted: !isHost,
+                disableChat: true, // Use our custom chat
+                disablePolls: true,
+                enableWelcomePage: false
+            },
+            interfaceConfigOverwrite: {
+                TOOLBAR_BUTTONS: isHost ? [
+                    'microphone', 'camera', 'desktop', 'fullscreen',
+                    'fodeviceselection', 'hangup', 'profile', 'recording',
+                    'settings', 'raisehand', 'videoquality', 'filmstrip'
+                ] : [
+                    'microphone', 'camera', 'fullscreen', 'hangup', 'videoquality', 'raisehand'
+                ],
+                SHOW_JITSI_WATERMARK: false,
+                SHOW_WATERMARK_FOR_GUESTS: false,
+                DEFAULT_REMOTE_DISPLAY_NAME: 'Participant'
+            }
+        };
+
+        if (window.JitsiMeetExternalAPI) {
+            WebinarModule.jitsiApi = new window.JitsiMeetExternalAPI(domain, options);
         } else {
-            window.open(link, '_blank');
+            console.error("Jitsi Meet SDK not found.");
+            document.getElementById('jitsi-container').innerHTML = '<div style="color:white; padding:40px; text-align:center;">Erreur : Moteur vidéo non chargé.</div>';
         }
     },
 
@@ -240,18 +267,15 @@ const WebinarModule = {
         const db = WebinarModule.getDb();
         if (!db) return;
 
-        // Load existing messages
         const { data: messages } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('created_at', { ascending: true });
         if (messages) messages.forEach(m => WebinarModule.renderChatMessage(m));
 
-        // Subscribe to new messages
         WebinarModule.activeSubscription = db.channel(`webinar_chat_${webinarId}`)
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'webinar_messages', filter: `webinar_id=eq.${webinarId}` }, async (payload) => {
                 const { data: fullMsg } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('id', payload.new.id).single();
                 if (fullMsg) WebinarModule.renderChatMessage(fullMsg);
             }).subscribe();
 
-        // Subscribe to Q&A updates
         WebinarModule.activeQASubscription = db.channel(`webinar_qa_${webinarId}`)
             .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_questions', filter: `webinar_id=eq.${webinarId}` }, () => {
                 WebinarModule.loadQuestions(webinarId);
@@ -266,74 +290,36 @@ const WebinarModule = {
         if (!input || !input.value.trim()) return;
         const content = input.value.trim();
         input.value = '';
-        
-        const db = WebinarModule.getDb();
-        if (db) {
-            await db.from('webinar_messages').insert([{ 
-                webinar_id: webinarId, 
-                user_id: window.App.state.session.user.id, 
-                content: content 
-            }]);
-        }
+        await WebinarModule.getDb().from('webinar_messages').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, content: content }]);
     },
 
     renderChatMessage: (msg) => {
         const container = document.getElementById('chat-messages');
         if (!container) return;
         const isMe = msg.user_id === window.App.state.session?.user?.id;
-        const html = `
-            <div class="msg-bubble ${isMe ? 'me' : ''}">
-                <div class="msg-sender">${msg.profiles?.full_name}</div>
-                <div class="msg-text">${msg.content}</div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
+        container.insertAdjacentHTML('beforeend', `<div class="msg-bubble ${isMe ? 'me' : ''}"><div class="msg-sender">${msg.profiles?.full_name}</div><div class="msg-text">${msg.content}</div></div>`);
         container.scrollTop = container.scrollHeight;
     },
 
     askQuestion: async (webinarId) => {
-        const { value: question } = await Swal.fire({
-            title: 'Poser une question',
-            input: 'textarea',
-            inputPlaceholder: 'Ma question...',
-            confirmButtonText: 'Envoyer',
-            confirmButtonColor: '#10b981',
-            showCancelButton: true,
-            cancelButtonText: 'Annuler'
-        });
-
+        const { value: question } = await Swal.fire({ title: 'Poser une question', input: 'textarea', inputPlaceholder: 'Ma question...', confirmButtonText: 'Envoyer', confirmButtonColor: '#10b981' });
         if (question) {
-            const db = WebinarModule.getDb();
-            if (db) {
-                await db.from('webinar_questions').insert([{ 
-                    webinar_id: webinarId, 
-                    user_id: window.App.state.session.user.id, 
-                    question: question 
-                }]);
-                Swal.fire('Succès', 'Votre question a été posée.', 'success');
-            }
+            await WebinarModule.getDb().from('webinar_questions').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, question: question }]);
         }
     },
 
     loadQuestions: async (webinarId) => {
         const container = document.getElementById('qa-questions');
         if (!container) return;
-
-        const db = WebinarModule.getDb();
-        if (!db) return;
-
-        const { data: questions } = await db.from('webinar_questions').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
-
+        const { data: questions } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
         if (questions) {
             container.innerHTML = questions.map(q => `
-                <div style="background: #f8fafc; padding: 16px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px; animation: fadeIn 0.3s ease-out;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                        <span style="font-weight: 700; font-size: 0.8rem; color: #10b981; text-transform: uppercase;">${q.profiles?.full_name}</span>
-                        <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
-                            👍 ${q.upvotes || 0}
-                        </button>
+                <div style="background:#f8fafc; padding:16px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="font-weight:700; font-size:0.8rem; color:#10b981;">${q.profiles?.full_name}</span>
+                        <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:4px 8px; cursor:pointer; font-size:0.8rem;">👍 ${q.upvotes || 0}</button>
                     </div>
-                    <p style="margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5;">${q.question}</p>
+                    <p style="margin:0; font-size:0.95rem;">${q.question}</p>
                 </div>
             `).join('');
         }
@@ -341,86 +327,63 @@ const WebinarModule = {
 
     upvoteQuestion: async (questionId, webinarId) => {
         const db = WebinarModule.getDb();
-        if (!db) return;
-
         const { data } = await db.from('webinar_questions').select('upvotes').eq('id', questionId).single();
         await db.from('webinar_questions').update({ upvotes: (data.upvotes || 0) + 1 }).eq('id', questionId);
         WebinarModule.loadQuestions(webinarId);
     },
 
     trackAttendance: async (webinarId) => {
-        const db = WebinarModule.getDb();
-        if (db) {
-            await db.from('webinar_attendees').upsert({ 
-                webinar_id: webinarId, 
-                user_id: window.App.state.session.user.id, 
-                attended_at: new Date().toISOString() 
-            });
-        }
+        await WebinarModule.getDb().from('webinar_attendees').upsert({ webinar_id: webinarId, user_id: window.App.state.session.user.id, attended_at: new Date().toISOString() });
     },
 
     openCreateModal: () => {
-        if (typeof Swal === 'undefined') {
-            console.error("SweetAlert2 is not loaded.");
-            return;
-        }
-
         Swal.fire({
-            title: 'Planifier un Webinaire',
+            title: 'LANCER UNE MASTERCLASS',
             html: `
-                <div class="swal-form" style="text-align: left;">
-                    <div style="margin-bottom: 16px;">
-                        <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">TITRE DU LIVE</label>
-                        <input id="sw-title" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;" placeholder="Ex: Masterclass Networking">
+                <div style="text-align: left; display: grid; gap: 20px;">
+                    <div>
+                        <label style="font-weight: 700; color: #64748b; font-size: 0.8rem;">TITRE DE LA SESSION</label>
+                        <input id="sw-title" class="swal2-input" style="width: 100%; margin: 8px 0; border-radius: 12px;" placeholder="Ex: Masterclass: L'art du Closing">
                     </div>
-                    <div style="margin-bottom: 16px;">
-                        <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">DESCRIPTION</label>
-                        <textarea id="sw-desc" class="swal2-textarea" style="width: 100%; margin: 0; border-radius: 10px; height: 80px;" placeholder="Détails de la session..."></textarea>
+                    <div>
+                        <label style="font-weight: 700; color: #64748b; font-size: 0.8rem;">DESCRIPTION</label>
+                        <textarea id="sw-desc" class="swal2-textarea" style="width: 100%; margin: 8px 0; border-radius: 12px; height: 100px;" placeholder="Détaillez les objectifs stratégiques..."></textarea>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div>
-                            <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">DATE & HEURE</label>
-                            <input id="sw-date" type="datetime-local" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;">
-                        </div>
-                        <div>
-                            <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">LIEN YOUTUBE</label>
-                            <input id="sw-link" type="url" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;" placeholder="https://...">
-                        </div>
+                    <div>
+                        <label style="font-weight: 700; color: #64748b; font-size: 0.8rem;">DATE ET HEURE</label>
+                        <input id="sw-date" type="datetime-local" class="swal2-input" style="width: 100%; margin: 8px 0; border-radius: 12px;">
+                    </div>
+                    <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                        <div style="font-weight: 900; font-size: 0.75rem; color: #10b981;">NATIVE VIDEO ENGINE ACTIVATED</div>
+                        <p style="font-size: 0.8rem; color: #64748b; margin: 4px 0 0 0;">Plus besoin de lien externe. La salle sécurisée sera générée automatiquement.</p>
                     </div>
                 </div>
             `,
-            confirmButtonText: 'Créer la session',
+            confirmButtonText: 'PUBLIER LA SESSION',
             confirmButtonColor: '#10b981',
             showCancelButton: true,
-            cancelButtonText: 'Annuler',
             preConfirm: () => {
                 return {
                     title: document.getElementById('sw-title').value,
                     description: document.getElementById('sw-desc').value,
                     scheduled_at: document.getElementById('sw-date').value,
-                    meeting_link: document.getElementById('sw-link').value
+                    meeting_link: 'NATIVE_P2P' // Auto-generated internal flag
                 }
             }
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const db = WebinarModule.getDb();
-                if (db) {
-                    const { error } = await db.from('webinars').insert([{ 
-                        ...result.value, 
-                        host_id: window.App.state.session.user.id 
-                    }]);
-                    if (error) Swal.fire('Erreur', error.message, 'error');
-                    else {
-                        Swal.fire('Succès', 'Votre webinaire a été planifié.', 'success');
-                        WebinarModule.loadWebinars();
-                    }
+                const { error } = await WebinarModule.getDb().from('webinars').insert([{ ...result.value, host_id: window.App.state.session.user.id }]);
+                if (error) Swal.fire('Erreur', error.message, 'error');
+                else {
+                    Swal.fire('Succès', 'Votre masterclass native est prête !', 'success');
+                    WebinarModule.loadWebinars();
                 }
             }
         });
     }
 };
 
-// PROFESSIONAL STYLES
+// PROFESSIONAL CSS INJECTION
 const style = document.createElement('style');
 style.textContent = `
     .webinar-container { font-family: 'Inter', sans-serif; }
@@ -442,7 +405,7 @@ style.textContent = `
     .action-arrow { color: #cbd5e1; transition: 0.2s; }
     .webinar-card-clean:hover .action-arrow { color: #10b981; transform: translateX(4px); }
 
-    .badge-live { position: absolute; top: 16px; right: 16px; background: #ef4444; color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px; animation: pulse-live 1.5s infinite; }
+    .badge-live { position: absolute; top: 16px; right: 16px; background: #ef4444; color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; animation: pulse-live 1.5s infinite; }
     @keyframes pulse-live { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
     .empty-state-clean { grid-column: 1 / -1; text-align: center; padding: 80px 40px; background: #f8fafc; border-radius: 24px; border: 2px dashed #e2e8f0; }
@@ -450,7 +413,7 @@ style.textContent = `
     .empty-state-clean h3 { font-size: 1.5rem; color: #0f172a; margin-bottom: 12px; font-weight: 800; }
     .empty-state-clean p { color: #64748b; font-size: 1.1rem; }
 
-    .watch-container-clean { max-width: 1300px; margin: 0 auto; padding: 20px; }
+    .watch-container-clean { max-width: 1400px; margin: 0 auto; padding: 20px; }
     .watch-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
     .btn-back { background: white; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-back:hover { background: #f8fafc; border-color: #cbd5e1; }
@@ -458,8 +421,7 @@ style.textContent = `
 
     .watch-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; }
     .video-wrapper-clean { aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
-    .video-wrapper-clean iframe { width: 100%; height: 100%; }
-
+    
     .sidebar-interaction { background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: flex; flex-direction: column; height: 600px; overflow: hidden; }
     .tabs-clean { display: flex; border-bottom: 1px solid #f1f5f9; padding: 8px; gap: 8px; }
     .tab-btn { flex: 1; background: transparent; border: none; padding: 12px; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 10px; transition: 0.2s; }
