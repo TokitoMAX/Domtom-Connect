@@ -49,6 +49,14 @@ const Router = {
             return;
         }
 
+        // --- NEW: External Link Safety Check ---
+        // If the path contains .html and isn't a known internal route, treat as external
+        if (path.includes('.html') && !this.routes[viewId]) {
+            console.log("[Router] Detected external link, using standard navigation:", path);
+            window.location.href = path;
+            return;
+        }
+
         window.history.pushState(params, '', cleanPath);
         this.handleCurrentRoute();
     },
