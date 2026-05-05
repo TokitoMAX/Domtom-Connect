@@ -1,10 +1,11 @@
 /**
  * Domtom Connect - Webinar Module
- * Clean Professional SaaS Interface
+ * Clean Professional SaaS Interface - Fully Functional
  */
 const WebinarModule = {
     role: null,
     activeSubscription: null,
+    activeQASubscription: null,
 
     /**
      * Initialize Module
@@ -14,15 +15,29 @@ const WebinarModule = {
     },
 
     /**
+     * Get Supabase Client Safely
+     */
+    getDb: () => {
+        if (window._supabase) return window._supabase;
+        if (typeof initSupabase === 'function') return initSupabase();
+        return null;
+    },
+
+    /**
      * Module Router
      */
     route: async (view_id, container, profile, session, params) => {
         const target = container || document.getElementById('webinars-view') || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
-        if (WebinarModule.activeSubscription) {
-            WebinarModule.activeSubscription.unsubscribe();
-            WebinarModule.activeSubscription = null;
+        // Cleanup previous subscriptions
+        if (WebinarModule.activeSubscription) { 
+            WebinarModule.activeSubscription.unsubscribe(); 
+            WebinarModule.activeSubscription = null; 
+        }
+        if (WebinarModule.activeQASubscription) { 
+            WebinarModule.activeQASubscription.unsubscribe(); 
+            WebinarModule.activeQASubscription = null; 
         }
 
         const watchId = params ? params.get('id') : null;
@@ -35,36 +50,25 @@ const WebinarModule = {
     },
 
     /**
-     * Render Webinars List - Clean & Professional
+     * Render Webinars List
      */
     renderWebinarsList: async (container, profile, session) => {
         if (!container) return;
 
         container.innerHTML = `
             <div class="webinar-container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; animation: fadeIn 0.4s ease-out;">
-                
-                <!-- Header Section -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 32px;">
                     <div>
                         <h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.02em;">Webinaires <span style="color: #10b981;">Direct</span></h1>
                         <p style="color: #64748b; font-size: 1.1rem; margin-top: 8px; font-weight: 500;">Apprenez des meilleurs experts de l'écosystème en temps réel.</p>
                     </div>
-                    <div style="display: flex; gap: 16px;">
+                    <div>
                         ${WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur' ? `
                             <button onclick="WebinarModule.openCreateModal()" class="btn-primary-clean">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                 Planifier une session
                             </button>
                         ` : ''}
-                    </div>
-                </div>
-
-                <!-- Filters & Grid -->
-                <div style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center;">
-                    <div class="filter-pills">
-                        <button class="pill active">Tous les lives</button>
-                        <button class="pill">À venir</button>
-                        <button class="pill">Replays</button>
                     </div>
                 </div>
 
@@ -80,14 +84,16 @@ const WebinarModule = {
     },
 
     /**
-     * Load Webinars
+     * Load Webinars from Database
      */
     loadWebinars: async () => {
         const listContainer = document.getElementById('webinars-list');
         if (!listContainer) return;
 
         try {
-            const db = window._supabase;
+            const db = WebinarModule.getDb();
+            if (!db) throw new Error("Base de données non initialisée.");
+
             const { data: webinars, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').order('scheduled_at', { ascending: true });
 
             if (error) throw error;
@@ -96,7 +102,7 @@ const WebinarModule = {
                 listContainer.innerHTML = `
                     <div class="empty-state-clean">
                         <div class="icon-box-clean">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                         </div>
                         <h3>Aucune session pour le moment</h3>
                         <p>Les experts préparent les prochaines masterclasses. Revenez bientôt !</p>
@@ -107,25 +113,24 @@ const WebinarModule = {
 
             listContainer.innerHTML = webinars.map(w => WebinarModule.renderWebinarCard(w)).join('');
         } catch (err) {
+            console.error("[Webinar] Load Error:", err);
             listContainer.innerHTML = `<div class="error-box-clean">${err.message}</div>`;
         }
     },
 
     /**
-     * Professional Webinar Card
+     * Render Webinar Card
      */
     renderWebinarCard: (webinar) => {
         const date = new Date(webinar.scheduled_at);
         const formattedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
         const formattedTime = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        
         const now = new Date();
         const isLive = now >= date && now <= new Date(date.getTime() + 120*60*1000);
-        const isPast = now > new Date(date.getTime() + 120*60*1000);
 
         return `
             <div class="webinar-card-clean" onclick="WebinarModule.joinWebinar('${webinar.id}', '${webinar.meeting_link}')">
-                <div class="card-thumb" style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; height: 180px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <div class="card-thumb" style="background: #f8fafc; border-bottom: 1px solid #f1f5f9; height: 180px; position: relative; display: flex; align-items: center; justify-content: center;">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                     ${isLive ? `<div class="badge-live">EN DIRECT</div>` : ''}
                 </div>
@@ -147,13 +152,15 @@ const WebinarModule = {
     },
 
     /**
-     * Clean Watch View
+     * Render Watch View (Theater Mode)
      */
     renderWatchView: async (container, webinarId, profile, session) => {
         if (!container) return;
 
         try {
-            const db = window._supabase;
+            const db = WebinarModule.getDb();
+            if (!db) throw new Error("Base de données non initialisée.");
+
             const { data: webinar, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').eq('id', webinarId).single();
             if (error) throw error;
 
@@ -196,7 +203,9 @@ const WebinarModule = {
                             </div>
                             <div id="panel-qa" class="panel-content">
                                 <div id="qa-questions" class="chat-list-clean"></div>
-                                <button onclick="WebinarModule.askQuestion('${webinarId}')" class="btn-action-full">Poser une question</button>
+                                <div style="padding: 20px; border-top: 1px solid #f1f5f9;">
+                                    <button onclick="WebinarModule.askQuestion('${webinarId}')" class="btn-primary-clean" style="width: 100%; justify-content: center;">Poser une question</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -204,6 +213,7 @@ const WebinarModule = {
             `;
 
             WebinarModule.initRealtimeInteractions(webinarId, profile);
+            WebinarModule.loadQuestions(webinarId);
             WebinarModule.trackAttendance(webinarId);
 
         } catch (err) {
@@ -227,14 +237,24 @@ const WebinarModule = {
     },
 
     initRealtimeInteractions: async (webinarId, profile) => {
-        const db = window._supabase;
+        const db = WebinarModule.getDb();
+        if (!db) return;
+
+        // Load existing messages
         const { data: messages } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('created_at', { ascending: true });
         if (messages) messages.forEach(m => WebinarModule.renderChatMessage(m));
 
+        // Subscribe to new messages
         WebinarModule.activeSubscription = db.channel(`webinar_chat_${webinarId}`)
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'webinar_messages', filter: `webinar_id=eq.${webinarId}` }, async (payload) => {
                 const { data: fullMsg } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('id', payload.new.id).single();
                 if (fullMsg) WebinarModule.renderChatMessage(fullMsg);
+            }).subscribe();
+
+        // Subscribe to Q&A updates
+        WebinarModule.activeQASubscription = db.channel(`webinar_qa_${webinarId}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_questions', filter: `webinar_id=eq.${webinarId}` }, () => {
+                WebinarModule.loadQuestions(webinarId);
             }).subscribe();
 
         const input = document.getElementById('chat-input-live');
@@ -246,7 +266,15 @@ const WebinarModule = {
         if (!input || !input.value.trim()) return;
         const content = input.value.trim();
         input.value = '';
-        await window._supabase.from('webinar_messages').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, content: content }]);
+        
+        const db = WebinarModule.getDb();
+        if (db) {
+            await db.from('webinar_messages').insert([{ 
+                webinar_id: webinarId, 
+                user_id: window.App.state.session.user.id, 
+                content: content 
+            }]);
+        }
     },
 
     renderChatMessage: (msg) => {
@@ -263,22 +291,105 @@ const WebinarModule = {
         container.scrollTop = container.scrollHeight;
     },
 
+    askQuestion: async (webinarId) => {
+        const { value: question } = await Swal.fire({
+            title: 'Poser une question',
+            input: 'textarea',
+            inputPlaceholder: 'Ma question...',
+            confirmButtonText: 'Envoyer',
+            confirmButtonColor: '#10b981',
+            showCancelButton: true,
+            cancelButtonText: 'Annuler'
+        });
+
+        if (question) {
+            const db = WebinarModule.getDb();
+            if (db) {
+                await db.from('webinar_questions').insert([{ 
+                    webinar_id: webinarId, 
+                    user_id: window.App.state.session.user.id, 
+                    question: question 
+                }]);
+                Swal.fire('Succès', 'Votre question a été posée.', 'success');
+            }
+        }
+    },
+
+    loadQuestions: async (webinarId) => {
+        const container = document.getElementById('qa-questions');
+        if (!container) return;
+
+        const db = WebinarModule.getDb();
+        if (!db) return;
+
+        const { data: questions } = await db.from('webinar_questions').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
+
+        if (questions) {
+            container.innerHTML = questions.map(q => `
+                <div style="background: #f8fafc; padding: 16px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px; animation: fadeIn 0.3s ease-out;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                        <span style="font-weight: 700; font-size: 0.8rem; color: #10b981; text-transform: uppercase;">${q.profiles?.full_name}</span>
+                        <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
+                            👍 ${q.upvotes || 0}
+                        </button>
+                    </div>
+                    <p style="margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5;">${q.question}</p>
+                </div>
+            `).join('');
+        }
+    },
+
+    upvoteQuestion: async (questionId, webinarId) => {
+        const db = WebinarModule.getDb();
+        if (!db) return;
+
+        const { data } = await db.from('webinar_questions').select('upvotes').eq('id', questionId).single();
+        await db.from('webinar_questions').update({ upvotes: (data.upvotes || 0) + 1 }).eq('id', questionId);
+        WebinarModule.loadQuestions(webinarId);
+    },
+
     trackAttendance: async (webinarId) => {
-        await window._supabase.from('webinar_attendees').upsert({ webinar_id: webinarId, user_id: window.App.state.session.user.id, attended_at: new Date().toISOString() });
+        const db = WebinarModule.getDb();
+        if (db) {
+            await db.from('webinar_attendees').upsert({ 
+                webinar_id: webinarId, 
+                user_id: window.App.state.session.user.id, 
+                attended_at: new Date().toISOString() 
+            });
+        }
     },
 
     openCreateModal: () => {
+        if (typeof Swal === 'undefined') {
+            console.error("SweetAlert2 is not loaded.");
+            return;
+        }
+
         Swal.fire({
-            title: 'Nouveau Webinaire',
+            title: 'Planifier un Webinaire',
             html: `
-                <div class="swal-form">
-                    <input id="sw-title" class="swal2-input" placeholder="Titre de la session">
-                    <textarea id="sw-desc" class="swal2-textarea" placeholder="Description"></textarea>
-                    <input id="sw-date" type="datetime-local" class="swal2-input">
-                    <input id="sw-link" type="url" class="swal2-input" placeholder="Lien YouTube Live">
+                <div class="swal-form" style="text-align: left;">
+                    <div style="margin-bottom: 16px;">
+                        <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">TITRE DU LIVE</label>
+                        <input id="sw-title" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;" placeholder="Ex: Masterclass Networking">
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">DESCRIPTION</label>
+                        <textarea id="sw-desc" class="swal2-textarea" style="width: 100%; margin: 0; border-radius: 10px; height: 80px;" placeholder="Détails de la session..."></textarea>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">DATE & HEURE</label>
+                            <input id="sw-date" type="datetime-local" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 700; font-size: 0.85rem; color: #64748b; display: block; margin-bottom: 6px;">LIEN YOUTUBE</label>
+                            <input id="sw-link" type="url" class="swal2-input" style="width: 100%; margin: 0; border-radius: 10px;" placeholder="https://...">
+                        </div>
+                    </div>
                 </div>
             `,
-            confirmButtonText: 'Créer le live',
+            confirmButtonText: 'Créer la session',
             confirmButtonColor: '#10b981',
             showCancelButton: true,
             cancelButtonText: 'Annuler',
@@ -292,84 +403,86 @@ const WebinarModule = {
             }
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const { error } = await window._supabase.from('webinars').insert([{ ...result.value, host_id: window.App.state.session.user.id }]);
-                if (error) Swal.fire('Erreur', error.message, 'error');
-                else { WebinarModule.loadWebinars(); }
+                const db = WebinarModule.getDb();
+                if (db) {
+                    const { error } = await db.from('webinars').insert([{ 
+                        ...result.value, 
+                        host_id: window.App.state.session.user.id 
+                    }]);
+                    if (error) Swal.fire('Erreur', error.message, 'error');
+                    else {
+                        Swal.fire('Succès', 'Votre webinaire a été planifié.', 'success');
+                        WebinarModule.loadWebinars();
+                    }
+                }
             }
         });
     }
 };
 
-// Clean Professional CSS
+// PROFESSIONAL STYLES
 const style = document.createElement('style');
 style.textContent = `
-    .webinar-container { font-family: 'Inter', -apple-system, sans-serif; }
-    
+    .webinar-container { font-family: 'Inter', sans-serif; }
     .btn-primary-clean { background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
     .btn-primary-clean:hover { background: #059669; transform: translateY(-1px); }
 
-    .filter-pills { display: flex; gap: 12px; }
-    .pill { background: #f1f5f9; border: 1px solid transparent; padding: 8px 18px; border-radius: 100px; font-weight: 600; color: #64748b; cursor: pointer; transition: 0.2s; }
-    .pill.active { background: #0f172a; color: white; }
-    .pill:hover:not(.active) { background: #e2e8f0; }
+    .clean-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+    .webinar-card-clean { background: white; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
+    .webinar-card-clean:hover { border-color: #10b981; box-shadow: 0 15px 40px rgba(0,0,0,0.05); transform: translateY(-4px); }
 
-    .clean-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; }
-    
-    .webinar-card-clean { background: white; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s; }
-    .webinar-card-clean:hover { border-color: #10b981; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transform: translateY(-4px); }
-
-    .card-body-clean { padding: 24px; }
-    .card-meta { font-size: 0.85rem; color: #10b981; font-weight: 700; margin-bottom: 8px; }
+    .card-body-clean { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-meta { font-size: 0.8rem; color: #10b981; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
     .card-title-clean { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 20px 0; line-height: 1.4; }
-    .card-footer-clean { display: flex; justify-content: space-between; align-items: center; }
+    .card-footer-clean { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
     
     .host-info { display: flex; align-items: center; gap: 10px; }
-    .host-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    .host-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #f1f5f9; }
     .host-info span { font-size: 0.9rem; font-weight: 600; color: #475569; }
     .action-arrow { color: #cbd5e1; transition: 0.2s; }
     .webinar-card-clean:hover .action-arrow { color: #10b981; transform: translateX(4px); }
 
-    .badge-live { position: absolute; top: 16px; right: 16px; background: #ef4444; color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; }
+    .badge-live { position: absolute; top: 16px; right: 16px; background: #ef4444; color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px; animation: pulse-live 1.5s infinite; }
+    @keyframes pulse-live { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
     .empty-state-clean { grid-column: 1 / -1; text-align: center; padding: 80px 40px; background: #f8fafc; border-radius: 24px; border: 2px dashed #e2e8f0; }
     .icon-box-clean { margin-bottom: 24px; color: #cbd5e1; }
-    .empty-state-clean h3 { font-size: 1.4rem; color: #0f172a; margin-bottom: 12px; font-weight: 800; }
+    .empty-state-clean h3 { font-size: 1.5rem; color: #0f172a; margin-bottom: 12px; font-weight: 800; }
     .empty-state-clean p { color: #64748b; font-size: 1.1rem; }
 
-    .watch-container-clean { max-width: 1400px; margin: 0 auto; padding: 32px; animation: fadeIn 0.4s ease-out; }
-    .watch-header { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
-    .btn-back { background: white; border: 1px solid #e2e8f0; width: 48px; height: 48px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .watch-container-clean { max-width: 1300px; margin: 0 auto; padding: 20px; }
+    .watch-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+    .btn-back { background: white; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-back:hover { background: #f8fafc; border-color: #cbd5e1; }
-    .watch-title { font-size: 1.8rem; font-weight: 800; color: #0f172a; margin: 0; }
+    .watch-title { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0; }
 
     .watch-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; }
-    .video-wrapper-clean { aspect-ratio: 16/9; background: #000; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+    .video-wrapper-clean { aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
     .video-wrapper-clean iframe { width: 100%; height: 100%; }
 
-    .sidebar-interaction { background: white; border: 1px solid #e2e8f0; border-radius: 24px; display: flex; flex-direction: column; height: 600px; overflow: hidden; }
-    .tabs-clean { display: flex; border-bottom: 1px solid #f1f5f9; padding: 8px; }
-    .tab-btn { flex: 1; background: transparent; border: none; padding: 12px; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 8px; }
+    .sidebar-interaction { background: white; border: 1px solid #e2e8f0; border-radius: 20px; display: flex; flex-direction: column; height: 600px; overflow: hidden; }
+    .tabs-clean { display: flex; border-bottom: 1px solid #f1f5f9; padding: 8px; gap: 8px; }
+    .tab-btn { flex: 1; background: transparent; border: none; padding: 12px; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 10px; transition: 0.2s; }
     .tab-btn.active { background: #f1f5f9; color: #0f172a; }
 
-    .panel-content { display: none; flex-direction: column; flex-grow: 1; }
+    .panel-content { display: none; flex-direction: column; flex-grow: 1; height: calc(100% - 60px); }
     .panel-content.active { display: flex; }
-    .chat-list-clean { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .chat-list-clean { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    
     .msg-bubble { max-width: 90%; }
-    .msg-sender { font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
-    .msg-text { background: #f1f5f9; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; color: #334155; }
+    .msg-sender { font-size: 0.7rem; font-weight: 700; color: #94a3b8; margin-bottom: 2px; }
+    .msg-text { background: #f1f5f9; padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; color: #334155; display: inline-block; }
     .msg-bubble.me { align-self: flex-end; }
     .msg-bubble.me .msg-text { background: #10b981; color: white; }
     .msg-bubble.me .msg-sender { text-align: right; }
 
-    .chat-input-clean { padding: 20px; border-top: 1px solid #f1f5f9; display: flex; gap: 12px; }
-    .chat-input-clean input { flex-grow: 1; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 12px; outline: none; }
+    .chat-input-clean { padding: 16px; border-top: 1px solid #f1f5f9; display: flex; gap: 10px; }
+    .chat-input-clean input { flex-grow: 1; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 10px; outline: none; font-size: 0.95rem; }
     .chat-input-clean input:focus { border-color: #10b981; }
-    .chat-input-clean button { background: #0f172a; color: white; border: none; width: 44px; height: 44px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .chat-input-clean button { background: #0f172a; color: white; border: none; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-    .btn-action-full { margin: 20px; background: #10b981; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; }
-
-    .loader-dots { display: flex; justify-content: center; gap: 8px; }
-    .loader-dots span { width: 10px; height: 10px; background: #cbd5e1; border-radius: 50%; animation: dotPulse 1s infinite alternate; }
+    .loader-dots { display: flex; justify-content: center; gap: 6px; }
+    .loader-dots span { width: 8px; height: 8px; background: #cbd5e1; border-radius: 50%; animation: dotPulse 1s infinite alternate; }
     .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
     .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes dotPulse { from { opacity: 0.3; transform: scale(0.8); } to { opacity: 1; transform: scale(1.1); } }
@@ -377,4 +490,3 @@ style.textContent = `
 document.head.appendChild(style);
 
 window.WebinarModule = WebinarModule;
-
