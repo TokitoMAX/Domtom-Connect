@@ -17,13 +17,33 @@ const UIComponents = {
      * Helper: Adjust paths for universal loading
      */
     adjustPath(p, prefix) {
-        if (!p || p.startsWith('http') || p.startsWith('javascript:')) return p;
-        let clean = p.startsWith('/') ? p.slice(1) : p;
-        if (!clean.includes('.') && !clean.includes('#')) {
-            if (clean === 'marketplace/evenements' || clean === 'marketplace/companies') clean += '.html';
-            else if (!clean.endsWith('/')) clean += '.html';
+        if (!p) return '#';
+        
+        // --- NEW: Absolute Site Root Protection ---
+        // Detect Project Root from script tag to ensure all generated paths are absolute
+        const appScript = document.querySelector('script[src*="app.js"]');
+        const siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
+
+        let clean = p.startsWith('./') ? p.substring(2) : p;
+        
+        // Don't modify absolute URLs or hashes
+        if (clean.startsWith('http') || clean.startsWith('#') || clean.startsWith('javascript:')) {
+            return clean;
         }
-        return prefix + clean;
+
+        // Auto-append .html if missing (and not a special path)
+        if (!clean.includes('.') && !clean.includes('#')) {
+            if (clean !== '' && !clean.endsWith('/')) {
+                clean += '.html';
+            }
+        }
+
+        try {
+            // Resolve relative to site root for total safety
+            return new URL(clean, siteRoot).href;
+        } catch(e) {
+            return prefix + clean;
+        }
     },
 
     /**
