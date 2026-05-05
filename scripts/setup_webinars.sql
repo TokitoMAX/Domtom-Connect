@@ -80,3 +80,30 @@ CREATE POLICY "Users can interact with webinars" ON webinar_attendees FOR ALL US
 CREATE POLICY "Users can ask questions" ON webinar_questions FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 CREATE POLICY "Users can post messages" ON webinar_messages FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 
+-- 9. Create Poll Votes Table (Prevent double voting)
+CREATE TABLE IF NOT EXISTS webinar_poll_votes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    poll_id UUID REFERENCES webinar_polls(id) ON DELETE CASCADE,
+    option_id UUID REFERENCES webinar_poll_options(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    UNIQUE(poll_id, user_id)
+);
+
+-- 10. Create CTA Table (Featured Offers)
+CREATE TABLE IF NOT EXISTS webinar_ctas (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    webinar_id UUID REFERENCES webinars(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    title TEXT NOT NULL,
+    button_text TEXT NOT NULL,
+    link_url TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT false
+);
+
+ALTER TABLE webinar_poll_votes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE webinar_ctas ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view CTA" ON webinar_ctas FOR SELECT USING (true);
+CREATE POLICY "Anyone can view poll votes" ON webinar_poll_votes FOR SELECT USING (true);
+CREATE POLICY "Users can vote once" ON webinar_poll_votes FOR INSERT WITH CHECK (auth.uid() = user_id);
