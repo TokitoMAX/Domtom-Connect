@@ -36,9 +36,26 @@ const Router = {
      * Navigate to a path (Supports clean URLs and Hash fallback)
      */
     navigate(path, params = null) {
-        // --- NEW: Hash-Only Enforcement ---
-        // The dashboard SPA should only handle internal hash-based routes.
-        // If a path is provided without a hash, it's likely an external link or a malformed request.
+        // Support absolute URLs that are internal
+        const isInternal = path.includes(window.location.origin) || !path.startsWith('http');
+        const isDashboard = path.includes('/mon-espace') || path.includes('/dashboard');
+        
+        if (isInternal && isDashboard) {
+            // Extract the view ID from the internal URL
+            const url = new URL(path, window.location.origin);
+            let internalId = url.pathname.split('/').pop();
+            if (internalId === 'mon-espace' || internalId === 'mon-espace.html') {
+                internalId = url.hash.replace('#', '').split('?')[0] || 'overview';
+            }
+            
+            if (this.routes[internalId]) {
+                console.log("[Router] Internal absolute link detected, navigating as SPA:", internalId);
+                window.history.pushState(params, '', `/mon-espace/${internalId}${url.search}`);
+                this.handleCurrentRoute();
+                return;
+            }
+        }
+
         if (!path.startsWith('#')) {
             console.log("[Router] External link or non-hash path detected, using standard navigation:", path);
             window.location.href = path;

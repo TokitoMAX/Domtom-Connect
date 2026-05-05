@@ -69,6 +69,8 @@ const App = {
             console.log(`[App] Session ready: ${profile.full_name} (${this.state.role})`);
 
             // 4. Initialize UI & Routing
+            this.state.initialized = true;
+
             if (window.UIComponents) {
                 window.UIComponents.renderSidebar(this.state.role, profile.territory || 'Territoire');
                 window.UIComponents.renderTopNav(this.state.role);
@@ -77,8 +79,6 @@ const App = {
             if (window.Router) {
                 window.Router.init();
             }
-
-            this.state.initialized = true;
 
         } catch (err) {
             console.error("[App] Critical Boot Error:", err);
@@ -161,8 +161,16 @@ const App = {
             
             // SECURITY CHECK: Clear target before injecting new module content
             if (targetContainer) {
+                console.log(`[App] Preparing targetContainer (${targetContainer.id}) for module: ${viewId}`);
+                // Ensure visibility
+                targetContainer.style.display = 'block';
                 // Keep some height to avoid "jumpy" UI
-                targetContainer.innerHTML = '<div style="min-height:400px; display:flex; align-items:center; justify-content:center;"><div class="splash-loader"></div></div>';
+                targetContainer.innerHTML = `
+                    <div style="min-height:450px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; animation: fadeIn 0.3s ease;">
+                        <div class="splash-loader"></div>
+                        <p style="color:#64748b; font-weight:700; font-size:1.1rem; letter-spacing:-0.01em;">Initialisation de l'espace ${viewId}...</p>
+                    </div>
+                `;
             }
             
             try {
