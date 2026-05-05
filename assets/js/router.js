@@ -35,25 +35,26 @@ const Router = {
      * Navigate to a path (Supports clean URLs and Hash fallback)
      */
     navigate(path, params = null) {
+        // --- NEW: Hash-Only Enforcement ---
+        // The dashboard SPA should only handle internal hash-based routes.
+        // If a path is provided without a hash, it's likely an external link or a malformed request.
+        if (!path.startsWith('#')) {
+            console.log("[Router] External link or non-hash path detected, using standard navigation:", path);
+            window.location.href = path;
+            return;
+        }
+
         let viewId = path.replace('#', '').replace('/mon-espace/', '').replace('/dashboard/', '');
         viewId = viewId.split('?')[0];
 
         // Ensure path is formatted correctly for History API
-        const cleanPath = path.startsWith('#') ? `/mon-espace/${path.substring(1)}` : path;
+        const cleanPath = `/mon-espace/${viewId}`;
 
         console.log("[Router] Navigating to:", cleanPath, "Matched view:", viewId);
 
         // Fallback for local file protocol: Use Hash
         if (window.location.protocol === 'file:') {
             window.location.hash = viewId;
-            return;
-        }
-
-        // --- NEW: External Link Safety Check ---
-        // If the path contains .html and isn't a known internal route, treat as external
-        if (path.includes('.html') && !this.routes[viewId]) {
-            console.log("[Router] Detected external link, using standard navigation:", path);
-            window.location.href = path;
             return;
         }
 
@@ -93,9 +94,9 @@ const Router = {
         
         // 3. Last fallback: loop (But never match real HTML files)
         if (!viewId || viewId === 'overview') {
-            if (!path.includes('.html')) {
+            if (!path.includes('.html') && !path.includes('marketplace/')) {
                 for (const [route, id] of Object.entries(this.routes)) {
-                    if (path.includes(route) || hash.includes(route)) {
+                    if (path.endsWith(`/${route}`) || hash === route) {
                         viewId = id;
                         break;
                     }
