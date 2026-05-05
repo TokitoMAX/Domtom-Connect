@@ -165,6 +165,16 @@ html, body {
     pointer-events: none;
 }
 
+.top-nav-logo {
+    position: absolute;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
 .nav-market-links {
     display: flex;
     gap: 12px;
@@ -197,6 +207,8 @@ html, body {
     gap: 8px;
     white-space: nowrap;
     opacity: 0.7;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 
 .nav-market-link:hover, .nav-market-link.active {
@@ -204,6 +216,8 @@ html, body {
     background: #10b981 !important; /* Emerald on hover/active */
     opacity: 1 !important;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 
 @media (max-width: 960px) {
@@ -2117,6 +2131,7 @@ html, body {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
 
 .modal-close {
     position: absolute;

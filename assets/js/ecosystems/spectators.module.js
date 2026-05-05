@@ -38,6 +38,9 @@ const SpectatorsModule = {
     renderDashboard: (container, profile, session) => {
         if (!container) return;
 
+        const prefix = window.UIComponents ? window.UIComponents.getPathPrefix() : '';
+        const adjust = (p) => window.UIComponents ? window.UIComponents.adjustPath(p, prefix) : p;
+
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif; gap: 40px; padding-bottom: 60px;">
                 
@@ -136,9 +139,9 @@ const SpectatorsModule = {
                             <div style="background: white; padding: 40px; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); flex: 1;">
                                 <h4 style="margin: 0 0 16px 0; font-weight: 800; color: #0f172a;">Actions Immédiates</h4>
                                 <div style="display: grid; gap: 12px;">
-                                    <button onclick="window.location.href='marketplace/directory.html'" class="cta-button primary" style="width: 100%; height: 50px; background: #10b981; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Explorer le Marketplace DTC</button>
-                                    <button onclick="window.location.href='marketplace/projects.html'" class="cta-button primary" style="width: 100%; height: 50px; background: #0f172a; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Découvrir les Projets à Soutenir</button>
-                                    <button onclick="window.location.href='marketplace/evenements.html'" class="cta-button secondary" style="width: 100%; height: 50px; border: 2px solid #0f172a; color: #0f172a; border-radius: 12px; font-weight: 800; cursor: pointer; background: white;">Parcourir les Événements</button>
+                                    <button onclick="window.location.href='${adjust('marketplace/directory.html')}'" class="cta-button primary" style="width: 100%; height: 50px; background: #10b981; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Explorer le Marketplace DTC</button>
+                                    <button onclick="window.location.href='${adjust('marketplace/projects.html')}'" class="cta-button primary" style="width: 100%; height: 50px; background: #0f172a; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Découvrir les Projets à Soutenir</button>
+                                    <button onclick="window.location.href='${adjust('marketplace/evenements.html')}'" class="cta-button secondary" style="width: 100%; height: 50px; border: 2px solid #0f172a; color: #0f172a; border-radius: 12px; font-weight: 800; cursor: pointer; background: white;">Parcourir les Événements</button>
                                     <button onclick="window.Router.navigate('#billetterie')" class="cta-button" style="width: 100%; height: 50px; background: #f1f5f9; color: #0f172a; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">Gérer mes Événements</button>
                                 </div>
                             </div>

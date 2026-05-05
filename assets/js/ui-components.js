@@ -8,7 +8,7 @@ const UIComponents = {
      * Helper: Detect if we are in a subfolder and return path prefix
      */
     getPathPrefix() {
-        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora/.test(window.location.pathname);
+        const isSubFolder = /marketplace|registration|blog|territoires|services|a-propos|diaspora|mon-espace|dashboard/.test(window.location.pathname);
         return isSubFolder ? '../' : '';
     },
 

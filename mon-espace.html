@@ -232,10 +232,34 @@
             });
         }
 
-        window.addEventListener('hashchange', syncNavActiveState);
+        /**
+         * Robust Link Adjustment
+         * Ensures hardcoded relative links work even after router changes the path
+         */
+        function fixNavigationLinks() {
+            if (!window.UIComponents) return;
+            const prefix = UIComponents.getPathPrefix();
+            
+            document.querySelectorAll('.nav-market-link, .mobile-nav-link, .mobile-menu-links a, .top-nav-logo').forEach(link => {
+                // Store original href to allow multiple adjustments without doubling prefixes
+                if (!link.dataset.originalHref) {
+                    link.dataset.originalHref = link.getAttribute('href');
+                }
+                
+                const href = link.dataset.originalHref;
+                if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.startsWith('http')) {
+                    link.href = UIComponents.adjustPath(href, prefix);
+                }
+            });
+        }
+
+        window.addEventListener('hashchange', () => {
+            syncNavActiveState();
+            fixNavigationLinks();
+        });
         document.addEventListener('DOMContentLoaded', () => {
             syncNavActiveState();
-            // App.init() handles everything via its boot sequence
+            fixNavigationLinks();
         });
     </script>
 </body>
