@@ -366,7 +366,7 @@
                         <div class="job-snippet">${job.description?.split('### PROFIL')[0].replace('### MISSIONS', '').trim().substring(0, 150)}...</div>
                     </div>
                     <div class="premium-footer">
-                        ${userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled>Postulé</button>' : `<button onclick="openApplyModal('${job.id}','${job.title}')" class="btn-premium btn-apply">Postuler</button>`}
+                        ${userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled>Postulé</button>' : `<button onclick="applyToJobDirectly('${job.id}','${job.company_id}')" class="btn-premium btn-apply">Postuler</button>`}
                     </div>
                 </div>`;
             }).join('');
@@ -376,15 +376,36 @@
             }
         }
 
-        function openApplyModal(id, title) { currentApplyJobId = id; document.getElementById('apply-modal-job-title').textContent = title; document.getElementById('apply-modal').classList.add('open'); }
-        function closeApplyModal() { document.getElementById('apply-modal').classList.remove('open'); }
-        function handleCVSelect(e) { const file = e.target.files[0]; if (file) document.getElementById('cv-filename').textContent = file.name; }
+        async function applyToJobDirectly(jobId, companyId) {
+            if (!currentUserId) {
+                window.location.href = '../login.html?redirect=marketplace/jobs';
+                return;
+            }
+            if (userApplications.includes(jobId)) return;
 
-        async function confirmApply() {
-            const note = document.getElementById('apply-note').value;
-            if (!note) return alert("Note requise");
-            const { error } = await _supabase.from('job_applications').insert([{ job_id: currentApplyJobId, candidate_id: currentUserId, motivation_note: note, status: 'pending' }]);
-            if (error) alert(error.message); else location.reload();
+            try {
+                Swal.fire({
+                    title: 'Mise en relation...',
+                    text: 'Ouverture de votre discussion sécurisée avec le recruteur.',
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading()
+                });
+                
+                const db = window._supabase || initSupabase();
+                // Enregistre en arrière-plan la candidature pour marquer l'offre comme postulée
+                await db.from('job_applications').insert([{ 
+                    job_id: jobId, 
+                    candidate_id: currentUserId, 
+                    motivation_note: 'Candidature directe WeChat-style via Messagerie.',
+                    status: 'pending' 
+                }]);
+                
+                // Redirection directe vers la messagerie
+                window.location.href = `../messages.html?to=${companyId}&job=${jobId}`;
+            } catch (err) {
+                console.error("Error applying:", err);
+                window.location.href = `../messages.html?to=${companyId}&job=${jobId}`;
+            }
         }
 
         function openJobModal() { document.getElementById('job-modal').classList.add('open'); }

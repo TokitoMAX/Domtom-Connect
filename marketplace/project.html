@@ -742,69 +742,33 @@
             btn.classList.add('active');
         }
 
-        function openSupportModal() {
-            document.getElementById('support-modal').style.display = 'flex';
-            renderPaypal();
+        async function redirectToSupportChat(amount) {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            const { data: { session } } = await db.auth.getSession();
+            if (!session) {
+                window.location.href = '../login.html?redirect=marketplace/project&id=' + currentProject.id;
+                return;
+            }
+
+            Swal.fire({
+                title: 'Mise en relation...',
+                text: 'Ouverture de votre discussion sécurisée avec le porteur du projet.',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            const amtParam = amount ? `&amount=${amount}` : '';
+            window.location.href = `../messages.html?to=${currentProject.owner_id}&project=${currentProject.id}${amtParam}`;
         }
 
-        function closeSupportModal() {
-            document.getElementById('support-modal').style.display = 'none';
+        function openSupportModal() {
+            redirectToSupportChat();
         }
 
         function selectContribution(amt, btn) {
             const val = parseFloat(amt);
             if (isNaN(val) || val <= 0) return;
-            
-            selectedAmount = val;
-            if (btn) {
-                document.querySelectorAll('#support-modal .tab-trigger').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-            
-            // Auto-open modal when selecting a specific pack
-            openSupportModal();
-        }
-
-        async function renderPaypal() {
-            const container = document.getElementById('paypal-button-container');
-            if (!container) return;
-            container.innerHTML = '';
-            
-            if (window.paypal) {
-                paypal.Buttons({
-                    style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' },
-                    createOrder: (data, actions) => actions.order.create({
-                        purchase_units: [{ amount: { value: selectedAmount.toString() } }]
-                    }),
-                    onApprove: (data, actions) => actions.order.capture().then(details => handleSuccess(details))
-                }).render('#paypal-button-container');
-            } else {
-                container.innerHTML = `<button onclick="handleSuccess({id:'SIM_123'})" style="width:100%; padding:22px; background:linear-gradient(135deg, #0070ba 0%, #005ea6 100%); color:white; border:none; border-radius:100px; font-weight:900; cursor:pointer; font-size:1.1rem; box-shadow:0 10px 25px rgba(0, 112, 186, 0.3);">Confirmer le soutien de ${selectedAmount} €</button>`;
-            }
-        }
-
-        async function handleSuccess(details) {
-            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (!db) return;
-            
-            try {
-                const { data: { session } } = await db.auth.getSession();
-                const { error } = await db.from('contributions').insert({
-                    project_id: currentProject.id,
-                    amount: selectedAmount,
-                    donor_id: session?.user.id || null,
-                    donor_name: session?.user.user_metadata?.full_name || 'Anonyme',
-                    status: 'completed'
-                });
-                
-                if (error) throw error;
-
-                alert("Merci pour votre soutien ! L'épopée avance grâce à vous.");
-                location.reload();
-            } catch (err) {
-                console.error("Payment sync error:", err);
-                alert("Erreur lors de l'enregistrement du soutien.");
-            }
+            redirectToSupportChat(val);
         }
 
         document.addEventListener('DOMContentLoaded', initProject);

@@ -25,6 +25,15 @@ const WebinarModule = {
      * Module Router
      */
     route: async (view_id, container, profile, session, params) => {
+        // Load CSS if not already present
+        if (!document.getElementById('webinar-css')) {
+            const link = document.createElement('link');
+            link.id = 'webinar-css';
+            link.rel = 'stylesheet';
+            link.href = './assets/css/webinar.css';
+            document.head.appendChild(link);
+        }
+
         const target = container || document.getElementById('webinars-view') || document.getElementById('ecosystem-grid-container');
         if (!target) return;
 
@@ -42,16 +51,18 @@ const WebinarModule = {
     },
 
     cleanupSubscriptions: () => {
-        [WebinarModule.activeSubscription, WebinarModule.activeQASubscription, WebinarModule.activePollSubscription, WebinarModule.activeCTASubscription]
+        [WebinarModule.activeSubscription, WebinarModule.activeQASubscription, WebinarModule.activePollSubscription, WebinarModule.activeCTASubscription, WebinarModule.activeReactionSubscription, WebinarModule.activeStatusSubscription]
             .forEach(s => { if (s) s.unsubscribe(); });
         WebinarModule.activeSubscription = null;
         WebinarModule.activeQASubscription = null;
         WebinarModule.activePollSubscription = null;
         WebinarModule.activeCTASubscription = null;
+        WebinarModule.activeReactionSubscription = null;
+        WebinarModule.activeStatusSubscription = null;
     },
 
     /**
-     * Render Webinars List - Ultra Clean & Inviting
+     * Render Webinars List - With Registration Flow
      */
     renderWebinarsList: async (container, profile, session) => {
         if (!container) return;
@@ -59,28 +70,22 @@ const WebinarModule = {
         container.innerHTML = `
             <div class="webinar-container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; animation: fadeIn 0.5s ease-out;">
                 
-                <!-- Hero Section - Giving "Envie" -->
                 <div class="webinar-hero-clean">
                     <div class="hero-content">
                         <div class="badge-new">EXCLUSIF</div>
-                        <h1>Le savoir en <span class="gradient-text">Immersion.</span></h1>
-                        <p>Découvrez les masterclasses des meilleurs experts. Une technologie fiable, une interaction totale.</p>
+                        <h1>Le savoir en <span class="gradient-text">Direct.</span></h1>
+                        <p>Participez aux masterclasses en live ou accédez aux replays exclusifs de notre communauté d'experts.</p>
                         ${WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur' ? `
                             <button onclick="WebinarModule.openCreateModal()" class="btn-hero">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                                Lancer mon Live
+                                Programmer une Session
                             </button>
                         ` : ''}
                     </div>
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-                    <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">Sessions à venir</h2>
-                    <div class="filter-group">
-                        <button class="filter-pill active">Tous</button>
-                        <button class="filter-pill">Direct</button>
-                        <button class="filter-pill">Replays</button>
-                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">Programme des Masterclasses</h2>
                 </div>
 
                 <div id="webinars-list" class="premium-grid-webinar">
@@ -94,55 +99,48 @@ const WebinarModule = {
         await WebinarModule.loadWebinars();
     },
 
-    /**
-     * Load Webinars
-     */
     loadWebinars: async () => {
         const listContainer = document.getElementById('webinars-list');
         if (!listContainer) return;
 
         try {
             const db = WebinarModule.getDb();
-            const { data: webinars, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').order('scheduled_at', { ascending: true });
+            const userId = window.App.state.session?.user?.id;
+            
+            const { data: webinars, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title), webinar_attendees(user_id)').order('scheduled_at', { ascending: true });
 
             if (error) throw error;
 
             if (!webinars || webinars.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state-v2">
-                        <div class="empty-icon">🎬</div>
-                        <h3>Le programme se prépare...</h3>
-                        <p>Revenez très bientôt pour découvrir nos prochaines masterclasses stratégiques.</p>
-                    </div>
-                `;
+                listContainer.innerHTML = `<div class="empty-state-v2"><h3>Le programme arrive...</h3></div>`;
                 return;
             }
 
-            listContainer.innerHTML = webinars.map(w => WebinarModule.renderWebinarCard(w)).join('');
+            listContainer.innerHTML = webinars.map(w => {
+                const isRegistered = w.webinar_attendees?.some(a => a.user_id === userId);
+                return WebinarModule.renderWebinarCard(w, isRegistered);
+            }).join('');
         } catch (err) {
             listContainer.innerHTML = `<div class="error-box-clean">${err.message}</div>`;
         }
     },
 
-    /**
-     * Webinar Card - High CTR Design
-     */
-    renderWebinarCard: (webinar) => {
+    renderWebinarCard: (webinar, isRegistered) => {
         const date = new Date(webinar.scheduled_at);
         const formattedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
         const formattedTime = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        const now = new Date();
-        const isLive = now >= date && now <= new Date(date.getTime() + 120*60*1000);
+        const isLive = webinar.status === 'live';
+        const isFinished = webinar.status === 'finished';
 
         return `
-            <div class="webinar-card-v2" onclick="window.Router.navigate('#webinars?id=${webinar.id}')">
+            <div class="webinar-card-v2" onclick="${(isRegistered || isLive || isFinished) ? `window.Router.navigate('#webinars?id=${webinar.id}')` : `WebinarModule.registerUser('${webinar.id}')`}">
                 <div class="card-image-box">
                     <div class="image-overlay"></div>
                     <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&q=80&w=600" alt="Webinar">
-                    ${isLive ? `<div class="live-tag-v2"><span class="dot"></span> DIRECT</div>` : `<div class="date-tag-v2">${formattedDate}</div>`}
+                    ${isLive ? `<div class="live-tag-v2"><span class="dot"></span> DIRECT</div>` : isFinished ? `<div class="date-tag-v2" style="background:#64748b;">REPLAY</div>` : `<div class="date-tag-v2">${formattedDate}</div>`}
                 </div>
                 <div class="card-content-v2">
-                    <div class="card-time-v2">${formattedTime} • Salle Virtuelle</div>
+                    <div class="card-time-v2">${formattedTime} • ${isLive ? 'Session en cours' : isFinished ? 'Session terminée' : 'Prochaine session'}</div>
                     <h3 class="card-title-v2">${webinar.title}</h3>
                     <div class="card-footer-v2">
                         <div class="host-badge">
@@ -150,7 +148,11 @@ const WebinarModule = {
                             <span>${webinar.profiles?.full_name}</span>
                         </div>
                         <div class="join-icon-v2">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            ${(isRegistered || isLive || isFinished) ? `
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            ` : `
+                                <span style="font-size:0.7rem; font-weight:900; color:#10b981;">S'INSCRIRE</span>
+                            `}
                         </div>
                     </div>
                 </div>
@@ -158,8 +160,17 @@ const WebinarModule = {
         `;
     },
 
+    registerUser: async (webinarId) => {
+        const db = WebinarModule.getDb();
+        const { error } = await db.from('webinar_attendees').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id }]);
+        if (!error) {
+            Swal.fire({ title: 'Inscription validée !', text: 'Vous recevrez une notification au début du direct.', icon: 'success', timer: 2000, showConfirmButton: false });
+            WebinarModule.loadWebinars();
+        }
+    },
+
     /**
-     * Render Watch View (The "Wow" Experience)
+     * Render Watch View - Status Driven
      */
     renderWatchView: async (container, webinarId, profile, session) => {
         if (!container) return;
@@ -169,87 +180,96 @@ const WebinarModule = {
             const { data: webinar, error } = await db.from('webinars').select('*, profiles(full_name, avatar_url, title)').eq('id', webinarId).single();
             if (error) throw error;
 
-            const now = new Date();
-            const scheduledAt = new Date(webinar.scheduled_at);
-            const isTooEarly = now < new Date(scheduledAt.getTime() - 15*60*1000); // More than 15 mins early
             const isHost = webinar.host_id === session.user.id;
 
-            // 1. WAITING ROOM - If too early, show a beautiful waiting screen
-            if (isTooEarly && !isHost) {
-                container.innerHTML = WebinarModule.renderWaitingRoom(webinar, scheduledAt);
+            // 1. REPLAY MODE
+            if (webinar.status === 'finished') {
+                container.innerHTML = WebinarModule.renderReplayView(webinar);
                 return;
             }
 
-            // 2. LIVE STAGE - The actual interface
+            // 2. WAITING MODE (Host hasn't started yet)
+            if (webinar.status === 'scheduled' && !isHost) {
+                container.innerHTML = WebinarModule.renderWaitingRoom(webinar, new Date(webinar.scheduled_at));
+                WebinarModule.initStatusSync(webinarId, profile, session);
+                return;
+            }
+
+            // 3. LIVE STAGE
             container.innerHTML = `
                 <div class="webinar-stage-v2">
-                    <!-- CTA Layer (High Conversion) -->
                     <div id="cta-overlay" class="cta-overlay-v2"></div>
-
                     <div class="stage-header-v2">
                         <div class="header-left">
                             <button onclick="window.Router.navigate('#webinars')" class="btn-circle-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
                             <div class="header-info">
                                 <h1>${webinar.title}</h1>
                                 <div class="header-meta">
-                                    <span class="live-indicator">● LIVE</span>
+                                    <span class="live-indicator" id="live-status-badge">${webinar.status === 'live' ? 'DIRECT' : 'PRÉPARATION'}</span>
                                     <span class="viewer-count"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> <span id="attendee-count">...</span></span>
                                 </div>
                             </div>
                         </div>
                         <div class="header-right">
-                            ${isHost ? `
-                                <div class="host-tools-v2">
+                            <div style="display: flex; gap: 12px;">
+                                ${isHost ? `
+                                    <div id="host-controls">
+                                        ${webinar.status === 'scheduled' ? `
+                                            <button onclick="WebinarModule.updateStatus('${webinarId}', 'live')" class="btn-host-tool" style="background:#ef4444; color:white; border:none; padding:10px 24px; font-weight:900;">LANCER LE DIRECT</button>
+                                        ` : `
+                                            <button onclick="WebinarModule.finishWebinar('${webinarId}')" class="btn-host-tool" style="background:#64748b; color:white; border:none;">TERMINER LE LIVE</button>
+                                        `}
+                                    </div>
+                                    <button onclick="WebinarModule.showHostInsights('${webinarId}')" class="btn-host-tool" style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--webinar-border);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"/></svg> Analyses</button>
+                                    <button onclick="WebinarModule.openResourceAdder('${webinarId}')" class="btn-host-tool"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Ajouter Document</button>
                                     <button onclick="WebinarModule.openPollManager('${webinarId}')" class="btn-host-tool"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 20v-6M6 20V10M18 20V4"/></svg> Sondage</button>
-                                    <button onclick="WebinarModule.openCTAManager('${webinarId}')" class="btn-host-tool cta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg> Offre Live</button>
-                                </div>
-                            ` : `
-                                <button onclick="WebinarModule.shareWebinar('${webinarId}')" class="btn-share-v2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg> Inviter</button>
-                            `}
+                                    <button onclick="WebinarModule.openCTAManager('${webinarId}')" class="btn-host-tool cta" style="background:#10b981; color:white; border:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg> Déclencher Offre</button>
+                                ` : `
+                                    <button onclick="WebinarModule.toggleTheaterMode()" class="btn-host-tool"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg> Mode Théâtre</button>
+                                    <button onclick="WebinarModule.shareWebinar('${webinarId}')" class="btn-share-v2" style="background: rgba(255,255,255,0.05); color:white; border:1px solid var(--webinar-border); padding:10px 20px; border-radius:12px; cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg> Partager</button>
+                                `}
+                            </div>
                         </div>
                     </div>
 
                     <div class="stage-grid-v2">
                         <div class="video-section-v2">
                             <div id="jitsi-container" class="video-main-box">
-                                <div class="video-loader-v2">Initialisation du moteur vidéo sécurisé...</div>
+                                <div class="video-loader-v2">Moteur vidéo prêt. En attente du signal...</div>
                             </div>
+                            <div id="question-highlight" class="question-highlight-overlay"></div>
+                            <div class="reaction-container">
+                                <button class="reaction-btn" onclick="WebinarModule.sendReaction('${webinarId}', '❤️')">❤️</button>
+                                <button class="reaction-btn" onclick="WebinarModule.sendReaction('${webinarId}', '🔥')">🔥</button>
+                                <button class="reaction-btn" onclick="WebinarModule.sendReaction('${webinarId}', '👏')">👏</button>
+                                <button class="reaction-btn" onclick="WebinarModule.sendReaction('${webinarId}', '💡')">💡</button>
+                            </div>
+                            <div id="reaction-stage" style="position: absolute; inset:0; pointer-events:none; overflow:hidden;"></div>
                         </div>
 
-                        <div class="interaction-section-v2">
+                        <div class="interaction-section-v2" id="interaction-panel">
                             <div class="interaction-tabs-v2">
                                 <button onclick="WebinarModule.switchTab('chat')" id="tab-chat" class="tab-btn-v2 active">Chat</button>
                                 <button onclick="WebinarModule.switchTab('qa')" id="tab-qa" class="tab-btn-v2">Q&A</button>
                                 <button onclick="WebinarModule.switchTab('polls')" id="tab-polls" class="tab-btn-v2">Sondages</button>
+                                <button onclick="WebinarModule.switchTab('resources')" id="tab-resources" class="tab-btn-v2">Ressources</button>
                             </div>
-
-                            <div id="panel-chat" class="interaction-panel-v2 active">
-                                <div id="chat-messages" class="chat-flow-v2"></div>
-                                <div class="chat-composer-v2">
-                                    <input id="chat-input-live" type="text" placeholder="Réagir au live...">
-                                    <button onclick="WebinarModule.postMessage('${webinarId}')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
-                                </div>
-                            </div>
-
-                            <div id="panel-qa" class="interaction-panel-v2">
-                                <div id="qa-questions" class="qa-flow-v2"></div>
-                                <div class="panel-footer-v2">
-                                    <button onclick="WebinarModule.askQuestion('${webinarId}')" class="btn-primary-v2">Poser une question</button>
-                                </div>
-                            </div>
-
-                            <div id="panel-polls" class="interaction-panel-v2">
-                                <div id="polls-list" class="poll-flow-v2"></div>
-                            </div>
+                            <div id="panel-chat" class="interaction-panel-v2 active"><div id="chat-messages" class="chat-flow-v2"></div><div class="chat-composer-v2"><input id="chat-input-live" type="text" placeholder="Dites quelque chose..."><button onclick="WebinarModule.postMessage('${webinarId}')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div></div>
+                            <div id="panel-qa" class="interaction-panel-v2"><div id="qa-questions" class="qa-flow-v2"></div><div class="chat-composer-v2"><input id="qa-input-live" type="text" placeholder="Votre question à l'expert..."><button onclick="WebinarModule.askQuestionInline('${webinarId}')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 19l9 2-2-9-9-9-9 9 2 9 9-2z"/></svg></button></div></div>
+                            <div id="panel-polls" class="interaction-panel-v2"><div id="polls-list" class="chat-flow-v2"></div></div>
+                            <div id="panel-resources" class="interaction-panel-v2"><div id="resources-list" class="chat-flow-v2"></div></div>
                         </div>
                     </div>
                 </div>
             `;
 
-            WebinarModule.initJitsiRoom(webinarId, profile, isHost);
+            if (webinar.status === 'live' || isHost) {
+                WebinarModule.initJitsiRoom(webinarId, profile, isHost);
+            }
             WebinarModule.initRealtimeInteractions(webinarId, profile);
             WebinarModule.loadPolls(webinarId);
             WebinarModule.loadQuestions(webinarId);
+            WebinarModule.loadResources(webinarId);
             WebinarModule.trackAttendance(webinarId);
 
         } catch (err) {
@@ -257,30 +277,227 @@ const WebinarModule = {
         }
     },
 
+    renderReplayView: (webinar) => {
+        return `
+            <div class="webinar-stage-v2">
+                <div class="stage-header-v2">
+                    <div class="header-left">
+                        <button onclick="window.Router.navigate('#webinars')" class="btn-circle-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+                        <div class="header-info">
+                            <h1>[REPLAY] ${webinar.title}</h1>
+                            <div class="header-meta"><span class="live-indicator" style="background:#64748b;">TERMINÉ</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-grid-v2">
+                    <div class="video-section-v2">
+                        ${webinar.replay_url ? `
+                            <iframe width="100%" height="100%" src="${webinar.replay_url}" frameborder="0" allowfullscreen></iframe>
+                        ` : `
+                            <div class="video-loader-v2" style="background:#0f172a; color:white; flex-direction:column; gap:20px;">
+                                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+                                <span>Le replay sera disponible très prochainement.</span>
+                            </div>
+                        `}
+                    </div>
+                    <div class="interaction-section-v2">
+                        <div class="interaction-tabs-v2"><button class="tab-btn-v2 active">Ressources & Notes</button></div>
+                        <div id="panel-resources" class="interaction-panel-v2 active"><div id="resources-list" class="chat-flow-v2"></div></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    initStatusSync: (id, profile, session) => {
+        WebinarModule.activeStatusSubscription = WebinarModule.getDb().channel(`webinar_status_${id}`)
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'webinars', filter: `id=eq.${id}` }, (payload) => {
+                if (payload.new.status === 'live') {
+                    WebinarModule.renderWatchView(document.getElementById('ecosystem-grid-container'), id, profile, session);
+                }
+            }).subscribe();
+    },
+
+    updateStatus: async (id, status) => {
+        await WebinarModule.getDb().from('webinars').update({ status: status }).eq('id', id);
+        location.reload(); // Refresh to init Jitsi or Replay
+    },
+
+    finishWebinar: async (id) => {
+        const { value: url } = await Swal.fire({ title: 'Terminer la session', input: 'text', inputLabel: 'URL du Replay (YouTube/Vimeo)', inputPlaceholder: 'https://...', showCancelButton: true });
+        if (url !== undefined) {
+            await WebinarModule.getDb().from('webinars').update({ status: 'finished', replay_url: url }).eq('id', id);
+            window.Router.navigate('#webinars');
+        }
+    },
+
+    /**
+     * Real-time Synchronization
+     */
+    initRealtimeInteractions: async (webinarId, profile) => {
+        const db = WebinarModule.getDb();
+        if (!db) return;
+
+        // 1. Messages
+        const { data: messages } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('created_at', { ascending: true });
+        if (messages) messages.forEach(m => WebinarModule.renderChatMessage(m));
+
+        WebinarModule.activeSubscription = db.channel(`webinar_chat_${webinarId}`)
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'webinar_messages', filter: `webinar_id=eq.${webinarId}` }, async (payload) => {
+                const { data: fullMsg } = await db.from('webinar_messages').select('*, profiles(full_name)').eq('id', payload.new.id).single();
+                if (fullMsg) WebinarModule.renderChatMessage(fullMsg);
+            }).subscribe();
+
+        // 2. Polls
+        WebinarModule.activePollSubscription = db.channel(`webinar_polls_${webinarId}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_polls', filter: `webinar_id=eq.${webinarId}` }, () => { WebinarModule.loadPolls(webinarId); })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_poll_options' }, () => { WebinarModule.loadPolls(webinarId); })
+            .subscribe();
+
+        // 3. CTA (Offers)
+        WebinarModule.activeCTASubscription = db.channel(`webinar_cta_${webinarId}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_ctas', filter: `webinar_id=eq.${webinarId}` }, (payload) => {
+                if (payload.new && payload.new.is_active) { WebinarModule.showCTAOverlay(payload.new); }
+                else { document.getElementById('cta-overlay').classList.remove('active'); }
+            }).subscribe();
+
+        // 4. Reactions
+        WebinarModule.activeReactionSubscription = db.channel(`webinar_reactions_${webinarId}`)
+            .on('broadcast', { event: 'reaction' }, (payload) => {
+                WebinarModule.animateReaction(payload.payload.emoji);
+            }).subscribe();
+
+        // 5. Question Highlights
+        const { data: highlighted } = await db.from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('webinar_id', webinarId).eq('is_highlighted', true).limit(1).maybeSingle();
+        if (highlighted) WebinarModule.showHighlightOverlay(highlighted);
+
+        db.channel(`webinar_highlights_${webinarId}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_questions', filter: `webinar_id=eq.${webinarId}` }, (payload) => {
+                if (payload.new && payload.new.is_highlighted) WebinarModule.fetchAndShowHighlight(payload.new.id);
+                else { const el = document.getElementById('question-highlight'); if (el) el.classList.remove('active'); }
+            }).subscribe();
+
+        const input = document.getElementById('chat-input-live');
+        if (input) input.addEventListener('keypress', (e) => { if (e.key === 'Enter') WebinarModule.postMessage(webinarId); });
+        const qaInput = document.getElementById('qa-input-live');
+        if (qaInput) qaInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') WebinarModule.askQuestionInline(webinarId); });
+    },
+
+    fetchAndShowHighlight: async (id) => {
+        const { data } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('id', id).single();
+        if (data) WebinarModule.showHighlightOverlay(data);
+    },
+
+    showHighlightOverlay: (q) => {
+        const overlay = document.getElementById('question-highlight');
+        if (!overlay) return;
+        overlay.innerHTML = `
+            <div class="highlight-user"><img src="${q.profiles?.avatar_url || './assets/images/default-avatar.png'}" alt="User"><span>${q.profiles?.full_name} pose une question</span></div>
+            <div class="highlight-text">${q.question}</div>
+            <button onclick="WebinarModule.toggleHighlight('${q.id}', false)" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer;">×</button>
+        `;
+        overlay.classList.add('active');
+    },
+
+    toggleHighlight: async (questionId, state) => {
+        const db = WebinarModule.getDb();
+        const { data: q } = await db.from('webinar_questions').select('webinar_id').eq('id', questionId).single();
+        await db.from('webinar_questions').update({ is_highlighted: false }).eq('webinar_id', q.webinar_id);
+        await db.from('webinar_questions').update({ is_highlighted: state }).eq('id', questionId);
+        WebinarModule.loadQuestions(q.webinar_id);
+    },
+
+    sendReaction: (webinarId, emoji) => {
+        const db = WebinarModule.getDb();
+        db.channel(`webinar_reactions_${webinarId}`).send({ type: 'broadcast', event: 'reaction', payload: { emoji: emoji } });
+        WebinarModule.animateReaction(emoji);
+    },
+
+    animateReaction: (emoji) => {
+        const stage = document.getElementById('reaction-stage');
+        if (!stage) return;
+        const div = document.createElement('div');
+        div.className = 'floating-emoji';
+        div.textContent = emoji;
+        div.style.left = (20 + Math.random() * 60) + '%';
+        div.style.setProperty('--random-x', (Math.random() * 100 - 50) + 'px');
+        stage.appendChild(div);
+        setTimeout(() => div.remove(), 2000);
+    },
+
+    postMessage: async (webinarId) => {
+        const input = document.getElementById('chat-input-live');
+        if (!input || !input.value.trim()) return;
+        const content = input.value.trim();
+        input.value = '';
+        await WebinarModule.getDb().from('webinar_messages').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, content: content }]);
+    },
+
+    renderChatMessage: (msg) => {
+        const container = document.getElementById('chat-messages');
+        if (!container) return;
+        const isMe = msg.user_id === window.App.state.session?.user?.id;
+        const isSystem = msg.user_id === 'system';
+        container.insertAdjacentHTML('beforeend', `<div class="msg-bubble-v2 ${isMe ? 'me' : ''} ${isSystem ? 'system' : ''}">${!isSystem ? `<div class="sender-v2">${msg.profiles?.full_name}</div>` : ''}<div class="text-v2" style="${isSystem ? 'background:rgba(16,185,129,0.1); color:#10b981; border:none; text-align:center; font-size:0.8rem; font-weight:700;' : ''}">${msg.content}</div></div>`);
+        container.scrollTop = container.scrollHeight;
+    },
+
+    askQuestionInline: async (webinarId) => {
+        const input = document.getElementById('qa-input-live');
+        if (!input || !input.value.trim()) return;
+        const question = input.value.trim();
+        input.value = '';
+        await WebinarModule.getDb().from('webinar_questions').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, question: question }]);
+        WebinarModule.loadQuestions(webinarId);
+        Swal.fire({ title: 'Question envoyée', icon: 'success', timer: 1000, showConfirmButton: false });
+    },
+
+    loadQuestions: async (webinarId) => {
+        const container = document.getElementById('qa-questions');
+        if (!container) return;
+        const isHost = WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur';
+        const { data: questions } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
+        if (questions) {
+            container.innerHTML = questions.map(q => `
+                <div class="qa-card-v2" style="background:rgba(255,255,255,0.03); padding:16px; border-radius:16px; border:1px solid ${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-border)'}; margin-bottom:12px; transition:0.3s;">
+                    <div class="qa-card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:0.75rem; font-weight:800; color:${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-text-muted)'};">${q.profiles?.full_name}</span><div style="display:flex; gap:8px;">${isHost ? `<button onclick="WebinarModule.toggleHighlight('${q.id}', ${!q.is_highlighted})" style="background:${q.is_highlighted ? 'var(--webinar-accent)' : 'rgba(255,255,255,0.1)'}; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.65rem; font-weight:800; cursor:pointer;">${q.is_highlighted ? 'EN VEDETTE' : 'METTRE EN VEDETTE'}</button>` : ''}<button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background:transparent; border:none; color:white; cursor:pointer; font-weight:800;">👍 ${q.upvotes || 0}</button></div></div>
+                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#cbd5e1'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
+                </div>
+            `).join('');
+        }
+    },
+
+    showHostInsights: async (webinarId) => {
+        const db = WebinarModule.getDb();
+        const { count: attendees } = await db.from('webinar_attendees').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        const { count: questions } = await db.from('webinar_questions').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        const { count: messages } = await db.from('webinar_messages').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        Swal.fire({ title: 'Analyses en Direct', background: '#0f172a', color: '#f8fafc', html: `<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;"><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#10b981;">${attendees}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Participants</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#3b82f6;">${questions}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Questions</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#f59e0b;">${messages}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Messages</div></div></div>`, showConfirmButton: false, showCloseButton: true });
+    },
+
+    loadResources: async (webinarId) => {
+
     /**
      * Render a beautiful Waiting Room
      */
     renderWaitingRoom: (webinar, scheduledAt) => {
         const timeStr = scheduledAt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         return `
-            <div class="waiting-room-v2" style="background: radial-gradient(circle at top right, #1e293b, #0f172a); min-height: 80vh; display: flex; align-items: center; justify-content: center; border-radius: 40px; margin: 20px; animation: fadeIn 0.8s ease-out;">
-                <div style="text-align: center; color: white; max-width: 600px;">
+            <div class="waiting-room-v2">
+                <div class="waiting-card">
                     <div style="font-size: 0.85rem; font-weight: 900; color: #10b981; letter-spacing: 3px; margin-bottom: 24px;">PRÉPARATION DU DIRECT</div>
-                    <h1 style="font-size: 3rem; font-weight: 950; margin-bottom: 24px; letter-spacing: -2px;">${webinar.title}</h1>
-                    <p style="color: #94a3b8; font-size: 1.2rem; line-height: 1.6; margin-bottom: 48px;">Nous nous installons... La session débutera précisément à <span style="color: white; font-weight: 800;">${timeStr}</span>. Préparez vos questions !</p>
+                    <h1 style="font-size: 3.5rem; font-weight: 950; margin-bottom: 24px; letter-spacing: -2px; color:white;">${webinar.title}</h1>
+                    <p style="color: #94a3b8; font-size: 1.2rem; line-height: 1.6; margin-bottom: 48px;">Nous nous installons... La session débutera précisément à <span style="color: white; font-weight: 800;">${timeStr}</span>.</p>
                     
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 24px;">
-                        <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 80px; height: 80px; border-radius: 24px; border: 4px solid rgba(255,255,255,0.1);">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 24px; background: rgba(255,255,255,0.03); padding: 24px; border-radius: 32px; border: 1px solid rgba(255,255,255,0.05);">
+                        <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 80px; height: 80px; border-radius: 24px; border: 4px solid var(--webinar-accent);">
                         <div style="text-align: left;">
-                            <div style="font-weight: 800; font-size: 1.1rem;">${webinar.profiles?.full_name}</div>
+                            <div style="font-weight: 800; font-size: 1.2rem; color:white;">${webinar.profiles?.full_name}</div>
                             <div style="color: #64748b; font-size: 0.9rem;">Organisateur de la Masterclass</div>
                         </div>
                     </div>
                     
-                    <div class="loading-bar-v2" style="margin-top: 60px;">
-                        <div class="loading-fill-v2"></div>
-                    </div>
-                    <button onclick="window.Router.navigate('#webinars')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 12px 24px; border-radius: 12px; margin-top: 40px; cursor: pointer;">Retour au programme</button>
+                    <button onclick="window.Router.navigate('#webinars')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 16px 32px; border-radius: 16px; margin-top: 60px; cursor: pointer; font-weight:700;">Retour au programme</button>
                 </div>
             </div>
         `;
@@ -306,7 +523,12 @@ const WebinarModule = {
                 enableWelcomePage: false,
                 toolbarButtons: isHost ? ['microphone', 'camera', 'desktop', 'fullscreen', 'hangup', 'recording', 'settings', 'raisehand'] : ['microphone', 'camera', 'fullscreen', 'hangup', 'raisehand']
             },
-            interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false, SHOW_WATERMARK_FOR_GUESTS: false, DEFAULT_REMOTE_DISPLAY_NAME: 'Participant' }
+            interfaceConfigOverwrite: { 
+                SHOW_JITSI_WATERMARK: false, 
+                SHOW_WATERMARK_FOR_GUESTS: false, 
+                DEFAULT_REMOTE_DISPLAY_NAME: 'Participant',
+                TOOLBAR_BUTTONS: isHost ? ['microphone', 'camera', 'desktop', 'fullscreen', 'fodeviceselection', 'hangup', 'profile', 'chat', 'recording', 'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand', 'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts', 'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security'] : ['microphone', 'camera', 'fullscreen', 'hangup', 'raisehand', 'videoquality', 'filmstrip']
+            }
         };
 
         if (window.JitsiMeetExternalAPI) { 
@@ -321,6 +543,18 @@ const WebinarModule = {
         document.querySelectorAll('.interaction-panel-v2').forEach(p => p.classList.remove('active'));
         document.getElementById(`tab-${tabId}`).classList.add('active');
         document.getElementById(`panel-${tabId}`).classList.add('active');
+    },
+
+    toggleTheaterMode: () => {
+        const panel = document.getElementById('interaction-panel');
+        const grid = document.querySelector('.stage-grid-v2');
+        if (panel.style.display === 'none') {
+            panel.style.display = 'flex';
+            grid.style.gridTemplateColumns = '1fr 400px';
+        } else {
+            panel.style.display = 'none';
+            grid.style.gridTemplateColumns = '1fr';
+        }
     },
 
     /**
@@ -343,7 +577,7 @@ const WebinarModule = {
         // 2. Polls
         WebinarModule.activePollSubscription = db.channel(`webinar_polls_${webinarId}`)
             .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_polls', filter: `webinar_id=eq.${webinarId}` }, () => { WebinarModule.loadPolls(webinarId); })
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_poll_votes' }, () => { WebinarModule.loadPolls(webinarId); })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_poll_options' }, () => { WebinarModule.loadPolls(webinarId); })
             .subscribe();
 
         // 3. CTA (Offers)
@@ -353,8 +587,82 @@ const WebinarModule = {
                 else { document.getElementById('cta-overlay').classList.remove('active'); }
             }).subscribe();
 
+        // 4. Reactions
+        WebinarModule.activeReactionSubscription = db.channel(`webinar_reactions_${webinarId}`)
+            .on('broadcast', { event: 'reaction' }, (payload) => {
+                WebinarModule.animateReaction(payload.payload.emoji);
+            }).subscribe();
+
+        // 5. Question Highlights
+        const { data: highlighted } = await db.from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('webinar_id', webinarId).eq('is_highlighted', true).limit(1).maybeSingle();
+        if (highlighted) WebinarModule.showHighlightOverlay(highlighted);
+
+        db.channel(`webinar_highlights_${webinarId}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'webinar_questions', filter: `webinar_id=eq.${webinarId}` }, (payload) => {
+                if (payload.new && payload.new.is_highlighted) {
+                    // Fetch full data for overlay
+                    WebinarModule.fetchAndShowHighlight(payload.new.id);
+                } else {
+                    document.getElementById('question-highlight').classList.remove('active');
+                }
+            }).subscribe();
+
         const input = document.getElementById('chat-input-live');
         if (input) input.addEventListener('keypress', (e) => { if (e.key === 'Enter') WebinarModule.postMessage(webinarId); });
+        
+        const qaInput = document.getElementById('qa-input-live');
+        if (qaInput) qaInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') WebinarModule.askQuestionInline(webinarId); });
+    },
+
+    fetchAndShowHighlight: async (id) => {
+        const { data } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('id', id).single();
+        if (data) WebinarModule.showHighlightOverlay(data);
+    },
+
+    showHighlightOverlay: (q) => {
+        const overlay = document.getElementById('question-highlight');
+        if (!overlay) return;
+        overlay.innerHTML = `
+            <div class="highlight-user">
+                <img src="${q.profiles?.avatar_url || './assets/images/default-avatar.png'}" alt="User">
+                <span>${q.profiles?.full_name} pose une question</span>
+            </div>
+            <div class="highlight-text">${q.question}</div>
+            <button onclick="WebinarModule.toggleHighlight('${q.id}', false)" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer;">×</button>
+        `;
+        overlay.classList.add('active');
+    },
+
+    toggleHighlight: async (questionId, state) => {
+        const db = WebinarModule.getDb();
+        // Reset all others first
+        const { data: q } = await db.from('webinar_questions').select('webinar_id').eq('id', questionId).single();
+        await db.from('webinar_questions').update({ is_highlighted: false }).eq('webinar_id', q.webinar_id);
+        // Set target
+        await db.from('webinar_questions').update({ is_highlighted: state }).eq('id', questionId);
+        WebinarModule.loadQuestions(q.webinar_id);
+    },
+
+    sendReaction: (webinarId, emoji) => {
+        const db = WebinarModule.getDb();
+        db.channel(`webinar_reactions_${webinarId}`).send({
+            type: 'broadcast',
+            event: 'reaction',
+            payload: { emoji: emoji }
+        });
+        WebinarModule.animateReaction(emoji);
+    },
+
+    animateReaction: (emoji) => {
+        const stage = document.getElementById('reaction-stage');
+        if (!stage) return;
+        const div = document.createElement('div');
+        div.className = 'floating-emoji';
+        div.textContent = emoji;
+        div.style.left = (20 + Math.random() * 60) + '%';
+        div.style.setProperty('--random-x', (Math.random() * 100 - 50) + 'px');
+        stage.appendChild(div);
+        setTimeout(() => div.remove(), 2000);
     },
 
     postMessage: async (webinarId) => {
@@ -369,27 +677,115 @@ const WebinarModule = {
         const container = document.getElementById('chat-messages');
         if (!container) return;
         const isMe = msg.user_id === window.App.state.session?.user?.id;
-        container.insertAdjacentHTML('beforeend', `<div class="msg-bubble-v2 ${isMe ? 'me' : ''}"><div class="sender-v2">${msg.profiles?.full_name}</div><div class="text-v2">${msg.content}</div></div>`);
+        const isSystem = msg.user_id === 'system';
+        container.insertAdjacentHTML('beforeend', `
+            <div class="msg-bubble-v2 ${isMe ? 'me' : ''} ${isSystem ? 'system' : ''}">
+                ${!isSystem ? `<div class="sender-v2">${msg.profiles?.full_name}</div>` : ''}
+                <div class="text-v2" style="${isSystem ? 'background:rgba(16,185,129,0.1); color:#10b981; border:none; text-align:center; font-size:0.8rem; font-weight:700;' : ''}">${msg.content}</div>
+            </div>
+        `);
         container.scrollTop = container.scrollHeight;
     },
 
-    askQuestion: async (webinarId) => {
-        const { value: question } = await Swal.fire({ title: 'Poser une question', input: 'textarea', inputPlaceholder: 'Votre question à l\'expert...', confirmButtonText: 'Envoyer', confirmButtonColor: '#10b981' });
-        if (question) { await WebinarModule.getDb().from('webinar_questions').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, question: question }]); }
+    askQuestionInline: async (webinarId) => {
+        const input = document.getElementById('qa-input-live');
+        if (!input || !input.value.trim()) return;
+        const question = input.value.trim();
+        input.value = '';
+        await WebinarModule.getDb().from('webinar_questions').insert([{ webinar_id: webinarId, user_id: window.App.state.session.user.id, question: question }]);
+        WebinarModule.loadQuestions(webinarId);
+        Swal.fire({ title: 'Question envoyée', icon: 'success', timer: 1000, showConfirmButton: false });
     },
 
     loadQuestions: async (webinarId) => {
         const container = document.getElementById('qa-questions');
         if (!container) return;
-        const { data: questions } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
+        const isHost = WebinarModule.role !== 'spectator' && WebinarModule.role !== 'spectateur';
+        const { data: questions } = await WebinarModule.getDb().from('webinar_questions').select('*, profiles(full_name, avatar_url)').eq('webinar_id', webinarId).order('upvotes', { ascending: false });
+        
         if (questions) {
             container.innerHTML = questions.map(q => `
-                <div class="qa-card-v2">
-                    <div class="qa-card-header"><span>${q.profiles?.full_name}</span> <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')">👍 ${q.upvotes || 0}</button></div>
-                    <p>${q.question}</p>
+                <div class="qa-card-v2" style="background:rgba(255,255,255,0.03); padding:16px; border-radius:16px; border:1px solid ${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-border)'}; margin-bottom:12px; transition:0.3s;">
+                    <div class="qa-card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-size:0.75rem; font-weight:800; color:${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-text-muted)'};">${q.profiles?.full_name}</span> 
+                        <div style="display:flex; gap:8px;">
+                            ${isHost ? `<button onclick="WebinarModule.toggleHighlight('${q.id}', ${!q.is_highlighted})" style="background:${q.is_highlighted ? 'var(--webinar-accent)' : 'rgba(255,255,255,0.1)'}; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.65rem; font-weight:800; cursor:pointer;">${q.is_highlighted ? 'EN VEDETTE' : 'METTRE EN VEDETTE'}</button>` : ''}
+                            <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background:transparent; border:none; color:white; cursor:pointer; font-weight:800;">👍 ${q.upvotes || 0}</button>
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#cbd5e1'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
                 </div>
             `).join('');
         }
+    },
+
+    showHostInsights: async (webinarId) => {
+        const db = WebinarModule.getDb();
+        const { count: attendees } = await db.from('webinar_attendees').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        const { count: questions } = await db.from('webinar_questions').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+        const { count: messages } = await db.from('webinar_messages').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
+
+        Swal.fire({
+            title: 'Analyses en Direct',
+            background: '#0f172a',
+            color: '#f8fafc',
+            html: `
+                <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;">
+                    <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:2rem; font-weight:900; color:#10b981;">${attendees}</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Participants</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:2rem; font-weight:900; color:#3b82f6;">${questions}</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Questions</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:2rem; font-weight:900; color:#f59e0b;">${messages}</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Messages</div>
+                    </div>
+                </div>
+                <div style="margin-top:24px; text-align:left; padding:20px; background:rgba(16,185,129,0.05); border-radius:16px; border:1px solid rgba(16,185,129,0.2);">
+                    <div style="font-weight:900; color:#10b981; font-size:0.9rem; margin-bottom:8px;">CONSEIL STRATÉGIQUE</div>
+                    <p style="font-size:0.85rem; color:#94a3b8; margin:0;">${attendees > 5 ? 'L\'engagement est bon. Pensez à lancer un sondage pour dynamiser la session.' : 'Invitez vos participants à poser des questions pour briser la glace.'}</p>
+                </div>
+            `,
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+    },
+
+    loadResources: async (webinarId) => {
+        const container = document.getElementById('resources-list');
+        if (!container) return;
+        const { data: resources } = await WebinarModule.getDb().from('webinar_resources').select('*').eq('webinar_id', webinarId).order('created_at', { ascending: false });
+        if (!resources || resources.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--webinar-text-muted);">Aucune ressource partagée pour le moment.</div>`;
+            return;
+        }
+        container.innerHTML = resources.map(r => `
+            <a href="${r.link_url || r.file_url}" target="_blank" style="display:flex; align-items:center; gap:16px; background:rgba(255,255,255,0.03); padding:16px; border-radius:16px; border:1px solid var(--webinar-border); margin-bottom:12px; text-decoration:none; color:white; transition:0.3s;" onmouseover="this.style.borderColor='var(--webinar-accent)'" onmouseout="this.style.borderColor='var(--webinar-border)'">
+                <div style="width:40px; height:40px; background:var(--webinar-accent); border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div>
+                    <div style="font-weight:800; font-size:0.9rem;">${r.title}</div>
+                    <div style="font-size:0.7rem; color:var(--webinar-text-muted);">Cliquez pour consulter</div>
+                </div>
+            </a>
+        `).join('');
+    },
+
+    openResourceAdder: (webinarId) => {
+        Swal.fire({
+            title: 'Partager une Ressource',
+            html: `<div style="text-align:left;"><input id="r-t" class="swal2-input" placeholder="Titre du document"><input id="r-l" class="swal2-input" placeholder="Lien (URL)"></div>`,
+            confirmButtonText: 'PARTAGER', preConfirm: () => { return { title: document.getElementById('r-t').value, link_url: document.getElementById('r-l').value } }
+        }).then(async (r) => {
+            if (r.isConfirmed) {
+                await WebinarModule.getDb().from('webinar_resources').insert([{ webinar_id: webinarId, ...r.value }]);
+                WebinarModule.loadResources(webinarId);
+            }
+        });
     },
 
     upvoteQuestion: async (questionId, webinarId) => {
@@ -404,15 +800,23 @@ const WebinarModule = {
         if (!container) return;
         const db = WebinarModule.getDb();
         const { data: polls } = await db.from('webinar_polls').select('*, webinar_poll_options(*)').eq('webinar_id', webinarId).order('created_at', { ascending: false });
-        if (!polls || polls.length === 0) { container.innerHTML = `<div class="empty-mini">Aucun sondage en cours.</div>`; return; }
+        if (!polls || polls.length === 0) { container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--webinar-text-muted);">Aucun sondage actif.</div>`; return; }
 
         container.innerHTML = polls.map(poll => `
-            <div class="poll-v2">
-                <div class="poll-q-v2">${poll.question}</div>
+            <div class="poll-v2" style="background:rgba(255,255,255,0.03); padding:20px; border-radius:24px; border:1px solid var(--webinar-border); margin-bottom:20px;">
+                <div class="poll-q-v2" style="font-weight:900; font-size:1rem; margin-bottom:16px;">${poll.question}</div>
                 ${poll.webinar_poll_options.map(opt => {
                     const total = poll.webinar_poll_options.reduce((acc, o) => acc + (o.votes_count || 0), 0);
                     const percent = total > 0 ? Math.round((opt.votes_count / total) * 100) : 0;
-                    return `<div class="poll-opt-v2" onclick="WebinarModule.votePoll('${poll.id}', '${opt.id}', '${webinarId}')"><div class="poll-fill-v2" style="width:${percent}%"></div><div class="poll-label-v2"><span>${opt.option_text}</span> <span>${percent}%</span></div></div>`;
+                    return `
+                        <div class="poll-opt-v2" onclick="WebinarModule.votePoll('${poll.id}', '${opt.id}', '${webinarId}')" style="position:relative; background:rgba(255,255,255,0.05); padding:12px 16px; border-radius:12px; margin-bottom:8px; cursor:pointer; overflow:hidden;">
+                            <div class="poll-fill-v2" style="position:absolute; inset:0; background:var(--webinar-accent); opacity:0.1; width:${percent}%"></div>
+                            <div class="poll-label-v2" style="position:relative; display:flex; justify-content:space-between; font-weight:700; font-size:0.85rem;">
+                                <span>${opt.option_text}</span> 
+                                <span>${percent}%</span>
+                            </div>
+                        </div>
+                    `;
                 }).join('')}
             </div>
         `).join('');
@@ -433,9 +837,9 @@ const WebinarModule = {
         overlay.innerHTML = `
             <div class="cta-box-v2">
                 <div class="cta-tag-v2">OFFRE EXCLUSIVE</div>
-                <h3>${cta.title}</h3>
+                <h3 style="font-size:1.5rem; font-weight:950; margin:0;">${cta.title}</h3>
                 <a href="${cta.link_url}" target="_blank" class="cta-btn-v2">${cta.button_text}</a>
-                <button onclick="this.parentElement.parentElement.classList.remove('active')" class="cta-close-v2">Fermer</button>
+                <button onclick="this.parentElement.parentElement.classList.remove('active')" class="cta-close-v2">×</button>
             </div>
         `;
         overlay.classList.add('active');
@@ -476,6 +880,7 @@ const WebinarModule = {
         }).then(async (r) => {
             if (r.isConfirmed) {
                 const db = WebinarModule.getDb();
+                await db.from('webinars').update({ is_published: true }).eq('id', webinarId); // Ensure published
                 await db.from('webinar_ctas').update({ is_active: false }).eq('webinar_id', webinarId);
                 await db.from('webinar_ctas').insert([{ webinar_id: webinarId, ...r.value }]);
             }
@@ -493,72 +898,5 @@ const WebinarModule = {
     }
 };
 
-// ULTRA-PREMIUM V2 STYLES
-const style = document.createElement('style');
-style.textContent = `
-    .webinar-hero-clean { background: #0f172a; border-radius: 40px; padding: 80px; margin-bottom: 60px; color: white; position: relative; overflow: hidden; }
-    .hero-content { position: relative; z-index: 2; max-width: 600px; }
-    .hero-content h1 { font-size: 3.5rem; font-weight: 950; margin: 0 0 20px 0; letter-spacing: -3px; line-height: 1; }
-    .gradient-text { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .badge-new { background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 6px 14px; border-radius: 100px; font-weight: 900; font-size: 0.7rem; letter-spacing: 2px; display: inline-block; margin-bottom: 24px; }
-    .btn-hero { background: #10b981; color: white; border: none; padding: 18px 36px; border-radius: 16px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; gap: 12px; margin-top: 40px; transition: 0.3s; }
-    .btn-hero:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3); }
-
-    .premium-grid-webinar { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 32px; }
-    .webinar-card-v2 { background: white; border-radius: 30px; overflow: hidden; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid #f1f5f9; position: relative; height: 100%; display: flex; flex-direction: column; }
-    .webinar-card-v2:hover { transform: translateY(-12px); border-color: #10b981; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
-
-    .card-image-box { height: 200px; position: relative; overflow: hidden; }
-    .card-image-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-    .webinar-card-v2:hover .card-image-box img { transform: scale(1.1); }
-    .live-tag-v2 { position: absolute; top: 20px; right: 20px; background: #ef4444; color: white; padding: 6px 14px; border-radius: 8px; font-weight: 900; font-size: 0.7rem; display: flex; align-items: center; gap: 6px; }
-    .live-tag-v2 .dot { width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 1s infinite; }
-
-    .card-content-v2 { padding: 28px; flex-grow: 1; display: flex; flex-direction: column; }
-    .card-title-v2 { font-size: 1.4rem; font-weight: 900; color: #0f172a; margin: 12px 0 24px 0; line-height: 1.3; }
-    .card-footer-v2 { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-    .host-badge { display: flex; align-items: center; gap: 10px; }
-    .host-badge img { width: 36px; height: 36px; border-radius: 12px; }
-    .host-badge span { font-weight: 700; color: #64748b; font-size: 0.9rem; }
-
-    .webinar-stage-v2 { max-width: 1500px; margin: 0 auto; padding: 20px; animation: fadeIn 0.8s ease-out; }
-    .stage-header-v2 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .header-left { display: flex; align-items: center; gap: 20px; }
-    .btn-circle-back { width: 50px; height: 50px; border-radius: 50%; border: 1px solid #e2e8f0; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-    .btn-circle-back:hover { background: #0f172a; color: white; transform: translateX(-5px); }
-    .header-info h1 { font-size: 1.8rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -1px; }
-    .header-meta { display: flex; gap: 16px; margin-top: 4px; }
-    .live-indicator { color: #ef4444; font-weight: 900; font-size: 0.8rem; }
-
-    .stage-grid-v2 { display: grid; grid-template-columns: 1fr 400px; gap: 32px; height: 780px; }
-    .video-main-box { background: #000; border-radius: 32px; height: 100%; position: relative; overflow: hidden; border: 8px solid #0f172a; box-shadow: 0 40px 100px rgba(0,0,0,0.2); }
-    .video-loader-v2 { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #475569; font-weight: 700; }
-
-    .interaction-section-v2 { background: white; border: 1px solid #e2e8f0; border-radius: 32px; display: flex; flex-direction: column; overflow: hidden; }
-    .interaction-tabs-v2 { display: flex; padding: 12px; gap: 8px; border-bottom: 1px solid #f1f5f9; }
-    .tab-btn-v2 { flex: 1; border: none; background: transparent; padding: 14px; font-weight: 900; font-size: 0.75rem; color: #64748b; cursor: pointer; border-radius: 12px; transition: 0.3s; }
-    .tab-btn-v2.active { background: #f1f5f9; color: #0f172a; }
-
-    .interaction-panel-v2 { display: none; flex-direction: column; flex-grow: 1; height: calc(100% - 60px); }
-    .interaction-panel-v2.active { display: flex; }
-    .chat-flow-v2 { flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    .msg-bubble-v2 { max-width: 85%; }
-    .msg-bubble-v2.me { align-self: flex-end; }
-    .sender-v2 { font-size: 0.65rem; font-weight: 900; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase; }
-    .text-v2 { background: #f1f5f9; padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; color: #334155; }
-    .msg-bubble-v2.me .text-v2 { background: #10b981; color: white; }
-    .msg-bubble-v2.me .sender-v2 { text-align: right; }
-
-    .cta-overlay-v2 { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 450px; display: none; }
-    .cta-overlay-v2.active { display: block; animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .cta-box-v2 { background: white; border-radius: 32px; padding: 40px; text-align: center; border: 3px solid #10b981; box-shadow: 0 50px 150px rgba(0,0,0,0.3); }
-    .cta-btn-v2 { display: inline-block; background: #10b981; color: white; padding: 16px 40px; border-radius: 16px; font-weight: 900; text-decoration: none; margin: 24px 0; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
-
-    .loading-bar-v2 { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
-    .loading-fill-v2 { width: 40%; height: 100%; background: #10b981; animation: loading-slide 3s infinite; }
-    @keyframes loading-slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
-    @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }
-`;
-document.head.appendChild(style);
-
+window.WebinarModule = WebinarModule;
 window.WebinarModule = WebinarModule;
