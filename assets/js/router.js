@@ -16,7 +16,8 @@ const Router = {
         'collaboration': 'collaboration',
         'profile': 'profile',
         'webinars': 'webinars',
-        'vitrine': 'vitrine'
+        'vitrine': 'vitrine',
+        'messages': 'messages'
     },
 
     /**

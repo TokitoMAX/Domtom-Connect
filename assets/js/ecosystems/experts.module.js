@@ -17,11 +17,7 @@ const ExpertsModule = {
 
         switch (viewId) {
             case 'business':
-                const bizView = document.getElementById('business-view');
-                if (bizView) {
-                    bizView.style.display = 'block';
-                    await ExpertsModule.renderBusinessPilotage(bizView, profile, session);
-                }
+                await ExpertsModule.renderBusinessPilotage(target, profile, session);
                 break;
             case 'profile':
                 if (window.StandardModule) {
@@ -74,11 +70,7 @@ const ExpertsModule = {
 
                 <!-- CARDS GRID -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
-                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Ventes & Devis</h4>
-                        <div style="font-size: 1.4rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Gestion Business</div>
-                        <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 14px; background: #f8fafc; color: #020617; border: 1.5px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.2s;">Ouvrir le Pilotage</button>
-                    </div>
+
 
                     <div style="background: #f0fdf4; border: 1.5px solid #10b981; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Missions Disponibles</h4>

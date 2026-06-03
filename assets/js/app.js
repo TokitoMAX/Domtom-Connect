@@ -140,6 +140,9 @@ const App = {
         if (viewId === 'webinars' && window.WebinarModule) {
             activeModule = window.WebinarModule;
         }
+        if (viewId === 'messages' && window.MessagesModule) {
+            activeModule = window.MessagesModule;
+        }
         
         // Robust Wait for Module to Load (Mobile/Slow network support)
         if (!activeModule) {
@@ -175,6 +178,18 @@ const App = {
             
             try {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
+                if (viewId === 'overview' || viewId === 'dashboard') {
+                    const feedWrapper = document.getElementById('moments-feed-wrapper');
+                    if (feedWrapper) {
+                        feedWrapper.style.display = 'block';
+                        if (window.MomentsModule) {
+                            window.MomentsModule.renderFeed('dtc-moments-feed-mount');
+                        }
+                    }
+                } else {
+                    const feedWrapper = document.getElementById('moments-feed-wrapper');
+                    if (feedWrapper) feedWrapper.style.display = 'none';
+                }
             } catch (err) {
                 console.error("[App] Module Route Error:", err);
                 if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;

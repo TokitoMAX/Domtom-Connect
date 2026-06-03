@@ -321,10 +321,9 @@ function renderCockpitWithStep(p, step, score) {
     content.innerHTML = stepHTML;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Initialisation dynamique des données de crowdfunding à l'étape 5
+    // Initialisation dynamique des besoins et talents à l'étape 5
     if (step === 5) {
-        loadDashboardRewards(p.id);
-        loadDashboardMilestones(p.id);
+        loadMatchingTalents(p);
     }
 }
 
@@ -489,36 +488,34 @@ function renderStepFields(step, p) {
             </div>
         `;
     } else if (step === 5) {
+        const needs = p.needs || '';
+        const list = ['Marketing', 'Développement Web', 'Design Graphique', 'Comptabilité', 'Juridique', 'Opérations'];
         return `
-            <div class="ecosystem-grid">
-                <!-- Colonne Gauche : Objectif & Paliers -->
+            <div class="ecosystem-grid" style="display:grid; grid-template-columns: 1fr; gap:32px;">
                 <div class="cockpit-field">
-                    <label class="cockpit-field-label">Montant Global Recherché (€)</label>
-                    <input type="number" id="funding_goal" class="cockpit-input-premium" value="${p.funding_goal || 0}" placeholder="Ex: 50000">
+                    <label class="cockpit-field-label">Planificateur d'Actions (Feuille de route & Jalons)</label>
+                    <textarea id="roadmap" class="cockpit-input-premium" style="min-height:120px;" placeholder="Étape 1: Prototype (Mois 1)\nÉtape 2: Lancement bêta (Mois 3)...">${p.roadmap || ''}</textarea>
                 </div>
 
                 <div class="cockpit-field">
-                    <label class="cockpit-field-label">Usage des fonds</label>
-                    <textarea id="budget" class="cockpit-input-premium" style="min-height:100px;" placeholder="Recrutement, R&D, Stock...">${p.budget || ''}</textarea>
+                    <label class="cockpit-field-label">Besoins en Compétences (Cochez pour trouver des experts)</label>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:8px;">
+                        ${list.map(skill => {
+                            const isChecked = needs.toLowerCase().includes(skill.toLowerCase().split(' ')[0]);
+                            return `
+                                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#334155; font-weight:600; cursor:pointer;">
+                                    <input type="checkbox" value="${skill}" class="need-skill-checkbox" ${isChecked ? 'checked' : ''} onchange="updateMatchingTalentsPreview('${p.id}')" style="width:18px; height:18px; accent-color:#10b981;">
+                                    <span>${skill}</span>
+                                </label>
+                            `;
+                        }).join('')}
+                    </div>
                 </div>
 
-                <div class="cockpit-field" style="grid-column: 1 / -1;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <label class="cockpit-field-label" style="margin:0;">Paliers d'Impact</label>
-                        <button onclick="openMilestoneModal('${p.id}')" class="cta-button secondary" style="padding:4px 12px; font-size:0.7rem;">+ AJOUTER</button>
-                    </div>
-                    <div id="dash-milestones-list" class="crowdfunding-list-container">
-                        <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des paliers...</p>
-                    </div>
-                </div>
-
-                <div class="cockpit-field" style="grid-column: 1 / -1;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <label class="cockpit-field-label" style="margin:0;">Offres & Récompenses</label>
-                        <button onclick="openRewardModal('${p.id}')" class="cta-button primary" style="padding:4px 12px; font-size:0.7rem; background:#7c3aed; border:none;">+ CRÉER</button>
-                    </div>
-                    <div id="dash-rewards-list" class="crowdfunding-list-container">
-                        <p style="color:#94a3b8; font-size:0.8rem; font-style:italic;">Chargement des récompenses...</p>
+                <div class="cockpit-field" style="margin-top:16px;">
+                    <label class="cockpit-field-label" style="margin-bottom:12px;">Experts suggérés pour votre projet</label>
+                    <div id="matching-talents-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+                        <p style="color:#94a3b8; font-size:0.85rem; font-style:italic;">Cochez des compétences pour voir nos suggestions.</p>
                     </div>
                 </div>
             </div>
@@ -604,8 +601,12 @@ async function saveProjectStep(projectId, step) {
         payload.innovation = document.getElementById('innovation').value;
         payload.emplois = document.getElementById('emplois').value;
     } else if (step === 5) {
-        payload.funding_goal = parseFloat(document.getElementById('funding_goal').value);
-        payload.budget = document.getElementById('budget').value;
+        const checkedSkills = [];
+        document.querySelectorAll('.need-skill-checkbox:checked').forEach(cb => {
+            checkedSkills.push(cb.value);
+        });
+        payload.needs = checkedSkills.join(', ');
+        payload.roadmap = document.getElementById('roadmap').value;
     } else if (step === 6) {
         payload.pitch_texte = document.getElementById('pitch_texte').value;
         payload.verification_status = 'pending';
@@ -1315,3 +1316,87 @@ window.deleteSREProject = deleteSREProject;
 window.approveProjectFromInspection = approveProjectFromInspection;
 window.handleIDUpload = handleIDUpload;
 window.openProjectCockpit = openProjectCockpit;
+
+async function loadMatchingTalents(project) {
+    const container = document.getElementById('matching-talents-container');
+    if (!container) return;
+    
+    container.innerHTML = `<p style="color:#94a3b8; font-size:0.85rem; font-style:italic;">Recherche d'experts compatibles en cours...</p>`;
+    
+    try {
+        const needsStr = project.needs || '';
+        const needsList = needsStr.split(',').map(s => s.trim()).filter(Boolean);
+        
+        if (needsList.length === 0) {
+            container.innerHTML = `<p style="color:#64748b; font-size:0.85rem; font-style:italic; grid-column: 1 / -1;">Cochez des besoins ci-dessus pour afficher des suggestions d'experts.</p>`;
+            return;
+        }
+
+        const { data: experts, error } = await window._supabase
+            .from('profiles')
+            .eq('role', 'expert')
+            .limit(10);
+            
+        if (error) throw error;
+        
+        if (!experts || experts.length === 0) {
+            container.innerHTML = `<p style="color:#94a3b8; font-size:0.85rem; grid-column: 1 / -1;">Aucun expert disponible dans l'annuaire pour le moment.</p>`;
+            return;
+        }
+
+        const scored = experts.map(exp => {
+            const expSkills = (exp.skills || '').toLowerCase() + ' ' + (exp.title || '').toLowerCase();
+            let matches = 0;
+            needsList.forEach(n => {
+                if (expSkills.includes(n.toLowerCase().split(' ')[0])) {
+                    matches++;
+                }
+            });
+            return { exp, matches };
+        });
+
+        scored.sort((a,b) => b.matches - a.matches);
+        const topMatches = scored.slice(0, 3).map(s => s.exp);
+
+        container.innerHTML = topMatches.map(exp => {
+            const name = exp.full_name || 'Expert';
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            const avatar = exp.avatar_url 
+                ? `<img src="${exp.avatar_url}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">`
+                : `<div style="width:40px; height:40px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0f172a;">${initials}</div>`;
+                
+            const prefillMsg = encodeURIComponent(`Bonjour ${name}, j'ai vu votre profil d'expert et je souhaite collaborer avec vous sur mon projet "${project.title}" !`);
+            
+            return `
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:16px; display:flex; align-items:center; gap:12px; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
+                        ${avatar}
+                        <div style="min-width:0;">
+                            <h4 style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</h4>
+                            <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${exp.title || exp.skills || 'Expert'}</p>
+                        </div>
+                    </div>
+                    <button onclick="window.Router.navigate('#messages?to=${exp.id}&prefill=${prefillMsg}')" style="background:#10b981; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:800; font-size:0.75rem; cursor:pointer; font-family:inherit; flex-shrink:0;">
+                        💬 Échanger
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+    } catch (err) {
+        console.error("Error loading matching talents:", err);
+        container.innerHTML = `<p style="color:#ef4444; font-size:0.85rem;">Erreur de chargement des suggestions.</p>`;
+    }
+}
+
+function updateMatchingTalentsPreview(projectId) {
+    const checkedSkills = [];
+    document.querySelectorAll('.need-skill-checkbox:checked').forEach(cb => {
+        checkedSkills.push(cb.value);
+    });
+    const fakeProj = { id: projectId, needs: checkedSkills.join(', ') };
+    loadMatchingTalents(fakeProj);
+}
+
+window.loadMatchingTalents = loadMatchingTalents;
+window.updateMatchingTalentsPreview = updateMatchingTalentsPreview;

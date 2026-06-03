@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vercel dev"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@supabase/supabase-js": "^2.107.0"
+  }
 }
-

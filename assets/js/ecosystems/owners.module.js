@@ -35,11 +35,6 @@ const OwnersModule = {
                 }
                 break;
             case 'business':
-                const bizView = document.getElementById('business-view');
-                if (bizView && window.BusinessModule) {
-                    bizView.style.display = 'block';
-                    window.BusinessModule.renderView(bizView);
-                }
                 break;
             case 'overview':
             default:
@@ -138,19 +133,13 @@ const OwnersModule = {
                 </div>
 
                 <!-- 4. ACTION CENTER (Professional Hubs) -->
-                <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                <div style="grid-column: span 12; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                     <h4 style="font-size: 0.65rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Gestion Évènementielle</h4>
                     <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Billetterie & Accès</div>
                     <div style="display: flex; gap: 12px;">
                         <button onclick="window.Router.navigate('#billetterie?action=create')" style="flex: 1; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">+ Créer</button>
                         <button onclick="window.Router.navigate('#billetterie')" style="flex: 1; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Gérer mes Évènements</button>
                     </div>
-                </div>
-
-                <div style="grid-column: span 6; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                    <h4 style="font-size: 0.65rem; font-weight: 950; color: #3b82f6; text-transform: uppercase; margin-bottom: 16px;">Finance & Pilotage</h4>
-                    <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Devis & Facturation</div>
-                    <button onclick="window.location.hash = 'business'" style="width: 100%; padding: 12px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 900; cursor: pointer;">Accéder aux Documents</button>
                 </div>
 
                 <!-- 5. MAIN NAVIGATION -->

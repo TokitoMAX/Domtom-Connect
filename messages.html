@@ -1132,13 +1132,56 @@
 
             <!-- mon-projet Chat -->
             <div class="chat-area">
-                <!-- Empty State (Par défaut) -->
-                <div class="chat-empty-state" id="chat-empty">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <p>Sélectionnez une conversation pour commencer</p>
+                <!-- Empty State (Conversational Commerce Showcase) -->
+                <div class="chat-empty-state" id="chat-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 40px; background: #fafafa; overflow-y: auto;">
+                    <div style="max-width: 600px; text-align: center; animation: modalIn 0.5s ease-out;">
+                        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; margin-bottom: 24px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.03em;">Espace Transactionnel Sécurisé</h2>
+                        <p style="font-size: 0.95rem; color: #64748b; margin: 0 0 40px 0; font-weight: 500;">La messagerie intelligente au cœur de vos collaborations locales</p>
+                        
+                        <!-- Role Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; text-align: left; margin-bottom: 40px; width: 100%;">
+                            <!-- Expert Card -->
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); color: #10b981; display: flex; align-items: center; justify-content: center; font-weight: 800;">👨‍💻</div>
+                                    <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Experts & Prestataires</h4>
+                                </div>
+                                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b; font-weight: 550;">
+                                    Facturez instantanément en direct. Cliquez sur l'icône de carte <strong style="color: #10b981;">💳</strong> sous le chat pour émettre une demande de règlement Stripe Connect sécurisée.
+                                </p>
+                            </div>
+
+                            <!-- Company Card -->
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(2, 132, 199, 0.1); color: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 800;">🏢</div>
+                                    <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Entreprises & Clients</h4>
+                                </div>
+                                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b; font-weight: 550;">
+                                    Recrutez et réglez vos talents locaux en toute sérénité. Validez les offres directement dans le fil de discussion et payez en un clic via Stripe sécurisé.
+                                </p>
+                            </div>
+
+                            <!-- Owner Card -->
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; grid-column: span 2;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; display: flex; align-items: center; justify-content: center; font-weight: 800;">🚀</div>
+                                    <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">Porteurs de Projets & Aventures</h4>
+                                </div>
+                                <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b; font-weight: 550;">
+                                    Négociez et recevez des contributions directes de vos supporters pour propulser vos projets de crowdfunding directement depuis le fil de discussion sécurisé.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Hint -->
+                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #0f172a; color: white; border-radius: 100px; font-weight: 750; font-size: 0.85rem; box-shadow: 0 10px 20px rgba(15,23,42,0.1);">
+                            <span>👉 Sélectionnez ou démarrez une conversation pour commencer</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Chat Actif -->
@@ -1624,10 +1667,13 @@
                 welcomeMsg.style.cssText = "text-align:center; padding:60px 20px; color:var(--text-muted); font-size:0.95rem; animation: fadeIn 0.5s ease-out;";
                 welcomeMsg.innerHTML = `
                     <div style="margin-bottom:20px;">
-                        <i class="fas fa-hand-sparkles" style="font-size:2.5rem; color:var(--primary); opacity:0.8;"></i>
+                        <i class="fas fa-comments" style="font-size:2.5rem; color:#10b981; opacity:0.8;"></i>
                     </div>
-                    <p style="font-weight:700; color:var(--slate-800); margin-bottom:8px;">Nouvelle discussion sécurisée</p>
-                    <p style="margin:0; opacity:0.8;">Dites bonjour pour démarrer l'échange !<br>Votre interlocuteur sera notifié immédiatement.</p>
+                    <p style="font-weight:700; color:#0f172a; margin-bottom:8px;">Nouvelle discussion sécurisée</p>
+                    <p style="margin:0 0 16px 0; opacity:0.8;">Dites bonjour pour démarrer l'échange ! Votre interlocuteur sera notifié immédiatement.</p>
+                    <div style="display:inline-block; font-size:0.75rem; background:#f0fdf4; border:1px solid rgba(16,185,129,0.2); padding:8px 14px; border-radius:10px; color:#10b981; font-weight:750;">
+                        💳 Note : Vous pouvez envoyer des demandes de paiement directes et sécurisées via Stripe avec l'icône de carte sous la zone de saisie.
+                    </div>
                 `;
                 thread.appendChild(welcomeMsg);
             }
