@@ -315,10 +315,10 @@ const MomentsModule = {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
  
-        // Profile Details Link URL
+        // Profile Details Link URL — chemins absolus pour fonctionner depuis n'importe quelle page
         const profileUrl = item.authorRole === 'entreprise'
-            ? `./marketplace/profile-detail-company.html?id=${item.userId}`
-            : `./marketplace/profile-detail-expert.html?id=${item.userId}`;
+            ? `/marketplace/profile-detail-company.html?id=${item.userId}`
+            : `/marketplace/profile-detail-expert.html?id=${item.userId}`;
  
         // Badge styling based on role and custom title/expertise
         let roleBadge = '';
