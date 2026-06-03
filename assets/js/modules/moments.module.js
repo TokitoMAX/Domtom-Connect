@@ -32,7 +32,7 @@ const MomentsModule = {
             // 1. Fetch Flash status & Services (from showcase_items)
             const { data: rawShowcase, error: errShowcase } = await db
                 .from('showcase_items')
-                .select('*, profiles:user_id(full_name, avatar_url, role, territory)')
+                .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, expertise, company_name)')
                 .order('created_at', { ascending: false })
                 .limit(40);
 
@@ -41,7 +41,7 @@ const MomentsModule = {
             // 2. Fetch Projects
             const { data: rawProjects, error: errProjects } = await db
                 .from('projects')
-                .select('*, profiles:owner_id(full_name, avatar_url, role, territory)')
+                .select('*, profiles:owner_id(full_name, avatar_url, role, territory, title, expertise, company_name)')
                 .order('created_at', { ascending: false })
                 .limit(20);
 
@@ -52,7 +52,7 @@ const MomentsModule = {
             // 3. Merge and Sort
             let feedItems = [];
 
-            if (rawShowcase) {
+             if (rawShowcase) {
                 rawShowcase.forEach(item => {
                     const profile = item.profiles || {};
                     feedItems.push({
@@ -62,6 +62,9 @@ const MomentsModule = {
                         authorAvatar: profile.avatar_url,
                         authorRole: profile.role || 'prestataire',
                         authorTerritory: profile.territory || 'Outre-mer',
+                        authorTitle: profile.title || '',
+                        authorExpertise: profile.expertise || '',
+                        authorCompanyName: profile.company_name || '',
                         type: item.category === 'status' ? 'status' : 'service',
                         title: item.title,
                         content: item.description || '',
@@ -82,6 +85,9 @@ const MomentsModule = {
                         authorAvatar: profile.avatar_url,
                         authorRole: 'porteur-projet',
                         authorTerritory: profile.territory || item.territory || 'Outre-mer',
+                        authorTitle: profile.title || '',
+                        authorExpertise: profile.expertise || '',
+                        authorCompanyName: profile.company_name || '',
                         type: 'project',
                         title: item.project_name || item.title,
                         content: item.description || item.pitch || '',
@@ -217,6 +223,22 @@ const MomentsModule = {
                     .dtc-comment-submit-btn:hover {
                         background: #059669;
                     }
+                    .dtc-delete-post-btn {
+                        background: transparent;
+                        border: none;
+                        color: #cbd5e1;
+                        cursor: pointer;
+                        padding: 6px;
+                        border-radius: 8px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.2s;
+                    }
+                    .dtc-delete-post-btn:hover {
+                        background: #fef2f2;
+                        color: #ef4444;
+                    }
                 </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
                     
@@ -293,16 +315,27 @@ const MomentsModule = {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
  
-        // Badge styling based on role
+        // Profile Details Link URL
+        const profileUrl = item.authorRole === 'entreprise'
+            ? `./marketplace/profile-detail-company.html?id=${item.userId}`
+            : `./marketplace/profile-detail-expert.html?id=${item.userId}`;
+ 
+        // Badge styling based on role and custom title/expertise
         let roleBadge = '';
-        if (item.authorRole === 'prestataire') {
-            roleBadge = '<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Expert</span>';
+        const authorTitle = item.authorTitle || item.authorExpertise || '';
+        
+        if (item.authorRole === 'prestataire' || item.authorRole === 'expert') {
+            roleBadge = `<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle || 'Expert'}</span>`;
         } else if (item.authorRole === 'entreprise') {
-            roleBadge = '<span style="background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.2); color: #2563eb; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Entreprise</span>';
+            roleBadge = `<span style="background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.2); color: #2563eb; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${item.authorCompanyName || authorTitle || 'Entreprise'}</span>`;
         } else if (item.authorRole === 'porteur-projet') {
-            roleBadge = '<span style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Créateur</span>';
+            roleBadge = `<span style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle || 'Créateur'}</span>`;
         } else {
-            roleBadge = '<span style="background: rgba(100, 116, 139, 0.06); border: 1px solid rgba(100, 116, 139, 0.2); color: #475569; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Citoyen</span>';
+            if (authorTitle) {
+                roleBadge = `<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle}</span>`;
+            } else {
+                roleBadge = '<span style="background: rgba(100, 116, 139, 0.06); border: 1px solid rgba(100, 116, 139, 0.2); color: #475569; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Citoyen</span>';
+            }
         }
  
         // Post card border color
@@ -368,13 +401,13 @@ const MomentsModule = {
                 <!-- HEADER -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div style="display: flex; gap: 14px; align-items: center;">
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0;">
+                        <div onclick="window.location.href='${profileUrl}'" style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
                             ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
                         </div>
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-weight: 800; font-size: 0.98rem; color: #0f172a; letter-spacing:-0.01em;">${item.authorName}</span>
-                                ${roleBadge}
+                                <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 0.98rem; color: #0f172a; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0f172a';">${item.authorName}</span>
+                                <span onclick="window.location.href='${profileUrl}'" style="cursor: pointer; display: inline-flex;">${roleBadge}</span>
                             </div>
                             <div style="font-size: 0.78rem; color: #64748b; font-weight: 600; margin-top: 2px;">
                                 ${item.authorTerritory} • ${relativeTime}
@@ -382,11 +415,20 @@ const MomentsModule = {
                         </div>
                     </div>
                     
-                    ${item.meta ? `
-                        <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.25); color: #059669; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
-                            ${item.meta}
-                        </div>
-                    ` : ''}
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        ${item.meta ? `
+                            <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.25); color: #059669; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
+                                ${item.meta}
+                            </div>
+                        ` : ''}
+                        
+                        <!-- DELETE BUTTON FOR OWNER -->
+                        ${isSelf ? `
+                            <button onclick="MomentsModule.deletePost('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Supprimer la publication">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
  
                 <!-- CONTENT -->
@@ -421,13 +463,13 @@ const MomentsModule = {
                     <!-- LIKE -->
                     <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-like-btn ${hasLiked ? 'liked' : ''}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        <span>${likesCount}</span> Donner une force
+                        <span>${likesCount}</span> ${hasLiked ? 'Aimé' : 'Like'}
                     </button>
  
                     <!-- COMMENTS TOGGLE -->
                     <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-comment-toggle-btn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        <span>${commentsCount}</span> Commentaires
+                        <span>${commentsCount}</span> Commenter
                     </button>
  
                     <!-- DIRECT CHAT -->
@@ -604,6 +646,28 @@ const MomentsModule = {
         } catch (err) {
             console.error("[MomentsModule] Comment Error:", err);
             alert("Erreur lors de l'envoi du commentaire : " + err.message);
+        }
+    },
+
+    deletePost: async function(itemId, type, containerId) {
+        if (!confirm("Voulez-vous vraiment supprimer cette publication ?")) return;
+
+        try {
+            const db = this.getDb();
+            const table = type === 'project' ? 'projects' : 'showcase_items';
+            
+            const { error } = await db
+                .from(table)
+                .delete()
+                .eq('id', itemId);
+
+            if (error) throw error;
+
+            // Refresh feed
+            this.renderFeed(containerId);
+        } catch (err) {
+            console.error("[MomentsModule] Delete Post Error:", err);
+            alert("Erreur lors de la suppression de la publication : " + err.message);
         }
     },
 
