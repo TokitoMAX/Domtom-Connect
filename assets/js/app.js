@@ -44,7 +44,7 @@ const App = {
 
             if (!session) {
                 console.log("[App] No active session found. Redirecting to login...");
-                window.location.href = '/login';
+                window.location.href = 'login.html';
                 return;
             }
 
@@ -52,7 +52,7 @@ const App = {
             const profile = await window.getUserProfile(session.user.id);
             if (!profile) {
                 console.warn("[App] Profile not found. Redirecting to onboarding...");
-                window.location.href = '/registration/onboarding';
+                window.location.href = 'registration/onboarding.html';
                 return;
             }
 

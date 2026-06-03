@@ -1354,9 +1354,7 @@ const MessagesModule = {
         const paymentPayload = `[PAYMENT_REQUEST:${cleanTitle}:${amount}:${this.currentUserId}]`;
         
         this.closePaymentRequestModal();
-        await this.sendMessage();
         
-        // Custom message logic
         const input = document.getElementById('message-input');
         if (input) {
             input.value = paymentPayload;
@@ -1368,7 +1366,11 @@ const MessagesModule = {
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) {
-                alert("Veuillez vous connecter pour procéder au paiement.");
+                if (window.showFlashMessage) {
+                    window.showFlashMessage("Veuillez vous connecter pour procéder au paiement.", "error");
+                } else {
+                    alert("Veuillez vous connecter pour procéder au paiement.");
+                }
                 return;
             }
             
@@ -1402,7 +1404,11 @@ const MessagesModule = {
             }
         } catch (err) {
             console.error(err);
-            alert("Erreur de paiement : " + err.message);
+            if (window.showFlashMessage) {
+                window.showFlashMessage("Erreur de paiement : " + err.message, "error");
+            } else {
+                alert("Erreur de paiement : " + err.message);
+            }
             const btn = event?.currentTarget;
             if (btn) {
                 btn.disabled = false;

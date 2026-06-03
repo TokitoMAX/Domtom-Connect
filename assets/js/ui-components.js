@@ -79,21 +79,17 @@ const UIComponents = {
 
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html'), 'Tableau de Bord', 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6');
 
-        sidebarHtml += `<div class="sidebar-section-title">Le Réseau</div>`;
-        Object.values(config).forEach(item => {
-            sidebarHtml += this.renderSidebarLink(adjust(item.path), item.label, item.icon);
-        });
+        // Messagerie Directe
+        sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
-        // Professional Tools
-        sidebarHtml += `<div class="sidebar-section-title">Mes Outils</div>`;
-        if (isOwner) sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#success-engine'), 'Pilotage Succès', 'M13 10V3L4 14h7v7l9-11h-7z');
-        if (isProfessional) {
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#vitrine'), 'Ma Vitrine', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+        // Outils Métiers contextuels
+        if (isOwner || isProfessional) {
+            sidebarHtml += `<div class="sidebar-section-title">Mes Services</div>`;
+            if (isOwner) sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#success-engine'), 'Pilotage Succès', 'M13 10V3L4 14h7v7l9-11h-7z');
+            if (isProfessional) {
+                sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#vitrine'), 'Ma Vitrine', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+            }
         }
-        if (canUseBilletterie) sidebarHtml += this.renderSidebarLink(adjust('/mon-espace/billetterie'), 'Billetterie', 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z');
-        sidebarHtml += this.renderSidebarLink(adjust('/mon-espace/webinars'), 'Webinaires', 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z');
-        
-        sidebarHtml += this.renderSidebarLink(adjust('/mon-espace/messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
         sidebarHtml += `<div class="sidebar-section-title">Paramètres</div>`;
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#profile'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
@@ -309,3 +305,69 @@ window.loadGlobalNavbar = async function() {
 };
 
 window.UIComponents = UIComponents;
+
+window.showFlashMessage = function(message, type = 'success', redirectPath = null) {
+    let container = document.getElementById('flash-message-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-message-container';
+        container.style.cssText = 'position:fixed; top:24px; left:50%; transform:translateX(-50%); z-index:999999; display:flex; flex-direction:column; gap:10px; pointer-events:none; width:90%; max-width:400px;';
+        document.body.appendChild(container);
+    }
+    
+    const el = document.createElement('div');
+    el.style.cssText = `
+        padding: 16px 20px;
+        border-radius: 16px;
+        background: ${type === 'success' ? '#065f46' : '#991b1b'};
+        color: white;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        pointer-events: all;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    `;
+    
+    const icon = type === 'success' ? '✅' : '❌';
+    el.innerHTML = `
+        <span style="font-size: 1.2rem;">${icon}</span>
+        <span style="flex:1;">${message}</span>
+    `;
+    
+    container.appendChild(el);
+    
+    setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+    }, 10);
+    
+    const dismiss = () => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            el.remove();
+            if (redirectPath) {
+                if (redirectPath.startsWith('#')) {
+                    if (window.Router) {
+                        window.Router.navigate(redirectPath);
+                    } else {
+                        window.location.hash = redirectPath;
+                    }
+                } else {
+                    window.location.href = redirectPath;
+                }
+            }
+        }, 300);
+    };
+    
+    el.addEventListener('click', dismiss);
+    setTimeout(dismiss, 3500);
+};

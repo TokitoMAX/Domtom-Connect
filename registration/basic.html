@@ -162,7 +162,7 @@
         </form>
 
         <footer class="auth-footer">
-            <p>Déjà inscrit ? <a href="../login">Se connecter</a></p>
+            <p>Déjà inscrit ? <a href="../login.html">Se connecter</a></p>
         </footer>
     </main>
 
@@ -175,7 +175,7 @@
             try {
                 const session = await getSession();
                 if (session) {
-                    window.location.href = '../mon-espace';
+                    window.location.href = '../mon-espace.html';
                 }
             } catch (err) {
                 console.error("Erreur de session:", err);
@@ -219,7 +219,7 @@
                 await signUpWithEmail(email, password, fullName);
 
                 // Redirection vers page d'attente
-                window.location.href = 'verify-email';
+                window.location.href = 'verify-email.html';
             } catch (err) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Créer mon compte';

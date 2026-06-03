@@ -231,9 +231,9 @@
                 // Si pas encore de rôle défini → onboarding, sinon mon-projet
                 const role = data?.user?.user_metadata?.role || null;
                 if (!role) {
-                    window.location.href = '/registration/onboarding';
+                    window.location.href = 'registration/onboarding.html';
                 } else {
-                    window.location.href = '/mon-espace';
+                    window.location.href = 'mon-espace.html';
                 }
             } catch (err) {
                 submitBtn.disabled = false;
@@ -261,7 +261,7 @@
                 if (!role) {
                     window.location.href = 'registration/onboarding.html';
                 } else {
-                    window.location.href = '/mon-espace';
+                    window.location.href = 'mon-espace.html';
                 }
             }
         });

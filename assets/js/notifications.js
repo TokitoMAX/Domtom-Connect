@@ -169,7 +169,7 @@
 
         toast.addEventListener('click', (e) => {
             if (e.target.classList.contains('dc-toast-close')) return;
-            window.location.href = '/messages';
+            window.location.href = 'mon-espace.html#messages';
         });
 
         container.appendChild(toast);
@@ -307,8 +307,8 @@
                 if (!convIds.includes(msg.conversation_id)) return;
 
                 // Skip if user is currently on the messages page and viewing this conv
-                const onMessagesPage = window.location.pathname === '/messages' ||
-                    window.location.pathname.includes('/messages');
+                const onMessagesPage = window.location.pathname.includes('messages') ||
+                    window.location.hash.includes('messages');
                 if (onMessagesPage) return;
 
                 const senderName = await getSenderName(msg.sender_id);
@@ -322,11 +322,16 @@
 
     // ── Reset counter when user visits /messages ──────────────
     function setupAutoReset() {
-        const onMessagesPage = window.location.pathname === '/messages' ||
-            window.location.pathname.endsWith('/messages');
-        if (onMessagesPage) {
-            resetUnread();
-        }
+        const checkReset = () => {
+            const onMessagesPage = window.location.pathname.includes('messages') ||
+                window.location.hash.includes('messages');
+            if (onMessagesPage) {
+                resetUnread();
+            }
+        };
+
+        checkReset();
+        window.addEventListener('hashchange', checkReset);
     }
 
     // ── Escape HTML ─────────────────────────────────────────

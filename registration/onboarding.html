@@ -230,7 +230,7 @@
             try {
                 const session = await getSession();
                 if (!session) {
-                    window.location.href = '../login';
+                    window.location.href = '../login.html';
                     return;
                 }
 
@@ -252,7 +252,7 @@
 
                 if ((role || profile?.role) && (subTier !== 'free' || (profile?.role && profile.role !== 'porteur'))) {
                     // Rôle déjà défini ET validé
-                    window.location.href = '../mon-espace';
+                    window.location.href = '../mon-espace.html';
                 }
             } catch (err) {
                 console.error('Erreur session onboarding:', err);
@@ -373,12 +373,12 @@
             try {
                 const session = await getSession();
                 if (!session) {
-                    window.location.href = '../login';
+                    window.location.href = '../login.html';
                     return;
                 }
 
                 await updateUserProfile(metadata);
-                window.location.href = '../mon-espace';
+                window.location.href = '../mon-espace.html';
             } catch (err) {
                 alert("Erreur lors de la sélection : " + err.message);
             }
