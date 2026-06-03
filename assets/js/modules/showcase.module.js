@@ -246,15 +246,32 @@ const ShowcaseModule = {
     },
 
     async openItemModal(itemId = null) {
-        let item = { title: '', price: 0, image_url: '', description: '', price_prefix: 'À partir de' };
+        let item = { title: '', price: 0, image_url: '', description: '', price_prefix: 'À partir de', category: 'consulting' };
         if (itemId) {
             const { data } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             item = data;
         }
-        const overlay = document.getElementById('details-modal-overlay');
+        
+        let overlay = document.getElementById('details-modal-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'details-modal-overlay';
+            // Styling directly or rely on class if it exists
+            Object.assign(overlay.style, {
+                position: 'fixed', top: '0', left: '0', width: '100vw', height: '100vh',
+                background: 'rgba(0,0,0,0.5)', zIndex: '999999', display: 'none',
+                alignItems: 'center', justifyContent: 'center', padding: '20px'
+            });
+            document.body.appendChild(overlay);
+        }
+        
+        // Remove .open class and use flex directly to fix display issues
+        overlay.style.display = 'flex';
+
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 500px; border-radius: 50px; padding: 40px; border: 4px solid #000; box-shadow: 25px 25px 0px #000;">
-                <h3 style="margin:0 0 30px 0; font-weight:950; font-size:1.9rem; letter-spacing:-0.05em; text-align:center; color:#000;">${itemId ? 'Éditer ma solution' : 'Nouvelle solution'}</h3>
+            <div style="background: white; width: 100%; max-width: 500px; border-radius: 40px; padding: 40px; border: 4px solid #000; box-shadow: 15px 15px 0px #000; position:relative; overflow-y:auto; max-height:90vh;">
+                <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#f1f5f9; border:none; width:40px; height:40px; border-radius:50%; font-weight:900; cursor:pointer;">X</button>
+                <h3 style="margin:0 0 25px 0; font-weight:950; font-size:1.6rem; letter-spacing:-0.05em; text-align:center; color:#000;">${itemId ? 'Éditer ma solution' : 'Nouvelle solution'}</h3>
                 
                 <div style="display:flex; flex-direction:column; gap:20px;">
                     <div style="text-align:center;">
@@ -282,7 +299,7 @@ const ShowcaseModule = {
                     
                     <div style="display:flex; flex-direction:column; gap:10px;">
                         <button id="save-item-btn" onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background:#000; color:#fff; border:none; padding:20px; border-radius:100px; font-weight:950; cursor:pointer; font-size:1.1rem;">Valider la solution</button>
-                        <button onclick="document.getElementById('details-modal-overlay').classList.remove('open')" style="background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer; font-size:1rem;">Plus tard</button>
+                        <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="background:transparent; color:#64748b; border:none; font-weight:900; cursor:pointer; font-size:1rem;">Plus tard</button>
                     </div>
                 </div>
             </div>
@@ -325,11 +342,11 @@ const ShowcaseModule = {
             }
         }
         try {
-            const updateData = { title, description, price, price_prefix };
+            const updateData = { title, description, price, price_prefix, status: 'active', category: 'consulting' };
             if (image_url) updateData.image_url = image_url;
             if (itemId) await window._supabase.from('showcase_items').update(updateData).eq('id', itemId);
             else await window._supabase.from('showcase_items').insert({ ...updateData, user_id: session.user.id });
-            document.getElementById('details-modal-overlay').classList.remove('open');
+            document.getElementById('details-modal-overlay').style.display = 'none';
             this.renderManager(document.getElementById('ecosystem-grid-container'));
         } catch (err) { alert(err.message); }
     },

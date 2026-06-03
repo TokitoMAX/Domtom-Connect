@@ -232,7 +232,7 @@
                 <h2 class="modal-title">${item.title || 'Sans titre'}</h2>
                 <p class="modal-desc">${item.description || 'Aucune description disponible.'}</p>
                 <div class="modal-price">${price}</div>
-                <button class="modal-cta" onclick="window.location.href='/marketplace/profile-detail-expert.html?id=${item.user_id}'">
+                <button class="modal-cta" onclick="window.location.href='profile-detail-expert.html?id=${item.user_id}'">
                     Voir le profil de l'expert →
                 </button>
             </div>`;
@@ -253,18 +253,20 @@
         const grid = document.getElementById('grid');
 
         try {
-            // Requête simple sans jointure pour éviter les erreurs FK
+            // Requête simple sans filtres stricts SQL (problèmes avec les valeurs NULL)
             const { data, error } = await db
                 .from('showcase_items')
                 .select('id, title, description, image_url, price, category, user_id, status')
-                .eq('status', 'active')
-                .neq('category', 'status')
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
 
-            console.log('[Solutions] items loaded:', data?.length, data);
-            allItems = data || [];
+            console.log('[Solutions] items loaded raw:', data?.length);
+            
+            // Filtre Javascript sécurisé (les vraies solutions ont souvent category = null ou != 'status')
+            allItems = (data || []).filter(item => item.category !== 'status' && item.status !== 'archived');
+            
+            console.log('[Solutions] items after filter:', allItems.length);
             renderGrid();
 
         } catch (err) {

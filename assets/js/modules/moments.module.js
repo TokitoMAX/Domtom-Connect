@@ -316,10 +316,17 @@ const MomentsModule = {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
  
-        // Profile Details Link URL — chemins absolus pour fonctionner depuis n'importe quelle page
-        const profileUrl = item.authorRole === 'entreprise'
-            ? `/marketplace/profile-detail-company.html?id=${item.userId}`
-            : `/marketplace/profile-detail-expert.html?id=${item.userId}`;
+        // Profile Details Link URL — sécurisé via adjustPath pour éviter les 404 en local / sous-dossier
+        const baseCompanyPath = 'marketplace/profile-detail-company.html?id=' + item.userId;
+        const baseExpertPath = 'marketplace/profile-detail-expert.html?id=' + item.userId;
+        
+        let profileUrl = item.authorRole === 'entreprise' ? baseCompanyPath : baseExpertPath;
+        if (window.UIComponents && typeof window.UIComponents.adjustPath === 'function') {
+            const prefix = window.UIComponents.getPathPrefix();
+            profileUrl = window.UIComponents.adjustPath(profileUrl, prefix);
+        } else {
+            profileUrl = './' + profileUrl;
+        }
  
         // Badge styling based on role and custom title/expertise
         let roleBadge = '';
