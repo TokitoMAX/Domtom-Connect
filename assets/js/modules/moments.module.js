@@ -32,7 +32,7 @@ const MomentsModule = {
             // 1. Fetch Flash status & Services (from showcase_items)
             const { data: rawShowcase, error: errShowcase } = await db
                 .from('showcase_items')
-                .select('*, profiles!showcase_items_user_id_fkey(full_name, avatar_url, role, territory)')
+                .select('*, profiles:user_id(full_name, avatar_url, role, territory)')
                 .order('created_at', { ascending: false })
                 .limit(40);
 
@@ -41,7 +41,7 @@ const MomentsModule = {
             // 2. Fetch Projects
             const { data: rawProjects, error: errProjects } = await db
                 .from('projects')
-                .select('*, profiles!projects_owner_id_fkey(full_name, avatar_url, role, territory)')
+                .select('*, profiles:owner_id(full_name, avatar_url, role, territory)')
                 .order('created_at', { ascending: false })
                 .limit(20);
 
@@ -110,7 +110,7 @@ const MomentsModule = {
                         });
                     }
 
-                    const { data: rawComments } = await db.from('feed_comments').select('*, profiles(full_name, avatar_url)').in('post_id', postIds).order('created_at', { ascending: true });
+                    const { data: rawComments } = await db.from('feed_comments').select('*, profiles:user_id(full_name, avatar_url)').in('post_id', postIds).order('created_at', { ascending: true });
                     if (rawComments) {
                         rawComments.forEach(c => {
                             if (!this.comments[c.post_id]) this.comments[c.post_id] = [];

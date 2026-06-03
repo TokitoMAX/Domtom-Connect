@@ -58,6 +58,9 @@ const ExpertsModule = {
         const badgeText = isAdmin ? 'ESPACE ADMINISTRATION' : 'Espace Expert';
         const welcomeMsg = isAdmin ? 'Outils de Supervision Shell' : 'Suivez votre activité et gérez votre impact territorial.';
 
+        const prefix = window.UIComponents ? window.UIComponents.getPathPrefix() : '';
+        const adjust = (p) => window.UIComponents ? window.UIComponents.adjustPath(p, prefix) : p;
+
         container.innerHTML = `
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
                 
@@ -75,7 +78,7 @@ const ExpertsModule = {
                     <div style="background: #f0fdf4; border: 1.5px solid #10b981; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Missions Disponibles</h4>
                         <div style="font-size: 1.4rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Voir le Hub Jobs</div>
-                        <button onclick="window.location.href='marketplace/jobs.html'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Accéder aux Offres</button>
+                        <button onclick="window.location.href='${adjust('marketplace/jobs.html')}'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Accéder aux Offres</button>
                     </div>
 
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">

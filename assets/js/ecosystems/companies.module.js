@@ -73,6 +73,9 @@ const CompaniesModule = {
         const isPro = ['entreprise', 'expert', 'prestataire', 'admin'].includes(profile.role) || isAdmin;
         const isProjectOwner = ['porteur', 'owner', 'porteurdeprojet'].includes(profile.role);
 
+        const prefix = window.UIComponents ? window.UIComponents.getPathPrefix() : '';
+        const adjust = (p) => window.UIComponents ? window.UIComponents.adjustPath(p, prefix) : p;
+
         container.innerHTML = `
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
                 
@@ -100,7 +103,7 @@ const CompaniesModule = {
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">${isProjectOwner ? 'Mon Épopée' : 'Talents Hub'}</h4>
                         <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">${isProjectOwner ? 'Missions Suite' : 'Annuaire Experts'}</div>
-                        <button onclick="window.location.href = '${isProjectOwner ? 'mon-espace.html#success-engine' : 'marketplace/directory.html'}'" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
+                        <button onclick="${isProjectOwner ? "window.Router.navigate('#success-engine')" : `window.location.href = '${adjust('marketplace/directory.html')}'`}" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
                     </div>
 
                     ${isPro ? `
