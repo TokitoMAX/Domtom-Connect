@@ -13,7 +13,7 @@
         * { box-sizing: border-box; }
         body { background: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; color: #0f172a; }
 
-        .hero { background: #f8fafc; padding: 60px 0 32px; }
+        .hero { padding: 60px 0 32px; }
         .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 10px; }
         .hero p  { font-size: 1rem; color: #64748b; font-weight: 500; margin: 0 0 28px; }
 
@@ -61,13 +61,6 @@
             padding: 12px 20px; border-top: 1px solid #f1f5f9;
             display: flex; align-items: center; justify-content: space-between;
         }
-        .author { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-        .avatar {
-            width: 28px; height: 28px; border-radius: 7px;
-            background: #0f172a; color: white; font-size: 0.7rem; font-weight: 800;
-            display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
-        }
-        .author-name { font-size: 0.78rem; font-weight: 700; color: #334155; }
         .price { font-size: 1rem; font-weight: 900; color: #10b981; }
 
         /* MODAL */
@@ -78,41 +71,45 @@
             backdrop-filter: blur(6px);
         }
         .modal-bg.open { display: flex; }
+        .modal-wrap { position: relative; width: 100%; max-width: 540px; }
         .modal-box {
-            background: white; border-radius: 24px; width: 100%; max-width: 560px;
+            background: white; border-radius: 24px; width: 100%;
             max-height: 90vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.2);
         }
-        .modal-img { width: 100%; height: 220px; object-fit: cover; border-radius: 24px 24px 0 0; background: #f1f5f9;
-            display: flex; align-items: center; justify-content: center; font-size: 4rem; }
-        .modal-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px 24px 0 0; }
+        .modal-header-img {
+            width: 100%; height: 200px; background: #f1f5f9;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; border-radius: 24px 24px 0 0; overflow: hidden;
+        }
+        .modal-header-img img { width: 100%; height: 100%; object-fit: cover; }
         .modal-body { padding: 28px; }
-        .modal-cat { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #10b981; margin-bottom: 8px; }
-        .modal-title { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; margin: 0 0 12px; }
-        .modal-desc { font-size: 0.95rem; color: #475569; line-height: 1.7; margin: 0 0 24px; }
-        .modal-price { font-size: 1.8rem; font-weight: 900; color: #10b981; margin-bottom: 20px; }
+        .modal-cat  { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #10b981; margin-bottom: 8px; }
+        .modal-title { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; margin: 0 0 12px; }
+        .modal-desc  { font-size: 0.92rem; color: #475569; line-height: 1.7; margin: 0 0 20px; white-space: pre-line; }
+        .modal-price { font-size: 1.6rem; font-weight: 900; color: #10b981; margin-bottom: 20px; }
         .modal-cta {
-            display: block; width: 100%; padding: 16px;
+            display: block; width: 100%; padding: 15px;
             background: #0f172a; color: white; text-align: center;
             border-radius: 14px; font-weight: 800; font-size: 1rem;
             text-decoration: none; transition: background 0.2s; cursor: pointer; border: none; font-family: inherit;
         }
         .modal-cta:hover { background: #10b981; }
         .modal-close {
-            position: absolute; top: 16px; right: 16px;
+            position: absolute; top: -14px; right: -14px;
             width: 36px; height: 36px; border-radius: 50%; background: white;
-            border: none; cursor: pointer; font-size: 1.1rem; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: background 0.15s;
+            border: none; cursor: pointer; font-size: 1rem; display: flex;
+            align-items: center; justify-content: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 10;
         }
-        .modal-close:hover { background: #f1f5f9; }
-        .modal-wrap { position: relative; }
 
-        /* STATES */
         .state-center { grid-column: 1/-1; text-align: center; padding: 80px 24px; color: #94a3b8; }
         .spinner { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #10b981; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .hero { padding: 36px 0 20px; }
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -122,158 +119,162 @@
 <body>
 
 <nav class="navbar"><div class="container"></div></nav>
-<script>document.addEventListener('DOMContentLoaded', () => { if (window.loadGlobalNavbar) window.loadGlobalNavbar(); });</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.loadGlobalNavbar) window.loadGlobalNavbar();
+    });
+</script>
 
 <header class="hero">
     <div class="container">
         <h1>Solutions & Services</h1>
         <p>Les meilleures offres d'experts et d'entreprises de l'écosystème ultramarin.</p>
-        <div class="filter-bar" id="filters">
-            <button class="chip active" onclick="filter(this,'')">Tout</button>
-            <button class="chip" onclick="filter(this,'consulting')">Conseil</button>
-            <button class="chip" onclick="filter(this,'formation')">Formation</button>
-            <button class="chip" onclick="filter(this,'developpement')">Tech & Dev</button>
-            <button class="chip" onclick="filter(this,'marketing')">Marketing</button>
-            <button class="chip" onclick="filter(this,'juridique')">Juridique</button>
-            <button class="chip" onclick="filter(this,'finance')">Finance</button>
+        <div class="filter-bar">
+            <button class="chip active" onclick="setFilter(this,'')">Tout</button>
+            <button class="chip" onclick="setFilter(this,'consulting')">Conseil</button>
+            <button class="chip" onclick="setFilter(this,'formation')">Formation</button>
+            <button class="chip" onclick="setFilter(this,'developpement')">Tech & Dev</button>
+            <button class="chip" onclick="setFilter(this,'marketing')">Marketing</button>
+            <button class="chip" onclick="setFilter(this,'juridique')">Juridique</button>
+            <button class="chip" onclick="setFilter(this,'finance')">Finance</button>
         </div>
     </div>
 </header>
 
 <main class="container">
     <div class="grid" id="grid">
-        <div class="state-center"><div class="spinner"></div><p style="font-weight:700;font-size:0.85rem;">Chargement...</p></div>
+        <div class="state-center">
+            <div class="spinner"></div>
+            <p style="font-weight:700;font-size:0.85rem;">Chargement...</p>
+        </div>
     </div>
 </main>
 
 <!-- MODAL -->
-<div class="modal-bg" id="modal" onclick="closeModal(event)">
+<div class="modal-bg" id="modal" onclick="if(event.target===this) closeModal()">
     <div class="modal-wrap">
-        <button class="modal-close" onclick="closeModal(null,true)">✕</button>
-        <div class="modal-box" id="modal-box"></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div class="modal-box" id="modal-content"></div>
     </div>
 </div>
 
 <script>
-    const CAT = {
-        consulting:    { label: 'Conseil',    emoji: '🎯' },
-        formation:     { label: 'Formation',  emoji: '📚' },
-        developpement: { label: 'Tech & Dev', emoji: '💻' },
-        marketing:     { label: 'Marketing',  emoji: '📣' },
-        juridique:     { label: 'Juridique',  emoji: '⚖️' },
-        finance:       { label: 'Finance',    emoji: '💰' },
+    const CAT_LABELS = {
+        consulting: 'Conseil', formation: 'Formation', developpement: 'Tech & Dev',
+        marketing: 'Marketing', juridique: 'Juridique', finance: 'Finance', status: 'Statut'
+    };
+    const CAT_EMOJI = {
+        consulting: '🎯', formation: '📚', developpement: '💻',
+        marketing: '📣', juridique: '⚖️', finance: '💰'
     };
 
     let allItems = [];
     let activeFilter = '';
 
-    function filter(btn, cat) {
+    function setFilter(btn, cat) {
         document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeFilter = cat;
-        render();
+        renderGrid();
     }
 
-    function render() {
+    function cardHTML(item) {
+        const cat   = item.category || '';
+        const label = CAT_LABELS[cat] || 'Service';
+        const emoji = CAT_EMOJI[cat]  || '✨';
+        const price = item.price ? Number(item.price).toLocaleString('fr-FR') + ' €' : 'Sur devis';
+
+        return `
+        <div class="card" onclick="openModal('${item.id}')">
+            <div class="card-img">
+                ${item.image_url ? `<img src="${item.image_url}" alt="" loading="lazy">` : emoji}
+                <span class="cat-badge">${label}</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">${item.title || 'Sans titre'}</h3>
+                <p class="card-desc">${item.description || ''}</p>
+            </div>
+            <div class="card-foot">
+                <span style="font-size:0.82rem;font-weight:700;color:#475569;">Expert DTC</span>
+                <span class="price">${price}</span>
+            </div>
+        </div>`;
+    }
+
+    function renderGrid() {
         const grid = document.getElementById('grid');
-        const items = activeFilter ? allItems.filter(i => i.category === activeFilter) : allItems;
+        const items = activeFilter
+            ? allItems.filter(i => i.category === activeFilter)
+            : allItems;
 
         if (!items.length) {
-            grid.innerHTML = `<div class="state-center"><p style="font-weight:700;color:#64748b;">Aucune offre dans cette catégorie.</p></div>`;
+            grid.innerHTML = `<div class="state-center"><p style="font-weight:700;color:#64748b;font-size:0.95rem;">Aucune offre dans cette catégorie pour le moment.</p></div>`;
             return;
         }
-
-        grid.innerHTML = items.map(item => {
-            const p   = item.profiles || {};
-            const cat = CAT[item.category] || { label: item.category || 'Service', emoji: '✨' };
-            const init= (p.full_name || 'E').charAt(0).toUpperCase();
-            const price = item.price ? Number(item.price).toLocaleString('fr-FR') + ' €' : 'Sur devis';
-            const profileUrl = p.role === 'entreprise'
-                ? `/marketplace/profile-detail-company.html?id=${item.user_id}`
-                : `/marketplace/profile-detail-expert.html?id=${item.user_id}`;
-
-            return `
-            <div class="card" onclick="openModal('${item.id}')">
-                <div class="card-img">
-                    ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}" loading="lazy">` : cat.emoji}
-                    <span class="cat-badge">${cat.label}</span>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">${item.title}</h3>
-                    <p class="card-desc">${item.description || 'Expertise au service de vos projets.'}</p>
-                </div>
-                <div class="card-foot">
-                    <a class="author" href="${profileUrl}" onclick="event.stopPropagation()">
-                        <div class="avatar">
-                            ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : init}
-                        </div>
-                        <span class="author-name">${p.full_name || 'Expert DTC'}</span>
-                    </a>
-                    <span class="price">${price}</span>
-                </div>
-            </div>`;
-        }).join('');
+        grid.innerHTML = items.map(cardHTML).join('');
     }
 
     function openModal(itemId) {
-        const item = allItems.find(i => i.id == itemId);
+        const item = allItems.find(i => String(i.id) === String(itemId));
         if (!item) return;
 
-        const p   = item.profiles || {};
-        const cat = CAT[item.category] || { label: item.category || 'Service', emoji: '✨' };
+        const cat   = item.category || '';
+        const label = CAT_LABELS[cat] || 'Service';
+        const emoji = CAT_EMOJI[cat]  || '✨';
         const price = item.price ? Number(item.price).toLocaleString('fr-FR') + ' €' : 'Sur devis';
-        const profileUrl = p.role === 'entreprise'
-            ? `/marketplace/profile-detail-company.html?id=${item.user_id}`
-            : `/marketplace/profile-detail-expert.html?id=${item.user_id}`;
 
-        document.getElementById('modal-box').innerHTML = `
-            <div class="modal-img">
-                ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}">` : cat.emoji}
+        document.getElementById('modal-content').innerHTML = `
+            <div class="modal-header-img">
+                ${item.image_url ? `<img src="${item.image_url}" alt="">` : emoji}
             </div>
             <div class="modal-body">
-                <div class="modal-cat">${cat.label}</div>
-                <h2 class="modal-title">${item.title}</h2>
+                <div class="modal-cat">${label}</div>
+                <h2 class="modal-title">${item.title || 'Sans titre'}</h2>
                 <p class="modal-desc">${item.description || 'Aucune description disponible.'}</p>
                 <div class="modal-price">${price}</div>
-                <a class="modal-cta" href="${profileUrl}">Contacter l'expert →</a>
+                <button class="modal-cta" onclick="window.location.href='/marketplace/profile-detail-expert.html?id=${item.user_id}'">
+                    Voir le profil de l'expert →
+                </button>
             </div>`;
 
         document.getElementById('modal').classList.add('open');
     }
 
-    function closeModal(e, force) {
-        if (force || (e && e.target === document.getElementById('modal'))) {
-            document.getElementById('modal').classList.remove('open');
-        }
+    function closeModal() {
+        document.getElementById('modal').classList.remove('open');
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(null, true); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     async function init() {
         const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-        if (!db) return setTimeout(init, 100);
+        if (!db) { setTimeout(init, 150); return; }
+
+        const grid = document.getElementById('grid');
 
         try {
+            // Requête simple sans jointure pour éviter les erreurs FK
             const { data, error } = await db
                 .from('showcase_items')
-                .select('id, title, description, image_url, price, category, user_id, status, profiles(full_name, avatar_url, role)')
+                .select('id, title, description, image_url, price, category, user_id, status')
                 .eq('status', 'active')
                 .neq('category', 'status')
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
 
+            console.log('[Solutions] items loaded:', data?.length, data);
             allItems = data || [];
-            render();
-
-            if (window.UIComponents?.applyAuthWall) {
-                window.UIComponents.applyAuthWall(document.getElementById('grid'), 'solutions');
-            }
+            renderGrid();
 
         } catch (err) {
-            console.error('[Solutions]', err);
-            document.getElementById('grid').innerHTML =
-                `<div class="state-center"><p style="color:#ef4444;font-weight:700;">Erreur : ${err.message}</p></div>`;
+            console.error('[Solutions] Error:', err);
+            grid.innerHTML = `
+                <div class="state-center">
+                    <p style="color:#ef4444;font-weight:700;background:#fef2f2;padding:20px;border-radius:12px;border:1px solid #fee2e2;">
+                        Erreur : ${err.message}
+                    </p>
+                </div>`;
         }
     }
 
