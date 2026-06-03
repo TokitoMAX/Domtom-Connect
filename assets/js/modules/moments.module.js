@@ -29,10 +29,11 @@ const MomentsModule = {
             const session = window.App?.state?.session;
             const currentUser = session?.user;
 
-            // 1. Fetch Flash status & Services (from showcase_items)
+            // 1. Fetch social status posts only (not real services from the showcase)
             const { data: rawShowcase, error: errShowcase } = await db
                 .from('showcase_items')
                 .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name)')
+                .eq('category', 'status')
                 .order('created_at', { ascending: false })
                 .limit(40);
 
@@ -433,15 +434,6 @@ const MomentsModule = {
  
                 <!-- CONTENT -->
                 <div style="color: #334155; font-size: 0.96rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
-                    ${item.type === 'service' ? `
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #10b981; flex-shrink: 0;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                            <div>
-                                <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Service proposé</div>
-                                <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a;">${item.title}</div>
-                            </div>
-                        </div>
-                    ` : ''}
                     ${item.type === 'project' ? `
                         <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fffdf5; border-radius: 16px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 12px;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #f59e0b; flex-shrink: 0;"><polygon points="12 2 2 22 22 22"/></svg>
