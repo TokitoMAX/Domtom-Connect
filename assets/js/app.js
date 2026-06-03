@@ -146,11 +146,11 @@ const App = {
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="vertical-align: middle;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             Flux Territorial
                         </h2>
-                        <div id="dtc-moments-feed-mount"></div>
+                        <div id="dtc-moments-feed-mount-view"></div>
                     </div>
                 `;
                 if (window.MomentsModule) {
-                    window.MomentsModule.renderFeed('dtc-moments-feed-mount');
+                    window.MomentsModule.renderFeed('dtc-moments-feed-mount-view');
                 }
             }
             const feedWrapper = document.getElementById('moments-feed-wrapper');
@@ -204,7 +204,7 @@ const App = {
                     if (feedWrapper) {
                         feedWrapper.style.display = 'block';
                         if (window.MomentsModule) {
-                            window.MomentsModule.renderFeed('dtc-moments-feed-mount');
+                            window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
                         }
                     }
                 } else {

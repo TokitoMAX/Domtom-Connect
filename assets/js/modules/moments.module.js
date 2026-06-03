@@ -124,6 +124,100 @@ const MomentsModule = {
 
             // 5. Render HTML
             let html = `
+                <style>
+                    /* Premium Social Feed Custom Classes */
+                    .dtc-publish-btn {
+                        background: #0f172a;
+                        color: white;
+                        border: none;
+                        padding: 10px 24px;
+                        border-radius: 12px;
+                        font-weight: 800;
+                        font-size: 0.88rem;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+                    }
+                    .dtc-publish-btn:hover {
+                        background: #10b981;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+                    }
+                    .dtc-like-btn {
+                        background: transparent;
+                        border: none;
+                        color: #64748b;
+                        font-weight: 800;
+                        font-size: 0.82rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                        transition: all 0.2s;
+                    }
+                    .dtc-like-btn:hover {
+                        background: rgba(16, 185, 129, 0.08);
+                        color: #10b981;
+                    }
+                    .dtc-like-btn.liked {
+                        background: rgba(16, 185, 129, 0.08);
+                        color: #10b981;
+                    }
+                    .dtc-like-btn.liked:hover {
+                        background: rgba(16, 185, 129, 0.12);
+                    }
+                    .dtc-comment-toggle-btn {
+                        background: transparent;
+                        border: none;
+                        color: #64748b;
+                        font-weight: 800;
+                        font-size: 0.82rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                        transition: all 0.2s;
+                    }
+                    .dtc-comment-toggle-btn:hover {
+                        background: #f1f5f9;
+                        color: #0f172a;
+                    }
+                    .dtc-chat-btn {
+                        background: transparent;
+                        border: none;
+                        color: #0f172a;
+                        font-weight: 800;
+                        font-size: 0.82rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                        transition: all 0.2s;
+                    }
+                    .dtc-chat-btn:hover {
+                        background: #f8fafc;
+                    }
+                    .dtc-comment-submit-btn {
+                        background: #10b981;
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 12px;
+                        font-weight: 800;
+                        font-size: 0.85rem;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+                    }
+                    .dtc-comment-submit-btn:hover {
+                        background: #059669;
+                    }
+                </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
                     
                     <!-- QUICK SHARE BAR -->
@@ -162,7 +256,7 @@ const MomentsModule = {
                                         <input type="file" id="post-file-input" style="display:none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
                                         <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
  
-                                        <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" style="background: #0f172a; color: white; border: none; padding: 10px 24px; border-radius: 12px; font-weight: 800; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; margin-left: auto; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);" onmouseover="this.style.background='#10b981'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.2)';" onmouseout="this.style.background='#0f172a'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)';">
+                                        <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">
                                             Publier
                                         </button>
                                     </div>
@@ -325,20 +419,20 @@ const MomentsModule = {
                 <div style="display: flex; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 6px; flex-wrap: wrap; align-items: center;">
                     
                     <!-- LIKE -->
-                    <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" style="background: ${hasLiked ? 'rgba(16, 185, 129, 0.08)' : 'transparent'}; border: none; color: ${hasLiked ? '#10b981' : '#64748b'}; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.08)'; this.style.color='#10b981';" onmouseout="if(!${hasLiked}) { this.style.background='transparent'; this.style.color='#64748b'; }">
+                    <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-like-btn ${hasLiked ? 'liked' : ''}">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                         <span>${likesCount}</span> Donner une force
                     </button>
  
                     <!-- COMMENTS TOGGLE -->
-                    <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" style="background: transparent; border: none; color: #64748b; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'; this.style.color='#0f172a';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';">
+                    <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-comment-toggle-btn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                         <span>${commentsCount}</span> Commentaires
                     </button>
  
                     <!-- DIRECT CHAT -->
                     ${!isSelf && currentUser ? `
-                        <button onclick="window.location.hash = '#messages?with=${item.userId}'" style="background: transparent; border: none; color: #0f172a; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s; margin-left: auto;" onmouseover="this.style.background='#f8fafc';" onmouseout="this.style.background='transparent';">
+                        <button onclick="window.location.hash = '#messages?with=${item.userId}'" class="dtc-chat-btn" style="margin-left: auto;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                             Discuter en direct
                         </button>
@@ -353,11 +447,12 @@ const MomentsModule = {
                     ${currentUser ? `
                         <div style="display: flex; gap: 12px; align-items: center;">
                             <input type="text" id="comment-input-${item.id}" placeholder="Ajouter une réponse ou un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 16px; font-size: 0.88rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981';" onblur="this.style.borderColor='#e2e8f0';">
-                            <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);" onmouseover="this.style.background='#059669';" onmouseout="this.style.background='#10b981';">
+                            <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" class="dtc-comment-submit-btn">
                                 Envoyer
                             </button>
                         </div>
                     ` : ''}
+                </div>
                 </div>
  
             </div>
