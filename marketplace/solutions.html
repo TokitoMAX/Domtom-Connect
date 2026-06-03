@@ -3,396 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solutions d'Experts – Domtom Connect</title>
-    <meta name="description" content="Découvrez les meilleures offres de services et solutions d'experts ultramarins sur Domtom Connect.">
+    <title>Solutions & Services – Domtom Connect</title>
+    <meta name="description" content="Découvrez les meilleures offres de services d'experts ultramarins sur Domtom Connect.">
     <link rel="stylesheet" href="../assets/css/style.css?v=11.1">
     <link rel="icon" type="image/png" href="../assets/images/logo-domtomconnect.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background: #f8fafc;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            color: #0f172a;
-        }
+        * { box-sizing: border-box; }
+        body { background: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; color: #0f172a; }
 
-        /* HERO */
-        .solutions-hero {
-            background: #f8fafc;
-            padding: 60px 0 40px;
-        }
-        .hero-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            margin: 0 0 12px;
-            color: #0f172a;
-        }
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #64748b;
-            font-weight: 500;
-            margin: 0 0 32px;
-            max-width: 560px;
-        }
+        .hero { background: #f8fafc; padding: 60px 0 32px; }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 10px; }
+        .hero p  { font-size: 1rem; color: #64748b; font-weight: 500; margin: 0 0 28px; }
 
-        /* FILTRES */
-        .filter-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
+        .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+        .chip {
+            padding: 7px 16px; border-radius: 100px; border: 1px solid #e2e8f0;
+            background: white; color: #475569; font-size: 0.82rem; font-weight: 700;
+            cursor: pointer; transition: all 0.15s; font-family: inherit;
         }
-        .filter-chip {
-            padding: 8px 18px;
-            border-radius: 100px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #475569;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.18s;
-        }
-        .filter-chip:hover,
-        .filter-chip.active {
-            background: #0f172a;
-            color: white;
-            border-color: #0f172a;
-        }
+        .chip:hover, .chip.active { background: #0f172a; color: white; border-color: #0f172a; }
 
-        /* GRID */
-        .solutions-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
             padding-bottom: 80px;
         }
 
-        /* CARD */
-        .solution-card {
-            background: white;
-            border: 1px solid #f1f5f9;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.22s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
+        .card {
+            background: white; border: 1px solid #f1f5f9; border-radius: 18px;
+            overflow: hidden; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04); display: flex; flex-direction: column;
         }
-        .solution-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(16, 185, 129, 0.1);
-            border-color: #10b981;
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(16,185,129,0.1); border-color: #10b981; }
+
+        .card-img {
+            width: 100%; height: 160px; background: #f1f5f9;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; position: relative; overflow: hidden;
+        }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .cat-badge {
+            position: absolute; top: 10px; left: 10px;
+            background: white; font-size: 0.68rem; font-weight: 800;
+            padding: 3px 9px; border-radius: 100px; text-transform: uppercase;
+            letter-spacing: 0.04em; box-shadow: 0 1px 6px rgba(0,0,0,0.1);
         }
 
-        .card-img-wrap {
-            width: 100%;
-            height: 180px;
-            background: #f1f5f9;
-            position: relative;
-            overflow: hidden;
-        }
-        .card-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .card-img-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-        .card-category-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: white;
-            color: #0f172a;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+        .card-body { padding: 16px 20px; flex: 1; }
+        .card-title { font-size: 0.98rem; font-weight: 800; margin: 0 0 6px; line-height: 1.3; }
+        .card-desc  { font-size: 0.83rem; color: #64748b; line-height: 1.5; margin: 0;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        .card-body {
-            padding: 20px 24px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .card-foot {
+            padding: 12px 20px; border-top: 1px solid #f1f5f9;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .card-name {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin: 0;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
+        .author { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .avatar {
+            width: 28px; height: 28px; border-radius: 7px;
+            background: #0f172a; color: white; font-size: 0.7rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
         }
-        .card-desc {
-            font-size: 0.88rem;
-            color: #64748b;
-            font-weight: 500;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        .author-name { font-size: 0.78rem; font-weight: 700; color: #334155; }
+        .price { font-size: 1rem; font-weight: 900; color: #10b981; }
 
-        .card-footer {
-            padding: 14px 24px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* MODAL */
+        .modal-bg {
+            display: none; position: fixed; inset: 0;
+            background: rgba(15,23,42,0.7); z-index: 9999;
+            align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(6px);
         }
-        .card-author {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .modal-bg.open { display: flex; }
+        .modal-box {
+            background: white; border-radius: 24px; width: 100%; max-width: 560px;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(0,0,0,0.2);
         }
-        .card-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: #0f172a;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
+        .modal-img { width: 100%; height: 220px; object-fit: cover; border-radius: 24px 24px 0 0; background: #f1f5f9;
+            display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .modal-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px 24px 0 0; }
+        .modal-body { padding: 28px; }
+        .modal-cat { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #10b981; margin-bottom: 8px; }
+        .modal-title { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; margin: 0 0 12px; }
+        .modal-desc { font-size: 0.95rem; color: #475569; line-height: 1.7; margin: 0 0 24px; }
+        .modal-price { font-size: 1.8rem; font-weight: 900; color: #10b981; margin-bottom: 20px; }
+        .modal-cta {
+            display: block; width: 100%; padding: 16px;
+            background: #0f172a; color: white; text-align: center;
+            border-radius: 14px; font-weight: 800; font-size: 1rem;
+            text-decoration: none; transition: background 0.2s; cursor: pointer; border: none; font-family: inherit;
         }
-        .card-author-name {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #334155;
+        .modal-cta:hover { background: #10b981; }
+        .modal-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 36px; height: 36px; border-radius: 50%; background: white;
+            border: none; cursor: pointer; font-size: 1.1rem; display: flex;
+            align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: background 0.15s;
         }
-        .card-price {
-            font-size: 1.05rem;
-            font-weight: 900;
-            color: #10b981;
-        }
+        .modal-close:hover { background: #f1f5f9; }
+        .modal-wrap { position: relative; }
 
-        /* LOADER */
-        .loader-wrap {
-            grid-column: 1 / -1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 80px 0;
-            gap: 16px;
-            color: #94a3b8;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-        .spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #10b981;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        /* STATES */
+        .state-center { grid-column: 1/-1; text-align: center; padding: 80px 24px; color: #94a3b8; }
+        .spinner { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #10b981; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* EMPTY */
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 80px 24px;
-            color: #94a3b8;
-        }
-        .empty-state h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #475569;
-            margin: 16px 0 8px;
-        }
-        .empty-state p {
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .solutions-grid { grid-template-columns: 1fr; }
-            .solutions-hero { padding: 40px 0 24px; }
-        }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/ui-components.js?v=11.3"></script>
-    <script src="../assets/js/modules/showcase.module.js?v=11.1"></script>
 </head>
 <body>
 
-    <nav class="navbar"><div class="container"></div></nav>
+<nav class="navbar"><div class="container"></div></nav>
+<script>document.addEventListener('DOMContentLoaded', () => { if (window.loadGlobalNavbar) window.loadGlobalNavbar(); });</script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.loadGlobalNavbar) window.loadGlobalNavbar();
-        });
-    </script>
-
-    <header class="solutions-hero">
-        <div class="container">
-            <h1 class="hero-title">Solutions & Services</h1>
-            <p class="hero-subtitle">Les meilleures offres d'experts et d'entreprises de l'écosystème ultramarin.</p>
-
-            <div class="filter-bar" id="filter-bar">
-                <button class="filter-chip active" data-cat="" onclick="setFilter(this, '')">Tout</button>
-                <button class="filter-chip" data-cat="consulting" onclick="setFilter(this, 'consulting')">Conseil</button>
-                <button class="filter-chip" data-cat="formation" onclick="setFilter(this, 'formation')">Formation</button>
-                <button class="filter-chip" data-cat="developpement" onclick="setFilter(this, 'developpement')">Tech & Dev</button>
-                <button class="filter-chip" data-cat="marketing" onclick="setFilter(this, 'marketing')">Marketing</button>
-                <button class="filter-chip" data-cat="juridique" onclick="setFilter(this, 'juridique')">Juridique</button>
-                <button class="filter-chip" data-cat="finance" onclick="setFilter(this, 'finance')">Finance</button>
-            </div>
+<header class="hero">
+    <div class="container">
+        <h1>Solutions & Services</h1>
+        <p>Les meilleures offres d'experts et d'entreprises de l'écosystème ultramarin.</p>
+        <div class="filter-bar" id="filters">
+            <button class="chip active" onclick="filter(this,'')">Tout</button>
+            <button class="chip" onclick="filter(this,'consulting')">Conseil</button>
+            <button class="chip" onclick="filter(this,'formation')">Formation</button>
+            <button class="chip" onclick="filter(this,'developpement')">Tech & Dev</button>
+            <button class="chip" onclick="filter(this,'marketing')">Marketing</button>
+            <button class="chip" onclick="filter(this,'juridique')">Juridique</button>
+            <button class="chip" onclick="filter(this,'finance')">Finance</button>
         </div>
-    </header>
+    </div>
+</header>
 
-    <main class="container">
-        <div class="solutions-grid" id="solutions-grid">
-            <div class="loader-wrap">
-                <div class="spinner"></div>
-                <span>Chargement des offres...</span>
-            </div>
-        </div>
-    </main>
+<main class="container">
+    <div class="grid" id="grid">
+        <div class="state-center"><div class="spinner"></div><p style="font-weight:700;font-size:0.85rem;">Chargement...</p></div>
+    </div>
+</main>
 
-    <script>
-        let allItems = [];
-        let activeFilter = '';
+<!-- MODAL -->
+<div class="modal-bg" id="modal" onclick="closeModal(event)">
+    <div class="modal-wrap">
+        <button class="modal-close" onclick="closeModal(null,true)">✕</button>
+        <div class="modal-box" id="modal-box"></div>
+    </div>
+</div>
 
-        const CATEGORY_LABELS = {
-            consulting:     'Conseil',
-            formation:      'Formation',
-            developpement:  'Tech & Dev',
-            marketing:      'Marketing',
-            juridique:      'Juridique',
-            finance:        'Finance',
-        };
+<script>
+    const CAT = {
+        consulting:    { label: 'Conseil',    emoji: '🎯' },
+        formation:     { label: 'Formation',  emoji: '📚' },
+        developpement: { label: 'Tech & Dev', emoji: '💻' },
+        marketing:     { label: 'Marketing',  emoji: '📣' },
+        juridique:     { label: 'Juridique',  emoji: '⚖️' },
+        finance:       { label: 'Finance',    emoji: '💰' },
+    };
 
-        const CATEGORY_EMOJIS = {
-            consulting:     '🎯',
-            formation:      '📚',
-            developpement:  '💻',
-            marketing:      '📣',
-            juridique:      '⚖️',
-            finance:        '💰',
-        };
+    let allItems = [];
+    let activeFilter = '';
 
-        function setFilter(btn, cat) {
-            document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activeFilter = cat;
-            renderGrid();
+    function filter(btn, cat) {
+        document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = cat;
+        render();
+    }
+
+    function render() {
+        const grid = document.getElementById('grid');
+        const items = activeFilter ? allItems.filter(i => i.category === activeFilter) : allItems;
+
+        if (!items.length) {
+            grid.innerHTML = `<div class="state-center"><p style="font-weight:700;color:#64748b;">Aucune offre dans cette catégorie.</p></div>`;
+            return;
         }
 
-        function renderGrid() {
-            const grid = document.getElementById('solutions-grid');
-            const filtered = activeFilter
-                ? allItems.filter(i => i.category === activeFilter)
-                : allItems;
+        grid.innerHTML = items.map(item => {
+            const p   = item.profiles || {};
+            const cat = CAT[item.category] || { label: item.category || 'Service', emoji: '✨' };
+            const init= (p.full_name || 'E').charAt(0).toUpperCase();
+            const price = item.price ? Number(item.price).toLocaleString('fr-FR') + ' €' : 'Sur devis';
+            const profileUrl = p.role === 'entreprise'
+                ? `/marketplace/profile-detail-company.html?id=${item.user_id}`
+                : `/marketplace/profile-detail-expert.html?id=${item.user_id}`;
 
-            if (!filtered.length) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div style="font-size: 2.5rem;">🔍</div>
-                        <h3>Aucune offre dans cette catégorie</h3>
-                        <p>Revenez bientôt ou changez de filtre.</p>
-                    </div>`;
-                return;
-            }
+            return `
+            <div class="card" onclick="openModal('${item.id}')">
+                <div class="card-img">
+                    ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}" loading="lazy">` : cat.emoji}
+                    <span class="cat-badge">${cat.label}</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">${item.title}</h3>
+                    <p class="card-desc">${item.description || 'Expertise au service de vos projets.'}</p>
+                </div>
+                <div class="card-foot">
+                    <a class="author" href="${profileUrl}" onclick="event.stopPropagation()">
+                        <div class="avatar">
+                            ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : init}
+                        </div>
+                        <span class="author-name">${p.full_name || 'Expert DTC'}</span>
+                    </a>
+                    <span class="price">${price}</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
 
-            grid.innerHTML = filtered.map(item => {
-                const expert   = item.profiles || {};
-                const isCompany = expert.role === 'entreprise';
-                const profileLink = isCompany
-                    ? `/marketplace/profile-detail-company.html?id=${item.user_id}`
-                    : `/marketplace/profile-detail-expert.html?id=${item.user_id}`;
-                const catLabel = CATEGORY_LABELS[item.category] || item.category || 'Service';
-                const catEmoji = CATEGORY_EMOJIS[item.category] || '✨';
-                const initials = (expert.full_name || 'E').charAt(0).toUpperCase();
-                const price    = item.price ? `${Number(item.price).toLocaleString('fr-FR')} €` : 'Sur devis';
+    function openModal(itemId) {
+        const item = allItems.find(i => i.id == itemId);
+        if (!item) return;
 
-                return `
-                    <div class="solution-card" onclick="ShowcaseModule.openPublicItemModal('${item.id}')">
-                        <div class="card-img-wrap">
-                            ${item.image_url
-                                ? `<img src="${item.image_url}" alt="${item.title}" loading="lazy">`
-                                : `<div class="card-img-placeholder">${catEmoji}</div>`}
-                            <span class="card-category-badge">${catLabel}</span>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-name">${item.title}</h3>
-                            <p class="card-desc">${item.description || 'Expertise au service de vos projets.'}</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-author" onclick="event.stopPropagation(); window.location.href='${profileLink}'">
-                                <div class="card-avatar">
-                                    ${expert.avatar_url
-                                        ? `<img src="${expert.avatar_url}" style="width:100%;height:100%;object-fit:cover;">`
-                                        : initials}
-                                </div>
-                                <span class="card-author-name">${expert.full_name || 'Expert DTC'}</span>
-                            </div>
-                            <span class="card-price">${price}</span>
-                        </div>
-                    </div>`;
-            }).join('');
+        const p   = item.profiles || {};
+        const cat = CAT[item.category] || { label: item.category || 'Service', emoji: '✨' };
+        const price = item.price ? Number(item.price).toLocaleString('fr-FR') + ' €' : 'Sur devis';
+        const profileUrl = p.role === 'entreprise'
+            ? `/marketplace/profile-detail-company.html?id=${item.user_id}`
+            : `/marketplace/profile-detail-expert.html?id=${item.user_id}`;
+
+        document.getElementById('modal-box').innerHTML = `
+            <div class="modal-img">
+                ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}">` : cat.emoji}
+            </div>
+            <div class="modal-body">
+                <div class="modal-cat">${cat.label}</div>
+                <h2 class="modal-title">${item.title}</h2>
+                <p class="modal-desc">${item.description || 'Aucune description disponible.'}</p>
+                <div class="modal-price">${price}</div>
+                <a class="modal-cta" href="${profileUrl}">Contacter l'expert →</a>
+            </div>`;
+
+        document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal(e, force) {
+        if (force || (e && e.target === document.getElementById('modal'))) {
+            document.getElementById('modal').classList.remove('open');
+        }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(null, true); });
+
+    async function init() {
+        const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+        if (!db) return setTimeout(init, 100);
+
+        try {
+            const { data, error } = await db
+                .from('showcase_items')
+                .select('id, title, description, image_url, price, category, user_id, status, profiles(full_name, avatar_url, role)')
+                .eq('status', 'active')
+                .neq('category', 'status')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            allItems = data || [];
+            render();
 
             if (window.UIComponents?.applyAuthWall) {
-                window.UIComponents.applyAuthWall(grid, 'solutions');
+                window.UIComponents.applyAuthWall(document.getElementById('grid'), 'solutions');
             }
+
+        } catch (err) {
+            console.error('[Solutions]', err);
+            document.getElementById('grid').innerHTML =
+                `<div class="state-center"><p style="color:#ef4444;font-weight:700;">Erreur : ${err.message}</p></div>`;
         }
+    }
 
-        async function init() {
-            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (!db) return setTimeout(init, 100);
-
-            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
-
-            try {
-                const { data, error } = await db
-                    .from('showcase_items')
-                    .select('*, profiles:user_id(full_name, avatar_url, role)')
-                    .eq('status', 'active')
-                    .neq('category', 'status')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                allItems = data || [];
-                renderGrid();
-
-            } catch (err) {
-                console.error('[Solutions] Error:', err);
-                document.getElementById('solutions-grid').innerHTML = `
-                    <div class="empty-state">
-                        <div style="font-size: 2.5rem;">⚠️</div>
-                        <h3>Erreur de chargement</h3>
-                        <p>${err.message}</p>
-                    </div>`;
-            }
-        }
-
-        init();
-    </script>
+    init();
+</script>
 
 </body>
 </html>
