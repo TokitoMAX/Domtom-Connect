@@ -61,17 +61,18 @@ const Router = {
             return;
         }
 
-        let viewId = path.replace('#', '').replace('/mon-espace/', '').replace('/dashboard/', '');
-        viewId = viewId.split('?')[0];
+        let cleanHash = path.replace('#', '').replace('/mon-espace/', '').replace('/dashboard/', '');
+        let viewId = cleanHash.split('?')[0];
+        let queryString = cleanHash.includes('?') ? '?' + cleanHash.split('?')[1] : '';
 
         // Ensure path is formatted correctly for History API
-        const cleanPath = `/mon-espace/${viewId}`;
+        const cleanPath = `/mon-espace/${viewId}${queryString}`;
 
         console.log("[Router] Navigating to:", cleanPath, "Matched view:", viewId);
 
         // Fallback for local file protocol: Use Hash
         if (window.location.protocol === 'file:') {
-            window.location.hash = viewId;
+            window.location.hash = cleanHash;
             return;
         }
 
