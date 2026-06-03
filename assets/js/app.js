@@ -137,6 +137,26 @@ const App = {
         let activeModule = this.getActiveModule();
 
         // --- NEW: Global Module Overrides ---
+        if (viewId === 'moments') {
+            if (targetView) {
+                targetView.style.display = 'block';
+                targetView.innerHTML = `
+                    <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 800px; margin: 0 auto; box-sizing: border-box; width: 100%;">
+                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; letter-spacing: -0.05em; margin-bottom: 30px; font-family: 'Plus Jakarta Sans', sans-serif;">
+                            💬 Flux Territorial
+                        </h2>
+                        <div id="dtc-moments-feed-mount"></div>
+                    </div>
+                `;
+                if (window.MomentsModule) {
+                    window.MomentsModule.renderFeed('dtc-moments-feed-mount');
+                }
+            }
+            const feedWrapper = document.getElementById('moments-feed-wrapper');
+            if (feedWrapper) feedWrapper.style.display = 'none';
+            return;
+        }
+
         if (viewId === 'webinars' && window.WebinarModule) {
             activeModule = window.WebinarModule;
         }
