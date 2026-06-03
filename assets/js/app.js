@@ -142,8 +142,9 @@ const App = {
                 targetView.style.display = 'block';
                 targetView.innerHTML = `
                     <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 800px; margin: 0 auto; box-sizing: border-box; width: 100%;">
-                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; letter-spacing: -0.05em; margin-bottom: 30px; font-family: 'Plus Jakarta Sans', sans-serif;">
-                            💬 Flux Territorial
+                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; letter-spacing: -0.05em; margin-bottom: 30px; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; align-items: center; gap: 12px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="vertical-align: middle;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Flux Territorial
                         </h2>
                         <div id="dtc-moments-feed-mount"></div>
                     </div>

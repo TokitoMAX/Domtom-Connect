@@ -124,33 +124,45 @@ const MomentsModule = {
 
             // 5. Render HTML
             let html = `
-                <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 20px;">
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
                     
                     <!-- QUICK SHARE BAR -->
                     ${currentUser ? `
-                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                            <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
-                                <button onclick="MomentsModule.applyFeedPrompt('tip')" style="background: #f1f5f9; color: #475569; border: none; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px;">💡 Astuce</button>
-                                <button onclick="MomentsModule.applyFeedPrompt('kudos')" style="background: #fdf2f8; color: #db2777; border: none; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px;">❤️ Recommandation</button>
-                                <button onclick="MomentsModule.applyFeedPrompt('photo')" style="background: #ecfdf5; color: #059669; border: none; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 4px;">📸 Photo / Vidéo</button>
-                                <button onclick="MomentsModule.applyFeedPrompt('clear')" style="background: #f8fafc; color: #94a3b8; border: 1px dashed #e2e8f0; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">🧹 Effacer</button>
+                        <div style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);">
+                            <div style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
+                                <button onclick="MomentsModule.applyFeedPrompt('tip')" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18h6m-3-15a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-2.26C7.19 13.47 6 11.38 6 9a7 7 0 0 1 7-7z"/></svg>
+                                    Astuce
+                                </button>
+                                <button onclick="MomentsModule.applyFeedPrompt('kudos')" style="background: #fff5f5; color: #e11d48; border: 1px solid rgba(225, 29, 72, 0.15); padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    Recommandation
+                                </button>
+                                <button onclick="MomentsModule.applyFeedPrompt('photo')" style="background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.15); padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    Photo / Vidéo
+                                </button>
+                                <button onclick="MomentsModule.applyFeedPrompt('clear')" style="background: #f8fafc; color: #94a3b8; border: 1px dashed #cbd5e1; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    Effacer
+                                </button>
                             </div>
-                            <div style="display: flex; gap: 12px; align-items: flex-start;">
-                                <div style="width: 40px; height: 40px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; flex-shrink: 0;">
+                            <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                <div style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; flex-shrink: 0; border: 1.5px solid rgba(0,0,0,0.05);">
                                     ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
                                 </div>
                                 <div style="flex: 1;">
-                                    <textarea id="feed-status-input" placeholder="Partager une astuce locale, un besoin de compétences, ou une actu..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 0.95rem; color: #0f172a; padding-top: 8px;"></textarea>
+                                    <textarea id="feed-status-input" placeholder="Partager une astuce locale, un besoin de compétences, ou une actu..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 0.98rem; color: #0f172a; padding-top: 8px; line-height: 1.5; font-weight: 500;"></textarea>
                                     
-                                    <div style="display: flex; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 8px; align-items: center; gap: 12px;">
+                                    <div style="display: flex; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 12px; align-items: center; gap: 16px;">
                                         <!-- File Attachment Button -->
-                                        <button onclick="document.getElementById('post-file-input').click()" style="background: none; border: none; color: #64748b; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 6px; border-radius: 8px; transition: background 0.2s;" title="Ajouter une photo ou vidéo">
-                                            📸
+                                        <button onclick="document.getElementById('post-file-input').click()" style="background: none; border: none; color: #64748b; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 8px; border-radius: 10px; transition: background 0.2s;" title="Ajouter une photo ou vidéo">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b;"><path d="M21 21H3V3h18v18zM21 16l-5-5-5 5M12 11l-3-3-4 4"/></svg>
                                         </button>
                                         <input type="file" id="post-file-input" style="display:none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
                                         <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-
-                                        <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" style="background: #0f172a; color: white; border: none; padding: 8px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: opacity 0.2s; margin-left: auto;">
+ 
+                                        <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" style="background: #0f172a; color: white; border: none; padding: 10px 24px; border-radius: 12px; font-weight: 800; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; margin-left: auto; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);" onmouseover="this.style.background='#10b981'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.2)';" onmouseout="this.style.background='#0f172a'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)';">
                                             Publier
                                         </button>
                                     </div>
@@ -158,21 +170,21 @@ const MomentsModule = {
                             </div>
                         </div>
                     ` : ''}
-
+ 
                     <!-- FEED ITEMS -->
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
                         ${feedItems.length === 0 ? `
-                            <div style="text-align: center; padding: 40px; color: #94a3b8; background: white; border: 1px solid #e2e8f0; border-radius: 20px;">
+                            <div style="text-align: center; padding: 60px 40px; color: #94a3b8; background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; font-weight: 700; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.02);">
                                 Aucun message dans le flux territorial pour le moment. Soyez le premier à publier !
                             </div>
                         ` : feedItems.map(item => this.renderFeedItemHTML(item, currentUser, containerId)).join('')}
                     </div>
-
+ 
                 </div>
             `;
-
+ 
             container.innerHTML = html;
-
+ 
         } catch (err) {
             console.error("[MomentsModule] Load Error:", err);
             container.innerHTML = `
@@ -182,153 +194,172 @@ const MomentsModule = {
             `;
         }
     },
-
+ 
     renderFeedItemHTML: function(item, currentUser, containerId) {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
-
+ 
         // Badge styling based on role
         let roleBadge = '';
         if (item.authorRole === 'prestataire') {
-            roleBadge = '<span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">Expert</span>';
+            roleBadge = '<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Expert</span>';
         } else if (item.authorRole === 'entreprise') {
-            roleBadge = '<span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">Entreprise</span>';
+            roleBadge = '<span style="background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.2); color: #2563eb; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Entreprise</span>';
         } else if (item.authorRole === 'porteur-projet') {
-            roleBadge = '<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">Créateur</span>';
+            roleBadge = '<span style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Créateur</span>';
         } else {
-            roleBadge = '<span style="background: rgba(100, 116, 139, 0.1); color: #64748b; padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">Citoyen</span>';
+            roleBadge = '<span style="background: rgba(100, 116, 139, 0.06); border: 1px solid rgba(100, 116, 139, 0.2); color: #475569; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Citoyen</span>';
         }
-
+ 
         // Post card border color
-        let cardBorder = 'border: 1px solid #e2e8f0;';
+        let cardBorder = 'border: 1px solid rgba(0, 0, 0, 0.05);';
         if (item.type === 'project') {
-            cardBorder = 'border: 1px solid rgba(245, 158, 11, 0.3); background: linear-gradient(180deg, rgba(245, 158, 11, 0.01), white);';
+            cardBorder = 'border: 1px solid rgba(245, 158, 11, 0.25); background: linear-gradient(180deg, rgba(245, 158, 11, 0.005) 0%, white 100%);';
         } else if (item.type === 'service') {
-            cardBorder = 'border: 1px solid rgba(16, 185, 129, 0.3); background: linear-gradient(180deg, rgba(16, 185, 129, 0.01), white);';
+            cardBorder = 'border: 1px solid rgba(16, 185, 129, 0.25); background: linear-gradient(180deg, rgba(16, 185, 129, 0.005) 0%, white 100%);';
         }
-
+ 
         // Render Media if present
         let mediaHtml = '';
         if (item.imageUrl) {
             const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
             if (isVideo) {
                 mediaHtml = `
-                    <div style="margin-top: 10px; border-radius: 12px; overflow: hidden; background: black; max-height: 360px; display: flex; justify-content: center;">
-                        <video src="${item.imageUrl}" controls style="max-height: 360px; max-width: 100%; object-fit: contain;"></video>
+                    <div style="margin-top: 14px; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 30px -5px rgba(0,0,0,0.08); max-height: 480px; display: flex; justify-content: center;">
+                        <video src="${item.imageUrl}" controls style="max-height: 480px; max-width: 100%; object-fit: contain;"></video>
                     </div>
                 `;
             } else {
                 mediaHtml = `
-                    <div style="margin-top: 10px; border-radius: 12px; overflow: hidden; max-height: 360px; display: flex; justify-content: center; background: #f8fafc;">
-                        <img src="${item.imageUrl}" style="max-height: 360px; max-width: 100%; object-fit: cover; border-radius: 12px;" onclick="window.open('${item.imageUrl}', '_blank')">
+                    <div style="margin-top: 14px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 30px -5px rgba(0,0,0,0.08); max-height: 480px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="window.open('${item.imageUrl}', '_blank')">
+                        <img src="${item.imageUrl}" style="max-height: 480px; max-width: 100%; object-fit: contain;">
                     </div>
                 `;
             }
         }
-
+ 
         // Likes & Comments Count
         const postLikes = this.likes[item.id] || [];
         const likesCount = postLikes.length;
         const hasLiked = currentUser && postLikes.includes(currentUser.id);
-
+ 
         const postComments = this.comments[item.id] || [];
         const commentsCount = postComments.length;
-
+ 
         // Render Comments List
         const commentsListHtml = postComments.length === 0
-            ? `<p style="font-size:0.8rem; color:#94a3b8; font-style:italic; margin:0; padding: 4px 0;">Aucun commentaire. Lancez la discussion !</p>`
+            ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Aucune réponse pour le moment.</p>`
             : postComments.map(c => {
                 const cProfile = c.profiles || {};
                 const initials = (cProfile.full_name || '👤').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 return `
-                    <div style="display: flex; gap: 8px; align-items: flex-start; background: #f8fafc; padding: 8px 12px; border-radius: 12px; margin-bottom: 6px;">
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background: #0f172a; color: white; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start; background: #f8fafc; padding: 12px 16px; border-radius: 16px; margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.02);">
+                        <div style="width: 28px; height: 28px; border-radius: 8px; background: #0f172a; color: white; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
                             ${cProfile.avatar_url ? `<img src="${cProfile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : initials}
                         </div>
                         <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
-                                <span style="font-size: 0.7rem; color: #94a3b8;">${this.getRelativeTime(new Date(c.created_at))}</span>
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                <span style="font-weight: 800; font-size: 0.85rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
+                                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
                             </div>
-                            <p style="margin: 2px 0 0 0; font-size: 0.82rem; color: #334155; line-height: 1.4;">${c.content}</p>
+                            <p style="margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.45; font-weight: 500;">${c.content}</p>
                         </div>
                     </div>
                 `;
             }).join('');
-
+ 
         return `
-            <div style="background: white; ${cardBorder} border-radius: 20px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.01); display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: white; ${cardBorder} border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); display: flex; flex-direction: column; gap: 16px;">
                 
                 <!-- HEADER -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <div style="width: 38px; height: 38px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; overflow: hidden;">
+                    <div style="display: flex; gap: 14px; align-items: center;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0;">
                             ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
                         </div>
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${item.authorName}</span>
+                                <span style="font-weight: 800; font-size: 0.98rem; color: #0f172a; letter-spacing:-0.01em;">${item.authorName}</span>
                                 ${roleBadge}
                             </div>
-                            <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 2px;">
+                            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600; margin-top: 2px;">
                                 ${item.authorTerritory} • ${relativeTime}
                             </div>
                         </div>
                     </div>
                     
                     ${item.meta ? `
-                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 800; font-size: 0.75rem; padding: 6px 12px; border-radius: 100px;">
+                        <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.25); color: #059669; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
                             ${item.meta}
                         </div>
                     ` : ''}
                 </div>
-
+ 
                 <!-- CONTENT -->
-                <div style="color: #334155; font-size: 0.92rem; line-height: 1.6; font-weight: 500; white-space: pre-line;">
-                    ${item.type === 'service' ? `<div style="font-weight: 800; font-size: 1rem; color: #0f172a; margin-bottom: 6px;">💼 Service : ${item.title}</div>` : ''}
-                    ${item.type === 'project' ? `<div style="font-weight: 800; font-size: 1rem; color: #0f172a; margin-bottom: 6px;">🚀 Projet : ${item.title}</div>` : ''}
+                <div style="color: #334155; font-size: 0.96rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
+                    ${item.type === 'service' ? `
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #10b981; flex-shrink: 0;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <div>
+                                <div style="font-size: 0.7rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Service proposé</div>
+                                <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a;">${item.title}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${item.type === 'project' ? `
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fffdf5; border-radius: 16px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 12px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #f59e0b; flex-shrink: 0;"><polygon points="12 2 2 22 22 22"/></svg>
+                            <div>
+                                <div style="font-size: 0.7rem; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.05em;">Nouveau Projet</div>
+                                <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a;">${item.title}</div>
+                            </div>
+                        </div>
+                    ` : ''}
                     ${item.content}
                 </div>
-
+ 
                 <!-- MEDIA -->
                 ${mediaHtml}
-
+ 
                 <!-- ACTIONS & ENGAGEMENT -->
-                <div style="display: flex; gap: 16px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 4px; flex-wrap: wrap; align-items: center;">
+                <div style="display: flex; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 6px; flex-wrap: wrap; align-items: center;">
                     
                     <!-- LIKE -->
-                    <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" style="background: none; border: none; color: ${hasLiked ? '#10b981' : '#64748b'}; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s;">
-                        <span>👍</span> ${likesCount} ${hasLiked ? 'Aimé' : 'Donner une force'}
+                    <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" style="background: ${hasLiked ? 'rgba(16, 185, 129, 0.08)' : 'transparent'}; border: none; color: ${hasLiked ? '#10b981' : '#64748b'}; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.08)'; this.style.color='#10b981';" onmouseout="if(!${hasLiked}) { this.style.background='transparent'; this.style.color='#64748b'; }">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <span>${likesCount}</span> Donner une force
                     </button>
-
+ 
                     <!-- COMMENTS TOGGLE -->
-                    <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" style="background: none; border: none; color: #64748b; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s;">
-                        <span>💬</span> ${commentsCount} Commentaires
+                    <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" style="background: transparent; border: none; color: #64748b; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'; this.style.color='#0f172a';" onmouseout="this.style.background='transparent'; this.style.color='#64748b';">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span>${commentsCount}</span> Commentaires
                     </button>
-
+ 
                     <!-- DIRECT CHAT -->
                     ${!isSelf && currentUser ? `
-                        <button onclick="window.location.hash = '#messages?with=${item.userId}'" style="background: none; border: none; color: #0f172a; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s; margin-left: auto;">
-                            <span>✉️</span> Discuter en direct
+                        <button onclick="window.location.hash = '#messages?with=${item.userId}'" style="background: transparent; border: none; color: #0f172a; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; transition: all 0.2s; margin-left: auto;" onmouseover="this.style.background='#f8fafc';" onmouseout="this.style.background='transparent';">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            Discuter en direct
                         </button>
                     ` : ''}
                 </div>
-
+ 
                 <!-- COMMENTS PANEL -->
-                <div id="comments-section-${item.id}" style="display: none; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 4px;">
-                    <div id="comments-list-${item.id}" style="max-height: 240px; overflow-y: auto; margin-bottom: 12px;">
+                <div id="comments-section-${item.id}" style="display: none; border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 6px;">
+                    <div id="comments-list-${item.id}" style="max-height: 280px; overflow-y: auto; margin-bottom: 16px; padding-right: 4px;">
                         ${commentsListHtml}
                     </div>
                     ${currentUser ? `
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="text" id="comment-input-${item.id}" placeholder="Ajouter une réponse ou un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 12px; font-size: 0.85rem; outline: none; font-family: inherit;">
-                            <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" style="background: #10b981; color: white; border: none; padding: 8px 14px; border-radius: 10px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <input type="text" id="comment-input-${item.id}" placeholder="Ajouter une réponse ou un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 16px; font-size: 0.88rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981';" onblur="this.style.borderColor='#e2e8f0';">
+                            <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);" onmouseover="this.style.background='#059669';" onmouseout="this.style.background='#10b981';">
                                 Envoyer
                             </button>
                         </div>
                     ` : ''}
                 </div>
-
+ 
             </div>
         `;
     },
