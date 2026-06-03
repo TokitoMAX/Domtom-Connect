@@ -32,7 +32,7 @@ const MomentsModule = {
             // 1. Fetch Flash status & Services (from showcase_items)
             const { data: rawShowcase, error: errShowcase } = await db
                 .from('showcase_items')
-                .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, expertise, company_name)')
+                .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name)')
                 .order('created_at', { ascending: false })
                 .limit(40);
 
@@ -41,7 +41,7 @@ const MomentsModule = {
             // 2. Fetch Projects
             const { data: rawProjects, error: errProjects } = await db
                 .from('projects')
-                .select('*, profiles:owner_id(full_name, avatar_url, role, territory, title, expertise, company_name)')
+                .select('*, profiles:owner_id(full_name, avatar_url, role, territory, title, company_name)')
                 .order('created_at', { ascending: false })
                 .limit(20);
 
