@@ -167,60 +167,121 @@ const App = {
             }
             targetView.style.display = 'block';
             targetView.innerHTML = `
-                <div style="display:flex; flex-direction:column; height:calc(100vh - 80px); max-height:800px; max-width:1000px; margin:0 auto; background:#e5ddd5; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1); border:1px solid #e2e8f0; font-family:'Inter', sans-serif;">
-                    <!-- HEADER -->
-                    <div style="display:flex; align-items:center; padding:16px 24px; background:#10b981; color:white; flex-shrink:0; position:relative; z-index:2; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-                        <div style="width:48px; height:48px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-right:16px; flex-shrink:0;">👑</div>
-                        <div style="flex:1;">
-                            <h2 style="margin:0; font-size:1.2rem; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif;">Salon Mastermind DTC</h2>
-                            <p style="margin:0; font-size:0.85rem; opacity:0.9;">147 Membres • <span style="display:inline-block; width:8px; height:8px; background:#86efac; border-radius:50%; margin-right:4px;"></span>12 en ligne</p>
+                <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:100%; background:#fff; overflow:hidden; font-family:'Inter', sans-serif; box-shadow:0 -1px 10px rgba(0,0,0,0.05);">
+                    
+                    <!-- LEFT SIDEBAR -->
+                    <div style="width:30%; min-width:320px; max-width:420px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; background:#fff; z-index:5;">
+                        <!-- Sidebar Header -->
+                        <div style="padding:16px; background:#f0f2f5; display:flex; align-items:center; gap:16px; border-bottom:1px solid #e2e8f0;">
+                            <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 2px 5px rgba(0,0,0,0.1);">👑</div>
+                            <div style="font-weight:800; font-size:1.1rem; color:#111b21; font-family:'Plus Jakarta Sans', sans-serif;">Club Mastermind</div>
+                            <div style="margin-left:auto; display:flex; gap:20px; color:#54656f; font-size:1.2rem;">
+                                <i class="fas fa-users" style="cursor:pointer;"></i>
+                                <i class="fas fa-comment-dots" style="cursor:pointer;"></i>
+                                <i class="fas fa-ellipsis-v" style="cursor:pointer;"></i>
+                            </div>
                         </div>
-                        <div>
-                            <button style="background:rgba(255,255,255,0.2); border:none; width:40px; height:40px; border-radius:50%; color:white; cursor:pointer; display:flex; align-items:center; justify-content:center;"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-
-                    <!-- CHAT AREA -->
-                    <div style="flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; background-image:url('https://www.transparenttextures.com/patterns/cubes.png');">
                         
-                        <div style="text-align:center; margin-bottom:16px;">
-                            <span style="background:rgba(255,255,255,0.8); padding:4px 12px; border-radius:10px; font-size:0.75rem; font-weight:600; color:#64748b; box-shadow:0 1px 3px rgba(0,0,0,0.05);">Aujourd'hui</span>
-                        </div>
-
-                        <!-- System message -->
-                        <div style="text-align:center; margin-bottom:16px;">
-                            <span style="background:rgba(255,243,205,0.9); padding:6px 16px; border-radius:10px; font-size:0.8rem; font-weight:600; color:#856404; box-shadow:0 1px 3px rgba(0,0,0,0.05);">Bienvenue dans le Salon Privé. Les échanges sont confidentiels.</span>
-                        </div>
-
-                        <!-- User message -->
-                        <div style="display:flex; flex-direction:column; align-items:flex-start; max-width:75%;">
-                            <span style="font-size:0.75rem; color:#64748b; font-weight:700; margin-left:12px; margin-bottom:4px;">Thomas D. (Martinique)</span>
-                            <div style="background:white; padding:12px 16px; border-radius:0 16px 16px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.1); position:relative;">
-                                <p style="margin:0; font-size:0.95rem; color:#0f172a; line-height:1.5;">Bonjour à tous ! Je cherche un contact sérieux pour de l'import-export vers la Guyane, quelqu'un a des recos ?</p>
-                                <span style="font-size:0.65rem; color:#94a3b8; display:block; text-align:right; margin-top:4px;">10:14</span>
+                        <!-- Sidebar Search -->
+                        <div style="padding:8px 12px; border-bottom:1px solid #e2e8f0; background:#fff;">
+                            <div style="background:#f0f2f5; border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:12px;">
+                                <i class="fas fa-search" style="color:#54656f; font-size:0.9rem;"></i>
+                                <input type="text" placeholder="Rechercher ou démarrer une discussion" style="border:none; background:transparent; outline:none; width:100%; font-size:0.95rem; color:#111b21;">
                             </div>
                         </div>
-
-                        <!-- Reply -->
-                        <div style="display:flex; flex-direction:column; align-items:flex-start; max-width:75%;">
-                            <span style="font-size:0.75rem; color:#64748b; font-weight:700; margin-left:12px; margin-bottom:4px;">Sarah M. (Expert Export)</span>
-                            <div style="background:white; padding:12px 16px; border-radius:0 16px 16px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.1); position:relative;">
-                                <div style="background:#f1f5f9; border-left:3px solid #10b981; padding:6px 10px; border-radius:4px; margin-bottom:8px; font-size:0.8rem; color:#64748b;">
-                                    <b style="color:#10b981;">Thomas D.</b><br>Je cherche un contact sérieux pour de l'import-export...
+                        
+                        <!-- Chat List -->
+                        <div style="flex:1; overflow-y:auto; background:#fff;">
+                            <!-- Active Chat -->
+                            <div style="padding:12px 16px; background:#f0f2f5; cursor:pointer; display:flex; gap:14px; align-items:center;">
+                                <div style="width:48px; height:48px; background:linear-gradient(135deg, #0f172a, #1e293b); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🌐</div>
+                                <div style="flex:1; min-width:0; border-bottom:none;">
+                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+                                        <span style="font-weight:600; font-size:1.05rem; color:#111b21; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Salon Principal DTC</span>
+                                        <span style="font-size:0.75rem; color:#10b981; flex-shrink:0;">10:22</span>
+                                    </div>
+                                    <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sarah M: Salut Thomas, je t'envoie mon contact...</div>
                                 </div>
-                                <p style="margin:0; font-size:0.95rem; color:#0f172a; line-height:1.5;">Salut Thomas, je t'envoie mon contact chez CMA CGM en DM !</p>
-                                <span style="font-size:0.65rem; color:#94a3b8; display:block; text-align:right; margin-top:4px;">10:22</span>
+                            </div>
+                            
+                            <!-- Members Info -->
+                            <div style="padding:12px 16px; cursor:pointer; display:flex; gap:14px; align-items:center; border-top:1px solid #f0f2f5; transition: background 0.2s;">
+                                <div style="width:48px; height:48px; background:#e2e8f0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">👥</div>
+                                <div style="flex:1; min-width:0;">
+                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+                                        <span style="font-weight:600; font-size:1.05rem; color:#111b21;">Membres du Club</span>
+                                    </div>
+                                    <div style="font-size:0.85rem; color:#54656f; display:flex; align-items:center; gap:6px;">
+                                        <span style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block;"></span> 12 En ligne (147 total)
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Current User empty state / active message will go here if hooked to DB -->
                     </div>
 
-                    <!-- INPUT AREA -->
-                    <div style="padding:16px 20px; background:#f0f2f5; display:flex; align-items:center; gap:12px; flex-shrink:0;">
-                        <button style="background:none; border:none; font-size:1.5rem; color:#64748b; cursor:pointer;"><i class="fas fa-paperclip"></i></button>
-                        <input type="text" placeholder="Tapez un message..." style="flex:1; padding:14px 20px; border:none; border-radius:24px; font-size:0.95rem; outline:none; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                        <button style="background:#10b981; border:none; width:48px; height:48px; border-radius:50%; color:white; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(16,185,129,0.3);"><i class="fas fa-paper-plane"></i></button>
+                    <!-- MAIN CHAT AREA -->
+                    <div style="flex:1; display:flex; flex-direction:column; background:#efeae2; position:relative;">
+                        <!-- Top Header -->
+                        <div style="padding:10px 24px; background:#f0f2f5; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e2e8f0; z-index:10;">
+                            <div style="display:flex; align-items:center; gap:16px; cursor:pointer;">
+                                <div style="width:40px; height:40px; background:linear-gradient(135deg, #0f172a, #1e293b); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">🌐</div>
+                                <div>
+                                    <div style="font-weight:600; font-size:1.05rem; color:#111b21;">Salon Principal DTC</div>
+                                    <div style="font-size:0.8rem; color:#54656f;">cliquez ici pour les infos du groupe</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:24px; color:#54656f; font-size:1.2rem;">
+                                <i class="fas fa-video" style="cursor:pointer;"></i>
+                                <i class="fas fa-search" style="cursor:pointer;"></i>
+                                <i class="fas fa-ellipsis-v" style="cursor:pointer;"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Area -->
+                        <div style="flex:1; padding:32px 8%; overflow-y:auto; display:flex; flex-direction:column; gap:8px; background-color: #efeae2; background-image:url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png'); background-blend-mode: overlay; background-size: contain;">
+                            
+                            <!-- Date divider -->
+                            <div style="text-align:center; margin-bottom:16px; margin-top:8px;">
+                                <span style="background:#fff; padding:6px 14px; border-radius:8px; font-size:0.75rem; font-weight:600; color:#54656f; box-shadow:0 1px 1px rgba(11,20,26,0.1);">Aujourd'hui</span>
+                            </div>
+
+                            <!-- Encryption message -->
+                            <div style="text-align:center; margin-bottom:16px;">
+                                <span style="background:#ffeecd; padding:8px 16px; border-radius:8px; font-size:0.75rem; font-weight:600; color:#54656f; box-shadow:0 1px 1px rgba(11,20,26,0.1); display:inline-block;">🔒 Ce salon est privé. Les échanges sont sécurisés et réservés aux membres validés du Club.</span>
+                            </div>
+
+                            <!-- User message -->
+                            <div style="display:flex; justify-content:flex-start; margin-bottom:4px;">
+                                <div style="background:#fff; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:0 8px 8px 8px; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
+                                    <div style="font-size:0.8rem; font-weight:700; color:#0284c7; margin-bottom:4px;">Thomas D. (Martinique)</div>
+                                    <span style="font-size:0.95rem; color:#111b21; line-height:1.4;">Bonjour à tous ! Je cherche un contact sérieux pour de l'import-export vers la Guyane, quelqu'un a des recos ?</span>
+                                    <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">10:14</span>
+                                </div>
+                            </div>
+
+                            <!-- Reply -->
+                            <div style="display:flex; justify-content:flex-start;">
+                                <div style="background:#fff; max-width:65%; min-width:250px; padding:6px 8px 8px 12px; border-radius:0 8px 8px 8px; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
+                                    <div style="font-size:0.8rem; font-weight:700; color:#16a34a; margin-bottom:6px;">Sarah M. (Expert Export)</div>
+                                    <div style="background:#f0f2f5; border-left:4px solid #0284c7; padding:6px 10px; border-radius:4px; margin-bottom:8px; cursor:pointer;">
+                                        <div style="font-size:0.8rem; font-weight:700; color:#0284c7; margin-bottom:2px;">Thomas D. (Martinique)</div>
+                                        <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Je cherche un contact sérieux pour de l'import-export vers la Guyane...</div>
+                                    </div>
+                                    <span style="font-size:0.95rem; color:#111b21; line-height:1.4;">Salut Thomas, je t'envoie mon contact chez CMA CGM en DM !</span>
+                                    <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">10:22</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div style="padding:10px 16px; background:#f0f2f5; display:flex; align-items:center; gap:16px;">
+                            <i class="far fa-smile" style="font-size:1.5rem; color:#54656f; cursor:pointer;"></i>
+                            <i class="fas fa-paperclip" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
+                            <div style="flex:1; background:#fff; border-radius:8px; padding:12px 16px; display:flex; align-items:center; box-shadow:0 1px 1px rgba(0,0,0,0.05);">
+                                <input type="text" placeholder="Taper un message" style="width:100%; border:none; outline:none; font-size:0.95rem; font-family:'Inter', sans-serif; color:#111b21;">
+                            </div>
+                            <i class="fas fa-microphone" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
+                        </div>
                     </div>
                 </div>
             `;
