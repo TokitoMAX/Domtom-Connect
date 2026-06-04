@@ -52,20 +52,20 @@ const StandardModule = {
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                        <!-- WhatsApp/Telegram VIP Link -->
+                        <!-- Canal Privé Telegram -->
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fab fa-telegram-plane"></i></div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Canal Privé Telegram</h3>
                             <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Rejoignez le groupe de discussion instantanée VIP pour échanger avec plus de 150 décideurs.</p>
-                            <a href="https://t.me/+DTC_VIP_Mastermind_Placeholder" target="_blank" style="width: 100%; padding: 14px; background: #0284c7; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">Rejoindre le Groupe</a>
+                            <div style="width: 100%; padding: 14px; background: #f1f5f9; color: #64748b; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">🔗 Lien envoyé par email à l'activation</div>
                         </div>
 
-                        <!-- Jitsi Mastermind Visio Calendar -->
+                        <!-- Sessions Co-développement -->
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: #f0fdf4; color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-video"></i></div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Sessions Co-développement</h3>
                             <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Participez à la prochaine visio mensuelle de co-développement et de résolution de problématiques.</p>
-                            <a href="https://meet.jit.si/DTC-Mastermind-VIP" target="_blank" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">Rejoindre Jitsi (Jeudi 18 Juin à 18h30)</a>
+                            <div style="width: 100%; padding: 14px; background: #f0fdf4; color: #10b981; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">📅 Prochain calendrier en cours de planification</div>
                         </div>
                     </div>
 
