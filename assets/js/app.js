@@ -114,7 +114,7 @@ const App = {
         // 2. Resolve target view and container
         const overview = document.getElementById('overview-view');
         const targetViewId = `${viewId}-view`;
-        const targetView = document.getElementById(targetViewId);
+        let targetView = document.getElementById(targetViewId);
         
         // Role Isolation: Strictly enforce view permissions
         const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
