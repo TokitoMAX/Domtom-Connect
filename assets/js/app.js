@@ -167,7 +167,7 @@ const App = {
             }
             targetView.style.display = 'block';
             targetView.innerHTML = `
-                <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:100%; background:#fff; overflow:hidden; font-family:'Inter', sans-serif; box-shadow:0 -1px 10px rgba(0,0,0,0.05);">
+                <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:calc(100% - 16px); margin-left:16px; background:#fff; overflow:hidden; font-family:'Inter', sans-serif; box-shadow:0 -1px 10px rgba(0,0,0,0.05); border-top-left-radius: 12px;">
                     
                     <!-- LEFT SIDEBAR -->
                     <div style="width:30%; min-width:320px; max-width:420px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; background:#fff; z-index:5;">
@@ -238,39 +238,7 @@ const App = {
                         </div>
                         
                         <!-- Chat Area -->
-                        <div style="flex:1; padding:32px 8%; overflow-y:auto; display:flex; flex-direction:column; gap:8px; background-color: #efeae2; background-image:url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png'); background-blend-mode: overlay; background-size: contain;">
-                            
-                            <!-- Date divider -->
-                            <div style="text-align:center; margin-bottom:16px; margin-top:8px;">
-                                <span style="background:#fff; padding:6px 14px; border-radius:8px; font-size:0.75rem; font-weight:600; color:#54656f; box-shadow:0 1px 1px rgba(11,20,26,0.1);">Aujourd'hui</span>
-                            </div>
-
-                            <!-- Encryption message -->
-                            <div style="text-align:center; margin-bottom:16px;">
-                                <span style="background:#ffeecd; padding:8px 16px; border-radius:8px; font-size:0.75rem; font-weight:600; color:#54656f; box-shadow:0 1px 1px rgba(11,20,26,0.1); display:inline-block;">🔒 Ce salon est privé. Les échanges sont sécurisés et réservés aux membres validés du Club.</span>
-                            </div>
-
-                            <!-- User message -->
-                            <div style="display:flex; justify-content:flex-start; margin-bottom:4px;">
-                                <div style="background:#fff; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:0 8px 8px 8px; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
-                                    <div style="font-size:0.8rem; font-weight:700; color:#0284c7; margin-bottom:4px;">Thomas D. (Martinique)</div>
-                                    <span style="font-size:0.95rem; color:#111b21; line-height:1.4;">Bonjour à tous ! Je cherche un contact sérieux pour de l'import-export vers la Guyane, quelqu'un a des recos ?</span>
-                                    <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">10:14</span>
-                                </div>
-                            </div>
-
-                            <!-- Reply -->
-                            <div style="display:flex; justify-content:flex-start;">
-                                <div style="background:#fff; max-width:65%; min-width:250px; padding:6px 8px 8px 12px; border-radius:0 8px 8px 8px; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
-                                    <div style="font-size:0.8rem; font-weight:700; color:#16a34a; margin-bottom:6px;">Sarah M. (Expert Export)</div>
-                                    <div style="background:#f0f2f5; border-left:4px solid #0284c7; padding:6px 10px; border-radius:4px; margin-bottom:8px; cursor:pointer;">
-                                        <div style="font-size:0.8rem; font-weight:700; color:#0284c7; margin-bottom:2px;">Thomas D. (Martinique)</div>
-                                        <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Je cherche un contact sérieux pour de l'import-export vers la Guyane...</div>
-                                    </div>
-                                    <span style="font-size:0.95rem; color:#111b21; line-height:1.4;">Salut Thomas, je t'envoie mon contact chez CMA CGM en DM !</span>
-                                    <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">10:22</span>
-                                </div>
-                            </div>
+                        <div id="mastermind-chat-thread" style="flex:1; padding:32px 8%; overflow-y:auto; display:flex; flex-direction:column; gap:8px; background-color: #efeae2; background-image:url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png'); background-blend-mode: overlay; background-size: contain;">
                         </div>
 
                         <!-- Input Area -->
@@ -278,13 +246,16 @@ const App = {
                             <i class="far fa-smile" style="font-size:1.5rem; color:#54656f; cursor:pointer;"></i>
                             <i class="fas fa-paperclip" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
                             <div style="flex:1; background:#fff; border-radius:8px; padding:12px 16px; display:flex; align-items:center; box-shadow:0 1px 1px rgba(0,0,0,0.05);">
-                                <input type="text" placeholder="Taper un message" style="width:100%; border:none; outline:none; font-size:0.95rem; font-family:'Inter', sans-serif; color:#111b21;">
+                                <input type="text" id="mastermind-chat-input" placeholder="Taper un message" style="width:100%; border:none; outline:none; font-size:0.95rem; font-family:'Inter', sans-serif; color:#111b21;">
                             </div>
-                            <i class="fas fa-microphone" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
+                            <i id="mastermind-send-btn" class="fas fa-paper-plane" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
                         </div>
                     </div>
                 </div>
             `;
+            if (window.MastermindSalonModule) {
+                window.MastermindSalonModule.init();
+            }
             return;
         }
 
