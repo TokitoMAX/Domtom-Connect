@@ -128,7 +128,12 @@ const StandardModule = {
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Prêt à passer à l'action ?</h3>
                             <p style="color: #64748b; margin: 0; font-size: 0.95rem;">Activez votre profil comme porteur de projet ou expert pour débloquer de nouveaux outils.</p>
                         </div>
-                        <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:16px 28px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert</button>
+                        <div style="display: flex; gap: 12px;">
+                            <button onclick="window.Router.navigate('#mastermind-salon')" style="background: #0f172a; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                👑 Accéder au Salon
+                            </button>
+                            <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:16px 28px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert</button>
+                        </div>
                     </div>
                 </div>
 

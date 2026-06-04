@@ -158,6 +158,75 @@ const App = {
             return;
         }
 
+        if (viewId === 'mastermind-salon') {
+            if (!targetView) {
+                targetView = document.createElement('div');
+                targetView.id = targetViewId;
+                targetView.className = 'view-section';
+                document.getElementById('ecosystem-grid-container').appendChild(targetView);
+            }
+            targetView.style.display = 'block';
+            targetView.innerHTML = `
+                <div style="display:flex; flex-direction:column; height:calc(100vh - 80px); max-height:800px; max-width:1000px; margin:0 auto; background:#e5ddd5; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1); border:1px solid #e2e8f0; font-family:'Inter', sans-serif;">
+                    <!-- HEADER -->
+                    <div style="display:flex; align-items:center; padding:16px 24px; background:#10b981; color:white; flex-shrink:0; position:relative; z-index:2; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+                        <div style="width:48px; height:48px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-right:16px; flex-shrink:0;">👑</div>
+                        <div style="flex:1;">
+                            <h2 style="margin:0; font-size:1.2rem; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif;">Salon Mastermind DTC</h2>
+                            <p style="margin:0; font-size:0.85rem; opacity:0.9;">147 Membres • <span style="display:inline-block; width:8px; height:8px; background:#86efac; border-radius:50%; margin-right:4px;"></span>12 en ligne</p>
+                        </div>
+                        <div>
+                            <button style="background:rgba(255,255,255,0.2); border:none; width:40px; height:40px; border-radius:50%; color:white; cursor:pointer; display:flex; align-items:center; justify-content:center;"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- CHAT AREA -->
+                    <div style="flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; background-image:url('https://www.transparenttextures.com/patterns/cubes.png');">
+                        
+                        <div style="text-align:center; margin-bottom:16px;">
+                            <span style="background:rgba(255,255,255,0.8); padding:4px 12px; border-radius:10px; font-size:0.75rem; font-weight:600; color:#64748b; box-shadow:0 1px 3px rgba(0,0,0,0.05);">Aujourd'hui</span>
+                        </div>
+
+                        <!-- System message -->
+                        <div style="text-align:center; margin-bottom:16px;">
+                            <span style="background:rgba(255,243,205,0.9); padding:6px 16px; border-radius:10px; font-size:0.8rem; font-weight:600; color:#856404; box-shadow:0 1px 3px rgba(0,0,0,0.05);">Bienvenue dans le Salon Privé. Les échanges sont confidentiels.</span>
+                        </div>
+
+                        <!-- User message -->
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; max-width:75%;">
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:700; margin-left:12px; margin-bottom:4px;">Thomas D. (Martinique)</span>
+                            <div style="background:white; padding:12px 16px; border-radius:0 16px 16px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.1); position:relative;">
+                                <p style="margin:0; font-size:0.95rem; color:#0f172a; line-height:1.5;">Bonjour à tous ! Je cherche un contact sérieux pour de l'import-export vers la Guyane, quelqu'un a des recos ?</p>
+                                <span style="font-size:0.65rem; color:#94a3b8; display:block; text-align:right; margin-top:4px;">10:14</span>
+                            </div>
+                        </div>
+
+                        <!-- Reply -->
+                        <div style="display:flex; flex-direction:column; align-items:flex-start; max-width:75%;">
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:700; margin-left:12px; margin-bottom:4px;">Sarah M. (Expert Export)</span>
+                            <div style="background:white; padding:12px 16px; border-radius:0 16px 16px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.1); position:relative;">
+                                <div style="background:#f1f5f9; border-left:3px solid #10b981; padding:6px 10px; border-radius:4px; margin-bottom:8px; font-size:0.8rem; color:#64748b;">
+                                    <b style="color:#10b981;">Thomas D.</b><br>Je cherche un contact sérieux pour de l'import-export...
+                                </div>
+                                <p style="margin:0; font-size:0.95rem; color:#0f172a; line-height:1.5;">Salut Thomas, je t'envoie mon contact chez CMA CGM en DM !</p>
+                                <span style="font-size:0.65rem; color:#94a3b8; display:block; text-align:right; margin-top:4px;">10:22</span>
+                            </div>
+                        </div>
+
+                        <!-- Current User empty state / active message will go here if hooked to DB -->
+                    </div>
+
+                    <!-- INPUT AREA -->
+                    <div style="padding:16px 20px; background:#f0f2f5; display:flex; align-items:center; gap:12px; flex-shrink:0;">
+                        <button style="background:none; border:none; font-size:1.5rem; color:#64748b; cursor:pointer;"><i class="fas fa-paperclip"></i></button>
+                        <input type="text" placeholder="Tapez un message..." style="flex:1; padding:14px 20px; border:none; border-radius:24px; font-size:0.95rem; outline:none; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                        <button style="background:#10b981; border:none; width:48px; height:48px; border-radius:50%; color:white; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(16,185,129,0.3);"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
         if (viewId === 'mastermind') {
             if (targetView) {
                 targetView.style.display = 'block';
@@ -180,7 +249,7 @@ const App = {
                                     <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
                                     <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC 👑</h3>
                                     <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
-                                    <button onclick="window.Router.navigate('#messages?channel=mastermind')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
+                                    <button onclick="window.Router.navigate('#mastermind-salon')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
                                 </div>
 
                                 <!-- Sessions Co-développement -->
