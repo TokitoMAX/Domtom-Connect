@@ -476,6 +476,8 @@ const WebinarModule = {
     },
 
     loadResources: async (webinarId) => {
+        // Not implemented yet
+    },
 
     /**
      * Render a beautiful Waiting Room
