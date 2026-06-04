@@ -175,20 +175,20 @@ const App = {
 
                             <!-- 2. MAIN GRID -->
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                                <!-- Canal Privé Telegram -->
+                                <!-- Salon Mastermind DTC Interne -->
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                                    <div style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fab fa-telegram-plane"></i></div>
-                                    <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Canal Privé Telegram</h3>
-                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Rejoignez le groupe de discussion instantanée VIP pour échanger avec plus de 150 décideurs.</p>
-                                    <div id="dtc-telegram-link-container" style="width: 100%; padding: 14px; background: #f1f5f9; color: #64748b; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">🔗 Lien d'accès envoyé par email à l'activation</div>
+                                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC 👑</h3>
+                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
+                                    <button onclick="window.Router.navigate('#messages?channel=mastermind')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
                                 </div>
 
-                                <!-- Sessions Mastermind Visio -->
+                                <!-- Sessions Co-développement -->
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                     <div style="width: 48px; height: 48px; background: #f0fdf4; color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-video"></i></div>
                                     <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Sessions Co-développement</h3>
-                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Participez à la prochaine visio mensuelle de co-développement et de résolution de problématiques.</p>
-                                    <div id="dtc-next-session-container" style="width: 100%; padding: 14px; background: #f0fdf4; color: #10b981; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">📅 Prochain calendrier en cours de planification</div>
+                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Visios mensuelles de co-développement pour débloquer vos challenges stratégiques et opérationnels.</p>
+                                    <div style="width: 100%; padding: 14px; background: #f0fdf4; color: #10b981; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">📅 Prochain calendrier en cours de planification</div>
                                 </div>
                             </div>
 
@@ -346,23 +346,7 @@ const App = {
                         </div>
                     `).join('');
                 } else {
-                    // Fallback curated mock events
-                    eventsContainer.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                            <div>
-                                <b style="color: #0f172a; font-size: 0.95rem;">Afterwork B2B Networking - Martinique</b>
-                                <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Vendredi 26 Juin 2026 à 19h00 • Fort-de-France</div>
-                            </div>
-                            <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                            <div>
-                                <b style="color: #0f172a; font-size: 0.95rem;">Meetup Co-Working & Cocktails - Guadeloupe</b>
-                                <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Samedi 11 Juillet 2026 à 18h30 • Gosier</div>
-                            </div>
-                            <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                        </div>
-                    `;
+                    eventsContainer.innerHTML = `<div style="text-align:center; padding: 32px 16px; color: #94a3b8;"><div style="font-size:2rem; margin-bottom:12px;">📅</div><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun afterwork programmé pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochains événements physiques seront annoncés ici dès confirmation.</p></div>`;
                 }
             } catch (err) {
                 console.error("Error loading events: ", err);
@@ -390,24 +374,7 @@ const App = {
                         </div>
                     `).join('');
                 } else {
-                    // Fallback curated mock replays
-                    replaysContainer.innerHTML = `
-                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Lever des fonds en Guyane : Guide Complet</b>
-                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h15 • Masterclass Replay</span>
-                        </div>
-                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Optimisation Fiscale Outre-Mer</b>
-                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 48 min • Masterclass Replay</span>
-                        </div>
-                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Pitcher son projet devant des investisseurs</b>
-                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h05 • Masterclass Replay</span>
-                        </div>
-                    `;
+                    replaysContainer.innerHTML = `<div style="text-align:center; padding: 32px 16px; color: #94a3b8; grid-column: 1 / -1;"><div style="font-size:2rem; margin-bottom:12px;">🎥</div><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun replay disponible pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochaines masterclasses seront enregistrées et accessibles ici.</p></div>`;
                 }
             } catch (err) {
                 console.error("Error loading webinars: ", err);

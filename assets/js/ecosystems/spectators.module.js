@@ -75,44 +75,13 @@ const SpectatorsModule = {
                     <!-- MEETUPS AFTERWORKS LIST -->
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                         <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">📅 Afterworks Physiques Locaux (Trimestriels)</h3>
-                        <div style="display: flex; flex-direction: column; gap: 16px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 0.95rem;">Afterwork B2B Networking - Martinique</b>
-                                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Vendredi 26 Juin 2026 à 19h00 • Fort-de-France</div>
-                                </div>
-                                <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 0.95rem;">Meetup Co-Working & Cocktails - Guadeloupe</b>
-                                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Samedi 11 Juillet 2026 à 18h30 • Gosier</div>
-                                </div>
-                                <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                            </div>
-                        </div>
+                        <div style="text-align:center; padding: 32px 16px; color: #94a3b8;"><div style="font-size:2rem; margin-bottom:12px;">📅</div><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun afterwork programmé pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochains événements physiques seront annoncés ici dès confirmation.</p></div>
                     </div>
 
                     <!-- REPLAYS LIBRARY -->
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 32px;">
                         <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">🎥 Bibliothèque de Replays Masterclass VIP</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Lever des fonds en Guyane : Guide Complet</b>
-                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h15 • Masterclass Replay</span>
-                            </div>
-                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Optimisation Fiscale Outre-Mer</b>
-                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 48 min • Masterclass Replay</span>
-                            </div>
-                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Pitcher son projet devant des investisseurs</b>
-                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h05 • Masterclass Replay</span>
-                            </div>
-                        </div>
+                        <div style="text-align:center; padding: 32px 16px; color: #94a3b8; grid-column: 1 / -1;"><div style="font-size:2rem; margin-bottom:12px;">🎥</div><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun replay disponible pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochaines masterclasses seront enregistrées et accessibles ici.</p></div>
                     </div>
                 </div>
             `;
@@ -123,7 +92,7 @@ const SpectatorsModule = {
                     <div style="font-size: 2.5rem; margin-bottom: 16px; display:inline-block;">👑</div>
                     <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.04em;">Rejoindre le Club Mastermind DTC</h2>
                     <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight: 500; max-width: 600px; margin: 0 auto 28px;">
-                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, groupe Telegram privé et replays exclusifs.
+                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, salon privé DTC et replays exclusifs.
                     </p>
                     <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('club', 'expert') : alert('...')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(16,185,129,0.25); transition: transform 0.2s;">
                         <span>💳 Devenir membre pour 29€/mois</span>
