@@ -195,47 +195,21 @@ const App = {
                             <!-- 3. MEETUPS AFTERWORKS LIST -->
                             <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                 <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">📅 Afterworks Physiques Locaux (Trimestriels)</h3>
-                                <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                                        <div>
-                                            <b style="color: #0f172a; font-size: 0.95rem;">Afterwork B2B Networking - Martinique</b>
-                                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Vendredi 26 Juin 2026 à 19h00 • Fort-de-France</div>
-                                        </div>
-                                        <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
-                                        <div>
-                                            <b style="color: #0f172a; font-size: 0.95rem;">Meetup Co-Working & Cocktails - Guadeloupe</b>
-                                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Samedi 11 Juillet 2026 à 18h30 • Gosier</div>
-                                        </div>
-                                        <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
-                                    </div>
+                                <div id="real-afterworks-list" style="display: flex; flex-direction: column; gap: 16px;">
+                                    <div style="text-align: center; padding: 20px; color: #64748b; font-weight: 600;">Chargement des événements...</div>
                                 </div>
                             </div>
 
                             <!-- 4. REPLAYS LIBRARY -->
                             <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                 <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">🎥 Bibliothèque de Replays Masterclass VIP</h3>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-                                    <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                        <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                        <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Lever des fonds en Guyane : Guide Complet</b>
-                                        <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h15 • Masterclass Replay</span>
-                                    </div>
-                                    <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                        <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                        <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Optimisation Fiscale Outre-Mer</b>
-                                        <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 48 min • Masterclass Replay</span>
-                                    </div>
-                                    <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
-                                        <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
-                                        <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Pitcher son projet devant des investisseurs</b>
-                                        <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h05 • Masterclass Replay</span>
-                                    </div>
+                                <div id="real-replays-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+                                    <div style="text-align: center; padding: 20px; color: #64748b; font-weight: 600; grid-column: 1 / -1;">Chargement des replays...</div>
                                 </div>
                             </div>
                         </div>
                     `;
+                    App.loadRealMastermindContent();
                 } else {
                     targetView.innerHTML = `
                         <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 800px; margin: 0 auto; box-sizing: border-box; width: 100%; text-align: center;">
@@ -339,6 +313,105 @@ const App = {
         } else {
             console.error(`[App] Critical: Active module not found for role: ${this.state.role}`);
             if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Module ${this.state.role} introuvable. Veuillez recharger la page.</div>`;
+        }
+    },
+
+    async loadRealMastermindContent() {
+        const eventsContainer = document.getElementById('real-afterworks-list');
+        const replaysContainer = document.getElementById('real-replays-list');
+        if (!eventsContainer && !replaysContainer) return;
+
+        const db = window._supabase;
+        if (!db) return;
+
+        // 1. Load Real Events
+        if (eventsContainer) {
+            try {
+                const { data: events, error: eventsError } = await db
+                    .from('events')
+                    .select('*')
+                    .order('event_date', { ascending: true })
+                    .limit(3);
+
+                if (eventsError) throw eventsError;
+
+                if (events && events.length > 0) {
+                    eventsContainer.innerHTML = events.map(ev => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 0.95rem;">${ev.title}</b>
+                                <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">📍 ${ev.location} • 📅 ${ev.event_date}</div>
+                            </div>
+                            <a href="#billetterie" style="font-size: 0.75rem; text-decoration:none; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">S'inscrire (${ev.price || 0}€)</a>
+                        </div>
+                    `).join('');
+                } else {
+                    // Fallback curated mock events
+                    eventsContainer.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 0.95rem;">Afterwork B2B Networking - Martinique</b>
+                                <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Vendredi 26 Juin 2026 à 19h00 • Fort-de-France</div>
+                            </div>
+                            <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 0.95rem;">Meetup Co-Working & Cocktails - Guadeloupe</b>
+                                <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Samedi 11 Juillet 2026 à 18h30 • Gosier</div>
+                            </div>
+                            <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error("Error loading events: ", err);
+            }
+        }
+
+        // 2. Load Real Finished Webinars (Replays)
+        if (replaysContainer) {
+            try {
+                const { data: webinars, error: webError } = await db
+                    .from('webinars')
+                    .select('*, profiles(full_name)')
+                    .eq('status', 'finished')
+                    .order('scheduled_at', { ascending: false })
+                    .limit(3);
+
+                if (webError) throw webError;
+
+                if (webinars && webinars.length > 0) {
+                    replaysContainer.innerHTML = webinars.map(w => `
+                        <div onclick="window.Router.navigate('#webinars?id=${w.id}')" style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">${w.title}</b>
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Expert: ${w.profiles?.full_name || 'DTC Expert'} • Masterclass Replay</span>
+                        </div>
+                    `).join('');
+                } else {
+                    // Fallback curated mock replays
+                    replaysContainer.innerHTML = `
+                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Lever des fonds en Guyane : Guide Complet</b>
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h15 • Masterclass Replay</span>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Optimisation Fiscale Outre-Mer</b>
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 48 min • Masterclass Replay</span>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                            <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                            <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Pitcher son projet devant des investisseurs</b>
+                            <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h05 • Masterclass Replay</span>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error("Error loading webinars: ", err);
+            }
         }
     },
 
