@@ -163,7 +163,7 @@ const App = {
                 targetView = document.createElement('div');
                 targetView.id = targetViewId;
                 targetView.className = 'view-section';
-                document.getElementById('ecosystem-grid-container').appendChild(targetView);
+                document.querySelector('.content-wrapper').appendChild(targetView);
             }
             targetView.style.display = 'block';
             targetView.innerHTML = `
