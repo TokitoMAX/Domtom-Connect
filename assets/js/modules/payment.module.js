@@ -156,9 +156,21 @@ const PaymentModule = {
         const priceEl = document.getElementById('payment-price-el');
         const benefitsEl = document.getElementById('payment-benefits-el');
 
+        const isClub = this.currentTier === 'club';
         const isEnterprise = this.currentRole === 'entreprise' || this.currentTier === 'growth';
         
-        if (isEnterprise) {
+        if (isClub) {
+            badgeEl.textContent = "VIP MASTERMIND CLUB";
+            titleEl.textContent = "Club Mastermind Cotisation";
+            priceEl.textContent = "29,00";
+            benefitsEl.innerHTML = `
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Cercle d'affaires B2B Élite (Diaspora & Territoires)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès au Groupe VIP Privé Telegram</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Sessions Mastermind mensuelles (Co-développement)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Invitations prioritaires & Afterworks physiques trimestriels</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Accès illimité à la bibliothèque de replays VIP</li>
+            `;
+        } else if (isEnterprise) {
             badgeEl.textContent = "SOLUTIONS BUSINESS";
             titleEl.textContent = "Pack Business Growth";
             priceEl.textContent = "29,00";
@@ -230,7 +242,7 @@ const PaymentModule = {
                 const { data: { session } } = await window._supabase.auth.getSession();
                 
                 // Stripe Price IDs from Dashboard
-                const planId = (this.currentTier === 'growth') 
+                const planId = (this.currentTier === 'club' || this.currentTier === 'growth') 
                     ? 'price_1TSlsZAXxC1DBrN4BFAMApAa' 
                     : 'price_1TSlopAXxC1DBrN47utQYjMH';
 

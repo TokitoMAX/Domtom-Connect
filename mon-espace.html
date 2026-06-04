@@ -148,6 +148,7 @@
                 <div id="messages-view" class="view-section" style="display:none;"></div>
                 <div id="vitrine-view" class="view-section" style="display:none;"></div>
                 <div id="moments-view" class="view-section" style="display:none;"></div>
+                <div id="mastermind-view" class="view-section" style="display:none;"></div>
             </div>
         </main>
     </div>
@@ -330,6 +331,15 @@
                         <input type="number" id="pay-req-amount" class="saas-input" placeholder="0.00" min="5" step="0.01" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; padding-right: 40px;">
                         <span style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-weight: 700; color: #64748b;">€</span>
                     </div>
+                </div>
+                <div class="saas-form-group" style="margin-bottom: 24px;">
+                    <label class="saas-form-label" style="display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Acompte requis (%)</label>
+                    <select id="pay-req-acompte" class="saas-input" style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; background: white; font-weight: 700;">
+                        <option value="100">100% (Paiement Total)</option>
+                        <option value="50">50% d'acompte</option>
+                        <option value="30" selected>30% d'acompte</option>
+                        <option value="10">10% d'acompte</option>
+                    </select>
                 </div>
                 <button type="submit" style="width: 100%; padding: 14px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 900; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15); transition: background 0.2s;">
                     <span>💸 Envoyer la Demande</span>

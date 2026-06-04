@@ -96,6 +96,18 @@ const CompaniesModule = {
                     </div>
                 </div>
 
+                <!-- DIAGNOSTIC CALL CTA -->
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap;">
+                    <div style="max-width: 700px;">
+                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert 🚀</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
+                        <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Bénéficiez de 30 minutes de coaching avec le coordinateur DTC pour structurer votre projet et accélérer votre développement aux Antilles.</p>
+                    </div>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
+                        <span>📅 Réserver mon créneau</span>
+                    </a>
+                </div>
+
                 <!-- CARDS GRID -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
 

@@ -158,6 +158,11 @@
                     <div class="section-title"><i class="fas fa-star"></i> Portfolio & Projets</div>
                     <div class="portfolio-grid" id="p-portfolio-list"></div>
                 </div>
+
+                <div class="profile-card" id="showcase-section" style="display:none;">
+                    <div class="section-title"><i class="fas fa-rocket"></i> Solutions & Offres</div>
+                    <div class="portfolio-grid" id="showcase-list"></div>
+                </div>
             </div>
 
             <aside class="profile-sidebar">
@@ -427,11 +432,44 @@
                 const contactBtn = document.getElementById('contact-link');
                 if (contactBtn) contactBtn.href = `/messages?to=${p.id}`;
 
-                // --- SHOWCASE GUARD: Only show if items exist ---
-                const { count: showcaseCount } = await sb.from('showcase_items').select('*', { count: 'exact', head: true }).eq('user_id', id);
-                if (showcaseCount > 0) {
+                // --- SHOWCASE: Fetch and render showcase items directly at the bottom ---
+                const { data: showcaseItems, error: showcaseError } = await sb
+                    .from('showcase_items')
+                    .select('*')
+                    .eq('user_id', id)
+                    .eq('status', 'active');
+                
+                if (showcaseItems && showcaseItems.length > 0) {
                     const showcaseBlock = document.getElementById('showcase-block');
                     if (showcaseBlock) showcaseBlock.style.display = 'block';
+                    
+                    const showcaseSection = document.getElementById('showcase-section');
+                    const showcaseList = document.getElementById('showcase-list');
+                    if (showcaseSection && showcaseList) {
+                        showcaseSection.style.display = 'block';
+                        showcaseList.innerHTML = showcaseItems.map(item => `
+                            <div class="portfolio-card" style="display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px; background: white; transition: all 0.3s ease;">
+                                <div>
+                                    ${item.image_url ? `
+                                        <div style="width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+                                            <img src="${item.image_url}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                    ` : ''}
+                                    <h4 style="margin: 0; font-size: 1.25rem; color: #0f172a; font-weight: 800;">${item.title}</h4>
+                                    <p style="font-size: 0.95rem; color: #475569; margin: 10px 0 0; line-height: 1.6;">${item.description || ''}</p>
+                                </div>
+                                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between;">
+                                    <div>
+                                        <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: block;">Tarif</span>
+                                        <div style="font-size: 1.35rem; font-weight: 950; color: #10b981;">${item.price_prefix ? `${item.price_prefix} ` : ''}${item.price}€</div>
+                                    </div>
+                                    <button onclick="orderSolution('${item.title.replace(/'/g, "\\'")}', '${item.price}', '${item.user_id}')" style="background: #10b981; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+                                        <span>💼 Commander</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
                 }
 
                 // --- WHATSAPP GUARD: Only show if phone exists ---
@@ -455,6 +493,24 @@
             document.getElementById('p-bio').innerHTML = `<div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.2); padding:24px; border-radius:16px; color:#ef4444; font-weight:700;">
                 <i class="fas fa-exclamation-circle" style="margin-right:12px;"></i> ${msg}
             </div>`;
+        }
+
+        async function orderSolution(title, price, providerId) {
+            try {
+                const sb = window._supabase || (typeof _supabase !== 'undefined' ? _supabase : null);
+                const { data: { session } } = await sb.auth.getSession();
+                if (!session) {
+                    alert("Veuillez vous connecter pour commander cette solution.");
+                    window.location.href = `../login.html?redirect=${encodeURIComponent(window.location.href)}`;
+                    return;
+                }
+                const msgText = `Bonjour, je souhaiterais commander votre solution "${title}" d'un montant de ${price}€. Pouvez-vous m'envoyer un devis ?`;
+                const encoded = encodeURIComponent(msgText);
+                window.location.href = `../messages.html?to=${providerId}&prefill=${encoded}`;
+            } catch (e) {
+                console.error(e);
+                alert("Une erreur est survenue.");
+            }
         }
 
         document.addEventListener('DOMContentLoaded', loadExpertProfile);

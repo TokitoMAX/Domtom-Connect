@@ -56,20 +56,9 @@ const UIComponents = {
         const prefix = this.getPathPrefix();
         const adjust = (p) => this.adjustPath(p, prefix);
 
-        const config = {
-            talents: { label: 'Talents', path: 'marketplace/directory.html', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m12-10a4 4 0 11-8 0 4 4 0 018 0zm6 3l2 2m0 0l2-2m-2 2v-6' },
-            missions: { label: 'Missions', path: 'marketplace/jobs.html', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-            solutions: { label: 'Solutions', path: 'marketplace/solutions.html', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z' },
-            projects: { label: 'Projets', path: 'marketplace/projects.html', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-            events: { label: 'Événements', path: 'marketplace/evenements.html', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-            companies: { label: 'Entreprises', path: 'marketplace/companies.html', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' }
-        };
+        const profile = window.App && window.App.state.profile;
+        const isClubMember = profile && (profile.subscription_tier === 'club' || profile.subscription_tier === 'premium' || profile.subscription_tier === 'authority');
 
-        const isOwner = ['porteur', 'owner', 'admin'].includes(role);
-        const isProfessional = ['expert', 'prestataire', 'entreprise', 'admin'].includes(role);
-        const isSpectator = ['spectateur', 'spectator'].includes(role);
-        const canUseBilletterie = (isOwner || isProfessional || isSpectator);
-        
         let sidebarHtml = `
             <a href="${adjust('index.html')}" class="sidebar-brand">
                 <img src="${adjust('assets/images/logo-domtomconnect.png')}" alt="Logo" class="sidebar-logo-img">
@@ -79,30 +68,16 @@ const UIComponents = {
 
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html'), 'Tableau de Bord', 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#moments'), 'Flux Territorial', 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z');
-
-        // Messagerie Directe
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
-        // Outils Métiers contextuels
-        sidebarHtml += `<div class="sidebar-section-title">Mes Services</div>`;
-        if (isOwner) sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#success-engine'), 'Pilotage Succès', 'M13 10V3L4 14h7v7l9-11h-7z');
-        if (isProfessional) {
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#vitrine'), 'Ma Vitrine', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+        if (isClubMember) {
+            sidebarHtml += `<div class="sidebar-section-title">Espace VIP</div>`;
+            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#mastermind'), 'Club Mastermind', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z');
         }
-        if (canUseBilletterie) {
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#billetterie'), 'Billetterie Événements', 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z');
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#webinars'), 'Masterclasses Live', 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4zM5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z');
-        }
-
-        // Réseau Public (Marketplace & Annuaire)
-        sidebarHtml += `<div class="sidebar-section-title">Marketplace</div>`;
-        sidebarHtml += this.renderSidebarLink(adjust('marketplace/directory.html'), 'Annuaire Talents', 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm7-3a3 3 0 013 3v1M23 21v-2a4 4 0 00-3-3.87');
-        sidebarHtml += this.renderSidebarLink(adjust('marketplace/solutions.html'), 'Solutions Digitales', 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h0a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z');
-        sidebarHtml += this.renderSidebarLink(adjust('marketplace/jobs.html'), 'Offres de Missions', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
-        sidebarHtml += this.renderSidebarLink(adjust('index.html'), 'Retour au Site Public', 'M10 19l-7-7m0 0l7-7m-7 7h18');
 
         sidebarHtml += `<div class="sidebar-section-title">Paramètres</div>`;
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#profile'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
+        sidebarHtml += this.renderSidebarLink(adjust('index.html'), 'Retour au Site Public', 'M10 19l-7-7m0 0l7-7m-7 7h18');
         sidebarHtml += `
             <a href="javascript:void(0)" onclick="signOut()" class="sidebar-link logout-btn">
                 <div class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg></div>

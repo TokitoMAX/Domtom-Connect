@@ -31,7 +31,8 @@ Deno.serve(async (req: Request) => {
       provider_id, 
       buyer_id,
       tier, // For subscriptions: 'authority' or 'growth'
-      plan_id // For subscriptions: Stripe Price ID
+      plan_id, // For subscriptions: Stripe Price ID
+      is_admin_quote
     } = body;
 
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
@@ -40,7 +41,7 @@ Deno.serve(async (req: Request) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    console.log(`[create-checkout] Type: ${type}, Item: ${item_id}, Price: ${item_price}`);
+    console.log(`[create-checkout] Type: ${type}, Item: ${item_id}, Price: ${item_price}, IsAdminQuote: ${is_admin_quote}`);
 
     let sessionConfig: any = {
       payment_method_types: ['card'],
@@ -53,6 +54,7 @@ Deno.serve(async (req: Request) => {
         provider_id: provider_id || '',
         buyer_id: buyer_id || '',
         tier: tier || '',
+        is_admin_quote: is_admin_quote || 'false',
       },
     };
 
@@ -69,7 +71,7 @@ Deno.serve(async (req: Request) => {
       const amount = Math.round(item_price * 100);
       let paymentData: any = {};
 
-      if ((type === 'showcase' || type === 'quote' || type === 'event') && provider_id) {
+      if ((type === 'showcase' || type === 'quote' || type === 'event') && provider_id && is_admin_quote !== 'true') {
         const { data: expert } = await supabaseClient
           .from('profiles')
           .select('stripe_connect_id')

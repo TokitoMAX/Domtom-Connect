@@ -569,8 +569,8 @@ const ShowcaseModule = {
                                 Sécuriser cette offre (${item.price.toFixed(0)}€)
                             </button>
 
-                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}'" class="showcase-action-btn" style="background:#f1f5f9; color:#334155; border:none; padding:18px; border-radius:16px; font-weight:700; cursor:pointer; font-size:1rem;">
-                                Poser une question à ${isCompany ? "l'entreprise" : "l'expert"}
+                            <button onclick="window.location.href='${prefix}messages.html?to=${item.user_id}&prefill=${encodeURIComponent(`Bonjour, je souhaiterais commander votre solution &quot;${item.title}&quot; d\\'un montant de ${item.price}€. Pouvez-vous m\\'envoyer un devis ?`)}'" class="showcase-action-btn" style="background:#f1f5f9; color:#334155; border:none; padding:18px; border-radius:16px; font-weight:700; cursor:pointer; font-size:1rem;">
+                                Poser une question / Commander
                             </button>
                             
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">

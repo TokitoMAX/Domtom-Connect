@@ -15,7 +15,8 @@ const Router = {
         'webinars': 'webinars',
         'vitrine': 'vitrine',
         'messages': 'messages',
-        'moments': 'moments'
+        'moments': 'moments',
+        'mastermind': 'mastermind'
     },
 
     /**

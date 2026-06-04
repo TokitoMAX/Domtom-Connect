@@ -753,7 +753,10 @@ const MessagesModule = {
         if (loader) loader.style.display = 'block';
 
         try {
-            const { data: myConvs, error: errorConvs } = await window._supabase.from('conversation_participants').select('conversation_id').eq('user_id', this.currentUserId);
+            const { data: myConvs, error: errorConvs } = await window._supabase
+                .from('conversation_participants')
+                .select('conversation_id, conversations(title)')
+                .eq('user_id', this.currentUserId);
             if (errorConvs) throw errorConvs;
 
             if (!myConvs || myConvs.length === 0) {
@@ -762,6 +765,13 @@ const MessagesModule = {
             }
 
             const convIds = myConvs.map(c => c.conversation_id);
+            this.cachedConvTitles = {};
+            myConvs.forEach(c => {
+                if (c.conversations && c.conversations.title) {
+                    this.cachedConvTitles[c.conversation_id] = c.conversations.title;
+                }
+            });
+
             const { data: otherParticipants, error: errorOthers } = await window._supabase.from('conversation_participants')
                 .select('conversation_id, user_id')
                 .in('conversation_id', convIds)
@@ -783,12 +793,17 @@ const MessagesModule = {
                 if (!profile) return;
 
                 const convId = participant.conversation_id;
-                const name = profile.full_name || 'Anonyme';
-                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const sasTitle = this.cachedConvTitles[convId];
+                const isSas = sasTitle && sasTitle.startsWith('Sas -');
 
-                const avatar = profile.avatar_url
-                    ? `<img src="${profile.avatar_url}" class="conv-avatar">`
-                    : `<div class="conv-avatar">${initials}</div>`;
+                const name = isSas ? sasTitle : (profile.full_name || 'Anonyme');
+                const initials = isSas ? '💼' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                const avatar = isSas
+                    ? `<div class="conv-avatar" style="background:#eff6ff; color:#3b82f6; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;">💼</div>`
+                    : (profile.avatar_url
+                        ? `<img src="${profile.avatar_url}" class="conv-avatar">`
+                        : `<div class="conv-avatar">${initials}</div>`);
 
                 const isActive = (convId === this.activeConversationId);
 
@@ -797,11 +812,15 @@ const MessagesModule = {
                 item.id = 'conv-item-' + convId;
                 item.onclick = () => this.selectConversation(convId, profile);
 
+                const subtitle = isSas 
+                    ? `<span style="background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:100px; font-size:0.65rem; font-weight:800; text-transform:uppercase;">Sas Pro Actif ⚡️</span>`
+                    : (profile.title || profile.skills || 'Cliquez pour ouvrir');
+
                 item.innerHTML = `
                     ${avatar}
                     <div class="conv-info">
-                        <p class="conv-name">${name}</p>
-                        <p class="conv-preview">${profile.title || profile.skills || 'Cliquez pour ouvrir'}</p>
+                        <p class="conv-name" style="${isSas ? 'font-weight:900; color:#0f172a;' : ''}">${name}</p>
+                        <p class="conv-preview">${subtitle}</p>
                     </div>
                 `;
                 convListEl.appendChild(item);
@@ -841,14 +860,20 @@ const MessagesModule = {
         const layout = document.querySelector('.chat-layout');
         if (layout) layout.classList.add('mobile-chat-active');
 
-        const name = profile.full_name || 'Anonyme';
-        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const sasTitle = this.cachedConvTitles ? this.cachedConvTitles[convId] : null;
+        const isSas = sasTitle && sasTitle.startsWith('Sas -');
+
+        const name = isSas ? sasTitle : (profile.full_name || 'Anonyme');
+        const initials = isSas ? '💼' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         const nameTextEl = document.getElementById('active-name-text');
         if (nameTextEl) nameTextEl.textContent = name;
 
         const avatarEl = document.getElementById('active-avatar');
         if (avatarEl) {
-            if (profile.avatar_url) {
+            if (isSas) {
+                avatarEl.style.background = '#eff6ff';
+                avatarEl.innerHTML = `<span style="font-size:1.2rem; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">💼</span>`;
+            } else if (profile.avatar_url) {
                 avatarEl.style.background = 'transparent';
                 avatarEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
             } else {
@@ -1003,9 +1028,23 @@ const MessagesModule = {
                 const title = parts[0] || 'Demande de paiement';
                 const amount = parts[1] || '0.00';
                 const providerId = parts[2] || '';
-                
+                const acomptePercent = parseInt(parts[3] || '100');
+                const isAdminQuote = parts[4] === 'true';
+
+                const totalVal = parseFloat(amount);
+                const acompteVal = parseFloat(((totalVal * acomptePercent) / 100).toFixed(2));
                 const isMeProvider = (providerId === this.currentUserId);
                 
+                let paymentDetails = '';
+                if (acomptePercent < 100) {
+                    paymentDetails = `
+                        <div style="font-size:0.8rem; color:${isMe ? '#94a3b8' : '#64748b'}; margin-bottom:12px;">
+                            <span>Montant Total : ${totalVal.toLocaleString('fr-FR')} €</span><br>
+                            <span style="font-weight:800; color:#10b981;">Acompte (${acomptePercent}%) : ${acompteVal.toLocaleString('fr-FR')} €</span>
+                        </div>
+                    `;
+                }
+
                 contentBodyHtml = `
                     <div class="payment-request-card" style="background: ${isMe ? '#1e293b' : '#ffffff'}; color: ${isMe ? '#ffffff' : '#0f172a'}; border: 1px solid ${isMe ? '#334155' : '#e2e8f0'}; border-radius: 16px; padding: 16px; margin: 8px 0; max-width: 320px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left;">
                         <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
@@ -1017,14 +1056,16 @@ const MessagesModule = {
                                 <div style="font-weight:700; font-size:0.9rem; margin-top:2px;">${title}</div>
                             </div>
                         </div>
-                        <div style="font-size:1.6rem; font-weight:950; margin-bottom:16px; display:flex; align-items:baseline; gap:4px; color:#10b981;">
-                            ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#94a3b8' : '#64748b'};">€ EUR</span>
-                        </div>
+                        ${paymentDetails ? paymentDetails : `
+                            <div style="font-size:1.6rem; font-weight:950; margin-bottom:16px; display:flex; align-items:baseline; gap:4px; color:#10b981;">
+                                ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#94a3b8' : '#64748b'};">€ EUR</span>
+                            </div>
+                        `}
                         ${isMeProvider ? `
                             <div style="font-size:0.75rem; color:#94a3b8; font-weight:600; text-align:center; padding:8px; border-radius:8px; background:rgba(255,255,255,0.05);">En attente de règlement...</div>
                         ` : `
-                            <button onclick="window.MessagesModule.payRequest('${title.replace(/'/g, "\\'")}', '${amount}', '${providerId}', event)" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
-                                <span>💳 Régler via Stripe</span>
+                            <button onclick="window.MessagesModule.payRequest('${title.replace(/'/g, "\\'")}', '${acompteVal}', '${providerId}', ${isAdminQuote}, event)" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
+                                <span>💳 Régler ${acomptePercent < 100 ? `l'acompte (${acompteVal} €)` : 'via Stripe'}</span>
                             </button>
                         `}
                     </div>
@@ -1348,10 +1389,12 @@ const MessagesModule = {
         e.preventDefault();
         const title = document.getElementById('pay-req-title').value.trim();
         const amount = document.getElementById('pay-req-amount').value.trim();
+        const acompte = document.getElementById('pay-req-acompte')?.value || '100';
         if (!title || !amount) return;
 
         const cleanTitle = title.replace(/:/g, '-');
-        const paymentPayload = `[PAYMENT_REQUEST:${cleanTitle}:${amount}:${this.currentUserId}]`;
+        const isAdmin = (window.App && window.App.state.role === 'admin') ? 'true' : 'false';
+        const paymentPayload = `[PAYMENT_REQUEST:${cleanTitle}:${amount}:${this.currentUserId}:${acompte}:${isAdmin}]`;
         
         this.closePaymentRequestModal();
         
@@ -1362,7 +1405,7 @@ const MessagesModule = {
         }
     },
 
-    payRequest: async function(title, amount, providerId, event) {
+    payRequest: async function(title, amount, providerId, isAdminQuote, event) {
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) {
@@ -1374,8 +1417,7 @@ const MessagesModule = {
                 return;
             }
             
-            const btn = event?.currentTarget;
-            const originalHtml = btn ? btn.innerHTML : '';
+            const btn = event?.currentTarget || (window.event && window.event.currentTarget);
             if (btn) {
                 btn.disabled = true;
                 btn.innerHTML = '<span>Redirection...</span>';
@@ -1392,7 +1434,8 @@ const MessagesModule = {
                     item_title: title,
                     item_price: parseFloat(amount),
                     provider_id: providerId,
-                    buyer_id: session.user.id
+                    buyer_id: session.user.id,
+                    is_admin_quote: isAdminQuote === true || isAdminQuote === 'true' ? 'true' : 'false'
                 }),
             });
 

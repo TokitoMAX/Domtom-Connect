@@ -51,7 +51,9 @@ Deno.serve(async (req) => {
 
     try {
       let commission_rate = 0.05;
-      if (type === 'quote') commission_rate = 0.125;
+      if (type === 'quote') {
+        commission_rate = metadata.is_admin_quote === 'true' ? 0.0 : 0.125;
+      }
       if (type === 'event') commission_rate = 0.15;
       
       const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
@@ -131,6 +133,55 @@ Deno.serve(async (req) => {
           p_net_amount: net_amount,
           p_total_price: total_price,
         });
+
+        // 3. Créer automatiquement le canal "Sas" de discussion projet
+        try {
+          const { data: quoteDoc } = await supabase
+            .from('business_docs')
+            .select('project_title, client_id')
+            .eq('id', item_id)
+            .single();
+
+          if (quoteDoc) {
+            const sasId = crypto.randomUUID();
+            const sasTitle = `Sas - ${quoteDoc.project_title || 'Nouveau Projet'}`;
+            
+            // Create Sas room
+            await supabase
+              .from('conversations')
+              .insert({
+                id: sasId,
+                title: sasTitle,
+                updated_at: new Date().toISOString()
+              });
+
+            // Add participants (provider and client)
+            const participants = [
+              { conversation_id: sasId, user_id: provider_id, lead_status: 'Nouveau' }
+            ];
+            const clientUserId = quoteDoc.client_id || buyer_id;
+            if (clientUserId) {
+              participants.push({ conversation_id: sasId, user_id: clientUserId, lead_status: 'Nouveau' });
+            }
+
+            await supabase
+              .from('conversation_participants')
+              .insert(participants);
+
+            // Send automated welcome message inside Sas
+            await supabase
+              .from('messages')
+              .insert({
+                conversation_id: sasId,
+                sender_id: provider_id,
+                content: `⚡️ [Système] Le règlement de l'acompte de la prestation "${quoteDoc.project_title}" a été validé par Stripe.\n\nBienvenue dans votre Sas de discussion et de pilotage DTC. Cet espace privé réunit le client et le prestataire pour centraliser vos échanges, documents et validations sans passer par des groupes WhatsApp externes.`
+              });
+
+            console.log(`[stripe-webhook] Sas de projet créé avec succès: ${sasId} (${sasTitle})`);
+          }
+        } catch (sasErr) {
+          console.error('[stripe-webhook] Erreur lors de la création du Sas de projet:', sasErr);
+        }
 
       } else if (type === 'event') {
         // 1. Créer le billet

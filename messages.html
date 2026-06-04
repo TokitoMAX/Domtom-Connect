@@ -1792,9 +1792,23 @@
                     const title = parts[0] || 'Demande de paiement';
                     const amount = parts[1] || '0.00';
                     const providerId = parts[2] || '';
-                    
+                    const acomptePercent = parseInt(parts[3] || '100');
+                    const isAdminQuote = parts[4] === 'true';
+
+                    const totalVal = parseFloat(amount);
+                    const acompteVal = parseFloat(((totalVal * acomptePercent) / 100).toFixed(2));
                     const isMeProvider = (providerId === currentUserId);
                     
+                    let paymentDetails = '';
+                    if (acomptePercent < 100) {
+                        paymentDetails = `
+                            <div style="font-size:0.8rem; color:${isMe ? '#94a3b8' : '#64748b'}; margin-bottom:12px;">
+                                <span>Montant Total : ${totalVal.toLocaleString('fr-FR')} €</span><br>
+                                <span style="font-weight:800; color:#10b981;">Acompte (${acomptePercent}%) : ${acompteVal.toLocaleString('fr-FR')} €</span>
+                            </div>
+                        `;
+                    }
+
                     contentBodyHtml = `
                         <div class="payment-request-card" style="background: ${isMe ? '#1e293b' : '#ffffff'}; color: ${isMe ? '#ffffff' : '#0f172a'}; border: 1px solid ${isMe ? '#334155' : '#e2e8f0'}; border-radius: 16px; padding: 16px; margin: 8px 0; max-width: 320px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left;">
                             <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
@@ -1806,14 +1820,16 @@
                                     <div style="font-weight:700; font-size:0.9rem; margin-top:2px;">${title}</div>
                                 </div>
                             </div>
-                            <div style="font-size:1.6rem; font-weight:950; margin-bottom:16px; display:flex; align-items:baseline; gap:4px; color:#10b981;">
-                                ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#94a3b8' : '#64748b'};">€ EUR</span>
-                            </div>
+                            ${paymentDetails ? paymentDetails : `
+                                <div style="font-size:1.6rem; font-weight:950; margin-bottom:16px; display:flex; align-items:baseline; gap:4px; color:#10b981;">
+                                    ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#94a3b8' : '#64748b'};">€ EUR</span>
+                                </div>
+                            `}
                             ${isMeProvider ? `
                                 <div style="font-size:0.75rem; color:#94a3b8; font-weight:600; text-align:center; padding:8px; border-radius:8px; background:rgba(255,255,255,0.05);">En attente de règlement...</div>
                             ` : `
-                                <button onclick="payRequest('${title.replace(/'/g, "\\'")}', '${amount}', '${providerId}')" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
-                                    <span>💳 Régler via Stripe</span>
+                                <button onclick="payRequest('${title.replace(/'/g, "\\'")}', '${acompteVal}', '${providerId}', ${isAdminQuote}, event)" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
+                                    <span>💳 Régler ${acomptePercent < 100 ? `l'acompte (${acompteVal} €)` : 'via Stripe'}</span>
                                 </button>
                             `}
                         </div>
@@ -2145,17 +2161,19 @@
             e.preventDefault();
             const title = document.getElementById('pay-req-title').value.trim();
             const amount = document.getElementById('pay-req-amount').value.trim();
+            const acompte = document.getElementById('pay-req-acompte')?.value || '100';
             if (!title || !amount) return;
 
             // Format check
             const cleanTitle = title.replace(/:/g, '-');
-            const paymentPayload = `[PAYMENT_REQUEST:${cleanTitle}:${amount}:${currentUserId}]`;
+            const isAdmin = (window.App && window.App.state.role === 'admin') ? 'true' : 'false';
+            const paymentPayload = `[PAYMENT_REQUEST:${cleanTitle}:${amount}:${currentUserId}:${acompte}:${isAdmin}]`;
             
             closePaymentRequestModal();
             await sendMessage(paymentPayload);
         }
 
-        async function payRequest(title, amount, providerId) {
+        async function payRequest(title, amount, providerId, isAdminQuote, event) {
             try {
                 const session = await getSession();
                 if (!session) {
@@ -2163,8 +2181,7 @@
                     return;
                 }
                 
-                const btn = event?.currentTarget;
-                const originalHtml = btn ? btn.innerHTML : '';
+                const btn = event?.currentTarget || (window.event && window.event.currentTarget);
                 if (btn) {
                     btn.disabled = true;
                     btn.innerHTML = '<span>Redirection...</span>';
@@ -2177,11 +2194,12 @@
                         'Authorization': `Bearer ${session.access_token || ''}`,
                     },
                     body: JSON.stringify({
-                        type: 'quote', // applies 12.5% fee split
+                        type: 'quote',
                         item_title: title,
                         item_price: parseFloat(amount),
                         provider_id: providerId,
-                        buyer_id: session.user.id
+                        buyer_id: session.user.id,
+                        is_admin_quote: isAdminQuote === true || isAdminQuote === 'true' ? 'true' : 'false'
                     }),
                 });
 
@@ -2240,6 +2258,15 @@
                         <input type="number" id="pay-req-amount" class="saas-input" placeholder="0.00" min="5" step="0.01" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; padding-right: 40px;">
                         <span style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-weight: 700; color: #64748b;">€</span>
                     </div>
+                </div>
+                <div class="saas-form-group" style="margin-bottom: 24px;">
+                    <label class="saas-form-label" style="display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Acompte requis (%)</label>
+                    <select id="pay-req-acompte" class="saas-input" style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.95rem; background: white; font-weight: 700;">
+                        <option value="100">100% (Paiement Total)</option>
+                        <option value="50">50% d'acompte</option>
+                        <option value="30" selected>30% d'acompte</option>
+                        <option value="10">10% d'acompte</option>
+                    </select>
                 </div>
                 <button type="submit" style="width: 100%; padding: 14px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 900; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15); transition: background 0.2s;">
                     <span>💸 Envoyer la Demande</span>

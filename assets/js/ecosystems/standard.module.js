@@ -37,16 +37,129 @@ const StandardModule = {
      */
     renderDashboard: async (container, profile, session) => {
         if (!container) return;
+
+        const isClubMember = ['club', 'premium', 'authority'].includes((profile.subscription_tier || '').toLowerCase().trim());
+
+        let mastermindContent = '';
+        if (isClubMember) {
+            mastermindContent = `
+                <!-- CLUB MASTERMIND VIP SECTION -->
+                <div style="grid-column: 1 / -1; margin-top: 32px;">
+                    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 24px; padding: clamp(24px, 5vw, 48px); color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 32px;">
+                        <span style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; padding: 6px 14px; border-radius: 99px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block;">Mon Espace VIP 👑</span>
+                        <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 950; margin: 16px 0 8px 0; letter-spacing:-0.04em;">Club Mastermind</h2>
+                        <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight:600; margin: 0;">Votre espace d'intelligence collective & d'affaires des Antilles-Guyane.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                        <!-- WhatsApp/Telegram VIP Link -->
+                        <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                            <div style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fab fa-telegram-plane"></i></div>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Canal Privé Telegram</h3>
+                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Rejoignez le groupe de discussion instantanée VIP pour échanger avec plus de 150 décideurs.</p>
+                            <a href="https://t.me/+DTC_VIP_Mastermind_Placeholder" target="_blank" style="width: 100%; padding: 14px; background: #0284c7; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">Rejoindre le Groupe</a>
+                        </div>
+
+                        <!-- Jitsi Mastermind Visio Calendar -->
+                        <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                            <div style="width: 48px; height: 48px; background: #f0fdf4; color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-video"></i></div>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Sessions Co-développement</h3>
+                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Participez à la prochaine visio mensuelle de co-développement et de résolution de problématiques.</p>
+                            <a href="https://meet.jit.si/DTC-Mastermind-VIP" target="_blank" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">Rejoindre Jitsi (Jeudi 18 Juin à 18h30)</a>
+                        </div>
+                    </div>
+
+                    <!-- MEETUPS AFTERWORKS LIST -->
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                        <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">📅 Afterworks Physiques Locaux (Trimestriels)</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 0.95rem;">Afterwork B2B Networking - Martinique</b>
+                                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Vendredi 26 Juin 2026 à 19h00 • Fort-de-France</div>
+                                </div>
+                                <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 0.95rem;">Meetup Co-Working & Cocktails - Guadeloupe</b>
+                                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Samedi 11 Juillet 2026 à 18h30 • Gosier</div>
+                                </div>
+                                <span style="font-size: 0.75rem; background: #eff6ff; color: #3b82f6; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid rgba(59,130,246,0.15);">M'inscrire gratuitement</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REPLAYS LIBRARY -->
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                        <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">🎥 Bibliothèque de Replays Masterclass VIP</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Lever des fonds en Guyane : Guide Complet</b>
+                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h15 • Masterclass Replay</span>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Optimisation Fiscale Outre-Mer</b>
+                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 48 min • Masterclass Replay</span>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px; padding: 20px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#f1f5f9'">
+                                <div style="width:100%; aspect-ratio:16/9; background:#0f172a; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; margin-bottom:12px;"><i class="fas fa-play"></i></div>
+                                <b style="font-size:0.9rem; color:#0f172a; display:block; line-height:1.4;">Pitcher son projet devant des investisseurs</b>
+                                <span style="font-size:0.75rem; color:#64748b; font-weight:600; display:block; margin-top:6px;">Durée : 1h05 • Masterclass Replay</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            mastermindContent = `
+                <!-- CLUB MASTERMIND UPGRADE TEASER -->
+                <div style="grid-column: 1 / -1; margin-top: 32px; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; color: white; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.15);">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px; display:inline-block;">👑</div>
+                    <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.04em;">Rejoindre le Club Mastermind DTC</h2>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight: 500; max-width: 600px; margin: 0 auto 28px;">
+                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, groupe Telegram privé et replays exclusifs.
+                    </p>
+                    <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('club', 'expert') : alert('...')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(16,185,129,0.25); transition: transform 0.2s;">
+                        <span>💳 Devenir membre pour 29€/mois</span>
+                    </button>
+                </div>
+            `;
+        }
+
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px;">
+                <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px; padding: 40px;">
                     <span class="role-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 800; font-size: 0.75rem;">ESPACE EXPLORATEUR</span>
-                    <h1 style="color: white; margin-top:12px;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
-                    <p style="color: rgba(255,255,255,0.7);">D&eacute;couvrez l'annuaire et commencez votre &eacute;pop&eacute;e.</p>
+                    <h1 style="color: white; margin-top:12px; font-weight: 950; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; margin-top: 8px;">Découvrez l'annuaire et commencez votre épopée territoriale.</p>
                 </div>
-                <div style="display:grid; gap:24px;">
-                    <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:20px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert</button>
+
+                <!-- DIAGNOSTIC CALL CTA -->
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap; width: 100%; box-sizing: border-box;">
+                    <div style="max-width: 700px;">
+                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert 🚀</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
+                        <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Bénéficiez de 30 minutes de coaching avec le coordinateur DTC pour structurer votre projet et accélérer votre développement aux Antilles.</p>
+                    </div>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
+                        <span>📅 Réserver mon créneau</span>
+                    </a>
                 </div>
+
+                <div style="display:grid; gap:24px; width: 100%;">
+                    <div style="background: white; border: 1px solid #e2e8f0; padding: 32px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                        <div>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Prêt à passer à l'action ?</h3>
+                            <p style="color: #64748b; margin: 0; font-size: 0.95rem;">Activez votre profil comme porteur de projet ou expert pour débloquer de nouveaux outils.</p>
+                        </div>
+                        <button onclick="window.Router.navigate('#profile')" class="cta-button primary" style="background:#0f172a; color:white; border-radius:12px; padding:16px 28px; font-weight:850; border:none; cursor:pointer;">Devenir Porteur ou Expert</button>
+                    </div>
+                </div>
+
+                ${mastermindContent}
             </div>
         `;
     },
