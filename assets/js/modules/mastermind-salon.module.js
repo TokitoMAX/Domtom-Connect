@@ -51,14 +51,19 @@ window.MastermindSalonModule = {
         }
     },
 
-    ensureConversationExists: async function(db) {
+        ensureConversationExists: async function(db) {
         // Just try to fetch it, if not, create it
         const { data } = await db.from('conversations').select('id').eq('id', this.conversationId).maybeSingle();
         if (!data) {
-            await db.from('conversations').insert({
+            const res = await db.from('conversations').insert({
                 id: this.conversationId,
-                title: 'Salon Mastermind DTC'
-            }).select().maybeSingle();
+                title: 'Salon Mastermind DTC',
+                updated_at: new Date().toISOString()
+            });
+            if (res.error) {
+                console.error("Mastermind: Error creating conversation:", res.error);
+                return;
+            }
         }
 
         // Add user as participant if not already
@@ -69,11 +74,15 @@ window.MastermindSalonModule = {
             .maybeSingle();
 
         if (!part) {
-            await db.from('conversation_participants').insert({
+            const resPart = await db.from('conversation_participants').insert({
                 conversation_id: this.conversationId,
                 user_id: this.currentProfile.id,
                 lead_status: 'Actif'
             });
+            if (resPart.error) {
+                console.error("Mastermind: Error adding participant:", resPart.error);
+                return;
+            }
         }
     },
 
@@ -145,7 +154,7 @@ window.MastermindSalonModule = {
         container.appendChild(div);
     },
 
-    sendMessage: async function(db, content) {
+        sendMessage: async function(db, content) {
         if (!content || content.trim() === '') return;
         
         const newMsg = {
@@ -154,8 +163,10 @@ window.MastermindSalonModule = {
             content: content.trim()
         };
 
-        const { error } = await db.from('messages').insert([newMsg]);
-        if (error) console.error("Error sending message:", error);
+        const res = await db.from('messages').insert([newMsg]);
+        if (res.error) {
+            console.error("Error sending message:", res.error);
+        }
     },
 
     subscribeRealtime: function(db) {
