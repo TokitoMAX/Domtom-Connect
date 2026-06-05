@@ -4,7 +4,7 @@
  */
 
 window.MastermindSalonModule = {
-    conversationId: 'mastermind_global',
+    conversationId: '11111111-1111-1111-1111-111111111111',
     channel: null,
     currentProfile: null,
     profilesCache: {},
@@ -48,8 +48,7 @@ window.MastermindSalonModule = {
         if (!data) {
             await db.from('conversations').insert({
                 id: this.conversationId,
-                title: 'Salon Mastermind DTC',
-                type: 'group'
+                title: 'Salon Mastermind DTC'
             }).select().maybeSingle();
         }
     },
