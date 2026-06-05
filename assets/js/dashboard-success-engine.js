@@ -82,8 +82,8 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
         // --- 2. RENDU DE LA VUE "L'ÉPOPÉE" (Pilotage Central) ---
         const engineView = document.getElementById('success-engine-view-fixed');
         if (engineView) {
-            const hash = window.location.hash;
-            const isListView = hash === '#success-engine' && !hash.includes('id=');
+            const url = window.location.href;
+            const isListView = url.includes('success-engine') && !url.includes('id=');
             
             if (isListView || forceRenderList || inspectId) {
                 let listHTML = `

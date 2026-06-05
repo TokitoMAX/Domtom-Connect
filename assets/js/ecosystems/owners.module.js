@@ -124,7 +124,7 @@ const OwnersModule = {
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- COMPACT HERO BANNER -->
-                <div class="epic-hero" style="grid-column: 1 / -1; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 15px 35px rgba(0,0,0,0.2); flex-wrap: wrap; gap: 20px;">
+                <div class="epic-hero" style="grid-column: span 12; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 15px 35px rgba(0,0,0,0.2); flex-wrap: wrap; gap: 20px;">
                     <div style="position: relative; z-index: 10; max-width: 600px;">
                         <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2);">Cockpit de Commandement</div>
                         <h1 style="font-size: 2.5rem; font-weight: 950; color: white; margin: 0; letter-spacing: -0.03em; line-height: 1.1;">${project.title || 'Mon Épopée'}</h1>
