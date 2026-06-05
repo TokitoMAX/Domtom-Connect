@@ -20,7 +20,7 @@ window.MastermindSalonModule = {
         await this.ensureConversationExists(db);
 
         // 1.5 Load Members Count
-        await this.loadMembersCount(db);
+        
 
         // 2. Load old messages
         await this.loadMessages(db);
@@ -90,7 +90,7 @@ window.MastermindSalonModule = {
             for (let msg of messages) {
                 await this.appendMessage(db, container, msg);
             }
-            this.updateSidebarLastMessage(db, messages[messages.length - 1]);
+            
         } else {
             const contentEl = document.getElementById('mastermind-last-msg-content');
             if (contentEl) contentEl.textContent = 'Aucun message';
@@ -153,7 +153,7 @@ window.MastermindSalonModule = {
                         this.scrollToBottom(container);
                     });
                 }
-                this.updateSidebarLastMessage(db, payload.new);
+                
             })
             .subscribe();
     },

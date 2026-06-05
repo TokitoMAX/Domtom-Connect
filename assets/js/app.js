@@ -158,6 +158,7 @@ const App = {
             return;
         }
 
+        
         if (viewId === 'mastermind-salon') {
             if (!targetView) {
                 targetView = document.createElement('div');
@@ -167,90 +168,31 @@ const App = {
             }
             targetView.style.display = 'block';
             targetView.innerHTML = `
-                <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:calc(100% - 16px); margin-left:16px; background:#fff; overflow:hidden; font-family:'Inter', sans-serif; box-shadow:0 -1px 10px rgba(0,0,0,0.05); border-top-left-radius: 12px;">
+                <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:100%; max-width: 900px; margin: 0 auto; padding: 24px; box-sizing: border-box; flex-direction:column; font-family:'Inter', sans-serif;">
                     
-                    <!-- LEFT SIDEBAR -->
-                    <div style="width:30%; min-width:320px; max-width:420px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; background:#fff; z-index:5;">
-                        <!-- Sidebar Header -->
-                        <div style="padding:16px; background:#f0f2f5; display:flex; align-items:center; gap:16px; border-bottom:1px solid #e2e8f0;">
-                            <div style="width:40px; height:40px; background:#10b981; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 2px 5px rgba(0,0,0,0.1);">👑</div>
-                            <div style="font-weight:800; font-size:1.1rem; color:#111b21; font-family:'Plus Jakarta Sans', sans-serif;">Club Mastermind</div>
-                            <div style="margin-left:auto; display:flex; gap:20px; color:#54656f; font-size:1.2rem;">
-                                <i class="fas fa-users" style="cursor:pointer;"></i>
-                                <i class="fas fa-comment-dots" style="cursor:pointer;"></i>
-                                <i class="fas fa-ellipsis-v" style="cursor:pointer;"></i>
-                            </div>
-                        </div>
-                        
-                        <!-- Sidebar Search -->
-                        <div style="padding:8px 12px; border-bottom:1px solid #e2e8f0; background:#fff;">
-                            <div style="background:#f0f2f5; border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:12px;">
-                                <i class="fas fa-search" style="color:#54656f; font-size:0.9rem;"></i>
-                                <input type="text" placeholder="Rechercher ou démarrer une discussion" style="border:none; background:transparent; outline:none; width:100%; font-size:0.95rem; color:#111b21;">
-                            </div>
-                        </div>
-                        
-                        <!-- Chat List -->
-                        <div style="flex:1; overflow-y:auto; background:#fff;">
-                            <!-- Active Chat -->
-                            <div style="padding:12px 16px; background:#f0f2f5; cursor:pointer; display:flex; gap:14px; align-items:center;">
-                                <div style="width:48px; height:48px; background:linear-gradient(135deg, #0f172a, #1e293b); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🌐</div>
-                                <div style="flex:1; min-width:0; border-bottom:none;">
-                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
-                                        <span style="font-weight:600; font-size:1.05rem; color:#111b21; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Salon Principal DTC</span>
-                                        <span id="mastermind-last-msg-time" style="font-size:0.75rem; color:#10b981; flex-shrink:0;">...</span>
-                                    </div>
-                                    <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                        <span id="mastermind-last-msg-sender" style="font-weight:600;"></span><span id="mastermind-last-msg-content">Chargement...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Members Info -->
-                            <div style="padding:12px 16px; cursor:pointer; display:flex; gap:14px; align-items:center; border-top:1px solid #f0f2f5; transition: background 0.2s;">
-                                <div style="width:48px; height:48px; background:#e2e8f0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">👥</div>
-                                <div style="flex:1; min-width:0;">
-                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
-                                        <span style="font-weight:600; font-size:1.05rem; color:#111b21;">Membres du Club</span>
-                                    </div>
-                                    <div style="font-size:0.85rem; color:#54656f; display:flex; align-items:center; gap:6px;">
-                                        <span style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block;"></span> <span id="mastermind-members-count">Chargement...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MAIN CHAT AREA -->
-                    <div style="flex:1; display:flex; flex-direction:column; background:#efeae2; position:relative;">
+                    <div style="background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; height: 100%; border: 1px solid #e2e8f0;">
                         <!-- Top Header -->
-                        <div style="padding:10px 24px; background:#f0f2f5; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e2e8f0; z-index:10;">
-                            <div style="display:flex; align-items:center; gap:16px; cursor:pointer;">
-                                <div style="width:40px; height:40px; background:linear-gradient(135deg, #0f172a, #1e293b); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">🌐</div>
+                        <div style="padding:16px 24px; background:linear-gradient(135deg, #0f172a, #1e293b); color: white; display:flex; align-items:center; justify-content:space-between; z-index:10;">
+                            <div style="display:flex; align-items:center; gap:16px;">
+                                <div style="width:48px; height:48px; background:rgba(255,255,255,0.1); color:#10b981; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👑</div>
                                 <div>
-                                    <div style="font-weight:600; font-size:1.05rem; color:#111b21;">Salon Principal DTC</div>
-                                    <div style="font-size:0.8rem; color:#54656f;">cliquez ici pour les infos du groupe</div>
+                                    <div style="font-weight:800; font-size:1.2rem; letter-spacing: -0.02em;">Salon de Discussion Privé</div>
+                                    <div style="font-size:0.85rem; color:rgba(255,255,255,0.7); font-weight: 500;">Échanges exclusifs entre membres du Club</div>
                                 </div>
                             </div>
-                            <div style="display:flex; gap:24px; color:#54656f; font-size:1.2rem;">
-                                <i class="fas fa-video" style="cursor:pointer;"></i>
-                                <i class="fas fa-search" style="cursor:pointer;"></i>
-                                <i class="fas fa-ellipsis-v" style="cursor:pointer;"></i>
-                            </div>
+                            <button onclick="window.Router.navigate('#mastermind')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;"><i class="fas fa-arrow-left"></i> Retour</button>
                         </div>
                         
                         <!-- Chat Area -->
-                        <div id="mastermind-chat-thread" style="flex:1; padding:32px 8%; overflow-y:auto; display:flex; flex-direction:column; gap:8px; background-color: #efeae2; background-image:url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png'); background-blend-mode: overlay; background-size: contain;">
+                        <div id="mastermind-chat-thread" style="flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; background-color: #f8fafc;">
                         </div>
 
                         <!-- Input Area -->
-                        <div style="padding:10px 16px; background:#f0f2f5; display:flex; align-items:center; gap:16px;">
-                            <i class="far fa-smile" style="font-size:1.5rem; color:#54656f; cursor:pointer;"></i>
-                            <i class="fas fa-paperclip" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
-                            <div style="flex:1; background:#fff; border-radius:8px; padding:12px 16px; display:flex; align-items:center; box-shadow:0 1px 1px rgba(0,0,0,0.05);">
-                                <input type="text" id="mastermind-chat-input" placeholder="Taper un message" style="width:100%; border:none; outline:none; font-size:0.95rem; font-family:'Inter', sans-serif; color:#111b21;">
+                        <div style="padding:16px 24px; background:white; border-top:1px solid #e2e8f0; display:flex; align-items:center; gap:16px;">
+                            <div style="flex:1; background:#f1f5f9; border-radius:12px; padding:12px 20px; display:flex; align-items:center;">
+                                <input type="text" id="mastermind-chat-input" placeholder="Taper votre message au groupe..." style="width:100%; border:none; outline:none; background:transparent; font-size:1rem; font-family:'Inter', sans-serif; color:#0f172a;">
                             </div>
-                            <i id="mastermind-send-btn" class="fas fa-paper-plane" style="font-size:1.4rem; color:#54656f; cursor:pointer;"></i>
+                            <button id="mastermind-send-btn" style="background:#10b981; color:white; border:none; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; box-shadow: 0 4px 12px rgba(16,185,129,0.3); transition: transform 0.2s;"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
@@ -276,14 +218,15 @@ const App = {
                                 <p style="color: rgba(255,255,255,0.6); font-size: 1.1rem; font-weight:600; margin: 0;">Bienvenue dans votre espace d'intelligence collective & d'affaires des Antilles-Guyane.</p>
                             </div>
 
-                            <!-- 2. MAIN GRID -->
+                            
+                            <!-- 2. MAIN GRID (SIMPLIFIED) -->
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                                <!-- Salon Mastermind DTC Interne -->
+                                <!-- Accès Canal Privé Interne -->
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                     <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
-                                    <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC 👑</h3>
-                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
-                                    <button onclick="window.Router.navigate('#mastermind-salon')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
+                                    <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon de Discussion Privé 👑</h3>
+                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Rejoignez le salon de discussion ultra-privé réservé aux membres pour échanger au quotidien directement sur la plateforme.</p>
+                                    <button onclick="window.Router.navigate('#mastermind-salon')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-sign-in-alt"></i> Accéder au Salon</button>
                                 </div>
 
                                 <!-- Sessions Co-développement -->
@@ -295,15 +238,7 @@ const App = {
                                 </div>
                             </div>
 
-                            <!-- 3. MEETUPS AFTERWORKS LIST -->
-                            <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                                <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">📅 Afterworks Physiques Locaux (Trimestriels)</h3>
-                                <div id="real-afterworks-list" style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="text-align: center; padding: 20px; color: #64748b; font-weight: 600;">Chargement des événements...</div>
-                                </div>
-                            </div>
-
-                            <!-- 4. REPLAYS LIBRARY -->
+                            <!-- 3. REPLAYS LIBRARY -->
                             <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                 <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">🎥 Bibliothèque de Replays Masterclass VIP</h3>
                                 <div id="real-replays-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
