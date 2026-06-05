@@ -9,36 +9,45 @@ window.MastermindSalonModule = {
     currentProfile: null,
     profilesCache: {},
 
-    init: async function() {
-        const db = window._supabase;
-        if (!db) return;
+        init: async function() {
+        console.log("MastermindSalonModule.init() called");
+        try {
+            const db = window._supabase;
+            if (!db) throw new Error("Supabase is missing");
 
-        this.currentProfile = window.App.state.profile;
-        if (!this.currentProfile) return;
+            this.currentProfile = window.App.state.profile;
+            if (!this.currentProfile) throw new Error("Profile is missing");
 
-        // 1. Ensure conversation exists
-        await this.ensureConversationExists(db);
+            console.log("Ensuring conversation exists...");
+            await this.ensureConversationExists(db);
 
-        // 2. Load old messages
-        await this.loadMessages(db);
+            console.log("Loading messages...");
+            await this.loadMessages(db);
 
-        // 3. Subscribe to real-time new messages
-        this.subscribeRealtime(db);
+            console.log("Subscribing realtime...");
+            this.subscribeRealtime(db);
 
-        // 4. Setup Input Listener
-        const input = document.getElementById('mastermind-chat-input');
-        const sendBtn = document.getElementById('mastermind-send-btn');
-        if (input && sendBtn) {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
+            console.log("Setting up listeners...");
+            const input = document.getElementById('mastermind-chat-input');
+            const sendBtn = document.getElementById('mastermind-send-btn');
+            if (input && sendBtn) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage(db, input.value);
+                        input.value = '';
+                    }
+                });
+                sendBtn.addEventListener('click', () => {
                     this.sendMessage(db, input.value);
                     input.value = '';
-                }
-            });
-            sendBtn.addEventListener('click', () => {
-                this.sendMessage(db, input.value);
-                input.value = '';
-            });
+                });
+            } else {
+                throw new Error("Input or SendBtn not found in DOM");
+            }
+            console.log("MastermindSalonModule.init() success");
+        } catch (err) {
+            console.error("MastermindSalonModule ERROR:", err);
+            alert("Erreur Mastermind : " + err.message);
         }
     },
 
@@ -110,13 +119,13 @@ window.MastermindSalonModule = {
         const bgColor = isMe ? '#d9fdd3' : '#fff'; // WhatsApp light green for "me", white for others
         const colorTitle = isMe ? '#10b981' : '#0284c7';
         
-        div.innerHTML = \`
-            <div style="background:\${bgColor}; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:\${isMe ? '8px 0 8px 8px' : '0 8px 8px 8px'}; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
-                \${!isMe ? \`<div style="font-size:0.8rem; font-weight:700; color:\${colorTitle}; margin-bottom:4px;">\${profile.full_name} \${profile.territory ? '('+profile.territory+')' : ''}</div>\` : ''}
-                <span style="font-size:0.95rem; color:#111b21; line-height:1.4; word-break: break-word;">\${msg.content}</span>
-                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">\${timeStr} \${isMe ? '✓' : ''}</span>
+        div.innerHTML = `
+            <div style="background:${bgColor}; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:${isMe ? '8px 0 8px 8px' : '0 8px 8px 8px'}; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
+                ${!isMe ? `<div style="font-size:0.8rem; font-weight:700; color:${colorTitle}; margin-bottom:4px;">${profile.full_name} ${profile.territory ? '('+profile.territory+')' : ''}</div>` : ''}
+                <span style="font-size:0.95rem; color:#111b21; line-height:1.4; word-break: break-word;">${msg.content}</span>
+                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">${timeStr} ${isMe ? '✓' : ''}</span>
             </div>
-        \`;
+        `;
         
         container.appendChild(div);
     },
@@ -138,7 +147,7 @@ window.MastermindSalonModule = {
         if (this.channel) this.channel.unsubscribe();
         
         this.channel = db.channel('mastermind-salon')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: \`conversation_id=eq.\${this.conversationId}\` }, payload => {
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `conversation_id=eq.${this.conversationId}` }, payload => {
                 const container = document.getElementById('mastermind-chat-thread');
                 if (container) {
                     this.appendMessage(db, container, payload.new).then(() => {
