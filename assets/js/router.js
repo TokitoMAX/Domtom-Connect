@@ -128,9 +128,48 @@ const Router = {
 
         console.log(`[Router] Route matched: ${path} (Hash: ${hash}) -> ${viewId}`);
 
+        this.updateSEO(viewId);
+
         if (window.App && window.App.showView) {
             window.App.showView(viewId, false, params);
         }
+    },
+
+    /**
+     * Update SEO Meta Tags dynamically for SPAs
+     */
+    updateSEO(viewId) {
+        const seoMap = {
+            'overview': { title: 'Tableau de bord | Domtom Connect', desc: 'Gérez vos projets, missions et accédez à votre réseau.' },
+            'moments': { title: 'Flux Territorial | Domtom Connect', desc: 'Découvrez les dernières actualités et projets de la communauté.' },
+            'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: 'Trouvez les meilleurs experts et prestataires pour vos projets.' },
+            'showcase': { title: 'Offres & Services | Domtom Connect', desc: 'Explorez nos solutions métiers.' },
+            'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: 'Espace d\\'échange réservé aux membres du Club Mastermind.' },
+            'default': { title: 'Domtom Connect | L\\'Écosystème', desc: 'Le pont entre l\\'ambition territoriale et l\\'expertise mondiale.' }
+        };
+
+        const seo = seoMap[viewId] || seoMap['default'];
+        
+        // Update Title
+        document.title = seo.title;
+        
+        // Update Meta Description
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.name = 'description';
+            document.head.appendChild(metaDesc);
+        }
+        metaDesc.content = seo.desc;
+        
+        // Update OpenGraph Title
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (!ogTitle) {
+            ogTitle = document.createElement('meta');
+            ogTitle.setAttribute('property', 'og:title');
+            document.head.appendChild(ogTitle);
+        }
+        ogTitle.content = seo.title;
     }
 };
 

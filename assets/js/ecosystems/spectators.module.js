@@ -27,7 +27,8 @@ const SpectatorsModule = {
                 break;
             case 'overview':
             default:
-                 SpectatorsModule.renderDashboard(target, profile, session);
+                 // Redirection immédiate vers le Flux Territorial (effet TikTok/Feed-First)
+                 window.Router.navigate('#moments');
                 break;
         }
     },
