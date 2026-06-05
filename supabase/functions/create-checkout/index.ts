@@ -120,7 +120,13 @@ Deno.serve(async (req: Request) => {
 
   } catch (err: any) {
     console.error('[create-checkout] Erreur:', err);
-    return new Response(JSON.stringify({ error: err.message }), {
+    
+    let errorMessage = err.message;
+    if (errorMessage && errorMessage.includes('transfers') && errorMessage.includes('capabilities')) {
+      errorMessage = "Le compte Stripe de ce prestataire n'est pas encore entièrement configuré pour recevoir des paiements. Veuillez le contacter pour qu'il termine sa configuration.";
+    }
+
+    return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
