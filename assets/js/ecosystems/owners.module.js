@@ -67,6 +67,68 @@ const OwnersModule = {
 
         const hasProject = !!project;
 
+        const isClubMember = ['club', 'premium', 'authority'].includes((profile.subscription_tier || '').toLowerCase().trim());
+        let mastermindContent = '';
+        if (isClubMember) {
+            mastermindContent = `
+                <!-- CLUB MASTERMIND VIP SECTION -->
+                <div style="grid-column: 1 / -1; margin-top: 32px;">
+                    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 24px; padding: clamp(24px, 5vw, 48px); color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 32px;">
+                        <span style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; padding: 6px 14px; border-radius: 99px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block;">Mon Espace VIP</span>
+                        <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 950; margin: 16px 0 8px 0; letter-spacing:-0.04em;">Club Mastermind</h2>
+                        <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight:600; margin: 0;">Votre espace d'intelligence collective & d'affaires des Antilles-Guyane.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                        <!-- Salon Mastermind DTC Interne -->
+                        <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC</h3>
+                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
+                            <button onclick="window.Router.navigate('#messages?channel=mastermind')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
+                        </div>
+
+                        <!-- Sessions Co-développement -->
+                        <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                            <div style="width: 48px; height: 48px; background: #f0fdf4; color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-video"></i></div>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Sessions Co-développement</h3>
+                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Visios mensuelles pour débloquer vos challenges stratégiques avec les autres membres du Club.</p>
+                            <div style="width: 100%; padding: 14px; background: #f0fdf4; color: #10b981; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">Prochain calendrier en cours de planification</div>
+                        </div>
+                    </div>
+
+                    <!-- MEETUPS AFTERWORKS LIST -->
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                        <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">Afterworks Physiques Locaux (Trimestriels)</h3>
+                        <div id="std-afterworks-list" style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="text-align:center; padding: 32px 16px; color: #94a3b8;"><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun afterwork programmé pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochains événements physiques seront annoncés ici dès confirmation.</p></div>
+                        </div>
+                    </div>
+
+                    <!-- REPLAYS LIBRARY -->
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                        <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">Bibliothèque de Replays Masterclass VIP</h3>
+                        <div id="std-replays-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+                            <div style="text-align:center; padding: 32px 16px; color: #94a3b8; grid-column: 1 / -1;"><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun replay disponible pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochaines masterclasses seront enregistrées et accessibles ici.</p></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            mastermindContent = `
+                <!-- CLUB MASTERMIND UPGRADE TEASER -->
+                <div style="grid-column: 1 / -1; margin-top: 32px; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; color: white; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.15);">
+                    <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.04em;">Rejoindre le Club Mastermind DTC</h2>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight: 500; max-width: 600px; margin: 0 auto 28px;">
+                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, groupe Telegram privé et replays exclusifs.
+                    </p>
+                    <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('club', 'expert') : alert('...')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(16,185,129,0.25); transition: transform 0.2s;">
+                        <span>Devenir membre pour 29€/mois</span>
+                    </button>
+                </div>
+            `;
+        }
+
         // --- STATE 1: NEW USER (No project) - Streamlined Funnel ---
         if (!hasProject) {
             container.innerHTML = `
@@ -106,6 +168,7 @@ const OwnersModule = {
                             Prendre RDV
                         </a>
                     </div>
+                    ${mastermindContent}
                 </div>
             `;
             return;
@@ -175,6 +238,7 @@ const OwnersModule = {
                         </a>
                     </div>
                 </div>
+                ${mastermindContent}
             </div>
         `;
     },
