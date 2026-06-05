@@ -74,12 +74,12 @@ const ExpertsModule = {
                 <!-- DIAGNOSTIC CALL CTA -->
                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap;">
                     <div style="max-width: 700px;">
-                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert 🚀</div>
+                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert </div>
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
                         <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Bénéficiez de 30 minutes de coaching avec le coordinateur DTC pour structurer votre projet et accélérer votre développement aux Antilles.</p>
                     </div>
                     <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
-                        <span>📅 Réserver mon créneau</span>
+                        <span> Réserver mon créneau</span>
                     </a>
                 </div>
 
@@ -154,20 +154,20 @@ const ExpertsModule = {
                                 <h4 style="font-size: 0.7rem; font-weight: 900; opacity: 0.9; text-transform: uppercase; margin-bottom: 8px;">CONFIGURATION REQUISE</h4>
                                 <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Recevez vos paiements automatiquement</div>
                                 <button id="connect-stripe-btn" style="padding: 12px 20px; background: white; color: #4f46e5; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                                    <span>💳 Activer Stripe Connect</span>
+                                    <span> Activer Stripe Connect</span>
                                 </button>
                             </div>
-                            <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform: rotate(-15deg);">💳</div>
+                            <div style="position:absolute; right:-20px; bottom:-20px; font-size:6rem; opacity:0.1; transform: rotate(-15deg);"></div>
                         ` : (profile.stripe_payouts_enabled ? `
-                            <h4 style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">COMPTE OPÉRATIONNEL ✅</h4>
+                            <h4 style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">COMPTE OPÉRATIONNEL </h4>
                             <div style="font-size: 1.2rem; font-weight: 950; margin-bottom: 16px;">Virements Automatiques Actifs</div>
                             <button onclick="window.open('https://dashboard.stripe.com/', '_blank')" style="padding: 12px 20px; background: #020617; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer;">Accéder à mon Dashboard Stripe</button>
                         ` : `
                             <div style="position:relative; z-index:2;">
-                                <h4 style="font-size: 0.7rem; font-weight: 900; color: #ea580c; text-transform: uppercase; margin-bottom: 8px;">COMPTE LIMITÉ ⚠️</h4>
+                                <h4 style="font-size: 0.7rem; font-weight: 900; color: #ea580c; text-transform: uppercase; margin-bottom: 8px;">COMPTE LIMITÉ ️</h4>
                                 <div style="font-size: 1.1rem; font-weight: 950; margin-bottom: 16px; color: #9a3412;">Informations manquantes sur Stripe</div>
                                 <button id="connect-stripe-btn" style="padding: 12px 20px; background: #ea580c; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                                    <span>🔧 Finaliser la configuration</span>
+                                    <span> Finaliser la configuration</span>
                                 </button>
                             </div>
                         `)}
@@ -191,7 +191,7 @@ const ExpertsModule = {
             if (connectBtn) {
                 connectBtn.onclick = async () => {
                     connectBtn.disabled = true;
-                    connectBtn.innerHTML = '<span>⏳ Préparation...</span>';
+                    connectBtn.innerHTML = '<span> Préparation...</span>';
                     try {
                         const { data: { session } } = await window._supabase.auth.getSession();
                         const response = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-connect-onboarding', {
@@ -207,7 +207,7 @@ const ExpertsModule = {
                     } catch (err) {
                         alert("Erreur: " + err.message);
                         connectBtn.disabled = false;
-                        connectBtn.innerHTML = '<span>💳 Activer Stripe Connect</span>';
+                        connectBtn.innerHTML = '<span> Activer Stripe Connect</span>';
                     }
                 };
             }

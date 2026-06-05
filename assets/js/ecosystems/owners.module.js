@@ -90,7 +90,7 @@ const OwnersModule = {
                         <div style="position: relative; z-index: 10;">
                             <h2 style="font-size: 2rem; font-weight: 950; color: white; margin-bottom: 30px;">Démarrer ma première Épopée</h2>
                             <button onclick="window.Router.navigate('#success-engine')" style="background: #10b981; color: white; border: none; padding: 20px 48px; border-radius: 100px; font-weight: 950; font-size: 1.2rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.3); transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 12px;">
-                                🚀 Lancer le Success Engine
+                                Lancer le Success Engine
                             </button>
                         </div>
                     </div>
@@ -98,13 +98,12 @@ const OwnersModule = {
                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
                         <div style="max-width: 500px;">
                             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                                <span style="font-size: 1.5rem;">🎯</span>
                                 <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Besoin d'aide pour structurer ?</h3>
                             </div>
                             <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500; line-height: 1.5;">Profitez d'un diagnostic stratégique offert de 30 minutes avec notre équipe pour faire le point sur vos objectifs.</p>
                         </div>
                         <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 14px 24px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.2s;">
-                            📅 Prendre RDV
+                            Prendre RDV
                         </a>
                     </div>
                 </div>
@@ -134,7 +133,7 @@ const OwnersModule = {
                     </div>
                     <div style="z-index: 10;">
                         <button onclick="window.Router.navigate('#success-engine')" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 14px 28px; border-radius: 14px; font-weight: 800; font-size: 0.95rem; cursor: pointer; backdrop-filter: blur(10px); transition: background 0.2s;">
-                            ✏️ Éditer le projet
+                            Éditer le projet
                         </button>
                     </div>
                 </div>
@@ -161,19 +160,18 @@ const OwnersModule = {
 
                         <div style="margin-top: 48px; padding-top: 40px; border-top: 1.5px solid #f1f5f9; display: flex; gap: 16px;">
                             <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background: #10b981; color: white; border: none; padding: 20px 40px; border-radius: 20px; font-weight: 950; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 30px rgba(16,185,129,0.25);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(16,185,129,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 30px rgba(16,185,129,0.25)';">
-                                <span>🚀 Continuer le pilotage</span>
+                                <span>Continuer le pilotage</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Right Column: Diagnostic Funnel -->
                     <div style="grid-column: span 4; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 32px; padding: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
-                        <div style="position: absolute; top: -20px; right: -20px; font-size: 10rem; opacity: 0.05;">🎯</div>
                         <div style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1);">Accélération</div>
                         <h3 style="font-size: 1.8rem; font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
                         <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; margin: 0 0 40px 0; font-weight: 500; line-height: 1.6; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis.</p>
                         <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
-                            📅 RDV Stratégique
+                            RDV Stratégique
                         </a>
                     </div>
                 </div>

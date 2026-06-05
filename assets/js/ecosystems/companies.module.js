@@ -99,12 +99,12 @@ const CompaniesModule = {
                 <!-- DIAGNOSTIC CALL CTA -->
                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap;">
                     <div style="max-width: 700px;">
-                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert 🚀</div>
+                        <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert </div>
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
                         <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Bénéficiez de 30 minutes de coaching avec le coordinateur DTC pour structurer votre projet et accélérer votre développement aux Antilles.</p>
                     </div>
                     <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
-                        <span>📅 Réserver mon créneau</span>
+                        <span> Réserver mon créneau</span>
                     </a>
                 </div>
 
@@ -184,7 +184,7 @@ const CompaniesModule = {
                         <div style="display: flex; background: white; border-bottom: 1.5px solid #e2e8f0; flex-wrap: wrap;">
                             <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0f172a; color: #0f172a; min-width: 150px;">FLUX TRANSACTIONS</button>
                             <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">ABONNEMENTS ACTIFS</button>
-                            <button id="admin-view-payouts" onclick="CompaniesModule.switchAdminTab('payouts')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">DEMANDES DE RETRAIT 💰</button>
+                            <button id="admin-view-payouts" onclick="CompaniesModule.switchAdminTab('payouts')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">DEMANDES DE RETRAIT </button>
                         </div>
                         <div id="admin-mkt-table-container">
                             <!-- Content injected by switchAdminTab -->
@@ -194,7 +194,7 @@ const CompaniesModule = {
 
                 <!-- ADMIN NOTICE -->
                 <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 28px; padding: 40px; text-align:center;">
-                    <div style="font-size: 2.5rem; margin-bottom:16px;">👑</div>
+                    <div style="font-size: 2.5rem; margin-bottom:16px;"></div>
                     <h3 style="margin:0; font-weight:950; color:#065f46; font-size:1.5rem;">STATUT PRIVILÉGIÉ ACTIF</h3>
                     <p style="color:#047857; font-weight:600;">Vous avez accès à l'intégralité des fonctions Business & Showcase en tant qu'administrateur.</p>
                 </div>

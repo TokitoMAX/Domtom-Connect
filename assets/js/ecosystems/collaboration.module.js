@@ -1,7 +1,7 @@
 /**
  * Collaboration Module - Domtom Connect
- * Le "Hub …quipe" : Espace de travail partagÈ (V2)
- * Pour une expÈrience type Trello / Slack
+ * Le "Hub ÔøΩquipe" : Espace de travail partagÔøΩ (V2)
+ * Pour une expÔøΩrience type Trello / Slack
  */
 const CollaborationModule = {
     /**
@@ -23,14 +23,14 @@ const CollaborationModule = {
     },
 
     /**
-     * Rendu du Hub …quipe
+     * Rendu du Hub ÔøΩquipe
      */
     renderDashboard: async (container, additional, profile, session) => {
         if (!container) return;
         
         try {
             const db = window._supabase || (typeof window.initSupabase === 'function' ? window.initSupabase() : null);
-            if (!db) throw new Error("Supabase non initialisÈ");
+            if (!db) throw new Error("Supabase non initialisÔøΩ");
 
             const activeBusinessId = window.activeBusinessId || session.user.id;
             const isOwner = activeBusinessId === session.user.id;
@@ -52,7 +52,7 @@ const CollaborationModule = {
                             <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#94a3b8;">Workspace Actif : ${profile.company_name || 'Domtom Connect'}</span>
                         </div>
                         <h1>Espace de Collaboration</h1>
-                        <p>Pilotez vos missions et votre stratÈgie en Èquipe en temps rÈel.</p>
+                        <p>Pilotez vos missions et votre stratÔøΩgie en ÔøΩquipe en temps rÔøΩel.</p>
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@ const CollaborationModule = {
                     <!-- Left: Shared Missions & Tasks -->
                     <div style="grid-column: span 1; display: grid; gap: 32px;">
                         
-                        <!-- BOARD : MISSIONS PARTAG…ES -->
+                        <!-- BOARD : MISSIONS PARTAGÔøΩES -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
                                 <div style="display:flex; align-items:center; gap:10px;">
@@ -72,7 +72,7 @@ const CollaborationModule = {
                             </div>
                             
                             <div id="hub-shared-jobs" style="display: grid; gap: 16px;">
-                                <p style="text-align:center; padding:40px; color:#94a3b8; font-style:italic;">Chargement de la vision partagÈe...</p>
+                                <p style="text-align:center; padding:40px; color:#94a3b8; font-style:italic;">Chargement de la vision partagÔøΩe...</p>
                             </div>
                         </div>
 
@@ -88,7 +88,7 @@ const CollaborationModule = {
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5" /></svg>
                                     </div>
                                     <div>
-                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Le cockpit a ÈtÈ mis ‡ jour.</p>
+                                        <p style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a;">Le cockpit a ÔøΩtÔøΩ mis ÔøΩ jour.</p>
                                         <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; font-weight:600;">Il y a quelques instants</p>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@ const CollaborationModule = {
                                 <input type="email" id="invite-email" placeholder="Email du futur membre" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-size:0.9rem;">
                                 <select id="invite-role" style="width:100%; padding:14px; border-radius:12px; border:1px solid #e2e8f0; font-size:0.9rem; background:white;">
                                     <option value="contributeur">Contributeur</option>
-                                    <option value="expert">Expert AssociÈ</option>
+                                    <option value="expert">Expert AssociÔøΩ</option>
                                     <option value="admin">Administrateur</option>
                                 </select>
                                 <button onclick="window.CollaborationModule.sendTeamInvite()" class="cta-button primary" style="width:100%; padding:14px; border-radius:12px; background:#0f172a; color:white; font-weight:800; border:none; cursor:pointer;">Envoyer l'invitation</button>
@@ -124,7 +124,7 @@ const CollaborationModule = {
 
                         <!-- ONLINE MEMBERS -->
                         <div class="dash-card" style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">…quipe de pilotage</h4>
+                            <h4 style="font-size: 0.8rem; font-weight: 900; margin-bottom: 24px; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">ÔøΩquipe de pilotage</h4>
                             <div id="hub-members-list" style="display: grid; gap: 16px;">
                                 <!-- Will be loaded via loadCollaborators logic -->
                             </div>
@@ -148,8 +148,8 @@ const CollaborationModule = {
                         ${isOwner ? `
                         <!-- ADMIN SHORTCUT -->
                         <div style="background:#fef3c7; border: 1px solid #fde68a; padding:24px; border-radius:16px;">
-                            <p style="margin:0; font-size:0.85rem; color:#b45309; font-weight:700;">Vous Ítes le PropriÈtaire.</p>
-                            <p style="margin:4px 0 0 0; font-size:0.75rem; color:#d97706;">GÈrez les accËs de votre Èquipe dans le cockpit principal.</p>
+                            <p style="margin:0; font-size:0.85rem; color:#b45309; font-weight:700;">Vous ÔøΩtes le PropriÔøΩtaire.</p>
+                            <p style="margin:4px 0 0 0; font-size:0.75rem; color:#d97706;">GÔøΩrez les accÔøΩs de votre ÔøΩquipe dans le cockpit principal.</p>
                         </div>
                         ` : ''}
                     </div>
@@ -173,9 +173,9 @@ const CollaborationModule = {
             console.error("[Collaboration] Render Error:", err);
             container.innerHTML = `
                 <div style="padding:80px; text-align:center; background:#fef2f2; border-radius:24px; border:1px solid #fee2e2;">
-                    <div style="font-size:3rem; margin-bottom:20px;">‚ö†Ô∏è</div>
+                    <div style="font-size:3rem; margin-bottom:20px;">Ô∏è</div>
                     <h3 style="color:#991b1b; font-weight:900; margin-bottom:8px;">Erreur de chargement du Hub</h3>
-                    <p style="color:#b91c1c; font-size:0.9rem; margin-bottom:24px;">Une erreur est survenue lors de la synchronisation de votre ÈcosystËme.</p>
+                    <p style="color:#b91c1c; font-size:0.9rem; margin-bottom:24px;">Une erreur est survenue lors de la synchronisation de votre ÔøΩcosystÔøΩme.</p>
                     <button onclick="window.location.reload()" class="cta-button primary" style="background:#ef4444; border:none; padding:12px 24px;">Actualiser la plateforme</button>
                 </div>
             `;
@@ -191,7 +191,7 @@ const CollaborationModule = {
         if (!email) return alert("Veuillez saisir un email.");
 
         // Visual Feedback (Simulated for UX)
-        alert(`üöÄ Invitation envoyÈe ‡ ${email} en tant que ${role} !`);
+        alert(` Invitation envoyÔøΩe ÔøΩ ${email} en tant que ${role} !`);
         document.getElementById('invite-email').value = '';
     },
 
@@ -203,7 +203,7 @@ const CollaborationModule = {
         
         // Fallback members for professional look if DB is empty
         const members = [
-            { full_name: 'PropriÈtaire (Vous)', role: 'Admin', avatar_url: null },
+            { full_name: 'PropriÔøΩtaire (Vous)', role: 'Admin', avatar_url: null },
             { full_name: 'IA Domtom Connect', role: 'Support & Analyse', avatar_url: null }
         ];
 

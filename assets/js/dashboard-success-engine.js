@@ -40,7 +40,7 @@ function updateSuccessStepper(score, projectId) {
             el.title = `Verrouillé : ${s.hint}`;
             const icon = el.querySelector('.step-status-icon');
             if (icon) {
-                icon.innerHTML = '🔒';
+                icon.innerHTML = '';
                 icon.className = 'step-status-icon status-locked';
             }
         }
@@ -129,7 +129,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
 
                                     <h2 style="font-size: 2.2rem; font-weight:950; color:#0f172a; margin:0 0 16px 0; letter-spacing:-0.05em; line-height:1.2;">${p.title || p.name || 'Sans titre'}</h2>
                                     <div style="font-size:1.1rem; color:#64748b; margin-bottom:48px; font-weight:600; display:flex; align-items:center; gap:10px;">
-                                        <span style="opacity:0.6;">📍</span> ${p.territory || 'Territoire à définir'}
+                                        <span style="opacity:0.6;"></span> ${p.territory || 'Territoire à définir'}
                                     </div>
                                     
                                     <div style="margin-top:auto; padding-top:40px; border-top:1.5px solid #f8fafc;">
@@ -310,7 +310,7 @@ function renderCockpitWithStep(p, step, score) {
                     ` : `
                         <button onclick="saveProjectStep('${p.id}', ${step})" 
                                 class="cta-button primary" style="flex: 2; justify-content: center; background: #10b981; color: white; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 1.1rem; border: none; box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25); cursor: pointer;">
-                                ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE 🚀' : 'Enregistrer & Étape Suivante →'}
+                                ${step === 6 ? 'SOUMETTRE MON ÉPOPÉE ' : 'Enregistrer & Étape Suivante →'}
                         </button>
                     `}
                 </div>
@@ -356,47 +356,47 @@ function renderStepFields(step, p) {
                         <label class="cockpit-field-label">BASSIN TERRITORIAL</label>
                         <select id="territory" class="cockpit-input-premium" style="padding:18px; font-weight:700;">
                             <optgroup label="Antilles & Guyane Françaises">
-                                <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique 🇲🇶</option>
-                                <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe 🇬🇵</option>
-                                <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane Française 🇬🇫</option>
-                                <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin 🇸🇽</option>
-                                <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy 🇧🇱</option>
+                                <option value="Martinique" ${p.territory === 'Martinique' ? 'selected' : ''}>Martinique </option>
+                                <option value="Guadeloupe" ${p.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe </option>
+                                <option value="Guyane" ${p.territory === 'Guyane' ? 'selected' : ''}>Guyane Française </option>
+                                <option value="Saint-Martin" ${p.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin </option>
+                                <option value="Saint-Barthélemy" ${p.territory === 'Saint-Barthélemy' ? 'selected' : ''}>Saint-Barthélemy </option>
                             </optgroup>
                             <optgroup label="Océan Indien">
-                                <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion 🇷🇪</option>
-                                <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte 🇾🇹</option>
+                                <option value="Réunion" ${p.territory === 'Réunion' ? 'selected' : ''}>La Réunion </option>
+                                <option value="Mayotte" ${p.territory === 'Mayotte' ? 'selected' : ''}>Mayotte </option>
                             </optgroup>
                             <optgroup label="Antilles & Caraïbes (International)">
-                                <option value="Anguilla" ${p.territory === 'Anguilla' ? 'selected' : ''}>Anguilla 🇦🇮</option>
-                                <option value="Antigua & Barbuda" ${p.territory === 'Antigua & Barbuda' ? 'selected' : ''}>Antigua & Barbuda 🇦🇬</option>
-                                <option value="Bahamas" ${p.territory === 'Bahamas' ? 'selected' : ''}>Bahamas 🇧🇸</option>
-                                <option value="Barbados" ${p.territory === 'Barbados' ? 'selected' : ''}>Barbados 🇧🇧</option>
-                                <option value="Cuba" ${p.territory === 'Cuba' ? 'selected' : ''}>Cuba 🇨🇺</option>
-                                <option value="Dominican Republic" ${p.territory === 'Dominican Republic' ? 'selected' : ''}>Dominican Republic 🇩🇴</option>
-                                <option value="Dominica" ${p.territory === 'Dominica' ? 'selected' : ''}>Dominica 🇩🇲</option>
-                                <option value="Grenada" ${p.territory === 'Grenada' ? 'selected' : ''}>Grenada 🇬🇩</option>
-                                <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haiti 🇭🇹</option>
-                                <option value="Jamaica" ${p.territory === 'Jamaica' ? 'selected' : ''}>Jamaica 🇯🇲</option>
-                                <option value="Puerto Rico" ${p.territory === 'Puerto Rico' ? 'selected' : ''}>Puerto Rico 🇵🇷</option>
-                                <option value="St. Kitts & Nevis" ${p.territory === 'St. Kitts & Nevis' ? 'selected' : ''}>St. Kitts & Nevis 🇰🇳</option>
-                                <option value="St. Lucia" ${p.territory === 'St. Lucia' ? 'selected' : ''}>St. Lucia 🇱🇨</option>
-                                <option value="St. Vincent & Grenadines" ${p.territory === 'St. Vincent & Grenadines' ? 'selected' : ''}>St. Vincent & Grenadines 🇻🇨</option>
-                                <option value="Trinidad & Tobago" ${p.territory === 'Trinidad & Tobago' ? 'selected' : ''}>Trinidad & Tobago 🇹🇹</option>
-                                <option value="Turks & Caicos" ${p.territory === 'Turks & Caicos' ? 'selected' : ''}>Turks & Caicos 🇹🇨</option>
+                                <option value="Anguilla" ${p.territory === 'Anguilla' ? 'selected' : ''}>Anguilla </option>
+                                <option value="Antigua & Barbuda" ${p.territory === 'Antigua & Barbuda' ? 'selected' : ''}>Antigua & Barbuda </option>
+                                <option value="Bahamas" ${p.territory === 'Bahamas' ? 'selected' : ''}>Bahamas </option>
+                                <option value="Barbados" ${p.territory === 'Barbados' ? 'selected' : ''}>Barbados </option>
+                                <option value="Cuba" ${p.territory === 'Cuba' ? 'selected' : ''}>Cuba </option>
+                                <option value="Dominican Republic" ${p.territory === 'Dominican Republic' ? 'selected' : ''}>Dominican Republic </option>
+                                <option value="Dominica" ${p.territory === 'Dominica' ? 'selected' : ''}>Dominica </option>
+                                <option value="Grenada" ${p.territory === 'Grenada' ? 'selected' : ''}>Grenada </option>
+                                <option value="Haiti" ${p.territory === 'Haiti' ? 'selected' : ''}>Haiti </option>
+                                <option value="Jamaica" ${p.territory === 'Jamaica' ? 'selected' : ''}>Jamaica </option>
+                                <option value="Puerto Rico" ${p.territory === 'Puerto Rico' ? 'selected' : ''}>Puerto Rico </option>
+                                <option value="St. Kitts & Nevis" ${p.territory === 'St. Kitts & Nevis' ? 'selected' : ''}>St. Kitts & Nevis </option>
+                                <option value="St. Lucia" ${p.territory === 'St. Lucia' ? 'selected' : ''}>St. Lucia </option>
+                                <option value="St. Vincent & Grenadines" ${p.territory === 'St. Vincent & Grenadines' ? 'selected' : ''}>St. Vincent & Grenadines </option>
+                                <option value="Trinidad & Tobago" ${p.territory === 'Trinidad & Tobago' ? 'selected' : ''}>Trinidad & Tobago </option>
+                                <option value="Turks & Caicos" ${p.territory === 'Turks & Caicos' ? 'selected' : ''}>Turks & Caicos </option>
                             </optgroup>
                             <optgroup label="Amérique du Nord">
-                                <option value="Canada - Montréal" ${p.territory === 'Canada - Montréal' ? 'selected' : ''}>Montréal, Canada 🇨🇦</option>
-                                <option value="Canada - Québec" ${p.territory === 'Canada - Québec' ? 'selected' : ''}>Québec, Canada 🇨🇦</option>
-                                <option value="Canada - Toronto" ${p.territory === 'Canada - Toronto' ? 'selected' : ''}>Toronto, Canada 🇨🇦</option>
-                                <option value="USA - Miami" ${p.territory === 'USA - Miami' ? 'selected' : ''}>Miami, USA 🇺🇸</option>
-                                <option value="USA - New York" ${p.territory === 'USA - New York' ? 'selected' : ''}>New York, USA 🇺🇸</option>
-                                <option value="USA - Diaspora" ${p.territory === 'USA - Diaspora' ? 'selected' : ''}>USA (Autre), Diaspora 🇺🇸</option>
+                                <option value="Canada - Montréal" ${p.territory === 'Canada - Montréal' ? 'selected' : ''}>Montréal, Canada </option>
+                                <option value="Canada - Québec" ${p.territory === 'Canada - Québec' ? 'selected' : ''}>Québec, Canada </option>
+                                <option value="Canada - Toronto" ${p.territory === 'Canada - Toronto' ? 'selected' : ''}>Toronto, Canada </option>
+                                <option value="USA - Miami" ${p.territory === 'USA - Miami' ? 'selected' : ''}>Miami, USA </option>
+                                <option value="USA - New York" ${p.territory === 'USA - New York' ? 'selected' : ''}>New York, USA </option>
+                                <option value="USA - Diaspora" ${p.territory === 'USA - Diaspora' ? 'selected' : ''}>USA (Autre), Diaspora </option>
                             </optgroup>
                             <optgroup label="Europe & Diaspora">
-                                <option value="France Hexagonale" ${p.territory === 'France Hexagonale' ? 'selected' : ''}>France Hexagonale 🇫🇷</option>
-                                <option value="Europe - Diaspora" ${p.territory === 'Europe - Diaspora' ? 'selected' : ''}>Europe (Autre), Diaspora 🇪🇺</option>
+                                <option value="France Hexagonale" ${p.territory === 'France Hexagonale' ? 'selected' : ''}>France Hexagonale </option>
+                                <option value="Europe - Diaspora" ${p.territory === 'Europe - Diaspora' ? 'selected' : ''}>Europe (Autre), Diaspora </option>
                             </optgroup>
-                            <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire 🌍</option>
+                            <option value="Autre" ${p.territory === 'Autre' ? 'selected' : ''}>Autre territoire </option>
                         </select>
                     </div>
                 </div>
@@ -574,7 +574,7 @@ async function handleCoverUpload(input, projectId) {
             preview.innerHTML = '';
         }
         
-        alert("✅ Image de couverture mise en ligne !");
+        alert(" Image de couverture mise en ligne !");
     } catch (err) {
         alert("Erreur lors de l'upload: " + err.message);
     }
@@ -640,7 +640,7 @@ async function saveProjectStep(projectId, step) {
             if (content) {
                 content.innerHTML = `
                     <div class="cockpit-container" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 60px 20px; animation: slideUp 0.5s ease-out;">
-                        <div style="font-size: 5rem; margin-bottom: 24px;">🎉</div>
+                        <div style="font-size: 5rem; margin-bottom: 24px;"></div>
                         <h1 style="font-size: 2.8rem; font-weight: 950; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.05em;">Félicitations, votre dossier est soumis !</h1>
                         <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 40px; font-weight: 500; line-height: 1.6;">
                             Vos informations ont été transmises à notre équipe de validation.<br>
@@ -650,7 +650,7 @@ async function saveProjectStep(projectId, step) {
                         <div style="background: white; padding: 40px; border-radius: 32px; border: 2.5px dashed #10b981; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(16,185,129,0.1);">
                             <h3 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-bottom: 24px;">Prendre rendez-vous (30 min)</h3>
                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background: #10b981; color: white; padding: 24px 48px; border-radius: 20px; font-weight: 950; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(16,185,129,0.3); transition: transform 0.2s;">
-                                📅 Bloquer mon créneau de validation
+                                 Bloquer mon créneau de validation
                             </a>
                         </div>
 
@@ -743,12 +743,12 @@ async function loadMatchmaking(userId, projectId) {
                 const teaserHTML = `
                     <div class="gateway-teaser-overlay" style="border-radius:12px; height:auto; padding:20px; background:rgba(255,255,255,0.4); backdrop-filter:blur(1px);">
                         <div class="teaser-card" style="padding:24px; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
-                            <h4 style="font-weight:900; margin:0 0 10px 0;">Pépites Détectées 💎</h4>
+                            <h4 style="font-weight:900; margin:0 0 10px 0;">Pépites Détectées </h4>
                             <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
                                 Notre algorithme a identifié ${experts.length} experts pour votre projet. 
                                 **Activez votre collaboration** pour débloquer ces recommandations.
                             </p>
-                            <button onclick="openSubModal('authority')" class="cta-button primary" style="font-size:0.8rem; padding:10px 20px; border:none; background:#10b981;">🚀 Voir mes Pépites</button>
+                            <button onclick="openSubModal('authority')" class="cta-button primary" style="font-size:0.8rem; padding:10px 20px; border:none; background:#10b981;"> Voir mes Pépites</button>
                         </div>
                     </div>
                 `;
@@ -821,7 +821,7 @@ async function updateProjectManifesto(projectId) {
                 }])
                 .select();
             if (error) throw error;
-            alert("✅ Épopée créée !");
+            alert(" Épopée créée !");
             window.location.reload();
         } else {
             const { error } = await window._supabase
@@ -829,7 +829,7 @@ async function updateProjectManifesto(projectId) {
                 .update({ vision, mission, enjeu })
                 .eq('id', projectId);
             if (error) throw error;
-            alert("✅ Manifeste enregistré !");
+            alert(" Manifeste enregistré !");
         }
     } catch (err) {
         alert("Erreur: " + err.message);
@@ -1117,13 +1117,13 @@ async function saveNewProject() {
 
         const { error } = await window._supabase.from('projects').insert([payload]);
         if (error) throw error;
-        alert("✅ Épopée créée avec succès !");
+        alert(" Épopée créée avec succès !");
         window.location.reload();
     } catch (err) { alert(err.message); }
 }
 
 async function deleteSREProject(id) {
-    if (!confirm("⚠️ Cette action est irréversible.\n\nSouhaitez-vous vraiment supprimer cette Épopée ?")) return;
+    if (!confirm("️ Cette action est irréversible.\n\nSouhaitez-vous vraiment supprimer cette Épopée ?")) return;
     
     try {
         // Step 1: Delete associated rewards
@@ -1141,7 +1141,7 @@ async function deleteSREProject(id) {
         const session = await getSession();
         if (session) await loadMyProjects(session.user.id);
         
-        alert("✅ Épopée supprimée.");
+        alert(" Épopée supprimée.");
     } catch (err) {
         alert("Erreur suppression: " + err.message);
     }
@@ -1156,7 +1156,7 @@ async function handleIDUpload(input) {
     if (btn) btn.style.display = 'none';
     if (progContainer) {
         progContainer.style.display = 'block';
-        progContainer.innerHTML = `<div style="font-size:0.75rem; color:#64748b; font-weight:700;">📤 Upload en cours...</div>`;
+        progContainer.innerHTML = `<div style="font-size:0.75rem; color:#64748b; font-weight:700;"> Upload en cours...</div>`;
     }
 
     try {
@@ -1180,7 +1180,7 @@ async function handleIDUpload(input) {
         }
 
         if (progContainer) {
-            progContainer.innerHTML = `<div style="color:#10b981; font-weight:800; font-size:0.75rem;">✅ Document transmis !</div>`;
+            progContainer.innerHTML = `<div style="color:#10b981; font-weight:800; font-size:0.75rem;"> Document transmis !</div>`;
         }
         
         alert("Votre pièce d'identité a été transmise avec succès.");
@@ -1208,7 +1208,7 @@ async function approveProjectFromInspection(projectId) {
             
         if (error) throw error;
         
-        alert("✅ Épopée Approuvée !");
+        alert(" Épopée Approuvée !");
         window.location.hash = 'overview'; // Return to admin dashboard
         window.location.reload();
         
@@ -1421,7 +1421,7 @@ async function loadMatchingTalents(project) {
                         </div>
                     </div>
                     <button onclick="window.Router.navigate('#messages?to=${exp.id}&prefill=${prefillMsg}')" style="background:#10b981; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:800; font-size:0.75rem; cursor:pointer; font-family:inherit; flex-shrink:0;">
-                        💬 Échanger
+                         Échanger
                     </button>
                 </div>
             `;
