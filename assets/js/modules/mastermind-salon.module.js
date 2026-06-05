@@ -60,6 +60,21 @@ window.MastermindSalonModule = {
                 title: 'Salon Mastermind DTC'
             }).select().maybeSingle();
         }
+
+        // Add user as participant if not already
+        const { data: part } = await db.from('conversation_participants')
+            .select('user_id')
+            .eq('conversation_id', this.conversationId)
+            .eq('user_id', this.currentProfile.id)
+            .maybeSingle();
+
+        if (!part) {
+            await db.from('conversation_participants').insert({
+                conversation_id: this.conversationId,
+                user_id: this.currentProfile.id,
+                lead_status: 'Actif'
+            });
+        }
     },
 
     loadMessages: async function(db) {
