@@ -103,6 +103,7 @@ const StandardModule = {
 
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                
                 <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px; padding: 40px;">
                     <span class="role-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 800; font-size: 0.75rem;">ESPACE EXPLORATEUR</span>
                     <h1 style="color: white; margin-top:12px; font-weight: 950; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
@@ -110,7 +111,7 @@ const StandardModule = {
                 </div>
 
                 <!-- DIAGNOSTIC CALL CTA -->
-                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap; width: 100%; box-sizing: border-box;">
+                <div style="grid-column: 1 / -1; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap; width: 100%; box-sizing: border-box;">
                     <div style="max-width: 700px;">
                         <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert</div>
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
@@ -121,7 +122,7 @@ const StandardModule = {
                     </a>
                 </div>
 
-                <div style="display:grid; gap:24px; width: 100%;">
+                <div style="grid-column: 1 / -1; display:grid; gap:24px; width: 100%;">
                     <div style="background: white; border: 1px solid #e2e8f0; padding: 32px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
                         <div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Prêt à passer à l'action ?</h3>

@@ -167,12 +167,19 @@ const MomentsModule = {
                         background: rgba(16, 185, 129, 0.08);
                         color: #10b981;
                     }
-                    .dtc-like-btn.liked {
-                        background: rgba(16, 185, 129, 0.08);
-                        color: #10b981;
+                    @keyframes dtcHeartBurst {
+                        0% { transform: scale(1); }
+                        50% { transform: scale(1.35); }
+                        100% { transform: scale(1); }
                     }
-                    .dtc-like-btn.liked:hover {
-                        background: rgba(16, 185, 129, 0.12);
+                    .dtc-like-btn.liked {
+                        background: rgba(239, 68, 68, 0.08) !important;
+                        color: #ef4444 !important;
+                    }
+                    .dtc-like-btn.liked svg {
+                        animation: dtcHeartBurst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+                        fill: #ef4444 !important;
+                        stroke: #ef4444 !important;
                     }
                     .dtc-comment-toggle-btn {
                         background: transparent;
@@ -189,6 +196,25 @@ const MomentsModule = {
                         transition: all 0.2s;
                     }
                     .dtc-comment-toggle-btn:hover {
+                        background: #f1f5f9;
+                        color: #0f172a;
+                    }
+                    .dtc-share-btn {
+                        background: transparent;
+                        border: none;
+                        color: #64748b;
+                        font-weight: 800;
+                        font-size: 0.82rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                        transition: all 0.2s;
+                        margin-left: auto;
+                    }
+                    .dtc-share-btn:hover {
                         background: #f1f5f9;
                         color: #0f172a;
                     }
@@ -239,6 +265,19 @@ const MomentsModule = {
                     .dtc-delete-post-btn:hover {
                         background: #fef2f2;
                         color: #ef4444;
+                    }
+                    .dtc-post-card {
+                        background: white; 
+                        border-radius: 24px; 
+                        padding: 24px; 
+                        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); 
+                        display: flex; 
+                        flex-direction: column; 
+                        transition: transform 0.2s, box-shadow 0.2s;
+                        overflow: hidden; /* For edge-to-edge media */
+                    }
+                    .dtc-post-card:hover {
+                        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
                     }
                 </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
@@ -360,14 +399,14 @@ const MomentsModule = {
             const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
             if (isVideo) {
                 mediaHtml = `
-                    <div style="margin-top: 14px; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 30px -5px rgba(0,0,0,0.08); max-height: 480px; display: flex; justify-content: center;">
-                        <video src="${item.imageUrl}" controls style="max-height: 480px; max-width: 100%; object-fit: contain;"></video>
+                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; max-height: 550px; display: flex; justify-content: center;">
+                        <video src="${item.imageUrl}" controls style="max-height: 550px; width: 100%; object-fit: cover;"></video>
                     </div>
                 `;
             } else {
                 mediaHtml = `
-                    <div style="margin-top: 14px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 30px -5px rgba(0,0,0,0.08); max-height: 480px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="window.open('${item.imageUrl}', '_blank')">
-                        <img src="${item.imageUrl}" style="max-height: 480px; max-width: 100%; object-fit: contain;">
+                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; max-height: 550px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="window.open('${item.imageUrl}', '_blank')">
+                        <img src="${item.imageUrl}" style="max-height: 550px; width: 100%; object-fit: cover;">
                     </div>
                 `;
             }
@@ -402,12 +441,14 @@ const MomentsModule = {
                     </div>
                 `;
             }).join('');
+
+        const formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #10b981; font-weight: 800; cursor: pointer;">#$1</span>');
  
         return `
-            <div style="background: white; ${cardBorder} border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); display: flex; flex-direction: column; gap: 16px;">
+            <div class="dtc-post-card" style="${cardBorder}">
                 
                 <!-- HEADER -->
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                     <div style="display: flex; gap: 14px; align-items: center;">
                         <div onclick="window.location.href='${profileUrl}'" style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
                             ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
@@ -440,7 +481,7 @@ const MomentsModule = {
                 </div>
  
                 <!-- CONTENT -->
-                <div style="color: #334155; font-size: 0.96rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
+                <div style="color: #334155; font-size: 1.05rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
                     ${item.type === 'project' ? `
                         <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fffdf5; border-radius: 16px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 12px;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #f59e0b; flex-shrink: 0;"><polygon points="12 2 2 22 22 22"/></svg>
@@ -450,34 +491,32 @@ const MomentsModule = {
                             </div>
                         </div>
                     ` : ''}
-                    ${item.content}
+                    ${formattedContent}
                 </div>
  
                 <!-- MEDIA -->
                 ${mediaHtml}
  
                 <!-- ACTIONS & ENGAGEMENT -->
-                <div style="display: flex; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 6px; flex-wrap: wrap; align-items: center;">
+                <div style="display: flex; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 16px; flex-wrap: wrap; align-items: center;">
                     
                     <!-- LIKE -->
                     <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-like-btn ${hasLiked ? 'liked' : ''}">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        <span>${likesCount}</span> ${hasLiked ? 'Aimé' : 'Like'}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>${likesCount}</span> ${hasLiked ? 'Aimé' : 'J\'aime'}
                     </button>
  
                     <!-- COMMENTS TOGGLE -->
                     <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-comment-toggle-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         <span>${commentsCount}</span> Commenter
                     </button>
  
-                    <!-- DIRECT CHAT -->
-                    ${!isSelf && currentUser ? `
-                        <button onclick="window.location.hash = '#messages?with=${item.userId}'" class="dtc-chat-btn" style="margin-left: auto;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                            Discuter en direct
-                        </button>
-                    ` : ''}
+                    <!-- SHARE -->
+                    <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}'); alert('Lien du post copié !')" class="dtc-share-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        Partager
+                    </button>
                 </div>
  
                 <!-- COMMENTS PANEL -->
