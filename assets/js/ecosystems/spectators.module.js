@@ -55,10 +55,10 @@ const SpectatorsModule = {
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                        <!-- Canal Privé Telegram -->
+                        <!-- Salon Mastermind DTC interne -->
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fab fa-telegram-plane"></i></div>
-                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Canal Privé Telegram</h3>
+                            <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC</h3>
                             <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Rejoignez le groupe de discussion instantanée VIP pour échanger avec plus de 150 décideurs.</p>
                             <div style="width: 100%; padding: 14px; background: #f1f5f9; color: #64748b; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;"> Lien envoyé par email à l'activation</div>
                         </div>
@@ -92,7 +92,7 @@ const SpectatorsModule = {
                     <div style="font-size: 2.5rem; margin-bottom: 16px; display:inline-block;"></div>
                     <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.04em;">Rejoindre le Club Mastermind DTC</h2>
                     <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight: 500; max-width: 600px; margin: 0 auto 28px;">
-                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, salon privé DTC et replays exclusifs.
+                        Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Sessions mensuelles de co-développement, salon de discussion privé et replays exclusifs.
                     </p>
                     <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('club', 'expert') : alert('...')" style="background: #10b981; color: white; border: none; padding: 16px 32px; border-radius: 14px; font-weight: 950; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(16,185,129,0.25); transition: transform 0.2s;">
                         <span> Devenir membre pour 29€/mois</span>
