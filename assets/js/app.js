@@ -160,6 +160,13 @@ const App = {
 
         
         if (viewId === 'mastermind-salon') {
+            const isClubMember = ['club', 'premium', 'authority'].includes((window.App.state.profile?.subscription_tier || '').toLowerCase().trim());
+            if (!isClubMember) {
+                alert("L'accès au salon privé est réservé aux membres du Club Mastermind.");
+                window.Router.navigate('#dashboard');
+                return;
+            }
+
             if (!targetView) {
                 targetView = document.createElement('div');
                 targetView.id = targetViewId;
