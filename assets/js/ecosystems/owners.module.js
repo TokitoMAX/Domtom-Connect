@@ -46,21 +46,47 @@ const OwnersModule = {
     /**
      * Dashboard Home - Epic Presentation (Mobile Corrected)
      */
-    renderDashboard: (container, profile, session) => {
+    renderDashboard: async (container, profile, session) => {
         if (!container) return;
 
-        // Funding Calculation
-        const goal = profile.budget || 5000;
-        const current = profile.current_funding || 0;
+        // Fetch latest project for this owner
+        let project = null;
+        try {
+            const { data, error } = await window._supabase
+                .from('projects')
+                .select('*')
+                .eq('owner_id', session.user.id)
+                .order('created_at', { ascending: false })
+                .limit(1);
+            if (!error && data && data.length > 0) {
+                project = data[0];
+            }
+        } catch (err) {
+            console.error("Error fetching latest project:", err);
+        }
+
+        const projectName = project?.title || profile.project_name || 'Ma Nouvelle Épopée';
+        const projectTerritory = project?.territory || profile.territory || 'Guyane';
+        const goal = project?.budget || profile.budget || 5000;
+        const current = project?.total_raised || profile.current_funding || 0;
         const percent = Math.min(Math.round((current / goal) * 100), 100);
 
-        // Calculate a generic maturity score for the dashboard gauge
+        // Calculate maturity dynamically using the core function if possible
         let maturity = 0;
-        if (profile.vision) maturity += 20;
-        if (profile.mission) maturity += 20;
-        if (profile.enjeu) maturity += 20;
-        if (profile.project_name) maturity += 20;
-        if (profile.current_funding > 0) maturity += 20;
+        if (project && window.calculateProjectMaturity) {
+            maturity = window.calculateProjectMaturity(project);
+        } else if (!project) {
+            // Fallback to profile based generic score if no project exists yet
+            if (profile.vision) maturity += 20;
+            if (profile.mission) maturity += 20;
+            if (profile.enjeu) maturity += 20;
+            if (profile.project_name) maturity += 20;
+            if (profile.current_funding > 0) maturity += 20;
+        }
+
+        const visionText = project?.vision || profile.vision || 'Définissez votre vision long terme...';
+        const missionText = project?.mission || profile.mission || 'Définissez votre action quotidienne...';
+        const enjeuText = project?.enjeu || profile.enjeu || 'Définissez l\'enjeu territorial...';
 
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -69,9 +95,9 @@ const OwnersModule = {
                 <div class="epic-hero" style="grid-column: 1 / -1; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); min-height: 280px; display: flex; align-items: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
                     <div style="position: relative; z-index: 10; max-width: 800px;">
                         <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2);">Cockpit de Commandement</div>
-                        <h1 style="font-size: 3rem; font-weight: 950; color: white; margin: 0; letter-spacing: -0.05em; line-height: 1;">${profile.project_name || 'Ma Nouvelle Épopée'}</h1>
+                        <h1 style="font-size: 3rem; font-weight: 950; color: white; margin: 0; letter-spacing: -0.05em; line-height: 1;">${projectName}</h1>
                         <p style="color: rgba(255,255,255,0.5); font-size: 1.1rem; margin-top: 16px; font-weight: 500; max-width: 500px;">
-                            ${profile.territory || 'Guyane'} • Pilotage stratégique & Impact territorial.
+                            ${projectTerritory} • Pilotage stratégique & Impact territorial.
                         </p>
                     </div>
                 </div>
@@ -88,18 +114,20 @@ const OwnersModule = {
                     </a>
                 </div>
 
-                <!-- 2. MODULAR BLOCKS GRID (The user's requested "several small blocks") -->
+                <!-- 2. MODULAR BLOCKS GRID -->
                 
                 <!-- Block A: Strategic Maturity -->
                 <div style="grid-column: span 4; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                     <h4 style="font-size: 0.65rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px;">Maturité Stratégique</h4>
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; border: 6px solid #f1f5f9; border-top-color: #10b981; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; color: #0f172a; transform: rotate(${maturity * 3.6}deg);">
-                            <span style="transform: rotate(-${maturity * 3.6}deg);">${maturity}%</span>
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: conic-gradient(#10b981 ${maturity}%, #f1f5f9 0); display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="width: 58px; height: 58px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #0f172a;">
+                                <span id="maturity-score-dash">${maturity}%</span>
+                            </div>
                         </div>
                         <div>
-                            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">Structure Optimale</div>
-                            <div style="font-size: 0.8rem; color: #64748b;">Prêt pour la validation</div>
+                            <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${maturity >= 80 ? 'Structure Optimale' : (maturity >= 40 ? 'En développement' : 'Phase initiale')}</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">${maturity >= 100 ? 'Prêt pour la validation' : 'Complétez votre cockpit'}</div>
                         </div>
                     </div>
                 </div>
@@ -107,7 +135,7 @@ const OwnersModule = {
                 <!-- Block B: Financing Card -->
                 <div style="grid-column: span 4; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                     <h4 style="font-size: 0.65rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px;">Cagnotte en Temps Réel</h4>
-                    <div style="font-size: 2.2rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">${current.toLocaleString()} €</div>
+                    <div id="collected-amount-dash" style="font-size: 2.2rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">${current.toLocaleString()} €</div>
                     <div style="font-size: 0.8rem; font-weight: 700; color: #10b981; margin-top: 4px;">Objectif : ${goal.toLocaleString()} €</div>
                     <div style="height: 6px; background: #f1f5f9; border-radius: 100px; margin-top: 16px; overflow: hidden;">
                         <div style="width: ${percent}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
@@ -128,23 +156,23 @@ const OwnersModule = {
                     </div>
                 </div>
 
-                <!-- 3. STRATEGIC SNAPSHOTS (Small blocks for Vision/Mission/Enjeu) -->
+                <!-- 3. STRATEGIC SNAPSHOTS -->
                 <div style="grid-column: span 4; background: #f8fafc; border: 1px dashed #e2e8f0; border-radius: 20px; padding: 20px;">
                     <div style="font-size: 0.65rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">Vision Snapshot</div>
-                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600;">${profile.vision || 'Définissez votre vision long terme...'}</p>
+                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600; white-space: pre-wrap;">${visionText}</p>
                 </div>
 
                 <div style="grid-column: span 4; background: #f8fafc; border: 1px dashed #e2e8f0; border-radius: 20px; padding: 20px;">
                     <div style="font-size: 0.65rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">Mission Snapshot</div>
-                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600;">${profile.mission || 'Définissez votre action quotidienne...'}</p>
+                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600; white-space: pre-wrap;">${missionText}</p>
                 </div>
 
                 <div style="grid-column: span 4; background: #f8fafc; border: 1px dashed #e2e8f0; border-radius: 20px; padding: 20px;">
                     <div style="font-size: 0.65rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 8px;">Enjeu Snapshot</div>
-                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600;">${profile.enjeu || 'Définissez l\'enjeu territorial...'}</p>
+                    <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600; white-space: pre-wrap;">${enjeuText}</p>
                 </div>
 
-                <!-- 4. ACTION CENTER (Professional Hubs) -->
+                <!-- 4. ACTION CENTER -->
                 <div style="grid-column: span 12; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                     <h4 style="font-size: 0.65rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Gestion Évènementielle</h4>
                     <div style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Billetterie & Accès</div>

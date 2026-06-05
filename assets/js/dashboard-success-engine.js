@@ -618,8 +618,52 @@ async function saveProjectStep(projectId, step) {
         if (error) throw error;
 
         if (step === 6) {
-            alert("Votre projet a été soumis avec succès ! L'administrateur va l'examiner très prochainement.");
-            window.location.reload();
+            // 1. Send Notification to Admin
+            try {
+                const { data: { session } } = await window._supabase.auth.getSession();
+                const userId = session?.user?.id;
+                await window._supabase.from('notifications').insert([{
+                    type: 'project_submission',
+                    user_id: userId,
+                    project_id: projectId,
+                    title: 'Nouvelle Épopée soumise',
+                    message: `Le projet a été soumis et attend une validation.`,
+                    status: 'unread',
+                    created_at: new Date().toISOString()
+                }]);
+            } catch (notifyErr) {
+                console.warn("Notification error:", notifyErr);
+            }
+
+            // 2. Render Calendly Funnel
+            const content = document.getElementById('cockpit-content-internal');
+            if (content) {
+                content.innerHTML = `
+                    <div class="cockpit-container" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 60px 20px; animation: slideUp 0.5s ease-out;">
+                        <div style="font-size: 5rem; margin-bottom: 24px;">🎉</div>
+                        <h1 style="font-size: 2.8rem; font-weight: 950; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.05em;">Félicitations, votre dossier est soumis !</h1>
+                        <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 40px; font-weight: 500; line-height: 1.6;">
+                            Vos informations ont été transmises à notre équipe de validation.<br>
+                            <strong>Étape finale obligatoire pour l'activation :</strong> Planifiez votre appel stratégique de validation avec le comité.
+                        </p>
+                        
+                        <div style="background: white; padding: 40px; border-radius: 32px; border: 2.5px dashed #10b981; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(16,185,129,0.1);">
+                            <h3 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-bottom: 24px;">Prendre rendez-vous (30 min)</h3>
+                            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background: #10b981; color: white; padding: 24px 48px; border-radius: 20px; font-weight: 950; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(16,185,129,0.3); transition: transform 0.2s;">
+                                📅 Bloquer mon créneau de validation
+                            </a>
+                        </div>
+
+                        <button onclick="window.location.reload()" style="background: transparent; color: #94a3b8; border: none; font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 1rem;">
+                            Retourner à mon tableau de bord
+                        </button>
+                    </div>
+                `;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                alert("Votre projet a été soumis avec succès ! Pensez à prendre votre rendez-vous de validation.");
+                window.location.reload();
+            }
         } else {
             // Re-load maturity and go to next step
             const { data: p } = await window._supabase.from('projects').select('*').eq('id', projectId).single();
