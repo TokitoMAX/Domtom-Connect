@@ -139,71 +139,42 @@ const OwnersModule = {
                     </div>
                 </div>
 
-                <!-- 2. MODULAR BLOCKS GRID -->
-                
-                <!-- Block A: Strategic Maturity -->
-                <div style="grid-column: span 4; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; text-align: center;">
-                    <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px; width: 100%;">Maturité Stratégique</h4>
-                    <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#10b981 ${maturity}%, #f1f5f9 0); display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 20px;">
-                        <div style="width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 950; font-size: 2rem; color: #0f172a; letter-spacing: -0.05em;">
-                            <span id="maturity-score-dash">${maturity}%</span>
+                <!-- 2. LIGHTWEIGHT FUNNEL OVERVIEW -->
+                <div style="grid-column: span 12; display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: stretch; margin-top: 16px;">
+                    
+                    <!-- Left Column: Core Progress -->
+                    <div style="grid-column: span 8; background: white; border: 1px solid #e2e8f0; border-radius: 32px; padding: 48px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
+                        <h3 style="font-size: 1.1rem; font-weight: 900; color: #0f172a; margin: 0 0 32px 0; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 8px 14px; border-radius: 10px; font-size: 0.8rem;">Cockpit</span>
+                            Progression de l'Épopée
+                        </h3>
+                        
+                        <div style="display: flex; align-items: center; gap: 40px;">
+                            <div style="font-size: 5rem; font-weight: 950; color: #0f172a; line-height: 1; letter-spacing: -0.06em;">${maturity}<span style="color: #10b981; font-size: 3rem;">%</span></div>
+                            <div style="flex: 1;">
+                                <div style="height: 16px; background: #f1f5f9; border-radius: 100px; overflow: hidden; margin-bottom: 12px;">
+                                    <div style="width: ${maturity}%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #34d399 100%); border-radius: 100px; box-shadow: 0 4px 10px rgba(16,185,129,0.3);"></div>
+                                </div>
+                                <div style="font-size: 1.05rem; color: #64748b; font-weight: 600;">${maturity >= 100 ? 'Projet prêt à être validé !' : 'Complétez les phases pour débloquer votre cagnotte.'}</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 48px; padding-top: 40px; border-top: 1.5px solid #f1f5f9; display: flex; gap: 16px;">
+                            <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background: #10b981; color: white; border: none; padding: 20px 40px; border-radius: 20px; font-weight: 950; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 30px rgba(16,185,129,0.25);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(16,185,129,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 30px rgba(16,185,129,0.25)';">
+                                <span>🚀 Continuer le pilotage</span>
+                            </button>
                         </div>
                     </div>
-                    <div style="font-weight: 800; font-size: 1.1rem; color: #0f172a;">${maturity >= 80 ? 'Structure Optimale' : (maturity >= 40 ? 'En développement' : 'Phase initiale')}</div>
-                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">${maturity >= 100 ? 'Prêt pour la validation' : 'Complétez votre cockpit'}</div>
-                </div>
 
-                <!-- Block B: Financing Card -->
-                <div style="grid-column: span 4; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: center;">
-                    <h4 style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;">Cagnotte en Temps Réel</h4>
-                    <div id="collected-amount-dash" style="font-size: 2.8rem; font-weight: 950; color: #0f172a; letter-spacing: -0.04em;">${current.toLocaleString()} €</div>
-                    <div style="font-size: 0.9rem; font-weight: 700; color: #10b981; margin-top: 8px;">Objectif : ${goal.toLocaleString()} €</div>
-                    <div style="height: 8px; background: #f1f5f9; border-radius: 100px; margin-top: 24px; overflow: hidden;">
-                        <div style="width: ${percent}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
-                    </div>
-                </div>
-
-                <!-- Block C: Diagnostic Card (Replacing empty Mobilisation block) -->
-                <div style="grid-column: span 4; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 20px; padding: 32px 24px; box-shadow: 0 10px 25px rgba(16,185,129,0.2); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; opacity: 0.1;">🎯</div>
-                    <h4 style="font-size: 0.75rem; font-weight: 900; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; position: relative; z-index: 10;">Diagnostic</h4>
-                    <h3 style="font-size: 1.4rem; font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.03em; position: relative; z-index: 10;">Besoin d'affiner votre stratégie ?</h3>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0 0 24px 0; font-weight: 500; line-height: 1.5; position: relative; z-index: 10;">Réservez 30min de coaching gratuit avec le comité.</p>
-                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 12px 20px; border-radius: 12px; font-weight: 900; font-size: 0.9rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; z-index: 10; transition: transform 0.2s;">
-                        📅 Planifier l'appel
-                    </a>
-                </div>
-
-                <!-- 3. STRATEGIC SNAPSHOTS -->
-                <div style="grid-column: span 12; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 8px;">
-                    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 20px; padding: 24px; transition: background 0.2s;">
-                        <div style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Vision Snapshot</div>
-                        <p style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin: 0; font-weight: 600; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${project.vision || 'Non défini'}</p>
-                    </div>
-
-                    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 20px; padding: 24px; transition: background 0.2s;">
-                        <div style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Mission Snapshot</div>
-                        <p style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin: 0; font-weight: 600; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${project.mission || 'Non défini'}</p>
-                    </div>
-
-                    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 20px; padding: 24px; transition: background 0.2s;">
-                        <div style="font-size: 0.7rem; font-weight: 900; color: #10b981; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.05em;">Enjeu Snapshot</div>
-                        <p style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin: 0; font-weight: 600; white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${project.enjeu || 'Non défini'}</p>
-                    </div>
-                </div>
-
-                <!-- 4. ACTION CENTER -->
-                <div style="grid-column: span 12; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-top: 8px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
-                        <div>
-                            <h4 style="font-size: 0.75rem; font-weight: 950; color: #10b981; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em;">Extensions</h4>
-                            <div style="font-size: 1.4rem; font-weight: 900; color: #0f172a;">Billetterie & Évènements</div>
-                            <div style="font-size: 0.95rem; color: #64748b; margin-top: 4px; font-weight: 500;">Organisez des évènements pour votre communauté.</div>
-                        </div>
-                        <div style="display: flex; gap: 16px;">
-                            <button onclick="window.Router.navigate('#billetterie')" style="padding: 14px 24px; background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: background 0.2s;">Gérer mes Évènements</button>
-                            <button onclick="window.Router.navigate('#billetterie?action=create')" style="padding: 14px 24px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(15,23,42,0.2);">+ Nouvel Évènement</button>
-                        </div>
+                    <!-- Right Column: Diagnostic Funnel -->
+                    <div style="grid-column: span 4; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 32px; padding: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -20px; right: -20px; font-size: 10rem; opacity: 0.05;">🎯</div>
+                        <div style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1);">Accélération</div>
+                        <h3 style="font-size: 1.8rem; font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
+                        <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; margin: 0 0 40px 0; font-weight: 500; line-height: 1.6; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis.</p>
+                        <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
+                            📅 RDV Stratégique
+                        </a>
                     </div>
                 </div>
             </div>

@@ -114,6 +114,24 @@ html, body {
     transform: translateX(0);
 }
 
+.sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.sidebar:hover .sidebar-section-title {
+    opacity: 1;
+}
+
 .sidebar-link:hover {
     background: rgba(16, 185, 129, 0.1);
     color: #fff;
