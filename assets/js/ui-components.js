@@ -70,7 +70,10 @@ const UIComponents = {
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#moments'), 'Flux Territorial', 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
 
-        if (isClubMember) {
+        const roleLower = (role || '').toLowerCase();
+        const allowedRoles = ['expert', 'entreprise', 'porteur de projet', 'premium', 'authority', 'club'];
+
+        if (allowedRoles.includes(roleLower) || isClubMember) {
             sidebarHtml += `<div class="sidebar-section-title">Espace VIP</div>`;
             sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#mastermind'), 'Club Mastermind', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z');
         }
