@@ -170,7 +170,7 @@ const App = {
             targetView.innerHTML = `
                 <div style="display:flex; height:100%; min-height: calc(100vh - 80px); width:100%; max-width: 900px; margin: 0 auto; padding: 24px; box-sizing: border-box; flex-direction:column; font-family:'Inter', sans-serif;">
                     
-                    <div style="background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; height: 100%; border: 1px solid #e2e8f0;">
+                    <div style="background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; flex: 1; border: 1px solid #e2e8f0;">
                         <!-- Top Header -->
                         <div style="padding:16px 24px; background:linear-gradient(135deg, #0f172a, #1e293b); color: white; display:flex; align-items:center; justify-content:space-between; z-index:10;">
                             <div style="display:flex; align-items:center; gap:16px;">

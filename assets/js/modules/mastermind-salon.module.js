@@ -10,6 +10,8 @@ window.MastermindSalonModule = {
     profilesCache: {},
 
     init: async function() {
+        console.log("MastermindSalonModule init started");
+        try {
         const db = window._supabase;
         if (!db) return;
 
