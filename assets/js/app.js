@@ -198,9 +198,11 @@ const App = {
                                 <div style="flex:1; min-width:0; border-bottom:none;">
                                     <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
                                         <span style="font-weight:600; font-size:1.05rem; color:#111b21; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Salon Principal DTC</span>
-                                        <span style="font-size:0.75rem; color:#10b981; flex-shrink:0;">10:22</span>
+                                        <span id="mastermind-last-msg-time" style="font-size:0.75rem; color:#10b981; flex-shrink:0;">...</span>
                                     </div>
-                                    <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sarah M: Salut Thomas, je t'envoie mon contact...</div>
+                                    <div style="font-size:0.85rem; color:#54656f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                        <span id="mastermind-last-msg-sender" style="font-weight:600;"></span><span id="mastermind-last-msg-content">Chargement...</span>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -212,7 +214,7 @@ const App = {
                                         <span style="font-weight:600; font-size:1.05rem; color:#111b21;">Membres du Club</span>
                                     </div>
                                     <div style="font-size:0.85rem; color:#54656f; display:flex; align-items:center; gap:6px;">
-                                        <span style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block;"></span> 12 En ligne (147 total)
+                                        <span style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block;"></span> <span id="mastermind-members-count">Chargement...</span>
                                     </div>
                                 </div>
                             </div>
