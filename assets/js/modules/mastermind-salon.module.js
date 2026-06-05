@@ -135,26 +135,46 @@ window.MastermindSalonModule = {
         const isMe = msg.sender_id === this.currentProfile.id;
         const timeStr = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         
-        const div = document.createElement('div');
-        div.style.display = 'flex';
-        div.style.justifyContent = isMe ? 'flex-end' : 'flex-start';
-        div.style.marginBottom = '4px';
+        let div = document.getElementById(`mastermind-msg-${msg.id}`);
+        const isUpdate = !!div;
+
+        if (!isUpdate) {
+            div = document.createElement('div');
+            div.id = `mastermind-msg-${msg.id}`;
+            div.style.display = 'flex';
+            div.style.justifyContent = isMe ? 'flex-end' : 'flex-start';
+            div.style.marginBottom = '4px';
+            div.style.position = 'relative';
+        }
         
         const bgColor = isMe ? '#d9fdd3' : '#fff'; // WhatsApp light green for "me", white for others
         const colorTitle = isMe ? '#10b981' : '#0284c7';
         
+        // Use a generic placeholder if deleted (though if actually deleted from DB it'll trigger DELETE)
+        // If they use soft deletes (e.g. content = 'Ce message a été supprimé'), it will just show that.
+        
         div.innerHTML = `
-            <div style="background:${bgColor}; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:${isMe ? '8px 0 8px 8px' : '0 8px 8px 8px'}; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative;">
-                ${!isMe ? `<div style="font-size:0.8rem; font-weight:700; color:${colorTitle}; margin-bottom:4px;">${profile.full_name} ${profile.territory ? '('+profile.territory+')' : ''}</div>` : ''}
-                <span style="font-size:0.95rem; color:#111b21; line-height:1.4; word-break: break-word;">${msg.content}</span>
-                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px;">${timeStr} ${isMe ? '✓' : ''}</span>
+            <div style="background:${bgColor}; max-width:65%; min-width:200px; padding:6px 8px 8px 12px; border-radius:${isMe ? '8px 0 8px 8px' : '0 8px 8px 8px'}; box-shadow:0 1px 1px rgba(11,20,26,0.1); position:relative; display:flex; flex-direction:column; group">
+                <div style="font-size:0.8rem; font-weight:700; color:${colorTitle}; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>${isMe ? 'Vous' : profile.full_name} ${profile.territory ? '('+profile.territory+')' : ''}</span>
+                    ${isMe ? `
+                    <div style="display:flex; gap:8px;">
+                        <span style="cursor:pointer; color:#64748b; font-size:0.8rem;" onclick="window.MastermindSalonModule.editMessage('${msg.id}', '${msg.content.replace(/'/g, "\\'")}')"><i class="fas fa-edit"></i></span>
+                        <span style="cursor:pointer; color:#ef4444; font-size:0.8rem;" onclick="window.MastermindSalonModule.deleteMessage('${msg.id}')"><i class="fas fa-trash"></i></span>
+                    </div>
+                    ` : ''}
+                </div>
+                <span style="font-size:0.95rem; color:#111b21; line-height:1.4; word-break: break-word; white-space: pre-wrap;">${msg.content}</span>
+                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px; align-self:flex-end;">${timeStr} ${isMe ? '✓' : ''} ${msg.updated_at && msg.updated_at !== msg.created_at ? '(modifié)' : ''}</span>
             </div>
         `;
         
-        container.appendChild(div);
+        if (!isUpdate) {
+            container.appendChild(div);
+        }
     },
 
-        sendMessage: async function(db, content) {
+    sendMessage: async function(db, content) {
         if (!content || content.trim() === '') return;
         
         const newMsg = {
@@ -169,6 +189,119 @@ window.MastermindSalonModule = {
         }
     },
 
+    editMessage: function(msgId, oldContent) {
+        const modalId = 'mastermind-edit-modal';
+        let modal = document.getElementById(modalId);
+        if (modal) modal.remove();
+
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
+        modal.style.backdropFilter = 'blur(4px)';
+        modal.style.zIndex = '9999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.fontFamily = "'Inter', sans-serif";
+
+        modal.innerHTML = `
+            <div style="background: white; width: 90%; max-width: 400px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: modalFadeIn 0.2s ease-out;">
+                <h3 style="margin: 0 0 16px 0; font-size: 1.25rem; font-weight: 700; color: #0f172a;">Modifier le message</h3>
+                <textarea id="mastermind-edit-input" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.95rem; min-height: 100px; resize: vertical; margin-bottom: 20px; outline: none;"></textarea>
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button id="mastermind-edit-cancel" style="padding: 8px 16px; border: none; background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
+                    <button id="mastermind-edit-save" style="padding: 8px 16px; border: none; background: #10b981; color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Enregistrer</button>
+                </div>
+            </div>
+            <style>
+                @keyframes modalFadeIn {
+                    from { opacity: 0; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                #mastermind-edit-input:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1); }
+                #mastermind-edit-cancel:hover { background: #e2e8f0; }
+                #mastermind-edit-save:hover { background: #059669; }
+            </style>
+        `;
+
+        document.body.appendChild(modal);
+
+        const input = document.getElementById('mastermind-edit-input');
+        input.value = oldContent;
+        input.focus();
+
+        document.getElementById('mastermind-edit-cancel').onclick = () => modal.remove();
+        document.getElementById('mastermind-edit-save').onclick = async () => {
+            const newContent = input.value;
+            if (newContent && newContent.trim() !== '' && newContent !== oldContent) {
+                const db = window._supabase;
+                if (db) {
+                    const { error } = await db.from('messages')
+                        .update({ content: newContent.trim(), updated_at: new Date().toISOString() })
+                        .eq('id', msgId)
+                        .eq('sender_id', this.currentProfile.id);
+                    if (error) console.error("Error updating message:", error);
+                }
+            }
+            modal.remove();
+        };
+    },
+
+    deleteMessage: function(msgId) {
+        const modalId = 'mastermind-delete-modal';
+        let modal = document.getElementById(modalId);
+        if (modal) modal.remove();
+
+        modal = document.createElement('div');
+        modal.id = modalId;
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
+        modal.style.backdropFilter = 'blur(4px)';
+        modal.style.zIndex = '9999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.fontFamily = "'Inter', sans-serif";
+
+        modal.innerHTML = `
+            <div style="background: white; width: 90%; max-width: 400px; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); animation: modalFadeIn 0.2s ease-out;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: #fee2e2; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px auto;">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h3 style="margin: 0 0 12px 0; font-size: 1.25rem; font-weight: 700; color: #0f172a;">Supprimer le message ?</h3>
+                <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.95rem;">Cette action est irréversible. Le message sera définitivement supprimé pour tous les membres du salon.</p>
+                <div style="display: flex; justify-content: center; gap: 12px;">
+                    <button id="mastermind-delete-cancel" style="flex: 1; padding: 10px; border: none; background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
+                    <button id="mastermind-delete-confirm" style="flex: 1; padding: 10px; border: none; background: #ef4444; color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Supprimer</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document.getElementById('mastermind-delete-cancel').onclick = () => modal.remove();
+        document.getElementById('mastermind-delete-confirm').onclick = async () => {
+            const db = window._supabase;
+            if (db) {
+                const { error } = await db.from('messages')
+                    .delete()
+                    .eq('id', msgId)
+                    .eq('sender_id', this.currentProfile.id);
+                if (error) console.error("Error deleting message:", error);
+            }
+            modal.remove();
+        };
+    },
+
     subscribeRealtime: function(db) {
         if (this.channel) this.channel.unsubscribe();
         
@@ -180,6 +313,16 @@ window.MastermindSalonModule = {
                         this.scrollToBottom(container);
                     });
                 }
+            })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages', filter: `conversation_id=eq.${this.conversationId}` }, payload => {
+                const container = document.getElementById('mastermind-chat-thread');
+                if (container) {
+                    this.appendMessage(db, container, payload.new);
+                }
+            })
+            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages', filter: `conversation_id=eq.${this.conversationId}` }, payload => {
+                const msgDiv = document.getElementById(`mastermind-msg-${payload.old.id}`);
+                if (msgDiv) msgDiv.remove();
             })
             .subscribe();
     },
