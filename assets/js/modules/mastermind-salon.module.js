@@ -165,7 +165,7 @@ window.MastermindSalonModule = {
                     ` : ''}
                 </div>
                 <span style="font-size:0.95rem; color:#111b21; line-height:1.4; word-break: break-word; white-space: pre-wrap;">${msg.content}</span>
-                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px; align-self:flex-end;">${timeStr} ${isMe ? '✓' : ''} ${msg.updated_at && msg.updated_at !== msg.created_at ? '(modifié)' : ''}</span>
+                <span style="font-size:0.65rem; color:#667781; float:right; margin-left:12px; margin-top:8px; align-self:flex-end;">${timeStr} ${isMe ? '✓' : ''}</span>
             </div>
         `;
         
@@ -242,7 +242,7 @@ window.MastermindSalonModule = {
                 const db = window._supabase;
                 if (db) {
                     const { error } = await db.from('messages')
-                        .update({ content: newContent.trim(), updated_at: new Date().toISOString() })
+                        .update({ content: newContent.trim() })
                         .eq('id', msgId)
                         .eq('sender_id', this.currentProfile.id);
                     if (error) console.error("Error updating message:", error);
