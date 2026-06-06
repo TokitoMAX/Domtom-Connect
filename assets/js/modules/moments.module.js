@@ -29,11 +29,11 @@ const MomentsModule = {
             const session = window.App?.state?.session;
             const currentUser = session?.user;
 
-            // 1. Fetch social status posts only (not real services from the showcase)
+            // 1. Fetch social status posts and stories
             const { data: rawShowcase, error: errShowcase } = await db
                 .from('showcase_items')
                 .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name)')
-                .eq('category', 'status')
+                .in('category', ['status', 'story'])
                 .order('created_at', { ascending: false })
                 .limit(40);
 
@@ -52,11 +52,12 @@ const MomentsModule = {
 
             // 3. Merge and Sort
             let feedItems = [];
+            let stories = [];
 
              if (rawShowcase) {
                 rawShowcase.forEach(item => {
                     const profile = item.profiles || {};
-                    feedItems.push({
+                    const parsedItem = {
                         id: item.id,
                         userId: item.user_id,
                         authorName: profile.full_name || 'Utilisateur DTC',
@@ -70,9 +71,15 @@ const MomentsModule = {
                         title: item.title,
                         content: item.description || '',
                         imageUrl: item.image_url || null,
-                        meta: item.category !== 'status' ? `${item.price_prefix || 'À partir de'} ${item.price} €` : null,
+                        meta: item.category !== 'status' && item.category !== 'story' ? `${item.price_prefix || 'À partir de'} ${item.price} €` : null,
                         createdAt: new Date(item.created_at)
-                    });
+                    };
+                    
+                    if (item.category === 'story' && parsedItem.imageUrl) {
+                        stories.push(parsedItem);
+                    } else if (item.category === 'status') {
+                        feedItems.push(parsedItem);
+                    }
                 });
             }
 
@@ -126,6 +133,19 @@ const MomentsModule = {
                 }
             }
 
+            // Fetch current user subscriptions
+            this.subscriptions = [];
+            if (currentUser) {
+                try {
+                    const { data: rawSubs } = await db.from('user_subscriptions').select('following_id').eq('follower_id', currentUser.id);
+                    if (rawSubs) {
+                        this.subscriptions = rawSubs.map(s => s.following_id);
+                    }
+                } catch (e) {
+                    console.warn("Subscriptions table not ready:", e.message);
+                }
+            }
+
             // ALGORITHME DE VISIBILITÉ (Scoring system)
             const now = new Date();
             feedItems.forEach(item => {
@@ -153,6 +173,50 @@ const MomentsModule = {
 
             // Tri descendant par score de l'algorithme
             feedItems.sort((a, b) => b.score - a.score);
+            
+            // Save stories globally for viewer
+            this.currentStories = stories;
+
+            // Build Stories UI
+            let storiesHtml = '';
+            const addStoryBtn = `
+                <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="document.getElementById('post-story-input').click()">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; position: relative;">
+                        ${currentUser && currentUser.user_metadata?.avatar_url ? `<img src="${currentUser.user_metadata.avatar_url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">` : '<i class="fas fa-user" style="color:#cbd5e1;"></i>'}
+                        <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <span style="font-size: 0.7rem; font-weight: 600; color: #334155;">Ma Story</span>
+                </div>
+            `;
+            
+            if (stories.length > 0) {
+                const storyBubbles = stories.map((s, idx) => `
+                    <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="MomentsModule.openStoryViewer(${idx})">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; overflow: hidden; background: #0f172a;">
+                                ${s.authorAvatar ? `<img src="${s.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; margin-top: 18px;"></i>'}
+                            </div>
+                        </div>
+                        <span style="font-size: 0.7rem; font-weight: 600; color: #334155; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.authorName.split(' ')[0]}</span>
+                    </div>
+                `).join('');
+
+                storiesHtml = `
+                    <div style="display: flex; gap: 12px; overflow-x: auto; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05); scrollbar-width: none;">
+                        ${addStoryBtn}
+                        ${storyBubbles}
+                    </div>
+                    <style>.stories-container::-webkit-scrollbar { display: none; }</style>
+                `;
+            } else {
+                storiesHtml = `
+                    <div style="display: flex; gap: 12px; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05);">
+                        ${addStoryBtn}
+                    </div>
+                `;
+            }
 
             // 5. Render HTML
             let html = `
@@ -302,15 +366,22 @@ const MomentsModule = {
                                 <div style="flex: 1;">
                                     <textarea id="feed-status-input" placeholder="Partager une actualité, lancer un appel à projet..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                     
-                                    <div style="display: flex; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 8px; align-items: center; flex-wrap: wrap; gap: 12px;">
-                                        <div style="display: flex; gap: 4px;">
-                                            <button onclick="document.getElementById('post-file-input').click()" class="dtc-create-icon" title="Ajouter Photo ou Vidéo">
-                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        <div style="display: flex; gap: 8px;">
+                                            <button onclick="document.getElementById('post-file-input').click()" class="dtc-create-icon" title="Ajouter Photo ou Vidéo" style="background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                                Média
+                                            </button>
+                                            <button onclick="let url = prompt('Collez le lien YouTube de votre Live :'); if(url) { document.getElementById('feed-status-input').value += ' ' + url; }" class="dtc-create-icon" title="Passer en Live" style="background: rgba(239, 68, 68, 0.08); color: #ef4444; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                                Live
+                                            </button>
+                                            <button onclick="document.getElementById('post-story-input').click()" class="dtc-create-icon" title="Story" style="background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                                Story
                                             </button>
                                         </div>
                                         
-                                        <div style="display: flex; align-items: center; gap: 12px;">
-                                            <input type="file" id="post-file-input" style="display:none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
+                                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 12px;">
                                             <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
                                             <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">
                                                 Publier
@@ -353,6 +424,7 @@ const MomentsModule = {
     renderFeedItemHTML: function(item, currentUser, containerId) {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
+        const isFollowing = this.subscriptions ? this.subscriptions.includes(item.userId) : false;
         
         // Vues réelles (à implémenter en base de données, pour l'instant on cache le compteur si non disponible)
         const viewsCount = item.views || 0;
@@ -403,9 +475,34 @@ const MomentsModule = {
             cardBorder = 'border: 1px solid rgba(16, 185, 129, 0.25); background: linear-gradient(180deg, rgba(16, 185, 129, 0.005) 0%, white 100%);';
         }
  
+        let formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
+
+        // Check for YouTube Link (Live or Video)
+        const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = formattedContent.match(ytRegex);
+        let ytId = null;
+
+        if (match && match[1]) {
+            ytId = match[1];
+            // Remove URL from content
+            formattedContent = formattedContent.replace(match[0], '');
+        }
+
         // Render Media if present (Edge to Edge)
         let mediaHtml = '';
-        if (item.imageUrl) {
+        if (ytId) {
+            mediaHtml = `
+                <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; height: 600px; display: flex; justify-content: center; position: relative;">
+                    <div style="position: absolute; top: 16px; left: 16px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; z-index: 10; letter-spacing: 0.05em; text-transform: uppercase;">
+                        <span style="display: block; width: 6px; height: 6px; background: white; border-radius: 50%; animation: dtcPulse 1.5s infinite;"></span> EN DIRECT
+                    </div>
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border: none;"></iframe>
+                </div>
+                <style>
+                    @keyframes dtcPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+                </style>
+            `;
+        } else if (item.imageUrl) {
             const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
             if (isVideo) {
                 mediaHtml = `
@@ -451,8 +548,6 @@ const MomentsModule = {
                     </div>
                 `;
             }).join('');
-
-        const formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
  
         return `
             <div class="dtc-post-card" style="${cardBorder}">
@@ -469,9 +564,8 @@ const MomentsModule = {
                                 ${verifiedSvg}
                                 ${!isSelf ? `
                                     <span style="color:#cbd5e1; margin: 0 4px;">•</span>
-                                    <button class="dtc-follow-btn" onclick="alert('Vous suivez maintenant ${item.authorName} !')">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                        Suivre
+                                    <button class="dtc-follow-btn" onclick="MomentsModule.toggleFollow('${item.userId}', this, '${item.authorName.replace(/'/g, "\\'")}')" style="${isFollowing ? 'background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;' : ''}">
+                                        ${isFollowing ? `<i class="fas fa-check" style="margin-right: 4px;"></i> Abonné` : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Suivre`}
                                     </button>
                                 ` : ''}
                             </div>
@@ -582,6 +676,92 @@ const MomentsModule = {
                 </button>
             </div>
         `;
+    },
+
+    openStoryViewer: function(idx) {
+        if (!this.currentStories || !this.currentStories[idx]) return;
+        const s = this.currentStories[idx];
+        
+        let viewer = document.getElementById('dtc-story-viewer');
+        if (!viewer) {
+            viewer = document.createElement('div');
+            viewer.id = 'dtc-story-viewer';
+            viewer.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column;';
+            document.body.appendChild(viewer);
+        }
+
+        const isVideo = s.imageUrl && s.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
+        const mediaTag = isVideo ? `<video src="${s.imageUrl}" autoplay controls style="max-width: 100%; max-height: 80vh; border-radius: 12px;"></video>` : `<img src="${s.imageUrl}" style="max-width: 100%; max-height: 80vh; border-radius: 12px; object-fit: contain;">`;
+
+        viewer.innerHTML = `
+            <div style="position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 12px; z-index: 10;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid white;">
+                    ${s.authorAvatar ? `<img src="${s.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : ''}
+                </div>
+                <div style="color: white; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${s.authorName}</div>
+            </div>
+            <button onclick="document.getElementById('dtc-story-viewer').style.display='none'" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 10;">&times;</button>
+            ${mediaTag}
+        `;
+        viewer.style.display = 'flex';
+    },
+
+    handleStoryFileSelected: async function(input) {
+        const file = input.files[0];
+        if (!file) return;
+        
+        if (!confirm("Voulez-vous publier ce média dans votre Story ?")) {
+            input.value = '';
+            return;
+        }
+
+        const db = this.getDb();
+        const session = window.App?.state?.session;
+        const profile = window.App?.state?.profile;
+        if (!session || !profile) {
+            alert("Vous devez être connecté.");
+            return;
+        }
+
+        try {
+            // Upload file
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+            const filePath = `stories/${fileName}`;
+
+            const { error: uploadError } = await db.storage
+                .from('chat-media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = db.storage
+                .from('chat-media')
+                .getPublicUrl(filePath);
+
+            const { error } = await db.from('showcase_items').insert([{
+                user_id: session.user.id,
+                title: `Story: ${profile.full_name}`,
+                description: '',
+                image_url: publicUrl,
+                price: 0,
+                category: 'story',
+                status: 'active'
+            }]);
+
+            if (error) throw error;
+            alert("Story publiée !");
+            
+            // Re-render feed to show new story
+            const feedContainer = document.querySelector('.dtc-feed-container');
+            if (feedContainer) this.renderFeed(feedContainer.parentElement.id);
+
+        } catch (err) {
+            console.error("Story Post Error:", err);
+            alert("Erreur lors de la publication de la story.");
+        } finally {
+            input.value = '';
+        }
     },
 
     handlePostFileSelected: function(input) {
@@ -702,6 +882,51 @@ const MomentsModule = {
         const el = document.getElementById(`comments-section-${postId}`);
         if (el) {
             el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+    },
+
+    toggleFollow: async function(targetUserId, btnElement, authorName) {
+        const db = this.getDb();
+        const session = window.App?.state?.session;
+        if (!session) {
+            alert("Vous devez être connecté pour vous abonner.");
+            return;
+        }
+
+        const currentUserId = session.user.id;
+        const isCurrentlyFollowing = this.subscriptions && this.subscriptions.includes(targetUserId);
+
+        try {
+            // Optimistic UI Update
+            if (isCurrentlyFollowing) {
+                // Unfollow
+                this.subscriptions = this.subscriptions.filter(id => id !== targetUserId);
+                btnElement.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Suivre`;
+                btnElement.style.background = '';
+                btnElement.style.color = '';
+                btnElement.style.border = '';
+                
+                await db.from('user_subscriptions')
+                    .delete()
+                    .eq('follower_id', currentUserId)
+                    .eq('following_id', targetUserId);
+            } else {
+                // Follow
+                if (!this.subscriptions) this.subscriptions = [];
+                this.subscriptions.push(targetUserId);
+                btnElement.innerHTML = `<i class="fas fa-check" style="margin-right: 4px;"></i> Abonné`;
+                btnElement.style.background = '#f1f5f9';
+                btnElement.style.color = '#64748b';
+                btnElement.style.border = '1px solid #e2e8f0';
+
+                await db.from('user_subscriptions')
+                    .insert([{ follower_id: currentUserId, following_id: targetUserId }]);
+                
+                // alert(`Vous êtes maintenant abonné à la chaîne de ${authorName} !`);
+            }
+        } catch (err) {
+            console.error("[MomentsModule] Follow Error:", err);
+            alert("Une erreur est survenue.");
         }
     },
 
