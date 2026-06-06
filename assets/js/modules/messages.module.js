@@ -39,6 +39,7 @@ const MessagesModule = {
         style.innerHTML = `
             .messaging-container {
                 display: flex;
+                width: 100%;
                 height: calc(100vh - 100px);
                 background: white;
                 border-radius: 24px;

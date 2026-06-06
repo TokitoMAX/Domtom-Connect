@@ -13,7 +13,7 @@ window.MastermindSalonModule = {
         console.log("[MastermindSalonModule] Mounting UI...");
         
         container.innerHTML = `
-            <div style="max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 120px); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="width: 100%; max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 120px); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
                 <!-- Header -->
                 <div style="padding: 20px 24px; border-bottom: 1px solid #e2e8f0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display: flex; align-items: center; gap: 16px;">
                     <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;"><i class="fas fa-crown" style="color: #fbbf24;"></i></div>
