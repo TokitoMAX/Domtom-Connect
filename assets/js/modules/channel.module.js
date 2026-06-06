@@ -186,11 +186,11 @@ window.ChannelModule = {
                                             <textarea id="feed-status-input" placeholder="Partager sur votre chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                             
                                             <div style="display: flex; gap: 12px; margin-top: 8px;">
-                                                <button onclick="document.getElementById('post-file-input').click()" title="Ajouter Photo ou Vidéo" style="border:none; cursor:pointer; background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                <button onclick="document.getElementById('post-file-input').click()" title="Ajouter Photo ou Vidéo" style="border:none; cursor:pointer; background: rgba(15, 23, 42, 0.08); color: #0f172a; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                                                     Média
                                                 </button>
-                                                <button onclick="document.getElementById('post-story-input').click()" title="Ajouter une Story" style="border:none; cursor:pointer; background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                <button onclick="document.getElementById('post-story-input').click()" title="Ajouter une Story" style="border:none; cursor:pointer; background: rgba(16, 185, 129, 0.08); color: #10b981; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                                     Story
                                                 </button>
@@ -249,10 +249,22 @@ window.ChannelModule = {
                     <textarea id="channel-bio-input" rows="3" placeholder="Décrivez votre chaîne ou votre activité..." style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit; resize:vertical;">${p.channel_bio || ''}</textarea>
                     
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Avatar de la chaîne (optionnel)</label>
-                    <input type="file" id="channel-avatar-input" accept="image/*" style="margin-bottom: 20px; width: 100%; font-size: 0.9rem;">
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <input type="file" id="channel-avatar-input" accept="image/*" style="opacity: 0; position: absolute; top:0; left:0; width:100%; height:100%; cursor: pointer;" onchange="document.getElementById('avatar-file-name').textContent = this.files[0]?.name || 'Cliquez pour choisir une image'">
+                        <div style="background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; color: #64748b; font-size: 0.9rem; font-weight: 600; pointer-events: none;">
+                            <i class="fas fa-image" style="font-size: 1.5rem; margin-bottom: 8px; color: #10b981; display:block;"></i>
+                            <span id="avatar-file-name">Cliquez pour choisir une image</span>
+                        </div>
+                    </div>
 
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Bannière de la chaîne</label>
-                    <input type="file" id="channel-banner-input" accept="image/*" style="margin-bottom: 24px; width: 100%; font-size: 0.9rem;">
+                    <div style="position: relative; margin-bottom: 24px;">
+                        <input type="file" id="channel-banner-input" accept="image/*" style="opacity: 0; position: absolute; top:0; left:0; width:100%; height:100%; cursor: pointer;" onchange="document.getElementById('banner-file-name').textContent = this.files[0]?.name || 'Cliquez pour choisir une image'">
+                        <div style="background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; color: #64748b; font-size: 0.9rem; font-weight: 600; pointer-events: none;">
+                            <i class="fas fa-panorama" style="font-size: 1.5rem; margin-bottom: 8px; color: #10b981; display:block;"></i>
+                            <span id="banner-file-name">Cliquez pour choisir une image</span>
+                        </div>
+                    </div>
 
                     <button onclick="window.ChannelModule.saveSettings(this)" style="width:100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; cursor: pointer;">Enregistrer les modifications</button>
                 </div>

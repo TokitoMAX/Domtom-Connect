@@ -7,6 +7,63 @@ const MomentsModule = {
     likes: {},
     comments: {},
     pendingFile: null,
+    searchTimeout: null,
+
+    searchUsers: async function(query) {
+        if (this.searchTimeout) clearTimeout(this.searchTimeout);
+        
+        this.searchTimeout = setTimeout(async () => {
+            const resultsContainer = document.getElementById('dtc-search-results');
+            if (!resultsContainer) return;
+            
+            if (!query || query.trim().length < 2) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+            
+            try {
+                const db = this.getDb();
+                const { data, error } = await db.from('profiles')
+                    .select('id, full_name, channel_name, avatar_url, channel_avatar_url, role, expertise')
+                    .or(`full_name.ilike.%${query}%,channel_name.ilike.%${query}%,expertise.ilike.%${query}%`)
+                    .limit(5);
+
+                if (error) throw error;
+                
+                if (!data || data.length === 0) {
+                    resultsContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; font-size:0.85rem; padding: 10px; font-weight:600;">Aucun utilisateur trouvé pour "${query}"</div>`;
+                    resultsContainer.style.display = 'flex';
+                    return;
+                }
+                
+                resultsContainer.innerHTML = data.map(user => {
+                    const name = user.channel_name || user.full_name;
+                    const avatar = user.channel_avatar_url || user.avatar_url;
+                    const role = user.role || 'Citoyen';
+                    return `
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-radius: 12px; background: #f8fafc;">
+                            <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.Router.navigate('#channel?id=${user.id}')">
+                                <div style="width: 40px; height: 40px; border-radius: 50%; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    ${avatar ? `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; font-size: 0.8rem;"></i>'}
+                                </div>
+                                <div style="min-width: 0;">
+                                    <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${name}</div>
+                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: capitalize;">${role}</div>
+                                </div>
+                            </div>
+                            <button onclick="window.Router.navigate('#channel?id=${user.id}')" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: none; padding: 6px 12px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; cursor: pointer; transition: background 0.2s; white-space: nowrap;">
+                                Voir Chaîne
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+                resultsContainer.style.display = 'flex';
+                
+            } catch (err) {
+                console.error("Search error:", err);
+            }
+        }, 300); // 300ms debounce
+    },
 
     getDb: function() {
         return window._supabase;
@@ -356,6 +413,13 @@ const MomentsModule = {
                 </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
                     
+                    <!-- USER SEARCH BAR -->
+                    <div style="background: white; border-radius: 16px; padding: 12px 20px; border: 1px solid rgba(15, 23, 42, 0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 0px;">
+                        <i class="fas fa-search" style="color: #94a3b8;"></i>
+                        <input type="text" id="dtc-user-search" placeholder="Rechercher un profil, un expert ou une chaîne..." style="border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #0f172a;" onkeyup="window.MomentsModule.searchUsers(this.value)">
+                    </div>
+                    <div id="dtc-search-results" style="display: none; background: white; border-radius: 16px; padding: 16px; border: 1px solid rgba(15, 23, 42, 0.05); margin-top: -12px; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);"></div>
+
                     <!-- STORIES BAR -->
                     ${storiesHtml}
 
