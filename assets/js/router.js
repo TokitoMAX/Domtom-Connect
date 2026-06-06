@@ -140,12 +140,12 @@ const Router = {
      */
     updateSEO(viewId) {
         const seoMap = {
-            'overview': { title: 'Tableau de bord | Domtom Connect', desc: 'Gérez vos projets, missions et accédez à votre réseau.' },
-            'moments': { title: 'Flux Territorial | Domtom Connect', desc: 'Découvrez les dernières actualités et projets de la communauté.' },
-            'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: 'Trouvez les meilleurs experts et prestataires pour vos projets.' },
-            'showcase': { title: 'Offres & Services | Domtom Connect', desc: 'Explorez nos solutions métiers.' },
-            'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: 'Espace d\\'échange réservé aux membres du Club Mastermind.' },
-            'default': { title: 'Domtom Connect | L\\'Écosystème', desc: 'Le pont entre l\\'ambition territoriale et l\\'expertise mondiale.' }
+            'overview': { title: 'Tableau de bord | Domtom Connect', desc: "Gérez vos projets, missions et accédez à votre réseau." },
+            'moments': { title: 'Flux Territorial | Domtom Connect', desc: "Découvrez les dernières actualités et projets de la communauté." },
+            'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: "Trouvez les meilleurs experts et prestataires pour vos projets." },
+            'showcase': { title: 'Offres & Services | Domtom Connect', desc: "Explorez nos solutions métiers." },
+            'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: "Espace d'échange réservé aux membres du Club Mastermind." },
+            'default': { title: 'Domtom Connect | L\\'Écosystème', desc: "Le pont entre l'ambition territoriale et l'expertise mondiale." }
         };
 
         const seo = seoMap[viewId] || seoMap['default'];
