@@ -5,7 +5,7 @@
 
 window.ChannelModule = {
     getDb: function() {
-        return window.App?.supabase || window.supabase;
+        return window.App?.supabase || window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
     },
 
     getRelativeTime: function(dateString) {
