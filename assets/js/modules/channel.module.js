@@ -51,9 +51,6 @@ window.ChannelModule = {
             const { data: profile, error: profileErr } = await db.from('profiles').select('*').eq('id', userId).single();
             if (profileErr || !profile) throw new Error("Profil introuvable");
 
-            // 2. Fetch target user showcase (Bio, expertise...)
-            const { data: showcase } = await db.from('showcase_profiles').select('*').eq('id', userId).single();
-
             // 3. Fetch Subscribers Count (Followers)
             const { data: followersData } = await db.from('user_subscriptions').select('follower_id').eq('following_id', userId);
             const followersCount = followersData ? followersData.length : 0;
@@ -92,8 +89,8 @@ window.ChannelModule = {
             }
 
             const isSelf = currentUserId === userId;
-            const authorRole = showcase ? showcase.role : profile.role || 'Citoyen';
-            const authorTitle = showcase ? showcase.expertise || showcase.company_name : '';
+            const authorRole = profile.role || 'Citoyen';
+            const authorTitle = profile.expertise || profile.company_name || '';
 
             // Map posts for MomentsModule
             const feedItems = (rawPosts || []).map(p => ({
@@ -127,7 +124,7 @@ window.ChannelModule = {
                 </style>
                 <div class="channel-layout">
                     <div class="channel-banner">
-                        ${showcase && showcase.banner_url ? `<img src="${showcase.banner_url}" style="width:100%; height:100%; object-fit:cover;">` : ''}
+                        ${profile.banner_url ? `<img src="${profile.banner_url}" style="width:100%; height:100%; object-fit:cover;">` : ''}
                         <button onclick="window.history.back()" style="position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.5); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-arrow-left"></i></button>
                     </div>
 
@@ -162,9 +159,9 @@ window.ChannelModule = {
                                     <button onclick="window.Router.navigate('#messages')" style="padding: 10px 16px; border-radius: 12px; background: #f1f5f9; color: #0f172a; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: background 0.2s;"><i class="fas fa-comment-alt"></i></button>
                                 `}
                             </div>
-                            ${showcase && showcase.bio ? `
+                            ${profile.bio ? `
                                 <div style="text-align: left; font-size: 0.95rem; color: #334155; line-height: 1.6; margin-top: 16px; font-weight: 500;">
-                                    ${showcase.bio.replace(/\n/g, '<br>')}
+                                    ${profile.bio.replace(/\n/g, '<br>')}
                                 </div>
                             ` : `<div style="text-align: left; font-size: 0.95rem; color: #94a3b8; font-style: italic; margin-top: 16px;">Aucune biographie.</div>`}
                         </div>
@@ -227,26 +224,33 @@ window.ChannelModule = {
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'channel-settings-modal';
-            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; align-items:center; justify-content:center;';
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; align-items:center; justify-content:center; overflow-y:auto; padding: 20px;';
             document.body.appendChild(modal);
         }
-        const profile = window.App.state.profile;
+        const profile = window.App.state.profile || {};
+        
+        // Use profiles table for bio and banner too now
         const db = this.getDb();
-        db.from('showcase_profiles').select('*').eq('id', profile.id).maybeSingle().then(({data: showcase, error}) => {
+        db.from('profiles').select('*').eq('id', profile.id).single().then(({data: userProfile, error}) => {
+            const p = userProfile || profile;
             modal.innerHTML = `
-                <div style="background: white; border-radius: 24px; width: 90%; max-width: 500px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative;">
+                <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; max-height: 90vh; overflow-y: auto;">
                     <button onclick="document.getElementById('channel-settings-modal').style.display='none'" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer;">&times;</button>
                     <h2 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-top: 0; margin-bottom: 24px;">Paramètres de la Chaîne</h2>
                     
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Nom de la chaîne (Votre nom)</label>
-                    <input type="text" id="channel-name-input" value="${profile.full_name || ''}" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit;">
+                    <input type="text" id="channel-name-input" value="${p.full_name || ''}" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit;">
                     
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Biographie de la chaîne</label>
-                    <textarea id="channel-bio-input" rows="4" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 24px; font-size:1rem; font-family:inherit; resize:vertical;">${showcase?.bio || ''}</textarea>
+                    <textarea id="channel-bio-input" rows="3" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit; resize:vertical;">${p.bio || ''}</textarea>
                     
-                    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px; font-weight: 500;">Pour changer votre avatar ou bannière, veuillez aller dans la section "Mon Profil". Ces paramètres sont partagés pour l'instant.</p>
+                    <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Avatar (Image de profil)</label>
+                    <input type="file" id="channel-avatar-input" accept="image/*" style="margin-bottom: 20px; width: 100%; font-size: 0.9rem;">
 
-                    <button onclick="window.ChannelModule.saveSettings()" style="width:100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; cursor: pointer;">Enregistrer</button>
+                    <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Bannière (Image de couverture)</label>
+                    <input type="file" id="channel-banner-input" accept="image/*" style="margin-bottom: 24px; width: 100%; font-size: 0.9rem;">
+
+                    <button onclick="window.ChannelModule.saveSettings(this)" style="width:100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; cursor: pointer;">Enregistrer les modifications</button>
                 </div>
             `;
             modal.style.display = 'flex';
@@ -254,6 +258,66 @@ window.ChannelModule = {
             console.error("Error loading settings modal:", err);
             alert("Erreur lors de l'ouverture des paramètres.");
         });
+    },
+
+    saveSettings: async function(btn) {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+        btn.disabled = true;
+
+        const name = document.getElementById('channel-name-input').value.trim();
+        const bio = document.getElementById('channel-bio-input').value.trim();
+        const avatarFile = document.getElementById('channel-avatar-input').files[0];
+        const bannerFile = document.getElementById('channel-banner-input').files[0];
+        
+        const db = this.getDb();
+        const session = window.App?.state?.session;
+        if (!session) return;
+
+        try {
+            let avatar_url = window.App.state.profile.avatar_url;
+            let banner_url = window.App.state.profile.banner_url || null;
+
+            // Upload Avatar if changed
+            if (avatarFile) {
+                const ext = avatarFile.name.split('.').pop();
+                const path = `avatars/${session.user.id}_${Date.now()}.${ext}`;
+                await db.storage.from('showcase').upload(path, avatarFile);
+                avatar_url = db.storage.from('showcase').getPublicUrl(path).data.publicUrl;
+            }
+
+            // Upload Banner if changed
+            if (bannerFile) {
+                const ext = bannerFile.name.split('.').pop();
+                const path = `banners/${session.user.id}_${Date.now()}.${ext}`;
+                await db.storage.from('showcase').upload(path, bannerFile);
+                banner_url = db.storage.from('showcase').getPublicUrl(path).data.publicUrl;
+            }
+
+            // Update profiles table
+            const updatePayload = { full_name: name, bio: bio };
+            if (avatarFile) updatePayload.avatar_url = avatar_url;
+            if (bannerFile) updatePayload.banner_url = banner_url;
+
+            const { error: updateErr } = await db.from('profiles').update(updatePayload).eq('id', session.user.id);
+            if (updateErr) throw updateErr;
+            
+            // Update local state
+            if (window.App.state.profile) {
+                window.App.state.profile.full_name = name;
+                window.App.state.profile.bio = bio;
+                if (avatarFile) window.App.state.profile.avatar_url = avatar_url;
+                if (bannerFile) window.App.state.profile.banner_url = banner_url;
+            }
+            
+            document.getElementById('channel-settings-modal').style.display = 'none';
+            // Reload channel
+            window.ChannelModule.renderChannel(session.user.id, 'view-channel');
+        } catch (err) {
+            console.error("Save Settings Error:", err);
+            alert("Erreur lors de l'enregistrement: " + err.message);
+            btn.innerHTML = 'Enregistrer les modifications';
+            btn.disabled = false;
+        }
     },
 
     toggleFollow: async function(targetUserId, btnElement) {
