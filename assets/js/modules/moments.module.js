@@ -20,7 +20,7 @@ const MomentsModule = {
         container.innerHTML = `
             <div style="padding: 20px; text-align: center; color: #64748b;">
                 <div class="splash-loader" style="margin: 0 auto 16px;"></div>
-                Chargement du Flux Local...
+                Chargement du Fil Réseau...
             </div>
         `;
 
@@ -374,7 +374,7 @@ const MomentsModule = {
             console.error("[MomentsModule] Load Error:", err);
             container.innerHTML = `
                 <div style="padding: 24px; color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 16px; font-weight: 700; text-align: center;">
-                    Erreur de chargement du Flux : ${err.message}
+                    Erreur de chargement du Fil Réseau : ${err.message}
                 </div>
             `;
         }
