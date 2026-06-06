@@ -121,9 +121,9 @@
             },
             {
                 id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
-                    { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
-                    { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
-                    { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
+                    { value: 'moins-50k', label: 'Moins de 50 000 €' },
+                    { value: '50k-200k', label: '50 000 - 200 000 €' },
+                    { value: '200k-plus', label: 'Plus de 200 000 €' }
                 ]
             },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
@@ -146,9 +146,9 @@
             },
             {
                 id: 'montant_investissement', question: 'Quel est le montant d\'investissement potentiel ?', type: 'radio', required: true, fieldName: 'montant_investissement', options: [
-                    { value: 'moins-50k', label: 'Moins de 50 000 € (Cotisation : 29€/mois ou 300€/an)' },
-                    { value: '50k-200k', label: '50 000 - 200 000 € (Cotisation : 49€/mois ou 500€/an)' },
-                    { value: '200k-plus', label: 'Plus de 200 000 € (Cotisation : 99€/mois ou 1 000€/an)' }
+                    { value: 'moins-50k', label: 'Moins de 50 000 €' },
+                    { value: '50k-200k', label: '50 000 - 200 000 €' },
+                    { value: '200k-plus', label: 'Plus de 200 000 €' }
                 ]
             },
             { id: 'certification', question: 'Je certifie sur l\'honneur que toutes les informations fournies sont exactes', type: 'checkbox', required: true, fieldName: 'certification', description: 'Je comprends que la vérification de ces informations permet de garantir la qualité du réseau pour tous.' }
@@ -215,14 +215,14 @@
             const ile = data.ile || data.question_ile || '';
             const montant_investissement = data.montant_investissement || data.question_montant_investissement || '';
 
-            // Déterminer la cotisation selon le montant
+            // Déterminer la cotisation selon le montant (désactivé)
             let cotisationInfo = null;
             if (montant_investissement === 'moins-50k') {
-                cotisationInfo = { montant: '29€/mois', annuel: '300€/an', description: 'Moins de 50 000€ d\'investissement' };
+                cotisationInfo = { montant: 'Sur Devis', description: 'Moins de 50 000€ d\'investissement' };
             } else if (montant_investissement === '50k-200k') {
-                cotisationInfo = { montant: '49€/mois', annuel: '500€/an', description: '50 000€ à 200 000€ d\'investissement' };
+                cotisationInfo = { montant: 'Sur Devis', description: '50 000€ à 200 000€ d\'investissement' };
             } else if (montant_investissement === '200k-plus') {
-                cotisationInfo = { montant: '99€/mois', annuel: '1 000€/an', description: 'Plus de 200 000€ d\'investissement' };
+                cotisationInfo = { montant: 'Sur Devis', description: 'Plus de 200 000€ d\'investissement' };
             }
 
             // Préparer le message pour l'email

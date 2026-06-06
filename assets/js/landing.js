@@ -635,10 +635,10 @@ function determinePackAndPayment(budget, engagement) {
     if (budget === 'moins-300' || budget === '300-1000') {
         return {
             pack: 'business',
-            packName: 'Pack Business (Conseillé)',
-            packPrice: '29€/mois',
-            paymentPlan: 'Abonnement mensuel',
-            action: 'Recommandation Pack Business'
+            packName: 'Accompagnement Initial',
+            packPrice: 'Sur Devis',
+            paymentPlan: 'Évaluation Stratégique',
+            action: 'Appel de découverte'
         };
     } else if (budget === '1000-3000' || budget === 'plus-3000' || budget === 'non-defini') {
         return {
@@ -1335,16 +1335,16 @@ ${data.besoin}
 
     // Informations spécifiques pour Investisseurs (simplifié)
     if (pageType === 'investisseurs') {
-        const montantLabel = data.montant_mensuel === '29' ? '29€/mois (ou 300€/an) - Moins de 50 000€ d\'investissement' :
-            data.montant_mensuel === '49' ? '49€/mois (ou 500€/an) - 50 000€ à 200 000€ d\'investissement' :
-                data.montant_mensuel === '99' ? '99€/mois (ou 1 000€/an) - Plus de 200 000€ d\'investissement' :
+        const montantLabel = data.montant_mensuel === '29' ? 'Moins de 50 000€ d\'investissement' :
+            data.montant_mensuel === '49' ? '50 000€ à 200 000€ d\'investissement' :
+                data.montant_mensuel === '99' ? 'Plus de 200 000€ d\'investissement' :
                     data.montant_mensuel || 'Non renseigné';
 
         messageBody += `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 INVESTISSEUR - INFORMATIONS
+💰 INVESTISSEUR - CAPACITÉ
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Cotisation mensuelle souhaitée: ${montantLabel}
+Capacité d'investissement ciblée: ${montantLabel}
 
 Pourquoi investir dans les territoires ultramarins:
 ${data.pourquoi_investir || 'Non renseigné'}

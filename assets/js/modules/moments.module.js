@@ -330,10 +330,14 @@ const MomentsModule = {
                     <!-- FEED ITEMS -->
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         ${feedItems.length === 0 ? `
-                            <div style="text-align: center; padding: 60px 40px; color: #94a3b8; background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; font-weight: 700; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.02);">
-                                Aucun message dans le flux territorial pour le moment. Soyez le premier à publier !
-                            </div>
-                        ` : feedItems.map(item => this.renderFeedItemHTML(item, currentUser, containerId)).join('')}
+                        ` : feedItems.map((item, index) => {
+                            let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
+                            // Inject CTA Mastermind naturally in the feed (e.g. after the 2nd item)
+                            if (index === 1) {
+                                htmlStr += this.renderMastermindCTA();
+                            }
+                            return htmlStr;
+                        }).join('')}
                     </div>
  
                 </div>
@@ -535,6 +539,24 @@ const MomentsModule = {
                 </div>
                 </div>
  
+            </div>
+        `;
+    },
+
+    renderMastermindCTA: function() {
+        return `
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 24px; padding: 32px; color: white; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 15px 35px rgba(15, 23, 42, 0.2); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); margin: 8px 0;">
+                <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; opacity: 0.03; color: white; pointer-events: none;"><i class="fas fa-crown"></i></div>
+                <div style="width: 56px; height: 56px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3 style="font-size: 1.4rem; font-weight: 900; margin: 0 0 12px 0; letter-spacing: -0.02em;">Passez au niveau supérieur</h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 1rem; line-height: 1.5; margin: 0 0 24px 0; max-width: 90%;">
+                    Rejoignez le <strong style="color:white;">Club Mastermind</strong> pour accéder au salon privé, aux sessions de co-développement et développer votre réseau d'affaires premium en Outre-Mer.
+                </p>
+                <button onclick="window.Router.navigate('#mastermind')" style="background: #10b981; color: white; border: none; padding: 12px 28px; border-radius: 14px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);">
+                    Découvrir le Club Mastermind
+                </button>
             </div>
         `;
     },

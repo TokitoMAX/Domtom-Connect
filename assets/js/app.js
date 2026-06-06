@@ -137,8 +137,16 @@ const App = {
         let activeModule = this.getActiveModule();
 
         // --- NEW: Global Module Overrides ---
-        if (viewId === 'moments') {
-            if (targetView) {
+        if (viewId === 'overview' || viewId === 'dashboard' || viewId === 'moments') {
+            const feedWrapper = document.getElementById('moments-feed-wrapper');
+            if (feedWrapper) {
+                feedWrapper.style.display = 'block';
+                if (window.MomentsModule) {
+                    window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
+                }
+            }
+            // For the dedicated moments view (legacy routing support)
+            if (viewId === 'moments' && targetView) {
                 targetView.style.display = 'block';
                 targetView.innerHTML = `
                     <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 800px; margin: 0 auto; box-sizing: border-box; width: 100%;">
@@ -152,9 +160,8 @@ const App = {
                 if (window.MomentsModule) {
                     window.MomentsModule.renderFeed('dtc-moments-feed-mount-view');
                 }
+                if (feedWrapper) feedWrapper.style.display = 'none';
             }
-            const feedWrapper = document.getElementById('moments-feed-wrapper');
-            if (feedWrapper) feedWrapper.style.display = 'none';
             return;
         }
 
@@ -339,18 +346,6 @@ const App = {
             
             try {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
-                if (viewId === 'overview' || viewId === 'dashboard') {
-                    const feedWrapper = document.getElementById('moments-feed-wrapper');
-                    if (feedWrapper) {
-                        feedWrapper.style.display = 'block';
-                        if (window.MomentsModule) {
-                            window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
-                        }
-                    }
-                } else {
-                    const feedWrapper = document.getElementById('moments-feed-wrapper');
-                    if (feedWrapper) feedWrapper.style.display = 'none';
-                }
             } catch (err) {
                 console.error("[App] Module Route Error:", err);
                 if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;
