@@ -95,9 +95,38 @@ const MessagesModule = {
                 color: #0f172a;
             }
 
+            .msg-tabs {
+                display: flex;
+                gap: 8px;
+                margin-top: 16px;
+            }
+
+            .msg-tab {
+                flex: 1;
+                padding: 8px;
+                text-align: center;
+                font-size: 0.85rem;
+                font-weight: 700;
+                border-radius: 8px;
+                cursor: pointer;
+                background: #f1f5f9;
+                color: #64748b;
+                border: none;
+                transition: all 0.2s;
+            }
+
+            .msg-tab.active {
+                background: #0f172a;
+                color: white;
+            }
+
             .conversations-items {
                 flex: 1;
                 overflow-y: auto;
+                display: none;
+            }
+            .conversations-items.active {
+                display: block;
             }
 
             .conversation-item {
@@ -499,10 +528,17 @@ const MessagesModule = {
                     <!-- Left Panel: Conversations -->
                     <div class="conversations-list">
                         <div class="conversations-header">
-                            <h2>Messagerie Directe</h2>
+                            <h2>Messagerie</h2>
+                            <div class="msg-tabs">
+                                <button class="msg-tab active" id="tab-btn-private" onclick="window.MessagesModule.switchTab('private')">Privé</button>
+                                <button class="msg-tab" id="tab-btn-channel" onclick="window.MessagesModule.switchTab('channel')">Pro</button>
+                            </div>
                         </div>
-                        <div class="conversations-items" id="conv-list">
-                            <div class="loader" id="conv-loader" style="display:none;"></div>
+                        <div class="conversations-items active" id="conv-list-private">
+                            <div class="loader" id="conv-loader-private" style="display:none;"></div>
+                        </div>
+                        <div class="conversations-items" id="conv-list-channel">
+                            <div class="loader" id="conv-loader-channel" style="display:none;"></div>
                         </div>
                     </div>
 
@@ -662,8 +698,9 @@ const MessagesModule = {
     initMessaging: async function(params) {
         try {
             const targetUserId = params ? params.get('to') : null;
+            const context = params ? params.get('context') : null;
             if (targetUserId && targetUserId !== this.currentUserId) {
-                await this.ensureConversationWith(targetUserId);
+                await this.ensureConversationWith(targetUserId, context);
 
                 // Handle prefilled query params
                 const prefill = params.get('prefill');
@@ -701,31 +738,52 @@ const MessagesModule = {
         }
     },
 
-    ensureConversationWith: async function(targetUserId) {
-        const { data: myConvs, error: e1 } = await window._supabase.from('conversation_participants').select('conversation_id').eq('user_id', this.currentUserId);
+    ensureConversationWith: async function(targetUserId, context) {
+        const { data: myConvs, error: e1 } = await window._supabase.from('conversation_participants')
+            .select('conversation_id, conversations(title)')
+            .eq('user_id', this.currentUserId);
+            
         if (e1) {
             console.error("Error fetching myConvs:", e1.message);
             return;
         }
 
-        const myConvIds = myConvs ? myConvs.map(c => c.conversation_id) : [];
-        if (myConvIds.length > 0) {
+        let existingConvId = null;
+        if (myConvs && myConvs.length > 0) {
+            const myConvIds = myConvs.map(c => c.conversation_id);
             const { data: shared, error: e2 } = await window._supabase.from('conversation_participants')
                 .select('conversation_id')
                 .in('conversation_id', myConvIds)
-                .eq('user_id', targetUserId)
-                .limit(1);
+                .eq('user_id', targetUserId);
 
             if (shared && shared.length > 0) {
-                this.activeConversationId = shared[0].conversation_id;
-                return;
+                const sharedIds = shared.map(s => s.conversation_id);
+                // Find one that matches context
+                const isChannelContext = context === 'channel';
+                
+                for (const sid of sharedIds) {
+                    const convData = myConvs.find(c => c.conversation_id === sid);
+                    if (convData && convData.conversations) {
+                        const title = convData.conversations.title;
+                        const isConvChannel = title === 'Channel';
+                        if (isChannelContext && isConvChannel) existingConvId = sid;
+                        if (!isChannelContext && !isConvChannel) existingConvId = sid;
+                    }
+                }
             }
+        }
+
+        if (existingConvId) {
+            this.activeConversationId = existingConvId;
+            if (context === 'channel') this.switchTab('channel');
+            return;
         }
 
         // Create conversation
         const newId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + Date.now().toString(36));
         const { error: errConv } = await window._supabase.from('conversations').insert([{
             id: newId,
+            title: context === 'channel' ? 'Channel' : null,
             updated_at: new Date().toISOString()
         }]);
 
@@ -740,6 +798,7 @@ const MessagesModule = {
         ]);
 
         this.activeConversationId = newId;
+        if (context === 'channel') this.switchTab('channel');
 
         const layout = document.querySelector('.chat-layout');
         if (layout && window.innerWidth <= 768) {
@@ -747,11 +806,26 @@ const MessagesModule = {
         }
     },
 
+    switchTab: function(tab) {
+        document.getElementById('tab-btn-private').classList.remove('active');
+        document.getElementById('tab-btn-channel').classList.remove('active');
+        document.getElementById('conv-list-private').classList.remove('active');
+        document.getElementById('conv-list-channel').classList.remove('active');
+        
+        document.getElementById('tab-btn-' + tab).classList.add('active');
+        document.getElementById('conv-list-' + tab).classList.add('active');
+    },
+
     loadConversations: async function() {
-        const loader = document.getElementById('conv-loader');
-        const convListEl = document.getElementById('conv-list');
-        if (convListEl) convListEl.innerHTML = '';
-        if (loader) loader.style.display = 'block';
+        const loaderPrivate = document.getElementById('conv-loader-private');
+        const loaderChannel = document.getElementById('conv-loader-channel');
+        const listPrivate = document.getElementById('conv-list-private');
+        const listChannel = document.getElementById('conv-list-channel');
+        
+        if (listPrivate) listPrivate.innerHTML = '';
+        if (listChannel) listChannel.innerHTML = '';
+        if (loaderPrivate) loaderPrivate.style.display = 'block';
+        if (loaderChannel) loaderChannel.style.display = 'block';
 
         try {
             const { data: myConvs, error: errorConvs } = await window._supabase
@@ -761,7 +835,8 @@ const MessagesModule = {
             if (errorConvs) throw errorConvs;
 
             if (!myConvs || myConvs.length === 0) {
-                if (convListEl) convListEl.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation.</p>';
+                if (listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
+                if (listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
                 return;
             }
 
@@ -782,12 +857,15 @@ const MessagesModule = {
 
             const otherUserIds = otherParticipants.map(p => p.user_id);
             const { data: profiles, error: errorProf } = await window._supabase.from('profiles')
-                .select('id, full_name, avatar_url, title, skills')
+                .select('id, full_name, channel_name, avatar_url, channel_avatar_url, title, skills')
                 .in('id', otherUserIds);
 
             if (errorProf) throw errorProf;
 
             profiles.forEach(p => this.cachedProfiles[p.id] = p);
+
+            let hasPrivate = false;
+            let hasChannel = false;
 
             otherParticipants.forEach(participant => {
                 const profile = this.cachedProfiles[participant.user_id];
@@ -796,14 +874,17 @@ const MessagesModule = {
                 const convId = participant.conversation_id;
                 const sasTitle = this.cachedConvTitles[convId];
                 const isSas = sasTitle && sasTitle.startsWith('Sas -');
+                const isChannel = sasTitle === 'Channel';
 
-                const name = isSas ? sasTitle : (profile.full_name || 'Anonyme');
+                const name = isSas ? sasTitle : (isChannel ? (profile.channel_name || profile.full_name) : (profile.full_name || 'Anonyme'));
                 const initials = isSas ? '<i class="fas fa-briefcase"></i>' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                const avatarUrl = isChannel ? (profile.channel_avatar_url || profile.avatar_url) : profile.avatar_url;
 
                 const avatar = isSas
                     ? `<div class="conv-avatar" style="background:#eff6ff; color:#3b82f6; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;"><i class="fas fa-briefcase"></i></div>`
-                    : (profile.avatar_url
-                        ? `<img src="${profile.avatar_url}" class="conv-avatar">`
+                    : (avatarUrl
+                        ? `<img src="${avatarUrl}" class="conv-avatar">`
                         : `<div class="conv-avatar">${initials}</div>`);
 
                 const isActive = (convId === this.activeConversationId);
@@ -811,11 +892,15 @@ const MessagesModule = {
                 const item = document.createElement('div');
                 item.className = 'conversation-item' + (isActive ? ' active' : '');
                 item.id = 'conv-item-' + convId;
-                item.onclick = () => this.selectConversation(convId, profile);
+                item.onclick = () => {
+                    this.selectConversation(convId, profile);
+                    if (isChannel) this.switchTab('channel');
+                    else this.switchTab('private');
+                };
 
                 const subtitle = isSas 
                     ? `<span style="background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:100px; font-size:0.65rem; font-weight:800; text-transform:uppercase;">Sas Pro Actif <i class="fas fa-bolt"></i></span>`
-                    : (profile.title || profile.skills || 'Cliquez pour ouvrir');
+                    : (isChannel ? `<span style="color:#0ea5e9; font-weight:600;"><i class="fas fa-store" style="margin-right:4px;"></i>Demande Chaîne</span>` : (profile.title || profile.skills || 'Cliquez pour ouvrir'));
 
                 item.innerHTML = `
                     ${avatar}
@@ -824,13 +909,25 @@ const MessagesModule = {
                         <p class="conv-preview">${subtitle}</p>
                     </div>
                 `;
-                convListEl.appendChild(item);
+                
+                if (isChannel) {
+                    listChannel.appendChild(item);
+                    hasChannel = true;
+                } else {
+                    listPrivate.appendChild(item);
+                    hasPrivate = true;
+                }
             });
+
+            if (!hasPrivate && listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
+            if (!hasChannel && listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
 
             if (this.activeConversationId) {
                 const pInfo = otherParticipants.find(p => p.conversation_id === this.activeConversationId);
                 if (pInfo && this.cachedProfiles[pInfo.user_id]) {
                     this.selectConversation(this.activeConversationId, this.cachedProfiles[pInfo.user_id]);
+                    const isChan = this.cachedConvTitles[this.activeConversationId] === 'Channel';
+                    if (isChan) this.switchTab('channel'); else this.switchTab('private');
                     return;
                 }
             }
@@ -838,6 +935,8 @@ const MessagesModule = {
             if (otherParticipants.length > 0) {
                 const first = otherParticipants[0];
                 this.selectConversation(first.conversation_id, this.cachedProfiles[first.user_id]);
+                const isChan = this.cachedConvTitles[first.conversation_id] === 'Channel';
+                if (isChan) this.switchTab('channel'); else this.switchTab('private');
             }
         } catch (err) {
             console.error("Error loading conversations:", err);

@@ -161,7 +161,7 @@ window.ChannelModule = {
                                     <button id="channel-follow-btn" onclick="window.ChannelModule.toggleFollow('${userId}', this)" style="padding: 10px 32px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; border: none; flex: 1; transition: all 0.2s; ${isFollowing ? 'background: #f1f5f9; color: #0f172a;' : 'background: #0f172a; color: white;'}">
                                         ${isFollowing ? '<i class="fas fa-check" style="margin-right: 6px;"></i>Abonné' : "S'abonner"}
                                     </button>
-                                    <button onclick="window.Router.navigate('#messages')" style="padding: 10px 16px; border-radius: 12px; background: #f1f5f9; color: #0f172a; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: background 0.2s;"><i class="fas fa-comment-alt"></i></button>
+                                    <button onclick="window.Router.navigate('#messages?to=${userId}&context=channel&prefill=${encodeURIComponent('Bonjour, je vous contacte depuis votre chaîne : ')}')  " style="padding: 10px 16px; border-radius: 12px; background: #f1f5f9; color: #0f172a; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: background 0.2s;"><i class="fas fa-comment-alt"></i></button>
                                 `}
                             </div>
                             ${cBio ? `
