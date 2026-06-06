@@ -767,10 +767,7 @@ const MomentsModule = {
             window._pendingPostCategory = 'story';
             const nameEl = document.getElementById('post-file-name');
             if (nameEl) nameEl.innerText = "Story: " + input.files[0].name;
-            // Optionally auto-publish story immediately
-            if (confirm("Voulez-vous publier cette image/vidéo en tant que Story ?")) {
-                this.postStatus('channel-feed-container'); // Pass containerId if in channel
-            }
+            // Removed auto-publish so the user can preview and add text
         }
     },
 
