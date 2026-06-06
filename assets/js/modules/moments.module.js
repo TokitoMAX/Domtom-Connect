@@ -822,7 +822,6 @@ const MomentsModule = {
                 title: "Publication",
                 description: text,
                 category: categoryToUse,
-                item_type: 'status',
                 image_url: finalUrl,
                 status: 'active',
                 price: 0
