@@ -138,7 +138,7 @@ const App = {
 
         // --- NEW: Global Module Overrides ---
         const rawRoleApp = this.state.role || 'spectateur';
-        const isExplorateur = rawRoleApp.toLowerCase().trim() === 'spectateur' || rawRoleApp.toLowerCase().trim() === 'explorateur';
+        const isExplorateur = ['spectateur', 'explorateur', 'spectator'].includes(rawRoleApp.toLowerCase().trim());
         const feedWrapper = document.getElementById('moments-feed-wrapper');
 
         // Handle dedicated moments view
