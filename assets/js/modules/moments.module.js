@@ -25,8 +25,8 @@ const MomentsModule = {
                 const db = this.getDb();
                 const querySafe = query.replace(/,/g, '').trim();
                 const { data, error } = await db.from('profiles')
-                    .select('id, full_name, channel_name, avatar_url, channel_avatar_url, role, expertise')
-                    .or(`full_name.ilike.%${querySafe}%,channel_name.ilike.%${querySafe}%,expertise.ilike.%${querySafe}%`)
+                    .select('id, full_name, channel_name, avatar_url, channel_avatar_url, role')
+                    .or(`full_name.ilike.%${querySafe}%,channel_name.ilike.%${querySafe}%`)
                     .limit(5);
 
                 if (error) throw error;
