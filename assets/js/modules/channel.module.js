@@ -170,6 +170,40 @@ window.ChannelModule = {
                         </div>
 
                         <div class="channel-feed-col">
+                            <!-- QUICK SHARE BAR (Only for Channel Owner) -->
+                            ${isSelf ? `
+                                <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
+                                <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
+                                <div style="background: white; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08); margin-bottom: 32px; position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #10b981;"></div>
+                                    <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                        <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; overflow: hidden; flex-shrink: 0; border: 2px solid rgba(0,0,0,0.05);">
+                                            ${profile.avatar_url ? `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <textarea id="feed-status-input" placeholder="Partager sur votre chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
+                                            
+                                            <div style="display: flex; gap: 12px; margin-top: 8px;">
+                                                <button onclick="document.getElementById('post-file-input').click()" title="Ajouter Photo ou Vidéo" style="border:none; cursor:pointer; background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                                    Média
+                                                </button>
+                                                <button onclick="document.getElementById('post-story-input').click()" title="Ajouter une Story" style="border:none; cursor:pointer; background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                                    Story
+                                                </button>
+                                            </div>
+                                            
+                                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
+                                                <span id="post-file-name" style="font-size:0.8rem; color:#10b981; font-weight:700; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                                                <button onclick="window.MomentsModule.postStatus('channel-feed-container')" id="btn-publish-feed" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 28px; border-radius: 100px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: transform 0.2s;">
+                                                    Publier
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
                             <div id="channel-feed-container" style="display: flex; flex-direction: column; gap: 20px;">
                                 ${postsHtml || '<div style="text-align:center; padding: 40px; color: #94a3b8; font-weight:600; background: white; border-radius: 24px; border: 1px solid rgba(0,0,0,0.02);">Aucune publication pour le moment.</div>'}
                             </div>
@@ -186,6 +220,40 @@ window.ChannelModule = {
                 </div>
             `;
         }
+    },
+
+    openSettingsModal: function() {
+        let modal = document.getElementById('channel-settings-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'channel-settings-modal';
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; align-items:center; justify-content:center;';
+            document.body.appendChild(modal);
+        }
+        const profile = window.App.state.profile;
+        const db = this.getDb();
+        db.from('showcase_profiles').select('*').eq('id', profile.id).maybeSingle().then(({data: showcase, error}) => {
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 24px; width: 90%; max-width: 500px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative;">
+                    <button onclick="document.getElementById('channel-settings-modal').style.display='none'" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer;">&times;</button>
+                    <h2 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-top: 0; margin-bottom: 24px;">Paramètres de la Chaîne</h2>
+                    
+                    <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Nom de la chaîne (Votre nom)</label>
+                    <input type="text" id="channel-name-input" value="${profile.full_name || ''}" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit;">
+                    
+                    <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Biographie de la chaîne</label>
+                    <textarea id="channel-bio-input" rows="4" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 24px; font-size:1rem; font-family:inherit; resize:vertical;">${showcase?.bio || ''}</textarea>
+                    
+                    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px; font-weight: 500;">Pour changer votre avatar ou bannière, veuillez aller dans la section "Mon Profil". Ces paramètres sont partagés pour l'instant.</p>
+
+                    <button onclick="window.ChannelModule.saveSettings()" style="width:100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; cursor: pointer;">Enregistrer</button>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }).catch(err => {
+            console.error("Error loading settings modal:", err);
+            alert("Erreur lors de l'ouverture des paramètres.");
+        });
     },
 
     toggleFollow: async function(targetUserId, btnElement) {
