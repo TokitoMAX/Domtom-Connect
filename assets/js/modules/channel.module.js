@@ -152,7 +152,7 @@ window.ChannelModule = {
                                 <button onclick="window.Router.navigate('#profile')" style="padding: 10px 24px; border-radius: 8px; background: #f1f5f9; color: #0f172a; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; cursor: pointer;"><i class="fas fa-edit"></i> Modifier le profil</button>
                             ` : `
                                 <button id="channel-follow-btn" onclick="window.ChannelModule.toggleFollow('${userId}', this)" style="padding: 10px 32px; border-radius: 8px; font-weight: 800; font-size: 0.95rem; cursor: pointer; border: none; ${isFollowing ? 'background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0;' : 'background: #ef4444; color: white; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);'}">
-                                    ${isFollowing ? '<i class="fas fa-check" style="margin-right: 6px;"></i>Abonné' : 'S\\'abonner'}
+                                    ${isFollowing ? '<i class="fas fa-check" style="margin-right: 6px;"></i>Abonné' : "S'abonner"}
                                 </button>
                                 <button onclick="window.Router.navigate('#messages')" style="padding: 10px 16px; border-radius: 8px; background: #f1f5f9; color: #0f172a; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; cursor: pointer;"><i class="fas fa-comment-alt"></i></button>
                             `}
