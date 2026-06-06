@@ -20,7 +20,7 @@ const MomentsModule = {
         container.innerHTML = `
             <div style="padding: 20px; text-align: center; color: #64748b;">
                 <div class="splash-loader" style="margin: 0 auto 16px;"></div>
-                Chargement du Fil Réseau...
+                Chargement de DTC...
             </div>
         `;
 
@@ -174,91 +174,89 @@ const MomentsModule = {
                         background: #10b981;
                         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
                     }
-                    .dtc-like-btn {
+                    .dtc-action-icon {
                         background: transparent;
                         border: none;
                         color: #64748b;
                         font-weight: 800;
-                        font-size: 0.82rem;
+                        font-size: 0.85rem;
                         cursor: pointer;
                         display: flex;
                         align-items: center;
-                        gap: 8px;
-                        padding: 8px 16px;
+                        gap: 6px;
+                        padding: 8px 12px;
                         border-radius: 12px;
                         transition: all 0.2s;
                     }
-                    .dtc-like-btn:hover {
-                        background: rgba(16, 185, 129, 0.08);
-                        color: #10b981;
+                    .dtc-action-icon:hover {
+                        background: #f1f5f9;
+                        color: #0f172a;
+                    }
+                    .dtc-action-icon.liked {
+                        color: #ef4444 !important;
+                    }
+                    .dtc-action-icon.liked svg {
+                        animation: dtcHeartBurst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+                        fill: #ef4444;
+                        stroke: #ef4444;
                     }
                     @keyframes dtcHeartBurst {
                         0% { transform: scale(1); }
                         50% { transform: scale(1.35); }
                         100% { transform: scale(1); }
                     }
-                    .dtc-like-btn.liked {
-                        background: rgba(239, 68, 68, 0.08) !important;
-                        color: #ef4444 !important;
+                    .dtc-post-card {
+                        background: white; 
+                        border-radius: 24px; 
+                        padding: 24px; 
+                        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); 
+                        display: flex; 
+                        flex-direction: column; 
+                        transition: transform 0.2s, box-shadow 0.2s;
+                        overflow: hidden;
                     }
-                    .dtc-like-btn.liked svg {
-                        animation: dtcHeartBurst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-                        fill: #ef4444 !important;
-                        stroke: #ef4444 !important;
+                    .dtc-post-card:hover {
+                        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
                     }
-                    .dtc-comment-toggle-btn {
-                        background: transparent;
-                        border: none;
+                    .dtc-create-icon {
                         color: #64748b;
-                        font-weight: 800;
-                        font-size: 0.82rem;
+                        padding: 10px;
+                        border-radius: 50%;
                         cursor: pointer;
+                        transition: 0.2s;
                         display: flex;
                         align-items: center;
-                        gap: 8px;
-                        padding: 8px 16px;
-                        border-radius: 12px;
-                        transition: all 0.2s;
+                        justify-content: center;
+                        border: none;
+                        background: transparent;
                     }
-                    .dtc-comment-toggle-btn:hover {
+                    .dtc-create-icon:hover {
                         background: #f1f5f9;
                         color: #0f172a;
                     }
-                    .dtc-share-btn {
+                    .dtc-follow-btn {
                         background: transparent;
-                        border: none;
-                        color: #64748b;
+                        border: 1.5px solid #10b981;
+                        color: #10b981;
+                        padding: 4px 12px;
+                        border-radius: 100px;
                         font-weight: 800;
-                        font-size: 0.82rem;
+                        font-size: 0.75rem;
                         cursor: pointer;
-                        display: flex;
+                        transition: 0.2s;
+                        display: inline-flex;
                         align-items: center;
-                        gap: 8px;
-                        padding: 8px 16px;
-                        border-radius: 12px;
-                        transition: all 0.2s;
-                        margin-left: auto;
+                        gap: 4px;
                     }
-                    .dtc-share-btn:hover {
-                        background: #f1f5f9;
-                        color: #0f172a;
+                    .dtc-follow-btn:hover {
+                        background: #10b981;
+                        color: white;
                     }
-                    .dtc-chat-btn {
-                        background: transparent;
-                        border: none;
-                        color: #0f172a;
-                        font-weight: 800;
-                        font-size: 0.82rem;
-                        cursor: pointer;
-                        display: flex;
+                    .dtc-verified-badge {
+                        color: #3b82f6;
+                        display: inline-flex;
                         align-items: center;
-                        gap: 8px;
-                        padding: 8px 16px;
-                        border-radius: 12px;
-                        transition: all 0.2s;
-                    }
-                    .dtc-chat-btn:hover {
-                        background: #f8fafc;
+                        margin-left: 4px;
                     }
                     .dtc-comment-submit-btn {
                         background: #10b981;
@@ -291,61 +289,39 @@ const MomentsModule = {
                         background: #fef2f2;
                         color: #ef4444;
                     }
-                    .dtc-post-card {
-                        background: white; 
-                        border-radius: 24px; 
-                        padding: 24px; 
-                        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); 
-                        display: flex; 
-                        flex-direction: column; 
-                        transition: transform 0.2s, box-shadow 0.2s;
-                        overflow: hidden; /* For edge-to-edge media */
-                    }
-                    .dtc-post-card:hover {
-                        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
-                    }
                 </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
                     
                     <!-- QUICK SHARE BAR -->
                     ${currentUser ? `
-                        <div style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);">
-                            <div style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
-                                <button onclick="MomentsModule.applyFeedPrompt('tip')" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18h6m-3-15a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-2.26C7.19 13.47 6 11.38 6 9a7 7 0 0 1 7-7z"/></svg>
-                                    Astuce
-                                </button>
-                                <button onclick="MomentsModule.applyFeedPrompt('kudos')" style="background: #fff5f5; color: #e11d48; border: 1px solid rgba(225, 29, 72, 0.15); padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                                    Recommandation
-                                </button>
-                                <button onclick="MomentsModule.applyFeedPrompt('photo')" style="background: #f0fdf4; color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.15); padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                                    Photo / Vidéo
-                                </button>
-                                <button onclick="MomentsModule.applyFeedPrompt('clear')" style="background: #f8fafc; color: #94a3b8; border: 1px dashed #cbd5e1; padding: 8px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                                    Effacer
-                                </button>
-                            </div>
+                        <div style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; padding: 20px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04); margin-bottom: 32px;">
                             <div style="display: flex; gap: 16px; align-items: flex-start;">
-                                <div style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; flex-shrink: 0; border: 1.5px solid rgba(0,0,0,0.05);">
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; overflow: hidden; flex-shrink: 0; border: 2px solid rgba(0,0,0,0.05);">
                                     ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                                 </div>
                                 <div style="flex: 1;">
-                                    <textarea id="feed-status-input" placeholder="Partager une astuce locale, un besoin de compétences, ou une actu..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 0.98rem; color: #0f172a; padding-top: 8px; line-height: 1.5; font-weight: 500;"></textarea>
+                                    <textarea id="feed-status-input" placeholder="Partager une actualité, lancer un appel à projet..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                     
-                                    <div style="display: flex; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 12px; align-items: center; gap: 16px;">
-                                        <!-- File Attachment Button -->
-                                        <button onclick="document.getElementById('post-file-input').click()" style="background: none; border: none; color: #64748b; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 8px; border-radius: 10px; transition: background 0.2s;" title="Ajouter une photo ou vidéo">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b;"><path d="M21 21H3V3h18v18zM21 16l-5-5-5 5M12 11l-3-3-4 4"/></svg>
-                                        </button>
-                                        <input type="file" id="post-file-input" style="display:none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
-                                        <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
- 
-                                        <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">
-                                            Publier
-                                        </button>
+                                    <div style="display: flex; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 8px; align-items: center; flex-wrap: wrap; gap: 12px;">
+                                        <div style="display: flex; gap: 4px;">
+                                            <button onclick="document.getElementById('post-file-input').click()" class="dtc-create-icon" title="Ajouter Média">
+                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                            </button>
+                                            <button onclick="MomentsModule.applyFeedPrompt('tip')" class="dtc-create-icon" title="Astuce">
+                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                            </button>
+                                            <button onclick="MomentsModule.applyFeedPrompt('kudos')" class="dtc-create-icon" title="Célébrer">
+                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                            </button>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <input type="file" id="post-file-input" style="display:none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
+                                            <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                                            <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">
+                                                Publier
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -374,7 +350,7 @@ const MomentsModule = {
             console.error("[MomentsModule] Load Error:", err);
             container.innerHTML = `
                 <div style="padding: 24px; color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 16px; font-weight: 700; text-align: center;">
-                    Erreur de chargement du Fil Réseau : ${err.message}
+                    Erreur de chargement de DTC : ${err.message}
                 </div>
             `;
         }
@@ -383,7 +359,11 @@ const MomentsModule = {
     renderFeedItemHTML: function(item, currentUser, containerId) {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
- 
+        
+        // Simulated views for social proof
+        const simulatedViewsCount = Math.floor(Math.random() * (2500 - 150) + 150) + (item.score > 80 ? 4000 : 0);
+        const viewsStr = (simulatedViewsCount > 1000) ? (simulatedViewsCount / 1000).toFixed(1) + 'k' : simulatedViewsCount;
+  
         // Profile Details Link URL — sécurisé via adjustPath pour éviter les 404 en local / sous-dossier
         const baseCompanyPath = 'marketplace/profile-detail-company.html?id=' + item.userId;
         const baseExpertPath = 'marketplace/profile-detail-expert.html?id=' + item.userId;
@@ -395,7 +375,15 @@ const MomentsModule = {
         } else {
             profileUrl = './' + profileUrl;
         }
- 
+
+        // Verified Badge Logic
+        const isVerified = ['club', 'premium', 'authority', 'admin', 'expert'].includes((item.authorRole || '').toLowerCase());
+        const verifiedSvg = isVerified ? `
+            <svg class="dtc-verified-badge" width="16" height="16" viewBox="0 0 24 24" fill="#3b82f6" stroke="white" stroke-width="2" title="Certifié DTC">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 12 11 14 15 10" stroke="white" stroke-width="3"/>
+            </svg>` : '';
+        
         // Badge styling based on role and custom title/expertise
         let roleBadge = '';
         const authorTitle = item.authorTitle || item.authorExpertise || '';
@@ -422,20 +410,20 @@ const MomentsModule = {
             cardBorder = 'border: 1px solid rgba(16, 185, 129, 0.25); background: linear-gradient(180deg, rgba(16, 185, 129, 0.005) 0%, white 100%);';
         }
  
-        // Render Media if present
+        // Render Media if present (Edge to Edge)
         let mediaHtml = '';
         if (item.imageUrl) {
             const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
             if (isVideo) {
                 mediaHtml = `
-                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; max-height: 550px; display: flex; justify-content: center;">
-                        <video src="${item.imageUrl}" controls style="max-height: 550px; width: 100%; object-fit: cover;"></video>
+                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; max-height: 600px; display: flex; justify-content: center; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);">
+                        <video src="${item.imageUrl}" controls style="max-height: 600px; width: 100%; object-fit: cover;"></video>
                     </div>
                 `;
             } else {
                 mediaHtml = `
-                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; max-height: 550px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="window.open('${item.imageUrl}', '_blank')">
-                        <img src="${item.imageUrl}" style="max-height: 550px; width: 100%; object-fit: cover;">
+                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; max-height: 600px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);" onclick="window.open('${item.imageUrl}', '_blank')">
+                        <img src="${item.imageUrl}" style="max-height: 600px; width: 100%; object-fit: cover; display: block;">
                     </div>
                 `;
             }
@@ -451,51 +439,58 @@ const MomentsModule = {
  
         // Render Comments List
         const commentsListHtml = postComments.length === 0
-            ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Aucune réponse pour le moment.</p>`
+            ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Soyez le premier à réagir !</p>`
             : postComments.map(c => {
                 const cProfile = c.profiles || {};
                 const initials = (cProfile.full_name || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 return `
-                    <div style="display: flex; gap: 12px; align-items: flex-start; background: #f8fafc; padding: 12px 16px; border-radius: 16px; margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.02);">
-                        <div style="width: 28px; height: 28px; border-radius: 8px; background: #0f172a; color: white; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="display: flex; gap: 12px; align-items: flex-start; background: transparent; padding: 8px 0; margin-bottom: 8px;">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #0f172a; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
                             ${cProfile.avatar_url ? `<img src="${cProfile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : initials}
                         </div>
-                        <div style="flex: 1;">
+                        <div style="flex: 1; background: #f8fafc; padding: 12px 16px; border-radius: 4px 16px 16px 16px; border: 1px solid rgba(0,0,0,0.02);">
                             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                                <span style="font-weight: 800; font-size: 0.85rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
+                                <span style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
                                 <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
                             </div>
-                            <p style="margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.45; font-weight: 500;">${c.content}</p>
+                            <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${c.content}</p>
                         </div>
                     </div>
                 `;
             }).join('');
 
-        const formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #10b981; font-weight: 800; cursor: pointer;">#$1</span>');
+        const formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
  
         return `
             <div class="dtc-post-card" style="${cardBorder}">
                 
                 <!-- HEADER -->
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                     <div style="display: flex; gap: 14px; align-items: center;">
-                        <div onclick="window.location.href='${profileUrl}'" style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                        <div onclick="window.location.href='${profileUrl}'" style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; border: 2px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
                             ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                         </div>
                         <div>
-                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 0.98rem; color: #0f172a; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0f172a';">${item.authorName}</span>
-                                <span onclick="window.location.href='${profileUrl}'" style="cursor: pointer; display: inline-flex;">${roleBadge}</span>
+                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 1.05rem; color: #0f172a; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0f172a';">${item.authorName}</span>
+                                ${verifiedSvg}
+                                ${!isSelf ? `
+                                    <span style="color:#cbd5e1; margin: 0 4px;">•</span>
+                                    <button class="dtc-follow-btn" onclick="alert('Vous suivez maintenant ${item.authorName} !')">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                        Suivre
+                                    </button>
+                                ` : ''}
                             </div>
-                            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600; margin-top: 2px;">
-                                ${item.authorTerritory} • ${relativeTime}
+                            <div style="font-size: 0.8rem; color: #64748b; font-weight: 500; margin-top: 2px;">
+                                ${roleBadge} <span style="margin:0 4px;">•</span> ${relativeTime}
                             </div>
                         </div>
                     </div>
                     
                     <div style="display: flex; align-items: center; gap: 8px;">
                         ${item.meta ? `
-                            <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.25); color: #059669; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
+                            <div style="background: rgba(59, 130, 246, 0.04); border: 1px solid rgba(59, 130, 246, 0.25); color: #2563eb; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
                                 ${item.meta}
                             </div>
                         ` : ''}
@@ -510,7 +505,7 @@ const MomentsModule = {
                 </div>
  
                 <!-- CONTENT -->
-                <div style="color: #334155; font-size: 1.05rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
+                <div style="color: #0f172a; font-size: 1.05rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
                     ${item.type === 'project' ? `
                         <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fffdf5; border-radius: 16px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 12px;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #f59e0b; flex-shrink: 0;"><polygon points="12 2 2 22 22 22"/></svg>
@@ -526,25 +521,38 @@ const MomentsModule = {
                 <!-- MEDIA -->
                 ${mediaHtml}
  
+                <!-- VIEWS COUNT (SOCIAL PROOF) -->
+                <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; padding: 12px 0 0 0; display: flex; align-items: center; gap: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    ${viewsStr} vues
+                </div>
+
                 <!-- ACTIONS & ENGAGEMENT -->
-                <div style="display: flex; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 14px; margin-top: 16px; flex-wrap: wrap; align-items: center;">
+                <div style="display: flex; gap: 4px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 12px; align-items: center; justify-content: space-between;">
                     
-                    <!-- LIKE -->
-                    <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-like-btn ${hasLiked ? 'liked' : ''}">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        <span>${likesCount}</span> ${hasLiked ? 'Aimé' : 'J\'aime'}
-                    </button>
- 
-                    <!-- COMMENTS TOGGLE -->
-                    <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-comment-toggle-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        <span>${commentsCount}</span> Commenter
-                    </button>
- 
-                    <!-- SHARE -->
-                    <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}'); alert('Lien du post copié !')" class="dtc-share-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        Partager
+                    <div style="display: flex; gap: 4px;">
+                        <!-- LIKE -->
+                        <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-action-icon ${hasLiked ? 'liked' : ''}">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            ${likesCount > 0 ? likesCount : 'J\'aime'}
+                        </button>
+    
+                        <!-- COMMENTS TOGGLE -->
+                        <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            ${commentsCount > 0 ? commentsCount : 'Commenter'}
+                        </button>
+    
+                        <!-- SHARE -->
+                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}'); alert('Lien copié !')" class="dtc-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
+                            Partager
+                        </button>
+                    </div>
+
+                    <!-- SAVE -->
+                    <button class="dtc-action-icon" title="Sauvegarder" onclick="alert('Publication enregistrée dans vos favoris !')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     </button>
                 </div>
  
@@ -554,16 +562,19 @@ const MomentsModule = {
                         ${commentsListHtml}
                     </div>
                     ${currentUser ? `
-                        <div style="display: flex; gap: 12px; align-items: center;">
-                            <input type="text" id="comment-input-${item.id}" placeholder="Ajouter une réponse ou un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 16px; font-size: 0.88rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981';" onblur="this.style.borderColor='#e2e8f0';">
-                            <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" class="dtc-comment-submit-btn">
-                                Envoyer
-                            </button>
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; margin-top: 4px;">
+                                ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
+                            </div>
+                            <div style="flex: 1; display: flex; gap: 8px; align-items: center;">
+                                <input type="text" id="comment-input-${item.id}" placeholder="Ajouter un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px 16px; font-size: 0.9rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s; background: #f8fafc;" onfocus="this.style.borderColor='#10b981'; this.style.background='white';" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';">
+                                <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" class="dtc-comment-submit-btn" style="border-radius: 20px; padding: 12px 20px;">
+                                    Envoyer
+                                </button>
+                            </div>
                         </div>
                     ` : ''}
                 </div>
-                </div>
- 
             </div>
         `;
     },

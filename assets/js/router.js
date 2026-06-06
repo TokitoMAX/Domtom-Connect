@@ -141,7 +141,7 @@ const Router = {
     updateSEO(viewId) {
         const seoMap = {
             'overview': { title: 'Tableau de bord | Domtom Connect', desc: "Gérez vos projets, missions et accédez à votre réseau." },
-            'moments': { title: 'Le Fil Réseau | Domtom Connect', desc: "Découvrez les dernières opportunités et projets de la communauté." },
+            'moments': { title: 'DTC | Domtom Connect', desc: "Découvrez les dernières opportunités et projets de la communauté." },
             'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: "Trouvez les meilleurs experts et prestataires pour vos projets." },
             'showcase': { title: 'Offres & Services | Domtom Connect', desc: "Explorez nos solutions métiers." },
             'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: "Espace d'échange réservé aux membres du Club Mastermind." },
