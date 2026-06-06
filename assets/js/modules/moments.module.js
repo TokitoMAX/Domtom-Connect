@@ -752,9 +752,31 @@ const MomentsModule = {
         }
     },
 
+    handlePostFileSelected: function(input) {
+        if (input.files && input.files[0]) {
+            window._pendingPostFile = input.files[0];
+            window._pendingPostCategory = 'status';
+            const nameEl = document.getElementById('post-file-name');
+            if (nameEl) nameEl.innerText = "Média: " + input.files[0].name;
+        }
+    },
+
+    handleStoryFileSelected: function(input) {
+        if (input.files && input.files[0]) {
+            window._pendingPostFile = input.files[0];
+            window._pendingPostCategory = 'story';
+            const nameEl = document.getElementById('post-file-name');
+            if (nameEl) nameEl.innerText = "Story: " + input.files[0].name;
+            // Optionally auto-publish story immediately
+            if (confirm("Voulez-vous publier cette image/vidéo en tant que Story ?")) {
+                this.postStatus('channel-feed-container'); // Pass containerId if in channel
+            }
+        }
+    },
+
     postStatus: async function(containerId) {
         const input = document.getElementById('feed-status-input');
-        if (!input || (!input.value.trim() && !this.pendingFile)) return;
+        if (!input || (!input.value.trim() && !window._pendingPostFile && !this.pendingFile)) return;
 
         const text = input.value.trim();
         const db = this.getDb();
@@ -772,15 +794,17 @@ const MomentsModule = {
                 btnPublish.disabled = true;
             }
 
-            let fileUrl = null;
-            if (this.pendingFile) {
-                const fileExt = this.pendingFile.name.split('.').pop();
+            let finalUrl = null;
+            const fileToUpload = window._pendingPostFile || this.pendingFile;
+
+            if (fileToUpload) {
+                const fileExt = fileToUpload.name.split('.').pop();
                 const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
                 const filePath = `feed/${fileName}`;
 
                 const { error: uploadError } = await db.storage
                     .from('chat-media')
-                    .upload(filePath, this.pendingFile);
+                    .upload(filePath, fileToUpload);
 
                 if (uploadError) throw uploadError;
 
@@ -788,27 +812,31 @@ const MomentsModule = {
                     .from('chat-media')
                     .getPublicUrl(filePath);
                 
-                fileUrl = publicUrl;
+                finalUrl = publicUrl;
             }
 
-            const { error } = await db.from('showcase_items').insert([{
+            let categoryToUse = window._pendingPostCategory || 'status';
+
+            const { error: postErr } = await db.from('showcase_items').insert([{
                 user_id: session.user.id,
-                title: `Status: ${profile.full_name}`,
+                title: "Publication",
                 description: text,
-                image_url: fileUrl,
-                price: 0,
-                category: 'status',
-                status: 'active'
+                category: categoryToUse,
+                item_type: 'status',
+                image_url: finalUrl,
+                status: 'active',
+                price: 0
             }]);
 
-            if (error) throw error;
+            if (postErr) throw postErr;
 
             input.value = '';
+            window._pendingPostFile = null;
+            window._pendingPostCategory = null;
             this.pendingFile = null;
             const fileLabel = document.getElementById('post-file-name');
             if (fileLabel) fileLabel.textContent = '';
 
-            // Refresh feed
             if (containerId === 'channel-feed-container' && window.ChannelModule) {
                 const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
                 window.ChannelModule.renderChannel(currentChannelId, 'view-channel');
@@ -1032,17 +1060,19 @@ const MomentsModule = {
         };
     },
 
-    getRelativeTime: function(date) {
+    getRelativeTime: function(dateInput) {
+        if (!dateInput) return '';
+        const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
         const now = new Date();
         const diffMs = now - date;
-        const diffMin = Math.round(diffMs / 60000);
-        const diffHrs = Math.round(diffMs / 3600000);
-        const diffDays = Math.round(diffMs / 86400000);
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
 
-        if (diffMin < 1) return "À l'instant";
-        if (diffMin < 60) return `Il y a ${diffMin} min`;
-        if (diffHrs < 24) return `Il y a ${diffHrs} h`;
-        if (diffDays < 7) return `Il y a ${diffDays} j`;
+        if (diffMins < 1) return 'À l\'instant';
+        if (diffMins < 60) return `${diffMins} min`;
+        if (diffHours < 24) return `${diffHours} h`;
+        if (diffDays < 7) return `${diffDays} j`;
         
         return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
     },

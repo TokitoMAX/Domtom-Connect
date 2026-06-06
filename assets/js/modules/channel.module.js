@@ -188,32 +188,29 @@ window.ChannelModule = {
                             ${isSelf ? `
                                 <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
                                 <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
-                                <div style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; padding: 20px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04); margin-bottom: 32px;">
+                                <div style="background: white; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08); margin-bottom: 32px; position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #10b981;"></div>
                                     <div style="display: flex; gap: 16px; align-items: flex-start;">
                                         <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; overflow: hidden; flex-shrink: 0; border: 2px solid rgba(0,0,0,0.05);">
                                             ${profile.avatar_url ? `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                                         </div>
                                         <div style="flex: 1;">
-                                            <textarea id="feed-status-input" placeholder="Créer une publication sur ma chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
+                                            <textarea id="feed-status-input" placeholder="Partager sur votre chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                             
-                                                <div style="display: flex; gap: 8px;">
-                                                    <button onclick="document.getElementById('post-file-input').click()" title="Ajouter Photo ou Vidéo" style="border:none; cursor:pointer; background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                                <div style="display: flex; gap: 12px; margin-top: 8px;">
+                                                    <button onclick="document.getElementById('post-file-input').click()" title="Ajouter Photo ou Vidéo" style="border:none; cursor:pointer; background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                                                         Média
                                                     </button>
-                                                    <button onclick="window.ChannelModule.startNativeLive()" title="Passer en Live" style="border:none; cursor:pointer; background: rgba(239, 68, 68, 0.08); color: #ef4444; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                                                        Live
-                                                    </button>
-                                                    <button onclick="document.getElementById('post-story-input').click()" title="Story" style="border:none; cursor:pointer; background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                                    <button onclick="document.getElementById('post-story-input').click()" title="Ajouter une Story" style="border:none; cursor:pointer; background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                                         Story
                                                     </button>
                                                 </div>
                                                 
-                                                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 12px;">
-                                                    <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-                                                    <button onclick="MomentsModule.postStatus('channel-feed-container')" id="btn-publish-feed" style="background: #0f172a; color: white; border: none; padding: 10px 24px; border-radius: 12px; font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);">
+                                                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
+                                                    <span id="post-file-name" style="font-size:0.8rem; color:#10b981; font-weight:700; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                                                    <button onclick="MomentsModule.postStatus('channel-feed-container')" id="btn-publish-feed" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 28px; border-radius: 100px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: transform 0.2s;">
                                                         Publier
                                                     </button>
                                                 </div>
