@@ -239,7 +239,7 @@
                 const href = link.getAttribute('href');
                 if (href) {
                     const isHashMatch = href.includes(hash);
-                    const isOverviewMatch = hash === '#overview' && (href.endsWith('mon-espace.html') || href.endsWith('mon-espace') || !href.includes('#'));
+                    const isOverviewMatch = hash === '#overview' && (href.endsWith('mon-espace.html') || href.includes('#overview'));
                     link.classList.toggle('active', isHashMatch || isOverviewMatch);
                 }
             });
@@ -294,10 +294,8 @@
                             window.Router.navigate(href);
                         }
                     } else {
-                        // External or other module navigation
-                        console.log("[NavFix] Forcing external navigation to:", link.href);
-                        e.preventDefault();
-                        window.location.href = link.href;
+                        // External or other module navigation - Let browser handle it naturally
+                        console.log("[NavFix] Allowing external navigation to:", link.href);
                     }
                 }
             });
