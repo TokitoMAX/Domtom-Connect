@@ -157,6 +157,7 @@
             <a href="#overview" onclick="toggleMobileMenu()">Accueil</a>
             <a href="marketplace/directory.html" onclick="toggleMobileMenu()">Explorer</a>
             <a href="#messages" onclick="toggleMobileMenu()">Messagerie</a>
+            <a href="#channel" onclick="toggleMobileMenu()">Ma Chaîne</a>
             <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
             <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 15px 0;"></div>
             <a href="index.html" onclick="toggleMobileMenu()">Accueil Plateforme</a>
@@ -175,9 +176,9 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span class="mobile-nav-label">Messages</span>
         </a>
-        <a href="#profile" class="mobile-nav-link">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span class="mobile-nav-label">Profil</span>
+        <a href="#channel" class="mobile-nav-link" onclick="if(window.App && window.App.state.profile) window.location.href='#channel?id='+window.App.state.profile.id">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span class="mobile-nav-label">Chaîne</span>
         </a>
         <a href="javascript:void(0)" onclick="toggleMobileMenu()" class="mobile-nav-link">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>

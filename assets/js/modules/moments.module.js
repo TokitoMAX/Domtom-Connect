@@ -359,44 +359,7 @@ const MomentsModule = {
                     <!-- STORIES BAR -->
                     ${storiesHtml}
 
-                    <!-- QUICK SHARE BAR -->
-                    ${currentUser ? `
-                        <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
-                        <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
-                        <div style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 24px; padding: 20px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04); margin-bottom: 32px;">
-                            <div style="display: flex; gap: 16px; align-items: flex-start;">
-                                <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; overflow: hidden; flex-shrink: 0; border: 2px solid rgba(0,0,0,0.05);">
-                                    ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
-                                </div>
-                                <div style="flex: 1;">
-                                    <textarea id="feed-status-input" placeholder="Partager une actualité, lancer un appel à projet..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
-                                    
-                                        <div style="display: flex; gap: 8px;">
-                                            <button onclick="document.getElementById('post-file-input').click()" class="dtc-create-icon" title="Ajouter Photo ou Vidéo" style="background: rgba(59, 130, 246, 0.08); color: #3b82f6; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                                Média
-                                            </button>
-                                            <button onclick="let url = prompt('Collez le lien YouTube de votre Live :'); if(url) { document.getElementById('feed-status-input').value += ' ' + url; }" class="dtc-create-icon" title="Passer en Live" style="background: rgba(239, 68, 68, 0.08); color: #ef4444; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                                                Live
-                                            </button>
-                                            <button onclick="document.getElementById('post-story-input').click()" class="dtc-create-icon" title="Story" style="background: rgba(245, 158, 11, 0.08); color: #f59e0b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; display: flex; gap: 6px;">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                                                Story
-                                            </button>
-                                        </div>
-                                        
-                                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 12px;">
-                                            <span id="post-file-name" style="font-size:0.75rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-                                            <button onclick="MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">
-                                                Publier
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ` : ''}
+                    <!-- QUICK SHARE BAR MOVED TO CHANNEL -->
  
                     <!-- FEED ITEMS -->
                     <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -486,17 +449,34 @@ const MomentsModule = {
 
         // Render Media if present (Edge to Edge)
         let mediaHtml = '';
-        if (ytId) {
+        if (item.type === 'live' && item.meta) {
+            let roomId = null;
+            try {
+                roomId = JSON.parse(item.meta).roomId;
+            } catch(e) {}
+            
+            if (roomId) {
+                mediaHtml = `
+                    <div style="margin: 16px -24px 0 -24px; background: #000; height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; color: white;">
+                        <div style="position: absolute; top: 16px; left: 16px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; z-index: 10; letter-spacing: 0.05em; text-transform: uppercase;">
+                            <span style="display: block; width: 6px; height: 6px; background: white; border-radius: 50%; animation: dtcPulse 1.5s infinite;"></span> EN DIRECT
+                        </div>
+                        <i class="fas fa-video fa-3x" style="color: #475569; margin-bottom: 16px;"></i>
+                        <h3 style="margin: 0 0 16px 0; font-weight: 800;">${item.authorName} est en direct !</h3>
+                        <button onclick="MomentsModule.joinNativeLive('${roomId}')" style="background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                            Rejoindre le Live
+                        </button>
+                    </div>
+                    <style>
+                        @keyframes dtcPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+                    </style>
+                `;
+            }
+        } else if (ytId) {
             mediaHtml = `
                 <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; height: 600px; display: flex; justify-content: center; position: relative;">
-                    <div style="position: absolute; top: 16px; left: 16px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; z-index: 10; letter-spacing: 0.05em; text-transform: uppercase;">
-                        <span style="display: block; width: 6px; height: 6px; background: white; border-radius: 50%; animation: dtcPulse 1.5s infinite;"></span> EN DIRECT
-                    </div>
                     <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border: none;"></iframe>
                 </div>
-                <style>
-                    @keyframes dtcPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
-                </style>
             `;
         } else if (item.imageUrl) {
             const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
@@ -572,7 +552,7 @@ const MomentsModule = {
                     </div>
                     
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        ${item.meta ? `
+                        ${item.meta && item.type !== 'live' ? `
                             <div style="background: rgba(59, 130, 246, 0.04); border: 1px solid rgba(59, 130, 246, 0.25); color: #2563eb; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
                                 ${item.meta}
                             </div>
@@ -988,6 +968,68 @@ const MomentsModule = {
             console.error("[MomentsModule] Delete Error:", err);
             alert("Erreur lors de la suppression.");
         }
+    },
+
+    joinNativeLive: function(roomId) {
+        if (typeof JitsiMeetExternalAPI === 'undefined') {
+            return alert("L'API de Live n'est pas chargée.");
+        }
+
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = '#000';
+        overlay.style.zIndex = '999999';
+        overlay.style.display = 'flex';
+        overlay.style.flexDirection = 'column';
+        
+        const header = document.createElement('div');
+        header.style.padding = '16px 24px';
+        header.style.display = 'flex';
+        header.style.justifyContent = 'space-between';
+        header.style.alignItems = 'center';
+        header.style.background = 'rgba(0,0,0,0.8)';
+        header.innerHTML = `
+            <div style="color:white; font-weight:800; display:flex; align-items:center; gap:8px;">
+                <span style="background:#ef4444; width:12px; height:12px; border-radius:50%; display:inline-block; animation: pulse 1.5s infinite;"></span>
+                EN DIRECT
+            </div>
+            <button id="leave-live-btn" style="background:#334155; color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;">Quitter le Live</button>
+        `;
+        
+        const container = document.createElement('div');
+        container.style.flex = '1';
+        
+        overlay.appendChild(header);
+        overlay.appendChild(container);
+        document.body.appendChild(overlay);
+
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: roomId,
+            parentNode: container,
+            userInfo: {
+                displayName: window.App?.state?.profile?.full_name || 'Spectateur'
+            },
+            configOverwrite: {
+                startWithAudioMuted: true,
+                startWithVideoMuted: true,
+                disableDeepLinking: true
+            },
+            interfaceConfigOverwrite: {
+                TOOLBAR_BUTTONS: ['chat', 'settings']
+            }
+        };
+
+        const api = new JitsiMeetExternalAPI(domain, options);
+
+        document.getElementById('leave-live-btn').onclick = () => {
+            api.dispose();
+            document.body.removeChild(overlay);
+        };
     },
 
     getRelativeTime: function(date) {

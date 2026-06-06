@@ -92,6 +92,7 @@ const UIComponents = {
         }
 
         sidebarHtml += `<div class="sidebar-section-title">Paramètres</div>`;
+        sidebarHtml += this.renderSidebarLink(adjust(`mon-espace.html#channel?id=${profile ? profile.id : ''}`), 'Ma Chaîne', 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#profile'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         sidebarHtml += this.renderSidebarLink(adjust('index.html'), 'Retour au Site Public', 'M10 19l-7-7m0 0l7-7m-7 7h18');
         sidebarHtml += `
