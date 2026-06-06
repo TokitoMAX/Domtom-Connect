@@ -145,7 +145,7 @@ const Router = {
             'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: "Trouvez les meilleurs experts et prestataires pour vos projets." },
             'showcase': { title: 'Offres & Services | Domtom Connect', desc: "Explorez nos solutions métiers." },
             'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: "Espace d'échange réservé aux membres du Club Mastermind." },
-            'default': { title: 'Domtom Connect | L\\'Écosystème', desc: "Le pont entre l'ambition territoriale et l'expertise mondiale." }
+            'default': { title: "Domtom Connect | L'Écosystème", desc: "Le pont entre l'ambition territoriale et l'expertise mondiale." }
         };
 
         const seo = seoMap[viewId] || seoMap['default'];
