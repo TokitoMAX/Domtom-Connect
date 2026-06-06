@@ -137,7 +137,10 @@ const App = {
         let activeModule = this.getActiveModule();
 
         // --- NEW: Global Module Overrides ---
-        if (viewId === 'overview' || viewId === 'dashboard' || viewId === 'moments') {
+        const rawRoleApp = this.state.role || 'spectateur';
+        const isExplorateur = rawRoleApp.toLowerCase().trim() === 'spectateur' || rawRoleApp.toLowerCase().trim() === 'explorateur';
+
+        if (viewId === 'moments' || (viewId === 'overview' && isExplorateur)) {
             const feedWrapper = document.getElementById('moments-feed-wrapper');
             if (feedWrapper) {
                 feedWrapper.style.display = 'block';
@@ -162,7 +165,10 @@ const App = {
                 }
                 if (feedWrapper) feedWrapper.style.display = 'none';
             }
-            return;
+            if (viewId === 'overview') return;
+        } else {
+             const feedWrapper = document.getElementById('moments-feed-wrapper');
+             if (feedWrapper) feedWrapper.style.display = 'none';
         }
 
         
@@ -218,9 +224,14 @@ const App = {
         }
 
         if (viewId === 'mastermind') {
-            if (targetView) {
-                targetView.style.display = 'block';
-                const isClubMember = ['club', 'premium', 'authority'].includes((this.state.profile?.subscription_tier || '').toLowerCase().trim());
+            if (!targetView) {
+                targetView = document.createElement('div');
+                targetView.id = targetViewId;
+                targetView.className = 'view-section';
+                document.querySelector('.content-wrapper').appendChild(targetView);
+            }
+            targetView.style.display = 'block';
+            const isClubMember = ['club', 'premium', 'authority'].includes((this.state.profile?.subscription_tier || '').toLowerCase().trim());
                 
                 if (isClubMember) {
                     targetView.innerHTML = `
