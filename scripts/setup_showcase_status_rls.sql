@@ -6,25 +6,27 @@
 DROP POLICY IF EXISTS "Owners can manage their items" ON showcase_items;
 
 -- 1. Policy for status updates: any user can insert/update/delete their own status updates
+DROP POLICY IF EXISTS "Users can manage their own status updates" ON showcase_items;
 CREATE POLICY "Users can manage their own status updates" ON showcase_items
     FOR ALL
-    USING (auth.uid() = user_id AND category = 'status')
-    WITH CHECK (auth.uid() = user_id AND category = 'status');
+    USING (auth.uid() = user_id AND category IN ('status', 'story'))
+    WITH CHECK (auth.uid() = user_id AND category IN ('status', 'story'));
 
 -- 2. Policy for services & products: only expert accounts can insert/update/delete services/products
+DROP POLICY IF EXISTS "Experts can manage their showcase services" ON showcase_items;
 CREATE POLICY "Experts can manage their showcase services" ON showcase_items
     FOR ALL
     USING (
         auth.uid() = user_id 
         AND (
-            category = 'status' 
+            category IN ('status', 'story')
             OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'expert'
         )
     )
     WITH CHECK (
         auth.uid() = user_id 
         AND (
-            category = 'status' 
+            category IN ('status', 'story')
             OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'expert'
         )
     );
