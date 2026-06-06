@@ -113,7 +113,7 @@ const App = {
         
         // 2. Resolve target view and container
         const overview = document.getElementById('overview-view');
-        const targetViewId = `${viewId}-view`;
+        const targetViewId = viewId === 'success-engine' ? 'success-engine-view-fixed' : `${viewId}-view`;
         let targetView = document.getElementById(targetViewId);
         
         // Role Isolation: Strictly enforce view permissions

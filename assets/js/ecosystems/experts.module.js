@@ -109,19 +109,12 @@ const ExpertsModule = {
                     </div>
                 </div>
 
-                ${!isAdmin ? `
-                <!-- PACK EXPERT (Visible pour Experts uniquement) -->
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 32px; padding: 48px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); text-align:center;">
-                    <h3 style="font-size: 1.8rem; font-weight: 950; color: #020617; margin: 0 0 8px 0; letter-spacing:-0.03em;">PACK EXPERT PREMIUM</h3>
-                    <div style="font-size: 3rem; font-weight: 950; color: #10b981; margin-bottom:32px;">9,99€ <span style="font-size: 1rem; color: #64748b; font-weight: 700;">/MOIS</span></div>
-                    <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('authority', 'expert') : alert('Chargement...')" style="max-width: 400px; width:100%; padding: 20px; background: #020617; color: white; border: none; border-radius: 18px; font-size: 1.1rem; font-weight: 950; cursor: pointer;">Activer mon Pack</button>
-                </div>
-                ` : `
+                ${isAdmin ? `
                 <!-- ADMIN PREVIEW NOTICE -->
                 <div style="background: #eff6ff; border: 2px dashed #3b82f6; border-radius: 24px; padding: 32px; text-align:center; color:#1d4ed8; font-weight:800;">
                     ✓ MODE ADMINISTRATEUR ACTIF : Vous bénéficiez de tous les accès pro sans restriction.
                 </div>
-                `}
+                ` : ''}
             </div>
         `;
         

@@ -127,21 +127,7 @@ const CompaniesModule = {
                     ` : ''}
                 </div>
 
-                ${!isAdmin ? `
-                <!-- PACK ENTREPRISE -->
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 32px; padding: 48px; box-shadow: 0 20px 50px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; margin-bottom: 32px;">
-                        <div>
-                            <span style="background: #f1f5f9; padding: 6px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; color: #475569;">OFFRE PREMIUM</span>
-                            <h3 style="font-size: 1.8rem; font-weight: 900; color: #020617; margin: 12px 0 0 0;">Pack Business Growth</h3>
-                        </div>
-                        <div style="text-align: right;">
-                             <div style="font-size: 2.5rem; font-weight: 900; color: #020617;">29,00€</div>
-                        </div>
-                    </div>
-                    <button onclick="window.PaymentModule ? window.PaymentModule.openSubModal('growth', 'entreprise') : alert('...')" style="width: 100%; padding: 20px; background: #020617; color: white; border: none; border-radius: 16px; font-size: 1.2rem; font-weight: 900; cursor: pointer;">Payer mon Pack</button>
-                </div>
-                ` : `
+                ${isAdmin ? `
                 <!-- 4. ADMIN VALIDATION CENTER (Exclusive for Admin) -->
                 <div style="background: white; border: 2px solid #3b82f6; border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 50px rgba(59, 130, 246, 0.08); margin-bottom: 32px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 24px;">
