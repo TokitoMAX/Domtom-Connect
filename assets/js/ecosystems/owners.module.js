@@ -183,37 +183,56 @@ const OwnersModule = {
         const percent = Math.min(Math.round((current / goal) * 100), 100);
 
         container.innerHTML = `
+            <style>
+                .owners-funnel-grid {
+                    grid-column: span 12; 
+                    display: grid; 
+                    grid-template-columns: repeat(12, 1fr); 
+                    gap: 32px; 
+                    align-items: stretch; 
+                    margin-top: 16px;
+                }
+                .owners-funnel-left { grid-column: span 8; }
+                .owners-funnel-right { grid-column: span 4; }
+                .owners-progress-flex { display: flex; align-items: center; gap: 40px; }
+                @media (max-width: 900px) {
+                    .owners-funnel-grid { display: flex; flex-direction: column; gap: 24px; }
+                    .owners-funnel-left, .owners-funnel-right { width: 100%; box-sizing: border-box; }
+                    .owners-progress-flex { flex-direction: column; align-items: flex-start; gap: 16px; text-align: left; }
+                    .owners-progress-flex > div:first-child { font-size: 4rem !important; }
+                }
+            </style>
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
                 <!-- COMPACT HERO BANNER -->
                 <div class="epic-hero" style="grid-column: span 12; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 15px 35px rgba(0,0,0,0.2); flex-wrap: wrap; gap: 20px;">
                     <div style="position: relative; z-index: 10; max-width: 600px;">
                         <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2);">Cockpit de Commandement</div>
-                        <h1 style="font-size: 2.5rem; font-weight: 950; color: white; margin: 0; letter-spacing: -0.03em; line-height: 1.1;">${project.title || 'Mon Épopée'}</h1>
+                        <h1 style="font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 950; color: white; margin: 0; letter-spacing: -0.03em; line-height: 1.1;">${project.title || 'Mon Épopée'}</h1>
                         <p style="color: rgba(255,255,255,0.5); font-size: 1rem; margin-top: 12px; font-weight: 500;">
                             ${project.territory || 'Guyane'} • Pilotage stratégique & Impact territorial.
                         </p>
                     </div>
                     <div style="z-index: 10;">
-                        <button onclick="window.Router.navigate('#success-engine')" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 14px 28px; border-radius: 14px; font-weight: 800; font-size: 0.95rem; cursor: pointer; backdrop-filter: blur(10px); transition: background 0.2s;">
+                        <button onclick="window.Router.navigate('#success-engine')" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 14px 28px; border-radius: 14px; font-weight: 800; font-size: 0.95rem; cursor: pointer; backdrop-filter: blur(10px); transition: background 0.2s; white-space: nowrap;">
                             Éditer le projet
                         </button>
                     </div>
                 </div>
 
                 <!-- 2. LIGHTWEIGHT FUNNEL OVERVIEW -->
-                <div style="grid-column: span 12; display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: stretch; margin-top: 16px;">
+                <div class="owners-funnel-grid">
                     
                     <!-- Left Column: Core Progress -->
-                    <div style="grid-column: span 8; background: white; border: 1px solid #e2e8f0; border-radius: 32px; padding: 48px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 1.1rem; font-weight: 900; color: #0f172a; margin: 0 0 32px 0; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
-                            <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 8px 14px; border-radius: 10px; font-size: 0.8rem;">Cockpit</span>
+                    <div class="owners-funnel-left" style="background: white; border: 1px solid #e2e8f0; border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 10px 40px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; box-sizing: border-box;">
+                        <h3 style="font-size: 1.1rem; font-weight: 900; color: #0f172a; margin: 0 0 32px 0; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 0.05em; flex-wrap: wrap;">
+                            <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 8px 14px; border-radius: 10px; font-size: 0.8rem; white-space: nowrap;">Cockpit</span>
                             Progression de l'Épopée
                         </h3>
                         
-                        <div style="display: flex; align-items: center; gap: 40px;">
+                        <div class="owners-progress-flex">
                             <div style="font-size: 5rem; font-weight: 950; color: #0f172a; line-height: 1; letter-spacing: -0.06em;">${maturity}<span style="color: #10b981; font-size: 3rem;">%</span></div>
-                            <div style="flex: 1;">
+                            <div style="flex: 1; width: 100%;">
                                 <div style="height: 16px; background: #f1f5f9; border-radius: 100px; overflow: hidden; margin-bottom: 12px;">
                                     <div style="width: ${maturity}%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #34d399 100%); border-radius: 100px; box-shadow: 0 4px 10px rgba(16,185,129,0.3);"></div>
                                 </div>
@@ -222,16 +241,16 @@ const OwnersModule = {
                         </div>
 
                         <div style="margin-top: 48px; padding-top: 40px; border-top: 1.5px solid #f1f5f9; display: flex; gap: 16px;">
-                            <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background: #10b981; color: white; border: none; padding: 20px 40px; border-radius: 20px; font-weight: 950; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 30px rgba(16,185,129,0.25);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(16,185,129,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 30px rgba(16,185,129,0.25)';">
+                            <button onclick="window.Router.navigate('#success-engine')" class="cta-button primary" style="background: #10b981; color: white; border: none; padding: 20px 40px; border-radius: 20px; font-weight: 950; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; gap: 12px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 30px rgba(16,185,129,0.25);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(16,185,129,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 30px rgba(16,185,129,0.25)';">
                                 <span>Continuer le pilotage</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Right Column: Diagnostic Funnel -->
-                    <div style="grid-column: span 4; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 32px; padding: 48px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;">
+                    <div class="owners-funnel-right" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; box-sizing: border-box;">
                         <div style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1);">Accélération</div>
-                        <h3 style="font-size: 1.8rem; font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
+                        <h3 style="font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
                         <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; margin: 0 0 40px 0; font-weight: 500; line-height: 1.6; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis.</p>
                         <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
                             RDV Stratégique

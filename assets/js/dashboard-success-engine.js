@@ -621,16 +621,21 @@ async function saveProjectStep(projectId, step) {
             // 1. Send Notification to Admin
             try {
                 const { data: { session } } = await window._supabase.auth.getSession();
-                const userId = session?.user?.id;
-                await window._supabase.from('notifications').insert([{
-                    type: 'project_submission',
-                    user_id: userId,
-                    project_id: projectId,
-                    title: 'Nouvelle Épopée soumise',
-                    message: `Le projet a été soumis et attend une validation.`,
-                    status: 'unread',
-                    created_at: new Date().toISOString()
-                }]);
+                
+                // Fetch admin IDs
+                const { data: admins } = await window._supabase.from('profiles').select('id').eq('role', 'admin');
+                if (admins && admins.length > 0) {
+                    const adminNotifications = admins.map(admin => ({
+                        type: 'project_submission',
+                        user_id: admin.id,
+                        project_id: projectId,
+                        title: 'Nouvelle Épopée soumise !',
+                        message: `Le porteur de projet a soumis son dossier et attend une validation.`,
+                        status: 'unread',
+                        created_at: new Date().toISOString()
+                    }));
+                    await window._supabase.from('notifications').insert(adminNotifications);
+                }
             } catch (notifyErr) {
                 console.warn("Notification error:", notifyErr);
             }

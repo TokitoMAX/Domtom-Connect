@@ -93,7 +93,7 @@ const MomentsModule = {
                         title: item.project_name || item.title,
                         content: item.description || item.pitch || '',
                         imageUrl: item.image_url || null,
-                        meta: 'Nouveau Projet 🚀',
+                        meta: 'Nouveau Projet',
                         createdAt: new Date(item.created_at)
                     });
                 });
@@ -305,7 +305,7 @@ const MomentsModule = {
                             </div>
                             <div style="display: flex; gap: 16px; align-items: flex-start;">
                                 <div style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; flex-shrink: 0; border: 1.5px solid rgba(0,0,0,0.05);">
-                                    ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
+                                    ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                                 </div>
                                 <div style="flex: 1;">
                                     <textarea id="feed-status-input" placeholder="Partager une astuce locale, un besoin de compétences, ou une actu..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 0.98rem; color: #0f172a; padding-top: 8px; line-height: 1.5; font-weight: 500;"></textarea>
@@ -425,7 +425,7 @@ const MomentsModule = {
             ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Aucune réponse pour le moment.</p>`
             : postComments.map(c => {
                 const cProfile = c.profiles || {};
-                const initials = (cProfile.full_name || '👤').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const initials = (cProfile.full_name || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 return `
                     <div style="display: flex; gap: 12px; align-items: flex-start; background: #f8fafc; padding: 12px 16px; border-radius: 16px; margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.02);">
                         <div style="width: 28px; height: 28px; border-radius: 8px; background: #0f172a; color: white; font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
@@ -451,7 +451,7 @@ const MomentsModule = {
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                     <div style="display: flex; gap: 14px; align-items: center;">
                         <div onclick="window.location.href='${profileUrl}'" style="width: 44px; height: 44px; border-radius: 12px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
-                            ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
+                            ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                         </div>
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -731,13 +731,13 @@ const MomentsModule = {
         let text = '';
         switch (type) {
             case 'tip':
-                text = "💡 Conseil du jour : [Partagez un conseil, un raccourci ou une info utile pour le territoire]...";
+                text = "Conseil du jour : [Partagez un conseil, un raccourci ou une info utile pour le territoire]...";
                 break;
             case 'kudos':
-                text = "❤️ Coup de cœur : Je recommande vivement [Nom de l'entreprise ou personne] pour [votre retour positif] ! 🌟";
+                text = "Coup de cœur : Je recommande vivement [Nom de l'entreprise ou personne] pour [votre retour positif] !";
                 break;
             case 'photo':
-                text = "📸 Humeur locale : [Racontez ce qui se passe ou décrivez une ambiance du territoire aujourd'hui] 🌴";
+                text = "Humeur locale : [Racontez ce qui se passe ou décrivez une ambiance du territoire aujourd'hui]";
                 break;
             default:
                 text = "";
