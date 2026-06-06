@@ -102,8 +102,8 @@ const MessagesModule = {
             .conversation-item {
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                padding: 16px 20px;
+                gap: 10px;
+                padding: 12px 16px;
                 border-bottom: 1px solid #f1f5f9;
                 cursor: pointer;
                 transition: all 0.2s;
@@ -195,7 +195,7 @@ const MessagesModule = {
                 background: #fafafa;
                 display: flex;
                 flex-direction: column;
-                gap: 16px;
+                gap: 8px;
             }
 
             .message {
