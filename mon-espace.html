@@ -254,7 +254,10 @@
             
             // Detect Project Root from script tag to avoid being fooled by SPA virtual paths
             const appScript = document.querySelector('script[src*="app.js"]');
-            const siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
+            let siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
+            
+            // Critical Fix: Strip SPA rewrite paths from siteRoot to prevent infinite appending loop
+            siteRoot = siteRoot.replace(/\/(mon-espace|marketplace|dashboard|territoires|blog|services)\/.*$/, '/');
             
             document.querySelectorAll('.nav-market-link, .mobile-nav-link, .mobile-menu-links a, .top-nav-logo, .sidebar-brand, .nav-brand').forEach(link => {
                 if (!link.dataset.originalHref) {

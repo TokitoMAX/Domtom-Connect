@@ -22,7 +22,11 @@ const UIComponents = {
         // --- NEW: Absolute Site Root Protection ---
         // Detect Project Root from script tag to ensure all generated paths are absolute
         const appScript = document.querySelector('script[src*="app.js"]');
-        const siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
+        let siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
+
+        // Critical Fix: If the server rewrites virtual SPA paths (like /mon-espace/ or /marketplace/marketplace/),
+        // the siteRoot will erroneously include them. We MUST strip them to find the true root.
+        siteRoot = siteRoot.replace(/\/(mon-espace|marketplace|dashboard|territoires|blog|services)\/.*$/, '/');
 
         let clean = p.startsWith('./') ? p.substring(2) : p;
         
