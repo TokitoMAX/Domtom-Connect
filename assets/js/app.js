@@ -139,37 +139,47 @@ const App = {
         // --- NEW: Global Module Overrides ---
         const rawRoleApp = this.state.role || 'spectateur';
         const isExplorateur = rawRoleApp.toLowerCase().trim() === 'spectateur' || rawRoleApp.toLowerCase().trim() === 'explorateur';
+        const feedWrapper = document.getElementById('moments-feed-wrapper');
 
-        if (viewId === 'moments' || (viewId === 'overview' && isExplorateur)) {
-            const feedWrapper = document.getElementById('moments-feed-wrapper');
+        // Handle dedicated moments view
+        if (viewId === 'moments') {
+            if (!targetView) {
+                targetView = document.createElement('div');
+                targetView.id = targetViewId;
+                targetView.className = 'view-section';
+                document.querySelector('.content-wrapper').appendChild(targetView);
+            }
+            targetView.style.display = 'block';
+            
             if (feedWrapper) {
+                feedWrapper.style.marginTop = '20px'; // Reset margin
+                targetView.appendChild(feedWrapper);
                 feedWrapper.style.display = 'block';
                 if (window.MomentsModule) {
                     window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
                 }
             }
-            // For the dedicated moments view (legacy routing support)
-            if (viewId === 'moments' && targetView) {
-                targetView.style.display = 'block';
-                targetView.innerHTML = `
-                    <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 800px; margin: 0 auto; box-sizing: border-box; width: 100%;">
-                        <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; letter-spacing: -0.05em; margin-bottom: 30px; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; align-items: center; gap: 12px;">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="vertical-align: middle;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Flux Territorial
-                        </h2>
-                        <div id="dtc-moments-feed-mount-view"></div>
-                    </div>
-                `;
-                if (window.MomentsModule) {
-                    window.MomentsModule.renderFeed('dtc-moments-feed-mount-view');
-                }
-                if (feedWrapper) feedWrapper.style.display = 'none';
-            }
-            if (viewId === 'overview') return;
-        } else {
-             const feedWrapper = document.getElementById('moments-feed-wrapper');
-             if (feedWrapper) feedWrapper.style.display = 'none';
+            return;
         }
+
+        // Handle overview for explorateurs
+        if (viewId === 'overview' && isExplorateur) {
+            if (overview) {
+                overview.style.display = 'block';
+                if (feedWrapper) {
+                    feedWrapper.style.marginTop = '20px'; // Reset margin
+                    overview.appendChild(feedWrapper);
+                    feedWrapper.style.display = 'block';
+                    if (window.MomentsModule) {
+                        window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
+                    }
+                }
+            }
+            return;
+        }
+
+        // For all other views, temporarily hide feedWrapper
+        if (feedWrapper) feedWrapper.style.display = 'none';
 
         
         if (viewId === 'mastermind-salon') {
@@ -312,7 +322,6 @@ const App = {
                         </div>
                     `;
                 }
-            }
             return;
         }
 
@@ -357,6 +366,19 @@ const App = {
             
             try {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
+                
+                // Add Feed to the bottom of the dashboard for Experts/Entreprises
+                if (viewId === 'overview' && !isExplorateur) {
+                    const feedWrapper = document.getElementById('moments-feed-wrapper');
+                    if (feedWrapper && targetContainer) {
+                        feedWrapper.style.marginTop = '64px'; // Separate from dashboard
+                        targetContainer.appendChild(feedWrapper);
+                        feedWrapper.style.display = 'block';
+                        if (window.MomentsModule) {
+                            window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
+                        }
+                    }
+                }
             } catch (err) {
                 console.error("[App] Module Route Error:", err);
                 if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;
