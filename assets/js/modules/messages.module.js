@@ -519,7 +519,7 @@ const MessagesModule = {
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left; width: 100%;">
                                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                            <span style="font-size: 1.2rem;">💳</span>
+                                            <span style="font-size: 1.2rem;"><i class="fas fa-credit-card"></i></span>
                                             <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0f172a;">Demandes Directes</h4>
                                         </div>
                                         <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b;">
@@ -528,7 +528,7 @@ const MessagesModule = {
                                     </div>
                                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                            <span style="font-size: 1.2rem;">🔒</span>
+                                            <span style="font-size: 1.2rem;"><i class="fas fa-lock"></i></span>
                                             <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0f172a;">Espace Sécurisé</h4>
                                         </div>
                                         <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b;">
@@ -797,10 +797,10 @@ const MessagesModule = {
                 const isSas = sasTitle && sasTitle.startsWith('Sas -');
 
                 const name = isSas ? sasTitle : (profile.full_name || 'Anonyme');
-                const initials = isSas ? '💼' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const initials = isSas ? '<i class="fas fa-briefcase"></i>' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
                 const avatar = isSas
-                    ? `<div class="conv-avatar" style="background:#eff6ff; color:#3b82f6; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;">💼</div>`
+                    ? `<div class="conv-avatar" style="background:#eff6ff; color:#3b82f6; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;"><i class="fas fa-briefcase"></i></div>`
                     : (profile.avatar_url
                         ? `<img src="${profile.avatar_url}" class="conv-avatar">`
                         : `<div class="conv-avatar">${initials}</div>`);
@@ -813,7 +813,7 @@ const MessagesModule = {
                 item.onclick = () => this.selectConversation(convId, profile);
 
                 const subtitle = isSas 
-                    ? `<span style="background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:100px; font-size:0.65rem; font-weight:800; text-transform:uppercase;">Sas Pro Actif ⚡️</span>`
+                    ? `<span style="background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:100px; font-size:0.65rem; font-weight:800; text-transform:uppercase;">Sas Pro Actif <i class="fas fa-bolt"></i></span>`
                     : (profile.title || profile.skills || 'Cliquez pour ouvrir');
 
                 item.innerHTML = `
@@ -864,7 +864,7 @@ const MessagesModule = {
         const isSas = sasTitle && sasTitle.startsWith('Sas -');
 
         const name = isSas ? sasTitle : (profile.full_name || 'Anonyme');
-        const initials = isSas ? '💼' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const initials = isSas ? '<i class="fas fa-briefcase"></i>' : name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         const nameTextEl = document.getElementById('active-name-text');
         if (nameTextEl) nameTextEl.textContent = name;
 
@@ -872,7 +872,7 @@ const MessagesModule = {
         if (avatarEl) {
             if (isSas) {
                 avatarEl.style.background = '#eff6ff';
-                avatarEl.innerHTML = `<span style="font-size:1.2rem; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">💼</span>`;
+                avatarEl.innerHTML = `<span style="font-size:1.2rem; display:flex; align-items:center; justify-content:center; width:100%; height:100%;"><i class="fas fa-briefcase"></i></span>`;
             } else if (profile.avatar_url) {
                 avatarEl.style.background = 'transparent';
                 avatarEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
@@ -1065,7 +1065,7 @@ const MessagesModule = {
                             <div style="font-size:0.75rem; color:#94a3b8; font-weight:600; text-align:center; padding:8px; border-radius:8px; background:rgba(255,255,255,0.05);">En attente de règlement...</div>
                         ` : `
                             <button onclick="window.MessagesModule.payRequest('${title.replace(/'/g, "\\'")}', '${acompteVal}', '${providerId}', ${isAdminQuote}, event)" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
-                                <span>💳 Régler ${acomptePercent < 100 ? `l'acompte (${acompteVal} €)` : 'via Stripe'}</span>
+                                <span><i class="fas fa-credit-card"></i> Régler ${acomptePercent < 100 ? `l'acompte (${acompteVal} €)` : 'via Stripe'}</span>
                             </button>
                         `}
                     </div>
@@ -1455,7 +1455,7 @@ const MessagesModule = {
             const btn = event?.currentTarget;
             if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = '<span>💳 Régler via Stripe</span>';
+                btn.innerHTML = '<span><i class="fas fa-credit-card"></i> Régler via Stripe</span>';
             }
         }
     },

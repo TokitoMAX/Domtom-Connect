@@ -1123,7 +1123,7 @@
 
                 <div class="hub-cta-container">
                     <button id="activate-collab-btn" onclick="openSubModal()" style="display: none;">
-                        🚀 Lancer la Collaboration
+                        <i class="fas fa-rocket"></i> Lancer la Collaboration
                     </button>
                     <div id="active-badge" style="display: none; background: #dcfce7; color: #166534; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; align-items: center; gap: 10px;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -1993,7 +1993,7 @@
                 if (text2) text2.textContent = isCompany ? "Certif. disponible" : "Collaboration off";
                 if (activateBtn) {
                     activateBtn.style.display = listed ? 'flex' : 'none';
-                    activateBtn.innerHTML = isCompany ? `🚀 Certifier mon Entreprise` : `🚀 Lancer la Collaboration`;
+                    activateBtn.innerHTML = isCompany ? `<i class="fas fa-rocket"></i> Certifier mon Entreprise` : `<i class="fas fa-rocket"></i> Lancer la Collaboration`;
                 }
                 if (activeBadge) activeBadge.style.display = 'none';
             }

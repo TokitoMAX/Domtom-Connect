@@ -111,7 +111,7 @@
 </head>
 <body>
     <div class="card">
-        <div class="icon" id="success-icon">✅</div>
+        <div class="icon" id="success-icon"><i class="fas fa-check-circle"></i></div>
         <h1 id="success-title">PAIEMENT CONFIRMÉ !</h1>
         <p id="success-msg">Votre achat a été validé avec succès.</p>
         <p id="sub-msg">L'expert a été notifié et vous contactera très prochainement.</p>
@@ -128,9 +128,9 @@
         <a href="mon-espace.html" class="btn">Accéder à mon espace</a>
         
         <div id="event-actions" style="display:none; margin-top:20px; flex-direction:column; gap:12px; align-items:center;">
-            <button onclick="downloadPDF()" class="btn" style="background:#10b981; box-shadow:5px 5px 0px #065f46; width:100%;">📥 TÉLÉCHARGER MON BILLET (PDF)</button>
+            <button onclick="downloadPDF()" class="btn" style="background:#10b981; box-shadow:5px 5px 0px #065f46; width:100%;"><i class="fas fa-download"></i> TÉLÉCHARGER MON BILLET (PDF)</button>
             <a id="calendar-link" href="#" target="_blank" class="btn-secondary" style="text-decoration:none; display:flex; align-items:center; gap:8px; justify-content:center;">
-                📅 Ajouter à Google Calendar
+                <i class="fas fa-calendar-alt"></i> Ajouter à Google Calendar
             </a>
         </div>
 
@@ -157,14 +157,14 @@
                 title.textContent = 'PACK ACTIVÉ !';
                 msg.textContent = 'Votre abonnement est désormais actif.';
                 subMsg.textContent = 'Vous avez maintenant accès à tous vos privilèges territoriaux.';
-                icon.textContent = '🚀';
+                icon.textContent = '<i class="fas fa-rocket"></i>';
                 document.getElementById('amount-label').textContent = 'Statut';
                 amountDisplay.textContent = 'ACTIF';
             } else if (type === 'quote') {
                 title.textContent = 'DEVIS RÉGLÉ !';
                 msg.textContent = 'Le paiement de votre devis a été reçu.';
                 subMsg.textContent = 'La mission peut désormais débuter officiellement.';
-                icon.textContent = '📄';
+                icon.textContent = '<i class="fas fa-file-alt"></i>';
             }
 
             // 2. Data Fetching

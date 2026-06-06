@@ -2908,3 +2908,23 @@ html, body {
 }
 
 /* FIN DU FICHIER - NETTOYAGE EFFECTUÉ */
+
+
+/* --- OVERRIDE UX/UI SIMPLIFICATION (Anti-Surcharge) --- */
+.dash-card, .welcome-card, .cockpit-card-premium, .dashboard-grid > div, .card {
+    padding: 32px !important;
+    border: 1px solid #f1f5f9 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+    .dash-card, .welcome-card, .cockpit-card-premium, .dashboard-grid > div, .card {
+        padding: 24px !important;
+        border-radius: 12px !important;
+    }
+    .dash-grid-layout, .dashboard-grid, #ecosystem-grid-container {
+        gap: 24px !important;
+    }
+}
