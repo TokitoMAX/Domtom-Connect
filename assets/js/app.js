@@ -187,14 +187,7 @@ const App = {
         if (viewId === 'overview' && isExplorateur) {
             if (overview) {
                 overview.style.display = 'block';
-                if (feedWrapper) {
-                    feedWrapper.style.marginTop = '20px'; // Reset margin
-                    overview.appendChild(feedWrapper);
-                    feedWrapper.style.display = 'block';
-                    if (window.MomentsModule) {
-                        window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
-                    }
-                }
+                // Feed is now exclusively in its own tab, so we don't append it here anymore.
             }
             return;
         }
@@ -389,17 +382,6 @@ const App = {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
                 
                 // Add Feed to the bottom of the dashboard for Experts/Entreprises
-                if (viewId === 'overview' && !isExplorateur) {
-                    const feedWrapper = document.getElementById('moments-feed-wrapper');
-                    if (feedWrapper && targetContainer) {
-                        feedWrapper.style.marginTop = '64px'; // Separate from dashboard
-                        targetContainer.appendChild(feedWrapper);
-                        feedWrapper.style.display = 'block';
-                        if (window.MomentsModule) {
-                            window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
-                        }
-                    }
-                }
             } catch (err) {
                 console.error("[App] Module Route Error:", err);
                 if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;
