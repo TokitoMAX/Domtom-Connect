@@ -79,13 +79,13 @@ const OwnersModule = {
                         <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight:600; margin: 0;">Votre espace d'intelligence collective & d'affaires des Antilles-Guyane.</p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 40px;">
                         <!-- Salon Mastermind DTC Interne -->
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC</h3>
                             <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
-                            <button onclick="window.Router.navigate('#messages?channel=mastermind')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
+                            <button onclick="window.Router.navigate('#mastermind-salon')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
                         </div>
 
                         <!-- Sessions Co-développement -->
@@ -188,18 +188,18 @@ const OwnersModule = {
                     grid-column: span 12; 
                     display: grid; 
                     grid-template-columns: repeat(12, 1fr); 
-                    gap: 32px; 
+                    gap: 20px; 
                     align-items: stretch; 
                     margin-top: 16px;
                 }
                 .owners-funnel-left { grid-column: span 8; }
                 .owners-funnel-right { grid-column: span 4; }
-                .owners-progress-flex { display: flex; align-items: center; gap: 40px; }
+                .owners-progress-flex { display: flex; align-items: center; gap: 32px; }
                 @media (max-width: 900px) {
-                    .owners-funnel-grid { display: flex; flex-direction: column; gap: 24px; }
+                    .owners-funnel-grid { display: flex; flex-direction: column; gap: 16px; }
                     .owners-funnel-left, .owners-funnel-right { width: 100%; box-sizing: border-box; }
-                    .owners-progress-flex { flex-direction: column; align-items: flex-start; gap: 16px; text-align: left; }
-                    .owners-progress-flex > div:first-child { font-size: 4rem !important; }
+                    .owners-progress-flex { flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
+                    .owners-progress-flex > div:first-child { font-size: 3.5rem !important; }
                 }
             </style>
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">

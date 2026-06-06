@@ -276,9 +276,9 @@ const App = {
                                     <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0;">Un espace mensuel de co-développement animé par des experts pour débloquer vos challenges opérationnels et stratégiques.</p>
                                 </div>
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
-                                    <div style="width: 44px; height: 44px; background: rgba(16,185,129,0.1); color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 20px;"><i class="fab fa-telegram-plane"></i></div>
+                                    <div style="width: 44px; height: 44px; background: rgba(16,185,129,0.1); color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
                                     <h3 style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon de Discussion Mastermind DTC</h3>
-                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0;">Restez connecté quotidiennement avec le noyau dur de l'écosystème pour partager des leads d'affaires, contacts et opportunités.</p>
+                                    <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0;">Restez connecté quotidiennement avec le noyau dur de l'écosystème pour partager des leads d'affaires, contacts et opportunités via notre messagerie interne sécurisée.</p>
                                 </div>
                                 <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                                     <div style="width: 44px; height: 44px; background: rgba(16,185,129,0.1); color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 20px;"><i class="fas fa-calendar-alt"></i></div>

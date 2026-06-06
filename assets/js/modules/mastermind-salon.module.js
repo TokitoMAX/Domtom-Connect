@@ -9,6 +9,38 @@ window.MastermindSalonModule = {
     currentProfile: null,
     profilesCache: {},
 
+    route: async function(viewId, container, profile, session, params) {
+        console.log("[MastermindSalonModule] Mounting UI...");
+        
+        container.innerHTML = `
+            <div style="max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 120px); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                <!-- Header -->
+                <div style="padding: 20px 24px; border-bottom: 1px solid #e2e8f0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;"><i class="fas fa-crown" style="color: #fbbf24;"></i></div>
+                    <div>
+                        <h2 style="margin: 0 0 4px 0; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em;">Salon Mastermind DTC</h2>
+                        <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-weight: 500;">Groupe privé réservé aux membres du Club</p>
+                    </div>
+                </div>
+
+                <!-- Chat Thread -->
+                <div id="mastermind-chat-thread" style="flex: 1; padding: 24px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column;">
+                    <!-- Messages will be injected here -->
+                </div>
+
+                <!-- Input Area -->
+                <div style="padding: 16px 24px; background: white; border-top: 1px solid #e2e8f0; display: flex; gap: 12px; align-items: flex-end;">
+                    <textarea id="mastermind-chat-input" placeholder="Écrivez votre message..." style="flex: 1; min-height: 48px; max-height: 150px; padding: 14px 20px; border-radius: 24px; border: 1px solid #cbd5e1; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; resize: none; outline: none; background: #f8fafc;" rows="1"></textarea>
+                    <button id="mastermind-send-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #10b981; color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; transition: transform 0.2s, background 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        await this.init();
+    },
+
         init: async function() {
         console.log("MastermindSalonModule.init() called");
         try {
