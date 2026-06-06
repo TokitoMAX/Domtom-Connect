@@ -99,9 +99,6 @@ const MomentsModule = {
                 });
             }
 
-            // Sort descending by date
-            feedItems.sort((a, b) => b.createdAt - a.createdAt);
-
             // 4. Fetch Likes and Comments for these posts
             const postIds = feedItems.map(item => item.id);
             this.likes = {};
@@ -128,6 +125,34 @@ const MomentsModule = {
                     console.warn("Likes or comments tables not active yet in Supabase:", errEngage.message);
                 }
             }
+
+            // ALGORITHME DE VISIBILITÉ (Scoring system)
+            const now = new Date();
+            feedItems.forEach(item => {
+                const itemLikes = this.likes[item.id] ? this.likes[item.id].length : 0;
+                const itemComments = this.comments[item.id] ? this.comments[item.id].length : 0;
+                
+                // 1. Fraîcheur (Recency) : Score max 100, décroît avec le temps (environ -0.6 pt par heure)
+                const hoursOld = (now - item.createdAt) / (1000 * 60 * 60);
+                const recencyScore = Math.max(0, 100 - (hoursOld * 0.6)); 
+                
+                // 2. Engagement (Virality) : Likes valent 5 pts, Commentaires valent 10 pts
+                const engagementScore = (itemLikes * 5) + (itemComments * 10);
+                
+                // 3. Autorité (Premium Boost) : Boost algorithmique pour VIPs et statuts Premium
+                let authorityScore = 0;
+                const role = (item.authorRole || '').toLowerCase();
+                if (['club', 'premium', 'authority'].includes(role)) authorityScore += 20;
+                else if (['expert', 'entreprise'].includes(role)) authorityScore += 10;
+                
+                // 4. Facteur de découverte (Randomizer) : Donne une chance au contenu de percer (0 à 15 pts)
+                const discoveryBoost = Math.random() * 15;
+                
+                item.score = recencyScore + engagementScore + authorityScore + discoveryBoost;
+            });
+
+            // Tri descendant par score de l'algorithme
+            feedItems.sort((a, b) => b.score - a.score);
 
             // 5. Render HTML
             let html = `
