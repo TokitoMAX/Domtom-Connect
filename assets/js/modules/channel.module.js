@@ -26,11 +26,6 @@ window.ChannelModule = {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        if (!userId) {
-            container.innerHTML = `<div style="padding:40px; text-align:center; color:#64748b; font-weight:700;">Utilisateur non spécifié.</div>`;
-            return;
-        }
-
         container.innerHTML = `
             <div style="display:flex; justify-content:center; align-items:center; height:300px; color:#94a3b8; font-weight:800;">
                 <i class="fas fa-circle-notch fa-spin fa-2x"></i>
@@ -41,6 +36,16 @@ window.ChannelModule = {
             const db = this.getDb();
             const session = window.App?.state?.session;
             const currentUserId = session ? session.user.id : null;
+
+            // Fallback to current user if no ID is specified
+            if (!userId) {
+                userId = currentUserId;
+            }
+
+            if (!userId) {
+                container.innerHTML = `<div style="padding:40px; text-align:center; color:#64748b; font-weight:700;">Utilisateur non spécifié et non connecté.</div>`;
+                return;
+            }
 
             // 1. Fetch target user profile
             const { data: profile, error: profileErr } = await db.from('profiles').select('*').eq('id', userId).single();
