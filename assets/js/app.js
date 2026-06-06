@@ -153,13 +153,32 @@ const App = {
             }
             targetView.style.display = 'block';
             
-            if (feedWrapper) {
+        if (feedWrapper) {
                 feedWrapper.style.marginTop = '20px'; // Reset margin
                 targetView.appendChild(feedWrapper);
                 feedWrapper.style.display = 'block';
                 if (window.MomentsModule) {
                     window.MomentsModule.renderFeed('dtc-moments-feed-mount-overview');
                 }
+            }
+            return;
+        }
+        
+        if (viewId === 'channel') {
+            if (feedWrapper) feedWrapper.style.display = 'none';
+            if (!targetView) {
+                targetView = document.createElement('div');
+                targetView.id = targetViewId;
+                targetView.className = 'view-section';
+                document.querySelector('.content-wrapper').appendChild(targetView);
+            }
+            targetView.style.display = 'block';
+            
+            if (window.ChannelModule) {
+                const userId = params ? params.get('id') : null;
+                window.ChannelModule.renderChannel(userId, targetViewId);
+            } else {
+                targetView.innerHTML = '<div style="padding:20px;">Chargement de la chaîne...</div>';
             }
             return;
         }

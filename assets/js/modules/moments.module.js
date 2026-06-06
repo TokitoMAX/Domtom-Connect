@@ -429,17 +429,8 @@ const MomentsModule = {
         // Vues réelles (à implémenter en base de données, pour l'instant on cache le compteur si non disponible)
         const viewsCount = item.views || 0;
   
-        // Profile Details Link URL — sécurisé via adjustPath pour éviter les 404 en local / sous-dossier
-        const baseCompanyPath = 'marketplace/profile-detail-company.html?id=' + item.userId;
-        const baseExpertPath = 'marketplace/profile-detail-expert.html?id=' + item.userId;
-        
-        let profileUrl = item.authorRole === 'entreprise' ? baseCompanyPath : baseExpertPath;
-        if (window.UIComponents && typeof window.UIComponents.adjustPath === 'function') {
-            const prefix = window.UIComponents.getPathPrefix();
-            profileUrl = window.UIComponents.adjustPath(profileUrl, prefix);
-        } else {
-            profileUrl = './' + profileUrl;
-        }
+        // Profile Details Link URL
+        const profileUrl = '#channel?id=' + item.userId;
 
         // Verified Badge Logic
         const isVerified = ['club', 'premium', 'authority', 'admin', 'expert'].includes((item.authorRole || '').toLowerCase());
@@ -833,7 +824,12 @@ const MomentsModule = {
             if (fileLabel) fileLabel.textContent = '';
 
             // Refresh feed
-            this.renderFeed(containerId);
+            if (containerId === 'channel-feed-container' && window.ChannelModule) {
+                const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+                window.ChannelModule.renderChannel(currentChannelId, 'view-channel');
+            } else {
+                this.renderFeed(containerId);
+            }
 
         } catch (err) {
             console.error("[MomentsModule] Post Status Error:", err);
@@ -950,7 +946,12 @@ const MomentsModule = {
 
             input.value = '';
             // Refresh feed
-            this.renderFeed(containerId);
+            if (containerId === 'channel-feed-container' && window.ChannelModule) {
+                const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+                window.ChannelModule.renderChannel(currentChannelId, 'view-channel');
+            } else {
+                this.renderFeed(containerId);
+            }
         } catch (err) {
             console.error("[MomentsModule] Comment Error:", err);
             alert("Erreur lors de l'envoi du commentaire : " + err.message);
@@ -971,11 +972,16 @@ const MomentsModule = {
 
             if (error) throw error;
 
-            // Refresh feed
-            this.renderFeed(containerId);
+            alert("Publication supprimée.");
+            if (containerId === 'channel-feed-container' && window.ChannelModule) {
+                const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+                window.ChannelModule.renderChannel(currentChannelId, 'view-channel');
+            } else {
+                this.renderFeed(containerId);
+            }
         } catch (err) {
-            console.error("[MomentsModule] Delete Post Error:", err);
-            alert("Erreur lors de la suppression de la publication : " + err.message);
+            console.error("[MomentsModule] Delete Error:", err);
+            alert("Erreur lors de la suppression.");
         }
     },
 

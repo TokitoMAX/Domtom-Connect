@@ -12,6 +12,7 @@ const Router = {
         'success-engine': 'success-engine',
         'billetterie': 'billetterie',
         'profile': 'profile',
+        'channel': 'channel',
         'webinars': 'webinars',
         'vitrine': 'vitrine',
         'messages': 'messages',
