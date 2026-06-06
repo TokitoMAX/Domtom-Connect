@@ -138,7 +138,9 @@ const App = {
 
         // --- NEW: Global Module Overrides ---
         const rawRoleApp = this.state.role || 'spectateur';
-        const isExplorateur = ['spectateur', 'explorateur', 'spectator'].includes(rawRoleApp.toLowerCase().trim());
+        const roleTrimmed = rawRoleApp.toLowerCase().trim();
+        const proRoles = ['expert', 'entreprise', 'porteur', 'owner', 'porteur de projet', 'admin', 'premium', 'authority', 'club'];
+        const isExplorateur = !proRoles.includes(roleTrimmed);
         const feedWrapper = document.getElementById('moments-feed-wrapper');
 
         // Handle dedicated moments view
