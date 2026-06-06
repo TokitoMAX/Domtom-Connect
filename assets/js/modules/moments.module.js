@@ -23,9 +23,10 @@ const MomentsModule = {
             
             try {
                 const db = this.getDb();
+                const querySafe = query.replace(/,/g, '').trim();
                 const { data, error } = await db.from('profiles')
                     .select('id, full_name, channel_name, avatar_url, channel_avatar_url, role, expertise')
-                    .or(`full_name.ilike.%${query}%,channel_name.ilike.%${query}%,expertise.ilike.%${query}%`)
+                    .or(`full_name.ilike.%${querySafe}%,channel_name.ilike.%${querySafe}%,expertise.ilike.%${querySafe}%`)
                     .limit(5);
 
                 if (error) throw error;
@@ -37,7 +38,7 @@ const MomentsModule = {
                 }
                 
                 resultsContainer.innerHTML = data.map(user => {
-                    const name = user.channel_name || user.full_name;
+                    const name = user.channel_name || user.full_name || 'Utilisateur';
                     const avatar = user.channel_avatar_url || user.avatar_url;
                     const role = user.role || 'Citoyen';
                     return `
@@ -61,6 +62,8 @@ const MomentsModule = {
                 
             } catch (err) {
                 console.error("Search error:", err);
+                resultsContainer.innerHTML = `<div style="text-align:center; color:#ef4444; font-size:0.85rem; padding: 10px; font-weight:600;">Erreur de recherche: ${err.message}</div>`;
+                resultsContainer.style.display = 'flex';
             }
         }, 300); // 300ms debounce
     },
@@ -236,10 +239,21 @@ const MomentsModule = {
 
             // Build Stories UI
             let storiesHtml = '';
+            
+            // Resolve actual avatar for "My Story"
+            let myAvatar = '<i class="fas fa-user" style="color:#cbd5e1;"></i>';
+            if (window.App && window.App.state && window.App.state.profile) {
+                const p = window.App.state.profile;
+                const url = p.channel_avatar_url || p.avatar_url;
+                if (url) myAvatar = `<img src="${url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">`;
+            } else if (currentUser && currentUser.user_metadata?.avatar_url) {
+                myAvatar = `<img src="${currentUser.user_metadata.avatar_url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">`;
+            }
+
             const addStoryBtn = `
                 <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="document.getElementById('post-story-input').click()">
                     <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; position: relative;">
-                        ${currentUser && currentUser.user_metadata?.avatar_url ? `<img src="${currentUser.user_metadata.avatar_url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">` : '<i class="fas fa-user" style="color:#cbd5e1;"></i>'}
+                        ${myAvatar}
                         <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;">
                             <i class="fas fa-plus"></i>
                         </div>
