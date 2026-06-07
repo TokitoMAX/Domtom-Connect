@@ -163,6 +163,244 @@ const BusinessModule = {
         }
     },
 
+    renderMissions: async function() {
+        const container = document.getElementById('missions-content');
+        if (!container) return;
+
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            const profile = window.App?.state?.profile;
+            const role = (profile?.role || '').toLowerCase();
+            const isCompany = role === 'entreprise' || role === 'admin';
+            const isExpert = role === 'expert' || role === 'prestataire' || role === 'admin';
+
+            // 1. Fetch open job offers from job_offers table
+            const { data: jobOffers, error: jobErr } = await window._supabase
+                .from('job_offers')
+                .select('*, profiles:company_id(full_name, avatar_url, company_name, territory)')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false });
+
+            if (jobErr) console.warn('[BusinessModule] job_offers not available:', jobErr.message);
+            const offers = jobOffers || [];
+
+            // 2. If company: show "Mes annonces" (their own job offers)
+            let myOffers = [];
+            if (isCompany && session) {
+                const { data: mine } = await window._supabase
+                    .from('job_offers')
+                    .select('*')
+                    .eq('company_id', session.user.id)
+                    .order('created_at', { ascending: false });
+                myOffers = mine || [];
+            }
+
+            // 3. Render
+            let html = '';
+
+            // Company header with "Publier une annonce"
+            if (isCompany) {
+                html += `
+                <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f); border-radius:16px; padding:24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; color:white;">
+                    <div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Espace Recruteur</div>
+                        <h3 style="margin:0; font-size:1.2rem; font-weight:900;">Vos Annonces de Mission</h3>
+                        <p style="margin:4px 0 0; color:rgba(255,255,255,0.65); font-size:0.85rem;">Publiez des missions pour trouver les bons experts DTC.</p>
+                    </div>
+                    <button onclick="BusinessModule.openJobOfferModal()" style="background:#10b981; color:white; border:none; padding:12px 20px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; white-space:nowrap;"><i class="fas fa-plus"></i> Publier une annonce</button>
+                </div>`;
+
+                if (myOffers.length > 0) {
+                    html += `<div style="margin-bottom:24px;"><h4 style="font-size:0.85rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Mes annonces (${myOffers.length})</h4>
+                    <div style="display:flex; flex-direction:column; gap:12px;">`;
+                    myOffers.forEach(o => {
+                        const statusColor = o.status === 'open' ? '#10b981' : '#94a3b8';
+                        const statusBg = o.status === 'open' ? '#f0fdf4' : '#f8fafc';
+                        const statusLabel = o.status === 'open' ? 'Active' : 'Fermée';
+                        html += `<div style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                            <div>
+                                <div style="font-weight:800; color:#0f172a; font-size:1rem;">${o.title || 'Sans titre'}</div>
+                                <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">${o.sector || ''} ${o.territory ? '· ' + o.territory : ''} ${o.budget ? '· Budget : ' + o.budget + '€' : ''}</div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:${statusBg}; color:${statusColor}; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">${statusLabel}</span>
+                                <button onclick="BusinessModule.closeJobOffer('${o.id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Fermer</button>
+                            </div>
+                        </div>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                html += `<h4 style="font-size:0.85rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Toutes les annonces ouvertes (${offers.length})</h4>`;
+            }
+
+            // Expert / General view
+            if (offers.length === 0) {
+                html += `<div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
+                    <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-briefcase"></i></div>
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucune annonce active</h3>
+                    <p style="color:#64748b; font-size:0.9rem; margin:0;">Les entreprises partenaires publient leurs besoins ici. Revenez bientôt !</p>
+                </div>`;
+            } else {
+                html += `<div style="display:flex; flex-direction:column; gap:16px;">`;
+                offers.forEach(o => {
+                    const company = o.profiles || {};
+                    const companyName = company.company_name || company.full_name || 'Entreprise';
+                    const avatar = company.avatar_url;
+                    html += `
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px 24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.09)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                            <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
+                                <div style="width:44px; height:44px; border-radius:12px; background:#f1f5f9; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#64748b; font-size:1rem;">
+                                    ${avatar ? `<img src="${avatar}" style="width:100%;height:100%;object-fit:cover;">` : companyName.charAt(0).toUpperCase()}
+                                </div>
+                                <div style="min-width:0;">
+                                    <div style="font-weight:900; color:#0f172a; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.title || 'Mission sans titre'}</div>
+                                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:2px;">${companyName} ${company.territory ? '· ' + company.territory : ''}</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
+                                ${o.budget ? `<div style="font-size:1rem; font-weight:900; color:#0f172a;">${Number(o.budget).toLocaleString('fr-FR')} €</div>` : ''}
+                                ${o.sector ? `<span style="background:#eff6ff; color:#3b82f6; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:800;">${o.sector}</span>` : ''}
+                            </div>
+                        </div>
+                        ${o.description ? `<p style="margin:12px 0 0; color:#475569; font-size:0.9rem; line-height:1.6; border-top:1px solid #f1f5f9; padding-top:12px;">${o.description}</p>` : ''}
+                        ${isExpert ? `<div style="margin-top:16px; display:flex; justify-content:flex-end;">
+                            <button onclick="window.Router.navigate('#messages')" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem;"><i class="fas fa-paper-plane" style="margin-right:6px;"></i>Postuler via message</button>
+                        </div>` : ''}
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+
+            container.innerHTML = html;
+        } catch(e) {
+            console.error('[BusinessModule] renderMissions error:', e);
+            if (container) container.innerHTML = `<div style="padding:20px;color:#ef4444;font-weight:700;">Erreur : ${e.message}</div>`;
+        }
+    },
+
+    openJobOfferModal: function() {
+        const modalHtml = `
+        <div id="job-offer-modal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
+            <div style="background:white; border-radius:24px; width:100%; max-width:520px; padding:32px; box-shadow:0 20px 50px rgba(0,0,0,0.15); max-height:90vh; overflow-y:auto;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                    <h3 style="margin:0; font-size:1.4rem; font-weight:900; color:#0f172a;">Nouvelle Annonce Mission</h3>
+                    <button onclick="document.getElementById('job-offer-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#94a3b8; line-height:1;">&times;</button>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div>
+                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Titre de la mission *</label>
+                        <input type="text" id="jo-title" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="Ex: Développeur web pour refonte site">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Description & Compétences requises</label>
+                        <textarea id="jo-desc" rows="4" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box; resize:vertical;" placeholder="Décrivez la mission, le profil recherché, les livrables..."></textarea>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <div>
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Secteur</label>
+                            <select id="jo-sector" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                                <option value="">Choisir...</option>
+                                <option>Numérique & Tech</option>
+                                <option>Marketing & Communication</option>
+                                <option>Comptabilité & Finance</option>
+                                <option>Juridique</option>
+                                <option>Design Graphique</option>
+                                <option>Commerce & Vente</option>
+                                <option>RH & Formation</option>
+                                <option>Logistique</option>
+                                <option>Bâtiment & Travaux</option>
+                                <option>Tourisme & Événementiel</option>
+                                <option>Agriculture & Alimentation</option>
+                                <option>Santé & Bien-être</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Budget (€)</label>
+                            <input type="number" id="jo-budget" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="0">
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <div>
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Durée</label>
+                            <select id="jo-duration" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                                <option value="">Non précisée</option>
+                                <option>Moins d'une semaine</option>
+                                <option>1 à 2 semaines</option>
+                                <option>1 mois</option>
+                                <option>2 à 3 mois</option>
+                                <option>Long terme</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Territoire</label>
+                            <select id="jo-territory" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                                <option value="">Tous territoires</option>
+                                <option>Martinique</option>
+                                <option>Guadeloupe</option>
+                                <option>Guyane</option>
+                                <option>La Réunion</option>
+                                <option>Mayotte</option>
+                                <option>Saint-Martin</option>
+                                <option>Remote / À distance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="BusinessModule.submitJobOffer()" style="width:100%; margin-top:24px; background:#10b981; color:white; border:none; padding:15px; border-radius:12px; font-weight:900; font-size:1rem; cursor:pointer; transition:background 0.2s;">Publier l'annonce</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    submitJobOffer: async function() {
+        const title = document.getElementById('jo-title').value.trim();
+        const desc = document.getElementById('jo-desc').value.trim();
+        const sector = document.getElementById('jo-sector').value;
+        const budget = parseFloat(document.getElementById('jo-budget').value) || null;
+        const duration = document.getElementById('jo-duration').value;
+        const territory = document.getElementById('jo-territory').value;
+
+        if (!title) return alert('Le titre de la mission est requis.');
+
+        const btn = document.querySelector('#job-offer-modal button[onclick="BusinessModule.submitJobOffer()"]');
+        if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
+
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            await window._supabase.from('job_offers').insert({
+                company_id: session.user.id,
+                title,
+                description: desc || null,
+                sector: sector || null,
+                budget,
+                duration: duration || null,
+                territory: territory || null,
+                status: 'open'
+            });
+            document.getElementById('job-offer-modal').remove();
+            this.renderMissions();
+        } catch(e) {
+            console.error(e);
+            alert('Erreur lors de la publication : ' + e.message);
+            if (btn) btn.innerHTML = 'Publier l\'annonce';
+        }
+    },
+
+    closeJobOffer: async function(id) {
+        if (!confirm('Fermer cette annonce ? Les experts ne pourront plus la voir.')) return;
+        try {
+            await window._supabase.from('job_offers').update({ status: 'closed' }).eq('id', id);
+            this.renderMissions();
+        } catch(e) {
+            alert('Erreur : ' + e.message);
+        }
+    },
+
     renderDashboard: async function(container) {
         await this.renderView(container);
     },
@@ -363,13 +601,8 @@ const BusinessModule = {
 
                 <!-- TAB CONTENT: MISSIONS -->
                 <div id="tab-missions" class="business-tab-content" style="display:block;">
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
-                        <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
-                            <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-briefcase"></i></div>
-                            <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucune mission active</h3>
-                            <p style="color:#64748b; font-size:0.9rem; margin:0;">Explorez le fil d'actualité pour trouver des opportunités et y répondre.</p>
-                            <button onclick="window.Router.navigate('#moments')" style="margin-top:16px; background:white; border:1px solid #e2e8f0; color:#0f172a; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;">Voir les opportunités</button>
-                        </div>
+                    <div id="missions-content">
+                        <div style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i></div>
                     </div>
                 </div>
 
@@ -496,6 +729,8 @@ const BusinessModule = {
 
             </div>
             `;
+            // Populate the Missions tab asynchronously after DOM is ready
+            this.renderMissions();
         } catch (e) {
             console.error("[BusinessModule] Error rendering view:", e);
             container.innerHTML = `<div style="padding:40px; color:#dc2626; font-weight:700;">Une erreur est survenue lors de la récupération de vos transactions : ${e.message}</div>`;
