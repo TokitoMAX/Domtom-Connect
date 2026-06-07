@@ -164,7 +164,7 @@ const OwnersModule = {
                             </div>
                             <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500; line-height: 1.5;">Profitez d'un diagnostic stratégique offert de 30 minutes avec notre équipe pour faire le point sur vos objectifs.</p>
                         </div>
-                        <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 14px 24px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.2s;">
+                        <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 14px 24px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.2s;">
                             Prendre RDV
                         </a>
                     </div>
@@ -252,7 +252,7 @@ const OwnersModule = {
                         <div style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1);">Accélération</div>
                         <h3 style="font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
                         <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; margin: 0 0 40px 0; font-weight: 500; line-height: 1.6; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis.</p>
-                        <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
+                        <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
                             RDV Stratégique
                         </a>
                     </div>

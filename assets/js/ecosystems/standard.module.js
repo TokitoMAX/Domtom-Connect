@@ -137,7 +137,7 @@ const StandardModule = {
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
                         <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Bénéficiez de 30 minutes de coaching avec le coordinateur DTC pour structurer votre projet et accélérer votre développement aux Antilles.</p>
                     </div>
-                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
+                    <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;">
                         <span>Réserver mon créneau</span>
                     </a>
                 </div>
@@ -233,6 +233,12 @@ const StandardModule = {
                                     <option value="France Hexagone" ${profile.territory === 'France Hexagone' ? 'selected' : ''}>France Hexagone</option>
                                     <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>International / Diaspora</option>
                                 </select>
+                            </div>
+
+                            <div class="info-field" style="margin-top: 20px;">
+                                <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Lien Calendly (Réservation RDV)</label>
+                                <input type="url" id="profile-calendly_url" value="${profile.calendly_url || ''}" placeholder="https://calendly.com/votre-nom/30min" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white;">
+                                <p style="font-size: 0.72rem; color: #94a3b8; margin: 6px 0 0 4px;">Laissez vide pour utiliser le lien de contact DTC par défaut.</p>
                             </div>
                         </div>
 
@@ -352,7 +358,8 @@ const StandardModule = {
             // Exhaustive field collection - PRUNED for DB Compatibility
             const allPossibleFields = [
                 'tjm', 'availability', 'skills', 'siret', 'website', 
-                'sector', 'company_name', 'creation_year', 'team_size', 'zone'
+                'sector', 'company_name', 'creation_year', 'team_size', 'zone',
+                'calendly_url'
             ];
             
             allPossibleFields.forEach(f => {
