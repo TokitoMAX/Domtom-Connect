@@ -65,21 +65,22 @@ window.NotifSystem = {
         list.innerHTML = notifications.map(n => {
             const ico = icons[n.type] || { icon: 'fa-bell', color: '#64748b' };
             const timeStr = this.timeAgo(n.created_at);
-            const unreadStyle = n.is_read ? '' : 'background: #f0fdf4; border-left: 3px solid #10b981;';
+            const unreadStyle = n.is_read ? '' : 'background: rgba(16, 185, 129, 0.03); border-left: 4px solid #10b981;';
+            const fontUnreadWeight = n.is_read ? '600' : '800';
 
             return `
                 <div onclick="window.NotifSystem.handleClick('${n.id}', '${n.link || ''}')"
-                     style="display: flex; gap: 14px; padding: 16px 20px; cursor: pointer; transition: background 0.15s; ${unreadStyle}"
-                     onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='${n.is_read ? '' : '#f0fdf4'}'">
-                    <div style="width: 38px; height: 38px; border-radius: 10px; background: ${ico.color}15; color: ${ico.color}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem;">
+                     style="display: flex; gap: 16px; padding: 16px 24px; cursor: pointer; transition: all 0.2s ease; ${unreadStyle}"
+                     onmouseover="this.style.background='rgba(241, 245, 249, 0.6)'; this.style.paddingLeft='28px';" onmouseout="this.style.background='${n.is_read ? '' : 'rgba(16, 185, 129, 0.03)'}'; this.style.paddingLeft='24px';">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: ${ico.color}10; color: ${ico.color}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; border: 1px solid ${ico.color}20;">
                         <i class="fas ${ico.icon}"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <p style="margin: 0 0 4px; font-size: 0.875rem; font-weight: ${n.is_read ? '600' : '800'}; color: #0f172a; line-height: 1.4;">${n.title}</p>
-                        <p style="margin: 0 0 6px; font-size: 0.8rem; color: #64748b; line-height: 1.4;">${n.message}</p>
-                        <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 600;">${timeStr}</span>
+                        <p style="margin: 0 0 3px; font-size: 0.875rem; font-weight: ${fontUnreadWeight}; color: #0f172a; line-height: 1.4; font-family: 'Plus Jakarta Sans', sans-serif;">${n.title}</p>
+                        <p style="margin: 0 0 6px; font-size: 0.8rem; color: #475569; line-height: 1.4; font-family: 'Inter', sans-serif;">${n.message}</p>
+                        <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i class="far fa-clock" style="font-size:0.7rem;"></i> ${timeStr}</span>
                     </div>
-                    ${!n.is_read ? '<div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; flex-shrink: 0; margin-top: 6px;"></div>' : ''}
+                    ${!n.is_read ? '<div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; flex-shrink: 0; margin-top: 6px; box-shadow: 0 0 6px #10b981;"></div>' : ''}
                 </div>
                 <div style="height: 1px; background: #f1f5f9; margin: 0;"></div>
             `;
