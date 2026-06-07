@@ -550,6 +550,8 @@ const App = {
             container.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du chargement des Épopées.</div>`;
         }
     },
+
+    async loadRealMastermindContent() {
         const eventsContainer = document.getElementById('real-afterworks-list');
         const replaysContainer = document.getElementById('real-replays-list');
         if (!eventsContainer && !replaysContainer) return;
