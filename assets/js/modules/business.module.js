@@ -331,6 +331,7 @@ const BusinessModule = {
                                         <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Reste : ${(amount - ((amount * (doc.deposit_perc||30))/100)).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
                                         <button id="btn-sold-${doc.id}" onclick="BusinessModule.markFullyPaid('${doc.id}')" style="background:white; border:1px dashed #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre facture finale</button>
                                        </div>`}
+                            </div>
                         </div>
                     </div>
                     `;
@@ -347,7 +348,6 @@ const BusinessModule = {
                         <p style="color:#64748b; font-size:0.9rem; font-weight:550; margin-top:4px;">Gérez vos missions, devis, facturation et suivez votre évolution.</p>
                     </div>
                     <div>
-                        <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
                         <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
                             <span>Lancer un chat pour être payé</span>
                         </button>
