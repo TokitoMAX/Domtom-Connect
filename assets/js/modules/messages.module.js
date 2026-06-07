@@ -206,6 +206,9 @@ const MessagesModule = {
                     inset: 0;
                     z-index: 20;
                 }
+                .mobile-back-btn {
+                    display: flex !important;
+                }
             }
 
             .chat-header {
@@ -893,7 +896,7 @@ const MessagesModule = {
                 item.className = 'conversation-item' + (isActive ? ' active' : '');
                 item.id = 'conv-item-' + convId;
                 item.onclick = () => {
-                    this.selectConversation(convId, profile);
+                    this.selectConversation(convId, profile, true);
                     if (isChannel) this.switchTab('channel');
                     else this.switchTab('private');
                 };
@@ -945,7 +948,7 @@ const MessagesModule = {
         }
     },
 
-    selectConversation: async function(convId, profile) {
+    selectConversation: async function(convId, profile, isExplicitClick = false) {
         this.activeConversationId = convId;
 
         document.querySelectorAll('.conversation-item').forEach(el => el.classList.remove('active'));
@@ -958,7 +961,7 @@ const MessagesModule = {
         if (chatActive) chatActive.style.display = 'flex';
 
         const layout = document.querySelector('.chat-layout');
-        if (layout) layout.classList.add('mobile-chat-active');
+        if (layout && isExplicitClick) layout.classList.add('mobile-chat-active');
 
         const sasTitle = this.cachedConvTitles ? this.cachedConvTitles[convId] : null;
         const isSas = sasTitle && sasTitle.startsWith('Sas -');

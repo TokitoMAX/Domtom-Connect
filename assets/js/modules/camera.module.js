@@ -13,89 +13,98 @@ window.CameraModule = {
     recordingStartTime: 0,
     maxDurationMs: 30000, // 30 seconds max for stories/posts
 
-    openCamera: async function(callback) {
-        this.onCaptureComplete = callback;
-
-        // Create UI Modal
+    initUI: function() {
         let modal = document.getElementById('dtc-camera-modal');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'dtc-camera-modal';
             modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 999999; display: flex; flex-direction: column;';
             document.body.appendChild(modal);
-        }
-
-        modal.innerHTML = `
-            <div style="display: flex; justify-content: space-between; padding: 20px; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; box-sizing: border-box;">
-                <button onclick="window.CameraModule.closeCamera()" style="background: rgba(0,0,0,0.5); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
-                    <i class="fas fa-times" style="font-size: 1.2rem;"></i>
-                </button>
-                <button onclick="window.CameraModule.switchCamera()" style="background: rgba(0,0,0,0.5); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
-                    <i class="fas fa-sync-alt" style="font-size: 1.2rem;"></i>
-                </button>
-            </div>
             
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-                <video id="dtc-camera-video" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
-                
-                <!-- Recording Indicator -->
-                <div id="dtc-camera-recording-indicator" style="display: none; position: absolute; top: 80px; background: rgba(239, 68, 68, 0.9); color: white; padding: 4px 12px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; align-items: center; gap: 8px;">
-                    <span style="display: block; width: 8px; height: 8px; background: white; border-radius: 50%; animation: dtcPulse 1s infinite;"></span>
-                    <span id="dtc-camera-timer">00:00</span>
-                </div>
-            </div>
-
-            <div style="height: 120px; display: flex; align-items: center; justify-content: center; padding-bottom: 20px; background: #000;">
-                <button id="dtc-camera-shutter" style="width: 72px; height: 72px; border-radius: 50%; border: 4px solid white; background: rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; outline: none; padding: 0;">
-                    <div id="dtc-camera-shutter-inner" style="width: 54px; height: 54px; border-radius: 50%; background: white; transition: all 0.2s;"></div>
-                </button>
-            </div>
-            
-            <style>
-                @keyframes dtcPulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-            </style>
-            
-            <!-- Hidden Canvas for Photo Capture -->
-            <canvas id="dtc-camera-canvas" style="display: none;"></canvas>
-            
-            <!-- EDITOR VIEW (Hidden by default) -->
-            <div id="dtc-camera-editor" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; flex-direction: column;">
-                <!-- Header -->
-                <div style="display: flex; justify-content: space-between; padding: 20px; z-index: 10; background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%); position: absolute; top:0; left:0; right:0;">
-                    <button onclick="window.CameraModule.closeEditor()" style="background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
-                        <i class="fas fa-chevron-left"></i>
+            modal.innerHTML = `
+                <div style="display: flex; justify-content: space-between; padding: 20px; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; box-sizing: border-box;">
+                    <button onclick="window.CameraModule.closeCamera()" style="background: rgba(0,0,0,0.5); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
+                        <i class="fas fa-times" style="font-size: 1.2rem;"></i>
                     </button>
-                    <div style="display: flex; gap: 15px;">
-                        <button onclick="window.CameraModule.addTextOverlay()" style="background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
-                            <i class="fas fa-font"></i>
+                    <button onclick="window.CameraModule.switchCamera()" style="background: rgba(0,0,0,0.5); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
+                        <i class="fas fa-sync-alt" style="font-size: 1.2rem;"></i>
+                    </button>
+                </div>
+                
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                    <video id="dtc-camera-video" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
+                    
+                    <!-- Recording Indicator -->
+                    <div id="dtc-camera-recording-indicator" style="display: none; position: absolute; top: 80px; background: rgba(239, 68, 68, 0.9); color: white; padding: 4px 12px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; align-items: center; gap: 8px;">
+                        <span style="display: block; width: 8px; height: 8px; background: white; border-radius: 50%; animation: dtcPulse 1s infinite;"></span>
+                        <span id="dtc-camera-timer">00:00</span>
+                    </div>
+                </div>
+
+                <div style="height: 120px; display: flex; align-items: center; justify-content: center; padding-bottom: 20px; background: #000;">
+                    <button id="dtc-camera-shutter" style="width: 72px; height: 72px; border-radius: 50%; border: 4px solid white; background: rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; outline: none; padding: 0;">
+                        <div id="dtc-camera-shutter-inner" style="width: 54px; height: 54px; border-radius: 50%; background: white; transition: all 0.2s;"></div>
+                    </button>
+                </div>
+                
+                <style>
+                    @keyframes dtcPulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+                </style>
+                
+                <!-- Hidden Canvas for Photo Capture -->
+                <canvas id="dtc-camera-canvas" style="display: none;"></canvas>
+                
+                <!-- EDITOR VIEW (Hidden by default) -->
+                <div id="dtc-camera-editor" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; flex-direction: column;">
+                    <!-- Header -->
+                    <div style="display: flex; justify-content: space-between; padding: 20px; z-index: 10; background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%); position: absolute; top:0; left:0; right:0;">
+                        <button onclick="window.CameraModule.closeEditor()" style="background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div style="display: flex; gap: 15px;">
+                            <button onclick="window.CameraModule.addTextOverlay()" style="background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+                                <i class="fas fa-font"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Media Container -->
+                    <div id="dtc-editor-media-container" style="flex: 1; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000;">
+                        <!-- Media inserted here dynamically -->
+                        
+                        <!-- Text Overlay Layer -->
+                        <div id="dtc-editor-text-layer" style="position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; z-index: 5;">
+                        </div>
+                    </div>
+                    
+                    <!-- Footer / Validate -->
+                    <div style="padding: 20px; padding-bottom: max(20px, env(safe-area-inset-bottom)); background: #000; display: flex; justify-content: flex-end; align-items: center;">
+                        <button onclick="window.CameraModule.validateAndSend()" style="background: #10b981; color: white; border: none; padding: 14px 32px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); display: flex; align-items: center; gap: 10px;">
+                            Suivant <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                </div>
-                
-                <!-- Media Container -->
-                <div id="dtc-editor-media-container" style="flex: 1; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000;">
-                    <!-- Media inserted here dynamically -->
                     
-                    <!-- Text Overlay Layer -->
-                    <div id="dtc-editor-text-layer" style="position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; z-index: 5;">
+                    <!-- Text Input Overlay -->
+                    <div id="dtc-editor-text-input-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+                        <input type="text" id="dtc-editor-text-input" placeholder="Tapez votre texte..." style="background: transparent; border: none; color: white; font-size: 2rem; font-weight: 800; text-align: center; width: 100%; outline: none; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                        <button onclick="window.CameraModule.saveTextOverlay()" style="margin-top: 20px; background: white; color: black; border: none; padding: 10px 24px; border-radius: 20px; font-weight: 700; cursor: pointer;">Terminé</button>
                     </div>
                 </div>
-                
-                <!-- Footer / Validate -->
-                <div style="padding: 20px; padding-bottom: max(20px, env(safe-area-inset-bottom)); background: #000; display: flex; justify-content: flex-end; align-items: center;">
-                    <button onclick="window.CameraModule.validateAndSend()" style="background: #10b981; color: white; border: none; padding: 14px 32px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); display: flex; align-items: center; gap: 10px;">
-                        Suivant <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-                
-                <!-- Text Input Overlay -->
-                <div id="dtc-editor-text-input-overlay" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
-                    <input type="text" id="dtc-editor-text-input" placeholder="Tapez votre texte..." style="background: transparent; border: none; color: white; font-size: 2rem; font-weight: 800; text-align: center; width: 100%; outline: none; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
-                    <button onclick="window.CameraModule.saveTextOverlay()" style="margin-top: 20px; background: white; color: black; border: none; padding: 10px 24px; border-radius: 20px; font-weight: 700; cursor: pointer;">Terminé</button>
-                </div>
-            </div>
-        `;
+            `;
+        }
+        return modal;
+    },
 
+    editFile: function(file, callback) {
+        this.onCaptureComplete = callback;
+        const modal = this.initUI();
+        modal.style.display = 'flex';
+        this.openEditor(file, file.type.includes('video'));
+    },
+
+    openCamera: async function(callback) {
+        this.onCaptureComplete = callback;
+        const modal = this.initUI();
         modal.style.display = 'flex';
 
         this.setupEventListeners();

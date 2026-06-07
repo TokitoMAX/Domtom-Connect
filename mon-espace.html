@@ -276,13 +276,15 @@
         }
 
         function syncNavActiveState() {
-            const hash = window.location.hash || '#overview';
+            const fullHash = window.location.hash || '#overview';
+            const baseHash = fullHash.split('?')[0];
             
             // 1. Mobile Bottom Bar Links
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 const href = link.getAttribute('href');
                 if (href && href.startsWith('#')) {
-                    link.classList.toggle('active', href === hash);
+                    const linkBaseHash = href.split('?')[0];
+                    link.classList.toggle('active', linkBaseHash === baseHash);
                 }
             });
 
@@ -290,8 +292,8 @@
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 const href = link.getAttribute('href');
                 if (href) {
-                    const isHashMatch = href.includes(hash);
-                    const isOverviewMatch = hash === '#overview' && (href.endsWith('mon-espace.html') || href.includes('#overview'));
+                    const isHashMatch = href.includes(baseHash);
+                    const isOverviewMatch = baseHash === '#overview' && (href.endsWith('mon-espace.html') || href.includes('#overview'));
                     link.classList.toggle('active', isHashMatch || isOverviewMatch);
                 }
             });

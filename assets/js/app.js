@@ -183,14 +183,16 @@ const App = {
             return;
         }
 
-        // Handle overview for explorateurs
-        if (viewId === 'overview' && isExplorateur) {
+        // UNIFIED DASHBOARD: Simplified architecture for all roles
+        if (viewId === 'overview') {
             if (overview) {
                 overview.style.display = 'block';
-                // Feed is now exclusively in its own tab, so we don't append it here anymore.
+                if (window.UIComponents && window.UIComponents.renderUnifiedDashboard) {
+                    await window.UIComponents.renderUnifiedDashboard(overview, this.state.profile, this.state.role);
+                }
             }
-            // We removed the 'return;' here so that activeModule.route() is called below
-            // to populate the overview dashboard content.
+            if (feedWrapper) feedWrapper.style.display = 'none';
+            return;
         }
 
         // For all other views, temporarily hide feedWrapper

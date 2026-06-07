@@ -114,6 +114,95 @@ const UIComponents = {
         `;
     },
 
+    renderUnifiedDashboard: async function(container, profile, role) {
+        if (!container) return;
+        const prefix = this.getPathPrefix();
+        const adjust = (p) => this.adjustPath(p, prefix);
+
+        const safeRole = (role || 'spectateur').toLowerCase();
+        let roleActions = '';
+        
+        if (['porteur', 'owner', 'porteur de projet', 'admin'].includes(safeRole)) {
+            roleActions = `
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#success-engine')">
+                    <div class="dash-card-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Pilotage de Projet</h3>
+                    <p>Gérez vos objectifs, vos financements et vos ressources.</p>
+                </div>
+            `;
+        } else if (['expert', 'entreprise'].includes(safeRole)) {
+            roleActions = `
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#profile')">
+                    <div class="dash-card-icon"><i class="fas fa-briefcase"></i></div>
+                    <h3>Mon Activité Pro</h3>
+                    <p>Gérez vos missions, vos offres et vos informations.</p>
+                </div>
+            `;
+        }
+
+        container.innerHTML = `
+            <style>
+                .dash-unified { font-family: 'Plus Jakarta Sans', sans-serif; padding: clamp(20px, 4vw, 40px); max-width: 1200px; margin: 0 auto; padding-bottom: 80px; }
+                .dash-welcome { text-align: center; margin-bottom: 40px; }
+                .dash-welcome h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; color: #0f172a; margin: 0 0 10px 0; letter-spacing: -0.04em; }
+                .dash-welcome p { font-size: 1.1rem; color: #64748b; margin: 0; font-weight: 500; }
+                
+                .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+                
+                .dash-card { background: white; border-radius: 24px; padding: 32px; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.02); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+                .dash-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-color: #10b981; }
+                
+                .dash-card-icon { width: 56px; height: 56px; background: #f0fdf4; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 24px; color: #10b981; transition: all 0.3s; }
+                .dash-card:hover .dash-card-icon { background: #10b981; color: white; }
+                
+                .dash-card h3 { font-size: 1.3rem; font-weight: 900; color: #0f172a; margin: 0 0 10px 0; }
+                .dash-card p { font-size: 0.95rem; color: #64748b; line-height: 1.6; margin: 0; }
+                
+                .dash-card-pro { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: none; color: white; }
+                .dash-card-pro h3 { color: white; }
+                .dash-card-pro p { color: rgba(255,255,255,0.7); }
+                .dash-card-pro .dash-card-icon { background: rgba(255,255,255,0.1); color: white; }
+                .dash-card-pro:hover { box-shadow: 0 20px 40px rgba(15,23,42,0.3); border-color: transparent; }
+                .dash-card-pro:hover .dash-card-icon { background: white; color: #0f172a; }
+            </style>
+            
+            <div class="dash-unified">
+                <div class="dash-welcome">
+                    <h1>Bienvenue, ${profile?.first_name || 'Explorateur'} 👋</h1>
+                    <p>Que souhaitez-vous faire aujourd'hui ?</p>
+                </div>
+                
+                <div class="dash-grid">
+                    ${roleActions}
+                    
+                    <div class="dash-card" onclick="window.Router.navigate('#moments')">
+                        <div class="dash-card-icon"><i class="fas fa-play"></i></div>
+                        <h3>DTC (Réseau Social)</h3>
+                        <p>Découvrez les dernières publications, stories et actualités de la communauté.</p>
+                    </div>
+                    
+                    <div class="dash-card" onclick="window.location.href='${adjust('marketplace/directory.html')}'">
+                        <div class="dash-card-icon"><i class="fas fa-compass"></i></div>
+                        <h3>Explorer</h3>
+                        <p>Trouvez des talents, des projets et des opportunités d'affaires locales.</p>
+                    </div>
+                    
+                    <div class="dash-card" onclick="window.Router.navigate('#messages')">
+                        <div class="dash-card-icon"><i class="fas fa-comment-dots"></i></div>
+                        <h3>Messagerie</h3>
+                        <p>Communiquez en direct avec votre réseau et vos collaborateurs.</p>
+                    </div>
+                    
+                    <div class="dash-card" onclick="window.Router.navigate('#channel?id=${profile?.id || ''}')">
+                        <div class="dash-card-icon"><i class="fas fa-tv"></i></div>
+                        <h3>Ma Chaîne</h3>
+                        <p>Gérez votre contenu, vos posts, et augmentez votre visibilité.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
     async renderTopNav() {
         let nav = document.querySelector('.navbar');
         if (!nav) return;

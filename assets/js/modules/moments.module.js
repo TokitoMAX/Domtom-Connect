@@ -818,13 +818,22 @@ const MomentsModule = {
         }
     },
 
-    handlePostFileSelected: function(input) {
+    handlePostFileSelected: function(input, skipEditor = false) {
+        if (!input.files || !input.files[0]) return;
         const file = input.files[0];
-        const label = document.getElementById('post-file-name');
-        if (input.files && input.files[0]) {
-            this.pendingFile = input.files[0];
+        
+        if (!skipEditor && window.CameraModule && window.CameraModule.editFile) {
+            window.CameraModule.editFile(file, (editedFile) => {
+                if (editedFile) {
+                    this.pendingFile = editedFile;
+                    this.pendingFileType = 'post';
+                    document.getElementById('post-file-name').textContent = editedFile.name;
+                }
+            });
+        } else {
+            this.pendingFile = file;
             this.pendingFileType = 'post';
-            document.getElementById('post-file-name').textContent = this.pendingFile.name;
+            document.getElementById('post-file-name').textContent = file.name;
         }
     },
 
@@ -838,21 +847,32 @@ const MomentsModule = {
                 // Mock an input structure for existing handlers
                 const mockInput = { files: [file] };
                 if (mode === 'story') {
-                    this.handleStoryFileSelected(mockInput);
+                    this.handleStoryFileSelected(mockInput, true);
                 } else {
-                    this.handlePostFileSelected(mockInput);
+                    this.handlePostFileSelected(mockInput, true);
                 }
             }
         });
     },
 
-    handleStoryFileSelected: function(input) {
-        if (input.files && input.files[0]) {
-            window._pendingPostFile = input.files[0];
+    handleStoryFileSelected: function(input, skipEditor = false) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        
+        if (!skipEditor && window.CameraModule && window.CameraModule.editFile) {
+            window.CameraModule.editFile(file, (editedFile) => {
+                if (editedFile) {
+                    window._pendingPostFile = editedFile;
+                    window._pendingPostCategory = 'story';
+                    const nameEl = document.getElementById('post-file-name');
+                    if (nameEl) nameEl.innerText = "Story: " + editedFile.name;
+                }
+            });
+        } else {
+            window._pendingPostFile = file;
             window._pendingPostCategory = 'story';
             const nameEl = document.getElementById('post-file-name');
-            if (nameEl) nameEl.innerText = "Story: " + input.files[0].name;
-            // Removed auto-publish so the user can preview and add text
+            if (nameEl) nameEl.innerText = "Story: " + file.name;
         }
     },
 
