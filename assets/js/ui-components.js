@@ -123,15 +123,17 @@ const UIComponents = {
         let roleActions = '';
         
         if (['porteur', 'owner', 'porteur de projet', 'admin'].includes(safeRole)) {
-            roleActions = `
+            roleActions += `
                 <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#success-engine')">
                     <div class="dash-card-icon"><i class="fas fa-rocket"></i></div>
                     <h3>Pilotage de Projet</h3>
                     <p>Gérez vos objectifs, vos financements et vos ressources.</p>
                 </div>
             `;
-        } else if (['expert', 'entreprise'].includes(safeRole)) {
-            roleActions = `
+        } 
+        
+        if (['expert', 'entreprise', 'admin'].includes(safeRole)) {
+            roleActions += `
                 <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#vitrine')">
                     <div class="dash-card-icon"><i class="fas fa-link"></i></div>
                     <h3>Mes Liens & Services</h3>
@@ -148,7 +150,9 @@ const UIComponents = {
                     <p>Créez et gérez vos événements, afterworks et ateliers.</p>
                 </div>
             `;
-        } else {
+        }
+        
+        if (!roleActions) {
             roleActions = `
                 <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#profile')">
                     <div class="dash-card-icon"><i class="fas fa-rocket"></i></div>

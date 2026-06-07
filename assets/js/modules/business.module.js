@@ -224,7 +224,8 @@ const BusinessModule = {
                             </div>
                             <div style="display:flex; align-items:center; gap:8px;">
                                 <span style="background:${statusBg}; color:${statusColor}; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">${statusLabel}</span>
-                                <button onclick="BusinessModule.closeJobOffer('${o.id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Fermer</button>
+                                ${o.status === 'open' ? `<button onclick="BusinessModule.closeJobOffer('${o.id}')" style="background:#fef3c7; color:#d97706; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Fermer</button>` : ''}
+                                <button onclick="BusinessModule.deleteJobOffer('${o.id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Supprimer</button>
                             </div>
                         </div>`;
                     });
@@ -400,6 +401,19 @@ const BusinessModule = {
             alert('Erreur : ' + e.message);
         }
     },
+
+    deleteJobOffer: async function(id) {
+        if (!confirm('Êtes-vous sûr de vouloir supprimer cette annonce définitivement ?')) return;
+        try {
+            const { error } = await window._supabase.from('job_offers').delete().eq('id', id);
+            if (error) throw error;
+            this.renderMissions();
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de la suppression.");
+        }
+    },
+
 
     renderDashboard: async function(container) {
         await this.renderView(container);
