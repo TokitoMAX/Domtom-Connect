@@ -80,6 +80,13 @@ const App = {
                 window.Router.init();
             }
 
+            // 5. Initialize In-App Notification System
+            if (window.NotifSystem) {
+                window.NotifSystem.init(db, session.user.id).catch(e => {
+                    console.warn('[NotifSystem] Init warning:', e.message);
+                });
+            }
+
         } catch (err) {
             console.error("[App] Critical Boot Error:", err);
             const container = document.getElementById('ecosystem-grid-container');

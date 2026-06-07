@@ -162,9 +162,31 @@
                 <a href="index.html" class="top-nav-logo">
                     <img src="./assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 35px;">
                 </a>
-                <button class="nav-toggle hide-on-mobile" id="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <span></span><span></span><span></span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <!-- Cloche de Notifications -->
+                    <div id="notif-bell-wrapper" style="position: relative;">
+                        <button id="notif-bell-btn" onclick="window.NotifSystem && window.NotifSystem.toggle()" style="width: 40px; height: 40px; border-radius: 12px; background: #f1f5f9; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #334155; font-size: 1.1rem; transition: background 0.2s; position: relative;" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span id="notif-badge" style="display:none; position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.65rem; font-weight: 900; min-width: 18px; height: 18px; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border: 2px solid white;"></span>
+                        </button>
+                        <!-- Panneau de notifications -->
+                        <div id="notif-panel" style="display:none; position: absolute; top: 52px; right: 0; width: 360px; max-width: 90vw; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); border: 1px solid #e2e8f0; z-index: 99999; overflow: hidden;">
+                            <div style="padding: 20px 24px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                                <h3 style="margin: 0; font-size: 1rem; font-weight: 800; color: #0f172a;">Notifications</h3>
+                                <button onclick="window.NotifSystem && window.NotifSystem.markAllRead()" style="background: none; border: none; color: #64748b; font-size: 0.8rem; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">Tout marquer comme lu</button>
+                            </div>
+                            <div id="notif-list" style="max-height: 400px; overflow-y: auto;">
+                                <div style="padding: 40px; text-align: center; color: #94a3b8;">
+                                    <i class="fas fa-bell" style="font-size: 2rem; margin-bottom: 12px; display: block; opacity: 0.3;"></i>
+                                    <p style="margin: 0; font-size: 0.9rem;">Chargement...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="nav-toggle hide-on-mobile" id="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
             </header>
 
             <div class="content-wrapper">
@@ -282,6 +304,7 @@
     <script src="./assets/js/modules/payment.module.js?v=11.17"></script>
     <script src="./assets/js/modules/webinar.module.js?v=11.17"></script>
     <script src="https://meet.jit.si/external_api.js"></script>
+    <script src="./assets/js/modules/notifications.module.js?v=1.0"></script>
     <script src="./assets/js/app.js?v=11.17"></script>
 
     <script>
