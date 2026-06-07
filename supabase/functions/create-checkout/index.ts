@@ -71,15 +71,18 @@ Deno.serve(async (req: Request) => {
       const amount = Math.round(item_price * 100);
       let paymentData: any = {};
 
+      let has_connect = false;
+
       if ((type === 'showcase' || type === 'quote' || type === 'event') && provider_id && is_admin_quote !== 'true') {
         const { data: expert } = await supabaseClient
           .from('profiles')
-          .select('stripe_connect_id')
+          .select('stripe_connect_id, stripe_payouts_enabled')
           .eq('id', provider_id)
-          .single();
+          .maybeSingle();
 
-        if (expert?.stripe_connect_id) {
-          // Commission : 5% pour Showcase, 12.5% pour Quotes, 15% pour Events
+        if (expert?.stripe_connect_id && expert?.stripe_payouts_enabled) {
+          has_connect = true;
+          // Commission : 5% pour Showcase, 10% pour Quotes, 10% pour Events
           let feePercent = 0.05;
           if (type === 'quote') feePercent = 0.10;
           if (type === 'event') feePercent = 0.10;
@@ -94,6 +97,8 @@ Deno.serve(async (req: Request) => {
           };
         }
       }
+
+      sessionConfig.metadata.has_connect = has_connect ? 'true' : 'false';
 
       sessionConfig.mode = 'payment';
       sessionConfig.payment_intent_data = paymentData;

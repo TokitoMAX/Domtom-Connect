@@ -944,7 +944,8 @@ const MessagesModule = {
         } catch (err) {
             console.error("Error loading conversations:", err);
         } finally {
-            if (loader) loader.style.display = 'none';
+            if (loaderPrivate) loaderPrivate.style.display = 'none';
+            if (loaderChannel) loaderChannel.style.display = 'none';
         }
     },
 
@@ -1470,11 +1471,40 @@ const MessagesModule = {
         }, 3000);
     },
 
-    openPaymentRequestModal: function() {
+    openPaymentRequestModal: async function() {
         if (!this.activeConversationId) {
             alert("Veuillez d'abord sélectionner une conversation.");
             return;
         }
+
+        // Vérification Stripe Connect pour l'expert
+        const state = window.App ? window.App.state : null;
+        if (state && state.role !== 'admin' && !state.stripe_payouts_enabled) {
+            const wantsToConnect = confirm("💳 Configuration bancaire requise\n\nPour recevoir vos paiements de manière sécurisée et automatique sur votre compte bancaire, vous devez d'abord renseigner votre RIB (obligation légale).\n\nCette étape prend 2 minutes et ne se fait qu'une seule fois. Voulez-vous configurer votre compte de paiement maintenant ?");
+            
+            if (wantsToConnect) {
+                try {
+                    const { data: { session } } = await window._supabase.auth.getSession();
+                    const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-connect-onboarding', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${session.access_token}`
+                        }
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                        window.location.href = data.url;
+                    } else {
+                        throw new Error(data.error || "Erreur inconnue");
+                    }
+                } catch (e) {
+                    console.error(e);
+                    alert("Erreur lors de la connexion à Stripe. Veuillez réessayer via l'onglet Mon Profil.");
+                }
+            }
+            return;
+        }
+
         const titleEl = document.getElementById('pay-req-title');
         const amtEl = document.getElementById('pay-req-amount');
         if (titleEl) titleEl.value = '';
