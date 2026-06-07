@@ -157,17 +157,7 @@ const OwnersModule = {
                         </div>
                     </div>
 
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
-                        <div style="max-width: 500px;">
-                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                                <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0;">Besoin d'aide pour structurer ?</h3>
-                            </div>
-                            <p style="color: #64748b; font-size: 0.95rem; margin: 0; font-weight: 500; line-height: 1.5;">Profitez d'un diagnostic stratégique offert de 30 minutes avec notre équipe pour faire le point sur vos objectifs.</p>
-                        </div>
-                        <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 14px 24px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; border: 1px solid #e2e8f0; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.2s;">
-                            Prendre RDV
-                        </a>
-                    </div>
+                    ${ctaBannersHorizontal}
                     ${mastermindContent}
                 </div>
             `;
@@ -247,14 +237,27 @@ const OwnersModule = {
                         </div>
                     </div>
 
-                    <!-- Right Column: Diagnostic Funnel -->
-                    <div class="owners-funnel-right" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; box-sizing: border-box;">
-                        <div style="background: rgba(255,255,255,0.1); color: white; padding: 8px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1);">Accélération</div>
-                        <h3 style="font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 950; margin: 0 0 16px 0; letter-spacing: -0.04em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
-                        <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; margin: 0 0 40px 0; font-weight: 500; line-height: 1.6; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis.</p>
-                        <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #0f172a; text-decoration: none; padding: 20px; border-radius: 16px; font-weight: 950; font-size: 1.05rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);">
-                            RDV Stratégique
-                        </a>
+                    <!-- Right Column: Diagnostic & Webinar Funnel -->
+                    <div style="display: flex; flex-direction: column; gap: 16px; box-sizing: border-box;">
+                        <!-- WEBINAR CTA -->
+                        <div style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 32px; padding: clamp(24px, 5vw, 32px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; box-sizing: border-box;">
+                            <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; align-self: flex-start;">Évènement Live</div>
+                            <h3 style="font-size: clamp(1.4rem, 3vw, 1.6rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.03em; position: relative; z-index: 10; line-height: 1.2;">Mon 1er Webinaire<br>Gratuit</h3>
+                            <p style="color: rgba(255,255,255,0.8); font-size: 1rem; margin: 0 0 24px 0; font-weight: 500; line-height: 1.5; position: relative; z-index: 10;">Découvrez comment structurer et financer vos projets. Places limitées !</p>
+                            <a href="https://domtomconnect.systeme.io/webinaire" target="_blank" style="background: white; color: #4f46e5; text-decoration: none; padding: 16px; border-radius: 16px; font-weight: 950; font-size: 1rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                                S'inscrire au webinaire
+                            </a>
+                        </div>
+                        
+                        <!-- DIAGNOSTIC CTA -->
+                        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 32px; padding: clamp(24px, 5vw, 32px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; box-sizing: border-box;">
+                            <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; align-self: flex-start;">Accélération</div>
+                            <h3 style="font-size: clamp(1.4rem, 3vw, 1.6rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.03em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
+                            <p style="color: rgba(255,255,255,0.8); font-size: 1rem; margin: 0 0 24px 0; font-weight: 500; line-height: 1.5; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis et avancer.</p>
+                            <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px; border-radius: 16px; font-weight: 950; font-size: 1rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                                RDV Stratégique
+                            </a>
+                        </div>
                     </div>
                 </div>
                 ${mastermindContent}
