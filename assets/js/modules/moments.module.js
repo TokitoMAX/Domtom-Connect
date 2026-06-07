@@ -821,22 +821,29 @@ const MomentsModule = {
     handlePostFileSelected: function(input) {
         const file = input.files[0];
         const label = document.getElementById('post-file-name');
-        if (file) {
-            this.pendingFile = file;
-            if (label) label.textContent = file.name;
-        } else {
-            this.pendingFile = null;
-            if (label) label.textContent = '';
+        if (input.files && input.files[0]) {
+            this.pendingFile = input.files[0];
+            this.pendingFileType = 'post';
+            document.getElementById('post-file-name').textContent = this.pendingFile.name;
         }
     },
 
-    handlePostFileSelected: function(input) {
-        if (input.files && input.files[0]) {
-            window._pendingPostFile = input.files[0];
-            window._pendingPostCategory = 'status';
-            const nameEl = document.getElementById('post-file-name');
-            if (nameEl) nameEl.innerText = "Média: " + input.files[0].name;
+    openIntegratedCamera: function(mode) {
+        if (!window.CameraModule) {
+            alert("Module caméra en cours de chargement, veuillez patienter...");
+            return;
         }
+        window.CameraModule.openCamera((file) => {
+            if (file) {
+                // Mock an input structure for existing handlers
+                const mockInput = { files: [file] };
+                if (mode === 'story') {
+                    this.handleStoryFileSelected(mockInput);
+                } else {
+                    this.handlePostFileSelected(mockInput);
+                }
+            }
+        });
     },
 
     handleStoryFileSelected: function(input) {
