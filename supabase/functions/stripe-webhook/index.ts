@@ -52,9 +52,9 @@ Deno.serve(async (req) => {
     try {
       let commission_rate = 0.05;
       if (type === 'quote') {
-        commission_rate = metadata.is_admin_quote === 'true' ? 0.0 : 0.125;
+        commission_rate = metadata.is_admin_quote === 'true' ? 0.0 : 0.10;
       }
-      if (type === 'event') commission_rate = 0.15;
+      if (type === 'event') commission_rate = 0.10;
       
       const net_amount = parseFloat((total_price * (1 - commission_rate)).toFixed(2));
       const fee_amount = parseFloat((total_price * commission_rate).toFixed(2));

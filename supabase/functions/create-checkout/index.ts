@@ -81,8 +81,8 @@ Deno.serve(async (req: Request) => {
         if (expert?.stripe_connect_id) {
           // Commission : 5% pour Showcase, 12.5% pour Quotes, 15% pour Events
           let feePercent = 0.05;
-          if (type === 'quote') feePercent = 0.125;
-          if (type === 'event') feePercent = 0.15;
+          if (type === 'quote') feePercent = 0.10;
+          if (type === 'event') feePercent = 0.10;
           
           const fee = Math.round(amount * feePercent);
           
