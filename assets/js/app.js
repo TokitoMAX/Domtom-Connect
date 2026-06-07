@@ -382,7 +382,36 @@ const App = {
             try {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
                 
-                // Add Feed to the bottom of the dashboard for Experts/Entreprises
+                // Add Feed to the bottom of the dashboard for ALL roles on overview
+                if (viewId === 'overview') {
+                    const existingFeedContainer = document.getElementById('spectator-dtc-feed-mount') || document.getElementById('global-dtc-feed-mount');
+                    if (!existingFeedContainer) {
+                        const feedBlock = document.createElement('div');
+                        feedBlock.style.cssText = "grid-column: 1 / -1; margin-top: 40px; background: white; border-radius: 24px; padding: clamp(20px, 4vw, 40px); box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; max-width: 800px; margin-left: auto; margin-right: auto; width: 100%; box-sizing: border-box;";
+                        feedBlock.innerHTML = `
+                            <h2 style="font-size: 2.2rem; font-weight: 950; color: #020617; letter-spacing: -0.05em; margin-bottom: 30px; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; align-items: center; gap: 12px;">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" style="vertical-align: middle;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                DTC (Moments & Actualités)
+                            </h2>
+                            <div id="global-dtc-feed-mount"></div>
+                        `;
+                        
+                        // Wait for the route to finish rendering its innerHTML
+                        setTimeout(() => {
+                            // Find the inner dash grid, or append to targetContainer
+                            const dashGrid = targetContainer.querySelector('.dash-grid-layout');
+                            if (dashGrid) {
+                                dashGrid.appendChild(feedBlock);
+                            } else {
+                                targetContainer.appendChild(feedBlock);
+                            }
+                            if (window.MomentsModule && window.MomentsModule.renderFeed) {
+                                window.MomentsModule.renderFeed('global-dtc-feed-mount');
+                            }
+                        }, 500);
+                    }
+                }
+                
             } catch (err) {
                 console.error("[App] Module Route Error:", err);
                 if (targetContainer) targetContainer.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du rendu du module : ${err.message}</div>`;

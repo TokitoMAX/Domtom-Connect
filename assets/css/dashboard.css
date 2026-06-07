@@ -2990,4 +2990,29 @@ html, body {
         display: flex;
         flex-direction: column;
     }
+
+    /* Mobile Carousel Fallback for Grids */
+    .mobile-carousel {
+        display: flex !important;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px !important;
+    }
+    
+    .mobile-carousel > div {
+        flex: 0 0 85% !important;
+        max-width: 85% !important;
+        scroll-snap-align: center;
+    }
+
+    .mobile-carousel::-webkit-scrollbar {
+        height: 4px;
+    }
+    .mobile-carousel::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
 }

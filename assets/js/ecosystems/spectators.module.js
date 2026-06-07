@@ -132,7 +132,7 @@ const SpectatorsModule = {
                 </div>
 
                 <!-- WEBINARS: The Live Connection -->
-                <div style="grid-column: 1 / -1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 60px 40px; border-radius: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
+                <div style="grid-column: 1 / -1; background: #f8fafc; border: 1px solid #e2e8f0; padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 40px); border-radius: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 40px; align-items: center;">
                     <div>
                         <span style="color: #10b981; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 0.75rem;">Événements Stratégiques</span>
                         <h2 style="font-size: 2.2rem; font-weight: 950; color: #0f172a; margin: 16px 0;">Assistez à nos Webinaires en Direct</h2>
@@ -156,10 +156,10 @@ const SpectatorsModule = {
                 <!-- ACTIONS IMMÉDIATES (The Support Engine) -->
                 <div style="grid-column: 1 / -1;">
                     <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 40px; text-align: center;">Choisissez votre Épopée</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 32px;">
                         
                         <!-- Porteur -->
-                        <div style="background: white; border: 1px solid #e2e8f0; padding: 40px; border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="background: white; border: 1px solid #e2e8f0; padding: clamp(24px, 4vw, 40px); border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
                             <div style="width: 56px; height: 56px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: #0f172a;">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="m9 12 2.5-2.5"/><path d="m11.5 15.5 3-3"/></svg>
                             </div>
@@ -172,7 +172,7 @@ const SpectatorsModule = {
                         </div>
 
                         <!-- Expert -->
-                        <div style="background: white; border: 1px solid #e2e8f0; padding: 40px; border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="background: white; border: 1px solid #e2e8f0; padding: clamp(24px, 4vw, 40px); border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
                             <div style="width: 56px; height: 56px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: #10b981;">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l3 12"/><path d="m13 3 3 6-3 12"/><path d="M2 9h20"/><path d="m5 3 3 6"/><path d="m19 3-3 6"/></svg>
                             </div>
@@ -185,7 +185,7 @@ const SpectatorsModule = {
                         </div>
 
                         <!-- Entreprise -->
-                        <div style="background: white; border: 1px solid #e2e8f0; padding: 40px; border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                        <div style="background: white; border: 1px solid #e2e8f0; padding: clamp(24px, 4vw, 40px); border-radius: 32px; transition: 0.3s; position: relative;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-10px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
                             <div style="width: 56px; height: 56px; background: #f8fafc; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: #3b82f6;">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="10" width="20" height="12" rx="2"/><path d="M6 10V6a4 4 0 0 1 8 0v4"/><path d="M8 10V6a2 2 0 0 1 4 0v4"/></svg>
                             </div>
@@ -201,8 +201,8 @@ const SpectatorsModule = {
                 </div>
 
                 <!-- The PASSIVE PATH (The Spectator Role - Supporting & Organizing) -->
-                <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 40px; padding: 60px 40px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px;">
+                <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 40px; padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 40px);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 48px;">
                         <div>
                             <span style="color: #64748b; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Engagement Light</span>
                             <h2 style="font-size: 2rem; font-weight: 900; color: #0f172a; margin: 16px 0;">Acteur via le Soutien</h2>
@@ -232,7 +232,7 @@ const SpectatorsModule = {
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 24px;">
-                            <div style="background: white; padding: 40px; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); flex: 1;">
+                            <div style="background: white; padding: clamp(24px, 4vw, 40px); border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); flex: 1;">
                                 <h4 style="margin: 0 0 16px 0; font-weight: 800; color: #0f172a;">Actions Immédiates</h4>
                                 <div style="display: grid; gap: 12px;">
                                     <button onclick="window.location.href='${adjust('marketplace/directory.html')}'" class="cta-button primary" style="width: 100%; height: 50px; background: #10b981; color: white; border-radius: 12px; font-weight: 800; border: none; cursor: pointer;">Explorer le Marketplace DTC</button>
@@ -252,7 +252,7 @@ const SpectatorsModule = {
                 <!-- The HOW: Process Transparency -->
                 <div style="grid-column: 1 / -1; text-align: center; margin-top: 20px;">
                     <h3 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-bottom: 48px;">Comment ça fonctionne (Vraiment)</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 40px;">
                         <div>
                             <div style="color: #0f172a; margin-bottom: 16px;">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -281,9 +281,6 @@ const SpectatorsModule = {
                             <h5 style="font-size: 1rem; font-weight: 800; margin-bottom: 8px;">4. Impact</h5>
                             <p style="font-size: 0.85rem; color: #64748b;">Votre contribution, même en tant qu'observateur, fait grandir le réseau.</p>
                         </div>
-                    </div>
-                </div>
-
             </div>
         `;
     },
