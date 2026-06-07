@@ -192,6 +192,30 @@ const UIComponents = {
         };
         const displayRole = roleDisplayNames[safeRole] || 'Membre';
 
+        let diagTitle = "Diagnostic Offert";
+        let diagDesc = "Faites le point avec notre équipe pour structurer vos objectifs.";
+        
+        if (['porteur', 'owner', 'porteur de projet'].includes(safeRole)) {
+            diagTitle = "Diagnostic Projet";
+            diagDesc = "Faites le point avec notre équipe pour débloquer les prochaines étapes de votre épopée.";
+        } else if (['expert'].includes(safeRole)) {
+            diagTitle = "Diagnostic Expert";
+            diagDesc = "Faites le point avec notre équipe pour propulser vos services.";
+        } else if (['entreprise'].includes(safeRole)) {
+            diagTitle = "Diagnostic Entreprise";
+            diagDesc = "Faites le point avec notre équipe pour accélérer votre développement B2B.";
+        }
+        
+        const calendlyUrl = profile?.calendly_url || 'https://calendly.com/domtomconnect/30min';
+        
+        const calendlyCard = `
+            <div class="dash-card dash-card-pro" onclick="window.open('${calendlyUrl}', '_blank')" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                <div class="dash-card-icon" style="color: #10b981; background: white;"><i class="fas fa-calendar-check"></i></div>
+                <h3>${diagTitle}</h3>
+                <p>${diagDesc}</p>
+            </div>
+        `;
+
         container.innerHTML = `
             <style>
                 .dash-unified { font-family: 'Plus Jakarta Sans', sans-serif; padding: clamp(20px, 4vw, 40px); max-width: 1200px; margin: 0 auto; padding-bottom: 80px; }
@@ -228,6 +252,7 @@ const UIComponents = {
                 </div>
                 
                 <div class="dash-grid">
+                    ${calendlyCard}
                     ${roleActions}
                     
                     <div class="dash-card" onclick="window.Router.navigate('#moments')">

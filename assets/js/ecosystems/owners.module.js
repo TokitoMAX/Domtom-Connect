@@ -254,7 +254,7 @@ const OwnersModule = {
                             <div style="background: rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; align-self: flex-start;">Accélération</div>
                             <h3 style="font-size: clamp(1.4rem, 3vw, 1.6rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.03em; position: relative; z-index: 10; line-height: 1.2;">Besoin d'un<br>coup de pouce ?</h3>
                             <p style="color: rgba(255,255,255,0.8); font-size: 1rem; margin: 0 0 24px 0; font-weight: 500; line-height: 1.5; position: relative; z-index: 10;">Faites le point avec notre équipe pour débloquer vos défis et avancer.</p>
-                            <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px; border-radius: 16px; font-weight: 950; font-size: 1rem; text-align: center; display: block; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                            <a href="${profile.calendly_url || 'https://calendly.com/domtomconnect/30min'}" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;">
                                 RDV Stratégique
                             </a>
                         </div>
