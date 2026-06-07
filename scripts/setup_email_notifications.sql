@@ -50,9 +50,10 @@ BEGIN
     );
 
     -- Envoi asynchrone via pg_net (non-bloquant)
+    -- Note: net.http_post sur Supabase attend body en JSONB
     PERFORM net.http_post(
         url     := 'https://api.brevo.com/v3/smtp/email',
-        body    := request_body::TEXT,
+        body    := request_body,
         headers := jsonb_build_object(
             'Content-Type', 'application/json',
             'api-key',       brevo_api_key
