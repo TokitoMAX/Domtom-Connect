@@ -32,6 +32,55 @@ const BusinessModule = {
         }
     },
 
+    markSigned: async function(id) {
+        const btn = event.currentTarget;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        await window._supabase.from('business_docs').update({ signature_status: 'signed' }).eq('id', id);
+        this.renderView(document.getElementById('business-view'));
+    },
+
+    markAcompte: async function(id) {
+        const amtInput = document.getElementById('acompte-amt-' + id);
+        const amt = parseFloat(amtInput ? amtInput.value : 0);
+        if (isNaN(amt) || amt <= 0) return alert("Veuillez saisir un montant valide pour l'acompte.");
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        await window._supabase.from('business_docs').update({ deposit_status: 'paid', deposit_amount: amt }).eq('id', id);
+        this.renderView(document.getElementById('business-view'));
+    },
+
+    markFullyPaid: async function(id) {
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        await window._supabase.from('business_docs').update({ status: 'paid' }).eq('id', id);
+        this.renderView(document.getElementById('business-view'));
+    },
+
+    createDevis: async function() {
+        const title = prompt("Nom de la mission / du projet :");
+        if(!title) return;
+        const amount = prompt("Montant total du devis (€) :");
+        if(!amount) return;
+        const client = prompt("Nom du client :");
+        
+        try {
+            const { data: { session } } = await window._supabase.auth.getSession();
+            await window._supabase.from('business_docs').insert({
+                expert_id: session.user.id,
+                project_title: title,
+                client_name: client || 'Client',
+                total_amount: parseFloat(amount),
+                doc_type: 'quote',
+                status: 'draft'
+            });
+            this.renderView(document.getElementById('business-view'));
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de la création du devis.");
+        }
+    },
+
     renderDashboard: async function(container) {
         await this.renderView(container);
     },
@@ -39,6 +88,27 @@ const BusinessModule = {
     renderView: async function(container) {
         if (!container) return;
         container.innerHTML = `<div style="text-align:center;padding:80px;font-family:'Plus Jakarta Sans',sans-serif;"><span class="loader"></span></div>`;
+
+        // Inject responsive CSS
+        if (!document.getElementById('business-module-css')) {
+            const style = document.createElement('style');
+            style.id = 'business-module-css';
+            style.innerHTML = `
+                @media (max-width: 768px) {
+                    .business-tab { padding: 8px 12px !important; font-size: 0.85rem !important; white-space: nowrap; }
+                    .tracker-steps { flex-direction: column; }
+                    .tracker-steps > div { width: 100%; min-width: 100% !important; margin-bottom: 12px; }
+                    .business-header { flex-direction: column; align-items: flex-start !important; }
+                    .business-header h2 { font-size: 1.3rem !important; }
+                    .business-header > div { width: 100%; }
+                    .business-header button { width: 100%; justify-content: center; }
+                    .stats-grid { grid-template-columns: 1fr !important; }
+                    .evolution-box { flex-direction: column; text-align: left; }
+                    .evolution-stats { width: 100%; justify-content: space-between; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
 
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
@@ -64,11 +134,92 @@ const BusinessModule = {
             const totalComm = totalCA * this.COMMISSION;
             const totalNet = totalCA - totalComm;
 
+            // Evolution stats
+            const devisValidés = docs.filter(d => d.expert_id === session.user.id && (d.signature_status === 'signed' || d.status === 'paid' || d.deposit_status === 'paid'));
+            const totalDevisValidés = devisValidés.reduce((s, d) => s + (d.total_amount || 0), 0);
+
+            // Generate Tracker HTML
+            let trackersHTML = '';
+            if (docs.length === 0) {
+                trackersHTML = `
+                <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
+                    <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-folder-open"></i></div>
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucun document</h3>
+                    <p style="color:#64748b; font-size:0.9rem; margin:0;">Créez votre premier devis pour démarrer le suivi.</p>
+                </div>`;
+            } else {
+                trackersHTML = docs.map(doc => {
+                    const isSigned = doc.signature_status === 'signed' || doc.status === 'paid' || doc.deposit_status === 'paid'; 
+                    const isAcomptePaid = doc.deposit_status === 'paid' || doc.status === 'paid';
+                    const isFullyPaid = doc.status === 'paid';
+                    const amount = doc.total_amount || 0;
+                    const acompteAmt = doc.deposit_amount || 0;
+                    
+                    return `
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:clamp(16px, 3vw, 24px); margin-bottom:20px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
+                            <div>
+                                <div style="font-size:0.75rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">${new Date(doc.created_at).toLocaleDateString()} &bull; MISSION</div>
+                                <h4 style="margin:0; font-size:1.2rem; font-weight:800; color:#0f172a;">${doc.project_title || 'Projet sans nom'}</h4>
+                                <div style="color:#64748b; font-size:0.9rem; margin-top:6px;"><i class="fas fa-user" style="margin-right:6px;"></i>${doc.client_name}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:1.5rem; font-weight:900; color:#0f172a;">${amount.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
+                                <div style="font-size:0.8rem; font-weight:700; color:${isFullyPaid ? '#10b981' : '#f59e0b'}; background:${isFullyPaid ? '#f0fdf4' : '#fffbeb'}; display:inline-block; padding:4px 10px; border-radius:100px; margin-top:8px;">
+                                    ${isFullyPaid ? 'Clôturé & Payé' : 'En cours'}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tracker Steps -->
+                        <div class="tracker-steps" style="display:flex; gap:12px; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
+                            
+                            <!-- Step 1: Validation -->
+                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isSigned ? '#10b981' : '#cbd5e1'}; background:${isSigned ? '#f0fdf4' : 'white'}; position:relative;">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isSigned ? '#10b981' : '#e2e8f0'}; color:${isSigned ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">1</div>
+                                    <div style="font-weight:800; color:${isSigned ? '#065f46' : '#64748b'};">Devis Validé</div>
+                                </div>
+                                ${isSigned 
+                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-check-circle"></i> Le client a validé</div>` 
+                                    : `<button onclick="BusinessModule.markSigned('${doc.id}')" style="width:100%; background:white; border:1px solid #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s;">Valider le devis</button>`}
+                            </div>
+
+                            <!-- Step 2: Acompte -->
+                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isAcomptePaid ? '#3b82f6' : '#cbd5e1'}; background:${isAcomptePaid ? '#eff6ff' : 'white'}; opacity:${isSigned ? '1' : '0.5'}; pointer-events:${isSigned ? 'auto' : 'none'}; position:relative;">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isAcomptePaid ? '#3b82f6' : '#e2e8f0'}; color:${isAcomptePaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">2</div>
+                                    <div style="font-weight:800; color:${isAcomptePaid ? '#1e40af' : '#64748b'};">Acompte Payé</div>
+                                </div>
+                                ${isAcomptePaid 
+                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-check-circle"></i> ${acompteAmt > 0 ? acompteAmt+'€ encaissé' : 'Acompte encaissé'}</div>` 
+                                    : `<div style="display:flex; gap:8px;">
+                                        <input type="number" id="acompte-amt-${doc.id}" placeholder="Montant €" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:0.9rem; min-width:80px;" />
+                                        <button onclick="BusinessModule.markAcompte('${doc.id}')" style="background:#0f172a; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer;"><i class="fas fa-check"></i></button>
+                                       </div>`}
+                            </div>
+
+                            <!-- Step 3: Solde -->
+                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isFullyPaid ? '#10b981' : '#cbd5e1'}; background:${isFullyPaid ? '#f0fdf4' : 'white'}; opacity:${isAcomptePaid || isSigned ? '1' : '0.5'}; pointer-events:${isAcomptePaid || isSigned ? 'auto' : 'none'}; position:relative;">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isFullyPaid ? '#10b981' : '#e2e8f0'}; color:${isFullyPaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">3</div>
+                                    <div style="font-weight:800; color:${isFullyPaid ? '#065f46' : '#64748b'};">Solde Facturé</div>
+                                </div>
+                                ${isFullyPaid 
+                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-check-circle"></i> Mission soldée</div>` 
+                                    : `<button onclick="BusinessModule.markFullyPaid('${doc.id}')" style="width:100%; background:white; border:1px solid #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s;">Déclarer encaissé</button>`}
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+            }
+
             container.innerHTML = `
             <div style="font-family:'Plus Jakarta Sans',sans-serif; background:#ffffff; border-radius:24px; padding:clamp(16px, 3vw, 32px);">
                 
                 <!-- Info Header -->
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
+                <div class="business-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
                     <div>
                         <h2 style="font-size:1.5rem; font-weight:900; color:#020617; letter-spacing:-0.03em; margin:0;">Mon Activité Pro</h2>
                         <p style="color:#64748b; font-size:0.9rem; font-weight:550; margin-top:4px;">Gérez vos missions, devis, facturation et suivez votre évolution.</p>
@@ -83,7 +234,7 @@ const BusinessModule = {
                 <!-- Tabs Navigation -->
                 <div style="display:flex; gap:12px; margin-bottom:32px; border-bottom:2px solid #f1f5f9; padding-bottom:16px; overflow-x:auto;">
                     <button class="business-tab active" onclick="BusinessModule.switchTab('missions')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#020617; color:white;">💼 Mes Missions</button>
-                    <button class="business-tab" onclick="BusinessModule.switchTab('devis')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">📂 Devis & Factures</button>
+                    <button class="business-tab" onclick="BusinessModule.switchTab('devis')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">🎯 Tracker Méthodo</button>
                     <button class="business-tab" onclick="BusinessModule.switchTab('evolution')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">📈 Mon Évolution</button>
                 </div>
 
@@ -99,69 +250,46 @@ const BusinessModule = {
                     </div>
                 </div>
 
-                <!-- TAB CONTENT: DEVIS & FACTURES -->
+                <!-- TAB CONTENT: DEVIS & FACTURES (TRACKER) -->
                 <div id="tab-devis" class="business-tab-content" style="display:none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                        <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0;">Mes Documents</h3>
-                        <button style="background:#10b981; border:none; color:white; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="alert('Simulation: Upload du document...')"><i class="fas fa-upload"></i> Importer un PDF</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0;">Suivi des Devis & Factures</h3>
+                            <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0;">Validez étape par étape : Devis -> Acompte -> Facture Payée.</p>
+                        </div>
+                        <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(16,185,129,0.2);" onclick="BusinessModule.createDevis()"><i class="fas fa-plus"></i> Créer un devis</button>
                     </div>
                     
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden;">
-                        <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
-                            <thead>
-                                <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#64748b; font-weight:700;">
-                                    <th style="padding:14px 20px;">Date</th>
-                                    <th style="padding:14px 20px;">Type</th>
-                                    <th style="padding:14px 20px;">Client / Projet</th>
-                                    <th style="padding:14px 20px;">Montant</th>
-                                    <th style="padding:14px 20px;">Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom:1px solid #e2e8f0;">
-                                    <td style="padding:14px 20px; color:#64748b;">Aujourd'hui</td>
-                                    <td style="padding:14px 20px; font-weight:700; color:#0f172a;"><i class="fas fa-file-invoice" style="color:#3b82f6; margin-right:6px;"></i> Facture</td>
-                                    <td style="padding:14px 20px; font-weight:600;">Refonte Site Web E-commerce</td>
-                                    <td style="padding:14px 20px; font-weight:800;">1 200,00 €</td>
-                                    <td style="padding:14px 20px;"><span style="background:#f0fdf4; color:#16a34a; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">Encaissée</span></td>
-                                </tr>
-                                <tr>
-                                    <td style="padding:14px 20px; color:#64748b;">Il y a 3 jours</td>
-                                    <td style="padding:14px 20px; font-weight:700; color:#0f172a;"><i class="fas fa-file-alt" style="color:#f59e0b; margin-right:6px;"></i> Devis</td>
-                                    <td style="padding:14px 20px; font-weight:600;">Consulting SEO Annuel</td>
-                                    <td style="padding:14px 20px; font-weight:800;">3 500,00 €</td>
-                                    <td style="padding:14px 20px;"><span style="background:#fffbeb; color:#d97706; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">En attente de signature</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div>
+                        ${trackersHTML}
                     </div>
                 </div>
 
                 <!-- TAB CONTENT: EVOLUTION & FACTURATION STRIPE -->
                 <div id="tab-evolution" class="business-tab-content" style="display:none;">
                     
-                    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: 24px; color: white; margin-bottom: 24px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                        <div>
+                    <div class="evolution-box" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: clamp(20px, 4vw, 32px); color: white; margin-bottom: 32px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                        <div style="flex:1; min-width:280px;">
                             <div style="font-size:0.8rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Suivi du Mois en cours</div>
-                            <h3 style="font-size:1.8rem; font-weight:900; margin:0 0 8px;">Belle progression ! 🚀</h3>
-                            <p style="color:rgba(255,255,255,0.7); font-size:0.95rem; margin:0; max-width:400px;">Basé sur vos factures et devis validés, votre chiffre d'affaires prévisionnel est en hausse de <strong>+15%</strong> par rapport au mois précédent.</p>
+                            <h3 style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:900; margin:0 0 12px;">Évolution de l'activité 🚀</h3>
+                            <p style="color:rgba(255,255,255,0.7); font-size:0.95rem; margin:0; max-width:400px; line-height:1.5;">Analyse automatique basée sur les étapes validées dans votre Tracker de Missions.</p>
                         </div>
-                        <div style="display:flex; gap:16px;">
-                            <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:16px; text-align:center; min-width:120px;">
-                                <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); font-weight:700; margin-bottom:4px;">Devis Validés</div>
-                                <div style="font-size:1.4rem; font-weight:900; color:#fff;">3 500 €</div>
+                        <div class="evolution-stats" style="display:flex; gap:16px; flex-wrap:wrap;">
+                            <div style="flex:1; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:20px; text-align:center; min-width:140px;">
+                                <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); font-weight:700; margin-bottom:8px; text-transform:uppercase;">Volume Devis Validés</div>
+                                <div style="font-size:1.6rem; font-weight:900; color:#fff;">${totalDevisValidés.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
                             </div>
-                            <div style="background:rgba(16,185,129,0.2); border:1px solid rgba(16,185,129,0.3); border-radius:16px; padding:16px; text-align:center; min-width:120px;">
-                                <div style="font-size:0.75rem; color:#a7f3d0; font-weight:700; margin-bottom:4px;">CA Encaissé</div>
-                                <div style="font-size:1.4rem; font-weight:900; color:#10b981;">1 200 €</div>
+                            <div style="flex:1; background:rgba(16,185,129,0.2); border:1px solid rgba(16,185,129,0.3); border-radius:16px; padding:20px; text-align:center; min-width:140px;">
+                                <div style="font-size:0.75rem; color:#a7f3d0; font-weight:700; margin-bottom:8px; text-transform:uppercase;">CA Total Encaissé</div>
+                                <div style="font-size:1.6rem; font-weight:900; color:#10b981;">${totalCA.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
                             </div>
                         </div>
                     </div>
 
-                    <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0 0 16px;">Paiements Stripe Connect (Automatiques)</h3>
+                    <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0 0 20px;">Transactions Automatiques Stripe Connect</h3>
 
                     <!-- Stats Grid -->
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:24px;">
+                    <div class="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:32px;">
                         <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
                             <div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Volume Facturé Encaissé</div>
                             <div style="font-size:1.6rem; font-weight:900; color:#020617;">${totalCA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
