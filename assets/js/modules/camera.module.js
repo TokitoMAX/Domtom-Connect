@@ -153,7 +153,7 @@ window.CameraModule = {
         setTimeout(() => flash.remove(), 500);
 
         canvas.toBlob((blob) => {
-            const file = new File([blob], \`photo_dtc_\${Date.now()}.jpg\`, { type: 'image/jpeg' });
+            const file = new File([blob], `photo_dtc_${Date.now()}.jpg`, { type: 'image/jpeg' });
             this.finishCapture(file);
         }, 'image/jpeg', 0.9);
     },
@@ -189,7 +189,7 @@ window.CameraModule = {
                 let ext = 'mp4';
                 if (mimeType.includes('webm')) ext = 'webm';
 
-                const file = new File([blob], \`video_dtc_\${Date.now()}.\${ext}\`, { type: mimeType });
+                const file = new File([blob], `video_dtc_${Date.now()}.${ext}`, { type: mimeType });
                 this.finishCapture(file);
             };
 
@@ -205,7 +205,7 @@ window.CameraModule = {
             this.recordingTimer = setInterval(() => {
                 const elapsed = Date.now() - this.recordingStartTime;
                 const seconds = Math.floor(elapsed / 1000);
-                document.getElementById('dtc-camera-timer').textContent = \`00:\${seconds.toString().padStart(2, '0')}\`;
+                document.getElementById('dtc-camera-timer').textContent = `00:${seconds.toString().padStart(2, '0')}`;
                 
                 if (elapsed >= this.maxDurationMs) {
                     this.stopRecording();
