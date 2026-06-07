@@ -92,8 +92,19 @@ window.ChannelModule = {
             const authorRole = profile.role || 'Citoyen';
             const authorTitle = profile.expertise || profile.company_name || '';
 
-            const cName = profile.channel_name || profile.full_name || '';
-            const cBio = profile.channel_bio || '';
+            const escapeHTML = (str) => {
+                if (!str) return '';
+                return str.replace(/[&<>'"]/g, tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag]));
+            };
+
+            const cName = escapeHTML(profile.channel_name || profile.full_name || '');
+            const cBio = escapeHTML(profile.channel_bio || '');
             const cBanner = profile.channel_banner_url || profile.banner_url || '';
             const cAvatar = profile.channel_avatar_url || profile.avatar_url || '';
 

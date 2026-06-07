@@ -680,14 +680,19 @@
             const isFeatured = p.is_featured === true;
             const coverUrl = p.cover_url || '';
 
+            let displayStatus = 'En développement';
+            if (p.status === 'approved') displayStatus = 'En accompagnement DTC';
+            else if (p.status === 'funded') displayStatus = 'Financée';
+            else if (p.status === 'completed') displayStatus = 'Déployée';
+            
             return `
                 <div class="project-card ${isFeatured ? 'featured' : ''}" onclick="window.location.href='../marketplace/project?id=${p.id}'">
                     ${isFeatured ? '<div class="featured-badge">À la Une</div>' : ''}
                     
                     <div class="project-card-image" style="${coverUrl ? `background-image: url('${coverUrl}');` : ''}">
                         ${!coverUrl ? `<div class="project-card-initials">${initials}</div>` : ''}
-                        <div class="maturity-indicator">
-                            ${p.status || 'Active'}
+                        <div class="maturity-indicator" style="${p.status === 'approved' ? 'color: #10b981; border-color: rgba(16,185,129,0.3);' : ''}">
+                            <i class="fas fa-rocket" style="margin-right: 6px;"></i> ${displayStatus}
                         </div>
                     </div>
 

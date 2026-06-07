@@ -518,7 +518,16 @@ const MomentsModule = {
             cardBorder = 'border: 1px solid rgba(16, 185, 129, 0.25); background: linear-gradient(180deg, rgba(16, 185, 129, 0.005) 0%, white 100%);';
         }
  
-        let formattedContent = (item.content || '').replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
+        const escapeHTML = (str) => str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag]));
+        let safeContent = item.content ? escapeHTML(item.content) : '';
+        let formattedContent = safeContent.replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
 
         // Check for YouTube Link (Live or Video)
         const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -603,7 +612,7 @@ const MomentsModule = {
                                 <span style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
                                 <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
                             </div>
-                            <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${c.content}</p>
+                            <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${escapeHTML(c.content)}</p>
                         </div>
                     </div>
                 `;
