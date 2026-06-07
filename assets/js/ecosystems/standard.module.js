@@ -307,6 +307,52 @@ const StandardModule = {
                             <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:12px;">Bio Institutionnelle / Pr&eacute;sentation</label>
                             <textarea id="profile-bio" style="width: 100%; min-height: 150px; padding: 20px; border-radius: 16px; border: 1.5px solid #e2e8f0; font-weight: 600; line-height:1.6;">${profile.bio || ''}</textarea>
                         </div>
+
+                        <!-- SECTION 4: PAIEMENTS & REVENUS -->
+                        <div style="background: ${profile.stripe_payouts_enabled ? 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' : profile.stripe_connect_id ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)' : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'}; padding: 28px; border-radius: 20px; border: 2px solid ${profile.stripe_payouts_enabled ? '#10b981' : profile.stripe_connect_id ? '#f59e0b' : '#334155'};">
+                            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                        <span style="font-size: 1.5rem;">${profile.stripe_payouts_enabled ? '✅' : profile.stripe_connect_id ? '⚠️' : '💳'}</span>
+                                        <h3 style="font-size: 0.85rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; margin: 0; color: ${profile.stripe_payouts_enabled ? '#065f46' : profile.stripe_connect_id ? '#92400e' : 'white'};">
+                                            ${profile.stripe_payouts_enabled ? 'Compte de Paiement Actif' : profile.stripe_connect_id ? 'Configuration Incomplète' : 'Recevoir mes Paiements'}
+                                        </h3>
+                                    </div>
+                                    <p style="font-size: 0.85rem; font-weight: 600; margin: 0; color: ${profile.stripe_payouts_enabled ? '#047857' : profile.stripe_connect_id ? '#b45309' : 'rgba(255,255,255,0.7)'};">
+                                        ${profile.stripe_payouts_enabled 
+                                            ? 'Votre RIB est configuré. Les paiements sont virés automatiquement sur votre compte.' 
+                                            : profile.stripe_connect_id 
+                                                ? 'Des informations manquent. Finalisez pour activer les virements.' 
+                                                : 'Ajoutez votre RIB pour recevoir vos revenus directement sur votre compte bancaire.'}
+                                    </p>
+                                </div>
+                                <button id="stripe-setup-btn" style="padding: 14px 22px; background: ${profile.stripe_payouts_enabled ? '#10b981' : 'white'}; color: ${profile.stripe_payouts_enabled ? 'white' : '#0f172a'}; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.2s;">
+                                    ${profile.stripe_payouts_enabled ? '🏦 Gérer mon Compte' : profile.stripe_connect_id ? '⚡ Finaliser la Config' : '➕ Ajouter mon RIB'}
+                                </button>
+                            </div>
+
+                            <!-- Commission breakdown -->
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid ${profile.stripe_payouts_enabled ? 'rgba(16,185,129,0.3)' : profile.stripe_connect_id ? 'rgba(245,158,11,0.3)' : 'rgba(255,255,255,0.15)'};">
+                                <p style="font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 12px 0; color: ${profile.stripe_payouts_enabled ? '#047857' : profile.stripe_connect_id ? '#b45309' : 'rgba(255,255,255,0.5)'};">Ce que vous gagnez sur chaque paiement :</p>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+                                    <div style="background: ${profile.stripe_payouts_enabled ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.08)'}; border-radius: 10px; padding: 12px; text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 950; color: ${profile.stripe_payouts_enabled ? '#10b981' : 'white'};">90%</div>
+                                        <div style="font-size: 0.7rem; color: ${profile.stripe_payouts_enabled ? '#047857' : 'rgba(255,255,255,0.6)'}; font-weight: 700;">Votre part nette</div>
+                                    </div>
+                                    <div style="background: ${profile.stripe_payouts_enabled ? 'rgba(239,68,68,0.08)' : 'rgba(255,255,255,0.08)'}; border-radius: 10px; padding: 12px; text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 950; color: ${profile.stripe_payouts_enabled ? '#ef4444' : 'rgba(255,255,255,0.5)'};">10%</div>
+                                        <div style="font-size: 0.7rem; color: ${profile.stripe_payouts_enabled ? '#b91c1c' : 'rgba(255,255,255,0.4)'}; font-weight: 700;">Commission DTC</div>
+                                        <div style="font-size: 0.65rem; color: ${profile.stripe_payouts_enabled ? '#9ca3af' : 'rgba(255,255,255,0.3)'}; margin-top: 2px;">(frais bancaires inclus)</div>
+                                    </div>
+                                    <div style="background: ${profile.stripe_payouts_enabled ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.08)'}; border-radius: 10px; padding: 12px; text-align: center;">
+                                        <div style="font-size: 1.4rem; font-weight: 950; color: ${profile.stripe_payouts_enabled ? '#10b981' : 'white'};">90%</div>
+                                        <div style="font-size: 0.7rem; color: ${profile.stripe_payouts_enabled ? '#047857' : 'rgba(255,255,255,0.6)'}; font-weight: 700;">Garanti pour vous</div>
+                                        <div style="font-size: 0.65rem; color: ${profile.stripe_payouts_enabled ? '#9ca3af' : 'rgba(255,255,255,0.3)'}; margin-top: 2px;">(sans surprise)</div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 0.72rem; color: ${profile.stripe_payouts_enabled ? '#6ee7b7' : 'rgba(255,255,255,0.35)'}; margin: 12px 0 0 0; font-style: italic;">Exemple : Pour un devis de 500€ → vous recevez <strong>450€ nets garantis</strong>. Les frais bancaires Stripe (~1,5%) sont pris en charge par DTC sur sa commission.</p>
+                            </div>
+                        </div>
                         
                         <div style="margin-top: 32px; padding-top:32px; border-top:1px solid #f1f5f9;">
                             <button onclick="StandardModule.saveProfile()" class="cta-button primary" style="background:#0f172a; color:white; border:none; padding:22px 32px; border-radius:16px; font-weight:950; font-size:1.1rem; width: 100%; cursor:pointer; box-shadow:0 15px 30px rgba(15,23,42,0.2);">Enregistrer et Publier mon Profil</button>
@@ -324,6 +370,38 @@ const StandardModule = {
                 .switch input:checked + .slider:before { transform: translateX(26px); }
             </style>
         `;
+
+        // Activate the Stripe setup button
+        setTimeout(() => {
+            const stripeBtn = document.getElementById('stripe-setup-btn');
+            if (stripeBtn) {
+                stripeBtn.onclick = async () => {
+                    if (profile.stripe_payouts_enabled) {
+                        window.open('https://dashboard.stripe.com/', '_blank');
+                        return;
+                    }
+                    stripeBtn.disabled = true;
+                    stripeBtn.textContent = '⏳ Connexion à Stripe...';
+                    try {
+                        const { data: { session: sess } } = await window._supabase.auth.getSession();
+                        const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-connect-onboarding', {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${sess.access_token}`, 'Content-Type': 'application/json' }
+                        });
+                        const data = await res.json();
+                        if (data.url) {
+                            window.location.href = data.url;
+                        } else {
+                            throw new Error(data.error || 'Erreur inconnue');
+                        }
+                    } catch (err) {
+                        alert('Erreur : ' + err.message);
+                        stripeBtn.disabled = false;
+                        stripeBtn.textContent = profile.stripe_connect_id ? '⚡ Finaliser la Config' : '➕ Ajouter mon RIB';
+                    }
+                };
+            }
+        }, 100);
     },
 
     /**
