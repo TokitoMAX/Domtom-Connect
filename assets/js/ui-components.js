@@ -132,10 +132,15 @@ const UIComponents = {
             `;
         } else if (['expert', 'entreprise'].includes(safeRole)) {
             roleActions = `
-                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#profile')">
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#vitrine')">
                     <div class="dash-card-icon"><i class="fas fa-briefcase"></i></div>
                     <h3>Mon Activité Pro</h3>
                     <p>Gérez vos missions, vos offres et vos informations.</p>
+                </div>
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#billetterie')">
+                    <div class="dash-card-icon" style="color: #f59e0b; background: rgba(245,158,11,0.1);"><i class="fas fa-ticket-alt"></i></div>
+                    <h3>Billetterie & Événements</h3>
+                    <p>Créez et gérez vos événements, afterworks et ateliers.</p>
                 </div>
             `;
         } else {

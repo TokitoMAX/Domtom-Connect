@@ -182,7 +182,7 @@ const StandardModule = {
         }
 
         view.innerHTML = `
-            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif; max-width: 800px; margin: 0 auto;">
                 <div class="dash-card" style="grid-column: 1 / -1; background: white; padding: 40px; border-radius: 28px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
                     <h2 style="font-weight: 900; margin-bottom: 40px; letter-spacing: -0.04em; color:#0f172a; font-size:2.2rem;">Édition du Profil Élite</h2>
                     

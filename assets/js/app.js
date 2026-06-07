@@ -122,7 +122,8 @@ const App = {
         let targetView = document.getElementById(targetViewId);
         
         // Role Isolation: Strictly enforce view permissions
-        const isOwner = ['porteur', 'owner', 'admin'].includes(this.state.role);
+        const safeRole = (this.state.role || '').toLowerCase().trim();
+        const isOwner = safeRole.includes('porteur') || safeRole === 'owner' || safeRole === 'admin';
         const isAdmin = this.state.role === 'admin' || (this.state.session?.user?.email === 'domtomconnect@gmail.com');
         
         if (viewId === 'success-engine' && !(isOwner || isAdmin)) {

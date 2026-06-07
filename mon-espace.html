@@ -145,7 +145,7 @@
                 <a href="index.html" class="top-nav-logo">
                     <img src="./assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 35px;">
                 </a>
-                <button class="nav-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <button class="nav-toggle hide-on-mobile" id="mobile-menu-toggle" onclick="toggleMobileMenu()">
                     <span></span><span></span><span></span>
                 </button>
             </header>
@@ -196,8 +196,11 @@
             <a href="#channel" onclick="toggleMobileMenu()"><i class="fas fa-tv"></i> Ma Chaîne</a>
             <a href="#profile" onclick="toggleMobileMenu()"><i class="fas fa-user-circle"></i> Mon Profil</a>
             <a href="index.html" onclick="toggleMobileMenu()"><i class="fas fa-globe"></i> Plateforme</a>
-            <div style="height: 1px; background: rgba(0,0,0,0.05); margin: 5px 0; grid-column: 1 / -1;"></div>
-            <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444; grid-column: 1 / -1; justify-content: center; flex-direction: row; gap: 12px; padding: 12px;"><i class="fas fa-sign-out-alt" style="color: #ef4444;"></i> Déconnexion</a>
+        </div>
+        <div style="margin-top: 16px; width: 100%;">
+            <a href="javascript:void(0)" onclick="signOut()" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 16px; background: #fef2f2; color: #ef4444; border-radius: 16px; font-weight: 800; text-decoration: none; width: 100%; box-sizing: border-box;">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
         </div>
     </div>
 
