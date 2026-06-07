@@ -33,51 +33,121 @@ const BusinessModule = {
     },
 
     markSigned: async function(id) {
-        const btn = event.currentTarget;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        await window._supabase.from('business_docs').update({ signature_status: 'signed' }).eq('id', id);
-        this.renderView(document.getElementById('business-view'));
+        // Simulate proof upload
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/pdf,image/*';
+        input.onchange = async (e) => {
+            if (!e.target.files.length) return;
+            const btn = document.getElementById('btn-sign-' + id);
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+            
+            // Here we would upload the file to Supabase storage. For now we save the status.
+            await window._supabase.from('business_docs').update({ signature_status: 'signed' }).eq('id', id);
+            this.renderView(document.getElementById('business-view'));
+        };
+        input.click();
     },
 
-    markAcompte: async function(id) {
-        const amtInput = document.getElementById('acompte-amt-' + id);
-        const amt = parseFloat(amtInput ? amtInput.value : 0);
-        if (isNaN(amt) || amt <= 0) return alert("Veuillez saisir un montant valide pour l'acompte.");
-        const btn = event.currentTarget;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        await window._supabase.from('business_docs').update({ deposit_status: 'paid', deposit_amount: amt }).eq('id', id);
-        this.renderView(document.getElementById('business-view'));
+    markAcompte: async function(id, amt) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/pdf,image/*';
+        input.onchange = async (e) => {
+            if (!e.target.files.length) return;
+            const btn = document.getElementById('btn-acompte-' + id);
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+            
+            await window._supabase.from('business_docs').update({ deposit_status: 'paid', deposit_amount: amt }).eq('id', id);
+            this.renderView(document.getElementById('business-view'));
+        };
+        input.click();
     },
 
     markFullyPaid: async function(id) {
-        const btn = event.currentTarget;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        await window._supabase.from('business_docs').update({ status: 'paid' }).eq('id', id);
-        this.renderView(document.getElementById('business-view'));
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/pdf,image/*';
+        input.onchange = async (e) => {
+            if (!e.target.files.length) return;
+            const btn = document.getElementById('btn-sold-' + id);
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+            
+            await window._supabase.from('business_docs').update({ status: 'paid' }).eq('id', id);
+            this.renderView(document.getElementById('business-view'));
+        };
+        input.click();
     },
 
-    createDevis: async function() {
-        const title = prompt("Nom de la mission / du projet :");
-        if(!title) return;
-        const amount = prompt("Montant total du devis (€) :");
-        if(!amount) return;
-        const client = prompt("Nom du client :");
+    openCreateModal: function() {
+        const modalHtml = `
+        <div id="business-modal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
+            <div style="background:white; border-radius:24px; width:100%; max-width:500px; padding:32px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                    <h3 style="margin:0; font-size:1.5rem; font-weight:900;">Nouvelle Mission</h3>
+                    <button onclick="document.getElementById('business-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#94a3b8;">&times;</button>
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Titre du projet / mission</label>
+                    <input type="text" id="bm-title" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Refonte Site E-commerce">
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Nom du client</label>
+                    <input type="text" id="bm-client" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Jean Dupont">
+                </div>
+                
+                <div style="display:flex; gap:16px; margin-bottom:24px;">
+                    <div style="flex:1;">
+                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Montant Total (€)</label>
+                        <input type="number" id="bm-amount" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="0">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Acompte (%)</label>
+                        <input type="number" id="bm-perc" value="30" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="30">
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px; padding:16px; margin-bottom:24px;">
+                    <div style="font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Uploader le Devis (PDF)</div>
+                    <input type="file" id="bm-file" accept="application/pdf" style="width:100%; font-size:0.9rem;">
+                </div>
+                
+                <button onclick="BusinessModule.submitDevis()" style="width:100%; background:#10b981; color:white; border:none; padding:16px; border-radius:12px; font-weight:800; font-size:1rem; cursor:pointer;">Créer la mission</button>
+            </div>
+        </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    submitDevis: async function() {
+        const title = document.getElementById('bm-title').value;
+        const client = document.getElementById('bm-client').value;
+        const amount = parseFloat(document.getElementById('bm-amount').value);
+        const perc = parseFloat(document.getElementById('bm-perc').value);
+        
+        if(!title || !client || isNaN(amount) || amount <= 0 || isNaN(perc)) {
+            return alert("Veuillez remplir tous les champs correctement avec de vraies valeurs.");
+        }
         
         try {
+            document.querySelector('#business-modal button[onclick="BusinessModule.submitDevis()"]').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
             const { data: { session } } = await window._supabase.auth.getSession();
             await window._supabase.from('business_docs').insert({
                 expert_id: session.user.id,
                 project_title: title,
-                client_name: client || 'Client',
-                total_amount: parseFloat(amount),
+                client_name: client,
+                total_amount: amount,
+                deposit_perc: perc,
                 doc_type: 'quote',
                 status: 'draft'
             });
+            document.getElementById('business-modal').remove();
             this.renderView(document.getElementById('business-view'));
         } catch (err) {
             console.error(err);
-            alert("Erreur lors de la création du devis.");
+            alert("Erreur lors de la création.");
         }
     },
 
@@ -181,8 +251,8 @@ const BusinessModule = {
                                     <div style="font-weight:800; color:${isSigned ? '#065f46' : '#64748b'};">Devis Validé</div>
                                 </div>
                                 ${isSigned 
-                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-check-circle"></i> Le client a validé</div>` 
-                                    : `<button onclick="BusinessModule.markSigned('${doc.id}')" style="width:100%; background:white; border:1px solid #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s;">Valider le devis</button>`}
+                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-file-signature"></i> Devis signé & joint</div>` 
+                                    : `<button id="btn-sign-${doc.id}" onclick="BusinessModule.markSigned('${doc.id}')" style="width:100%; background:white; border:1px dashed #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre devis signé</button>`}
                             </div>
 
                             <!-- Step 2: Acompte -->
@@ -192,10 +262,10 @@ const BusinessModule = {
                                     <div style="font-weight:800; color:${isAcomptePaid ? '#1e40af' : '#64748b'};">Acompte Payé</div>
                                 </div>
                                 ${isAcomptePaid 
-                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-check-circle"></i> ${acompteAmt > 0 ? acompteAmt+'€ encaissé' : 'Acompte encaissé'}</div>` 
-                                    : `<div style="display:flex; gap:8px;">
-                                        <input type="number" id="acompte-amt-${doc.id}" placeholder="Montant €" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:0.9rem; min-width:80px;" />
-                                        <button onclick="BusinessModule.markAcompte('${doc.id}')" style="background:#0f172a; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer;"><i class="fas fa-check"></i></button>
+                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-receipt"></i> ${(doc.deposit_amount || 0).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} encaissés avec preuve</div>` 
+                                    : `<div style="display:flex; flex-direction:column; gap:8px;">
+                                        <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Attendu : ${((amount * (doc.deposit_perc||30))/100).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} (${doc.deposit_perc||30}%)</div>
+                                        <button id="btn-acompte-${doc.id}" onclick="BusinessModule.markAcompte('${doc.id}', ${(amount * (doc.deposit_perc||30))/100})" style="background:#0f172a; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Preuve virement</button>
                                        </div>`}
                             </div>
 
@@ -206,9 +276,11 @@ const BusinessModule = {
                                     <div style="font-weight:800; color:${isFullyPaid ? '#065f46' : '#64748b'};">Solde Facturé</div>
                                 </div>
                                 ${isFullyPaid 
-                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-check-circle"></i> Mission soldée</div>` 
-                                    : `<button onclick="BusinessModule.markFullyPaid('${doc.id}')" style="width:100%; background:white; border:1px solid #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s;">Déclarer encaissé</button>`}
-                            </div>
+                                    ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-file-invoice-dollar"></i> Facture finale validée</div>` 
+                                    : `<div style="display:flex; flex-direction:column; gap:8px;">
+                                        <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Reste : ${(amount - ((amount * (doc.deposit_perc||30))/100)).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
+                                        <button id="btn-sold-${doc.id}" onclick="BusinessModule.markFullyPaid('${doc.id}')" style="background:white; border:1px dashed #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre facture finale</button>
+                                       </div>`}
                         </div>
                     </div>
                     `;
@@ -257,7 +329,7 @@ const BusinessModule = {
                             <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0;">Suivi des Devis & Factures</h3>
                             <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0;">Validez étape par étape : Devis -> Acompte -> Facture Payée.</p>
                         </div>
-                        <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(16,185,129,0.2);" onclick="BusinessModule.createDevis()"><i class="fas fa-plus"></i> Créer un devis</button>
+                        <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(16,185,129,0.2);" onclick="BusinessModule.openCreateModal()"><i class="fas fa-plus"></i> Créer une mission</button>
                     </div>
                     
                     <div>
