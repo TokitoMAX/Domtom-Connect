@@ -79,6 +79,18 @@ const BusinessModule = {
         input.click();
     },
 
+    deleteDoc: async function(id) {
+        if(confirm("Êtes-vous sûr de vouloir supprimer cette mission et son suivi ?")) {
+            try {
+                await window._supabase.from('business_docs').delete().eq('id', id);
+                this.renderView(document.getElementById('business-view'));
+            } catch (err) {
+                console.error("Error deleting document:", err);
+                alert("Impossible de supprimer la mission.");
+            }
+        }
+    },
+
     openCreateModal: function() {
         const modalHtml = `
         <div id="business-modal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
@@ -164,17 +176,52 @@ const BusinessModule = {
             const style = document.createElement('style');
             style.id = 'business-module-css';
             style.innerHTML = `
+                /* Desktop base styles */
+                .tracker-steps { display: flex; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
+                .tracker-step { flex: 1; min-width: 200px; padding: 16px; border-radius: 12px; position: relative; }
+                .tab-btn { padding: 10px 20px; border-radius: 100px; border: none; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+                
+                /* Mobile specific styles */
                 @media (max-width: 768px) {
-                    .business-tab { padding: 8px 12px !important; font-size: 0.85rem !important; white-space: nowrap; }
-                    .tracker-steps { flex-direction: column; }
-                    .tracker-steps > div { width: 100%; min-width: 100% !important; margin-bottom: 12px; }
-                    .business-header { flex-direction: column; align-items: flex-start !important; }
-                    .business-header h2 { font-size: 1.3rem !important; }
+                    .business-tab { padding: 8px 16px !important; font-size: 0.9rem !important; }
+                    
+                    /* Vertical timeline for tracker */
+                    .tracker-steps { flex-direction: column; padding: 12px; gap: 0; background: transparent; border: none; }
+                    .tracker-step { 
+                        width: 100%; 
+                        margin-bottom: 0; 
+                        padding: 16px 0 16px 32px !important; 
+                        border: none !important;
+                        border-left: 2px solid #e2e8f0 !important;
+                        border-radius: 0 !important;
+                        background: transparent !important;
+                        position: relative;
+                    }
+                    .tracker-step::before {
+                        content: '';
+                        position: absolute;
+                        left: -9px;
+                        top: 24px;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        background: white;
+                        border: 2px solid #cbd5e1;
+                        z-index: 2;
+                    }
+                    .tracker-step.active-step::before { border-color: #3b82f6; background: #3b82f6; }
+                    .tracker-step.completed-step::before { border-color: #10b981; background: #10b981; }
+                    .tracker-step:last-child { border-left-color: transparent !important; }
+                    
+                    .business-header { flex-direction: column; align-items: flex-start !important; gap: 16px; }
+                    .business-header h2 { font-size: 1.5rem !important; }
                     .business-header > div { width: 100%; }
                     .business-header button { width: 100%; justify-content: center; }
+                    
                     .stats-grid { grid-template-columns: 1fr !important; }
-                    .evolution-box { flex-direction: column; text-align: left; }
-                    .evolution-stats { width: 100%; justify-content: space-between; }
+                    .evolution-box { flex-direction: column; text-align: left; padding: 20px !important; gap: 16px !important; }
+                    .evolution-stats { width: 100%; flex-direction: column; gap: 12px !important; }
+                    .evolution-stats > div { width: 100%; }
                 }
             `;
             document.head.appendChild(style);
@@ -233,21 +280,24 @@ const BusinessModule = {
                                 <h4 style="margin:0; font-size:1.2rem; font-weight:800; color:#0f172a;">${doc.project_title || 'Projet sans nom'}</h4>
                                 <div style="color:#64748b; font-size:0.9rem; margin-top:6px;"><i class="fas fa-user" style="margin-right:6px;"></i>${doc.client_name}</div>
                             </div>
-                            <div style="text-align:right;">
-                                <div style="font-size:1.5rem; font-weight:900; color:#0f172a;">${amount.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
-                                <div style="font-size:0.8rem; font-weight:700; color:${isFullyPaid ? '#10b981' : '#f59e0b'}; background:${isFullyPaid ? '#f0fdf4' : '#fffbeb'}; display:inline-block; padding:4px 10px; border-radius:100px; margin-top:8px;">
-                                    ${isFullyPaid ? 'Clôturé & Payé' : 'En cours'}
-                                </div>
-                            </div>
-                        </div>
+                            <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                                                <div style="font-size:1.5rem; font-weight:900; color:#0f172a;">${amount.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
+                                                <div style="display:flex; gap:8px; align-items:center;">
+                                                    <div style="font-size:0.8rem; font-weight:700; color:${isFullyPaid ? '#10b981' : '#f59e0b'}; background:${isFullyPaid ? '#f0fdf4' : '#fffbeb'}; display:inline-block; padding:4px 10px; border-radius:100px;">
+                                                        ${isFullyPaid ? 'Clôturé & Payé' : 'En cours'}
+                                                    </div>
+                                                    <button onclick="BusinessModule.deleteDoc('${doc.id}')" style="background:#fee2e2; color:#ef4444; border:none; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Supprimer la mission"><i class="fas fa-trash-alt" style="font-size:0.8rem;"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
                         
                         <!-- Tracker Steps -->
-                        <div class="tracker-steps" style="display:flex; gap:12px; background:#f8fafc; padding:16px; border-radius:12px; border:1px solid #e2e8f0;">
+                        <div class="tracker-steps">
                             
                             <!-- Step 1: Validation -->
-                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isSigned ? '#10b981' : '#cbd5e1'}; background:${isSigned ? '#f0fdf4' : 'white'}; position:relative;">
+                            <div class="tracker-step ${isSigned ? 'completed-step' : 'active-step'}" style="border:2px solid ${isSigned ? '#10b981' : '#cbd5e1'}; background:${isSigned ? '#f0fdf4' : 'white'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isSigned ? '#10b981' : '#e2e8f0'}; color:${isSigned ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">1</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isSigned ? '#10b981' : '#e2e8f0'}; color:${isSigned ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">1</div>
                                     <div style="font-weight:800; color:${isSigned ? '#065f46' : '#64748b'};">Devis Validé</div>
                                 </div>
                                 ${isSigned 
@@ -256,13 +306,13 @@ const BusinessModule = {
                             </div>
 
                             <!-- Step 2: Acompte -->
-                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isAcomptePaid ? '#3b82f6' : '#cbd5e1'}; background:${isAcomptePaid ? '#eff6ff' : 'white'}; opacity:${isSigned ? '1' : '0.5'}; pointer-events:${isSigned ? 'auto' : 'none'}; position:relative;">
+                            <div class="tracker-step ${isAcomptePaid ? 'completed-step' : (isSigned ? 'active-step' : '')}" style="border:2px solid ${isAcomptePaid ? '#3b82f6' : '#cbd5e1'}; background:${isAcomptePaid ? '#eff6ff' : 'white'}; opacity:${isSigned ? '1' : '0.5'}; pointer-events:${isSigned ? 'auto' : 'none'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isAcomptePaid ? '#3b82f6' : '#e2e8f0'}; color:${isAcomptePaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">2</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isAcomptePaid ? '#3b82f6' : '#e2e8f0'}; color:${isAcomptePaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">2</div>
                                     <div style="font-weight:800; color:${isAcomptePaid ? '#1e40af' : '#64748b'};">Acompte Payé</div>
                                 </div>
                                 ${isAcomptePaid 
-                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-receipt"></i> ${(doc.deposit_amount || 0).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} encaissés avec preuve</div>` 
+                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-receipt"></i> ${(doc.deposit_amount || 0).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} encaissés</div>` 
                                     : `<div style="display:flex; flex-direction:column; gap:8px;">
                                         <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Attendu : ${((amount * (doc.deposit_perc||30))/100).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} (${doc.deposit_perc||30}%)</div>
                                         <button id="btn-acompte-${doc.id}" onclick="BusinessModule.markAcompte('${doc.id}', ${(amount * (doc.deposit_perc||30))/100})" style="background:#0f172a; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Preuve virement</button>
@@ -270,9 +320,9 @@ const BusinessModule = {
                             </div>
 
                             <!-- Step 3: Solde -->
-                            <div style="flex:1; min-width:200px; padding:16px; border-radius:12px; border:2px solid ${isFullyPaid ? '#10b981' : '#cbd5e1'}; background:${isFullyPaid ? '#f0fdf4' : 'white'}; opacity:${isAcomptePaid || isSigned ? '1' : '0.5'}; pointer-events:${isAcomptePaid || isSigned ? 'auto' : 'none'}; position:relative;">
+                            <div class="tracker-step ${isFullyPaid ? 'completed-step' : (isAcomptePaid ? 'active-step' : '')}" style="border:2px solid ${isFullyPaid ? '#10b981' : '#cbd5e1'}; background:${isFullyPaid ? '#f0fdf4' : 'white'}; opacity:${isAcomptePaid || isSigned ? '1' : '0.5'}; pointer-events:${isAcomptePaid || isSigned ? 'auto' : 'none'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isFullyPaid ? '#10b981' : '#e2e8f0'}; color:${isFullyPaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900;">3</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isFullyPaid ? '#10b981' : '#e2e8f0'}; color:${isFullyPaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">3</div>
                                     <div style="font-weight:800; color:${isFullyPaid ? '#065f46' : '#64748b'};">Solde Facturé</div>
                                 </div>
                                 ${isFullyPaid 
@@ -298,16 +348,17 @@ const BusinessModule = {
                     </div>
                     <div>
                         <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
-                            <span>💬 Lancer un chat pour être payé</span>
+                        <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
+                            <span>Lancer un chat pour être payé</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Tabs Navigation -->
                 <div style="display:flex; gap:12px; margin-bottom:32px; border-bottom:2px solid #f1f5f9; padding-bottom:16px; overflow-x:auto;">
-                    <button class="business-tab active" onclick="BusinessModule.switchTab('missions')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#020617; color:white;">💼 Mes Missions</button>
-                    <button class="business-tab" onclick="BusinessModule.switchTab('devis')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">🎯 Tracker Méthodo</button>
-                    <button class="business-tab" onclick="BusinessModule.switchTab('evolution')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">📈 Mon Évolution</button>
+                    <button class="business-tab active tab-btn" onclick="BusinessModule.switchTab('missions')" style="background:#020617; color:white;">Mes Missions</button>
+                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('devis')" style="background:#f1f5f9; color:#64748b;">Tracker Méthodo</button>
+                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('evolution')" style="background:#f1f5f9; color:#64748b;">Mon Évolution</button>
                 </div>
 
                 <!-- TAB CONTENT: MISSIONS -->
@@ -343,7 +394,7 @@ const BusinessModule = {
                     <div class="evolution-box" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: clamp(20px, 4vw, 32px); color: white; margin-bottom: 32px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                         <div style="flex:1; min-width:280px;">
                             <div style="font-size:0.8rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Suivi du Mois en cours</div>
-                            <h3 style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:900; margin:0 0 12px;">Évolution de l'activité 🚀</h3>
+                            <h3 style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:900; margin:0 0 12px;">Évolution de l'activité</h3>
                             <p style="color:rgba(255,255,255,0.7); font-size:0.95rem; margin:0; max-width:400px; line-height:1.5;">Analyse automatique basée sur les étapes validées dans votre Tracker de Missions.</p>
                         </div>
                         <div class="evolution-stats" style="display:flex; gap:16px; flex-wrap:wrap;">
@@ -398,7 +449,7 @@ const BusinessModule = {
                                     ${docs.length === 0 ? `
                                     <tr>
                                         <td colspan="7" style="padding:60px 20px; text-align:center; color:#94a3b8;">
-                                            <div style="font-size:2.5rem; margin-bottom:16px; opacity:0.3;">💸</div>
+                                            <div style="font-size:2.5rem; margin-bottom:16px; opacity:0.3;"><i class="fas fa-folder-open"></i></div>
                                             <div style="font-weight:700; color:#475569; margin-bottom:6px;">Aucune transaction</div>
                                             <div style="font-size:0.8rem;">Les demandes de paiement acceptées et en attente apparaîtront ici.</div>
                                         </td>
@@ -422,13 +473,14 @@ const BusinessModule = {
 
                                     let actionButton = '';
                                     if ((d.status === 'sent' || d.status === 'draft') && !isExpert) {
-                                        actionButton = `<button onclick="window.MessagesModule.payRequest('${d.project_title.replace(/'/g, "\\'")}', '${d.total_amount}', '${d.expert_id}', event)" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:8px; font-weight:800; cursor:pointer; font-size:0.75rem;">💳 Régler</button>`;
+                                        const safeTitle = (d.project_title || 'Mission').replace(/'/g, "\\'");
+                                        actionButton = `<button onclick="window.MessagesModule.payRequest('${safeTitle}', '${d.total_amount}', '${d.expert_id}', event)" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:8px; font-weight:800; cursor:pointer; font-size:0.75rem;">Régler</button>`;
                                     }
 
                                     return `
-                                        <tr style="border-bottom:1px solid #f1f5f9; hover:background:#f8fafc;">
+                                        <tr style="border-bottom:1px solid #f1f5f9;">
                                             <td style="padding:14px 20px; font-weight:550; color:#475569;">${date}</td>
-                                            <td style="padding:14px 20px; font-weight:700; color:#020617;">${d.project_title}</td>
+                                            <td style="padding:14px 20px; font-weight:700; color:#020617;">${d.project_title || 'Sans nom'}</td>
                                             <td style="padding:14px 20px;">${roleLabel}</td>
                                             <td style="padding:14px 20px; font-weight:800; color:#020617;">${amount}</td>
                                             <td style="padding:14px 20px; color:#94a3b8;">${isExpert ? commission : '-'}</td>
