@@ -523,7 +523,7 @@ const MessagesModule = {
 
     renderLayout: function(container) {
         container.innerHTML = `
-            <div class="messaging-container">
+            <div class="messaging-container mobile-chat-fullscreen">
                 <div class="chat-layout">
                     <!-- Left Panel: Conversations -->
                     <div class="conversations-list">

@@ -84,7 +84,7 @@ const ExpertsModule = {
                 </div>
 
                 <!-- CARDS GRID -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                <div class="mobile-carousel" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
 
 
                     <div style="background: #f0fdf4; border: 1.5px solid #10b981; border-radius: 24px; padding: 32px;">
@@ -96,10 +96,10 @@ const ExpertsModule = {
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Ma Vitrine Showcase</h4>
                         <div style="font-size: 1.4rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Services Digitaux</div>
-                        <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 14px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Gérer mes Offres</button>
+                        <button onclick="window.Router.navigate('#vitrine')" style="width: 100%; padding: 14px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Gérer mes Offres</button>
                     </div>
 
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                    <div class="hide-on-mobile" style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                         <h4 style="font-size: 0.75rem; font-weight: 850; color: #10b981; text-transform: uppercase; margin-bottom: 16px;">Gestion Évènementielle</h4>
                         <div style="font-size: 1.4rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Billetterie & Accès</div>
                         <div style="display: flex; gap: 12px;">

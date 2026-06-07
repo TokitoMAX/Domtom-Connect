@@ -51,12 +51,12 @@ const StandardModule = {
                         <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight:600; margin: 0;">Votre espace d'intelligence collective & d'affaires des Antilles-Guyane.</p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                    <div class="mobile-carousel" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
                         <!-- Salon Mastermind DTC Interne -->
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-comments"></i></div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Salon Mastermind DTC</h3>
-                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
+                            <p class="hide-on-mobile" style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Votre groupe de discussion privé avec les autres membres du Club pour partager leads, opportunités et insights.</p>
                             <button onclick="window.Router.navigate('#mastermind-salon')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size:0.95rem; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-arrow-right"></i> Accéder au Salon</button>
                         </div>
 
@@ -64,13 +64,13 @@ const StandardModule = {
                         <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                             <div style="width: 48px; height: 48px; background: #f0fdf4; color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 20px;"><i class="fas fa-video"></i></div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Sessions Co-développement</h3>
-                            <p style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Visios mensuelles pour débloquer vos challenges stratégiques avec les autres membres du Club.</p>
+                            <p class="hide-on-mobile" style="color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 24px 0;">Visios mensuelles pour débloquer vos challenges stratégiques avec les autres membres du Club.</p>
                             <div style="width: 100%; padding: 14px; background: #f0fdf4; color: #10b981; border-radius: 12px; font-weight: 700; text-align:center; font-size:0.9rem;">Prochain calendrier en cours de planification</div>
                         </div>
                     </div>
 
                     <!-- MEETUPS AFTERWORKS LIST -->
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                    <div class="hide-on-mobile" style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                         <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 20px 0; font-family: 'Plus Jakarta Sans', sans-serif;">Afterworks Physiques Locaux (Trimestriels)</h3>
                         <div id="std-afterworks-list" style="display: flex; flex-direction: column; gap: 16px;">
                             <div style="text-align:center; padding: 32px 16px; color: #94a3b8;"><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun afterwork programmé pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochains événements physiques seront annoncés ici dès confirmation.</p></div>
@@ -78,7 +78,7 @@ const StandardModule = {
                     </div>
 
                     <!-- REPLAYS LIBRARY -->
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                    <div class="hide-on-mobile" style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
                         <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0 0 24px 0; font-family: 'Plus Jakarta Sans', sans-serif;">Bibliothèque de Replays Masterclass VIP</h3>
                         <div id="std-replays-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
                             <div style="text-align:center; padding: 32px 16px; color: #94a3b8; grid-column: 1 / -1;"><p style="font-weight:700; color:#64748b; margin:0 0 6px;">Aucun replay disponible pour le moment</p><p style="font-size:0.85rem; margin:0;">Les prochaines masterclasses seront enregistrées et accessibles ici.</p></div>
@@ -89,7 +89,7 @@ const StandardModule = {
         } else {
             mastermindContent = `
                 <!-- CLUB MASTERMIND UPGRADE TEASER -->
-                <div style="grid-column: 1 / -1; margin-top: 32px; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; color: white; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.15);">
+                <div class="hide-on-mobile" style="grid-column: 1 / -1; margin-top: 32px; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 24px; padding: 40px; color: white; border: 1px solid rgba(255,255,255,0.05); text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.15);">
                     <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 950; margin: 0 0 12px 0; letter-spacing: -0.04em;">Rejoindre le Club Mastermind DTC</h2>
                     <p style="color: rgba(255,255,255,0.6); font-size: 1.05rem; font-weight: 500; max-width: 600px; margin: 0 auto 28px;">
                         Accédez au cercle VIP des décideurs et entrepreneurs des Antilles-Guyane. Salon de discussion privé sur la plateforme, sessions mensuelles de co-développement et replays exclusifs.
@@ -104,6 +104,26 @@ const StandardModule = {
         container.innerHTML = `
             <div class="dash-grid-layout" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 
+                <!-- MOBILE QUICK ACTIONS -->
+                <div class="mobile-quick-actions" style="grid-column: 1 / -1;">
+                    <a href="#messages" class="mobile-quick-action-btn">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Messages</span>
+                    </a>
+                    <a href="marketplace/directory.html" class="mobile-quick-action-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Explorer</span>
+                    </a>
+                    <a href="#channel" class="mobile-quick-action-btn" onclick="if(window.App && window.App.state.profile) window.location.href='#channel?id='+window.App.state.profile.id">
+                        <i class="fas fa-video"></i>
+                        <span>Chaîne</span>
+                    </a>
+                    <a href="#profile" class="mobile-quick-action-btn">
+                        <i class="fas fa-user"></i>
+                        <span>Profil</span>
+                    </a>
+                </div>
+
                 <div class="dash-welcome-card" style="background: #0f172a; border-radius: 24px; margin-bottom: 24px; padding: 40px;">
                     <span class="role-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: 800; font-size: 0.75rem;">ESPACE EXPLORATEUR</span>
                     <h1 style="color: white; margin-top:12px; font-weight: 950; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.04em;">Bonjour, ${profile.full_name || 'Explorateur'}</h1>
@@ -111,7 +131,7 @@ const StandardModule = {
                 </div>
 
                 <!-- DIAGNOSTIC CALL CTA -->
-                <div style="grid-column: 1 / -1; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap; width: 100%; box-sizing: border-box;">
+                <div class="hide-on-mobile" style="grid-column: 1 / -1; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; flex-wrap: wrap; width: 100%; box-sizing: border-box;">
                     <div style="max-width: 700px;">
                         <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Diagnostic Offert</div>
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">Réserver mon Diagnostic Stratégique (Gratuit)</h3>
@@ -122,7 +142,7 @@ const StandardModule = {
                     </a>
                 </div>
 
-                <div style="grid-column: 1 / -1; display:grid; gap:24px; width: 100%;">
+                <div class="hide-on-mobile" style="grid-column: 1 / -1; display:grid; gap:24px; width: 100%;">
                     <div style="background: white; border: 1px solid #e2e8f0; padding: 32px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
                         <div>
                             <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0;">Prêt à passer à l'action ?</h3>
