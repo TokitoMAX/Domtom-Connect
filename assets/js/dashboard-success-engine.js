@@ -94,7 +94,10 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                                 <p style="color: #64748b; font-size: 1.2rem; font-weight: 500; margin-top: 12px; max-width:600px;">Gérez vos projets à impact territorial et pilotez vos ambitions stratégiques pas à pas.</p>
                             </div>
                             <div style="background: white; padding: 16px 32px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                                <div style="text-align:right;">
+                                <button onclick="window.open('https://calendly.com/ton-lien-domtomconnect', '_blank')" style="background: #0f172a; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                    <i class="far fa-calendar-alt"></i> Prendre RDV
+                                </button>
+                                <div style="text-align:right; border-left: 1px solid #e2e8f0; padding-left: 16px;">
                                     <span style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; display:block;">Total Épopées</span>
                                     <span style="font-size: 1.8rem; font-weight: 950; color: #10b981;">${projects.length}</span>
                                 </div>

@@ -151,6 +151,16 @@ const UIComponents = {
                 </div>
             `;
         }
+
+        if (safeRole === 'admin') {
+            roleActions += `
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#admin-inspection')" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.02);">
+                    <div class="dash-card-icon" style="color: #ef4444; background: rgba(239,68,68,0.1);"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Admin : Inspection</h3>
+                    <p>Passez en revue les Épopées soumises et gérez la plateforme.</p>
+                </div>
+            `;
+        }
         
         if (!roleActions) {
             roleActions = `

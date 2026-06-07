@@ -138,6 +138,16 @@ const App = {
         } else if (targetView) {
             targetView.style.display = 'block';
         }
+        
+        // --- ADMIN INSPECTION ROUTE ---
+        if (viewId === 'admin-inspection') {
+            if (!isAdmin) {
+                console.warn("[App] Non-admin tried to access inspection. Redirecting.");
+                this.showView('overview', true);
+                return;
+            }
+            this.renderAdminInspection();
+        }
 
         // 3. Select Module based on role
         let activeModule = this.getActiveModule();
@@ -447,7 +457,92 @@ const App = {
         }
     },
 
-    async loadRealMastermindContent() {
+    async renderAdminInspection() {
+        const container = document.getElementById('admin-inspection-list');
+        if (!container) return;
+
+        const db = window._supabase;
+        if (!db) return;
+
+        try {
+            // Fetch all projects that are active (submitted) but not yet approved
+            const { data: projects, error } = await db
+                .from('projects')
+                .select('*, profiles:owner_id(full_name, avatar_url, role)')
+                .eq('status', 'active')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!projects || projects.length === 0) {
+                container.innerHTML = `
+                    <div style="background: white; border-radius: 24px; padding: 40px; text-align: center; border: 1px solid #e2e8f0;">
+                        <div style="width: 64px; height: 64px; background: #f1f5f9; color: #64748b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 20px;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 style="margin: 0 0 12px 0; color: #0f172a; font-weight: 900;">Tout est à jour !</h2>
+                        <p style="color: #64748b; margin: 0; font-size: 1.1rem;">Il n'y a aucune nouvelle Épopée en attente d'inspection.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = projects.map(p => {
+                const owner = p.profiles || {};
+                const collected = (p.total_raised || 0).toLocaleString();
+                const target = (p.funding_target || 0).toLocaleString();
+                const score = window.calculateProjectMaturity ? window.calculateProjectMaturity(p) : 0;
+                
+                return `
+                    <div style="background: white; border-radius: 24px; padding: 32px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                                    <div style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 6px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase;">En Attente d'Inspection</div>
+                                    <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-clock"></i> ${new Date(p.created_at).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                                <h3 style="font-size: 1.8rem; font-weight: 950; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.04em;">${p.title || p.name || 'Sans titre'}</h3>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <img src="${owner.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(owner.full_name || 'User')}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                    <span style="color: #334155; font-weight: 700; font-size: 1rem;">${owner.full_name || 'Utilisateur inconnu'}</span>
+                                    <span style="color: #94a3b8; font-size: 0.9rem;">• ${owner.role || 'Porteur'}</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="display: block; font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Maturité</span>
+                                <span style="font-size: 2.5rem; font-weight: 950; color: #0f172a;">${score}%</span>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8fafc; border-radius: 16px; padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <div>
+                                <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Territoire</span>
+                                <span style="font-weight: 700; color: #0f172a;">${p.territory || 'Non défini'}</span>
+                            </div>
+                            <div>
+                                <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Objectif de Financement</span>
+                                <span style="font-weight: 700; color: #0f172a;">${target} €</span>
+                            </div>
+                            <div>
+                                <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Collecté</span>
+                                <span style="font-weight: 800; color: #10b981;">${collected} €</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 16px;">
+                            <button onclick="window.Router.navigate('#success-engine?inspect=${p.id}')" style="flex: 1; background: #0f172a; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='none';">
+                                <i class="fas fa-search"></i> Inspecter le Dossier Complet
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+        } catch (err) {
+            console.error("Admin Inspection Error:", err);
+            container.innerHTML = `<div style="padding:40px; color:#ef4444; font-weight:700; text-align:center;">Erreur lors du chargement des Épopées.</div>`;
+        }
+    },
         const eventsContainer = document.getElementById('real-afterworks-list');
         const replaysContainer = document.getElementById('real-replays-list');
         if (!eventsContainer && !replaysContainer) return;
