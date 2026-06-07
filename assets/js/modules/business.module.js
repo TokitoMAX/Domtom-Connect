@@ -224,6 +224,7 @@ const BusinessModule = {
                             </div>
                             <div style="display:flex; align-items:center; gap:8px;">
                                 <span style="background:${statusBg}; color:${statusColor}; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">${statusLabel}</span>
+                                <button onclick="BusinessModule.editJobOffer('${o.id}')" style="background:#eff6ff; color:#3b82f6; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Modifier</button>
                                 ${o.status === 'open' ? `<button onclick="BusinessModule.closeJobOffer('${o.id}')" style="background:#fef3c7; color:#d97706; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Fermer</button>` : ''}
                                 <button onclick="BusinessModule.deleteJobOffer('${o.id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Supprimer</button>
                             </div>
@@ -281,12 +282,16 @@ const BusinessModule = {
         }
     },
 
-    openJobOfferModal: function() {
+    openJobOfferModal: function(job = null) {
+        const title = job ? 'Modifier l\'annonce' : 'Nouvelle Annonce Mission';
+        const btnText = job ? 'Mettre à jour l\'annonce' : 'Publier l\'annonce';
+        const action = job ? `BusinessModule.submitJobOffer('${job.id}')` : 'BusinessModule.submitJobOffer()';
+
         const modalHtml = `
         <div id="job-offer-modal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
             <div style="background:white; border-radius:24px; width:100%; max-width:520px; padding:32px; box-shadow:0 20px 50px rgba(0,0,0,0.15); max-height:90vh; overflow-y:auto;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                    <h3 style="margin:0; font-size:1.4rem; font-weight:900; color:#0f172a;">Nouvelle Annonce Mission</h3>
+                    <h3 style="margin:0; font-size:1.4rem; font-weight:900; color:#0f172a;">${title}</h3>
                     <button onclick="document.getElementById('job-offer-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#94a3b8; line-height:1;">&times;</button>
                 </div>
 
@@ -352,13 +357,22 @@ const BusinessModule = {
                     </div>
                 </div>
 
-                <button onclick="BusinessModule.submitJobOffer()" style="width:100%; margin-top:24px; background:#10b981; color:white; border:none; padding:15px; border-radius:12px; font-weight:900; font-size:1rem; cursor:pointer; transition:background 0.2s;">Publier l'annonce</button>
+                <button onclick="${action}" style="width:100%; margin-top:24px; background:#10b981; color:white; border:none; padding:15px; border-radius:12px; font-weight:900; font-size:1rem; cursor:pointer; transition:background 0.2s;">${btnText}</button>
             </div>
         </div>`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        if (job) {
+            document.getElementById('jo-title').value = job.title || '';
+            document.getElementById('jo-desc').value = job.description || '';
+            document.getElementById('jo-sector').value = job.sector || '';
+            document.getElementById('jo-budget').value = job.budget || '';
+            document.getElementById('jo-duration').value = job.duration || '';
+            document.getElementById('jo-territory').value = job.territory || '';
+        }
     },
 
-    submitJobOffer: async function() {
+    submitJobOffer: async function(editId = null) {
         const title = document.getElementById('jo-title').value.trim();
         const desc = document.getElementById('jo-desc').value.trim();
         const sector = document.getElementById('jo-sector').value;
@@ -368,12 +382,12 @@ const BusinessModule = {
 
         if (!title) return alert('Le titre de la mission est requis.');
 
-        const btn = document.querySelector('#job-offer-modal button[onclick="BusinessModule.submitJobOffer()"]');
-        if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
+        const btn = document.querySelector('#job-offer-modal button');
+        if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
 
         try {
             const { data: { session } } = await window._supabase.auth.getSession();
-            await window._supabase.from('job_offers').insert({
+            const dataObj = {
                 company_id: session.user.id,
                 title,
                 description: desc || null,
@@ -382,13 +396,31 @@ const BusinessModule = {
                 duration: duration || null,
                 territory: territory || null,
                 status: 'open'
-            });
+            };
+
+            if (editId) {
+                await window._supabase.from('job_offers').update(dataObj).eq('id', editId);
+            } else {
+                await window._supabase.from('job_offers').insert(dataObj);
+            }
+            
             document.getElementById('job-offer-modal').remove();
             this.renderMissions();
         } catch(e) {
             console.error(e);
             alert('Erreur lors de la publication : ' + e.message);
-            if (btn) btn.innerHTML = 'Publier l\'annonce';
+            if (btn) btn.innerHTML = editId ? 'Mettre à jour l\'annonce' : 'Publier l\'annonce';
+        }
+    },
+
+    editJobOffer: async function(id) {
+        try {
+            const { data, error } = await window._supabase.from('job_offers').select('*').eq('id', id).single();
+            if (error) throw error;
+            this.openJobOfferModal(data);
+        } catch (e) {
+            console.error(e);
+            alert("Erreur lors de la récupération de l'annonce : " + e.message);
         }
     },
 
