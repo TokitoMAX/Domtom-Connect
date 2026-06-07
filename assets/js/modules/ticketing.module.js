@@ -7,6 +7,10 @@
 const TicketingModule = {
     commissionRate: 0.15, // 15%
 
+    async route(viewId, container, profile, session, params) {
+        await this.loadMyTicketing(params);
+    },
+
     async loadMyTicketing(params = null) {
         const view = document.getElementById('billetterie-view');
         if (!view) return;
@@ -48,7 +52,7 @@ const TicketingModule = {
                         <button onclick="window.Router.navigate('#billetterie?action=create')" style="background:#0f172a;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;">+ Créer un Événement</button>
                     </div>
                     ${events && events.length ? `
-                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
                             ${events.map(ev => `
                                 <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
                                     ${ev.image_url ? `<img src="${ev.image_url}" style="width:100%;height:160px;object-fit:cover;">` : `<div style="width:100%;height:160px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:2rem;">🎟️</div>`}

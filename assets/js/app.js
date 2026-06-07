@@ -354,6 +354,23 @@ const App = {
         if (viewId === 'messages' && window.MessagesModule) {
             activeModule = window.MessagesModule;
         }
+        if (viewId === 'billetterie' && window.TicketingModule) {
+            activeModule = window.TicketingModule;
+        }
+        if (viewId === 'vitrine' && window.ShowcaseModule) {
+            activeModule = {
+                route: async (viewId, container, profile, session, params) => {
+                    await window.ShowcaseModule.renderManager(container);
+                }
+            };
+        }
+        if (viewId === 'business' && window.BusinessModule) {
+            activeModule = {
+                route: async (viewId, container, profile, session, params) => {
+                    await window.BusinessModule.renderView(container);
+                }
+            };
+        }
         
         // Robust Wait for Module to Load (Mobile/Slow network support)
         if (!activeModule) {

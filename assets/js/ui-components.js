@@ -133,9 +133,14 @@ const UIComponents = {
         } else if (['expert', 'entreprise'].includes(safeRole)) {
             roleActions = `
                 <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#vitrine')">
+                    <div class="dash-card-icon"><i class="fas fa-link"></i></div>
+                    <h3>Mes Liens & Services</h3>
+                    <p>Gérez votre page vitrine, vos liens et votre présentation publique.</p>
+                </div>
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#business')">
                     <div class="dash-card-icon"><i class="fas fa-briefcase"></i></div>
                     <h3>Mon Activité Pro</h3>
-                    <p>Gérez vos missions, vos offres et vos informations.</p>
+                    <p>Gérez vos missions, devis, factures et vos offres de services.</p>
                 </div>
                 <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#billetterie')">
                     <div class="dash-card-icon" style="color: #f59e0b; background: rgba(245,158,11,0.1);"><i class="fas fa-ticket-alt"></i></div>

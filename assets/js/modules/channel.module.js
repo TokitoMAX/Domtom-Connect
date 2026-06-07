@@ -183,6 +183,12 @@ window.ChannelModule = {
                                             ${cAvatar ? `<img src="${cAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                                         </div>
                                         <div style="flex: 1;">
+                                            <select id="post-intent-tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: none; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; outline: none; cursor: pointer; display: inline-block;">
+                                                <option value="standard">📝 Post Standard</option>
+                                                <option value="opportunite">💼 Opportunité Business</option>
+                                                <option value="partenaire">🤝 Recherche Partenaire</option>
+                                                <option value="expertise">💡 Partage d'Expertise</option>
+                                            </select>
                                             <textarea id="feed-status-input" placeholder="Partager sur votre chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                             
                                             <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">

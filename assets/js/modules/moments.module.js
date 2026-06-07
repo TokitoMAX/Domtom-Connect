@@ -228,7 +228,13 @@ const MomentsModule = {
                 // 4. Facteur de découverte (Randomizer) : Donne une chance au contenu de percer (0 à 15 pts)
                 const discoveryBoost = Math.random() * 15;
                 
-                item.score = recencyScore + engagementScore + authorityScore + discoveryBoost;
+                // 5. INTENT BOOST (La Petite Plus-Value Business)
+                let intentBoost = 0;
+                if (item.title === 'opportunite' || item.title === 'partenaire' || item.title === 'expertise') {
+                    intentBoost = 20; // Gros boost algorithmique pour le business
+                }
+                
+                item.score = recencyScore + engagementScore + authorityScore + discoveryBoost + intentBoost;
             });
 
             // Tri descendant par score de l'algorithme
@@ -616,6 +622,9 @@ const MomentsModule = {
                             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                                 <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 1.05rem; color: #0f172a; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0f172a';">${item.authorName}</span>
                                 ${verifiedSvg}
+                                ${item.title === 'opportunite' ? '<span style="background: rgba(16, 185, 129, 0.1); color: #059669; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-briefcase"></i> Opportunité</span>' : ''}
+                                ${item.title === 'partenaire' ? '<span style="background: rgba(59, 130, 246, 0.1); color: #2563eb; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-handshake"></i> Partenaire</span>' : ''}
+                                ${item.title === 'expertise' ? '<span style="background: rgba(245, 158, 11, 0.1); color: #d97706; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-lightbulb"></i> Expertise</span>' : ''}
                                 ${!isSelf ? `
                                     <span style="color:#cbd5e1; margin: 0 4px;">•</span>
                                     <button class="dtc-follow-btn" onclick="MomentsModule.toggleFollow('${item.userId}', this, '${item.authorName.replace(/'/g, "\\'")}')" style="${isFollowing ? 'background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;' : ''}">
@@ -918,10 +927,12 @@ const MomentsModule = {
             }
 
             let categoryToUse = window._pendingPostCategory || 'status';
+            const intentSelect = document.getElementById('post-intent-tag');
+            const intentTag = intentSelect ? intentSelect.value : 'standard';
 
             const { error: postErr } = await db.from('showcase_items').insert([{
                 user_id: session.user.id,
-                title: "Publication",
+                title: intentTag,
                 description: text,
                 category: categoryToUse,
                 image_url: finalUrl,
