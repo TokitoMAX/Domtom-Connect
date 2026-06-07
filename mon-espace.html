@@ -12,77 +12,110 @@
         /* Force display for legacy containers when needed */
         .view-section { transition: opacity 0.3s ease; }
 
-        /* PREMIUM MOBILE MENU */
-        .mobile-menu-overlay {
+        /* Mobile Bottom Sheet Menu */
+        .mobile-menu-sheet {
             position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: #ffffff;
             z-index: 10001;
-            display: none;
-            flex-direction: column;
-            padding: 60px 32px;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            color: white;
-        }
-        .mobile-menu-overlay.active {
+            border-top-left-radius: 32px;
+            border-top-right-radius: 32px;
+            padding: 24px;
+            padding-bottom: max(24px, env(safe-area-inset-bottom, 40px));
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
             display: flex;
-            opacity: 1;
+            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .mobile-menu-sheet.active {
+            transform: translateY(-100%);
+            pointer-events: auto;
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin: 0 auto 24px auto;
         }
 
         .mobile-menu-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
 
         .mobile-logo {
             font-size: 1.5rem;
-            font-weight: 800;
-            color: #00D586;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.02em;
         }
 
         .close-menu {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
+            background: #f1f5f9;
+            border: none;
+            color: #64748b;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .close-menu:active {
+            background: #e2e8f0;
         }
 
         .mobile-menu-links {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
+            max-height: 60vh;
             overflow-y: auto;
         }
 
         .mobile-menu-links a {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            color: white;
+            color: #334155;
             text-decoration: none;
             padding: 16px 8px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 16px;
             text-align: center;
             transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mobile-menu-links a i {
+            font-size: 1.25rem;
+            color: #10b981;
+            transition: color 0.2s;
         }
 
         .mobile-menu-links a:active {
-            background: #00D586;
-            color: #0f172a;
+            background: #10b981;
+            color: white;
             transform: scale(0.98);
+        }
+        
+        .mobile-menu-links a:active i {
+            color: white;
         }
 
         /* Nav Toggle Animation */
@@ -147,22 +180,23 @@
         </main>
     </div>
 
-    <!-- Mobile Menu Overlay (Premium Glass) -->
-    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+    <!-- Mobile Bottom Sheet Menu -->
+    <div id="mobile-menu-backdrop" onclick="toggleMobileMenu()" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.4); z-index:10000; backdrop-filter:blur(4px); transition:opacity 0.3s; opacity:0;"></div>
+    <div id="mobile-menu-sheet" class="mobile-menu-sheet">
+        <div class="sheet-handle"></div>
         <div class="mobile-menu-header">
             <div class="mobile-logo">Domtom Connect</div>
             <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
         </div>
         <div class="mobile-menu-links">
-            <a href="#overview" onclick="toggleMobileMenu()">Accueil</a>
-            <a href="marketplace/directory.html" onclick="toggleMobileMenu()">Explorer</a>
-            <a href="#messages" onclick="toggleMobileMenu()">Messagerie</a>
-            <a href="#channel" onclick="toggleMobileMenu()">Ma Chaîne</a>
-            <a href="#profile" onclick="toggleMobileMenu()">Mon Profil</a>
-            <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 15px 0;"></div>
-            <a href="index.html" onclick="toggleMobileMenu()">Accueil Plateforme</a>
-            <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 15px 0;"></div>
-            <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444;">Déconnexion</a>
+            <a href="#overview" onclick="toggleMobileMenu()"><i class="fas fa-home"></i> Accueil</a>
+            <a href="marketplace/directory.html" onclick="toggleMobileMenu()"><i class="fas fa-compass"></i> Explorer</a>
+            <a href="#messages" onclick="toggleMobileMenu()"><i class="fas fa-comment-dots"></i> Messagerie</a>
+            <a href="#channel" onclick="toggleMobileMenu()"><i class="fas fa-tv"></i> Ma Chaîne</a>
+            <a href="#profile" onclick="toggleMobileMenu()"><i class="fas fa-user-circle"></i> Mon Profil</a>
+            <a href="index.html" onclick="toggleMobileMenu()"><i class="fas fa-globe"></i> Plateforme</a>
+            <div style="height: 1px; background: rgba(0,0,0,0.05); margin: 5px 0; grid-column: 1 / -1;"></div>
+            <a href="javascript:void(0)" onclick="signOut()" style="color: #ef4444; grid-column: 1 / -1; justify-content: center; flex-direction: row; gap: 12px; padding: 12px;"><i class="fas fa-sign-out-alt" style="color: #ef4444;"></i> Déconnexion</a>
         </div>
     </div>
 
@@ -219,10 +253,23 @@
     <script>
         // Inline UI Helpers (Restored for Dashboard context)
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu-overlay');
+            const sheet = document.getElementById('mobile-menu-sheet');
+            const backdrop = document.getElementById('mobile-menu-backdrop');
             const btn = document.getElementById('mobile-menu-toggle');
-            if (menu) {
-                menu.classList.toggle('active');
+            
+            if (sheet && backdrop) {
+                const isActive = sheet.classList.contains('active');
+                if (isActive) {
+                    sheet.classList.remove('active');
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => backdrop.style.display = 'none', 300);
+                } else {
+                    backdrop.style.display = 'block';
+                    // Force reflow
+                    void backdrop.offsetWidth;
+                    backdrop.style.opacity = '1';
+                    sheet.classList.add('active');
+                }
                 if (btn) btn.classList.toggle('active');
             }
         }
@@ -281,6 +328,7 @@
         window.addEventListener('hashchange', () => {
             syncNavActiveState();
             fixNavigationLinks();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         document.addEventListener('DOMContentLoaded', () => {
             syncNavActiveState();
@@ -298,7 +346,13 @@
                         console.log("[NavFix] SPA Navigation for:", href);
                         if (window.Router) {
                             e.preventDefault();
+                            
+                            // Instant UI Update
+                            document.querySelectorAll('.nav-market-link, .top-nav-logo, .sidebar-link, .mobile-nav-link, .mobile-menu-links a, .sidebar-brand, .nav-brand').forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                            
                             window.Router.navigate(href);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                         }
                     } else {
                         // External or other module navigation - Let browser handle it naturally
