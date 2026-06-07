@@ -138,7 +138,35 @@ const UIComponents = {
                     <p>Gérez vos missions, vos offres et vos informations.</p>
                 </div>
             `;
+        } else {
+            roleActions = `
+                <div class="dash-card dash-card-pro" onclick="window.Router.navigate('#profile')">
+                    <div class="dash-card-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Porteur de Projet</h3>
+                    <p>Structurez votre idée et trouvez des financements.</p>
+                </div>
+                <div class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="window.Router.navigate('#profile')">
+                    <div class="dash-card-icon" style="color: #10b981;"><i class="fas fa-briefcase"></i></div>
+                    <h3>Expert / Talent</h3>
+                    <p>Proposez vos services à l'écosystème territorial.</p>
+                </div>
+                <div class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);" onclick="window.Router.navigate('#profile')">
+                    <div class="dash-card-icon" style="color: #3b82f6;"><i class="fas fa-building"></i></div>
+                    <h3>Entreprise</h3>
+                    <p>Recrutez et trouvez de nouveaux partenariats.</p>
+                </div>
+            `;
         }
+
+        const roleDisplayNames = {
+            'spectateur': 'Explorateur',
+            'porteur': 'Porteur de Projet',
+            'owner': 'Porteur de Projet',
+            'expert': 'Expert / Talent',
+            'entreprise': 'Entreprise',
+            'admin': 'Administrateur'
+        };
+        const displayRole = roleDisplayNames[safeRole] || 'Membre';
 
         container.innerHTML = `
             <style>
@@ -168,7 +196,10 @@ const UIComponents = {
             
             <div class="dash-unified">
                 <div class="dash-welcome">
-                    <h1>Bienvenue, ${profile?.first_name || 'Explorateur'} 👋</h1>
+                    <h1>Bienvenue${profile?.first_name ? ', ' + profile.first_name : ''} 👋</h1>
+                    <div style="margin-top: 12px; margin-bottom: 24px;">
+                        <span style="background: rgba(16,185,129,0.1); border: 1px solid #10b981; color: #10b981; padding: 6px 14px; border-radius: 99px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">Type de compte : ${displayRole}</span>
+                    </div>
                     <p>Que souhaitez-vous faire aujourd'hui ?</p>
                 </div>
                 
