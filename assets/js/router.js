@@ -18,7 +18,8 @@ const Router = {
         'messages': 'messages',
         'moments': 'moments',
         'mastermind': 'mastermind',
-        'mastermind-salon': 'mastermind-salon'
+        'mastermind-salon': 'mastermind-salon',
+        'business': 'business'
     },
 
     /**

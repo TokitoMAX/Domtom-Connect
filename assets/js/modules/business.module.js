@@ -6,6 +6,32 @@
 const BusinessModule = {
     COMMISSION: 0.125, // 12.5% Domtom Connect
 
+    switchTab: function(tabId) {
+        // Hide all tabs
+        const contents = document.querySelectorAll('.business-tab-content');
+        contents.forEach(c => c.style.display = 'none');
+        
+        // Remove active class from buttons
+        const buttons = document.querySelectorAll('.business-tab');
+        buttons.forEach(b => {
+            b.classList.remove('active');
+            b.style.background = '#f1f5f9';
+            b.style.color = '#64748b';
+        });
+
+        // Show selected tab
+        const activeContent = document.getElementById('tab-' + tabId);
+        if (activeContent) activeContent.style.display = 'block';
+
+        // Update active button styling
+        const activeButton = document.querySelector(`.business-tab[onclick="BusinessModule.switchTab('${tabId}')"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+            activeButton.style.background = '#020617';
+            activeButton.style.color = 'white';
+        }
+    },
+
     renderDashboard: async function(container) {
         await this.renderView(container);
     },
@@ -44,8 +70,8 @@ const BusinessModule = {
                 <!-- Info Header -->
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
                     <div>
-                        <h2 style="font-size:1.5rem; font-weight:900; color:#020617; letter-spacing:-0.03em; margin:0;">Centre de Transactions</h2>
-                        <p style="color:#64748b; font-size:0.9rem; font-weight:550; margin-top:4px;">Historique des paiements directs WeChat-style par Stripe Connect.</p>
+                        <h2 style="font-size:1.5rem; font-weight:900; color:#020617; letter-spacing:-0.03em; margin:0;">Mon Activité Pro</h2>
+                        <p style="color:#64748b; font-size:0.9rem; font-weight:550; margin-top:4px;">Gérez vos missions, devis, facturation et suivez votre évolution.</p>
                     </div>
                     <div>
                         <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
@@ -54,50 +80,83 @@ const BusinessModule = {
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:32px;">
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Volume Facturé Encaissé</div>
-                        <div style="font-size:1.6rem; font-weight:900; color:#020617;">${totalCA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
-                    </div>
-                    <div style="background:#fff1f2; border:1px solid #ffe4e6; border-radius:16px; padding:20px;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#e11d48; text-transform:uppercase; margin-bottom:8px;">Part Plateforme (12.5%)</div>
-                        <div style="font-size:1.6rem; font-weight:900; color:#e11d48;">${totalComm.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
-                    </div>
-                    <div style="background:#f0fdf4; border:1px solid #dcfce7; border-radius:16px; padding:20px;">
-                        <div style="font-size:0.65rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Revenu Net Reversé</div>
-                        <div style="font-size:1.6rem; font-weight:900; color:#16a34a;">${totalNet.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                <!-- Tabs Navigation -->
+                <div style="display:flex; gap:12px; margin-bottom:32px; border-bottom:2px solid #f1f5f9; padding-bottom:16px; overflow-x:auto;">
+                    <button class="business-tab active" onclick="BusinessModule.switchTab('missions')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#020617; color:white;">💼 Mes Missions</button>
+                    <button class="business-tab" onclick="BusinessModule.switchTab('devis')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">📂 Mes Devis & Factures</button>
+                    <button class="business-tab" onclick="BusinessModule.switchTab('facturation')" style="padding:10px 20px; border-radius:100px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9; color:#64748b;">💶 Paiements Stripe</button>
+                </div>
+
+                <!-- TAB CONTENT: MISSIONS -->
+                <div id="tab-missions" class="business-tab-content" style="display:block;">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                        <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
+                            <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-briefcase"></i></div>
+                            <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucune mission active</h3>
+                            <p style="color:#64748b; font-size:0.9rem; margin:0;">Explorez le fil d'actualité pour trouver des opportunités et y répondre.</p>
+                            <button onclick="window.Router.navigate('#moments')" style="margin-top:16px; background:white; border:1px solid #e2e8f0; color:#0f172a; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;">Voir les opportunités</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Automatic Payout Notice -->
-                <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:16px; padding:16px; display:flex; align-items:center; gap:12px; margin-bottom:32px;">
-                    <span style="font-size:1.5rem;">💳</span>
-                    <div style="font-size:0.85rem; color:#1e40af; font-weight:550; line-height:1.4;">
-                        <strong>Virement Automatique :</strong> Plus besoin de renseigner d'IBAN ou de demander de retrait manuel. Vos revenus payés via Stripe Connect sont transférés automatiquement vers votre compte bancaire lié sous 2 à 5 jours ouvrés.
+                <!-- TAB CONTENT: DEVIS & FACTURES -->
+                <div id="tab-devis" class="business-tab-content" style="display:none;">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                        <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
+                            <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-folder-open"></i></div>
+                            <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Classeur Devis & Factures</h3>
+                            <p style="color:#64748b; font-size:0.9rem; margin:0;">Importez et centralisez vos propres documents pour garder un espace de travail organisé.</p>
+                            <button style="margin-top:16px; background:#10b981; border:none; color:white; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="alert('Module de classement de documents à venir !')"><i class="fas fa-upload"></i> Importer un document</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Transactions Table -->
-                <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden;">
-                    <div style="padding:20px; border-bottom:1px solid #e2e8f0; font-weight:800; font-size:1rem; color:#020617;">
-                        Transactions Récentes
+                <!-- TAB CONTENT: FACTURATION (Transactions) -->
+                <div id="tab-facturation" class="business-tab-content" style="display:none;">
+                    <!-- Stats Grid -->
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:32px;">
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
+                            <div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Volume Facturé Encaissé</div>
+                            <div style="font-size:1.6rem; font-weight:900; color:#020617;">${totalCA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                        </div>
+                        <div style="background:#fff1f2; border:1px solid #ffe4e6; border-radius:16px; padding:20px;">
+                            <div style="font-size:0.65rem; font-weight:800; color:#e11d48; text-transform:uppercase; margin-bottom:8px;">Part Plateforme (12.5%)</div>
+                            <div style="font-size:1.6rem; font-weight:900; color:#e11d48;">${totalComm.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                        </div>
+                        <div style="background:#f0fdf4; border:1px solid #dcfce7; border-radius:16px; padding:20px;">
+                            <div style="font-size:0.65rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Revenu Net Reversé</div>
+                            <div style="font-size:1.6rem; font-weight:900; color:#16a34a;">${totalNet.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                        </div>
                     </div>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
-                            <thead>
-                                <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#64748b; font-weight:700;">
-                                    <th style="padding:14px 20px;">Date</th>
-                                    <th style="padding:14px 20px;">Description</th>
-                                    <th style="padding:14px 20px;">Rôle</th>
-                                    <th style="padding:14px 20px;">Montant</th>
-                                    <th style="padding:14px 20px;">Part DTC</th>
-                                    <th style="padding:14px 20px;">Statut</th>
-                                    <th style="padding:14px 20px; text-align:right;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${docs.length === 0 ? `
+
+                    <!-- Automatic Payout Notice -->
+                    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:16px; padding:16px; display:flex; align-items:center; gap:12px; margin-bottom:32px;">
+                        <span style="font-size:1.5rem;">💳</span>
+                        <div style="font-size:0.85rem; color:#1e40af; font-weight:550; line-height:1.4;">
+                            <strong>Virement Automatique :</strong> Plus besoin de renseigner d'IBAN ou de demander de retrait manuel. Vos revenus payés via Stripe Connect sont transférés automatiquement vers votre compte bancaire lié sous 2 à 5 jours ouvrés.
+                        </div>
+                    </div>
+
+                    <!-- Transactions Table -->
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid #e2e8f0; font-weight:800; font-size:1rem; color:#020617;">
+                            Transactions Récentes
+                        </div>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
+                                <thead>
+                                    <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#64748b; font-weight:700;">
+                                        <th style="padding:14px 20px;">Date</th>
+                                        <th style="padding:14px 20px;">Description</th>
+                                        <th style="padding:14px 20px;">Rôle</th>
+                                        <th style="padding:14px 20px;">Montant</th>
+                                        <th style="padding:14px 20px;">Part DTC</th>
+                                        <th style="padding:14px 20px;">Statut</th>
+                                        <th style="padding:14px 20px; text-align:right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${docs.length === 0 ? `
                                     <tr>
                                         <td colspan="7" style="padding:60px 20px; text-align:center; color:#94a3b8;">
                                             <div style="font-size:2.5rem; margin-bottom:16px; opacity:0.3;">💸</div>
