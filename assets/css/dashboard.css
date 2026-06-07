@@ -2916,7 +2916,7 @@ html, body {
     border: 1px solid #f1f5f9 !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
     border-radius: 16px !important;
-    background: #ffffff !important;
+    background: #ffffff;
 }
 
 @media (max-width: 768px) {

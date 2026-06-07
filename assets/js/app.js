@@ -107,6 +107,11 @@ const App = {
         console.log(`[App] Switching view to: ${viewId} with params:`, params);
         this.state.activeView = viewId;
 
+        // Sync Mobile Navigation active states
+        if (window.syncNavActiveState) {
+            window.syncNavActiveState();
+        }
+
         // 1. Hide all views (SPA Strategy)
         const containers = document.querySelectorAll('.view-section');
         containers.forEach(c => c.style.display = 'none');

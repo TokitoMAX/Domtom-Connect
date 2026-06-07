@@ -276,7 +276,16 @@
         }
 
         function syncNavActiveState() {
-            const fullHash = window.location.hash || '#overview';
+            let fullHash = window.location.hash;
+            if (!fullHash) {
+                const pathParts = window.location.pathname.split('/').filter(p => p);
+                const lastPart = pathParts[pathParts.length - 1];
+                if (lastPart && lastPart !== 'mon-espace' && lastPart !== 'mon-espace.html' && lastPart !== 'dashboard') {
+                    fullHash = '#' + lastPart;
+                } else {
+                    fullHash = '#overview';
+                }
+            }
             const baseHash = fullHash.split('?')[0];
             
             // 1. Mobile Bottom Bar Links
@@ -327,6 +336,7 @@
                 }
             });
         }
+        window.syncNavActiveState = syncNavActiveState;
 
         window.addEventListener('hashchange', () => {
             syncNavActiveState();

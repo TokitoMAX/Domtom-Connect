@@ -159,7 +159,7 @@ const UIComponents = {
         }
 
         const roleDisplayNames = {
-            'spectateur': 'Explorateur',
+            'spectateur': 'Membre',
             'porteur': 'Porteur de Projet',
             'owner': 'Porteur de Projet',
             'expert': 'Expert / Talent',
