@@ -1509,8 +1509,31 @@ const MessagesModule = {
         const amtEl = document.getElementById('pay-req-amount');
         if (titleEl) titleEl.value = '';
         if (amtEl) amtEl.value = '';
+        if (this.updateFeeBreakdown) this.updateFeeBreakdown();
         const modal = document.getElementById('payment-request-modal');
         if (modal) modal.style.display = 'flex';
+    },
+
+    updateFeeBreakdown: function() {
+        const amtEl = document.getElementById('pay-req-amount');
+        const breakdownDiv = document.getElementById('fee-breakdown');
+        const feeAmountEl = document.getElementById('fee-amount');
+        const netAmountEl = document.getElementById('net-amount');
+        
+        if (!amtEl || !breakdownDiv) return;
+
+        const amount = parseFloat(amtEl.value);
+        if (isNaN(amount) || amount <= 0) {
+            breakdownDiv.style.display = 'none';
+            return;
+        }
+
+        breakdownDiv.style.display = 'block';
+        const fee = amount * 0.10;
+        const net = amount - fee;
+
+        if (feeAmountEl) feeAmountEl.textContent = `-${fee.toFixed(2)}€`;
+        if (netAmountEl) netAmountEl.textContent = `${net.toFixed(2)}€`;
     },
 
     closePaymentRequestModal: function() {
