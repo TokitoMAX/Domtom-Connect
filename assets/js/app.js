@@ -189,7 +189,8 @@ const App = {
                 overview.style.display = 'block';
                 // Feed is now exclusively in its own tab, so we don't append it here anymore.
             }
-            return;
+            // We removed the 'return;' here so that activeModule.route() is called below
+            // to populate the overview dashboard content.
         }
 
         // For all other views, temporarily hide feedWrapper
