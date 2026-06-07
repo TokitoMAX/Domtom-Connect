@@ -202,7 +202,7 @@ const CompaniesModule = {
                     <h3 style="margin:0; font-weight:950; color:#065f46; font-size:1.5rem;">STATUT PRIVILÉGIÉ ACTIF</h3>
                     <p style="color:#047857; font-weight:600;">Vous avez accès à l'intégralité des fonctions Business & Showcase en tant qu'administrateur.</p>
                 </div>
-                `}
+                ` : ''}
             </div>
         `;
 
