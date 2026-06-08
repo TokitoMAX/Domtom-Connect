@@ -349,6 +349,7 @@
             container.innerHTML = allJobs.map(job => {
                 const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise' };
                 const logo = company.avatar_url ? `<img src="${company.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : company.full_name.slice(0, 2).toUpperCase();
+                const hasApplied = userApplications.includes(job.id);
                 return `
                 <div class="premium-card">
                     <div class="premium-card-header">
@@ -359,14 +360,19 @@
                         </div>
                     </div>
                     <div class="highlights-grid">
-                        <div class="h-pill type-freelance">${job.mission_type}</div>
-                        <div class="h-pill geo-pill">${job.territory}</div>
+                        <div class="h-pill type-freelance">${job.mission_type || 'Freelance'}</div>
+                        <div class="h-pill geo-pill"><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i>${job.territory || 'Non précisé'}</div>
+                        ${job.budget ? `<div class="h-pill" style="background:#f0fdf4;color:#059669;"><i class="fas fa-euro-sign" style="margin-right:6px;"></i>${Number(job.budget).toLocaleString('fr-FR')} €</div>` : ''}
+                        ${job.duration ? `<div class="h-pill" style="background:#f8fafc;color:#475569;border:1px solid #e2e8f0;"><i class="fas fa-clock" style="margin-right:6px;"></i>${job.duration}</div>` : ''}
                     </div>
                     <div class="job-content-preview">
-                        <div class="job-snippet">${job.description?.split('### PROFIL')[0].replace('### MISSIONS', '').trim().substring(0, 150)}...</div>
+                        <div class="job-snippet">${(job.description || '').replace('### MISSIONS', '').replace('### PROFIL', '').trim().substring(0, 200)}...</div>
                     </div>
-                    <div class="premium-footer">
-                        ${userApplications.includes(job.id) ? '<button class="btn-premium btn-sent" disabled>Postulé</button>' : `<button onclick="applyToJobDirectly('${job.id}','${job.company_id}')" class="btn-premium btn-apply">Postuler</button>`}
+                    <div class="premium-footer" style="gap:10px;">
+                        <button onclick="openJobDetail('${job.id}')" class="btn-premium" style="background:#f1f5f9;color:#0f172a;border:1px solid #e2e8f0;flex:1;">👁 Voir le détail</button>
+                        ${hasApplied 
+                            ? '<button class="btn-premium btn-sent" disabled style="flex:1;">✓ Candidature envoyée</button>' 
+                            : `<button onclick="applyToJobDirectly('${job.id}','${job.company_id}')" class="btn-premium btn-apply" style="flex:1;">Postuler</button>`}
                     </div>
                 </div>`;
             }).join('');
@@ -374,6 +380,87 @@
             if (window.UIComponents && window.UIComponents.applyAuthWall) {
                 window.UIComponents.applyAuthWall(container, 'missions');
             }
+        }
+
+        function openJobDetail(jobId) {
+            const job = allJobs.find(j => j.id === jobId);
+            if (!job) return;
+            const company = cachedProfiles[job.company_id] || { full_name: 'Entreprise' };
+            const hasApplied = userApplications.includes(jobId);
+
+            // Parse description into sections
+            const desc = job.description || '';
+            const missionsSection = desc.includes('### MISSIONS') 
+                ? desc.split('### MISSIONS')[1]?.split('### PROFIL')[0]?.trim() 
+                : desc.split('### PROFIL')[0]?.trim() || desc;
+            const profilSection = desc.includes('### PROFIL') 
+                ? desc.split('### PROFIL')[1]?.trim() 
+                : null;
+
+            const modalHtml = `
+            <div id="job-detail-modal" style="position:fixed;inset:0;background:rgba(15,23,42,0.8);z-index:10001;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);" onclick="if(event.target===this)closeJobDetail()">
+                <div style="background:white;border-radius:28px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.3);">
+                    <!-- Header -->
+                    <div style="padding:32px 32px 24px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:white;z-index:10;border-radius:28px 28px 0 0;">
+                        <button onclick="closeJobDetail()" style="position:absolute;top:20px;right:20px;background:#f1f5f9;border:none;width:40px;height:40px;border-radius:12px;font-size:1.4rem;cursor:pointer;color:#64748b;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">&times;</button>
+                        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+                            <div style="width:60px;height:60px;border-radius:16px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;color:#0f172a;overflow:hidden;flex-shrink:0;">
+                                ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : company.full_name.slice(0,2).toUpperCase()}
+                            </div>
+                            <div>
+                                <div style="font-size:0.8rem;font-weight:800;color:#10b981;margin-bottom:4px;">${company.full_name}</div>
+                                <h2 style="margin:0;font-size:1.5rem;font-weight:950;color:#0f172a;letter-spacing:-0.03em;">${job.title}</h2>
+                            </div>
+                        </div>
+                        <!-- Pills -->
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            ${job.mission_type ? `<span style="background:#ecfdf5;color:#059669;padding:5px 12px;border-radius:100px;font-size:0.78rem;font-weight:800;">${job.mission_type}</span>` : ''}
+                            ${job.territory ? `<span style="background:#f8fafc;color:#475569;border:1px solid #e2e8f0;padding:5px 12px;border-radius:100px;font-size:0.78rem;font-weight:800;"><i class="fas fa-map-marker-alt"></i> ${job.territory}</span>` : ''}
+                            ${job.budget ? `<span style="background:#f0fdf4;color:#059669;padding:5px 12px;border-radius:100px;font-size:0.78rem;font-weight:800;"><i class="fas fa-euro-sign"></i> ${Number(job.budget).toLocaleString('fr-FR')} €</span>` : ''}
+                            ${job.duration ? `<span style="background:#f0f9ff;color:#0284c7;padding:5px 12px;border-radius:100px;font-size:0.78rem;font-weight:800;"><i class="fas fa-clock"></i> ${job.duration}</span>` : ''}
+                            ${job.sector ? `<span style="background:#eff6ff;color:#3b82f6;padding:5px 12px;border-radius:100px;font-size:0.78rem;font-weight:800;">${job.sector}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div style="padding:28px 32px;">
+                        ${missionsSection ? `
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size:0.75rem;font-weight:950;color:#10b981;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">🎯 Missions & Livrables</h3>
+                            <div style="background:#f8fafc;border-left:3px solid #10b981;padding:16px 20px;border-radius:0 12px 12px 0;font-size:0.95rem;color:#334155;line-height:1.7;white-space:pre-line;">${missionsSection}</div>
+                        </div>` : ''}
+
+                        ${profilSection ? `
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size:0.75rem;font-weight:950;color:#6366f1;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">👤 Profil Recherché</h3>
+                            <div style="background:#f5f3ff;border-left:3px solid #6366f1;padding:16px 20px;border-radius:0 12px 12px 0;font-size:0.95rem;color:#334155;line-height:1.7;white-space:pre-line;">${profilSection}</div>
+                        </div>` : ''}
+                        
+                        ${!missionsSection && !profilSection ? `
+                        <div style="background:#f8fafc;padding:20px;border-radius:12px;color:#475569;line-height:1.7;white-space:pre-line;">${desc}</div>
+                        ` : ''}
+
+                        <!-- Posted date -->
+                        <div style="margin-top:16px;font-size:0.8rem;color:#94a3b8;font-weight:600;">
+                            Publiée le ${new Date(job.created_at).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'})}
+                        </div>
+                    </div>
+
+                    <!-- Footer CTA -->
+                    <div style="padding:20px 32px 28px;border-top:1px solid #f1f5f9;display:flex;gap:12px;">
+                        <button onclick="closeJobDetail()" style="flex:1;padding:14px;background:#f1f5f9;color:#0f172a;border:none;border-radius:14px;font-weight:800;cursor:pointer;font-size:0.95rem;">Fermer</button>
+                        ${hasApplied 
+                            ? '<button disabled style="flex:2;padding:14px;background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;border-radius:14px;font-weight:800;font-size:0.95rem;">✓ Candidature déjà envoyée</button>'
+                            : `<button onclick="closeJobDetail();applyToJobDirectly('${job.id}','${job.company_id}')" style="flex:2;padding:14px;background:#0f172a;color:white;border:none;border-radius:14px;font-weight:900;cursor:pointer;font-size:1rem;box-shadow:0 4px 12px rgba(15,23,42,0.2);">💬 Postuler via Messagerie</button>`}
+                    </div>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function closeJobDetail() {
+            const m = document.getElementById('job-detail-modal');
+            if (m) m.remove();
         }
 
         async function applyToJobDirectly(jobId, companyId) {

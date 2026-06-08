@@ -249,8 +249,9 @@ const BusinessModule = {
                     const company = o.profiles || {};
                     const companyName = company.company_name || company.full_name || 'Entreprise';
                     const avatar = company.avatar_url;
+                    const shortDesc = (o.description || '').replace('### MISSIONS', '').replace('### PROFIL', '').trim().substring(0, 120);
                     html += `
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px 24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.09)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px 24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:all 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.09)';this.style.borderColor='#10b981'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)';this.style.borderColor='#e2e8f0'">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
                             <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
                                 <div style="width:44px; height:44px; border-radius:12px; background:#f1f5f9; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#64748b; font-size:1rem;">
@@ -258,17 +259,22 @@ const BusinessModule = {
                                 </div>
                                 <div style="min-width:0;">
                                     <div style="font-weight:900; color:#0f172a; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.title || 'Mission sans titre'}</div>
-                                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:2px;">${companyName} ${company.territory ? '· ' + company.territory : ''}</div>
+                                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:2px;">${companyName}${company.territory ? ' · ' + company.territory : ''}</div>
                                 </div>
                             </div>
                             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
                                 ${o.budget ? `<div style="font-size:1rem; font-weight:900; color:#0f172a;">${Number(o.budget).toLocaleString('fr-FR')} €</div>` : ''}
                                 ${o.sector ? `<span style="background:#eff6ff; color:#3b82f6; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:800;">${o.sector}</span>` : ''}
+                                ${o.duration ? `<span style="background:#f8fafc; color:#64748b; border:1px solid #e2e8f0; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:700;"><i class="fas fa-clock" style="margin-right:4px;"></i>${o.duration}</span>` : ''}
                             </div>
                         </div>
-                        ${o.description ? `<p style="margin:12px 0 0; color:#475569; font-size:0.9rem; line-height:1.6; border-top:1px solid #f1f5f9; padding-top:12px;">${o.description}</p>` : ''}
-                        ${isExpert ? `<div style="margin-top:16px; display:flex; justify-content:flex-end;">
-                            <button onclick="window.Router.navigate('#messages')" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem;"><i class="fas fa-paper-plane" style="margin-right:6px;"></i>Postuler via message</button>
+                        ${shortDesc ? `<p style="margin:12px 0 0; color:#64748b; font-size:0.85rem; line-height:1.5; border-top:1px solid #f1f5f9; padding-top:12px;">${shortDesc}${shortDesc.length >= 120 ? '...' : ''}</p>` : ''}
+                        ${isExpert ? `
+                        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+                            <button onclick='BusinessModule.openMissionDetail(${JSON.stringify(o).replace(/'/g, "&#39;")})' style="background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
+                                👁 Voir le détail
+                            </button>
+                            <button onclick="window.MessagesModule ? window.MessagesModule.openConversationWith && window.MessagesModule.openConversationWith('${o.company_id}') : window.Router.navigate('#messages')" style="background:#0f172a; color:white; border:none; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px;"><i class="fas fa-paper-plane" style="margin-right:4px;"></i>Postuler via message</button>
                         </div>` : ''}
                     </div>`;
                 });
@@ -280,6 +286,91 @@ const BusinessModule = {
             console.error('[BusinessModule] renderMissions error:', e);
             if (container) container.innerHTML = `<div style="padding:20px;color:#ef4444;font-weight:700;">Erreur : ${e.message}</div>`;
         }
+    },
+
+    openMissionDetail: function(offer) {
+        const company = offer.profiles || {};
+        const companyName = company.company_name || company.full_name || 'Entreprise';
+        const desc = offer.description || '';
+        const missionsSection = desc.includes('### MISSIONS') 
+            ? desc.split('### MISSIONS')[1]?.split('### PROFIL')[0]?.trim() 
+            : desc.split('### PROFIL')[0]?.trim() || desc;
+        const profilSection = desc.includes('### PROFIL') 
+            ? desc.split('### PROFIL')[1]?.trim() 
+            : null;
+
+        const existing = document.getElementById('mission-detail-modal');
+        if (existing) existing.remove();
+
+        const modalHtml = `
+        <div id="mission-detail-modal" style="position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);" onclick="if(event.target===this)BusinessModule.closeMissionDetail()">
+            <div style="background:white;border-radius:28px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.35);font-family:'Plus Jakarta Sans',sans-serif;">
+                <!-- Sticky Header -->
+                <div style="padding:28px 28px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:white;z-index:10;border-radius:28px 28px 0 0;">
+                    <button onclick="BusinessModule.closeMissionDetail()" style="position:absolute;top:16px;right:16px;background:#f1f5f9;border:none;width:38px;height:38px;border-radius:12px;font-size:1.3rem;cursor:pointer;color:#64748b;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">&times;</button>
+                    
+                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+                        <div style="width:52px;height:52px;border-radius:14px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#0f172a;overflow:hidden;flex-shrink:0;">
+                            ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : companyName.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div style="font-size:0.78rem;font-weight:800;color:#10b981;margin-bottom:2px;">${companyName}</div>
+                            <h2 style="margin:0;font-size:1.4rem;font-weight:950;color:#0f172a;letter-spacing:-0.03em;">${offer.title || 'Mission'}</h2>
+                        </div>
+                    </div>
+
+                    <!-- Info Pills -->
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                        ${offer.mission_type ? `<span style="background:#ecfdf5;color:#059669;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;">${offer.mission_type}</span>` : ''}
+                        ${offer.territory || company.territory ? `<span style="background:#f8fafc;color:#475569;border:1px solid #e2e8f0;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-map-marker-alt"></i> ${offer.territory || company.territory}</span>` : ''}
+                        ${offer.budget ? `<span style="background:#f0fdf4;color:#059669;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-euro-sign"></i> ${Number(offer.budget).toLocaleString('fr-FR')} €</span>` : ''}
+                        ${offer.duration ? `<span style="background:#f0f9ff;color:#0284c7;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-clock"></i> ${offer.duration}</span>` : ''}
+                        ${offer.sector ? `<span style="background:#eff6ff;color:#3b82f6;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;">${offer.sector}</span>` : ''}
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div style="padding:24px 28px;">
+                    ${missionsSection ? `
+                    <div style="margin-bottom:20px;">
+                        <h3 style="font-size:0.7rem;font-weight:950;color:#10b981;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">🎯 Missions & Livrables</h3>
+                        <div style="background:#f8fafc;border-left:3px solid #10b981;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#334155;line-height:1.7;white-space:pre-line;">${missionsSection}</div>
+                    </div>` : ''}
+
+                    ${profilSection ? `
+                    <div style="margin-bottom:20px;">
+                        <h3 style="font-size:0.7rem;font-weight:950;color:#6366f1;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">👤 Profil Recherché</h3>
+                        <div style="background:#f5f3ff;border-left:3px solid #6366f1;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#334155;line-height:1.7;white-space:pre-line;">${profilSection}</div>
+                    </div>` : ''}
+
+                    ${!missionsSection && !profilSection && desc ? `
+                    <div style="background:#f8fafc;padding:16px;border-radius:12px;color:#475569;line-height:1.7;font-size:0.9rem;white-space:pre-line;">${desc}</div>` : ''}
+
+                    <div style="margin-top:12px;font-size:0.78rem;color:#94a3b8;font-weight:600;">
+                        Publiée le ${new Date(offer.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'})}
+                    </div>
+                </div>
+
+                <!-- Footer: Accept / Decline -->
+                <div style="padding:16px 28px 24px;border-top:1px solid #f1f5f9;">
+                    <p style="font-size:0.78rem;color:#64748b;font-weight:600;margin:0 0 12px;text-align:center;">Êtes-vous intéressé(e) par cette mission ?</p>
+                    <div style="display:flex;gap:12px;">
+                        <button onclick="BusinessModule.closeMissionDetail()" style="flex:1;padding:14px;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:14px;font-weight:900;cursor:pointer;font-size:0.95rem;transition:all 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
+                            ✕ Pas pour moi
+                        </button>
+                        <button onclick="BusinessModule.closeMissionDetail(); window.Router && window.Router.navigate('#messages?to=${offer.company_id}&job=${offer.id}')" style="flex:2;padding:14px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:14px;font-weight:900;cursor:pointer;font-size:1rem;box-shadow:0 4px 14px rgba(16,185,129,0.3);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                            ✓ Je suis intéressé(e) — Postuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    closeMissionDetail: function() {
+        const m = document.getElementById('mission-detail-modal');
+        if (m) m.remove();
     },
 
     openJobOfferModal: function(job = null) {
