@@ -25,18 +25,20 @@ window.PremiumModule = {
             <style>
                 .premium-wrapper {
                     font-family: 'Plus Jakarta Sans', sans-serif;
-                    padding: clamp(20px, 4vw, 60px);
+                    padding: clamp(24px, 5vw, 60px);
                     max-width: 900px;
+                    width: 90%;
                     margin: 0 auto;
                     color: #fff;
                     background: #020617; /* Very dark background */
-                    border-radius: 32px;
+                    border-radius: clamp(24px, 4vw, 32px);
                     box-shadow: 0 40px 100px rgba(0,0,0,0.5);
                     position: relative;
                     overflow: hidden;
                     border: 1px solid rgba(16, 185, 129, 0.2);
-                    margin-top: 40px;
-                    margin-bottom: 80px;
+                    margin-top: clamp(20px, 4vw, 40px);
+                    margin-bottom: clamp(40px, 8vw, 80px);
+                    box-sizing: border-box;
                 }
 
                 .premium-bg-glow {
@@ -107,11 +109,14 @@ window.PremiumModule = {
                     background: rgba(15, 23, 42, 0.6);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 20px;
-                    padding: 32px 24px;
+                    padding: clamp(24px, 4vw, 32px) clamp(16px, 3vw, 24px);
                     text-align: center;
                     cursor: pointer;
                     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
                     backdrop-filter: blur(10px);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 .premium-option-card:hover {
@@ -229,8 +234,27 @@ window.PremiumModule = {
                     background: rgba(15, 23, 42, 0.6);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 24px;
-                    padding: 40px;
+                    padding: clamp(24px, 5vw, 40px);
                     text-align: center;
+                }
+
+                .premium-action-group {
+                    display: flex;
+                    gap: 16px;
+                    margin-top: 40px;
+                    flex-wrap: wrap;
+                }
+
+                @media (max-width: 600px) {
+                    .premium-action-group {
+                        flex-direction: column-reverse;
+                    }
+                    .premium-action-group .premium-btn {
+                        width: 100% !important;
+                    }
+                    .premium-title {
+                        font-size: 1.8rem;
+                    }
                 }
             </style>
 
@@ -315,7 +339,7 @@ window.PremiumModule = {
                             </select>
                         </div>
 
-                        <div style="display: flex; gap: 16px; margin-top: 40px;">
+                        <div class="premium-action-group">
                             <button type="button" class="premium-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; width: auto;" onclick="window.PremiumModule.goBack()">Retour</button>
                             <button type="submit" class="premium-btn" style="flex: 1;">Soumettre ma candidature <i class="fas fa-arrow-right"></i></button>
                         </div>
@@ -334,9 +358,9 @@ window.PremiumModule = {
                             D'après vos réponses, l'accompagnement Premium 1-to-1 (à partir de 500€) n'est peut-être pas la meilleure option pour vous <b>en ce moment</b>. <br><br>
                             Mais pas de panique ! Nous avons conçu le SaaS Domtom Connect et nos Masterclasses précisément pour vous aider à avancer par vous-même jusqu'à ce que vous soyez prêt.
                         </p>
-                        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="window.Router.navigate('#mastermind')" class="premium-btn" style="width: auto; background: #3b82f6; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);">Découvrir le Club Mastermind</button>
+                        <div class="premium-action-group" style="justify-content: center; margin-top: 32px;">
                             <button onclick="window.Router.navigate('#overview')" class="premium-btn" style="width: auto; background: transparent; border: 1px solid rgba(255,255,255,0.2);">Retour au Dashboard</button>
+                            <button onclick="window.Router.navigate('#mastermind')" class="premium-btn" style="width: auto; background: #3b82f6; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);">Découvrir le Club Mastermind</button>
                         </div>
                     </div>
                 `;
@@ -352,8 +376,8 @@ window.PremiumModule = {
                         </p>
                         
                         <!-- Calendly embedded button / link -->
-                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16,185,129,0.3); border-radius: 16px; padding: 40px;">
-                            <button onclick="window.open('https://calendly.com/domtomconnect/30min', '_blank')" class="premium-btn" style="width: auto; font-size: 1.2rem; padding: 20px 40px;">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(16,185,129,0.3); border-radius: 16px; padding: clamp(20px, 4vw, 40px); margin-top: 32px;">
+                            <button onclick="window.open('https://calendly.com/domtomconnect/30min', '_blank')" class="premium-btn" style="width: 100%; font-size: clamp(1rem, 3vw, 1.2rem); padding: 20px;">
                                 <i class="far fa-calendar-alt"></i> Réserver mon appel stratégique
                             </button>
                             <p style="color: #64748b; font-size: 0.85rem; margin-top: 16px;">Vous serez redirigé vers notre agenda Calendly sécurisé.</p>
