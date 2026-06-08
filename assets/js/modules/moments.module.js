@@ -6,8 +6,10 @@
 const MomentsModule = {
     likes: {},
     comments: {},
+    bookmarks: [],
     pendingFile: null,
     searchTimeout: null,
+    currentFeedMode: 'all', // 'all' or 'following'
 
     searchUsers: async function(query) {
         if (this.searchTimeout) clearTimeout(this.searchTimeout);
@@ -90,12 +92,32 @@ const MomentsModule = {
             const currentUser = session?.user;
 
             // 1. Fetch social status posts and stories
-            const { data: rawShowcase, error: errShowcase } = await db
+            // Stories: only last 24h
+            const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+            // If following-only mode, get list of followed users first
+            let followedIds = [];
+            if (this.currentFeedMode === 'following' && currentUser) {
+                const { data: subs } = await db.from('user_subscriptions').select('following_id').eq('follower_id', currentUser.id);
+                followedIds = (subs || []).map(s => s.following_id);
+                if (followedIds.length === 0) {
+                    container.innerHTML = `<div style="padding:40px; text-align:center; color:#64748b; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-user-friends" style="font-size:2rem; color:#cbd5e1; display:block; margin-bottom:12px;"></i>Vous ne suivez personne encore.<br><span style="font-size:0.85rem; font-weight:500;">Abonnez-vous à des profils depuis le feed principal.</span></div>`;
+                    return;
+                }
+            }
+
+            let showcaseQuery = db
                 .from('showcase_items')
                 .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name)')
                 .in('category', ['status', 'story'])
                 .order('created_at', { ascending: false })
                 .limit(40);
+
+            if (this.currentFeedMode === 'following' && followedIds.length > 0) {
+                showcaseQuery = showcaseQuery.in('user_id', followedIds);
+            }
+
+            const { data: rawShowcase, error: errShowcase } = await showcaseQuery;
 
             if (errShowcase) throw errShowcase;
 
@@ -136,14 +158,18 @@ const MomentsModule = {
                     };
                     
                     if (item.category === 'story' && parsedItem.imageUrl) {
-                        stories.push(parsedItem);
+                        // Only show stories from last 24h
+                        const storyAge = Date.now() - parsedItem.createdAt.getTime();
+                        if (storyAge < 24 * 60 * 60 * 1000) {
+                            stories.push(parsedItem);
+                        }
                     } else if (item.category === 'status') {
                         feedItems.push(parsedItem);
                     }
                 });
             }
 
-            if (rawProjects) {
+            if (rawProjects && this.currentFeedMode !== 'following') {
                 rawProjects.forEach(item => {
                     const profile = item.profiles || {};
                     feedItems.push({
@@ -203,6 +229,17 @@ const MomentsModule = {
                     }
                 } catch (e) {
                     console.warn("Subscriptions table not ready:", e.message);
+                }
+            }
+
+            // Fetch current user bookmarks
+            this.bookmarks = [];
+            if (currentUser) {
+                try {
+                    const { data: rawBookmarks } = await db.from('feed_bookmarks').select('post_id').eq('user_id', currentUser.id);
+                    if (rawBookmarks) this.bookmarks = rawBookmarks.map(b => b.post_id);
+                } catch (e) {
+                    console.warn("Bookmarks table not ready:", e.message);
                 }
             }
 
@@ -439,6 +476,12 @@ const MomentsModule = {
                         <input type="text" id="dtc-user-search" placeholder="Rechercher un profil, un expert ou une chaîne..." style="border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #0f172a;" onkeyup="window.MomentsModule.searchUsers(this.value)">
                     </div>
                     <div id="dtc-search-results" style="display: none; background: white; border-radius: 16px; padding: 16px; border: 1px solid rgba(15, 23, 42, 0.05); margin-top: -12px; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);"></div>
+
+                    <!-- FEED MODE TABS -->
+                    <div style="display: flex; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 14px;">
+                        <button id="feed-tab-all" onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">🌍 Pour vous</button>
+                        <button id="feed-tab-following" onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">👥 Abonnements</button>
+                    </div>
 
                     <!-- STORIES BAR -->
                     ${storiesHtml}
@@ -697,15 +740,15 @@ const MomentsModule = {
                         </button>
     
                         <!-- SHARE -->
-                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}'); alert('Lien copié !')" class="dtc-action-icon">
+                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}').then(() => { const btn = this; btn.innerHTML = '✅ Copié !'; setTimeout(() => { btn.innerHTML = '<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.2\'><polyline points=\'17 1 21 5 17 9\'/><path d=\'M3 11V9a4 4 0 0 1 4-4h14\'/></svg> Partager'; }, 2000); })" class="dtc-action-icon">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
                             Partager
                         </button>
                     </div>
 
-                    <!-- SAVE -->
-                    <button class="dtc-action-icon" title="Sauvegarder" onclick="alert('Publication enregistrée dans vos favoris !')">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    <!-- SAVE (Real Bookmark) -->
+                    <button class="dtc-action-icon ${this.bookmarks.includes(item.id) ? 'liked' : ''}" title="${this.bookmarks.includes(item.id) ? 'Retirer des favoris' : 'Sauvegarder'}" onclick="MomentsModule.toggleBookmark('${item.id}', '${containerId}', this)" style="${this.bookmarks.includes(item.id) ? 'color:#f59e0b;' : ''}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="${this.bookmarks.includes(item.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     </button>
                 </div>
  
@@ -719,11 +762,14 @@ const MomentsModule = {
                             <div style="width: 32px; height: 32px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; margin-top: 4px;">
                                 ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                             </div>
-                            <div style="flex: 1; display: flex; gap: 8px; align-items: center;">
-                                <input type="text" id="comment-input-${item.id}" placeholder="Ajouter un commentaire..." style="flex: 1; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px 16px; font-size: 0.9rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s; background: #f8fafc;" onfocus="this.style.borderColor='#10b981'; this.style.background='white';" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';">
+                            <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                                <div id="mention-results-${item.id}" style="display:none; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); max-height:150px; overflow-y:auto;"></div>
+                                <div style="display:flex; gap:8px; align-items:center;">
+                                <input type="text" id="comment-input-${item.id}" placeholder="Ajouter un commentaire... (@pseudo pour mentionner)" style="flex: 1; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px 16px; font-size: 0.9rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s; background: #f8fafc;" onfocus="this.style.borderColor='#10b981'; this.style.background='white';" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';" oninput="MomentsModule.handleMentionInput(this, '${item.id}')">
                                 <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" class="dtc-comment-submit-btn" style="border-radius: 20px; padding: 12px 20px;">
                                     Envoyer
                                 </button>
+                            </div>
                             </div>
                         </div>
                     ` : ''}
@@ -990,15 +1036,25 @@ const MomentsModule = {
 
         try {
             if (hasLiked) {
-                const { error } = await db.from('feed_likes')
-                    .delete()
-                    .eq('post_id', postId)
-                    .eq('user_id', currentUserId);
-                if (error) throw error;
+                await db.from('feed_likes').delete().eq('post_id', postId).eq('user_id', currentUserId);
             } else {
-                const { error } = await db.from('feed_likes')
-                    .insert([{ post_id: postId, user_id: currentUserId }]);
-                if (error) throw error;
+                await db.from('feed_likes').insert([{ post_id: postId, user_id: currentUserId }]);
+                // Envoyer une notification réelle au propriétaire du post
+                try {
+                    // Trouver l'auteur du post
+                    const { data: postData } = await db.from('showcase_items').select('user_id').eq('id', postId).single();
+                    if (postData && postData.user_id !== currentUserId) {
+                        const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
+                        await db.from('notifications').insert([{
+                            user_id: postData.user_id,
+                            type: 'like',
+                            title: `❤️ ${senderName} a aimé votre publication`,
+                            message: 'Votre post a reçu un nouveau j\'aime.',
+                            link: '#moments',
+                            is_read: false
+                        }]);
+                    }
+                } catch (notifErr) { console.warn('Notif like error:', notifErr.message); }
             }
 
             // Refresh feed locally
@@ -1006,6 +1062,75 @@ const MomentsModule = {
         } catch (err) {
             console.error("[MomentsModule] Like Error:", err);
         }
+    },
+
+    toggleBookmark: async function(postId, containerId, btnEl) {
+        const db = this.getDb();
+        const session = window.App?.state?.session;
+        if (!session) { alert('Vous devez être connecté pour sauvegarder.'); return; }
+
+        const isBookmarked = this.bookmarks.includes(postId);
+        try {
+            if (isBookmarked) {
+                await db.from('feed_bookmarks').delete().eq('post_id', postId).eq('user_id', session.user.id);
+                this.bookmarks = this.bookmarks.filter(id => id !== postId);
+            } else {
+                await db.from('feed_bookmarks').insert([{ user_id: session.user.id, post_id: postId }]);
+                this.bookmarks.push(postId);
+            }
+            // Optimistic UI update
+            if (btnEl) {
+                const svg = btnEl.querySelector('svg');
+                if (svg) svg.setAttribute('fill', isBookmarked ? 'none' : 'currentColor');
+                btnEl.style.color = isBookmarked ? '' : '#f59e0b';
+                btnEl.title = isBookmarked ? 'Sauvegarder' : 'Retirer des favoris';
+            }
+        } catch (err) {
+            console.error('[MomentsModule] Bookmark Error:', err);
+            alert('Erreur lors de la sauvegarde.');
+        }
+    },
+
+    switchFeedMode: function(mode, containerId) {
+        this.currentFeedMode = mode;
+        this.renderFeed(containerId);
+    },
+
+    handleMentionInput: async function(input, postId) {
+        const text = input.value;
+        const atIndex = text.lastIndexOf('@');
+        if (atIndex === -1) {
+            const res = document.getElementById(`mention-results-${postId}`);
+            if (res) res.style.display = 'none';
+            return;
+        }
+        const query = text.substring(atIndex + 1);
+        if (query.length < 2) {
+            const res = document.getElementById(`mention-results-${postId}`);
+            if (res) res.style.display = 'none';
+            return;
+        }
+        const db = this.getDb();
+        const { data } = await db.from('profiles').select('id, full_name, avatar_url').ilike('full_name', `%${query}%`).limit(5);
+        const res = document.getElementById(`mention-results-${postId}`);
+        if (!res || !data || data.length === 0) { if (res) res.style.display = 'none'; return; }
+        res.style.display = 'block';
+        res.innerHTML = data.map(u => `
+            <div onclick="MomentsModule.insertMention('${postId}', '${u.full_name.replace(/'/g, "\\'") }')" style="display:flex; align-items:center; gap:10px; padding:8px; border-radius:8px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''">
+                <div style="width:28px; height:28px; border-radius:50%; background:#0f172a; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${u.avatar_url ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '<i class="fas fa-user" style="color:white; font-size:0.7rem;"></i>'}</div>
+                <span style="font-weight:700; font-size:0.9rem; color:#0f172a;">${u.full_name}</span>
+            </div>`).join('');
+    },
+
+    insertMention: function(postId, name) {
+        const input = document.getElementById(`comment-input-${postId}`);
+        if (!input) return;
+        const text = input.value;
+        const atIndex = text.lastIndexOf('@');
+        input.value = text.substring(0, atIndex) + `@${name} `;
+        const res = document.getElementById(`mention-results-${postId}`);
+        if (res) res.style.display = 'none';
+        input.focus();
     },
 
     toggleCommentsSection: function(postId) {
@@ -1036,10 +1161,7 @@ const MomentsModule = {
                 btnElement.style.color = '';
                 btnElement.style.border = '';
                 
-                await db.from('user_subscriptions')
-                    .delete()
-                    .eq('follower_id', currentUserId)
-                    .eq('following_id', targetUserId);
+                await db.from('user_subscriptions').delete().eq('follower_id', currentUserId).eq('following_id', targetUserId);
             } else {
                 // Follow
                 if (!this.subscriptions) this.subscriptions = [];
@@ -1049,10 +1171,20 @@ const MomentsModule = {
                 btnElement.style.color = '#64748b';
                 btnElement.style.border = '1px solid #e2e8f0';
 
-                await db.from('user_subscriptions')
-                    .insert([{ follower_id: currentUserId, following_id: targetUserId }]);
-                
-                // alert(`Vous êtes maintenant abonné à la chaîne de ${authorName} !`);
+                await db.from('user_subscriptions').insert([{ follower_id: currentUserId, following_id: targetUserId }]);
+
+                // Notification réelle au profil suivi
+                try {
+                    const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
+                    await db.from('notifications').insert([{
+                        user_id: targetUserId,
+                        type: 'follower',
+                        title: `👤 ${senderName} s'est abonné à votre chaîne`,
+                        message: 'Vous avez un nouvel abonné sur votre chaîne DTC.',
+                        link: `#channel?id=${currentUserId}`,
+                        is_read: false
+                    }]);
+                } catch (notifErr) { console.warn('Notif follow error:', notifErr.message); }
             }
         } catch (err) {
             console.error("[MomentsModule] Follow Error:", err);
@@ -1078,7 +1210,45 @@ const MomentsModule = {
 
             if (error) throw error;
 
+            // Envoyer une notification réelle au propriétaire du post
+            try {
+                const { data: postData } = await db.from('showcase_items').select('user_id').eq('id', postId).single();
+                if (postData && postData.user_id !== session.user.id) {
+                    const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
+                    await db.from('notifications').insert([{
+                        user_id: postData.user_id,
+                        type: 'comment',
+                        title: `💬 ${senderName} a commenté votre publication`,
+                        message: text.length > 60 ? text.substring(0, 60) + '...' : text,
+                        link: '#moments',
+                        is_read: false
+                    }]);
+                }
+                // Notifier les personnes mentionnées (@pseudo)
+                const mentions = text.match(/@([\w\s]+?)(?=\s|$)/g);
+                if (mentions) {
+                    for (const mention of mentions) {
+                        const mentionName = mention.slice(1).trim();
+                        const { data: mentionedUser } = await db.from('profiles').select('id').ilike('full_name', mentionName).single();
+                        if (mentionedUser && mentionedUser.id !== session.user.id) {
+                            const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
+                            await db.from('notifications').insert([{
+                                user_id: mentionedUser.id,
+                                type: 'comment',
+                                title: `🔔 ${senderName} vous a mentionné`,
+                                message: text.length > 60 ? text.substring(0, 60) + '...' : text,
+                                link: '#moments',
+                                is_read: false
+                            }]);
+                        }
+                    }
+                }
+            } catch (notifErr) { console.warn('Notif comment error:', notifErr.message); }
+
             input.value = '';
+            const mentionRes = document.getElementById(`mention-results-${postId}`);
+            if (mentionRes) mentionRes.style.display = 'none';
+
             // Refresh feed
             if (containerId === 'channel-feed-container' && window.ChannelModule) {
                 const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
