@@ -5,7 +5,7 @@
  * tickets: id, event_id, buyer_id, buyer_email, amount_paid, qr_token, status ('valide'/'scanne')
  */
 const TicketingModule = {
-    commissionRate: 0.15, // 15%
+    commissionRate: 0.10, // 10%
 
     async route(viewId, container, profile, session, params) {
         await this.loadMyTicketing(params);
@@ -132,7 +132,7 @@ const TicketingModule = {
                         <div style="background:#0f172a;padding:28px;border-radius:20px;color:white;">
                             <div style="font-size:0.7rem;font-weight:950;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:12px;">Reversement Net</div>
                             <div style="font-size:2rem;font-weight:950;color:#10b981;">${netEarnings.toFixed(2)} €</div>
-                            <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px;">CA Brut: ${grossCA.toFixed(2)} € · Com. DTC 15%: ${(grossCA - netEarnings).toFixed(2)} €</div>
+                            <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px;">CA Brut: ${grossCA.toFixed(2)} € · Com. DTC 10%: ${(grossCA - netEarnings).toFixed(2)} €</div>
                         </div>
                         <div style="background:white;padding:28px;border-radius:20px;border:1px solid #e2e8f0;">
                             <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Check-in Terrain</div>

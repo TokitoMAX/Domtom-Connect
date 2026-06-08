@@ -64,16 +64,7 @@ Deno.serve(async (req) => {
       let payout_release_date = null;
 
       // --- LOGIQUE DE RETENUE (PHASE PRO) ---
-      if (type === 'event') {
-        payout_status = 'pending';
-        // Chercher la date de l'événement pour libérer le lendemain
-        const { data: eventData } = await supabase.from('events').select('event_date').eq('id', item_id).single();
-        if (eventData?.event_date) {
-            const releaseDate = new Date(eventData.event_date);
-            releaseDate.setDate(releaseDate.getDate() + 1);
-            payout_release_date = releaseDate.toISOString();
-        }
-      } else if (type === 'crowdfunding') {
+      if (type === 'crowdfunding') {
         payout_status = 'pending';
         // Crowdfunding : Libéré seulement quand l'objectif est atteint (logique manuelle ou automatique ultérieure)
       }
