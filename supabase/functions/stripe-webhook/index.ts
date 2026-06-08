@@ -67,9 +67,9 @@ Deno.serve(async (req) => {
       if (type === 'event') {
         payout_status = 'pending';
         // Chercher la date de l'événement pour libérer le lendemain
-        const { data: eventData } = await supabase.from('events').select('date').eq('id', item_id).single();
-        if (eventData?.date) {
-            const releaseDate = new Date(eventData.date);
+        const { data: eventData } = await supabase.from('events').select('event_date').eq('id', item_id).single();
+        if (eventData?.event_date) {
+            const releaseDate = new Date(eventData.event_date);
             releaseDate.setDate(releaseDate.getDate() + 1);
             payout_release_date = releaseDate.toISOString();
         }
@@ -196,7 +196,8 @@ Deno.serve(async (req) => {
             buyer_email: session.customer_details?.email || 'inconnu@dtc.com',
             amount_paid: total_price,
             stripe_session_id: session.id,
-            status: 'valide'
+            status: 'valide',
+            tier_name: metadata.tier_name || null
           });
 
         if (ticketError) throw ticketError;

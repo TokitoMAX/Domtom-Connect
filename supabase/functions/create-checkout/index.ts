@@ -24,15 +24,18 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.json();
     const { 
-      type = 'showcase', // showcase, quote, subscription
+      type = 'showcase', // showcase, quote, subscription, event
       item_id, 
       item_title, 
+      item_description,
       item_price, 
       provider_id, 
       buyer_id,
       tier, // For subscriptions: 'authority' or 'growth'
+      tier_name, // For events: ticket tier name
       plan_id, // For subscriptions: Stripe Price ID
-      is_admin_quote
+      is_admin_quote,
+      promo_id
     } = body;
 
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
@@ -54,6 +57,9 @@ Deno.serve(async (req: Request) => {
         provider_id: provider_id || '',
         buyer_id: buyer_id || '',
         tier: tier || '',
+        tier_name: tier_name || '',
+        promo_id: promo_id || '',
+        item_description: item_description || '',
         is_admin_quote: is_admin_quote || 'false',
       },
     };
@@ -108,7 +114,7 @@ Deno.serve(async (req: Request) => {
             currency: 'eur',
             product_data: {
               name: item_title || (type === 'quote' ? 'Règlement Devis' : 'Service Expert'),
-              description: type === 'quote' ? 'Domtom Connect — Paiement Sécurisé de Devis' : 'Domtom Connect — Solution Expert',
+              description: item_description || (type === 'quote' ? 'Domtom Connect — Paiement Sécurisé de Devis' : 'Domtom Connect — Solution Expert'),
             },
             unit_amount: amount,
           },

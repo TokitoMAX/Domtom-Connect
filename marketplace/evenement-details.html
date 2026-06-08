@@ -589,7 +589,8 @@
                         item_description: `${name} - ${document.getElementById('event-date').innerText}`, 
                         item_price: finalPrice, 
                         provider_id: hostId,
-                        promo_id: activePromo ? activePromo.id : null // Pass promo info if applied
+                        promo_id: activePromo ? activePromo.id : null,
+                        tier_name: name
                     })
                 });
                 const data = await res.json();

@@ -161,7 +161,7 @@ const TicketingModule = {
                                 <tbody>
                                     ${allTickets.map(t => `
                                     <tr class="att-row" data-email="${(t.buyer_email||'').toLowerCase()}" style="border-bottom:1px solid #f8fafc;">
-                                        <td style="padding:14px 12px;font-weight:700;color:#0f172a;">${t.buyer_email || '—'}</td>
+                                        <td style="padding:14px 12px;font-weight:700;color:#0f172a;">${t.buyer_email || '—'}<br><span style="font-size:0.75rem;color:#64748b;font-weight:600;">${t.tier_name || 'Standard'}</span></td>
                                         <td style="padding:14px 12px;font-weight:800;color:#059669;">${(t.amount_paid||0).toFixed(2)} €</td>
                                         <td style="padding:14px 12px;">
                                             ${t.status === 'scanne' 
