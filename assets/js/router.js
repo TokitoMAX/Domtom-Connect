@@ -19,7 +19,8 @@ const Router = {
         'moments': 'moments',
         'mastermind': 'mastermind',
         'mastermind-salon': 'mastermind-salon',
-        'business': 'business'
+        'business': 'business',
+        'premium': 'premium'
     },
 
     /**
@@ -146,6 +147,7 @@ const Router = {
             'moments': { title: 'DTC | Domtom Connect', desc: "Découvrez les dernières opportunités et projets de la communauté." },
             'marketplace': { title: 'Marketplace Experts | Domtom Connect', desc: "Trouvez les meilleurs experts et prestataires pour vos projets." },
             'showcase': { title: 'Offres & Services | Domtom Connect', desc: "Explorez nos solutions métiers." },
+            'premium': { title: 'Accompagnement 1-to-1 | Domtom Connect', desc: "Propulsez votre projet avec un accompagnement sur-mesure." },
             'mastermind-salon': { title: 'Salon VIP | Domtom Connect', desc: "Espace d'échange réservé aux membres du Club Mastermind." },
             'default': { title: 'Domtom Connect | Ecosystème', desc: "Le pont entre l'ambition territoriale et l'expertise mondiale." }
         };

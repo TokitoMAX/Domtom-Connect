@@ -388,6 +388,9 @@ const App = {
                 }
             };
         }
+        if (viewId === 'premium' && window.PremiumModule) {
+            activeModule = window.PremiumModule;
+        }
         
         // Robust Wait for Module to Load (Mobile/Slow network support)
         if (!activeModule) {
@@ -423,7 +426,7 @@ const App = {
             
             try {
                 await activeModule.route(viewId, targetContainer, this.state.profile, this.state.session, params);
-                
+
                 // Add Feed to the bottom of the dashboard for ALL roles on overview
                 if (viewId === 'overview') {
                     const existingFeedContainer = document.getElementById('spectator-dtc-feed-mount') || document.getElementById('global-dtc-feed-mount');
