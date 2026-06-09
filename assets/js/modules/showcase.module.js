@@ -17,15 +17,8 @@ const ShowcaseModule = {
             const publicUrl = window.location.origin + '/showcase.html?id=' + session.user.id;
 
             container.innerHTML = `
-                <style>
-                    .linktree-preview-col { display: none; }
-                    @media(min-width: 1024px) { .linktree-preview-col { display: block; } }
-                </style>
-                <div style="display: flex; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 20px; justify-content: center;">
-                    
-                    <!-- LEFT COLUMN: Manager -->
-                    <div style="flex: 1; max-width: 700px; min-width: 300px;">
-                        <div style="margin-bottom: 24px;">
+                <div>
+                    <div style="margin-bottom: 24px;">
                             <h2 style="font-size: 2.2rem; font-weight: 950; letter-spacing: -0.05em; margin: 0; color: #0f172a;">Liens & Services</h2>
                             <p style="color: #64748b; font-size: 1rem; margin-top:8px;">Gérez vos liens publics, réseaux sociaux et services externes.</p>
                         </div>
@@ -100,20 +93,6 @@ const ShowcaseModule = {
                                 </div>
                             `}).join('')}
                         </div>
-                    </div>
-
-                    <!-- RIGHT COLUMN: Live Mobile Preview -->
-                    <div class="linktree-preview-col" style="width: 350px; flex-shrink: 0;">
-                        <div style="position: sticky; top: 100px; display: flex; justify-content: center;">
-                            <div style="width: 100%; height: 700px; border: 12px solid #0f172a; border-radius: 40px; overflow: hidden; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); background: #fff;">
-                                <!-- Phone Notch -->
-                                <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 28px; background: #0f172a; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 10;"></div>
-                                <!-- Iframe Preview -->
-                                <iframe src="${publicUrl}" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             `;
         } catch (err) { alert(err.message); }
